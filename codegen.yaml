@@ -1,0 +1,17 @@
+overwrite: true
+schema: "app/api/graphql/schemas/*.graphql"
+documents: null
+generates:
+  "app/types/generated_types.ts/":
+    preset: "client"
+    config:
+      useIndexSignature: true
+      maybeValue: "T | undefined | null"
+      mappers:
+        User: "@prisma/client#User as UserModel"
+    plugins:
+      - "typescript"
+      - "typescript-resolvers"
+      - "typescript-operations"
+  "app/types/introspection.json":
+    plugins: ["introspection"]

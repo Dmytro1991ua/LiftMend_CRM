@@ -1,23 +1,18 @@
 import { ApolloServer } from "@apollo/server";
+import { makeExecutableSchema } from "@graphql-tools/schema";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
-import { gql } from "graphql-tag";
 import { NextRequest } from "next/server";
 
-const resolvers = {
-  Query: {
-    hello: () => "world",
-  },
-};
+import typeDefs from "./schemas";
+import resolvers from "./resolvers";
 
-const typeDefs = gql`
-  type Query {
-    hello: String
-  }
-`;
-
-const server = new ApolloServer({
+const schema = makeExecutableSchema({
   resolvers,
   typeDefs,
+});
+
+const server = new ApolloServer({
+  schema,
 });
 
 const handler = startServerAndCreateNextHandler<NextRequest>(server);
