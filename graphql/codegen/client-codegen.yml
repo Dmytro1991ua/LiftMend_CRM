@@ -1,0 +1,18 @@
+overwrite: true
+schema: "pages/api/graphql/schemas/*.graphql"
+documents: "graphql/**/**/*.ts"
+generates:
+  "graphql/types/client/generated_types.ts":
+    config:
+      enumsAsConst: true
+      avoidOptionals:
+        field: true
+        inputValue: false
+        object: false
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+  "graphql/types/client/introspection.json":
+    plugins: ["introspection", 'fragment-matcher']
+    config:
+      apolloClientVersion: 4

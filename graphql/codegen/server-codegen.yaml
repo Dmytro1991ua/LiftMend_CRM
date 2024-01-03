@@ -1,9 +1,8 @@
 overwrite: true
-schema: "app/api/graphql/schemas/*.graphql"
+schema: "pages/api/graphql/schemas/*.graphql"
 documents: null
 generates:
-  "app/types/generated_types.ts/":
-    preset: "client"
+  "graphql/types/server/generated_types.ts":
     config:
       useIndexSignature: true
       maybeValue: "T | undefined | null"
@@ -13,5 +12,5 @@ generates:
       - "typescript"
       - "typescript-resolvers"
       - "typescript-operations"
-  "app/types/introspection.json":
+  "graphql/types/server/introspection.json":
     plugins: ["introspection"]

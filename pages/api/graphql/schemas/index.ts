@@ -2,7 +2,7 @@ import { loadFilesSync } from "@graphql-tools/load-files";
 import { mergeTypeDefs } from "@graphql-tools/merge";
 import path from "path";
 
-const SCHEMAS_FOLDER_PATH = "app/api/graphql/schemas";
+const SCHEMAS_FOLDER_PATH = "pages/api/graphql/schemas";
 const FILE_EXTENSION = "**/*.graphql";
 
 const generateMergedTypeDefs = () => {

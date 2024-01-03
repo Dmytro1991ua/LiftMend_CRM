@@ -1,4 +1,4 @@
-import { QueryResolvers } from "@/app/types/generated_types";
+import { QueryResolvers } from "@/graphql/types/server/generated_types";
 
 const Query: QueryResolvers = {
   hello: () => "world",
