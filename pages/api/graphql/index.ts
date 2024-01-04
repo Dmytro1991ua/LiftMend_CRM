@@ -12,6 +12,7 @@ const schema = makeExecutableSchema({
 
 const server = new ApolloServer({
   schema,
+  introspection: process.env.NODE_ENV !== "production",
 });
 
 export default startServerAndCreateNextHandler(server);
