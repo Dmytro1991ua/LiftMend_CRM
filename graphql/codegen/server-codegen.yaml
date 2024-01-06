@@ -1,16 +1,16 @@
 overwrite: true
-schema: "pages/api/graphql/schemas/*.graphql"
+schema: 'pages/api/graphql/schemas/*.graphql'
 documents: null
 generates:
-  "graphql/types/server/generated_types.ts":
+  'graphql/types/server/generated_types.ts':
     config:
       useIndexSignature: true
-      maybeValue: "T | undefined | null"
+      maybeValue: 'T | undefined | null'
       mappers:
-        User: "@prisma/client#User as UserModel"
+        User: '@prisma/client#User as UserModel'
     plugins:
-      - "typescript"
-      - "typescript-resolvers"
-      - "typescript-operations"
-  "graphql/types/server/introspection.json":
-    plugins: ["introspection"]
+      - 'typescript'
+      - 'typescript-resolvers'
+      - 'typescript-operations'
+  'graphql/types/server/introspection.json':
+    plugins: ['introspection']

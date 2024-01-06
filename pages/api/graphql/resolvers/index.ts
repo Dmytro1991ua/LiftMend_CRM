@@ -1,6 +1,6 @@
+import { Resolvers } from '@apollo/client';
 
-import { Resolvers } from "@/graphql/types/server/generated_types";
-import Query from "./Query";
+import Query from './Query';
 
 const resolvers: Resolvers = {
   Query,

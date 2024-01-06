@@ -1,14 +1,12 @@
-import { ApolloError } from "@apollo/client";
-import { GQLErrorDetail, InventoryClientErrors } from "./types";
+import { ApolloError } from '@apollo/client';
+import { GQLErrorDetail, InventoryClientErrors } from './types';
 
 /**
  * This function is used to handle errors in a readable state to help make error
  * handling more generic so that the app can extract error messages from the server easier.
  * @param error ApolloError The error that came back from an Apollo Client call.
  */
-export const handleGraphQLErrors = (
-  error: ApolloError
-): InventoryClientErrors => {
+export const handleGraphQLErrors = (error: ApolloError): InventoryClientErrors => {
   const errorMap: InventoryClientErrors = {};
 
   // loop through all graphql errors
@@ -27,9 +25,7 @@ export const handleGraphQLErrors = (
 
       if (details?.length) {
         // for each detail issue we want to capture that for showing errors from service
-        details.forEach((detail: GQLErrorDetail) =>
-          errorMap[status].push(detail.issue)
-        );
+        details.forEach((detail: GQLErrorDetail) => errorMap[status].push(detail.issue));
       } else {
         errorMap[status] = [responseError.message];
       }
@@ -39,7 +35,7 @@ export const handleGraphQLErrors = (
   });
 
   if (error && !error.graphQLErrors.length) {
-    errorMap["400"] = ["Some error occurred. Please try later"];
+    errorMap['400'] = ['Some error occurred. Please try later'];
   }
 
   return errorMap;

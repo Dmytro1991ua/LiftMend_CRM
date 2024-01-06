@@ -1,6 +1,7 @@
-import { client } from "@/graphql";
-import { ApolloProvider } from "@apollo/client";
-import { AppProps } from "next/app";
+import { ApolloProvider } from '@apollo/client';
+import { AppProps } from 'next/app';
+
+import { client } from '@/graphql';
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (

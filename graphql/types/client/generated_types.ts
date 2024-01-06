@@ -7,11 +7,11 @@ export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> =
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
 };
 
 export type Query = {
@@ -26,7 +26,6 @@ export type User = {
   name: Maybe<Scalars['String']['output']>;
 };
 
-export type Get_Test_QueryQueryVariables = Exact<{ [key: string]: never; }>;
+export type Get_Test_QueryQueryVariables = Exact<{ [key: string]: never }>;
 
-
-export type Get_Test_QueryQuery = { __typename?: 'Query', hello: string | null };
+export type Get_Test_QueryQuery = { __typename?: 'Query'; hello: string | null };
