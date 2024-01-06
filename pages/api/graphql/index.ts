@@ -1,9 +1,9 @@
-import { ApolloServer } from "@apollo/server";
-import { makeExecutableSchema } from "@graphql-tools/schema";
-import { startServerAndCreateNextHandler } from "@as-integrations/next";
+import { ApolloServer } from '@apollo/server';
+import { startServerAndCreateNextHandler } from '@as-integrations/next';
+import { makeExecutableSchema } from '@graphql-tools/schema';
 
-import typeDefs from "./schemas";
-import resolvers from "./resolvers";
+import resolvers from './resolvers';
+import typeDefs from './schemas';
 
 const schema = makeExecutableSchema({
   resolvers,
@@ -12,7 +12,7 @@ const schema = makeExecutableSchema({
 
 const server = new ApolloServer({
   schema,
-  introspection: process.env.NODE_ENV !== "production",
+  introspection: process.env.NODE_ENV !== 'production',
 });
 
 export default startServerAndCreateNextHandler(server);

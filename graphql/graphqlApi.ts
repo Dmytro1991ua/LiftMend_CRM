@@ -1,16 +1,9 @@
-import {
-  ApolloClient,
-  ApolloQueryResult,
-  FetchResult,
-  from,
-  HttpLink,
-  InMemoryCache,
-} from "@apollo/client";
-import { onError } from "@apollo/client/link/error";
+import { ApolloClient, ApolloQueryResult, FetchResult, from, HttpLink, InMemoryCache } from '@apollo/client';
+import { onError } from '@apollo/client/link/error';
 
-import { handleGraphQLErrors } from "./utils";
+import { handleGraphQLErrors } from './utils';
 
-const uri = "api/graphql";
+const uri = 'api/graphql';
 const httpLink = new HttpLink({ uri });
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
@@ -33,12 +26,12 @@ export const client = new ApolloClient({
   cache: new InMemoryCache(),
   defaultOptions: {
     watchQuery: {
-      errorPolicy: "all",
-      fetchPolicy: "cache-and-network",
+      errorPolicy: 'all',
+      fetchPolicy: 'cache-and-network',
       notifyOnNetworkStatusChange: true,
     },
-    query: { fetchPolicy: "cache-first", errorPolicy: "all" },
-    mutate: { errorPolicy: "all" },
+    query: { fetchPolicy: 'cache-first', errorPolicy: 'all' },
+    mutate: { errorPolicy: 'all' },
   },
   queryDeduplication: false,
 });
@@ -53,9 +46,7 @@ client.query = (...args): Promise<ApolloQueryResult<any>> => {
 };
 
 // This is an apply method to be able to catch all errors when doing mutations
-client.mutate = (
-  ...args: any
-): Promise<FetchResult<any, Record<string, any>, Record<string, any>>> => {
+client.mutate = (...args: any): Promise<FetchResult<any, Record<string, any>, Record<string, any>>> => {
   return mutate.apply(client, args).catch((error) => {
     throw new Error(JSON.stringify(handleGraphQLErrors(error)));
   });
