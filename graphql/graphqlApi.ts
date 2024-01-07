@@ -22,6 +22,7 @@ let links = [errorLink, httpLink];
 
 export const client = new ApolloClient({
   uri,
+  credentials: 'same-origin',
   link: from(links),
   cache: new InMemoryCache(),
   defaultOptions: {

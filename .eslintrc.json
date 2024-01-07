@@ -10,6 +10,8 @@
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",
     "plugin:react-hooks/recommended",
+    "plugin:testing-library/react",
+    "plugin:jest-dom/recommended",
     "prettier"
   ],
   "overrides": [],
