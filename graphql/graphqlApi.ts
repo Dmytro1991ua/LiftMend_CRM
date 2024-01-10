@@ -1,4 +1,4 @@
-import { ApolloClient, ApolloQueryResult, FetchResult, from, HttpLink, InMemoryCache } from '@apollo/client';
+import { ApolloClient, ApolloQueryResult, FetchResult, HttpLink, InMemoryCache, from } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
 
 import { handleGraphQLErrors } from './utils';
@@ -18,7 +18,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   }
 });
 
-let links = [errorLink, httpLink];
+const links = [errorLink, httpLink];
 
 export const client = new ApolloClient({
   uri,
