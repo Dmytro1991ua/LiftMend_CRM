@@ -3,7 +3,11 @@ import type { Config } from 'tailwindcss';
 const baseFontSize = 10;
 
 const config: Config = {
-  content: ['./pages/**/*.{js,ts,jsx,tsx,mdx}', './components/**/*.{js,ts,jsx,tsx,mdx}'],
+  content: [
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './modules/**/*.{js,ts,jsx,tsx}',
+  ],
   theme: {
     extend: {
       spacing: () => ({
@@ -93,6 +97,11 @@ const config: Config = {
       },
       fontFamily: {
         nunito: ['Nunito Sans', 'sans-serif'],
+      },
+      colors: {
+        black: '#000',
+        white: '#fff',
+        aliceBlue: '#F4F9FD',
       },
     },
   },

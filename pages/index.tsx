@@ -8,7 +8,7 @@ const Home = () => {
 
   console.log(data);
 
-  return <div>Home</div>;
+  return <div className='content-wrapper'>Home</div>;
 };
 
 export default Home;
