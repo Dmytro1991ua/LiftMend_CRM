@@ -35,3 +35,25 @@ body {
     @apply font-nunito;
   }
 }
+
+@layer components {
+  .layout {
+    @apply h-screen flex p-5 bg-aliceBlue overflow-hidden;
+  }
+
+  .sidebar {
+    @apply hidden md:block w-72 shrink-0 h-screen sticky top-0 overflow-hidden bg-white rounded-2xl;
+  }
+
+  .header {
+    @apply sticky top-0 z-50 flex w-full bg-white mb-12;
+  }
+
+  .section-wrapper {
+    @apply relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden md:pl-7;
+  }
+
+  .content-wrapper {
+    @apply rounded-2xl bg-white;
+  }
+}

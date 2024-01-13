@@ -16,6 +16,7 @@ const config: Config = {
     '^@/pages/(.*)$': '<rootDir>/pages/$1',
     '^@/graphql/(.*)$': '<rootDir>/graphql/$1',
     '^@/mocks/(.*)$': '<rootDir>/mocks/$1',
+    '^@/modules/(.*)$': '<rootDir>/modules/$1',
   },
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
