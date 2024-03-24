@@ -26,12 +26,18 @@
     "@apollo/server": "^4.9.5",
     "@as-integrations/next": "^3.0.0",
     "@prisma/client": "^5.7.1",
+    "@radix-ui/react-slot": "^1.0.2",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
     "graphql": "^16.8.1",
     "graphql-tag": "^2.12.6",
+    "lucide-react": "^0.363.0",
     "next": "^12.3.1",
     "postcss-nesting": "^12.0.2",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "tailwind-merge": "^2.2.2",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "5.0.0",
