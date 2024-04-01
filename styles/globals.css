@@ -124,12 +124,4 @@ body {
   .navigation-link {
     @apply relative tracking-wide font-medium before:bg-primary before:rounded-bl before:-bottom-1.5 before:h-[0.3rem] before:inset-x-0 before:absolute before:transform before:origin-left before:scale-x-0 before:transition-all before:duration-200 group-hover:before:scale-x-100;
   }
-  /* 
-   .navigation-link {
-    @apply relative tracking-wide font-medium group-hover:before:scale-x-100;
-
-    &::before {
-      @apply block bg-primary rounded-bl -right-1.5 w-[0.3rem] inset-y-0 absolute transform origin-right scale-x-0 transition-all duration-200 top-0;
-    }
-  } */
 }
