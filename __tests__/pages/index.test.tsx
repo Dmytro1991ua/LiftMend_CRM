@@ -1,7 +1,8 @@
-import { render, screen } from '@testing-library/react';
 import { MockedProvider } from '@apollo/client/testing';
-import Home from '@/pages/index';
+import { render, screen } from '@testing-library/react';
+
 import { GET_TEST_QUERY } from '@/graphql/schemas/getTestQuery';
+import Home from '@/pages/index';
 
 describe('Home', () => {
   const mocks = [
@@ -17,7 +18,7 @@ describe('Home', () => {
 
   it('should render components without crashing', () => {
     render(
-      <MockedProvider mocks={mocks} addTypename={false}>
+      <MockedProvider addTypename={false} mocks={mocks}>
         <Home />
       </MockedProvider>
     );

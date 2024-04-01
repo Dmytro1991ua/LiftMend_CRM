@@ -17,7 +17,7 @@ const Sidebar = () => {
       label: NavigationLinkLabel.Dashboard,
     },
     {
-      id: 1,
+      id: 2,
       url: AppRoutes.ElevatorManagement,
       icon: <MdElevator className={commonIconClasses} />,
       label: NavigationLinkLabel.ElevatorManagement,
