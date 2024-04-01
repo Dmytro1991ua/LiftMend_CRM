@@ -57,6 +57,8 @@ body {
     --ring: 221.2 83.2% 53.3%;
 
     --radius: 0.5rem;
+
+    --link: 217, 9%, 53%, 1;
   }
 
   .dark {
@@ -104,18 +106,30 @@ body {
   }
 
   .sidebar {
-    @apply hidden md:block w-72 shrink-0 h-screen sticky top-0 overflow-hidden bg-white rounded-2xl;
+    @apply hidden md:block w-[30rem] shrink-0 h-screen sticky top-0 overflow-hidden bg-white rounded-[2rem] drop-shadow-lg p-3 py-4;
   }
 
   .header {
-    @apply sticky top-0 z-50 flex w-full bg-white mb-12;
+    @apply sticky top-0 z-50 flex w-full bg-white mb-12 drop-shadow-lg rounded-[2rem];
   }
 
   .section-wrapper {
-    @apply relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden md:pl-7;
+    @apply relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden md:pl-7 drop-shadow-lg;
   }
 
   .content-wrapper {
-    @apply rounded-2xl bg-white;
+    @apply rounded-[2rem] bg-white;
   }
+
+  .navigation-link {
+    @apply relative tracking-wide font-medium before:bg-primary before:rounded-bl before:-bottom-1.5 before:h-[0.3rem] before:inset-x-0 before:absolute before:transform before:origin-left before:scale-x-0 before:transition-all before:duration-200 group-hover:before:scale-x-100;
+  }
+  /* 
+   .navigation-link {
+    @apply relative tracking-wide font-medium group-hover:before:scale-x-100;
+
+    &::before {
+      @apply block bg-primary rounded-bl -right-1.5 w-[0.3rem] inset-y-0 absolute transform origin-right scale-x-0 transition-all duration-200 top-0;
+    }
+  } */
 }
