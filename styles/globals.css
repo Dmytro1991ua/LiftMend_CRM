@@ -106,11 +106,11 @@ body {
   }
 
   .sidebar {
-    @apply hidden md:block w-[30rem] shrink-0 h-screen sticky top-0 overflow-hidden bg-white rounded-[2rem] drop-shadow-lg p-3 py-4;
+    @apply hidden md:flex flex-col w-[30rem] shrink-0 h-screen sticky top-0 overflow-hidden bg-white rounded-[2rem] drop-shadow-lg p-3 py-4;
   }
 
   .header {
-    @apply sticky top-0 z-50 flex w-full bg-white mb-12 drop-shadow-lg rounded-[2rem];
+    @apply sticky top-0 z-50 flex w-full bg-white mb-12 drop-shadow-lg rounded-[2rem] p-4;
   }
 
   .section-wrapper {

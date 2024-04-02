@@ -1,8 +1,8 @@
 import { screen } from '@testing-library/react';
 
-import { NavigationLinkLabel } from '@/modules/sidebar/types';
-import Sidebar from '@/modules/sidebar';
 import { withRouterProvider } from '@/mocks/testMocks';
+import Sidebar from '@/modules/sidebar';
+import { NavigationLinkLabel } from '@/modules/sidebar/types';
 import { AppRoutes } from '@/types/enums';
 
 describe('Sidebar', () => {

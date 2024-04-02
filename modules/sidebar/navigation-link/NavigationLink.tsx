@@ -10,9 +10,11 @@ interface NavigationLinkProps {
   url: AppRoutes;
   icon: React.JSX.Element;
   label: string;
+  className?: string;
+  onClose?: () => void;
 }
 
-const NavigationLink = ({ url, icon, label }: NavigationLinkProps): React.JSX.Element => {
+const NavigationLink = ({ url, icon, label, className, onClose }: NavigationLinkProps): React.JSX.Element => {
   const router = useRouter();
 
   const isNavigationRouteActive = useMemo(() => isRouteActive({ asPath: router.asPath, url }), [router.asPath, url]);
@@ -22,9 +24,11 @@ const NavigationLink = ({ url, icon, label }: NavigationLinkProps): React.JSX.El
       <a
         className={clsx(
           'relative flex items-center justify-left z-10 p-3 mb-2 group hover:bg-background hover:text-primary transition rounded-3xl',
-          [isNavigationRouteActive ? 'text-primary bg-background' : 'text-link']
+          [isNavigationRouteActive ? 'text-primary bg-background' : 'text-link'],
+          className
         )}
         data-testid='nav-link'
+        onClick={onClose}
       >
         {icon}
         <h3 className='navigation-link'>{label}</h3>
