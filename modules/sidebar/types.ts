@@ -1,16 +1,8 @@
-import { AppRoutes } from '@/types/enums';
-
 export enum NavigationLinkLabel {
   Dashboard = 'Dashboard',
   ElevatorManagement = 'Elevator Management',
+  Profile = 'Profile',
   Login = 'Login',
   Signup = 'Signup',
-  Logout = 'Logout',
+  Logout = 'Log Out',
 }
-
-export type NavigationConfig = {
-  id: number;
-  url: AppRoutes;
-  icon: React.JSX.Element;
-  label: NavigationLinkLabel;
-};

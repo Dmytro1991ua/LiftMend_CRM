@@ -11,6 +11,6 @@ describe('MainLayout', () => {
 
     expect(screen.getByText(NavigationLinkLabel.Dashboard)).toBeInTheDocument();
     expect(screen.getByText(NavigationLinkLabel.ElevatorManagement)).toBeInTheDocument();
-    expect(screen.getByText('Header')).toBeInTheDocument();
+    expect(screen.getByTestId('header')).toBeInTheDocument();
   });
 });
