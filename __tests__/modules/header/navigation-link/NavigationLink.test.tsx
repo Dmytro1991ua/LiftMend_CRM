@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 
 import { withRouterProvider } from '@/mocks/testMocks';
 import NavigationLink from '@/modules/sidebar/navigation-link';
@@ -12,6 +12,7 @@ describe('NavigationLink', () => {
     url: AppRoutes.Dashboard,
     icon: <p>Test Icon</p>,
     label: 'Test Label',
+    onClose: jest.fn(),
   };
 
   it('should render component without crashing', () => {
@@ -29,5 +30,17 @@ describe('NavigationLink', () => {
     const navLink = screen.getByTestId('nav-link');
 
     expect(navLink).toHaveClass('text-primary bg-background');
+  });
+
+  it('should trigger onClose handler when it is provided', () => {
+    const mockOnClose = jest.fn();
+
+    withRouterProvider(<NavigationLink {...defaultProps} onClose={mockOnClose} />, AppRoutes.Dashboard);
+
+    const navLink = screen.getByTestId('nav-link');
+
+    fireEvent.click(navLink);
+
+    expect(mockOnClose).toHaveBeenCalled();
   });
 });
