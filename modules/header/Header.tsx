@@ -32,7 +32,7 @@ const Header = () => {
       className: 'mb-2',
     },
     {
-      id: 1,
+      id: 2,
       icon: <BiLogOut className={commonIconClasses} />,
       label: NavigationLinkLabel.Logout,
       url: AppRoutes.SignIn,
@@ -44,7 +44,12 @@ const Header = () => {
     <header className='header' data-testid='header'>
       <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
         <DropdownMenuTrigger className='ml-auto'>
-          <Button className='px-2 hover:bg-transparent' variant='ghost' onClick={onDropdownOpen}>
+          <Button
+            className='px-2 hover:bg-transparent'
+            data-testid='dropdown-button'
+            variant='ghost'
+            onClick={onDropdownOpen}
+          >
             <div className='relative flex-1 space-x-2 flex items-center py-1 px-3 border-2 border-background rounded-2xl hover:bg-primary/10 ease-in-out'>
               <UserAvatar className='h-10 w-10 border-2 border-primary' imageFallback='CN' imageSrc='/vercel.svg' />
               <h3 className='text-link'>John Doe</h3>
