@@ -5,3 +5,9 @@ export enum AppRoutes {
   Profile = '/profile',
   SignIn = '/sign-in',
 }
+
+export enum SectionHeaderTitle {
+  Dashboard = 'Dashboard',
+  ElevatorManagement = 'Elevator Management',
+  Profile = 'Profile',
+}
