@@ -18,7 +18,7 @@ const UserAvatar = ({
   imageFallback,
 }: UserAvatarProps): React.JSX.Element => {
   return (
-    <Avatar className={className}>
+    <Avatar className={className} data-testid='user-avatar'>
       <AvatarImage asChild src={imageSrc}>
         <Image alt='avatar' height={imageHeight} objectFit='cover' src={imageSrc} width={imageWidth} />
       </AvatarImage>
