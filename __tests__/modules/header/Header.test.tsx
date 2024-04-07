@@ -1,5 +1,4 @@
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, screen } from '@testing-library/react';
 
 import { withRouterProvider } from '@/mocks/testMocks';
 import Header from '@/modules/header';

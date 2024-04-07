@@ -48,7 +48,7 @@ const Sidebar = () => {
       ))}
       <Link passHref href={AppRoutes.SignIn}>
         <a className='flex items-center mt-auto py-4 px-2 text-link group border-t-2 border-slate'>
-          <UserAvatar className='border-2 border-primary' imageFallback='CN' imageSrc='/next.svg' />
+          <UserAvatar className='border-2 border-primary' imageSrc='/nexst.svg' />
           <h3 className='ml-2 text-lg'>John Doe</h3>
           <BiLogOut className='h-8 w-8 ml-auto' />
         </a>
