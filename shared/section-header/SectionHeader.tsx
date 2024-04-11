@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { SectionHeaderTitle } from '@/types/enums';
 
 type SectionHeaderProps = {

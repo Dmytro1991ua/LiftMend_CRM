@@ -8,6 +8,6 @@ describe('ElevatorManagement', () => {
     render(<ElevatorManagement />);
 
     expect(screen.getByText(SectionHeaderTitle.ElevatorManagement)).toBeInTheDocument();
-    expect(screen.getByText('Elevator Management content')).toBeInTheDocument();
+    expect(screen.getByTestId('base-table')).toBeInTheDocument();
   });
 });
