@@ -1,4 +1,4 @@
-import { RowModel, flexRender } from '@tanstack/react-table';
+import { Row, RowModel, flexRender } from '@tanstack/react-table';
 import { useMemo } from 'react';
 
 import { getTableStatusContent, getTableStatusMod } from '../utils';
@@ -6,7 +6,7 @@ import { getTableStatusContent, getTableStatusMod } from '../utils';
 import { TableBody, TableCell, TableRow } from '@/components/ui/table';
 
 type BaseTableBodyProps<T extends object> = {
-  rowModel: RowModel<T>;
+  tableRows: Row<T>[];
   columnLength: number;
   emptyTableMessage?: string;
   loading?: boolean;
@@ -14,13 +14,13 @@ type BaseTableBodyProps<T extends object> = {
 };
 
 const BaseTableBody = <T extends object>({
-  rowModel,
+  tableRows,
   columnLength,
   emptyTableMessage,
   loading,
   errorMessage,
 }: BaseTableBodyProps<T>): React.JSX.Element => {
-  const isTableEmpty = rowModel.rows?.length === 0;
+  const isTableEmpty = tableRows?.length === 0;
 
   const currentTableStatus = getTableStatusMod(isTableEmpty, loading, errorMessage);
 
@@ -30,9 +30,9 @@ const BaseTableBody = <T extends object>({
   );
 
   return (
-    <TableBody>
-      {rowModel.rows?.length ? (
-        rowModel.rows.map((row) => (
+    <TableBody data-testid='base-table-body'>
+      {tableRows?.length ? (
+        tableRows.map((row) => (
           <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
             {row.getVisibleCells().map((cell) => (
               <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
