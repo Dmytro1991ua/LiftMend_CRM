@@ -15,7 +15,7 @@ const BaseAlert = ({ title, description, className, variant }: BaseAlertProps) =
   const icon = variant ? ALERT_VARIANT[variant] : null;
 
   return (
-    <Alert className={className} variant={variant}>
+    <Alert className={className} data-testid='base-alert' variant={variant}>
       {icon}
       <div className='text-left'>
         <AlertTitle>{title}</AlertTitle>
