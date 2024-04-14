@@ -27,7 +27,7 @@ const BaseModal = ({
   onClose,
 }: BaseModalProps): React.JSX.Element => {
   return (
-    <Dialog modal data-testid='modal' defaultOpen={isOpen} open={isOpen} onOpenChange={onClose}>
+    <Dialog modal defaultOpen={isOpen} open={isOpen} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
