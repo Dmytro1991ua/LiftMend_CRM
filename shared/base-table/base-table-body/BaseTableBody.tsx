@@ -1,4 +1,4 @@
-import { Row, RowModel, flexRender } from '@tanstack/react-table';
+import { Row, flexRender } from '@tanstack/react-table';
 import { useMemo } from 'react';
 
 import { getTableStatusContent, getTableStatusMod } from '../utils';

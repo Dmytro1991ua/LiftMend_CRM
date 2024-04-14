@@ -25,7 +25,7 @@ const ModalFooter = ({
         {cancelButtonLabel}
       </Button>
       <Button className='rounded-2xl' disabled={isDisabled} size='lg' onClick={onSubmit}>
-        {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+        {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' data-testid='button-loader' />}
         {submitButtonLabel}
       </Button>
     </div>
