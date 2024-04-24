@@ -8,7 +8,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { client } from '@/graphql';
 import MainLayout from '@/modules/layout/MainLayout';
-import BaseErrorBoundary from '@/shared/basseErroBoundary';
+import BaseErrorBoundary from '@/shared/base-error-boundary';
 import { logError } from '@/types/utils';
 
 const App = ({ Component, pageProps }: AppProps) => {
