@@ -51,7 +51,8 @@ const BaseTable = <T extends object>({
         next={loadMore}
         scrollThreshold={0.99}
         scrollableTarget={SCROLL_WRAPPER_ID}
-        style={{ overflow: INFINITE_SCROLL_OVERFLOW }}>
+        style={{ overflow: INFINITE_SCROLL_OVERFLOW }}
+      >
         <Table className='rounded-[2rem]' data-testid='base-table'>
           <BaseTableHeader headerGroups={getHeaderGroups()} />
           <BaseTableBody

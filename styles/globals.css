@@ -118,7 +118,7 @@ body {
   }
 
   .content-wrapper {
-    @apply rounded-[2rem] bg-white;
+    @apply rounded-[2rem] bg-white p-4;
   }
 
   .navigation-link {
