@@ -8,6 +8,6 @@ describe('Profile', () => {
     render(<Profile />);
 
     expect(screen.getByText(SectionHeaderTitle.Profile)).toBeInTheDocument();
-    expect(screen.getByText('Profile content')).toBeInTheDocument();
+    expect(screen.getByTestId('calendar')).toBeInTheDocument();
   });
 });

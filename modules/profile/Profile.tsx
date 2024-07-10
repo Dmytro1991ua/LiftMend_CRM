@@ -1,6 +1,7 @@
 import { HiPlus } from 'react-icons/hi';
 
 import { Button } from '@/components/ui/button';
+import BaseCalendar from '@/shared/base-calendar';
 import { useBaseToast } from '@/shared/hooks';
 import { BaseToastVariant } from '@/shared/hooks/useBaseToast/types';
 import SectionHeader from '@/shared/section-header';
@@ -20,7 +21,9 @@ const Profile = (): React.JSX.Element => {
   return (
     <section>
       <SectionHeader actionComponent={sectionHeaderButton} title={SectionHeaderTitle.Profile} />
-      <div className='content-wrapper'>Profile content</div>
+      <div className='content-wrapper md:h-[75vh] overflow-y-auto overflow-x-hidden'>
+        <BaseCalendar />
+      </div>
     </section>
   );
 };
