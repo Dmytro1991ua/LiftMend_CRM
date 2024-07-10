@@ -28,6 +28,10 @@ const config: Config = {
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   preset: 'ts-jest',
+  transformIgnorePatterns: ['/node_modules', '/node_modules/(?!@fullcalendar/*).+\\.[t|j]sx?$'],
+  testEnvironmentOptions: {
+    customExportConditions: [],
+  },
 };
 
 module.exports = createJestConfig(config);

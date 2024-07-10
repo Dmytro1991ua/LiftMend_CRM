@@ -1,14 +1,16 @@
 import { useCallback, useState } from 'react';
-import { BiLogOut, BiSolidUser } from 'react-icons/bi';
 
-import { DropdownConfig } from './types';
-import NavigationLink from '../sidebar/navigation-link';
-import { NavigationLinkLabel } from '../sidebar/types';
+import { BiLogOut, BiSolidUser } from 'react-icons/bi';
 
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import UserAvatar from '@/shared/user-avatar';
 import { AppRoutes } from '@/types/enums';
+
+import NavigationLink from '../sidebar/navigation-link';
+import { NavigationLinkLabel } from '../sidebar/types';
+
+import { DropdownConfig } from './types';
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);

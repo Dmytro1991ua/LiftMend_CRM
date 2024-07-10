@@ -2,11 +2,11 @@ import { ApolloServer } from '@apollo/server';
 import { startServerAndCreateNextHandler } from '@as-integrations/next';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 
+import prisma from '@/prisma/db';
+
 import resolvers from './resolvers';
 import typeDefs from './schemas';
 import { Context } from './types';
-
-import prisma from '@/prisma/db';
 
 const schema = makeExecutableSchema({
   resolvers,

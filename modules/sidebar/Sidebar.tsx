@@ -4,12 +4,12 @@ import { FaElevator } from 'react-icons/fa6';
 import { MdElevator } from 'react-icons/md';
 import { RiDashboardFill } from 'react-icons/ri';
 
-import { NavigationLinkLabel } from './types';
-
 import NavigationLink from '@/modules/sidebar/navigation-link';
 import UserAvatar from '@/shared/user-avatar';
 import { AppRoutes } from '@/types/enums';
 import { NavigationLinkConfig } from '@/types/type';
+
+import { NavigationLinkLabel } from './types';
 
 const Sidebar = () => {
   const commonIconClasses = 'mr-2 h-6 w-6';

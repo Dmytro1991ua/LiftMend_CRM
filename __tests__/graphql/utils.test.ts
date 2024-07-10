@@ -1,4 +1,3 @@
-import { createGraphQLErrorMap, handleGraphQLErrors } from '../../graphql/utils';
 import {
   apolloDefaultError,
   bodyMessageError,
@@ -6,6 +5,8 @@ import {
   messageError,
   nullableResponse,
 } from '@/mocks/errorResponse';
+
+import { createGraphQLErrorMap, handleGraphQLErrors } from '../../graphql/utils';
 
 describe('handleGraphQLErrors', () => {
   it('should successfully create error map from array of graphql errors', () => {
@@ -28,7 +29,7 @@ describe('handleGraphQLErrors', () => {
       409: ['Some body message here', 'INVALID_VALUE'],
     });
   });
-  it("should return empty object if method doesn't exist in object", () => {
+  it('should return empty object if method does not exist in object', () => {
     expect(handleGraphQLErrors(nullableResponse)).toEqual({});
   });
   it('should return empty object if extensions method is empty', () => {

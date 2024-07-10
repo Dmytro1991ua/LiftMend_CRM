@@ -1,6 +1,8 @@
 import { ApolloError } from '@apollo/client';
-import type { GraphQLError } from 'graphql';
+
 import { ClientErrors, GQLErrorDetail } from './types';
+
+import type { GraphQLError } from 'graphql';
 
 /**
  * Create a mapping of status to error message

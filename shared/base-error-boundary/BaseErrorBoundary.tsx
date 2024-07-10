@@ -1,4 +1,5 @@
 import { ComponentType } from 'react';
+
 import { FallbackProps } from 'react-error-boundary';
 
 import { Button } from '@/components/ui/button';

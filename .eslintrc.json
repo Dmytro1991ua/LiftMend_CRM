@@ -20,7 +20,7 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint", "prettier"],
+  "plugins": ["react", "@typescript-eslint", "react-hooks", "prettier"],
   "rules": {
     "prettier/prettier": [
       "error",
@@ -71,10 +71,7 @@
     "import/order": [
       "error",
       {
-        "groups": [
-          ["builtin", "external", "internal"],
-          ["parent", "sibling", "index"]
-        ],
+        "groups": ["builtin", "external", "internal", "unknown", "parent", "sibling", "index", "object", "type"],
         "pathGroups": [
           {
             "pattern": "react",
@@ -86,7 +83,8 @@
         "alphabetize": {
           "order": "asc",
           "caseInsensitive": true
-        }
+        },
+        "pathGroupsExcludedImportTypes": []
       }
     ],
     "import/named": "off",
@@ -99,6 +97,8 @@
         "memberSyntaxSortOrder": ["none", "all", "single", "multiple"]
       }
     ],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "error",
     "react/jsx-sort-props": [
       "warn",
       {

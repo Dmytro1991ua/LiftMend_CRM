@@ -1,9 +1,9 @@
 import { render } from '@testing-library/react';
 import { RouterContext } from 'next/dist/shared/lib/router-context';
 
-import createMockRouter from './createMockRouter';
-
 import { AppRoutes } from '@/types/enums';
+
+import createMockRouter from './createMockRouter';
 
 export const withRouterProvider = (component: JSX.Element, path: AppRoutes) => {
   return render(

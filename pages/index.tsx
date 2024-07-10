@@ -1,5 +1,6 @@
-import { useQuery } from '@apollo/client';
 import React from 'react';
+
+import { useQuery } from '@apollo/client';
 
 import { GET_TEST_QUERY } from '@/graphql/schemas/getTestQuery';
 

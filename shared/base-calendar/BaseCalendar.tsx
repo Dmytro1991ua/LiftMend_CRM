@@ -31,7 +31,7 @@ const BaseCalendar = ({
   );
 
   return (
-    <>
+    <div data-testid='calendar'>
       <Fullcalendar
         dayMaxEvents={true}
         editable={true}
@@ -61,7 +61,7 @@ const BaseCalendar = ({
       {modalsConfig.map(({ id, content }) => (
         <div key={id}>{content}</div>
       ))}
-    </>
+    </div>
   );
 };
 
