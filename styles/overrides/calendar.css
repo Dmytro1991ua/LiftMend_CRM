@@ -1,0 +1,94 @@
+.fc .fc-view {
+  box-shadow: 0px 8px 13px -3px rgba(0, 0, 0, 0.07);
+
+  table {
+    thead {
+      font-size: 1.8rem;
+      background-color: #2563eb;
+      color: #fff;
+    }
+  }
+}
+
+.fc .fc-toolbar.fc-header-toolbar {
+  padding: 1.5rem 0;
+}
+.fc-direction-ltr .fc-toolbar > * > :not(:first-child) {
+  margin-left: 0;
+}
+
+.fc-toolbar-chunk {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.fc .fc-toolbar-title {
+  font-size: 2rem !important;
+  margin: 0;
+  font-weight: 600;
+}
+
+.fc-theme-standard td,
+.fc-theme-standard th {
+  border: none;
+}
+
+.fc .fc-button {
+  background-color: #2563eb !important;
+  border-color: #2563eb !important;
+  text-transform: capitalize !important;
+  padding: 0.5rem 1rem;
+}
+
+.fc .fc-button .fc-icon {
+  font-size: 1.4rem !important;
+}
+
+.fc .fc-button-primary:focus,
+.fc .fc-button:focus,
+button-primary:not(:disabled):active:focus {
+  box-shadow: none !important;
+}
+
+.fc .fc-button-primary:focus-visible,
+.fc .fc-button:focus-visible {
+  outline: none;
+}
+
+.fc .fc-button-primary:disabled {
+  background-color: #eeeeee !important;
+  color: black !important;
+  border-color: #eeeeee !important;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.fc-theme-standard td {
+  border: 1px solid #e5e7eb !important;
+}
+
+.fc-day-other {
+  background: #fafafb;
+}
+
+a.fc-col-header-cell-cushion {
+  font-size: 0.85em !important;
+  line-height: 2.2rem !important;
+  font-weight: 600 !important;
+}
+
+.fc .fc-daygrid-day-top {
+  flex-direction: inherit !important;
+  padding: 5px !important;
+  font-size: 0.75em !important;
+  color: #6b7280 !important;
+}
+
+.fc-scrollgrid-sync-inner {
+  padding: 1rem;
+}
+
+.fc-list-event-graphic {
+  padding: 0.8rem 1.4rem !important;
+}
