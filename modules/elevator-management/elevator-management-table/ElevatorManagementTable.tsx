@@ -1,6 +1,6 @@
-import { Payment, columns } from './columns';
-
 import BaseTable from '@/shared/base-table/BaseTable';
+
+import { Payment, columns } from './columns';
 
 const ElevatorManagementTable = () => {
   // TODO: Test table data. Will be replaced later on with actual data

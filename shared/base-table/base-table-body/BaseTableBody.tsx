@@ -1,9 +1,10 @@
-import { Row, flexRender } from '@tanstack/react-table';
 import { useMemo } from 'react';
 
-import { getTableStatusContent, getTableStatusMod } from '../utils';
+import { Row, flexRender } from '@tanstack/react-table';
 
 import { TableBody, TableCell, TableRow } from '@/components/ui/table';
+
+import { getTableStatusContent, getTableStatusMod } from '../utils';
 
 type BaseTableBodyProps<T extends object> = {
   tableRows: Row<T>[];

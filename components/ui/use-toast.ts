@@ -1,10 +1,9 @@
-// Inspired by react-hot-toast library
 import * as React from 'react';
 
 import type { ToastActionElement, ToastProps } from '@/components/ui/toast';
 
 const TOAST_LIMIT = 1;
-const TOAST_REMOVE_DELAY = 1000000;
+const TOAST_REMOVE_DELAY = 5000;
 
 export type ToasterToast = ToastProps & {
   id: string;
@@ -86,8 +85,6 @@ export const reducer = (state: State, action: Action): State => {
     case 'DISMISS_TOAST': {
       const { toastId } = action;
 
-      // ! Side effects ! - This could be extracted into a dismissToast() action,
-      // but I'll keep it here for simplicity
       if (toastId) {
         addToRemoveQueue(toastId);
       } else {
@@ -119,6 +116,9 @@ export const reducer = (state: State, action: Action): State => {
         ...state,
         toasts: state.toasts.filter((t) => t.id !== action.toastId),
       };
+
+    default:
+      return state;
   }
 };
 
@@ -138,13 +138,6 @@ export type Toast = Omit<ToasterToast, 'id'>;
 function toast({ ...props }: Toast) {
   const id = genId();
 
-  const update = (props: ToasterToast) =>
-    dispatch({
-      type: 'UPDATE_TOAST',
-      toast: { ...props, id },
-    });
-  const dismiss = () => dispatch({ type: 'DISMISS_TOAST', toastId: id });
-
   dispatch({
     type: 'ADD_TOAST',
     toast: {
@@ -152,15 +145,17 @@ function toast({ ...props }: Toast) {
       id,
       open: true,
       onOpenChange: (open) => {
-        if (!open) dismiss();
+        if (!open) dispatch({ type: 'DISMISS_TOAST', toastId: id });
       },
     },
   });
 
+  addToRemoveQueue(id);
+
   return {
-    id: id,
-    dismiss,
-    update,
+    id,
+    dismiss: () => dispatch({ type: 'DISMISS_TOAST', toastId: id }),
+    update: (newProps: Partial<ToasterToast>) => dispatch({ type: 'UPDATE_TOAST', toast: { ...newProps, id } }),
   };
 }
 
@@ -175,7 +170,7 @@ function useToast() {
         listeners.splice(index, 1);
       }
     };
-  }, [state]);
+  }, []);
 
   return {
     ...state,

@@ -1,15 +1,16 @@
-import { addMonths } from 'date-fns';
-import { Calendar as CalendarIcon } from 'lucide-react';
 import * as React from 'react';
 import { useMemo, useState } from 'react';
-import { DateRange } from 'react-day-picker';
 
-import { getDatePickerConfig, getDatePicketConfigKey } from './utils';
+import { addMonths } from 'date-fns';
+import { Calendar as CalendarIcon } from 'lucide-react';
+import { DateRange } from 'react-day-picker';
 
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
+
+import { getDatePickerConfig, getDatePicketConfigKey } from './utils';
 
 const DatePicker = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
   const today = new Date();

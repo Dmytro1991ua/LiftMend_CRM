@@ -1,10 +1,11 @@
 import { useCallback, useMemo } from 'react';
+
 import { AiFillCheckCircle, AiFillInfoCircle, AiFillWarning } from 'react-icons/ai';
 import { BiSolidError } from 'react-icons/bi';
 
-import { BaseToastVariant, ToastContent, Variant } from './types';
-
 import { useToast } from '@/components/ui/use-toast';
+
+import { BaseToastVariant, ToastContent, Variant } from './types';
 
 type UseBaseToast = { baseToast: (message: string) => void };
 

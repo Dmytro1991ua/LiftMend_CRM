@@ -1,7 +1,8 @@
+import { useEffect } from 'react';
+
 import { MockedProvider } from '@apollo/client/testing';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { useEffect } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import BaseErrorBoundary from '@/shared/base-error-boundary/BaseErrorBoundary';

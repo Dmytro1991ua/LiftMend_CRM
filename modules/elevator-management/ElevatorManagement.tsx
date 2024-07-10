@@ -1,13 +1,13 @@
 import { HiPlus } from 'react-icons/hi';
 
-import ElevatorManagementTable from './elevator-management-table';
-
 import { Button } from '@/components/ui/button';
 import BaseModal from '@/shared/base-modal';
 import ModalFooter from '@/shared/base-modal/modal-footer';
 import { useModal } from '@/shared/hooks';
 import SectionHeader from '@/shared/section-header';
 import { SectionHeaderTitle } from '@/types/enums';
+
+import ElevatorManagementTable from './elevator-management-table';
 
 const ElevatorManagement = (): React.JSX.Element => {
   const { isModalOpen, onCloseModal, onOpenModal } = useModal();

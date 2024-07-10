@@ -1,6 +1,7 @@
+import React from 'react';
+
 import { ColumnDef } from '@tanstack/react-table';
 import { render, screen } from '@testing-library/react';
-import React from 'react';
 
 import BaseTable from '@/shared/base-table';
 import { DEFAULT_EMPTY_TABLE_MESSAGE } from '@/shared/base-table/types';

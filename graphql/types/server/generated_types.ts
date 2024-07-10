@@ -1,5 +1,5 @@
-import { GraphQLResolveInfo } from 'graphql';
 import { User as UserModel } from '@prisma/client';
+import { GraphQLResolveInfo } from 'graphql';
 export type Maybe<T> = T | undefined | null;
 export type InputMaybe<T> = T | undefined | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };

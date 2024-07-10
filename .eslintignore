@@ -4,3 +4,5 @@ node_modules
 build
 dist
 introspection.json
+graphql/types/server/generated_types.ts
+jest.config.ts

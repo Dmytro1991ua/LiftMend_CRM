@@ -2,11 +2,11 @@ import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Bars } from 'react-loader-spinner';
 
+import { Table } from '@/components/ui/table';
+
 import BaseTableBody from './base-table-body';
 import BaseTableHeader from './base-table-header';
 import { INFINITE_SCROLL_OVERFLOW, SCROLL_WRAPPER_ID } from './types';
-
-import { Table } from '@/components/ui/table';
 
 type BaseTableProps<T extends object> = {
   columns: ColumnDef<T>[];

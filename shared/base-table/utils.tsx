@@ -1,7 +1,8 @@
 import { Hourglass } from 'react-loader-spinner';
 
-import { DEFAULT_EMPTY_TABLE_MESSAGE, DEFAULT_TABLE_ERROR_TITLE, TableState, TableStatus } from './types';
 import BaseAlert from '../base-alert/BaseAlert';
+
+import { DEFAULT_EMPTY_TABLE_MESSAGE, DEFAULT_TABLE_ERROR_TITLE, TableState, TableStatus } from './types';
 
 export const getTableStatusMod = (empty: boolean, loading?: boolean, errorMessage?: string): TableState => {
   if (loading) return TableStatus.Loading;

@@ -1,7 +1,8 @@
+import * as React from 'react';
+
 import * as ToastPrimitives from '@radix-ui/react-toast';
 import { type VariantProps, cva } from 'class-variance-authority';
 import { X } from 'lucide-react';
-import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
@@ -23,7 +24,7 @@ const ToastViewport = React.forwardRef<
 ToastViewport.displayName = ToastPrimitives.Viewport.displayName;
 
 const toastVariants = cva(
-  'group pointer-events-auto relative flex w-fit items-center justify-between space-x-4 overflow-hidden rounded-md border p-4 rounded-2xl pr-8 shadow-lg transition-all data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[swipe=end]:animate-out data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:sm:slide-in-from-top-full data-[state=open]:sm:slide-in-from-top-full',
+  'group pointer-events-auto relative flex w-max items-center justify-between space-x-4 overflow-hidden rounded-md border p-4 rounded-2xl pr-8 shadow-lg transition-all data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[swipe=end]:animate-out data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:sm:slide-in-from-top-full data-[state=open]:sm:slide-in-from-top-full',
   {
     variants: {
       variant: {
