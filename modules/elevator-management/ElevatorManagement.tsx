@@ -37,8 +37,7 @@ const ElevatorManagement = (): React.JSX.Element => {
           />
         }
         title='Create Elevator Details'
-        onClose={onCloseModal}
-      >
+        onClose={onCloseModal}>
         <p>Test description</p>
       </BaseModal>
     </div>

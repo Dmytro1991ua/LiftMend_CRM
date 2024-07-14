@@ -24,8 +24,7 @@ const Dashboard = () => {
           description='Deploy your new project in one-click.'
           footerClassName='flex gap-2 w-full pt-4 border-t-2'
           footerContent={footerContent}
-          title='Create project'
-        >
+          title='Create project'>
           <p>Card Content</p>
         </BaseCard>
       </div>
