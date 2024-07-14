@@ -29,8 +29,7 @@ const NavigationLink = ({ url, icon, label, className, onClose }: NavigationLink
           className
         )}
         data-testid='nav-link'
-        onClick={onClose}
-      >
+        onClick={onClose}>
         {icon}
         <h3 className='navigation-link'>{label}</h3>
       </a>

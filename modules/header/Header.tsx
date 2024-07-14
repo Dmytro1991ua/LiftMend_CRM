@@ -50,8 +50,7 @@ const Header = () => {
             className='px-2 hover:bg-transparent'
             data-testid='dropdown-button'
             variant='ghost'
-            onClick={onDropdownOpen}
-          >
+            onClick={onDropdownOpen}>
             <div className='relative flex-1 space-x-2 flex items-center py-1 px-3 border-2 border-background rounded-2xl hover:bg-primary/10 ease-in-out'>
               <UserAvatar className='h-10 w-10 border-2 border-primary' imageSrc='/vsercel.svg' />
               <h3 className='text-link'>John Doe</h3>
