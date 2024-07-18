@@ -35,7 +35,7 @@ describe('ModalFooter', () => {
 
     const submitButton = screen.getByText(mockSubmitButtonLabel);
 
-    expect(submitButton).toHaveClass('disabled:pointer-events-none disabled:opacity-50');
+    expect(submitButton).toHaveClass('disabled:pointer-events-all disabled:cursor-not-allowed disabled:opacity-50');
   });
 
   it('should trigger onSubmit handler', () => {

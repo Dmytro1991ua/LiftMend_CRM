@@ -3,10 +3,11 @@ import { useCallback, useState } from 'react';
 import { DateSelectArg } from '@fullcalendar/core';
 import { startOfToday } from 'date-fns';
 
+import useBaseStepper from '@/shared/base-stepper/hooks';
 import { useBaseToast } from '@/shared/hooks';
 import { BaseToastVariant } from '@/shared/hooks/useBaseToast/types';
 
-type useBaseCalendar = {
+type useRepairJobTrackingModals = {
   isCreateEventModalOpen: boolean;
   isDeleteEventModalOpen: boolean;
   onOpenCreateEventModalOpen: () => void;
@@ -16,15 +17,19 @@ type useBaseCalendar = {
   onHandleDateClick: (selectedDate: DateSelectArg) => void;
 };
 
-export const useBaseCalendar = () => {
+const useRepairJobTrackingModals = () => {
   const { baseToast } = useBaseToast(BaseToastVariant.Warning);
+  const { onCancel } = useBaseStepper({});
 
   const [isCreateEventModalOpen, setIsCreateEventModalOpen] = useState<boolean>(false);
   const [isDeleteEventModalOpen, setIsDeleteEventModalOpen] = useState<boolean>(false);
 
   const onOpenCreateEventModalOpen = useCallback(() => setIsCreateEventModalOpen(true), []);
 
-  const onCloseCreateEventModalOpen = useCallback(() => setIsCreateEventModalOpen(false), []);
+  const onCloseCreateEventModalOpen = useCallback(() => {
+    setIsCreateEventModalOpen(false);
+    onCancel();
+  }, [onCancel]);
   const onOpenDeleteEventModalOpen = useCallback(() => setIsDeleteEventModalOpen(true), []);
   const onCloseDeleteEventModalOpen = useCallback(() => setIsDeleteEventModalOpen(false), []);
 
@@ -38,7 +43,7 @@ export const useBaseCalendar = () => {
         onOpenCreateEventModalOpen();
       }
     },
-    [onOpenCreateEventModalOpen, baseToast]
+    [baseToast, onOpenCreateEventModalOpen]
   );
 
   return {
@@ -51,3 +56,5 @@ export const useBaseCalendar = () => {
     onHandleDateClick,
   };
 };
+
+export default useRepairJobTrackingModals;

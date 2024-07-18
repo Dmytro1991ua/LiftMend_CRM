@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { BiLogOut, BiSolidUser } from 'react-icons/bi';
+import { BsTools } from 'react-icons/bs';
 import { FaElevator } from 'react-icons/fa6';
 import { MdElevator } from 'react-icons/md';
 import { RiDashboardFill } from 'react-icons/ri';
@@ -29,6 +30,12 @@ const Sidebar = () => {
     },
     {
       id: 3,
+      url: AppRoutes.RepairJobTracking,
+      icon: <BsTools className={commonIconClasses} />,
+      label: NavigationLinkLabel.RepairJobTracking,
+    },
+    {
+      id: 4,
       url: AppRoutes.Profile,
       icon: <BiSolidUser className={commonIconClasses} />,
       label: NavigationLinkLabel.Profile,

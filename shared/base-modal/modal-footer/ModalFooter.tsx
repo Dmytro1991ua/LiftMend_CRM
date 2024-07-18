@@ -7,8 +7,8 @@ type ModalFooterProps = {
   cancelButtonLabel: string;
   isLoading?: boolean;
   isDisabled?: boolean;
-  onCancel: () => void;
-  onSubmit: () => Promise<void> | void;
+  onCancel?: () => void;
+  onSubmit?: () => Promise<void> | void;
 };
 
 const ModalFooter = ({

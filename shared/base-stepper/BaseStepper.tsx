@@ -8,11 +8,13 @@ import { StepValue } from './types';
 type BaseStepperProps<T extends string | number> = {
   steps: StepValue[];
   stepContentConfig: Record<T, React.ReactNode>;
+  onSubmit?: () => Promise<void> | void;
 };
 
-const BaseStepper = <T extends string | number>({ steps, stepContentConfig }: BaseStepperProps<T>) => {
+const BaseStepper = <T extends string | number>({ steps, stepContentConfig, onSubmit }: BaseStepperProps<T>) => {
   const { activeStep, isLastStepComplete, isStepCompleted, onNextStep, onPreviousStep } = useBaseStepper({
     totalSteps: steps.length,
+    onSubmit,
   });
 
   const stepContent = useMemo(() => stepContentConfig[activeStep as T], [stepContentConfig, activeStep]);

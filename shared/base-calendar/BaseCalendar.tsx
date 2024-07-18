@@ -1,5 +1,3 @@
-import { useMemo } from 'react';
-
 import { ToolbarInput } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -9,34 +7,28 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 
 import CalendarEventContent from './components/calendar-event-content';
 import { DEFAULT_CALENDAR_HEADER_TOOLBAR_CONFIG, DEFAULT_CALENDAR_VIEW } from './constants';
-import { useBaseCalendar } from './hooks';
-import { getCalendarModalsConfig } from './utils';
+import { CalendarActions } from './types';
 
 type BaseCalendarProps = {
   headerToolbar?: ToolbarInput;
   calendarView?: string;
   calendarHeight?: string;
+  calendarActions?: CalendarActions;
 };
 
 const BaseCalendar = ({
   headerToolbar = DEFAULT_CALENDAR_HEADER_TOOLBAR_CONFIG,
   calendarView = DEFAULT_CALENDAR_VIEW,
   calendarHeight,
+  calendarActions,
 }: BaseCalendarProps) => {
-  const { isCreateEventModalOpen, onCloseCreateEventModalOpen, onHandleDateClick } = useBaseCalendar();
-
-  const modalsConfig = useMemo(
-    () => getCalendarModalsConfig(isCreateEventModalOpen, onCloseCreateEventModalOpen),
-    [isCreateEventModalOpen, onCloseCreateEventModalOpen]
-  );
-
   return (
     <div data-testid='calendar'>
       <Fullcalendar
         dayMaxEvents={true}
         editable={true}
         eventClick={(e) => console.log(e)}
-        eventContent={(eventInfo) => <CalendarEventContent eventInfo={eventInfo} />}
+        eventContent={(eventInfo) => <CalendarEventContent calendarActions={calendarActions} eventInfo={eventInfo} />}
         eventsSet={(events) => console.log(events)}
         headerToolbar={headerToolbar}
         height={calendarHeight}
@@ -54,13 +46,10 @@ const BaseCalendar = ({
         ]}
         initialView={calendarView}
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listMonthPlugin]}
-        select={onHandleDateClick}
+        select={calendarActions?.onHandleDateClick}
         selectMirror={true}
         selectable={true}
       />
-      {modalsConfig.map(({ id, content }) => (
-        <div key={id}>{content}</div>
-      ))}
     </div>
   );
 };
