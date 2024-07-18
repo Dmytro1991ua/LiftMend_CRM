@@ -25,6 +25,7 @@ const StepperActions: React.FC<StepperActionsProps> = ({
       disabled: activeStep === 0,
       visible: activeStep >= 0,
       variant: 'outline',
+      size: 'lg',
     },
     {
       id: 2,
@@ -32,6 +33,7 @@ const StepperActions: React.FC<StepperActionsProps> = ({
       onClick: onHandleNextStep,
       disabled: false,
       visible: activeStep < stepsLength - 1,
+      size: 'lg',
     },
     {
       id: 3,
@@ -40,15 +42,16 @@ const StepperActions: React.FC<StepperActionsProps> = ({
       disabled: isComplete,
       visible: activeStep === stepsLength - 1,
       className: 'bg-green-500 hover:bg-green-300 text-white cursor-not-allowed',
+      size: 'lg',
     },
   ];
 
   return (
     <div className='flex gap-4 justify-between mt-4'>
       {BUTTON_CONFIG.map(
-        ({ id, label, onClick, disabled, visible, className, variant }) =>
+        ({ id, label, onClick, disabled, size, visible, className, variant }) =>
           visible && (
-            <Button key={id} className={className} disabled={disabled} variant={variant} onClick={onClick}>
+            <Button key={id} className={className} disabled={disabled} size={size} variant={variant} onClick={onClick}>
               {label}
             </Button>
           )

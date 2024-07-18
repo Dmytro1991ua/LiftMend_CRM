@@ -1,4 +1,5 @@
 export enum ButtonLabel {
+  CANCEL = 'Cancel',
   BACK = 'Back',
   NEXT = 'Next',
   SUBMIT = 'Submit',
@@ -14,6 +15,7 @@ export type ButtonConfig = {
   visible?: boolean;
   className?: string;
   variant?: ButtonVariant;
+  size?: 'sm' | 'lg';
 };
 
 export type StepValue = {

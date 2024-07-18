@@ -1,9 +1,16 @@
 import { FaEdit, FaTrash } from 'react-icons/fa';
 
+import RepairJobForm from '@/modules/repair-job-tracking/components/repair-job-tracking-from/RepairJobForm';
 import BaseModal from '@/shared/base-modal';
 import ModalFooter from '@/shared/base-modal/modal-footer';
 
 import { DEFAULT_CREATE_MODAL_TITLE, DEFAULT_DELETE_MODAL_TITLE } from './constants';
+
+enum Steps {
+  JobDetails,
+  ElevatorInformation,
+  TechnicianAssignment,
+}
 
 export const getEventActionsConfig = (
   handleEditButtonClick: (e: React.MouseEvent<SVGElement, MouseEvent>) => void,
@@ -19,7 +26,7 @@ export const getEventActionsConfig = (
   },
 ];
 
-export const getEventModalsConfig = (isDeleteEventModalOpen: boolean, onCloseDeleteEventModalOpen: () => void) => [
+export const getEventModalsConfig = (isDeleteEventModalOpen?: boolean, onCloseDeleteEventModalOpen?: () => void) => [
   {
     id: 1,
     content: (
@@ -40,24 +47,23 @@ export const getEventModalsConfig = (isDeleteEventModalOpen: boolean, onCloseDel
   },
 ];
 
-export const getCalendarModalsConfig = (isCreateEventModalOpen: boolean, onCloseCreateEventModalOpen: () => void) => [
-  {
-    id: 1,
-    content: (
-      <BaseModal
-        isOpen={isCreateEventModalOpen}
-        modalFooter={
-          <ModalFooter
-            cancelButtonLabel='Cancel'
-            submitButtonLabel='Submit'
-            onCancel={onCloseCreateEventModalOpen}
-            onSubmit={onCloseCreateEventModalOpen}
-          />
-        }
-        title={DEFAULT_CREATE_MODAL_TITLE}
-        onClose={onCloseCreateEventModalOpen}>
-        <p>Test</p>
-      </BaseModal>
-    ),
-  },
-];
+export const getCalendarModalsConfig = (
+  isCreateEventModalOpen: boolean,
+  onCloseCreateEventModalOpen: () => void,
+  onSubmit?: () => Promise<void> | void
+) => {
+  return [
+    {
+      id: 1,
+      content: (
+        <BaseModal
+          isOpen={isCreateEventModalOpen}
+          title={DEFAULT_CREATE_MODAL_TITLE}
+          onClose={onCloseCreateEventModalOpen}
+        >
+          <RepairJobForm onSubmit={onSubmit} />
+        </BaseModal>
+      ),
+    },
+  ];
+};
