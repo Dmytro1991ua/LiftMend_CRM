@@ -124,4 +124,8 @@ body {
   .navigation-link {
     @apply relative tracking-wide font-medium before:bg-primary before:rounded-bl before:-bottom-1.5 before:h-[0.3rem] before:inset-x-0 before:absolute before:transform before:origin-left before:scale-x-0 before:transition-all before:duration-200 group-hover:before:scale-x-100;
   }
+
+  .field-error {
+    @apply absolute left-0 top-full pl-2 text-sm text-red-500;
+  }
 }

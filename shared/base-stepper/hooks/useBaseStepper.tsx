@@ -3,6 +3,7 @@ import { useCallback, useState } from 'react';
 type useBaseStepperProps = {
   totalSteps?: number;
   onSubmit?: () => Promise<void> | void;
+  onTrigger?: () => Promise<boolean>;
 };
 
 type useBaseStepper = {
@@ -14,11 +15,15 @@ type useBaseStepper = {
   onCancel: () => void;
 };
 
-const useBaseStepper = ({ totalSteps = 0, onSubmit }: useBaseStepperProps): useBaseStepper => {
+const useBaseStepper = ({ totalSteps = 0, onSubmit, onTrigger }: useBaseStepperProps): useBaseStepper => {
   const [activeStep, setActiveStep] = useState(0);
   const [isLastStepComplete, setIsLastStepComplete] = useState(false);
 
-  const onNextStep = useCallback(() => {
+  const onNextStep = useCallback(async () => {
+    const isStepValid = onTrigger && (await onTrigger());
+
+    if (!isStepValid) return;
+
     if (activeStep < totalSteps - 1) {
       setActiveStep((prevStep) => prevStep + 1);
       setIsLastStepComplete(false);
@@ -26,7 +31,7 @@ const useBaseStepper = ({ totalSteps = 0, onSubmit }: useBaseStepperProps): useB
       setIsLastStepComplete(true);
       onSubmit && onSubmit();
     }
-  }, [activeStep, onSubmit, totalSteps]);
+  }, [activeStep, onSubmit, onTrigger, totalSteps]);
 
   const onPreviousStep = useCallback(() => {
     if (activeStep > 0) {
