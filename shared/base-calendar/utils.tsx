@@ -1,16 +1,10 @@
 import { FaEdit, FaTrash } from 'react-icons/fa';
 
-import RepairJobForm from '@/modules/repair-job-tracking/components/repair-job-tracking-from/RepairJobForm';
+import RepairJobForm from '@/modules/repair-job-tracking/components/repair-job-tracking-from';
 import BaseModal from '@/shared/base-modal';
 import ModalFooter from '@/shared/base-modal/modal-footer';
 
 import { DEFAULT_CREATE_MODAL_TITLE, DEFAULT_DELETE_MODAL_TITLE } from './constants';
-
-enum Steps {
-  JobDetails,
-  ElevatorInformation,
-  TechnicianAssignment,
-}
 
 export const getEventActionsConfig = (
   handleEditButtonClick: (e: React.MouseEvent<SVGElement, MouseEvent>) => void,
@@ -47,11 +41,7 @@ export const getEventModalsConfig = (isDeleteEventModalOpen?: boolean, onCloseDe
   },
 ];
 
-export const getCalendarModalsConfig = (
-  isCreateEventModalOpen: boolean,
-  onCloseCreateEventModalOpen: () => void,
-  onSubmit?: () => Promise<void> | void
-) => {
+export const getCalendarModalsConfig = (isCreateEventModalOpen: boolean, onCloseCreateEventModalOpen: () => void) => {
   return [
     {
       id: 1,
@@ -61,7 +51,7 @@ export const getCalendarModalsConfig = (
           title={DEFAULT_CREATE_MODAL_TITLE}
           onClose={onCloseCreateEventModalOpen}
         >
-          <RepairJobForm onSubmit={onSubmit} />
+          <RepairJobForm onCloseCreateEventModalOpen={onCloseCreateEventModalOpen} />
         </BaseModal>
       ),
     },

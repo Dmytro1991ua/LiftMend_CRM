@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 import { ButtonConfig, ButtonLabel } from '../../types';
 
@@ -41,7 +42,9 @@ const StepperActions: React.FC<StepperActionsProps> = ({
       onClick: onHandleNextStep,
       disabled: isComplete,
       visible: activeStep === stepsLength - 1,
-      className: 'bg-green-500 hover:bg-green-300 text-white cursor-not-allowed',
+      className: cn('bg-green-500 hover:bg-green-300 text-white cursor-pointer', {
+        isComplete: 'cursor-not-allowed',
+      }),
       size: 'lg',
     },
   ];

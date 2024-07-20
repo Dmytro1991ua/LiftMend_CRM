@@ -9,19 +9,26 @@ type BaseStepperProps<T extends string | number> = {
   steps: StepValue[];
   stepContentConfig: Record<T, React.ReactNode>;
   onSubmit?: () => Promise<void> | void;
+  onTrigger?: () => Promise<boolean>;
 };
 
-const BaseStepper = <T extends string | number>({ steps, stepContentConfig, onSubmit }: BaseStepperProps<T>) => {
+const BaseStepper = <T extends string | number>({
+  steps,
+  stepContentConfig,
+  onSubmit,
+  onTrigger,
+}: BaseStepperProps<T>) => {
   const { activeStep, isLastStepComplete, isStepCompleted, onNextStep, onPreviousStep } = useBaseStepper({
     totalSteps: steps.length,
     onSubmit,
+    onTrigger,
   });
 
   const stepContent = useMemo(() => stepContentConfig[activeStep as T], [stepContentConfig, activeStep]);
 
   return (
-    <section className='ml-1 mr-9 p-4 flex flex-col items-center justify-between'>
-      <div className='flex w-full mb-10'>
+    <section className='ml-1 flex flex-col items-center justify-between'>
+      <div className='flex w-full mb-10 pl-8 pr-15'>
         {steps.map(({ id, value }) => (
           <Step
             key={id}
@@ -33,7 +40,7 @@ const BaseStepper = <T extends string | number>({ steps, stepContentConfig, onSu
           />
         ))}
       </div>
-      <div className='w-full'>{stepContent}</div>
+      <div className='w-full py-6'>{stepContent}</div>
       <StepperActions
         activeStep={activeStep}
         isComplete={isLastStepComplete}
