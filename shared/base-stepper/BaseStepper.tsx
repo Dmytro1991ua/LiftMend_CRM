@@ -1,5 +1,9 @@
 import { useMemo } from 'react';
 
+import { UseFormReset } from 'react-hook-form';
+
+import { RepairJobFromFields } from '@/modules/repair-job-tracking/components/repair-job-tracking-from/validation';
+
 import Step from './components/step';
 import StepperActions from './components/stepper-actions';
 import useBaseStepper from './hooks';
@@ -10,6 +14,7 @@ type BaseStepperProps<T extends string | number> = {
   stepContentConfig: Record<T, React.ReactNode>;
   onSubmit?: () => Promise<void> | void;
   onTrigger?: () => Promise<boolean>;
+  onReset?: UseFormReset<RepairJobFromFields>;
 };
 
 const BaseStepper = <T extends string | number>({
@@ -17,11 +22,13 @@ const BaseStepper = <T extends string | number>({
   stepContentConfig,
   onSubmit,
   onTrigger,
+  onReset,
 }: BaseStepperProps<T>) => {
-  const { activeStep, isLastStepComplete, isStepCompleted, onNextStep, onPreviousStep } = useBaseStepper({
+  const { activeStep, isLastStepComplete, isStepCompleted, onNextStep, onPreviousStep, onCancel } = useBaseStepper({
     totalSteps: steps.length,
     onSubmit,
     onTrigger,
+    onReset,
   });
 
   const stepContent = useMemo(() => stepContentConfig[activeStep as T], [stepContentConfig, activeStep]);
@@ -45,6 +52,7 @@ const BaseStepper = <T extends string | number>({
         activeStep={activeStep}
         isComplete={isLastStepComplete}
         stepsLength={steps.length}
+        onCancel={onCancel}
         onHandleNextStep={onNextStep}
         onHandlePreviousStep={onPreviousStep}
       />

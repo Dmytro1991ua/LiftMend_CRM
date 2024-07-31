@@ -1,4 +1,5 @@
-/** @type {import('next').NextConfig} */
+const withTM = require('next-transpile-modules')(['react-select']);
+
 const nextConfig = {
   async redirects() {
     return [
@@ -9,6 +10,24 @@ const nextConfig = {
       },
     ];
   },
+  webpack(config) {
+    // Add a rule to ensure Babel loader processes JS and JSX files in node_modules/react-select
+    config.module.rules.push({
+      test: /\.(js|jsx|ts|tsx)$/,
+      include: /node_modules\/react-select\/src/,
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: ['next/babel'],
+          plugins: ['@babel/plugin-transform-flow-strip-types'],
+        },
+      },
+    });
+
+    config.resolve.extensions.push('.js', '.jsx');
+
+    return config;
+  },
 };
 
-module.exports = nextConfig;
+module.exports = withTM(nextConfig);

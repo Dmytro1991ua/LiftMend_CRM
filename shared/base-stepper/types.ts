@@ -16,6 +16,7 @@ export type ButtonConfig = {
   className?: string;
   variant?: ButtonVariant;
   size?: 'sm' | 'lg';
+  type?: 'button' | 'submit' | 'reset';
 };
 
 export type StepValue = {

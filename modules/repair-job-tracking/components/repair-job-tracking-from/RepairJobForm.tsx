@@ -1,5 +1,5 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Form, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { DateSelectArg } from '@fullcalendar/core';
+import { Form, SubmitHandler, useFormContext } from 'react-hook-form';
 
 import BaseStepper from '@/shared/base-stepper';
 
@@ -7,27 +7,20 @@ import { REPAIR_JOB_TRACKING_STEPS } from '../../constants';
 import { RepairJobTrackingSteps } from '../../types';
 import JobDetails from '../job-details';
 
-import { RepairJobFromFields, repairJobFormSchema } from './validation';
+import { RepairJobFromFields } from './validation';
 
 type RepairJobFormProps = {
-  onCloseCreateEventModalOpen: () => void;
+  selectedDateRange: DateSelectArg | null;
+  onReset: () => void;
 };
 
-const RepairJobForm = ({ onCloseCreateEventModalOpen }: RepairJobFormProps) => {
-  const formsSate = useForm<RepairJobFromFields>({
-    shouldUnregister: false,
-    mode: 'onSubmit',
-    shouldFocusError: true,
-    resolver: zodResolver(repairJobFormSchema),
-  });
-
-  const { reset, handleSubmit, trigger } = formsSate;
+const RepairJobForm = ({ selectedDateRange, onReset }: RepairJobFormProps) => {
+  const { handleSubmit, trigger } = useFormContext<RepairJobFromFields>();
 
   const onSubmit: SubmitHandler<RepairJobFromFields> = (data) => {
     console.log(data);
 
-    onCloseCreateEventModalOpen();
-    reset();
+    onReset();
   };
 
   const stepContentConfig: Record<RepairJobTrackingSteps, React.ReactNode> = {
@@ -37,16 +30,15 @@ const RepairJobForm = ({ onCloseCreateEventModalOpen }: RepairJobFormProps) => {
   };
 
   return (
-    <FormProvider {...formsSate}>
-      <Form>
-        <BaseStepper
-          stepContentConfig={stepContentConfig}
-          steps={REPAIR_JOB_TRACKING_STEPS}
-          onSubmit={handleSubmit(onSubmit)}
-          onTrigger={trigger}
-        />
-      </Form>
-    </FormProvider>
+    <Form>
+      <BaseStepper
+        stepContentConfig={stepContentConfig}
+        steps={REPAIR_JOB_TRACKING_STEPS}
+        onReset={onReset}
+        onSubmit={handleSubmit(onSubmit)}
+        onTrigger={trigger}
+      />
+    </Form>
   );
 };
 

@@ -15,7 +15,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(({ classNa
         className,
         error
           ? 'focus-visible:outline-none focus-visible:ring-2  border-red-500 bg-red-100 focus:border-red-500 focus:ring-red-500  placeholder:text-red-400'
-          : 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2'
+          : 'bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2'
       )}
       {...props}
     />

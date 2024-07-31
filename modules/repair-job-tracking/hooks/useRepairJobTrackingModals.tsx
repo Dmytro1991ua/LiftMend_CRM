@@ -8,6 +8,7 @@ import { useBaseToast } from '@/shared/hooks';
 import { BaseToastVariant } from '@/shared/hooks/useBaseToast/types';
 
 type useRepairJobTrackingModals = {
+  selectedDateRange: DateSelectArg | null;
   isCreateEventModalOpen: boolean;
   isDeleteEventModalOpen: boolean;
   onOpenCreateEventModalOpen: () => void;
@@ -23,6 +24,7 @@ const useRepairJobTrackingModals = () => {
 
   const [isCreateEventModalOpen, setIsCreateEventModalOpen] = useState<boolean>(false);
   const [isDeleteEventModalOpen, setIsDeleteEventModalOpen] = useState<boolean>(false);
+  const [selectedDateRange, setSelectedDateRange] = useState<DateSelectArg | null>(null);
 
   const onOpenCreateEventModalOpen = useCallback(() => setIsCreateEventModalOpen(true), []);
 
@@ -40,6 +42,7 @@ const useRepairJobTrackingModals = () => {
       if (selectedDate.start < today) {
         baseToast('You cannot schedule repair job in a past date.');
       } else {
+        setSelectedDateRange(selectedDate);
         onOpenCreateEventModalOpen();
       }
     },
@@ -47,6 +50,7 @@ const useRepairJobTrackingModals = () => {
   );
 
   return {
+    selectedDateRange,
     isCreateEventModalOpen,
     isDeleteEventModalOpen,
     onOpenCreateEventModalOpen,

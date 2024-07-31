@@ -1,16 +1,18 @@
 import { FieldValues, Path, useFormContext } from 'react-hook-form';
 
 import { Textarea, TextareaProps } from '@/components/ui/textarea';
+import { cn } from '@/lib/utils';
 
 import { getCommonFormLabelErrorStyles } from '../utils';
 
-export interface BaseTextarea<T extends FieldValues> extends TextareaProps {
+export interface BaseTextareaProps<T extends FieldValues> extends TextareaProps {
   name: Path<T>;
   id?: string;
   label?: string;
   placeholder?: string;
   disabled?: boolean;
   className?: string;
+  wrapperClassName?: string;
 }
 
 const BaseTextarea = <T extends FieldValues>({
@@ -20,8 +22,9 @@ const BaseTextarea = <T extends FieldValues>({
   placeholder,
   className,
   disabled,
+  wrapperClassName,
   ...props
-}: BaseTextarea<T>) => {
+}: BaseTextareaProps<T>) => {
   const {
     register,
     formState: { errors },
@@ -31,7 +34,7 @@ const BaseTextarea = <T extends FieldValues>({
   const labelErrorStyles = getCommonFormLabelErrorStyles(hasError);
 
   return (
-    <div className='relative grid w-full gap-1.5'>
+    <div className={cn('relative grid w-full gap-1.5', wrapperClassName)}>
       <label className={labelErrorStyles} htmlFor={id}>
         {label}
       </label>
