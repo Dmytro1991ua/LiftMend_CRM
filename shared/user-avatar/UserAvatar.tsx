@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import { BiLogOut, BiSolidUser } from 'react-icons/bi';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 

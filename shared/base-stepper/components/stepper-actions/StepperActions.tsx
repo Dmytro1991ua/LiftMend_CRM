@@ -8,6 +8,7 @@ type StepperActionsProps = {
   stepsLength: number;
   onHandlePreviousStep: () => void;
   onHandleNextStep: () => void;
+  onCancel: () => void;
   isComplete: boolean;
 };
 
@@ -16,17 +17,31 @@ const StepperActions: React.FC<StepperActionsProps> = ({
   stepsLength,
   onHandlePreviousStep,
   onHandleNextStep,
+  onCancel,
   isComplete,
 }) => {
   const BUTTON_CONFIG: ButtonConfig[] = [
     {
       id: 1,
+      label: ButtonLabel.CANCEL,
+      onClick: onCancel,
+      disabled: false,
+      visible: activeStep === 0,
+      variant: 'outline',
+      className: 'text-primary',
+      size: 'lg',
+      type: 'reset',
+    },
+    {
+      id: 1,
       label: ButtonLabel.BACK,
       onClick: onHandlePreviousStep,
-      disabled: activeStep === 0,
-      visible: activeStep >= 0,
+      disabled: false,
+      visible: activeStep > 0,
       variant: 'outline',
+      className: 'text-primary',
       size: 'lg',
+      type: 'button',
     },
     {
       id: 2,
@@ -35,6 +50,7 @@ const StepperActions: React.FC<StepperActionsProps> = ({
       disabled: false,
       visible: activeStep < stepsLength - 1,
       size: 'lg',
+      type: 'button',
     },
     {
       id: 3,
@@ -46,15 +62,24 @@ const StepperActions: React.FC<StepperActionsProps> = ({
         isComplete: 'cursor-not-allowed',
       }),
       size: 'lg',
+      type: 'submit',
     },
   ];
 
   return (
     <div className='flex gap-4 justify-between mt-4'>
       {BUTTON_CONFIG.map(
-        ({ id, label, onClick, disabled, size, visible, className, variant }) =>
+        ({ id, label, onClick, disabled, size, type, visible, className, variant }) =>
           visible && (
-            <Button key={id} className={className} disabled={disabled} size={size} variant={variant} onClick={onClick}>
+            <Button
+              key={id}
+              className={className}
+              disabled={disabled}
+              size={size}
+              type={type}
+              variant={variant}
+              onClick={onClick}
+            >
               {label}
             </Button>
           )

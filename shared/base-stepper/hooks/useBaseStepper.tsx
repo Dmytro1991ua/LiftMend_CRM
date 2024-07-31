@@ -1,9 +1,14 @@
 import { useCallback, useState } from 'react';
 
+import { UseFormReset } from 'react-hook-form';
+
+import { RepairJobFromFields } from '@/modules/repair-job-tracking/components/repair-job-tracking-from/validation';
+
 type useBaseStepperProps = {
   totalSteps?: number;
   onSubmit?: () => Promise<void> | void;
   onTrigger?: () => Promise<boolean>;
+  onReset?: UseFormReset<RepairJobFromFields>;
 };
 
 type useBaseStepper = {
@@ -15,7 +20,7 @@ type useBaseStepper = {
   onCancel: () => void;
 };
 
-const useBaseStepper = ({ totalSteps = 0, onSubmit, onTrigger }: useBaseStepperProps): useBaseStepper => {
+const useBaseStepper = ({ totalSteps = 0, onSubmit, onTrigger, onReset }: useBaseStepperProps): useBaseStepper => {
   const [activeStep, setActiveStep] = useState(0);
   const [isLastStepComplete, setIsLastStepComplete] = useState(false);
 
@@ -41,9 +46,8 @@ const useBaseStepper = ({ totalSteps = 0, onSubmit, onTrigger }: useBaseStepperP
   }, [activeStep]);
 
   const onCancel = useCallback(() => {
-    setActiveStep(0);
-    setIsLastStepComplete(false);
-  }, []);
+    onReset && onReset();
+  }, [onReset]);
 
   const isStepCompleted = (index: number): boolean => activeStep > index || isLastStepComplete;
 

@@ -1,3 +1,4 @@
+import { DateSelectArg } from '@fullcalendar/core';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 
 import RepairJobForm from '@/modules/repair-job-tracking/components/repair-job-tracking-from';
@@ -41,17 +42,21 @@ export const getEventModalsConfig = (isDeleteEventModalOpen?: boolean, onCloseDe
   },
 ];
 
-export const getCalendarModalsConfig = (isCreateEventModalOpen: boolean, onCloseCreateEventModalOpen: () => void) => {
+export const getCalendarModalsConfig = ({
+  isCreateEventModalOpen,
+  selectedDateRange,
+  onReset,
+}: {
+  isCreateEventModalOpen: boolean;
+  selectedDateRange: DateSelectArg | null;
+  onReset: () => void;
+}) => {
   return [
     {
       id: 1,
       content: (
-        <BaseModal
-          isOpen={isCreateEventModalOpen}
-          title={DEFAULT_CREATE_MODAL_TITLE}
-          onClose={onCloseCreateEventModalOpen}
-        >
-          <RepairJobForm onCloseCreateEventModalOpen={onCloseCreateEventModalOpen} />
+        <BaseModal isOpen={isCreateEventModalOpen} title={DEFAULT_CREATE_MODAL_TITLE} onClose={onReset}>
+          <RepairJobForm selectedDateRange={selectedDateRange} onReset={onReset} />
         </BaseModal>
       ),
     },

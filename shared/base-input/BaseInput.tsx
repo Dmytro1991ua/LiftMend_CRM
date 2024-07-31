@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 
 import { getCommonFormLabelErrorStyles } from '../utils';
 
-export interface BaseInput<T extends FieldValues> extends InputProps {
+export interface BaseInputProps<T extends FieldValues> extends InputProps {
   name: Path<T>;
   id?: string;
   type?: 'text' | 'password' | 'number' | 'email';
@@ -26,7 +26,7 @@ const BaseInput = <T extends FieldValues>({
   className,
   isLastElement,
   ...props
-}: BaseInput<T>) => {
+}: BaseInputProps<T>) => {
   const {
     register,
     formState: { errors },

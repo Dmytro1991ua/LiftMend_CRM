@@ -108,7 +108,9 @@
         "reservedFirst": true
       }
     ],
-    "@typescript-eslint/no-explicit-any": "warn"
+    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-empty-function": "warn",
+    "@typescript-eslint/ban-ts-comment": "warn"
   },
   "settings": {
     "react": {
