@@ -7,8 +7,8 @@ import { RepairJobFromFields } from '@/modules/repair-job-tracking/components/re
 type useBaseStepperProps = {
   totalSteps?: number;
   onSubmit?: () => Promise<void> | void;
-  onTrigger?: () => Promise<boolean>;
   onReset?: UseFormReset<RepairJobFromFields>;
+  onHandleNext?: (activeStep: number) => Promise<boolean>;
 };
 
 type useBaseStepper = {
@@ -20,12 +20,12 @@ type useBaseStepper = {
   onCancel: () => void;
 };
 
-const useBaseStepper = ({ totalSteps = 0, onSubmit, onTrigger, onReset }: useBaseStepperProps): useBaseStepper => {
+const useBaseStepper = ({ totalSteps = 0, onSubmit, onHandleNext, onReset }: useBaseStepperProps): useBaseStepper => {
   const [activeStep, setActiveStep] = useState(0);
   const [isLastStepComplete, setIsLastStepComplete] = useState(false);
 
   const onNextStep = useCallback(async () => {
-    const isStepValid = onTrigger && (await onTrigger());
+    const isStepValid = onHandleNext && (await onHandleNext(activeStep));
 
     if (!isStepValid) return;
 
@@ -36,7 +36,7 @@ const useBaseStepper = ({ totalSteps = 0, onSubmit, onTrigger, onReset }: useBas
       setIsLastStepComplete(true);
       onSubmit && onSubmit();
     }
-  }, [activeStep, onSubmit, onTrigger, totalSteps]);
+  }, [activeStep, onSubmit, onHandleNext, totalSteps]);
 
   const onPreviousStep = useCallback(() => {
     if (activeStep > 0) {

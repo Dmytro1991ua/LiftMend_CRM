@@ -13,3 +13,7 @@ export enum SectionHeaderTitle {
   Profile = 'Profile',
   RepairJobTracking = 'Repair Job Tracking',
 }
+
+export enum SectionHeaderDescription {
+  RepairJobTracking = 'Schedule and manage repair jobs associated with specific elevators',
+}

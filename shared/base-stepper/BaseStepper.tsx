@@ -13,22 +13,22 @@ type BaseStepperProps<T extends string | number> = {
   steps: StepValue[];
   stepContentConfig: Record<T, React.ReactNode>;
   onSubmit?: () => Promise<void> | void;
-  onTrigger?: () => Promise<boolean>;
   onReset?: UseFormReset<RepairJobFromFields>;
+  onHandleNext?: (activeStep: number) => Promise<boolean>;
 };
 
 const BaseStepper = <T extends string | number>({
   steps,
   stepContentConfig,
   onSubmit,
-  onTrigger,
   onReset,
+  onHandleNext,
 }: BaseStepperProps<T>) => {
   const { activeStep, isLastStepComplete, isStepCompleted, onNextStep, onPreviousStep, onCancel } = useBaseStepper({
     totalSteps: steps.length,
     onSubmit,
-    onTrigger,
     onReset,
+    onHandleNext,
   });
 
   const stepContent = useMemo(() => stepContentConfig[activeStep as T], [stepContentConfig, activeStep]);

@@ -28,7 +28,7 @@ const BaseModal = ({
 }: BaseModalProps): React.JSX.Element => {
   return (
     <Dialog modal defaultOpen={isOpen} open={isOpen} onOpenChange={onClose}>
-      <DialogContent>
+      <DialogContent onOpenAutoFocus={(e) => e.preventDefault()}>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>

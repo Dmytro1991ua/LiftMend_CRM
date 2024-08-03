@@ -1,6 +1,7 @@
-import { Controller, FieldValues, useFormContext } from 'react-hook-form';
+import { Controller, FieldValues, useFormContext, useWatch } from 'react-hook-form';
 
 import { cn } from '@/lib/utils';
+import { getNestedError } from '@/modules/repair-job-tracking/utils';
 import { getCommonFormLabelErrorStyles } from '@/shared/utils';
 
 import { ControlledMultiSelectProps, MultiSelectValue } from '../../types';
@@ -21,7 +22,14 @@ const ControlledMultiSelect = <T extends FieldValues>({
     formState: { errors },
   } = useFormContext<T>();
 
-  const hasError = !!errors[name];
+  const value = useWatch({
+    control,
+    name,
+  });
+
+  const errorKey = getNestedError(errors, name);
+  const hasError = !!errorKey;
+
   const labelErrorStyles = getCommonFormLabelErrorStyles(hasError);
 
   return (
@@ -36,7 +44,7 @@ const ControlledMultiSelect = <T extends FieldValues>({
             isDisabled={disabled}
             options={options}
             placeholder={placeholder}
-            value={options.filter((option) => field?.value?.includes(option.value))}
+            value={options.filter((option) => value?.includes(option.value))}
             onChange={(selectedOptions: MultiSelectValue<string>) => {
               field.onChange(selectedOptions.map((option) => option.value));
               clearErrors && clearErrors(name);
@@ -45,7 +53,7 @@ const ControlledMultiSelect = <T extends FieldValues>({
           />
         )}
       />
-      {hasError && <span className='field-error'>{errors[name]?.message}</span>}
+      {hasError && <span className='field-error'>{errorKey?.message}</span>}
     </div>
   );
 };

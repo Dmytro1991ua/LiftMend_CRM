@@ -35,8 +35,9 @@ export const CustomValueContainer = <T extends string, IsMulti extends boolean>(
         if (React.isValidElement(child)) {
           // Check if the child is MultiValue and replace it with CustomMultiValue
           if (child.type === components.MultiValue) {
-            return <CustomMultiValue {...child.props} />;
+            return <CustomMultiValue {...{ ...child.props, ...props }} />;
           }
+
           return child;
         }
 
