@@ -6,21 +6,20 @@ import { FormProvider, useForm } from 'react-hook-form';
 import BaseCalendar from '@/shared/base-calendar';
 import { getCalendarModalsConfig } from '@/shared/base-calendar/utils';
 import SectionHeader from '@/shared/section-header';
-import { SectionHeaderTitle } from '@/types/enums';
+import { SectionHeaderDescription, SectionHeaderTitle } from '@/types/enums';
 
-import { RepairJobFromFields, repairJobFormSchema } from './components/repair-job-tracking-from/validation';
+import {
+  INITIAL_VALUES,
+  RepairJobFromFields,
+  repairJobFormSchema,
+} from './components/repair-job-tracking-from/validation';
 import useRepairJobTrackingModals from './hooks/useRepairJobTrackingModals';
 
 const RepairJobTracking = () => {
   const formState = useForm<RepairJobFromFields>({
     shouldUnregister: false,
     mode: 'onSubmit',
-    shouldFocusError: true,
-    defaultValues: {
-      jobTitle: '',
-      jobDescription: '',
-      priority: undefined,
-    },
+    defaultValues: INITIAL_VALUES,
     resolver: zodResolver(repairJobFormSchema),
   });
 
@@ -37,7 +36,7 @@ const RepairJobTracking = () => {
   } = useRepairJobTrackingModals();
 
   const onReset = useCallback((): void => {
-    reset({ jobTitle: '', jobDescription: '', priority: undefined });
+    reset(INITIAL_VALUES);
     clearErrors();
     onCloseCreateEventModalOpen();
   }, [reset, clearErrors, onCloseCreateEventModalOpen]);
@@ -57,7 +56,10 @@ const RepairJobTracking = () => {
   return (
     <FormProvider {...formState}>
       <section>
-        <SectionHeader title={SectionHeaderTitle.RepairJobTracking} />
+        <SectionHeader
+          subtitle={SectionHeaderDescription.RepairJobTracking}
+          title={SectionHeaderTitle.RepairJobTracking}
+        />
         <div className='content-wrapper md:h-[75vh] overflow-y-auto overflow-x-hidden'>
           <BaseCalendar calendarActions={calendarActions} />
           {modalsConfig.map(({ id, content }) => (

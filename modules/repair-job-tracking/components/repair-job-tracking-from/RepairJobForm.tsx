@@ -3,9 +3,7 @@ import { Form, SubmitHandler, useFormContext } from 'react-hook-form';
 
 import BaseStepper from '@/shared/base-stepper';
 
-import { REPAIR_JOB_TRACKING_STEPS } from '../../constants';
-import { RepairJobTrackingSteps } from '../../types';
-import JobDetails from '../job-details';
+import { REPAIR_JOB_TRACKING_STEPS, STEP_CONTENT_CONFIG, STEP_VALIDATION_CONFIG } from '../../constants';
 
 import { RepairJobFromFields } from './validation';
 
@@ -23,20 +21,27 @@ const RepairJobForm = ({ selectedDateRange, onReset }: RepairJobFormProps) => {
     onReset();
   };
 
-  const stepContentConfig: Record<RepairJobTrackingSteps, React.ReactNode> = {
-    [RepairJobTrackingSteps.JobDetails]: <JobDetails />,
-    [RepairJobTrackingSteps.ElevatorInformation]: 'Elevator Information',
-    [RepairJobTrackingSteps.TechnicianAssignment]: 'Technician Assignment',
+  const onHandleNext = async (activeStep: number): Promise<boolean> => {
+    const stepId = REPAIR_JOB_TRACKING_STEPS[activeStep].id;
+    const stepKey = STEP_VALIDATION_CONFIG[stepId];
+
+    if (stepKey) {
+      const isValid = await trigger(stepKey);
+
+      return isValid;
+    }
+
+    return false;
   };
 
   return (
     <Form>
       <BaseStepper
-        stepContentConfig={stepContentConfig}
+        stepContentConfig={STEP_CONTENT_CONFIG}
         steps={REPAIR_JOB_TRACKING_STEPS}
+        onHandleNext={onHandleNext}
         onReset={onReset}
         onSubmit={handleSubmit(onSubmit)}
-        onTrigger={trigger}
       />
     </Form>
   );
