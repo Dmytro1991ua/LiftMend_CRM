@@ -1,3 +1,10 @@
 type Query {
   hello: String
+  getRepairJobPriorities: [String!]!
+  getRepairJobTypes: [String!]!
+  getElevatorTypes: [String!]!
+  getBuildingNames: [String!]!
+  getElevatorLocations: [String!]!
+  getTechnicianNames: [String!]!
+  getTechnicianSkills: [String!]!
 }

@@ -1,5 +1,5 @@
-import { User as UserModel } from '@prisma/client';
 import { GraphQLResolveInfo } from 'graphql';
+import { User as UserModel } from '@prisma/client';
 export type Maybe<T> = T | undefined | null;
 export type InputMaybe<T> = T | undefined | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -18,6 +18,13 @@ export type Scalars = {
 
 export type Query = {
   __typename?: 'Query';
+  getBuildingNames: Array<Scalars['String']['output']>;
+  getElevatorLocations: Array<Scalars['String']['output']>;
+  getElevatorTypes: Array<Scalars['String']['output']>;
+  getRepairJobPriorities: Array<Scalars['String']['output']>;
+  getRepairJobTypes: Array<Scalars['String']['output']>;
+  getTechnicianNames: Array<Scalars['String']['output']>;
+  getTechnicianSkills: Array<Scalars['String']['output']>;
   hello?: Maybe<Scalars['String']['output']>;
 };
 
@@ -123,6 +130,13 @@ export type QueryResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = ResolversObject<{
+  getBuildingNames?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  getElevatorLocations?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  getElevatorTypes?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  getRepairJobPriorities?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  getRepairJobTypes?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  getTechnicianNames?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  getTechnicianSkills?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   hello?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 }>;
 
