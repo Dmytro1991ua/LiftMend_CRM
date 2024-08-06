@@ -16,16 +16,62 @@ export type Scalars = {
   Float: { input: number; output: number };
 };
 
+export type BuildingName = {
+  __typename?: 'BuildingName';
+  id: Scalars['ID']['output'];
+  names: Array<Scalars['String']['output']>;
+};
+
+export type ElevatorLocation = {
+  __typename?: 'ElevatorLocation';
+  id: Scalars['ID']['output'];
+  locations: Array<Scalars['String']['output']>;
+};
+
+export type ElevatorType = {
+  __typename?: 'ElevatorType';
+  id: Scalars['ID']['output'];
+  types: Array<Scalars['String']['output']>;
+};
+
 export type Query = {
   __typename?: 'Query';
-  getBuildingNames: Array<Scalars['String']['output']>;
-  getElevatorLocations: Array<Scalars['String']['output']>;
-  getElevatorTypes: Array<Scalars['String']['output']>;
-  getRepairJobPriorities: Array<Scalars['String']['output']>;
-  getRepairJobTypes: Array<Scalars['String']['output']>;
-  getTechnicianNames: Array<Scalars['String']['output']>;
-  getTechnicianSkills: Array<Scalars['String']['output']>;
-  hello?: Maybe<Scalars['String']['output']>;
+  getRepairJobScheduleData: RepairJobScheduleData;
+};
+
+export type RepairJobPriority = {
+  __typename?: 'RepairJobPriority';
+  id: Scalars['ID']['output'];
+  priorities: Array<Scalars['String']['output']>;
+};
+
+export type RepairJobScheduleData = {
+  __typename?: 'RepairJobScheduleData';
+  buildingNames: Array<Scalars['String']['output']>;
+  elevatorLocations: Array<Scalars['String']['output']>;
+  elevatorTypes: Array<Scalars['String']['output']>;
+  priorities: Array<Scalars['String']['output']>;
+  repairJobTypes: Array<Scalars['String']['output']>;
+  technicianNames: Array<Scalars['String']['output']>;
+  technicianSkills: Array<Scalars['String']['output']>;
+};
+
+export type RepairJobType = {
+  __typename?: 'RepairJobType';
+  id: Scalars['ID']['output'];
+  types: Array<Scalars['String']['output']>;
+};
+
+export type TechnicianName = {
+  __typename?: 'TechnicianName';
+  id: Scalars['ID']['output'];
+  names: Array<Scalars['String']['output']>;
+};
+
+export type TechnicianSkill = {
+  __typename?: 'TechnicianSkill';
+  id: Scalars['ID']['output'];
+  skills: Array<Scalars['String']['output']>;
 };
 
 export type User = {
@@ -111,33 +157,119 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  BuildingName: ResolverTypeWrapper<BuildingName>;
+  ElevatorLocation: ResolverTypeWrapper<ElevatorLocation>;
+  ElevatorType: ResolverTypeWrapper<ElevatorType>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Query: ResolverTypeWrapper<{}>;
+  RepairJobPriority: ResolverTypeWrapper<RepairJobPriority>;
+  RepairJobScheduleData: ResolverTypeWrapper<RepairJobScheduleData>;
+  RepairJobType: ResolverTypeWrapper<RepairJobType>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
+  TechnicianName: ResolverTypeWrapper<TechnicianName>;
+  TechnicianSkill: ResolverTypeWrapper<TechnicianSkill>;
   User: ResolverTypeWrapper<UserModel>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean']['output'];
+  BuildingName: BuildingName;
+  ElevatorLocation: ElevatorLocation;
+  ElevatorType: ElevatorType;
   ID: Scalars['ID']['output'];
   Query: {};
+  RepairJobPriority: RepairJobPriority;
+  RepairJobScheduleData: RepairJobScheduleData;
+  RepairJobType: RepairJobType;
   String: Scalars['String']['output'];
+  TechnicianName: TechnicianName;
+  TechnicianSkill: TechnicianSkill;
   User: UserModel;
+}>;
+
+export type BuildingNameResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['BuildingName'] = ResolversParentTypes['BuildingName']
+> = ResolversObject<{
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  names?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type ElevatorLocationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['ElevatorLocation'] = ResolversParentTypes['ElevatorLocation']
+> = ResolversObject<{
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  locations?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type ElevatorTypeResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['ElevatorType'] = ResolversParentTypes['ElevatorType']
+> = ResolversObject<{
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  types?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type QueryResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = ResolversObject<{
-  getBuildingNames?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
-  getElevatorLocations?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
-  getElevatorTypes?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
-  getRepairJobPriorities?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
-  getRepairJobTypes?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
-  getTechnicianNames?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
-  getTechnicianSkills?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
-  hello?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  getRepairJobScheduleData?: Resolver<ResolversTypes['RepairJobScheduleData'], ParentType, ContextType>;
+}>;
+
+export type RepairJobPriorityResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['RepairJobPriority'] = ResolversParentTypes['RepairJobPriority']
+> = ResolversObject<{
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  priorities?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type RepairJobScheduleDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['RepairJobScheduleData'] = ResolversParentTypes['RepairJobScheduleData']
+> = ResolversObject<{
+  buildingNames?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  elevatorLocations?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  elevatorTypes?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  priorities?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  repairJobTypes?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  technicianNames?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  technicianSkills?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type RepairJobTypeResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['RepairJobType'] = ResolversParentTypes['RepairJobType']
+> = ResolversObject<{
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  types?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type TechnicianNameResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['TechnicianName'] = ResolversParentTypes['TechnicianName']
+> = ResolversObject<{
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  names?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type TechnicianSkillResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['TechnicianSkill'] = ResolversParentTypes['TechnicianSkill']
+> = ResolversObject<{
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  skills?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type UserResolvers<
@@ -151,6 +283,14 @@ export type UserResolvers<
 }>;
 
 export type Resolvers<ContextType = any> = ResolversObject<{
+  BuildingName?: BuildingNameResolvers<ContextType>;
+  ElevatorLocation?: ElevatorLocationResolvers<ContextType>;
+  ElevatorType?: ElevatorTypeResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  RepairJobPriority?: RepairJobPriorityResolvers<ContextType>;
+  RepairJobScheduleData?: RepairJobScheduleDataResolvers<ContextType>;
+  RepairJobType?: RepairJobTypeResolvers<ContextType>;
+  TechnicianName?: TechnicianNameResolvers<ContextType>;
+  TechnicianSkill?: TechnicianSkillResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 }>;

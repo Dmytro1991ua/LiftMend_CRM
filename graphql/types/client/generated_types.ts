@@ -14,9 +14,62 @@ export type Scalars = {
   Float: { input: number; output: number };
 };
 
+export type BuildingName = {
+  __typename?: 'BuildingName';
+  id: Scalars['ID']['output'];
+  names: Array<Scalars['String']['output']>;
+};
+
+export type ElevatorLocation = {
+  __typename?: 'ElevatorLocation';
+  id: Scalars['ID']['output'];
+  locations: Array<Scalars['String']['output']>;
+};
+
+export type ElevatorType = {
+  __typename?: 'ElevatorType';
+  id: Scalars['ID']['output'];
+  types: Array<Scalars['String']['output']>;
+};
+
 export type Query = {
   __typename?: 'Query';
-  hello: Maybe<Scalars['String']['output']>;
+  getRepairJobScheduleData: RepairJobScheduleData;
+};
+
+export type RepairJobPriority = {
+  __typename?: 'RepairJobPriority';
+  id: Scalars['ID']['output'];
+  priorities: Array<Scalars['String']['output']>;
+};
+
+export type RepairJobScheduleData = {
+  __typename?: 'RepairJobScheduleData';
+  buildingNames: Array<Scalars['String']['output']>;
+  elevatorLocations: Array<Scalars['String']['output']>;
+  elevatorTypes: Array<Scalars['String']['output']>;
+  priorities: Array<Scalars['String']['output']>;
+  repairJobTypes: Array<Scalars['String']['output']>;
+  technicianNames: Array<Scalars['String']['output']>;
+  technicianSkills: Array<Scalars['String']['output']>;
+};
+
+export type RepairJobType = {
+  __typename?: 'RepairJobType';
+  id: Scalars['ID']['output'];
+  types: Array<Scalars['String']['output']>;
+};
+
+export type TechnicianName = {
+  __typename?: 'TechnicianName';
+  id: Scalars['ID']['output'];
+  names: Array<Scalars['String']['output']>;
+};
+
+export type TechnicianSkill = {
+  __typename?: 'TechnicianSkill';
+  id: Scalars['ID']['output'];
+  skills: Array<Scalars['String']['output']>;
 };
 
 export type User = {
@@ -26,6 +79,18 @@ export type User = {
   name: Maybe<Scalars['String']['output']>;
 };
 
-export type Get_Test_QueryQueryVariables = Exact<{ [key: string]: never }>;
+export type Get_Repair_Job_Schedule_DataQueryVariables = Exact<{ [key: string]: never }>;
 
-export type Get_Test_QueryQuery = { __typename?: 'Query'; hello: string | null };
+export type Get_Repair_Job_Schedule_DataQuery = {
+  __typename?: 'Query';
+  getRepairJobScheduleData: {
+    __typename?: 'RepairJobScheduleData';
+    repairJobTypes: Array<string>;
+    elevatorTypes: Array<string>;
+    buildingNames: Array<string>;
+    elevatorLocations: Array<string>;
+    technicianNames: Array<string>;
+    technicianSkills: Array<string>;
+    priorities: Array<string>;
+  };
+};

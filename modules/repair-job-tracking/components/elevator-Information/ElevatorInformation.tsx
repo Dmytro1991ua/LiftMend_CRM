@@ -4,63 +4,18 @@ import { useFormContext } from 'react-hook-form';
 
 import ControlledSingleSelect from '@/shared/base-select/components/controlled-single-select';
 
+import { useFetchDropdownOptions } from '../../hooks';
 import { FORM_FIELD_CONFIG } from '../../types';
+import { handleQueryResponse } from '../../utils';
 import { RepairJobFromFields } from '../repair-job-tracking-from/validation';
 
-const elevatorTypes = [
-  { label: 'Passenger Elevator', value: 'passenger_elevator' },
-  { label: 'Freight Elevator', value: 'freight_elevator' },
-  { label: 'Service Elevator', value: 'service_elevator' },
-  { label: 'Dumbwaiter', value: 'dumbwaiter' },
-  { label: 'Home Lift', value: 'home_lift' },
-  { label: 'Glass Elevator', value: 'glass_elevator' },
-  { label: 'Hydraulic Elevator', value: 'hydraulic_elevator' },
-  { label: 'Traction Elevator', value: 'traction_elevator' },
-  { label: 'Inclined Elevator', value: 'inclined_elevator' },
-  { label: 'Scissor Lift', value: 'scissor_lift' },
-  { label: 'Vacuum Elevator', value: 'vacuum_elevator' },
-  { label: 'Pneumatic Elevator', value: 'pneumatic_elevator' },
-  { label: 'Rope-less Elevator', value: 'rope_less_elevator' },
-  { label: 'Modular Elevator', value: 'modular_elevator' },
-  { label: 'Miniature Elevator', value: 'miniature_elevator' },
-  { label: 'Car Lift', value: 'car_lift' },
-  { label: 'Observation Elevator', value: 'observation_elevator' },
-  { label: 'Industrial Elevator', value: 'industrial_elevator' },
-];
-
-const buildingNames = [
-  { value: 'Downtown Tower', label: 'Downtown Tower' },
-  { value: 'Skyline Plaza', label: 'Skyline Plaza' },
-  { value: 'Riverfront Complex', label: 'Riverfront Complex' },
-  { value: 'Eastside Apartments', label: 'Eastside Apartments' },
-  { value: 'Westview Mall', label: 'Westview Mall' },
-  { value: 'City Hall', label: 'City Hall' },
-  { value: 'The Grand Hotel', label: 'The Grand Hotel' },
-  { value: 'Tech Park Offices', label: 'Tech Park Offices' },
-  { value: 'Greenfield Hospital', label: 'Greenfield Hospital' },
-  { value: 'Maplewood Community Center', label: 'Maplewood Community Center' },
-  { value: 'Sunset Towers', label: 'Sunset Towers' },
-  { value: 'Oceanview Condos', label: 'Oceanview Condos' },
-];
-
-const elevatorLocations = [
-  { value: '1st Floor', label: '1st Floor' },
-  { value: '2nd Floor', label: '2nd Floor' },
-  { value: '3rd Floor', label: '3rd Floor' },
-  { value: 'Basement', label: 'Basement' },
-  { value: 'Rooftop', label: 'Rooftop' },
-  { value: 'Lobby', label: 'Lobby' },
-  { value: 'Parking Garage', label: 'Parking Garage' },
-  { value: 'Mechanical Room', label: 'Mechanical Room' },
-  { value: 'Service Level', label: 'Service Level' },
-  { value: 'Penthouse', label: 'Penthouse' },
-  { value: 'Lower Level', label: 'Lower Level' },
-  { value: 'Ground Floor', label: 'Ground Floor' },
-  { value: 'Sub-Basement', label: 'Sub-Basement' },
-  { value: 'Sky Bridge', label: 'Sky Bridge' },
-];
-
 const ElevatorInformation = () => {
+  const {
+    dropdownOptions: { elevatorTypes, elevatorLocations, buildingNames },
+    loading,
+    error,
+  } = useFetchDropdownOptions();
+
   const { clearErrors } = useFormContext<RepairJobFromFields>();
 
   const ELEVATOR_INFORMATION_FORM_FIELDS_CONFIG: FORM_FIELD_CONFIG[] = [
@@ -116,6 +71,12 @@ const ElevatorInformation = () => {
       ),
     },
   ];
+
+  const queryResponse = handleQueryResponse({ loading, error });
+
+  if (queryResponse) {
+    return queryResponse;
+  }
 
   return (
     <section>
