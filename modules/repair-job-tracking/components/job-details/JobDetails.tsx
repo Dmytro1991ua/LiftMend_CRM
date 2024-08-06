@@ -5,30 +5,18 @@ import { useFormContext } from 'react-hook-form';
 import ControlledSingleSelect from '@/shared/base-select/components/controlled-single-select/ControlledSingleSelect';
 import BaseTextarea from '@/shared/base-textarea';
 
+import { useFetchDropdownOptions } from '../../hooks';
 import { FORM_FIELD_CONFIG } from '../../types';
+import { handleQueryResponse } from '../../utils';
 import { RepairJobFromFields } from '../repair-job-tracking-from/validation';
 
-// TODO Mocked Priority select options
-const priorityOptions = [
-  { value: 'Low', label: 'Low' },
-  { value: 'Medium', label: 'Medium' },
-  { value: 'High', label: 'High' },
-];
-
-const jobTypes = [
-  { value: 'repair', label: 'Repair' },
-  { value: 'maintenance', label: 'Maintenance' },
-  { value: 'installation', label: 'Installation' },
-  { value: 'inspection', label: 'Inspection' },
-  { value: 'upgrade', label: 'Upgrade' },
-  { value: 'emergency', label: 'Emergency Repair' },
-  { value: 'routine', label: 'Routine Maintenance' },
-  { value: 'consultation', label: 'Consultation' },
-  { value: 'modernization', label: 'Modernization' },
-  { value: 'compliance', label: 'Compliance Check' },
-];
-
 const JobDetails = () => {
+  const {
+    dropdownOptions: { repairJobTypes, priorities },
+    loading,
+    error,
+  } = useFetchDropdownOptions();
+
   const { clearErrors } = useFormContext<RepairJobFromFields>();
 
   const JOB_DETAILS_FORM_FIELDS_CONFIG: FORM_FIELD_CONFIG[] = [
@@ -42,7 +30,7 @@ const JobDetails = () => {
           isMultiSelect={false}
           label='Job Type'
           name='jobDetails.jobType'
-          options={jobTypes}
+          options={repairJobTypes}
           placeholder='Select Job Type'
         />
       ),
@@ -68,12 +56,18 @@ const JobDetails = () => {
           isMultiSelect={false}
           label='Priority'
           name='jobDetails.priority'
-          options={priorityOptions}
+          options={priorities}
           placeholder='Select Priority'
         />
       ),
     },
   ];
+
+  const queryResponse = handleQueryResponse({ loading, error });
+
+  if (queryResponse) {
+    return queryResponse;
+  }
 
   return (
     <section>
