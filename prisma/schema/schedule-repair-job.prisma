@@ -32,3 +32,18 @@ model TechnicianSkills {
   id     Int      @id @default(autoincrement())
   skills String[]
 }
+
+model RepairJob {
+  id                 String   @id @default(uuid())
+  jobType            String
+  jobDetails         String
+  jobPriority        String
+  elevatorType       String
+  buildingName       String
+  elevatorLocation   String
+  technicianName     String
+  technicianSkills   String[]
+  contactInformation String
+  startDate          DateTime
+  endDate            DateTime
+}

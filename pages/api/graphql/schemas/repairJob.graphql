@@ -42,3 +42,32 @@ type RepairJobScheduleData {
   technicianSkills: [String!]!
   priorities: [String!]!
 }
+
+type RepairJob {
+  id: ID!
+  jobType: String!
+  jobDetails: String!
+  jobPriority: String!
+  elevatorType: String!
+  buildingName: String!
+  elevatorLocation: String!
+  technicianName: String!
+  technicianSkills: [String!]!
+  contactInformation: String!
+  startDate: DateTime!
+  endDate: DateTime!
+}
+
+input CreateRepairJobInput {
+  jobType: String!
+  jobDetails: String!
+  jobPriority: String!
+  elevatorType: String!
+  buildingName: String!
+  elevatorLocation: String!
+  technicianName: String!
+  technicianSkills: [String!]!
+  contactInformation: String!
+  startDate: DateTime!
+  endDate: DateTime!
+}

@@ -1,24 +1,26 @@
 import { Fragment } from 'react';
 
 import { useFormContext } from 'react-hook-form';
+import { Bars } from 'react-loader-spinner';
 
+import BaseAlert from '@/shared/base-alert/BaseAlert';
 import BaseInput from '@/shared/base-input';
 import ControlledMultiSelect from '@/shared/base-select/components/controlled-multi-select';
 import ControlledSingleSelect from '@/shared/base-select/components/controlled-single-select';
+import QueryResponse from '@/shared/query-response';
 
 import { useFetchDropdownOptions } from '../../hooks';
 import { FORM_FIELD_CONFIG } from '../../types';
-import { handleQueryResponse } from '../../utils';
 import { RepairJobFromFields } from '../repair-job-tracking-from/validation';
 
 const TechnicianAssignment = () => {
+  const { clearErrors } = useFormContext<RepairJobFromFields>();
+
   const {
     dropdownOptions: { technicianNames, technicianSkills },
     loading,
     error,
   } = useFetchDropdownOptions();
-
-  const { clearErrors } = useFormContext<RepairJobFromFields>();
 
   const TECHNICIAN_ASSIGNMENT_FORM_FIELDS_CONFIG: FORM_FIELD_CONFIG[] = [
     {
@@ -72,18 +74,32 @@ const TechnicianAssignment = () => {
     },
   ];
 
-  const queryResponse = handleQueryResponse({ loading, error });
-
-  if (queryResponse) {
-    return queryResponse;
-  }
-
   return (
-    <section>
-      {TECHNICIAN_ASSIGNMENT_FORM_FIELDS_CONFIG.map(({ id, content }) => (
-        <Fragment key={id}>{content}</Fragment>
-      ))}
-    </section>
+    <>
+      <QueryResponse
+        errorComponent={
+          <BaseAlert description={error} title='Failed to fetch technician assignment data' variant='destructive' />
+        }
+        loading={loading}
+        loadingComponent={
+          <Bars
+            ariaLabel='bars-loading'
+            color='#2563eb'
+            height='80'
+            visible={true}
+            width='80'
+            wrapperClass='justify-center'
+          />
+        }
+      />
+      {!loading && !error && (
+        <section>
+          {TECHNICIAN_ASSIGNMENT_FORM_FIELDS_CONFIG.map(({ id, content }) => (
+            <Fragment key={id}>{content}</Fragment>
+          ))}
+        </section>
+      )}
+    </>
   );
 };
 

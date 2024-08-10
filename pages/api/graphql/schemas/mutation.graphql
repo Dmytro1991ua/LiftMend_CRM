@@ -1,0 +1,11 @@
+type ScheduledEventAndRepairJobResponse {
+  repairJob: RepairJob!
+  calendarEvent: CalendarEvent!
+}
+
+type Mutation {
+  createRepairJobAndEvent(
+    repairJobInput: CreateRepairJobInput!
+    calendarEventInput: CreateCalendarEventInput!
+  ): ScheduledEventAndRepairJobResponse!
+}

@@ -2,10 +2,10 @@ import { useMemo } from 'react';
 
 import { useQuery } from '@apollo/client';
 
-import { GET_REPAIR_JOB_SCHEDULE_DATA } from '@/graphql/schemas/getRepairJobScheduleData';
+import { GET_REPAIR_JOB_FORM_DATA } from '@/graphql/schemas/getRepairJobFormData';
 import {
-  Get_Repair_Job_Schedule_DataQuery,
-  Get_Repair_Job_Schedule_DataQueryVariables,
+  Get_Repair_Job_Form_DataQuery,
+  Get_Repair_Job_Form_DataQueryVariables,
 } from '@/graphql/types/client/generated_types';
 import { DropdownOption } from '@/shared/base-select/types';
 
@@ -29,10 +29,10 @@ type UseFetchDropdownOptions = {
 
 export const useFetchDropdownOptions = (): UseFetchDropdownOptions => {
   {
-    const { data, error, loading } = useQuery<
-      Get_Repair_Job_Schedule_DataQuery,
-      Get_Repair_Job_Schedule_DataQueryVariables
-    >(GET_REPAIR_JOB_SCHEDULE_DATA);
+    const { data, error, loading } = useQuery<Get_Repair_Job_Form_DataQuery, Get_Repair_Job_Form_DataQueryVariables>(
+      GET_REPAIR_JOB_FORM_DATA,
+      { fetchPolicy: 'cache-first' }
+    );
 
     const dropdownOptions: MultiStepDropdownOption = useMemo(() => {
       // Define the fields to be converted to dropdown options

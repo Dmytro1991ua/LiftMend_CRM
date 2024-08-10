@@ -21,3 +21,6 @@ export const STEP_VALIDATION_CONFIG: Record<number, keyof RepairJobFromFields> =
   1: 'elevatorInformation',
   2: 'technicianAssignment',
 };
+
+export const DEFAULT_SCHEDULE_REPAIR_JOB_SUCCESS_MESSAGE = 'Successfully scheduled repair job';
+export const DEFAULT_SCHEDULE_REPAIR_JOB_FAIL_MESSAGE = 'Failed to schedule repair job';

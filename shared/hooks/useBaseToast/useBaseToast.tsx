@@ -7,7 +7,7 @@ import { useToast } from '@/components/ui/use-toast';
 
 import { BaseToastVariant, ToastContent, Variant } from './types';
 
-type UseBaseToast = { baseToast: (message: string) => void };
+type UseBaseToast = { baseToast: (message: string, description: string) => void };
 
 export const useBaseToast = (variant: BaseToastVariant): UseBaseToast => {
   const { toast } = useToast();
@@ -36,14 +36,17 @@ export const useBaseToast = (variant: BaseToastVariant): UseBaseToast => {
   }, []);
 
   const toastContent = useCallback(
-    (message: string) => {
+    (message: string, description: string) => {
       const config = BASE_TOAST_CONFIG[variant];
 
       return {
         action: (
           <div className='w-full flex items-center'>
             {config.icon}
-            <span className='first-letter:capitalize'>{message}</span>
+            <div className='flex flex-col ml-2'>
+              <span className='first-letter:capitalize text-lg font-semibold'>{message}</span>
+              <span className='first-letter:capitalize text-sm'>{description}</span>
+            </div>
           </div>
         ),
         variant: config.variant,
@@ -52,7 +55,10 @@ export const useBaseToast = (variant: BaseToastVariant): UseBaseToast => {
     [BASE_TOAST_CONFIG, variant]
   );
 
-  const baseToast = useCallback((message: string) => toast({ ...toastContent(message) }), [toast, toastContent]);
+  const baseToast = useCallback(
+    (message: string, description = '') => toast({ ...toastContent(message, description) }),
+    [toast, toastContent]
+  );
 
   return { baseToast };
 };

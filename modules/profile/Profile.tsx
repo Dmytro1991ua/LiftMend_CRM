@@ -11,7 +11,7 @@ const Profile = (): React.JSX.Element => {
 
   //TODO: Example on how to use actionComponent for SectionHeader
   const sectionHeaderButton = (
-    <Button onClick={() => baseToast('Error Occurred')}>
+    <Button onClick={() => baseToast('Error Occurred', '')}>
       <HiPlus />
       <span className='ml-2'>Add Task</span>
     </Button>

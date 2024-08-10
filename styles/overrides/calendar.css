@@ -92,3 +92,8 @@ a.fc-col-header-cell-cushion {
 .fc-list-event-graphic {
   padding: 0.8rem 1.4rem !important;
 }
+
+.fc-event {
+  white-space: normal;
+  overflow: visible;
+}

@@ -15,24 +15,3 @@ export const convertQueryResponseToDropdownOptions = (options: string[]): Dropdo
     value: option,
     label: option,
   }));
-
-export const handleQueryResponse = ({ loading, error }: { loading: boolean; error?: string | null }) => {
-  if (loading) {
-    return (
-      <Bars
-        ariaLabel='bars-loading'
-        color='#2563eb'
-        height='80'
-        visible={true}
-        width='80'
-        wrapperClass='justify-center'
-      />
-    );
-  }
-
-  if (error) {
-    return <BaseAlert description={error} title='Error occurred' variant='destructive' />;
-  }
-
-  return null;
-};

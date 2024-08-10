@@ -12,6 +12,7 @@ export type GQLError = {
     status: string;
     name: string;
     message: string;
+    details?: GQLErrorDetail[];
   };
 };
 

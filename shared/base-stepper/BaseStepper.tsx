@@ -12,6 +12,7 @@ import { StepValue } from './types';
 type BaseStepperProps<T extends string | number> = {
   steps: StepValue[];
   stepContentConfig: Record<T, React.ReactNode>;
+  isLoading: boolean;
   onSubmit?: () => Promise<void> | void;
   onReset?: UseFormReset<RepairJobFromFields>;
   onHandleNext?: (activeStep: number) => Promise<boolean>;
@@ -20,6 +21,7 @@ type BaseStepperProps<T extends string | number> = {
 const BaseStepper = <T extends string | number>({
   steps,
   stepContentConfig,
+  isLoading,
   onSubmit,
   onReset,
   onHandleNext,
@@ -51,6 +53,7 @@ const BaseStepper = <T extends string | number>({
       <StepperActions
         activeStep={activeStep}
         isComplete={isLastStepComplete}
+        isLoading={isLoading}
         stepsLength={steps.length}
         onCancel={onCancel}
         onHandleNextStep={onNextStep}

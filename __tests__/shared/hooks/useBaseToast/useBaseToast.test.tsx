@@ -27,7 +27,7 @@ describe('useBaseToast', () => {
 
     const { result } = hook(BaseToastVariant.Info);
 
-    act(() => result.current.baseToast(mockMessage));
+    act(() => result.current.baseToast(mockMessage, ''));
 
     expect(mockToast).toHaveBeenCalled();
     expect(mockToast).toHaveBeenCalledTimes(1);
@@ -44,7 +44,7 @@ describe('useBaseToast', () => {
 
     const { result } = hook(BaseToastVariant.Success);
 
-    act(() => result.current.baseToast(mockMessage));
+    act(() => result.current.baseToast(mockMessage, ''));
 
     expect(mockToast).toHaveBeenCalled();
     expect(mockToast).toHaveBeenCalledTimes(1);
@@ -61,7 +61,7 @@ describe('useBaseToast', () => {
 
     const { result } = hook(BaseToastVariant.Warning);
 
-    act(() => result.current.baseToast(mockMessage));
+    act(() => result.current.baseToast(mockMessage, ''));
 
     expect(mockToast).toHaveBeenCalled();
     expect(mockToast).toHaveBeenCalledTimes(1);
@@ -78,7 +78,7 @@ describe('useBaseToast', () => {
 
     const { result } = hook(BaseToastVariant.Error);
 
-    act(() => result.current.baseToast(mockMessage));
+    act(() => result.current.baseToast(mockMessage, ''));
 
     expect(mockToast).toHaveBeenCalled();
     expect(mockToast).toHaveBeenCalledTimes(1);
