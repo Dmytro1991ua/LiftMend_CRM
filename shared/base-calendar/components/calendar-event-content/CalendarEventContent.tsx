@@ -19,7 +19,7 @@ const CalendarEventContent = ({ eventInfo, calendarActions }: CalendarEventConte
   const onHandleEditButtonClick = useCallback(
     (e: React.MouseEvent<SVGElement, MouseEvent>) => {
       e.stopPropagation();
-      baseToast('Not Implemented yet');
+      baseToast('Not Implemented yet', '');
     },
     [baseToast]
   );
@@ -44,8 +44,14 @@ const CalendarEventContent = ({ eventInfo, calendarActions }: CalendarEventConte
 
   return (
     <div className='flex items-center p-2 bg-primary text-primary-foreground '>
-      <h6>{eventInfo.timeText}&nbsp;</h6>
-      <h3>{eventInfo.event.title}</h3>
+      <div className='fc-event flex flex-col gap-1'>
+        <h3 className='text-sm font-semibold' title={eventInfo.event.title}>
+          {eventInfo.event.title}
+        </h3>
+        <h5 className='text-xs' title={eventInfo.event.extendedProps.description}>
+          {eventInfo.event.extendedProps.description}
+        </h5>
+      </div>
       <span className='flex ml-auto'>
         {eventActionsConfig.map(({ id, content }) => (
           <div key={id}>{content}</div>

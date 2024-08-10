@@ -20,7 +20,9 @@
     "prepare": "husky install",
     "pre-commit": "lint-staged",
     "pre-push": "npm run test:ci",
-    "prisma-generate": "npx prisma generate"
+    "prisma-generate": "npx prisma generate",
+    "prisma-migrate": "npx prisma migrate dev --name init",
+    "prisma-redeploy": "npx prisma migrate deploy"
   },
   "dependencies": {
     "@apollo/client": "^3.8.8",

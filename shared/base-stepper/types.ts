@@ -17,6 +17,7 @@ export type ButtonConfig = {
   variant?: ButtonVariant;
   size?: 'sm' | 'lg';
   type?: 'button' | 'submit' | 'reset';
+  isLoading?: boolean;
 };
 
 export type StepValue = {

@@ -1,3 +1,4 @@
+import { CalendarEvent, RepairJob } from '@/graphql/types/client/generated_types';
 import { QueryResolvers, RepairJobScheduleData } from '@/graphql/types/server/generated_types';
 
 import prisma from '../../../../prisma/db';
@@ -44,6 +45,16 @@ const Query: QueryResolvers = {
     );
 
     return repairJobScheduleData as RepairJobScheduleData;
+  },
+  getCalendarEvents: async (): Promise<CalendarEvent[]> => {
+    const calendarEvents = await prisma.calendarEvent.findMany();
+
+    return calendarEvents || [];
+  },
+  getRepairJobs: async (): Promise<RepairJob[]> => {
+    const scheduledRepairJobs = await prisma.repairJob.findMany();
+
+    return scheduledRepairJobs || [];
   },
 };
 

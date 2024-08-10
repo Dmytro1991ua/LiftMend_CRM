@@ -1,0 +1,8 @@
+model CalendarEvent {
+  id          String   @id @default(uuid())
+  title       String
+  start       DateTime
+  end         DateTime
+  description String?
+  allDay      Boolean  @default(false)
+}

@@ -1,0 +1,16 @@
+type CalendarEvent {
+  id: ID!
+  title: String!
+  start: DateTime!
+  end: DateTime!
+  description: String
+  allDay: Boolean!
+}
+
+input CreateCalendarEventInput {
+  title: String!
+  start: DateTime!
+  end: DateTime!
+  description: String
+  allDay: Boolean!
+}

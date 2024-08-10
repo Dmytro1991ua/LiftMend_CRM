@@ -4,6 +4,11 @@ import interactionPlugin from '@fullcalendar/interaction';
 import listMonthPlugin from '@fullcalendar/list';
 import Fullcalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import { Circles } from 'react-loader-spinner';
+
+import useFetchCalendarEvents from '@/modules/repair-job-tracking/hooks/useFetchCalendarEvents';
+
+import QueryResponse from '../query-response';
 
 import CalendarEventContent from './components/calendar-event-content';
 import { DEFAULT_CALENDAR_HEADER_TOOLBAR_CONFIG, DEFAULT_CALENDAR_VIEW } from './constants';
@@ -22,35 +27,47 @@ const BaseCalendar = ({
   calendarHeight,
   calendarActions,
 }: BaseCalendarProps) => {
+  const { events, loading, error } = useFetchCalendarEvents();
+
   return (
-    <div data-testid='calendar'>
-      <Fullcalendar
-        dayMaxEvents={true}
-        editable={true}
-        eventClick={(e) => console.log(e)}
-        eventContent={(eventInfo) => <CalendarEventContent calendarActions={calendarActions} eventInfo={eventInfo} />}
-        eventsSet={(events) => console.log(events)}
-        headerToolbar={headerToolbar}
-        height={calendarHeight}
-        initialEvents={[
-          {
-            id: '123',
-            title: 'All-day event',
-            date: '2024-07-08',
-          },
-          {
-            id: '12334',
-            title: 'All-day event',
-            date: '2024-07-07',
-          },
-        ]}
-        initialView={calendarView}
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listMonthPlugin]}
-        select={calendarActions?.onHandleDateClick}
-        selectMirror={true}
-        selectable={true}
+    <>
+      <QueryResponse
+        errorDescription={error}
+        errorMessage='Failed to fetch Calendar Events'
+        loading={loading}
+        loadingComponent={
+          <Circles
+            ariaLabel='bars-loading'
+            color='#2563eb'
+            height='80'
+            visible={true}
+            width='80'
+            wrapperClass='h-full items-center justify-center'
+          />
+        }
       />
-    </div>
+      <div data-testid='calendar'>
+        {!loading ? (
+          <Fullcalendar
+            dayMaxEvents={true}
+            editable={false}
+            eventClick={(e) => console.log(e)}
+            eventContent={(eventInfo) => (
+              <CalendarEventContent calendarActions={calendarActions} eventInfo={eventInfo} />
+            )}
+            events={events}
+            eventsSet={(events) => console.log(events)}
+            headerToolbar={headerToolbar}
+            height={calendarHeight}
+            initialView={calendarView}
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listMonthPlugin]}
+            select={calendarActions?.onHandleDateClick}
+            selectMirror={true}
+            selectable={true}
+          />
+        ) : null}
+      </div>
+    </>
   );
 };
 

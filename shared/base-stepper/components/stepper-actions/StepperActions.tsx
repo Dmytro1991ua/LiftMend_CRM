@@ -1,3 +1,5 @@
+import { Loader2 } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -10,6 +12,7 @@ type StepperActionsProps = {
   onHandleNextStep: () => void;
   onCancel: () => void;
   isComplete: boolean;
+  isLoading: boolean;
 };
 
 const StepperActions: React.FC<StepperActionsProps> = ({
@@ -19,6 +22,7 @@ const StepperActions: React.FC<StepperActionsProps> = ({
   onHandleNextStep,
   onCancel,
   isComplete,
+  isLoading,
 }) => {
   const BUTTON_CONFIG: ButtonConfig[] = [
     {
@@ -56,20 +60,21 @@ const StepperActions: React.FC<StepperActionsProps> = ({
       id: 3,
       label: ButtonLabel.SUBMIT,
       onClick: onHandleNextStep,
-      disabled: isComplete,
+      disabled: isComplete || isLoading,
       visible: activeStep === stepsLength - 1,
       className: cn('bg-green-500 hover:bg-green-300 text-white cursor-pointer', {
         isComplete: 'cursor-not-allowed',
       }),
       size: 'lg',
       type: 'submit',
+      isLoading,
     },
   ];
 
   return (
     <div className='flex gap-4 justify-between mt-4'>
       {BUTTON_CONFIG.map(
-        ({ id, label, onClick, disabled, size, type, visible, className, variant }) =>
+        ({ id, label, onClick, disabled, isLoading, size, type, visible, className, variant }) =>
           visible && (
             <Button
               key={id}
@@ -80,7 +85,7 @@ const StepperActions: React.FC<StepperActionsProps> = ({
               variant={variant}
               onClick={onClick}
             >
-              {label}
+              {isLoading ? <Loader2 className='mr-2 h-4 w-4 animate-spin' /> : label}
             </Button>
           )
       )}

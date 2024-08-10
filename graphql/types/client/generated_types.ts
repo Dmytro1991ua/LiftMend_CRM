@@ -12,12 +12,45 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean };
   Int: { input: number; output: number };
   Float: { input: number; output: number };
+  DateTime: { input: any; output: any };
 };
 
 export type BuildingName = {
   __typename?: 'BuildingName';
   id: Scalars['ID']['output'];
   names: Array<Scalars['String']['output']>;
+};
+
+export type CalendarEvent = {
+  __typename?: 'CalendarEvent';
+  allDay: Scalars['Boolean']['output'];
+  description: Maybe<Scalars['String']['output']>;
+  end: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  start: Scalars['DateTime']['output'];
+  title: Scalars['String']['output'];
+};
+
+export type CreateCalendarEventInput = {
+  allDay: Scalars['Boolean']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+  end: Scalars['DateTime']['input'];
+  start: Scalars['DateTime']['input'];
+  title: Scalars['String']['input'];
+};
+
+export type CreateRepairJobInput = {
+  buildingName: Scalars['String']['input'];
+  contactInformation: Scalars['String']['input'];
+  elevatorLocation: Scalars['String']['input'];
+  elevatorType: Scalars['String']['input'];
+  endDate: Scalars['DateTime']['input'];
+  jobDetails: Scalars['String']['input'];
+  jobPriority: Scalars['String']['input'];
+  jobType: Scalars['String']['input'];
+  startDate: Scalars['DateTime']['input'];
+  technicianName: Scalars['String']['input'];
+  technicianSkills: Array<Scalars['String']['input']>;
 };
 
 export type ElevatorLocation = {
@@ -32,9 +65,37 @@ export type ElevatorType = {
   types: Array<Scalars['String']['output']>;
 };
 
+export type Mutation = {
+  __typename?: 'Mutation';
+  createRepairJobAndEvent: ScheduledEventAndRepairJobResponse;
+};
+
+export type MutationCreateRepairJobAndEventArgs = {
+  calendarEventInput: CreateCalendarEventInput;
+  repairJobInput: CreateRepairJobInput;
+};
+
 export type Query = {
   __typename?: 'Query';
+  getCalendarEvents: Array<CalendarEvent>;
   getRepairJobScheduleData: RepairJobScheduleData;
+  getRepairJobs: Array<RepairJob>;
+};
+
+export type RepairJob = {
+  __typename?: 'RepairJob';
+  buildingName: Scalars['String']['output'];
+  contactInformation: Scalars['String']['output'];
+  elevatorLocation: Scalars['String']['output'];
+  elevatorType: Scalars['String']['output'];
+  endDate: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  jobDetails: Scalars['String']['output'];
+  jobPriority: Scalars['String']['output'];
+  jobType: Scalars['String']['output'];
+  startDate: Scalars['DateTime']['output'];
+  technicianName: Scalars['String']['output'];
+  technicianSkills: Array<Scalars['String']['output']>;
 };
 
 export type RepairJobPriority = {
@@ -60,6 +121,12 @@ export type RepairJobType = {
   types: Array<Scalars['String']['output']>;
 };
 
+export type ScheduledEventAndRepairJobResponse = {
+  __typename?: 'ScheduledEventAndRepairJobResponse';
+  calendarEvent: CalendarEvent;
+  repairJob: RepairJob;
+};
+
 export type TechnicianName = {
   __typename?: 'TechnicianName';
   id: Scalars['ID']['output'];
@@ -79,9 +146,69 @@ export type User = {
   name: Maybe<Scalars['String']['output']>;
 };
 
-export type Get_Repair_Job_Schedule_DataQueryVariables = Exact<{ [key: string]: never }>;
+export type CalendarEventFieldsFragment = {
+  __typename?: 'CalendarEvent';
+  id: string;
+  title: string;
+  start: any;
+  end: any;
+  description: string | null;
+  allDay: boolean;
+};
 
-export type Get_Repair_Job_Schedule_DataQuery = {
+export type RepairJobFieldsFragment = {
+  __typename?: 'RepairJob';
+  id: string;
+  jobType: string;
+  jobDetails: string;
+  elevatorType: string;
+  buildingName: string;
+  elevatorLocation: string;
+  technicianName: string;
+  technicianSkills: Array<string>;
+  contactInformation: string;
+  startDate: any;
+  endDate: any;
+};
+
+export type CreateRepairJobAndCalendarEventMutationVariables = Exact<{
+  repairJobInput: CreateRepairJobInput;
+  calendarEventInput: CreateCalendarEventInput;
+}>;
+
+export type CreateRepairJobAndCalendarEventMutation = {
+  __typename?: 'Mutation';
+  createRepairJobAndEvent: {
+    __typename?: 'ScheduledEventAndRepairJobResponse';
+    repairJob: {
+      __typename?: 'RepairJob';
+      id: string;
+      jobType: string;
+      jobDetails: string;
+      elevatorType: string;
+      buildingName: string;
+      elevatorLocation: string;
+      technicianName: string;
+      technicianSkills: Array<string>;
+      contactInformation: string;
+      startDate: any;
+      endDate: any;
+    };
+    calendarEvent: {
+      __typename?: 'CalendarEvent';
+      id: string;
+      title: string;
+      start: any;
+      end: any;
+      description: string | null;
+      allDay: boolean;
+    };
+  };
+};
+
+export type Get_Repair_Job_Form_DataQueryVariables = Exact<{ [key: string]: never }>;
+
+export type Get_Repair_Job_Form_DataQuery = {
   __typename?: 'Query';
   getRepairJobScheduleData: {
     __typename?: 'RepairJobScheduleData';
@@ -93,4 +220,19 @@ export type Get_Repair_Job_Schedule_DataQuery = {
     technicianSkills: Array<string>;
     priorities: Array<string>;
   };
+};
+
+export type Get_Calendar_EventsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type Get_Calendar_EventsQuery = {
+  __typename?: 'Query';
+  getCalendarEvents: Array<{
+    __typename?: 'CalendarEvent';
+    allDay: boolean;
+    end: any;
+    id: string;
+    start: any;
+    title: string;
+    description: string | null;
+  }>;
 };

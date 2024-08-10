@@ -51,6 +51,30 @@ export const createGraphQLErrorMap = (errors: ReadonlyArray<GraphQLError>): Clie
   return errorMap;
 };
 
+export const getErrorMessageFromGraphQlErrors = (errors: ReadonlyArray<GraphQLError>): string => {
+  const errorMap = createGraphQLErrorMap(errors);
+  const isErrorMapEmpty = !Object.values(errorMap).length;
+  const errorMsgList = isErrorMapEmpty ? errors?.map(({ message }) => message) : Object.values(errorMap).flat();
+
+  const errorMsg = errorMsgList
+    .map<string>((errorValue) => {
+      if (typeof errorValue === 'string') return errorValue;
+
+      const { error } = errorValue;
+
+      const errorMessage = error.details
+        ? error.details.reduce((acc, detail) => {
+            return acc + detail.issue;
+          }, '')
+        : error.message;
+
+      return errorMessage;
+    })
+    .join('\r\n');
+
+  return errorMsg;
+};
+
 /**
 /**
  * This function is used to handle errors in a readable state to help make error
@@ -58,3 +82,58 @@ export const createGraphQLErrorMap = (errors: ReadonlyArray<GraphQLError>): Clie
  * @param error ApolloError The error that came back from an Apollo Client call.
  */
 export const handleGraphQLErrors = (error: ApolloError): ClientErrors => createGraphQLErrorMap(error.graphQLErrors);
+
+export const findValueInArray = (keyToBeFind: string, array: string[] | undefined): string | undefined => {
+  if (!array || array.length === 0) return undefined;
+
+  const regex = new RegExp(keyToBeFind);
+
+  return array.find((value) => regex.test(value));
+};
+
+export const getGraphQLErrorExtensionsMessage = (error: ApolloError): string | undefined => {
+  let result: string | undefined = undefined;
+
+  if (!error.graphQLErrors) return;
+
+  error.graphQLErrors.forEach((gqlError) => {
+    const extensions =
+      (gqlError.extensions as {
+        response?: {
+          body?: {
+            error?: {
+              message?: string;
+            };
+          };
+        };
+      }) || {};
+
+    const message = extensions.response?.body?.error?.message;
+    if (message) {
+      result = message;
+    }
+  });
+
+  return result;
+};
+
+export const onHandleMutationErrors = ({
+  message,
+  errors = [],
+  error = {} as ApolloError,
+  onFailure,
+}: {
+  message: string;
+  errors?: ReadonlyArray<GraphQLError>;
+  error?: ApolloError;
+  onFailure?: (errorMessage: string, errorDescription: string) => void;
+}): void => {
+  const gqlErrorMessage = getErrorMessageFromGraphQlErrors(errors);
+  const networkErrorMessage = getGraphQLErrorExtensionsMessage(error);
+
+  const errorMessage = gqlErrorMessage || networkErrorMessage;
+
+  if (errorMessage) {
+    onFailure?.(message, errorMessage);
+  }
+};

@@ -40,7 +40,7 @@ const useRepairJobTrackingModals = () => {
       const today = startOfToday();
 
       if (selectedDate.start < today) {
-        baseToast('You cannot schedule repair job in a past date.');
+        baseToast('Schedule Repair Job Warning', 'You cannot schedule repair job in a past date.');
       } else {
         setSelectedDateRange(selectedDate);
         onOpenCreateEventModalOpen();
