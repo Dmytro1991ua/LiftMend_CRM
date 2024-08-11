@@ -2,8 +2,11 @@ import { ApolloError, useMutation } from '@apollo/client';
 import { DateSelectArg } from '@fullcalendar/core';
 
 import { onHandleMutationErrors } from '@/graphql';
-import { CREATE_REPAIR_JOB_AND_CALENDAR_EVENT } from '@/graphql/schemas';
-import { MutationCreateRepairJobAndEventArgs } from '@/graphql/types/client/generated_types';
+import { CREATE_REPAIR_JOB_AND_CALENDAR_EVENT, GET_CALENDAR_EVENTS } from '@/graphql/schemas';
+import {
+  CreateRepairJobAndCalendarEventMutation,
+  Get_Calendar_EventsQuery,
+} from '@/graphql/types/client/generated_types';
 
 import { RepairJobFromFields } from '../components/repair-job-tracking-from/validation';
 import { DEFAULT_SCHEDULE_REPAIR_JOB_FAIL_MESSAGE, DEFAULT_SCHEDULE_REPAIR_JOB_SUCCESS_MESSAGE } from '../constants';
@@ -25,8 +28,26 @@ const useCreateRepairJobAndCalendarEvent = ({
   onSuccess,
   onError,
 }: UseCreateRepairJobAndCalendarEventProps): UseCreateRepairJobAndCalendarEvent => {
-  const [createRepairJobAndEvent, { loading }] = useMutation<MutationCreateRepairJobAndEventArgs>(
-    CREATE_REPAIR_JOB_AND_CALENDAR_EVENT
+  const [createRepairJobAndEvent, { loading }] = useMutation<CreateRepairJobAndCalendarEventMutation>(
+    CREATE_REPAIR_JOB_AND_CALENDAR_EVENT,
+    {
+      update: (cache, { data }) => {
+        if (!data) return;
+
+        const newCalendarEvent = data?.createRepairJobAndEvent.calendarEvent;
+
+        const existingEvents = cache.readQuery<Get_Calendar_EventsQuery>({
+          query: GET_CALENDAR_EVENTS,
+        });
+
+        cache.writeQuery({
+          query: GET_CALENDAR_EVENTS,
+          data: {
+            getCalendarEvents: [newCalendarEvent, ...(existingEvents?.getCalendarEvents || [])],
+          },
+        });
+      },
+    }
   );
 
   const onCreateRepairJobAndEvent = async (

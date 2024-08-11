@@ -1,8 +1,6 @@
 import { get as _get } from 'lodash';
 import { FieldErrors, FieldValues } from 'react-hook-form';
-import { Bars } from 'react-loader-spinner';
 
-import BaseAlert from '@/shared/base-alert/BaseAlert';
 import { DropdownOption } from '@/shared/base-select/types';
 
 export const getNestedError = <T extends FieldValues>(
