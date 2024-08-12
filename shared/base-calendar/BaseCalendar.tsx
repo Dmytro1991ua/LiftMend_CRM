@@ -47,21 +47,27 @@ const BaseCalendar = ({
         }
       />
       <div data-testid='calendar'>
-        <Fullcalendar
-          dayMaxEvents={true}
-          editable={false}
-          eventClick={(e) => console.log(e)}
-          eventContent={(eventInfo) => <CalendarEventContent calendarActions={calendarActions} eventInfo={eventInfo} />}
-          events={events}
-          eventsSet={(events) => console.log(events)}
-          headerToolbar={headerToolbar}
-          height={calendarHeight}
-          initialView={calendarView}
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listMonthPlugin]}
-          select={calendarActions?.onHandleDateClick}
-          selectMirror={true}
-          selectable={true}
-        />
+        {!loading ? (
+          <Fullcalendar
+            dayMaxEvents={true}
+            editable={false}
+            eventClick={(e) => console.log(e)}
+            eventContent={(eventInfo) => (
+              <CalendarEventContent calendarActions={calendarActions} eventInfo={eventInfo} />
+            )}
+            eventMouseEnter={undefined}
+            eventMouseLeave={undefined}
+            events={events}
+            eventsSet={(events) => console.log(events)}
+            headerToolbar={headerToolbar}
+            height={calendarHeight}
+            initialView={calendarView}
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listMonthPlugin]}
+            select={calendarActions?.onHandleDateClick}
+            selectMirror={true}
+            selectable={true}
+          />
+        ) : null}
       </div>
     </>
   );

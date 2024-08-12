@@ -22,6 +22,8 @@
     "pre-push": "npm run test:ci",
     "prisma-generate": "npx prisma generate",
     "prisma-migrate": "npx prisma migrate dev --name init",
+    "prisma-push": "npx prisma db push",
+    "prisma-pull": "npx prisma db pull",
     "prisma-redeploy": "npx prisma migrate deploy"
   },
   "dependencies": {

@@ -32,24 +32,35 @@ const CalendarEventContent = ({ eventInfo, calendarActions }: CalendarEventConte
     [calendarActions]
   );
 
+  const onDeleteCalendarEventAndRepairJob = useCallback(
+    () => calendarActions?.onDeleteCalendarEvent(eventInfo?.event?.id, eventInfo?.event?.extendedProps?.repairJobId),
+    [calendarActions, eventInfo?.event?.extendedProps?.repairJobId, eventInfo?.event?.id]
+  );
+
   const eventActionsConfig = useMemo(
     () => getEventActionsConfig(onHandleEditButtonClick, onHandleDeleteButtonClick),
     [onHandleEditButtonClick, onHandleDeleteButtonClick]
   );
 
   const modalsConfig = useMemo(
-    () => getEventModalsConfig(calendarActions?.isDeleteEventModalOpen, calendarActions?.onCloseDeleteEventModalOpen),
-    [calendarActions]
+    () =>
+      getEventModalsConfig(
+        calendarActions?.isDeleteEventModalOpen,
+        calendarActions?.onCloseDeleteEventModalOpen,
+        onDeleteCalendarEventAndRepairJob,
+        calendarActions?.isLoading
+      ),
+    [calendarActions, onDeleteCalendarEventAndRepairJob]
   );
 
   return (
     <div className='h-full flex items-center p-2 bg-primary text-primary-foreground '>
       <div className='fc-event flex flex-col gap-1'>
-        <h3 className='text-sm font-semibold' title={eventInfo.event.title}>
-          {eventInfo.event.title}
+        <h3 className='text-sm font-semibold' title={eventInfo?.event?.title}>
+          {eventInfo?.event?.title}
         </h3>
-        <h5 className='text-xs' title={eventInfo.event.extendedProps.description}>
-          {eventInfo.event.extendedProps.description}
+        <h5 className='text-xs' title={eventInfo?.event?.extendedProps?.description}>
+          {eventInfo?.event?.extendedProps?.description}
         </h5>
       </div>
       <span className='flex ml-auto'>

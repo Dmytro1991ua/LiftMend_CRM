@@ -1,30 +1,18 @@
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider } from 'react-hook-form';
 
 import BaseCalendar from '@/shared/base-calendar';
 import { getCalendarModalsConfig } from '@/shared/base-calendar/utils';
+import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import SectionHeader from '@/shared/section-header';
 import { SectionHeaderDescription, SectionHeaderTitle } from '@/types/enums';
 
-import {
-  INITIAL_VALUES,
-  RepairJobFromFields,
-  repairJobFormSchema,
-} from './components/repair-job-tracking-from/validation';
+import useDeleteRepairJobAndCalendarEvent from './hooks/useDeleteRepairJobAndCalendarEvent';
+import useRepairJobTrackingFormState from './hooks/useRepairJobTrackingFormState';
 import useRepairJobTrackingModals from './hooks/useRepairJobTrackingModals';
 
 const RepairJobTracking = () => {
-  const formState = useForm<RepairJobFromFields>({
-    shouldUnregister: false,
-    mode: 'onSubmit',
-    defaultValues: INITIAL_VALUES,
-    resolver: zodResolver(repairJobFormSchema),
-  });
-
-  const { reset, clearErrors } = formState;
-
   const {
     selectedDateRange,
     isCreateEventModalOpen,
@@ -35,11 +23,20 @@ const RepairJobTracking = () => {
     onHandleDateClick,
   } = useRepairJobTrackingModals();
 
-  const onReset = useCallback((): void => {
-    reset(INITIAL_VALUES);
-    clearErrors();
-    onCloseCreateEventModalOpen();
-  }, [reset, clearErrors, onCloseCreateEventModalOpen]);
+  const { onError, onSuccess } = useMutationResultToasts();
+
+  const { formState, onReset } = useRepairJobTrackingFormState({ onCloseCreateEventModalOpen });
+
+  const { onDeleteRepairJobAndCalendarEvent, isLoading } = useDeleteRepairJobAndCalendarEvent({
+    onError,
+    onSuccess,
+  });
+
+  const onDeleteCalendarEvent = async (calendarEventId?: string, repairJobId?: string) => {
+    await onDeleteRepairJobAndCalendarEvent(calendarEventId, repairJobId);
+
+    onCloseDeleteEventModalOpen;
+  };
 
   const modalsConfig = useMemo(
     () => getCalendarModalsConfig({ isCreateEventModalOpen, selectedDateRange, onReset }),
@@ -48,9 +45,11 @@ const RepairJobTracking = () => {
 
   const calendarActions = {
     isDeleteEventModalOpen,
+    onDeleteCalendarEvent,
     onOpenDeleteEventModalOpen,
     onCloseDeleteEventModalOpen,
     onHandleDateClick,
+    isLoading,
   };
 
   return (

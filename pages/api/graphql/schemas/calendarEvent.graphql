@@ -5,6 +5,7 @@ type CalendarEvent {
   end: DateTime!
   description: String
   allDay: Boolean!
+  repairJobId: String
 }
 
 input CreateCalendarEventInput {

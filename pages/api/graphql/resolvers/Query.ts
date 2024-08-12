@@ -1,12 +1,10 @@
 import { CalendarEvent, RepairJob } from '@/graphql/types/client/generated_types';
 import { QueryResolvers, RepairJobScheduleData } from '@/graphql/types/server/generated_types';
 
-import prisma from '../../../../prisma/db';
-
 import { fetchRepairJobData, getSortedRepairJobData } from './utils';
 
 const Query: QueryResolvers = {
-  getRepairJobScheduleData: async (): Promise<RepairJobScheduleData> => {
+  getRepairJobScheduleData: async (_, __, { prisma }): Promise<RepairJobScheduleData> => {
     const repairJobScheduleData: Partial<RepairJobScheduleData> = {};
 
     repairJobScheduleData.repairJobTypes = await fetchRepairJobData(
@@ -46,12 +44,12 @@ const Query: QueryResolvers = {
 
     return repairJobScheduleData as RepairJobScheduleData;
   },
-  getCalendarEvents: async (): Promise<CalendarEvent[]> => {
+  getCalendarEvents: async (_, __, { prisma }): Promise<CalendarEvent[]> => {
     const calendarEvents = await prisma.calendarEvent.findMany();
 
     return calendarEvents || [];
   },
-  getRepairJobs: async (): Promise<RepairJob[]> => {
+  getRepairJobs: async (_, __, { prisma }): Promise<RepairJob[]> => {
     const scheduledRepairJobs = await prisma.repairJob.findMany();
 
     return scheduledRepairJobs || [];

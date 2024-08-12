@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
-export const GET_CALENDAR_EVENTS = gql`
-  query GET_CALENDAR_EVENTS {
+export const GET_REPAIR_JOB_SCHEDULED_DATA = gql`
+  query GET_REPAIR_JOB_SCHEDULED_DATA {
     getCalendarEvents {
       allDay
       end
@@ -9,6 +9,20 @@ export const GET_CALENDAR_EVENTS = gql`
       start
       title
       description
+      repairJobId
+    }
+    getRepairJobs {
+      id
+      jobType
+      jobDetails
+      elevatorType
+      buildingName
+      elevatorLocation
+      technicianName
+      technicianSkills
+      contactInformation
+      startDate
+      endDate
     }
   }
 `;

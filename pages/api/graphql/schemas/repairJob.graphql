@@ -56,6 +56,7 @@ type RepairJob {
   contactInformation: String!
   startDate: DateTime!
   endDate: DateTime!
+  calendarEventId: String
 }
 
 input CreateRepairJobInput {
