@@ -43,7 +43,7 @@ const CalendarEventContent = ({ eventInfo, calendarActions }: CalendarEventConte
   );
 
   return (
-    <div className='flex items-center p-2 bg-primary text-primary-foreground '>
+    <div className='h-full flex items-center p-2 bg-primary text-primary-foreground '>
       <div className='fc-event flex flex-col gap-1'>
         <h3 className='text-sm font-semibold' title={eventInfo.event.title}>
           {eventInfo.event.title}

@@ -20,6 +20,8 @@ const useFetchCalendarEvents = (): UseFetchCalendarEvents => {
     GET_CALENDAR_EVENTS,
     {
       fetchPolicy: 'cache-first',
+      nextFetchPolicy: 'cache-and-network',
+      notifyOnNetworkStatusChange: true,
     }
   );
 
