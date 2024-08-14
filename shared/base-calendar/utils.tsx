@@ -21,12 +21,17 @@ export const getEventActionsConfig = (
   },
 ];
 
-export const getEventModalsConfig = (
-  isDeleteEventModalOpen?: boolean,
-  onCloseDeleteEventModalOpen?: () => void,
-  onDeleteCalendarEventAndRepairJob?: () => void,
-  isLoading?: boolean
-) => [
+export const getEventModalsConfig = ({
+  isDeleteEventModalOpen,
+  onCloseDeleteEventModalOpen,
+  onDeleteCalendarEventAndRepairJob,
+  isLoading,
+}: {
+  isDeleteEventModalOpen?: boolean;
+  onCloseDeleteEventModalOpen?: () => void;
+  onDeleteCalendarEventAndRepairJob?: () => void;
+  isLoading?: boolean;
+}) => [
   {
     id: 1,
     content: (

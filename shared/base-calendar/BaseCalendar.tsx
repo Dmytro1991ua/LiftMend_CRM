@@ -12,6 +12,7 @@ import QueryResponse from '../query-response';
 
 import CalendarEventContent from './components/calendar-event-content';
 import { DEFAULT_CALENDAR_HEADER_TOOLBAR_CONFIG, DEFAULT_CALENDAR_VIEW } from './constants';
+import useBaseCalendar from './hooks';
 import { CalendarActions } from './types';
 
 type BaseCalendarProps = {
@@ -28,6 +29,7 @@ const BaseCalendar = ({
   calendarActions,
 }: BaseCalendarProps) => {
   const { events, loading, error } = useFetchCalendarEvents();
+  const { modalsConfig, onSetCalendarEvent } = useBaseCalendar({ calendarActions });
 
   return (
     <>
@@ -53,10 +55,12 @@ const BaseCalendar = ({
             editable={false}
             eventClick={(e) => console.log(e)}
             eventContent={(eventInfo) => (
-              <CalendarEventContent calendarActions={calendarActions} eventInfo={eventInfo} />
+              <CalendarEventContent
+                calendarActions={calendarActions}
+                eventInfo={eventInfo}
+                onSetCalendarEvent={onSetCalendarEvent}
+              />
             )}
-            eventMouseEnter={undefined}
-            eventMouseLeave={undefined}
             events={events}
             eventsSet={(events) => console.log(events)}
             headerToolbar={headerToolbar}
@@ -69,6 +73,9 @@ const BaseCalendar = ({
           />
         ) : null}
       </div>
+      {modalsConfig.map(({ id, content }) => (
+        <div key={id}>{content}</div>
+      ))}
     </>
   );
 };

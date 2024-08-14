@@ -35,7 +35,7 @@ const RepairJobTracking = () => {
   const onDeleteCalendarEvent = async (calendarEventId?: string, repairJobId?: string) => {
     await onDeleteRepairJobAndCalendarEvent(calendarEventId, repairJobId);
 
-    onCloseDeleteEventModalOpen;
+    onCloseDeleteEventModalOpen();
   };
 
   const modalsConfig = useMemo(

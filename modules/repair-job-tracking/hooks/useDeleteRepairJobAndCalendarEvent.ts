@@ -35,7 +35,6 @@ const useDeleteRepairJobAndCalendarEvent = ({
         if (!data) return;
 
         const calendarEventId = data?.deleteRepairJobAndEvent.deletedEventId;
-        const repairJobId = data?.deleteRepairJobAndEvent.deletedRepairJobId;
 
         cache.modify({
           fields: {
@@ -44,16 +43,7 @@ const useDeleteRepairJobAndCalendarEvent = ({
                 (event: CacheRef) => event.__ref !== `CalendarEvent:${calendarEventId}`
               );
 
-              console.log('updatedCalendarEvents', { updatedCalendarEvents });
-
               return updatedCalendarEvents;
-            },
-            getRepairJobs(existingRepairJobs = []) {
-              const updatedRepairJobs = existingRepairJobs.filter(
-                (job: CacheRef) => job.__ref !== `RepairJob:${repairJobId}`
-              );
-
-              return updatedRepairJobs;
             },
           },
         });

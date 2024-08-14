@@ -254,9 +254,9 @@ export type Get_Repair_Job_Form_DataQuery = {
   };
 };
 
-export type Get_Repair_Job_Scheduled_DataQueryVariables = Exact<{ [key: string]: never }>;
+export type Get_Calendar_EventsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type Get_Repair_Job_Scheduled_DataQuery = {
+export type Get_Calendar_EventsQuery = {
   __typename?: 'Query';
   getCalendarEvents: Array<{
     __typename?: 'CalendarEvent';
@@ -267,19 +267,5 @@ export type Get_Repair_Job_Scheduled_DataQuery = {
     title: string;
     description: string | null;
     repairJobId: string | null;
-  }>;
-  getRepairJobs: Array<{
-    __typename?: 'RepairJob';
-    id: string;
-    jobType: string;
-    jobDetails: string;
-    elevatorType: string;
-    buildingName: string;
-    elevatorLocation: string;
-    technicianName: string;
-    technicianSkills: Array<string>;
-    contactInformation: string;
-    startDate: any;
-    endDate: any;
   }>;
 };

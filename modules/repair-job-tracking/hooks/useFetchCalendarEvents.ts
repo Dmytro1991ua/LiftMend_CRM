@@ -2,11 +2,11 @@ import { useMemo } from 'react';
 
 import { useQuery } from '@apollo/client';
 
-import { GET_REPAIR_JOB_SCHEDULED_DATA } from '@/graphql/schemas';
+import { GET_CALENDAR_EVENTS } from '@/graphql/schemas';
 import {
   CalendarEvent,
-  Get_Repair_Job_Scheduled_DataQuery,
-  Get_Repair_Job_Scheduled_DataQueryVariables,
+  Get_Calendar_EventsQuery,
+  Get_Calendar_EventsQueryVariables,
 } from '@/graphql/types/client/generated_types';
 
 type UseFetchCalendarEvents = {
@@ -16,14 +16,14 @@ type UseFetchCalendarEvents = {
 };
 
 const useFetchCalendarEvents = (): UseFetchCalendarEvents => {
-  const { data, error, loading } = useQuery<
-    Get_Repair_Job_Scheduled_DataQuery,
-    Get_Repair_Job_Scheduled_DataQueryVariables
-  >(GET_REPAIR_JOB_SCHEDULED_DATA, {
-    fetchPolicy: 'cache-first',
-    nextFetchPolicy: 'cache-and-network',
-    notifyOnNetworkStatusChange: true,
-  });
+  const { data, error, loading } = useQuery<Get_Calendar_EventsQuery, Get_Calendar_EventsQueryVariables>(
+    GET_CALENDAR_EVENTS,
+    {
+      fetchPolicy: 'cache-first',
+      nextFetchPolicy: 'cache-and-network',
+      notifyOnNetworkStatusChange: true,
+    }
+  );
 
   const calendarEvents = useMemo(() => data?.getCalendarEvents?.map(({ __typename, ...event }) => event) ?? [], [data]);
 
