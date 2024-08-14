@@ -12,6 +12,7 @@ import QueryResponse from '../query-response';
 
 import CalendarEventContent from './components/calendar-event-content';
 import { DEFAULT_CALENDAR_HEADER_TOOLBAR_CONFIG, DEFAULT_CALENDAR_VIEW } from './constants';
+import useBaseCalendar from './hooks';
 import { CalendarActions } from './types';
 
 type BaseCalendarProps = {
@@ -28,6 +29,7 @@ const BaseCalendar = ({
   calendarActions,
 }: BaseCalendarProps) => {
   const { events, loading, error } = useFetchCalendarEvents();
+  const { modalsConfig, onSetCalendarEvent } = useBaseCalendar({ calendarActions });
 
   return (
     <>
@@ -47,22 +49,33 @@ const BaseCalendar = ({
         }
       />
       <div data-testid='calendar'>
-        <Fullcalendar
-          dayMaxEvents={true}
-          editable={false}
-          eventClick={(e) => console.log(e)}
-          eventContent={(eventInfo) => <CalendarEventContent calendarActions={calendarActions} eventInfo={eventInfo} />}
-          events={events}
-          eventsSet={(events) => console.log(events)}
-          headerToolbar={headerToolbar}
-          height={calendarHeight}
-          initialView={calendarView}
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listMonthPlugin]}
-          select={calendarActions?.onHandleDateClick}
-          selectMirror={true}
-          selectable={true}
-        />
+        {!loading ? (
+          <Fullcalendar
+            dayMaxEvents={true}
+            editable={false}
+            eventClick={(e) => console.log(e)}
+            eventContent={(eventInfo) => (
+              <CalendarEventContent
+                calendarActions={calendarActions}
+                eventInfo={eventInfo}
+                onSetCalendarEvent={onSetCalendarEvent}
+              />
+            )}
+            events={events}
+            eventsSet={(events) => console.log(events)}
+            headerToolbar={headerToolbar}
+            height={calendarHeight}
+            initialView={calendarView}
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listMonthPlugin]}
+            select={calendarActions?.onHandleDateClick}
+            selectMirror={true}
+            selectable={true}
+          />
+        ) : null}
       </div>
+      {modalsConfig.map(({ id, content }) => (
+        <div key={id}>{content}</div>
+      ))}
     </>
   );
 };

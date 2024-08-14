@@ -36,14 +36,14 @@ const useCreateRepairJobAndCalendarEvent = ({
 
         const newCalendarEvent = data?.createRepairJobAndEvent.calendarEvent;
 
-        const existingEvents = cache.readQuery<Get_Calendar_EventsQuery>({
+        const existingData = cache.readQuery<Get_Calendar_EventsQuery>({
           query: GET_CALENDAR_EVENTS,
         });
 
         cache.writeQuery({
           query: GET_CALENDAR_EVENTS,
           data: {
-            getCalendarEvents: [newCalendarEvent, ...(existingEvents?.getCalendarEvents || [])],
+            getCalendarEvents: [newCalendarEvent, ...(existingData?.getCalendarEvents || [])],
           },
         });
       },

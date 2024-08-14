@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { useQuery } from '@apollo/client';
 
-import { GET_CALENDAR_EVENTS } from '@/graphql/schemas/getRepairJobScheduledData';
+import { GET_CALENDAR_EVENTS } from '@/graphql/schemas';
 import {
   CalendarEvent,
   Get_Calendar_EventsQuery,

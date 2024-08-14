@@ -8,5 +8,6 @@ export const CALENDAR_EVENT_FRAGMENT = gql`
     end
     description
     allDay
+    repairJobId
   }
 `;

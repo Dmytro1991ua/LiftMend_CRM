@@ -30,6 +30,7 @@ export type CalendarEvent = {
   description?: Maybe<Scalars['String']['output']>;
   end: Scalars['DateTime']['output'];
   id: Scalars['ID']['output'];
+  repairJobId?: Maybe<Scalars['String']['output']>;
   start: Scalars['DateTime']['output'];
   title: Scalars['String']['output'];
 };
@@ -56,6 +57,12 @@ export type CreateRepairJobInput = {
   technicianSkills: Array<Scalars['String']['input']>;
 };
 
+export type DeleteCalendarAndRepairJobResponse = {
+  __typename?: 'DeleteCalendarAndRepairJobResponse';
+  deletedEventId?: Maybe<Scalars['ID']['output']>;
+  deletedRepairJobId?: Maybe<Scalars['ID']['output']>;
+};
+
 export type ElevatorLocation = {
   __typename?: 'ElevatorLocation';
   id: Scalars['ID']['output'];
@@ -71,11 +78,17 @@ export type ElevatorType = {
 export type Mutation = {
   __typename?: 'Mutation';
   createRepairJobAndEvent: ScheduledEventAndRepairJobResponse;
+  deleteRepairJobAndEvent: DeleteCalendarAndRepairJobResponse;
 };
 
 export type MutationCreateRepairJobAndEventArgs = {
   calendarEventInput: CreateCalendarEventInput;
   repairJobInput: CreateRepairJobInput;
+};
+
+export type MutationDeleteRepairJobAndEventArgs = {
+  calendarEventId: Scalars['ID']['input'];
+  repairJobId: Scalars['ID']['input'];
 };
 
 export type Query = {
@@ -88,6 +101,7 @@ export type Query = {
 export type RepairJob = {
   __typename?: 'RepairJob';
   buildingName: Scalars['String']['output'];
+  calendarEventId?: Maybe<Scalars['String']['output']>;
   contactInformation: Scalars['String']['output'];
   elevatorLocation: Scalars['String']['output'];
   elevatorType: Scalars['String']['output'];
@@ -230,6 +244,7 @@ export type ResolversTypes = ResolversObject<{
   CreateCalendarEventInput: CreateCalendarEventInput;
   CreateRepairJobInput: CreateRepairJobInput;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
+  DeleteCalendarAndRepairJobResponse: ResolverTypeWrapper<DeleteCalendarAndRepairJobResponse>;
   ElevatorLocation: ResolverTypeWrapper<ElevatorLocation>;
   ElevatorType: ResolverTypeWrapper<ElevatorType>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
@@ -254,6 +269,7 @@ export type ResolversParentTypes = ResolversObject<{
   CreateCalendarEventInput: CreateCalendarEventInput;
   CreateRepairJobInput: CreateRepairJobInput;
   DateTime: Scalars['DateTime']['output'];
+  DeleteCalendarAndRepairJobResponse: DeleteCalendarAndRepairJobResponse;
   ElevatorLocation: ElevatorLocation;
   ElevatorType: ElevatorType;
   ID: Scalars['ID']['output'];
@@ -287,6 +303,7 @@ export type CalendarEventResolvers<
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   end?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  repairJobId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   start?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -295,6 +312,15 @@ export type CalendarEventResolvers<
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
   name: 'DateTime';
 }
+
+export type DeleteCalendarAndRepairJobResponseResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['DeleteCalendarAndRepairJobResponse'] = ResolversParentTypes['DeleteCalendarAndRepairJobResponse']
+> = ResolversObject<{
+  deletedEventId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  deletedRepairJobId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
 
 export type ElevatorLocationResolvers<
   ContextType = any,
@@ -324,6 +350,12 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationCreateRepairJobAndEventArgs, 'calendarEventInput' | 'repairJobInput'>
   >;
+  deleteRepairJobAndEvent?: Resolver<
+    ResolversTypes['DeleteCalendarAndRepairJobResponse'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteRepairJobAndEventArgs, 'calendarEventId' | 'repairJobId'>
+  >;
 }>;
 
 export type QueryResolvers<
@@ -340,6 +372,7 @@ export type RepairJobResolvers<
   ParentType extends ResolversParentTypes['RepairJob'] = ResolversParentTypes['RepairJob']
 > = ResolversObject<{
   buildingName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  calendarEventId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   contactInformation?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   elevatorLocation?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   elevatorType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -427,6 +460,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   BuildingName?: BuildingNameResolvers<ContextType>;
   CalendarEvent?: CalendarEventResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
+  DeleteCalendarAndRepairJobResponse?: DeleteCalendarAndRepairJobResponseResolvers<ContextType>;
   ElevatorLocation?: ElevatorLocationResolvers<ContextType>;
   ElevatorType?: ElevatorTypeResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;

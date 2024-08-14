@@ -9,6 +9,7 @@ export const GET_CALENDAR_EVENTS = gql`
       start
       title
       description
+      repairJobId
     }
   }
 `;

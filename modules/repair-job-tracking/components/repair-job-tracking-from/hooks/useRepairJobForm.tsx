@@ -2,8 +2,7 @@ import { SubmitHandler, useFormContext } from 'react-hook-form';
 
 import { REPAIR_JOB_TRACKING_STEPS, STEP_VALIDATION_CONFIG } from '@/modules/repair-job-tracking/constants';
 import useCreateRepairJobAndCalendarEvent from '@/modules/repair-job-tracking/hooks/useCreateRepairJobAndCalendarEvent';
-import { useBaseToast } from '@/shared/hooks';
-import { BaseToastVariant } from '@/shared/hooks/useBaseToast/types';
+import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 
 import { RepairJobFormProps } from '../RepairJobForm';
 import { RepairJobFromFields } from '../validation';
@@ -16,16 +15,7 @@ type UseRepairJobForm = {
 
 const useRepairJobForm = ({ selectedDateRange, onReset }: RepairJobFormProps): UseRepairJobForm => {
   const { handleSubmit, trigger } = useFormContext<RepairJobFromFields>();
-  const { baseToast: successBaseToast } = useBaseToast(BaseToastVariant.Success);
-  const { baseToast: errorBaseToast } = useBaseToast(BaseToastVariant.Error);
-
-  const onSuccess = (message: string) => {
-    successBaseToast(message, '');
-  };
-
-  const onError = (message: string, description: string) => {
-    errorBaseToast(message, description);
-  };
+  const { onError, onSuccess } = useMutationResultToasts();
 
   const { onCreateRepairJobAndEvent, isLoading } = useCreateRepairJobAndCalendarEvent({ onSuccess, onError });
 

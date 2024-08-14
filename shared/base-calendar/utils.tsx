@@ -5,7 +5,7 @@ import RepairJobForm from '@/modules/repair-job-tracking/components/repair-job-t
 import BaseModal from '@/shared/base-modal';
 import ModalFooter from '@/shared/base-modal/modal-footer';
 
-import { DEFAULT_CREATE_MODAL_TITLE, DEFAULT_DELETE_MODAL_TITLE } from './constants';
+import { DEFAULT_CREATE_MODAL_TITLE, DEFAULT_DELETE_MODAL_DESCRIPTION, DEFAULT_DELETE_MODAL_TITLE } from './constants';
 
 export const getEventActionsConfig = (
   handleEditButtonClick: (e: React.MouseEvent<SVGElement, MouseEvent>) => void,
@@ -17,11 +17,21 @@ export const getEventActionsConfig = (
   },
   {
     id: 2,
-    content: <FaTrash size={15} onClick={handleDeleteButtonClick} />,
+    content: <FaTrash className='cursor-pointer' size={15} onClick={handleDeleteButtonClick} />,
   },
 ];
 
-export const getEventModalsConfig = (isDeleteEventModalOpen?: boolean, onCloseDeleteEventModalOpen?: () => void) => [
+export const getEventModalsConfig = ({
+  isDeleteEventModalOpen,
+  onCloseDeleteEventModalOpen,
+  onDeleteCalendarEventAndRepairJob,
+  isLoading,
+}: {
+  isDeleteEventModalOpen?: boolean;
+  onCloseDeleteEventModalOpen?: () => void;
+  onDeleteCalendarEventAndRepairJob?: () => void;
+  isLoading?: boolean;
+}) => [
   {
     id: 1,
     content: (
@@ -30,14 +40,17 @@ export const getEventModalsConfig = (isDeleteEventModalOpen?: boolean, onCloseDe
         modalFooter={
           <ModalFooter
             cancelButtonLabel='Cancel'
+            isLoading={isLoading}
             submitButtonLabel='Ok'
             onCancel={onCloseDeleteEventModalOpen}
-            onSubmit={onCloseDeleteEventModalOpen}
+            onSubmit={onDeleteCalendarEventAndRepairJob}
           />
         }
         title={DEFAULT_DELETE_MODAL_TITLE}
         onClose={onCloseDeleteEventModalOpen}
-      />
+      >
+        {DEFAULT_DELETE_MODAL_DESCRIPTION}
+      </BaseModal>
     ),
   },
 ];
