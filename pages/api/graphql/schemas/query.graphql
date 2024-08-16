@@ -2,4 +2,5 @@ type Query {
   getRepairJobScheduleData: RepairJobScheduleData!
   getCalendarEvents: [CalendarEvent!]!
   getRepairJobs: [RepairJob!]!
+  getRepairJobById(id: ID!): RepairJob!
 }

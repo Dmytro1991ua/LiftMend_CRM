@@ -3,10 +3,7 @@ import { useMemo } from 'react';
 import { useQuery } from '@apollo/client';
 
 import { GET_REPAIR_JOB_FORM_DATA } from '@/graphql/schemas/getRepairJobFormData';
-import {
-  Get_Repair_Job_Form_DataQuery,
-  Get_Repair_Job_Form_DataQueryVariables,
-} from '@/graphql/types/client/generated_types';
+import { GetRepairJobByIdQueryVariables, GetRepairJobFromDataQuery } from '@/graphql/types/client/generated_types';
 import { DropdownOption } from '@/shared/base-select/types';
 
 import { convertQueryResponseToDropdownOptions } from '../utils';
@@ -29,7 +26,7 @@ type UseFetchDropdownOptions = {
 
 export const useFetchDropdownOptions = (): UseFetchDropdownOptions => {
   {
-    const { data, error, loading } = useQuery<Get_Repair_Job_Form_DataQuery, Get_Repair_Job_Form_DataQueryVariables>(
+    const { data, error, loading } = useQuery<GetRepairJobFromDataQuery, GetRepairJobByIdQueryVariables>(
       GET_REPAIR_JOB_FORM_DATA,
       { fetchPolicy: 'cache-first' }
     );

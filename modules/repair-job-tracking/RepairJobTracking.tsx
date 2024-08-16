@@ -59,7 +59,7 @@ const RepairJobTracking = () => {
           subtitle={SectionHeaderDescription.RepairJobTracking}
           title={SectionHeaderTitle.RepairJobTracking}
         />
-        <div className='content-wrapper md:h-[75vh] overflow-y-auto overflow-x-hidden'>
+        <div className='content-wrapper h-[73vh] overflow-y-auto overflow-x-hidden'>
           <BaseCalendar calendarActions={calendarActions} />
           {modalsConfig.map(({ id, content }) => (
             <div key={id}>{content}</div>

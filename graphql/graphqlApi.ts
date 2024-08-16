@@ -3,7 +3,7 @@ import { onError } from '@apollo/client/link/error';
 
 import { handleGraphQLErrors } from './utils';
 
-const uri = 'api/graphql';
+const uri = 'http://localhost:3000/api/graphql';
 const httpLink = new HttpLink({ uri });
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {

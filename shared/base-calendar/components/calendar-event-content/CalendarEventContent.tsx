@@ -1,9 +1,11 @@
 import { useCallback, useMemo } from 'react';
 
 import { EventContentArg } from '@fullcalendar/core';
+import { useRouter } from 'next/router';
 
 import { useBaseToast } from '@/shared/hooks';
 import { BaseToastVariant } from '@/shared/hooks/useBaseToast/types';
+import { AppRoutes } from '@/types/enums';
 
 import { CalendarActions } from '../../types';
 import { getEventActionsConfig } from '../../utils';
@@ -16,6 +18,8 @@ type CalendarEventContentProps = {
 
 const CalendarEventContent = ({ eventInfo, calendarActions, onSetCalendarEvent }: CalendarEventContentProps) => {
   const { baseToast } = useBaseToast(BaseToastVariant.Info);
+
+  const router = useRouter();
 
   const onHandleEditButtonClick = useCallback(
     (e: React.MouseEvent<SVGElement, MouseEvent>) => {
@@ -36,16 +40,24 @@ const CalendarEventContent = ({ eventInfo, calendarActions, onSetCalendarEvent }
     [calendarActions, eventInfo, onSetCalendarEvent]
   );
 
+  const onHandleEventClick = () => {
+    const { event: clickedEvent } = eventInfo;
+
+    const repairJobId = clickedEvent.extendedProps?.repairJobId;
+
+    router.push(`${AppRoutes.RepairJobTracking}/${repairJobId}`);
+  };
+
   const eventActionsConfig = useMemo(
     () => getEventActionsConfig(onHandleEditButtonClick, onHandleDeleteButtonClick),
     [onHandleEditButtonClick, onHandleDeleteButtonClick]
   );
 
   return (
-    <div className='h-full flex items-center p-2 bg-primary text-primary-foreground '>
+    <div className='h-full flex items-center p-2 bg-primary text-primary-foreground ' onClick={onHandleEventClick}>
       <div className='fc-event flex flex-col gap-1 pointer-events-none'>
-        <h3 className='text-sm font-semibold' title={eventInfo?.event?.title}>
-          {eventInfo?.event?.title}
+        <h3 className='text-sm font-semibold' title={eventInfo.event.title}>
+          {eventInfo.event.title}
         </h3>
         <h5 className='text-xs' title={eventInfo?.event?.extendedProps?.description}>
           {eventInfo?.event?.extendedProps?.description}

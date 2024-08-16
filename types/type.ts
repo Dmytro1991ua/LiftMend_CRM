@@ -2,7 +2,7 @@ import { NavigationLinkLabel } from '@/modules/sidebar/types';
 
 import { AppRoutes } from './enums';
 
-export type ActiveRoute = { asPath: string; url: string };
+export type ActiveRoute = { asPath: string; url: string; pathname: string };
 
 export interface NavigationLinkConfig {
   id: number;

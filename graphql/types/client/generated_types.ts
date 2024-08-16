@@ -91,8 +91,13 @@ export type MutationDeleteRepairJobAndEventArgs = {
 export type Query = {
   __typename?: 'Query';
   getCalendarEvents: Array<CalendarEvent>;
+  getRepairJobById: RepairJob;
   getRepairJobScheduleData: RepairJobScheduleData;
   getRepairJobs: Array<RepairJob>;
+};
+
+export type QueryGetRepairJobByIdArgs = {
+  id: Scalars['ID']['input'];
 };
 
 export type RepairJob = {
@@ -238,25 +243,9 @@ export type DeleteRepairJobAndEventMutation = {
   };
 };
 
-export type Get_Repair_Job_Form_DataQueryVariables = Exact<{ [key: string]: never }>;
+export type GetCalendarEventsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type Get_Repair_Job_Form_DataQuery = {
-  __typename?: 'Query';
-  getRepairJobScheduleData: {
-    __typename?: 'RepairJobScheduleData';
-    repairJobTypes: Array<string>;
-    elevatorTypes: Array<string>;
-    buildingNames: Array<string>;
-    elevatorLocations: Array<string>;
-    technicianNames: Array<string>;
-    technicianSkills: Array<string>;
-    priorities: Array<string>;
-  };
-};
-
-export type Get_Calendar_EventsQueryVariables = Exact<{ [key: string]: never }>;
-
-export type Get_Calendar_EventsQuery = {
+export type GetCalendarEventsQuery = {
   __typename?: 'Query';
   getCalendarEvents: Array<{
     __typename?: 'CalendarEvent';
@@ -268,4 +257,43 @@ export type Get_Calendar_EventsQuery = {
     description: string | null;
     repairJobId: string | null;
   }>;
+};
+
+export type GetRepairJobByIdQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+export type GetRepairJobByIdQuery = {
+  __typename?: 'Query';
+  getRepairJobById: {
+    __typename?: 'RepairJob';
+    id: string;
+    jobType: string;
+    jobDetails: string;
+    jobPriority: string;
+    elevatorType: string;
+    buildingName: string;
+    elevatorLocation: string;
+    technicianName: string;
+    technicianSkills: Array<string>;
+    contactInformation: string;
+    startDate: any;
+    endDate: any;
+  };
+};
+
+export type GetRepairJobFromDataQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetRepairJobFromDataQuery = {
+  __typename?: 'Query';
+  getRepairJobScheduleData: {
+    __typename?: 'RepairJobScheduleData';
+    repairJobTypes: Array<string>;
+    elevatorTypes: Array<string>;
+    buildingNames: Array<string>;
+    elevatorLocations: Array<string>;
+    technicianNames: Array<string>;
+    technicianSkills: Array<string>;
+    priorities: Array<string>;
+  };
 };

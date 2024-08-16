@@ -5,8 +5,9 @@ import { onHandleMutationErrors } from '@/graphql';
 import { CREATE_REPAIR_JOB_AND_CALENDAR_EVENT, GET_CALENDAR_EVENTS } from '@/graphql/schemas';
 import {
   CreateRepairJobAndCalendarEventMutation,
-  Get_Calendar_EventsQuery,
+  GetCalendarEventsQuery,
 } from '@/graphql/types/client/generated_types';
+import { getCalendarEventInfo } from '@/shared/utils';
 
 import { RepairJobFromFields } from '../components/repair-job-tracking-from/validation';
 import { DEFAULT_SCHEDULE_REPAIR_JOB_FAIL_MESSAGE, DEFAULT_SCHEDULE_REPAIR_JOB_SUCCESS_MESSAGE } from '../constants';
@@ -36,7 +37,7 @@ const useCreateRepairJobAndCalendarEvent = ({
 
         const newCalendarEvent = data?.createRepairJobAndEvent.calendarEvent;
 
-        const existingData = cache.readQuery<Get_Calendar_EventsQuery>({
+        const existingData = cache.readQuery<GetCalendarEventsQuery>({
           query: GET_CALENDAR_EVENTS,
         });
 
@@ -61,6 +62,8 @@ const useCreateRepairJobAndCalendarEvent = ({
         technicianAssignment: { technicianName, technicianSkills, contactInformation },
       } = formFields;
 
+      const { description, title } = getCalendarEventInfo({ elevatorType, elevatorLocation, buildingName, jobType });
+
       const repairJobPayload = {
         buildingName,
         elevatorLocation,
@@ -77,10 +80,10 @@ const useCreateRepairJobAndCalendarEvent = ({
 
       const calendarEventPayload = {
         allDay: selectedDateRange?.allDay ?? false,
-        description: `Repair Job at ${buildingName} - ${elevatorLocation}`,
+        description,
         end: selectedDateRange?.end,
         start: selectedDateRange?.start,
-        title: `${jobType} Repair Job`,
+        title,
       };
 
       const result = await createRepairJobAndEvent({

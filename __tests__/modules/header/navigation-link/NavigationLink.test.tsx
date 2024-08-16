@@ -2,10 +2,10 @@ import { fireEvent, screen } from '@testing-library/react';
 
 import { withRouterProvider } from '@/mocks/testMocks';
 import NavigationLink from '@/modules/sidebar/navigation-link';
+import { isRouteActive } from '@/shared/utils';
 import { AppRoutes } from '@/types/enums';
-import { isRouteActive } from '@/types/utils';
 
-jest.mock('@/types/utils');
+jest.mock('@/shared/utils');
 
 describe('NavigationLink', () => {
   const defaultProps = {
