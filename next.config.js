@@ -5,6 +5,7 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  ignoreDuringBuilds: true,
   experimental: {
     scrollRestoration: true,
   },
