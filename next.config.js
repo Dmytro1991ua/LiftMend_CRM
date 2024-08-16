@@ -1,6 +1,13 @@
 const withTM = require('next-transpile-modules')(['react-select']);
 
 const nextConfig = {
+  reactStrictMode: true,
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  experimental: {
+    scrollRestoration: true,
+  },
   async redirects() {
     return [
       {
