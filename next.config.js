@@ -5,7 +5,9 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  ignoreDuringBuilds: true,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   experimental: {
     scrollRestoration: true,
   },
