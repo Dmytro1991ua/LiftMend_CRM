@@ -94,8 +94,13 @@ export type MutationDeleteRepairJobAndEventArgs = {
 export type Query = {
   __typename?: 'Query';
   getCalendarEvents: Array<CalendarEvent>;
+  getRepairJobById: RepairJob;
   getRepairJobScheduleData: RepairJobScheduleData;
   getRepairJobs: Array<RepairJob>;
+};
+
+export type QueryGetRepairJobByIdArgs = {
+  id: Scalars['ID']['input'];
 };
 
 export type RepairJob = {
@@ -363,6 +368,12 @@ export type QueryResolvers<
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = ResolversObject<{
   getCalendarEvents?: Resolver<Array<ResolversTypes['CalendarEvent']>, ParentType, ContextType>;
+  getRepairJobById?: Resolver<
+    ResolversTypes['RepairJob'],
+    ParentType,
+    ContextType,
+    RequireFields<QueryGetRepairJobByIdArgs, 'id'>
+  >;
   getRepairJobScheduleData?: Resolver<ResolversTypes['RepairJobScheduleData'], ParentType, ContextType>;
   getRepairJobs?: Resolver<Array<ResolversTypes['RepairJob']>, ParentType, ContextType>;
 }>;

@@ -4,8 +4,8 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
+import { isRouteActive } from '@/shared/utils';
 import { AppRoutes } from '@/types/enums';
-import { isRouteActive } from '@/types/utils';
 
 interface NavigationLinkProps {
   url: AppRoutes;
@@ -18,7 +18,10 @@ interface NavigationLinkProps {
 const NavigationLink = ({ url, icon, label, className, onClose }: NavigationLinkProps): React.JSX.Element => {
   const router = useRouter();
 
-  const isNavigationRouteActive = useMemo(() => isRouteActive({ asPath: router.asPath, url }), [router.asPath, url]);
+  const isNavigationRouteActive = useMemo(
+    () => isRouteActive({ asPath: router.asPath, pathname: router.pathname, url }),
+    [router.asPath, router.pathname, url]
+  );
 
   return (
     <Link passHref href={url}>
@@ -29,7 +32,8 @@ const NavigationLink = ({ url, icon, label, className, onClose }: NavigationLink
           className
         )}
         data-testid='nav-link'
-        onClick={onClose}>
+        onClick={onClose}
+      >
         {icon}
         <h3 className='navigation-link'>{label}</h3>
       </a>

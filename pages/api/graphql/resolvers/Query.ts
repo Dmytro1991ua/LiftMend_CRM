@@ -54,6 +54,11 @@ const Query: QueryResolvers = {
 
     return scheduledRepairJobs || [];
   },
+  getRepairJobById: async (_, { id }, { prisma }) => {
+    const repairJob = await prisma.repairJob.findUnique({ where: { id } });
+
+    return repairJob || null;
+  },
 };
 
 export default Query;

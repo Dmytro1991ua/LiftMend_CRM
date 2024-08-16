@@ -1,4 +1,4 @@
-import { logError } from '@/types/utils';
+import { logError } from '@/shared/utils';
 
 describe('logErrorBoundary', () => {
   it('should call console error', () => {

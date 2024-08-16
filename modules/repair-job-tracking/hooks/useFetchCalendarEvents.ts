@@ -5,9 +5,10 @@ import { useQuery } from '@apollo/client';
 import { GET_CALENDAR_EVENTS } from '@/graphql/schemas';
 import {
   CalendarEvent,
-  Get_Calendar_EventsQuery,
-  Get_Calendar_EventsQueryVariables,
+  GetCalendarEventsQuery,
+  GetCalendarEventsQueryVariables,
 } from '@/graphql/types/client/generated_types';
+import { removeTypeNamesFromArray } from '@/shared/utils';
 
 type UseFetchCalendarEvents = {
   events: CalendarEvent[];
@@ -16,7 +17,7 @@ type UseFetchCalendarEvents = {
 };
 
 const useFetchCalendarEvents = (): UseFetchCalendarEvents => {
-  const { data, error, loading } = useQuery<Get_Calendar_EventsQuery, Get_Calendar_EventsQueryVariables>(
+  const { data, error, loading } = useQuery<GetCalendarEventsQuery, GetCalendarEventsQueryVariables>(
     GET_CALENDAR_EVENTS,
     {
       fetchPolicy: 'cache-first',
@@ -25,7 +26,7 @@ const useFetchCalendarEvents = (): UseFetchCalendarEvents => {
     }
   );
 
-  const calendarEvents = useMemo(() => data?.getCalendarEvents?.map(({ __typename, ...event }) => event) ?? [], [data]);
+  const calendarEvents = useMemo(() => removeTypeNamesFromArray(data?.getCalendarEvents ?? []), [data]);
 
   return {
     events: calendarEvents,

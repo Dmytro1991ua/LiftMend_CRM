@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useMemo, useState } from 'react';
 
-import { addMonths } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import { DateRange } from 'react-day-picker';
 
@@ -10,16 +9,17 @@ import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 
+import { DateRangeConfigKey } from './types';
 import { getDatePickerConfig, getDatePicketConfigKey } from './utils';
 
-const DatePicker = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
-  const today = new Date();
-  const nextMonth = addMonths(today, 1);
+type DatePickerProps = {
+  dateRange?: DateRange;
+  className?: string;
+  isDisabled?: boolean;
+};
 
-  const [date, setDate] = useState<DateRange | undefined>({
-    from: today,
-    to: nextMonth,
-  });
+const DatePicker = ({ dateRange, isDisabled, className }: DatePickerProps) => {
+  const [date, setDate] = useState<DateRange | undefined>(dateRange);
 
   const datePickerConfig = useMemo(() => getDatePickerConfig(date), [date]);
   const configKey = useMemo(() => getDatePicketConfigKey(date), [date]);
@@ -31,10 +31,11 @@ const DatePicker = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
           <Button
             className={cn(
               'min-w-[24rem] justify-start bg-white text-left font-normal border-2 border-primary/50 rounded-2xl',
-              !date && 'text-muted-foreground justify-center'
+              (!date || configKey === DateRangeConfigKey.WithSingleDate) && 'text-muted-foreground justify-center'
             )}
             id='date'
-            variant={'outline'}>
+            variant={'outline'}
+          >
             <CalendarIcon className='mr-3 h-4 w-4' />
             {datePickerConfig[configKey]}
           </Button>
@@ -43,6 +44,7 @@ const DatePicker = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
           <Calendar
             initialFocus
             defaultMonth={date?.from}
+            disabled={isDisabled}
             fromDate={new Date()}
             mode='range'
             numberOfMonths={2}
