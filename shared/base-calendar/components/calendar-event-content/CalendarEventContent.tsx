@@ -7,8 +7,8 @@ import { useBaseToast } from '@/shared/hooks';
 import { BaseToastVariant } from '@/shared/hooks/useBaseToast/types';
 import { AppRoutes } from '@/types/enums';
 
+import { getEventActionsConfig } from '../../config';
 import { CalendarActions } from '../../types';
-import { getEventActionsConfig } from '../../utils';
 
 type CalendarEventContentProps = {
   eventInfo: EventContentArg;
@@ -33,7 +33,7 @@ const CalendarEventContent = ({ eventInfo, calendarActions, onSetCalendarEvent }
     (e: React.MouseEvent<SVGElement, MouseEvent>) => {
       e.stopPropagation();
 
-      calendarActions?.onOpenDeleteEventModalOpen();
+      calendarActions?.onOpenDeleteEventModal();
 
       onSetCalendarEvent(eventInfo);
     },

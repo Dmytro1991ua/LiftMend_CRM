@@ -1,11 +1,11 @@
+import { ButtonVariant } from '../types';
+
 export enum ButtonLabel {
   CANCEL = 'Cancel',
   BACK = 'Back',
   NEXT = 'Next',
   SUBMIT = 'Submit',
 }
-
-type ButtonVariant = 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
 
 export type ButtonConfig = {
   id: number;

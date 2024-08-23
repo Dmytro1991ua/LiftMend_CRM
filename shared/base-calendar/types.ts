@@ -3,8 +3,8 @@ import { DateSelectArg } from '@fullcalendar/core';
 export type CalendarActions = {
   isDeleteEventModalOpen?: boolean;
   isLoading?: boolean;
-  onOpenDeleteEventModalOpen: () => void;
+  onOpenDeleteEventModal: () => void;
   onDeleteCalendarEvent: (calendarEventId?: string, repairJobId?: string) => Promise<void>;
-  onCloseDeleteEventModalOpen: () => void;
+  onCloseDeleteEventModal: () => void;
   onHandleDateClick?: (selectedDate: DateSelectArg) => void;
 };

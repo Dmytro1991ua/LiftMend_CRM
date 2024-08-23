@@ -31,6 +31,7 @@ const BaseSelect = <T extends string, IsMulti extends boolean>({
   isClearable,
   isDisabled,
   hasError,
+  defaultValue,
   ...props
 }: BaseSelectProps<T, IsMulti>) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -71,6 +72,7 @@ const BaseSelect = <T extends string, IsMulti extends boolean>({
           SingleValue: CustomSingleValue,
           Placeholder: CustomPlaceholder,
         }}
+        defaultValue={defaultValue}
         hasMore={hasMore}
         hasSearchInput={hasSearchInput}
         hideSelectedOptions={hideSelectedOptions}

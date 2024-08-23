@@ -14,4 +14,5 @@ type Mutation {
     calendarEventInput: CreateCalendarEventInput!
   ): ScheduledEventAndRepairJobResponse!
   deleteRepairJobAndEvent(calendarEventId: ID!, repairJobId: ID!): DeleteCalendarAndRepairJobResponse!
+  updateRepairJob(input: UpdateRepairJobInput!): RepairJob!
 }

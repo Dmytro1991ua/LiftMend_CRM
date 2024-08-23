@@ -7,9 +7,9 @@ import BaseAlert from '@/shared/base-alert/BaseAlert';
 import ControlledSingleSelect from '@/shared/base-select/components/controlled-single-select/ControlledSingleSelect';
 import BaseTextarea from '@/shared/base-textarea';
 import QueryResponse from '@/shared/query-response';
+import { FormFieldConfig } from '@/shared/types';
 
 import { useFetchDropdownOptions } from '../../hooks';
-import { FORM_FIELD_CONFIG } from '../../types';
 import { RepairJobFromFields } from '../repair-job-tracking-from/validation';
 
 const JobDetails = () => {
@@ -21,7 +21,7 @@ const JobDetails = () => {
     error,
   } = useFetchDropdownOptions();
 
-  const JOB_DETAILS_FORM_FIELDS_CONFIG: FORM_FIELD_CONFIG[] = [
+  const JOB_DETAILS_FORM_FIELDS_CONFIG: FormFieldConfig[] = [
     {
       id: 1,
       content: (

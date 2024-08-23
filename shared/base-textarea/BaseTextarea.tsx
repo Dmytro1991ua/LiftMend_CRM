@@ -14,6 +14,7 @@ export interface BaseTextareaProps<T extends FieldValues> extends TextareaProps 
   disabled?: boolean;
   className?: string;
   wrapperClassName?: string;
+  defaultValue?: string;
 }
 
 const BaseTextarea = <T extends FieldValues>({
@@ -24,6 +25,7 @@ const BaseTextarea = <T extends FieldValues>({
   className,
   disabled,
   wrapperClassName,
+  defaultValue,
   onChange,
   ...props
 }: BaseTextareaProps<T>) => {
@@ -49,6 +51,7 @@ const BaseTextarea = <T extends FieldValues>({
         value={value}
         {...register(name)}
         className={className}
+        defaultValue={defaultValue}
         disabled={disabled}
         error={hasError}
         id={id}

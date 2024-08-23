@@ -72,3 +72,18 @@ input CreateRepairJobInput {
   startDate: DateTime!
   endDate: DateTime!
 }
+
+input UpdateRepairJobInput {
+  id: ID!
+  jobType: String
+  jobDetails: String
+  jobPriority: String
+  startDate: DateTime
+  endDate: DateTime
+  elevatorType: String
+  buildingName: String
+  elevatorLocation: String
+  technicianName: String
+  technicianSkills: [String!]
+  contactInformation: String
+}

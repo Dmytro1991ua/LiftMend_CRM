@@ -1,4 +1,4 @@
-import { Controller, FieldValues, useFormContext, useWatch } from 'react-hook-form';
+import { Controller, FieldValues, useFormContext } from 'react-hook-form';
 
 import { cn } from '@/lib/utils';
 import { getNestedError } from '@/modules/repair-job-tracking/utils';
@@ -14,6 +14,7 @@ const ControlledSingleSelect = <T extends FieldValues>({
   label,
   disabled,
   className,
+  defaultValue,
   clearErrors,
   ...props
 }: ControlledSingleSelectProps<T>) => {
@@ -21,11 +22,6 @@ const ControlledSingleSelect = <T extends FieldValues>({
     control,
     formState: { errors },
   } = useFormContext<T>();
-
-  const value = useWatch({
-    control,
-    name,
-  });
 
   const errorKey = getNestedError(errors, name);
   const hasError = !!errorKey;
@@ -37,14 +33,16 @@ const ControlledSingleSelect = <T extends FieldValues>({
       {label && <label className={labelErrorStyles}>{label}</label>}
       <Controller
         control={control}
+        defaultValue={defaultValue}
         name={name}
         render={({ field }) => (
           <CustomSingleSelect
+            defaultValue={defaultValue}
             hasError={hasError}
             isDisabled={disabled}
             options={options}
             placeholder={placeholder}
-            value={options.find((option) => option.value === value) || null}
+            value={options.find((option) => option.value === field.value) || null}
             onChange={(selectedOption: SingleSelectValue<string>) => {
               field.onChange(selectedOption?.value);
               clearErrors && clearErrors(name);

@@ -1,4 +1,4 @@
-import { FieldValues, Path, UseFormClearErrors } from 'react-hook-form';
+import { FieldValues, Path, PathValue, UseFormClearErrors } from 'react-hook-form';
 import {
   ActionMeta,
   DeselectOptionActionMeta,
@@ -37,6 +37,7 @@ export interface MultiSelectProps<T extends string> extends Omit<BaseSelectProps
   onClearAll?: (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
   multipleSelectControls?: boolean;
   hasError?: boolean;
+  defaultValue?: MultiSelectValue<T>;
 }
 
 export interface SingleSelectProps<T extends string> extends Omit<BaseSelectProps<T, false>, 'onChange' | 'value'> {
@@ -107,6 +108,9 @@ export interface BaseSelectProps<T extends string, IsMulti extends boolean>
 
   /** Indicates if the select is currently disabled */
   isDisabled?: boolean;
+
+  /** Indicates Select default value */
+  defaultValue?: IsMulti extends true ? MultiSelectValue<T> : SingleSelectValue<T> | null;
 }
 
 export type CustomValueContainerProps<T extends string, IsMulti extends boolean> = ValueContainerProps<
@@ -163,6 +167,7 @@ export interface ControlledSingleSelectProps<T extends FieldValues>
   disabled?: boolean;
   className?: string;
   clearErrors?: UseFormClearErrors<T>;
+  defaultValue?: PathValue<T, Path<T>> | undefined;
 }
 
 export interface ControlledMultiSelectProps<T extends FieldValues>
@@ -174,4 +179,5 @@ export interface ControlledMultiSelectProps<T extends FieldValues>
   disabled?: boolean;
   className?: string;
   clearErrors?: UseFormClearErrors<T>;
+  defaultValue?: PathValue<T, Path<T>> | undefined;
 }

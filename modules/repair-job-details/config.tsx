@@ -30,7 +30,13 @@ export const repairJobSectionsConfig = (repairJob: RepairJob): RepairJobSectionC
       {
         id: 6,
         label: 'Scheduled Dates',
-        value: <DatePicker dateRange={{ from: repairJob.startDate, to: repairJob.endDate }} isDisabled={true} />,
+        value: (
+          <DatePicker
+            key={`${repairJob.startDate}-${repairJob.endDate}`}
+            dateRange={{ from: repairJob.startDate, to: repairJob.endDate }}
+            isDisabled={true}
+          />
+        ),
       },
     ],
   },

@@ -5,6 +5,7 @@ export const REPAIR_JOB_FRAGMENT = gql`
     id
     jobType
     jobDetails
+    jobPriority
     elevatorType
     buildingName
     elevatorLocation

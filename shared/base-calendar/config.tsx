@@ -3,7 +3,8 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 
 import RepairJobForm from '@/modules/repair-job-tracking/components/repair-job-tracking-from';
 import BaseModal from '@/shared/base-modal';
-import ModalFooter from '@/shared/base-modal/modal-footer';
+
+import DeleteModal from '../base-modal/delete-modal';
 
 import { DEFAULT_CREATE_MODAL_TITLE, DEFAULT_DELETE_MODAL_DESCRIPTION, DEFAULT_DELETE_MODAL_TITLE } from './constants';
 
@@ -23,34 +24,26 @@ export const getEventActionsConfig = (
 
 export const getEventModalsConfig = ({
   isDeleteEventModalOpen,
-  onCloseDeleteEventModalOpen,
+  onCloseDeleteEventModal,
   onDeleteCalendarEventAndRepairJob,
   isLoading,
 }: {
   isDeleteEventModalOpen?: boolean;
-  onCloseDeleteEventModalOpen?: () => void;
+  onCloseDeleteEventModal?: () => void;
   onDeleteCalendarEventAndRepairJob?: () => void;
   isLoading?: boolean;
 }) => [
   {
     id: 1,
     content: (
-      <BaseModal
+      <DeleteModal
+        description={DEFAULT_DELETE_MODAL_DESCRIPTION}
+        isLoading={isLoading}
         isOpen={isDeleteEventModalOpen}
-        modalFooter={
-          <ModalFooter
-            cancelButtonLabel='Cancel'
-            isLoading={isLoading}
-            submitButtonLabel='Ok'
-            onCancel={onCloseDeleteEventModalOpen}
-            onSubmit={onDeleteCalendarEventAndRepairJob}
-          />
-        }
         title={DEFAULT_DELETE_MODAL_TITLE}
-        onClose={onCloseDeleteEventModalOpen}
-      >
-        {DEFAULT_DELETE_MODAL_DESCRIPTION}
-      </BaseModal>
+        onClose={onCloseDeleteEventModal}
+        onSubmit={onDeleteCalendarEventAndRepairJob}
+      />
     ),
   },
 ];

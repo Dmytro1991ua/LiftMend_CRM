@@ -16,7 +16,7 @@ type UseFetchRepairJobById = {
   error?: string;
 };
 
-export const useFetchRepairJobById = (id: string): UseFetchRepairJobById => {
+const useFetchRepairJobById = (id: string): UseFetchRepairJobById => {
   const { data, loading, error } = useQuery<GetRepairJobByIdQuery, GetRepairJobByIdQueryVariables>(
     GET_REPAIR_JOB_BY_ID,
     {

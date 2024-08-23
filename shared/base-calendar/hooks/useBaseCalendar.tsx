@@ -2,8 +2,8 @@ import { useCallback, useMemo, useState } from 'react';
 
 import { EventContentArg } from '@fullcalendar/core';
 
+import { getEventModalsConfig } from '../config';
 import { CalendarActions } from '../types';
-import { getEventModalsConfig } from '../utils';
 
 type UseBaseCalendarProps = {
   calendarActions?: CalendarActions;
@@ -31,7 +31,7 @@ const useBaseCalendar = ({ calendarActions }: UseBaseCalendarProps): UseBaseCale
     () =>
       getEventModalsConfig({
         isDeleteEventModalOpen: calendarActions?.isDeleteEventModalOpen,
-        onCloseDeleteEventModalOpen: calendarActions?.onCloseDeleteEventModalOpen,
+        onCloseDeleteEventModal: calendarActions?.onCloseDeleteEventModal,
         onDeleteCalendarEventAndRepairJob,
         isLoading: calendarActions?.isLoading,
       }),
