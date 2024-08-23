@@ -1,5 +1,3 @@
-import { ReactNode } from 'react';
-
 import {
   Dialog,
   DialogContent,
@@ -9,14 +7,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 
-type BaseModalProps = {
-  isOpen?: boolean;
-  title?: string;
-  description?: string;
-  children?: ReactNode;
-  modalFooter?: React.JSX.Element;
-  onClose?: () => void;
-};
+import { BaseModalProps } from './types';
 
 const BaseModal = ({
   isOpen,

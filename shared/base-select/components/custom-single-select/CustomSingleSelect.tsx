@@ -15,6 +15,7 @@ const CustomSingleSelect = <T extends string>({
   closeMenuOnSelect,
   searchInputPlaceholder,
   hasError,
+  defaultValue,
   ...props
 }: SingleSelectProps<T>) => {
   const onHandleChange = (value: SingleSelectValue<T>, actionMeta: ActionMeta<DropdownOption<T>>) => {
@@ -24,6 +25,7 @@ const CustomSingleSelect = <T extends string>({
   return (
     <BaseSelect
       closeMenuOnSelect={closeMenuOnSelect}
+      defaultValue={defaultValue}
       hasError={hasError}
       hasSearchInput={hasSearchInput}
       inputValue={inputValue}

@@ -4,7 +4,7 @@ export enum RepairJobTrackingSteps {
   TechnicianAssignment,
 }
 
-export type FORM_FIELD_CONFIG = {
+export type FormFieldConfig = {
   id: number;
   content: JSX.Element;
 };

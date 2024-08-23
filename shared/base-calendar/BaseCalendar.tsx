@@ -51,7 +51,7 @@ const BaseCalendar = ({
       <div data-testid='calendar'>
         {!loading && !error ? (
           <Fullcalendar
-            dayMaxEvents={true}
+            dayMaxEvents={2}
             editable={false}
             eventClick={(e) => console.log(e)}
             eventContent={(eventInfo) => (

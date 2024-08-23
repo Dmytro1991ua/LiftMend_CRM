@@ -23,7 +23,7 @@ export const jobDetailsSchema = z.object({
   jobDescription: z
     .string()
     .min(10, 'Job description must be at least 10 characters long')
-    .max(300, 'Job description cannot exceed 500 characters'),
+    .max(300, 'Job description cannot exceed 300 characters'),
   priority: z.string().min(1, 'Priority is required'),
 });
 

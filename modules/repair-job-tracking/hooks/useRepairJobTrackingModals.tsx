@@ -11,10 +11,10 @@ type useRepairJobTrackingModals = {
   selectedDateRange: DateSelectArg | null;
   isCreateEventModalOpen: boolean;
   isDeleteEventModalOpen: boolean;
-  onOpenCreateEventModalOpen: () => void;
-  onCloseCreateEventModalOpen: () => void;
-  onOpenDeleteEventModalOpen: () => void;
-  onCloseDeleteEventModalOpen: () => void;
+  onOpenCreateEventModal: () => void;
+  onCloseCreateEventModal: () => void;
+  onOpenDeleteEventModal: () => void;
+  onCloseDeleteEventModal: () => void;
   onHandleDateClick: (selectedDate: DateSelectArg) => void;
 };
 
@@ -26,14 +26,14 @@ const useRepairJobTrackingModals = () => {
   const [isDeleteEventModalOpen, setIsDeleteEventModalOpen] = useState<boolean>(false);
   const [selectedDateRange, setSelectedDateRange] = useState<DateSelectArg | null>(null);
 
-  const onOpenCreateEventModalOpen = useCallback(() => setIsCreateEventModalOpen(true), []);
+  const onOpenCreateEventModal = useCallback(() => setIsCreateEventModalOpen(true), []);
 
-  const onCloseCreateEventModalOpen = useCallback(() => {
+  const onCloseCreateEventModal = useCallback(() => {
     setIsCreateEventModalOpen(false);
     onCancel();
   }, [onCancel]);
-  const onOpenDeleteEventModalOpen = useCallback(() => setIsDeleteEventModalOpen(true), []);
-  const onCloseDeleteEventModalOpen = useCallback(() => setIsDeleteEventModalOpen(false), []);
+  const onOpenDeleteEventModal = useCallback(() => setIsDeleteEventModalOpen(true), []);
+  const onCloseDeleteEventModal = useCallback(() => setIsDeleteEventModalOpen(false), []);
 
   const onHandleDateClick = useCallback(
     (selectedDate: DateSelectArg) => {
@@ -43,20 +43,20 @@ const useRepairJobTrackingModals = () => {
         baseToast('Schedule Repair Job Warning', 'You cannot schedule repair job in a past date.');
       } else {
         setSelectedDateRange(selectedDate);
-        onOpenCreateEventModalOpen();
+        onOpenCreateEventModal();
       }
     },
-    [baseToast, onOpenCreateEventModalOpen]
+    [baseToast, onOpenCreateEventModal]
   );
 
   return {
     selectedDateRange,
     isCreateEventModalOpen,
     isDeleteEventModalOpen,
-    onOpenCreateEventModalOpen,
-    onCloseCreateEventModalOpen,
-    onOpenDeleteEventModalOpen,
-    onCloseDeleteEventModalOpen,
+    onOpenCreateEventModal,
+    onCloseCreateEventModal,
+    onOpenDeleteEventModal,
+    onCloseDeleteEventModal,
     onHandleDateClick,
   };
 };

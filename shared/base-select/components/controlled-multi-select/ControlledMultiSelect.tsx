@@ -1,4 +1,4 @@
-import { Controller, FieldValues, useFormContext, useWatch } from 'react-hook-form';
+import { Controller, FieldValues, useFormContext } from 'react-hook-form';
 
 import { cn } from '@/lib/utils';
 import { getNestedError } from '@/modules/repair-job-tracking/utils';
@@ -15,17 +15,13 @@ const ControlledMultiSelect = <T extends FieldValues>({
   disabled,
   className,
   clearErrors,
+  defaultValue,
   ...props
 }: ControlledMultiSelectProps<T>) => {
   const {
     control,
     formState: { errors },
   } = useFormContext<T>();
-
-  const value = useWatch({
-    control,
-    name,
-  });
 
   const errorKey = getNestedError(errors, name);
   const hasError = !!errorKey;
@@ -37,14 +33,16 @@ const ControlledMultiSelect = <T extends FieldValues>({
       {label && <label className={labelErrorStyles}>{label}</label>}
       <Controller
         control={control}
+        defaultValue={defaultValue}
         name={name}
         render={({ field }) => (
           <CustomMultiSelect
+            defaultValue={defaultValue}
             hasError={hasError}
             isDisabled={disabled}
             options={options}
             placeholder={placeholder}
-            value={options.filter((option) => value?.includes(option.value))}
+            value={options.filter((option) => field.value?.includes(option.value))}
             onChange={(selectedOptions: MultiSelectValue<string>) => {
               field.onChange(selectedOptions.map((option) => option.value));
               clearErrors && clearErrors(name);

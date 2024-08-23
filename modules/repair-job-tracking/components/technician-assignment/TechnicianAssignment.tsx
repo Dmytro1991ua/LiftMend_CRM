@@ -10,7 +10,7 @@ import ControlledSingleSelect from '@/shared/base-select/components/controlled-s
 import QueryResponse from '@/shared/query-response';
 
 import { useFetchDropdownOptions } from '../../hooks';
-import { FORM_FIELD_CONFIG } from '../../types';
+import { FormFieldConfig } from '../../types';
 import { RepairJobFromFields } from '../repair-job-tracking-from/validation';
 
 const TechnicianAssignment = () => {
@@ -22,7 +22,7 @@ const TechnicianAssignment = () => {
     error,
   } = useFetchDropdownOptions();
 
-  const TECHNICIAN_ASSIGNMENT_FORM_FIELDS_CONFIG: FORM_FIELD_CONFIG[] = [
+  const TECHNICIAN_ASSIGNMENT_FORM_FIELDS_CONFIG: FormFieldConfig[] = [
     {
       id: 1,
       content: (

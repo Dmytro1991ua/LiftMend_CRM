@@ -16,6 +16,7 @@ const CustomMultiSelect = <T extends string>({
   hideSelectedOptions,
   searchInputPlaceholder,
   hasError,
+  defaultValue,
   ...props
 }: MultiSelectProps<T>) => {
   const onHandleChange = (value: MultiSelectValue<T>, actionMeta: CombinedActionMeta<T>) => {
@@ -37,6 +38,7 @@ const CustomMultiSelect = <T extends string>({
   return (
     <BaseSelect
       closeMenuOnSelect={closeMenuOnSelect}
+      defaultValue={defaultValue}
       hasError={hasError}
       hideSelectedOptions={hideSelectedOptions}
       inputValue={inputValue}

@@ -1,3 +1,4 @@
+import { RepairJob } from '@/graphql/types/client/generated_types';
 import { DeleteCalendarAndRepairJobResponse, MutationResolvers } from '@/graphql/types/server/generated_types';
 
 import { ScheduledEventAndRepairJobResponse } from './../../../../graphql/types/server/generated_types';
@@ -52,6 +53,16 @@ const Mutation: MutationResolvers = {
       deletedEventId: deletedEvent.id,
       deletedRepairJobId: deletedRepairJob.id,
     };
+  },
+  updateRepairJob: async (_, { input }, { prisma }): Promise<RepairJob> => {
+    const { id, ...fieldsToUpdate } = input;
+
+    const updatedRepairJob = await prisma.repairJob.update({
+      where: { id },
+      data: { ...fieldsToUpdate },
+    });
+
+    return updatedRepairJob;
   },
 };
 

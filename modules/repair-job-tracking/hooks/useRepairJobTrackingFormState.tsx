@@ -10,7 +10,7 @@ import {
 } from '../components/repair-job-tracking-from/validation';
 
 type UseRepairJobTrackingFormStateProps = {
-  onCloseCreateEventModalOpen: () => void;
+  onCloseCreateEventModal: () => void;
 };
 
 type UseRepairJobTrackingFormState = {
@@ -19,7 +19,7 @@ type UseRepairJobTrackingFormState = {
 };
 
 const useRepairJobTrackingFormState = ({
-  onCloseCreateEventModalOpen,
+  onCloseCreateEventModal,
 }: UseRepairJobTrackingFormStateProps): UseRepairJobTrackingFormState => {
   const formState = useForm<RepairJobFromFields>({
     shouldUnregister: false,
@@ -33,8 +33,8 @@ const useRepairJobTrackingFormState = ({
   const onReset = useCallback((): void => {
     reset(INITIAL_VALUES);
     clearErrors();
-    onCloseCreateEventModalOpen();
-  }, [reset, clearErrors, onCloseCreateEventModalOpen]);
+    onCloseCreateEventModal();
+  }, [reset, clearErrors, onCloseCreateEventModal]);
 
   return {
     formState,

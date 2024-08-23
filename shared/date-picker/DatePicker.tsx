@@ -16,9 +16,10 @@ type DatePickerProps = {
   dateRange?: DateRange;
   className?: string;
   isDisabled?: boolean;
+  onChange?: (range?: DateRange) => void;
 };
 
-const DatePicker = ({ dateRange, isDisabled, className }: DatePickerProps) => {
+const DatePicker = ({ dateRange, isDisabled, className, onChange }: DatePickerProps) => {
   const [date, setDate] = useState<DateRange | undefined>(dateRange);
 
   const datePickerConfig = useMemo(() => getDatePickerConfig(date), [date]);
@@ -49,7 +50,10 @@ const DatePicker = ({ dateRange, isDisabled, className }: DatePickerProps) => {
             mode='range'
             numberOfMonths={2}
             selected={date}
-            onSelect={setDate}
+            onSelect={(range) => {
+              setDate(range);
+              onChange?.(range);
+            }}
           />
         </PopoverContent>
       </Popover>
