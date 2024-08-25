@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { AiFillEdit } from 'react-icons/ai';
 import { IoMdArrowRoundBack } from 'react-icons/io';
+import { MdDelete } from 'react-icons/md';
 import { Audio } from 'react-loader-spinner';
 
 import { Button } from '@/components/ui/button';
@@ -15,9 +16,10 @@ type RepairJobHeaderProps = {
   description: string;
   title: string;
   onOpenEditModal: () => void;
+  onOpenDeleteModal: () => void;
 };
 
-const RepairJobHeader = ({ loading, description, title, onOpenEditModal }: RepairJobHeaderProps) => {
+const RepairJobHeader = ({ loading, description, title, onOpenEditModal, onOpenDeleteModal }: RepairJobHeaderProps) => {
   const router = useRouter();
 
   const onHandleGoBack = useCallback(() => {
@@ -32,15 +34,13 @@ const RepairJobHeader = ({ loading, description, title, onOpenEditModal }: Repai
       icon: <AiFillEdit />,
       onClick: () => onOpenEditModal(),
     },
-    // {
-    //   id: 1,
-    //   variant: 'destructive',
-    //   label: ActionButtonLabel.DELETE,
-    //   icon: <MdDelete />,
-    //   onClick: () => {
-    //     console.log('Delete');
-    //   },
-    // },
+    {
+      id: 2,
+      variant: 'destructive',
+      label: ActionButtonLabel.DELETE,
+      icon: <MdDelete />,
+      onClick: () => onOpenDeleteModal(),
+    },
   ];
 
   const renderGoBackButton = (

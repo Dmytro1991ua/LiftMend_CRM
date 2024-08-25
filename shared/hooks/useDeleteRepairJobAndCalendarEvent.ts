@@ -1,13 +1,8 @@
 import { ApolloError, useMutation } from '@apollo/client';
 
-import { onHandleMutationErrors } from '@/graphql';
 import { DELETE_REPAIR_JOB_AND_EVENT } from '@/graphql/schemas/deleteRepairJobAndCalendarEvent';
 import { DeleteRepairJobAndEventMutation } from '@/graphql/types/client/generated_types';
-
-import {
-  DEFAULT_DELETE_CALENDAR_EVENT_AND_REPAIR_JOB_FAIL_MESSAGE,
-  DEFAULT_DELETE_CALENDAR_EVENT_AND_REPAIR_JOB_SUCCESS_MESSAGE,
-} from './../constants';
+import { onHandleMutationErrors } from '@/graphql/utils';
 
 type UseDeleteRepairJobAndCalendarEventProps = {
   onSuccess?: (message: string) => void;
@@ -24,6 +19,11 @@ type CacheRef = {
   __ref: string;
 };
 
+export const DEFAULT_DELETE_CALENDAR_EVENT_AND_REPAIR_JOB_SUCCESS_MESSAGE =
+  'Successfully deleted the calendar event and associated scheduled repair job';
+export const DEFAULT_DELETE_CALENDAR_EVENT_AND_REPAIR_JOB_FAIL_MESSAGE =
+  'Fail to deleted the calendar event and associated scheduled repair job';
+
 const useDeleteRepairJobAndCalendarEvent = ({
   onSuccess,
   onError,
@@ -35,6 +35,7 @@ const useDeleteRepairJobAndCalendarEvent = ({
         if (!data) return;
 
         const calendarEventId = data?.deleteRepairJobAndEvent.deletedEventId;
+        const repairJobId = data?.deleteRepairJobAndEvent.deletedRepairJobId;
 
         cache.modify({
           fields: {
@@ -44,6 +45,13 @@ const useDeleteRepairJobAndCalendarEvent = ({
               );
 
               return updatedCalendarEvents;
+            },
+            getRepairJobs(existingRepairJobs = []) {
+              const updatedRepairJobs = existingRepairJobs.filter(
+                (job: CacheRef) => job.__ref !== `RepairJob:${repairJobId}`
+              );
+
+              return updatedRepairJobs;
             },
           },
         });
