@@ -13,7 +13,7 @@ import useDeleteRepairJobAndCalendarEvent from '../../shared/hooks/useDeleteRepa
 import useRepairJobTrackingFormState from './hooks/useRepairJobTrackingFormState';
 import useRepairJobTrackingModals from './hooks/useRepairJobTrackingModals';
 
-const RepairJobTracking = () => {
+const RepairJobScheduling = () => {
   const {
     selectedDateRange,
     isCreateEventModalOpen,
@@ -57,8 +57,8 @@ const RepairJobTracking = () => {
     <FormProvider {...formState}>
       <section>
         <SectionHeader
-          subtitle={SectionHeaderDescription.RepairJobTracking}
-          title={SectionHeaderTitle.RepairJobTracking}
+          subtitle={SectionHeaderDescription.RepairJobScheduling}
+          title={SectionHeaderTitle.RepairJobScheduling}
         />
         <div className='content-wrapper h-[73vh] overflow-y-auto overflow-x-hidden'>
           <BaseCalendar calendarActions={calendarActions} />
@@ -71,4 +71,4 @@ const RepairJobTracking = () => {
   );
 };
 
-export default RepairJobTracking;
+export default RepairJobScheduling;

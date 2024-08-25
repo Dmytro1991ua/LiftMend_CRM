@@ -6,7 +6,7 @@ import Fullcalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { Circles } from 'react-loader-spinner';
 
-import useFetchCalendarEvents from '@/modules/repair-job-tracking/hooks/useFetchCalendarEvents';
+import useFetchCalendarEvents from '@/modules/repair-job-scheduling/hooks/useFetchCalendarEvents';
 
 import QueryResponse from '../query-response';
 

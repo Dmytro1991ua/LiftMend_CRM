@@ -4,7 +4,7 @@ import { Controller, Form, useFormContext } from 'react-hook-form';
 import { CirclesWithBar } from 'react-loader-spinner';
 
 import { RepairJob } from '@/graphql/types/client/generated_types';
-import { useFetchDropdownOptions } from '@/modules/repair-job-tracking/hooks';
+import { useFetchDropdownOptions } from '@/modules/repair-job-scheduling/hooks';
 import BaseAlert from '@/shared/base-alert/BaseAlert';
 import BaseInput from '@/shared/base-input';
 import ControlledMultiSelect from '@/shared/base-select/components/controlled-multi-select';
@@ -132,7 +132,7 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
           )}
         />
       ),
-      className: 'row-start-6 row-end-6 col-start-4 col-end-7 mt-1',
+      className: 'row-start-6 row-end-6 col-start-3 col-end-7 mt-1',
     },
     {
       id: 5,
@@ -232,7 +232,7 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
           onChange={() => clearErrors('contactInfo')}
         />
       ),
-      className: 'row-start-6 row-end-6 col-start-1 col-end-4',
+      className: 'row-start-6 row-end-6 col-start-1 col-end-3',
     },
   ];
 

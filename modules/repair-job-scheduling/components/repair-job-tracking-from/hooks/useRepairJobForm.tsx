@@ -1,7 +1,7 @@
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 
-import { REPAIR_JOB_TRACKING_STEPS, STEP_VALIDATION_CONFIG } from '@/modules/repair-job-tracking/constants';
-import useCreateRepairJobAndCalendarEvent from '@/modules/repair-job-tracking/hooks/useCreateRepairJobAndCalendarEvent';
+import { REPAIR_JOB_TRACKING_STEPS, STEP_VALIDATION_CONFIG } from '@/modules/repair-job-scheduling/constants';
+import useCreateRepairJobAndCalendarEvent from '@/modules/repair-job-scheduling/hooks/useCreateRepairJobAndCalendarEvent';
 import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 
 import { RepairJobFormProps } from '../RepairJobForm';

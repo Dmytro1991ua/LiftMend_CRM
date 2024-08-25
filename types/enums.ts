@@ -2,7 +2,7 @@ export enum AppRoutes {
   Default = '/',
   Dashboard = '/dashboard',
   ElevatorManagement = '/elevator-management',
-  RepairJobTracking = '/repair-job-tracking',
+  RepairJobScheduling = '/repair-job-scheduling',
   RepairJobDetails = '/repair-job-details/[repairJobId]',
   Profile = '/profile',
   SignIn = '/sign-in',
@@ -12,9 +12,9 @@ export enum SectionHeaderTitle {
   Dashboard = 'Dashboard',
   ElevatorManagement = 'Elevator Management',
   Profile = 'Profile',
-  RepairJobTracking = 'Repair Job Tracking',
+  RepairJobScheduling = 'Repair Job Scheduling',
 }
 
 export enum SectionHeaderDescription {
-  RepairJobTracking = 'Schedule and manage repair jobs associated with specific elevators',
+  RepairJobScheduling = 'Schedule and manage repair jobs associated with specific elevators',
 }

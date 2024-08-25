@@ -5,15 +5,14 @@ import { FormProvider, SubmitHandler } from 'react-hook-form';
 import { Audio } from 'react-loader-spinner';
 
 import DeleteModal from '@/shared/base-modal/delete-modal';
+import useDeleteRepairJobAndCalendarEvent from '@/shared/hooks/useDeleteRepairJobAndCalendarEvent';
 import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import QueryResponse from '@/shared/query-response';
 import { getCalendarEventInfo } from '@/shared/utils';
 import { AppRoutes } from '@/types/enums';
 
-import useDeleteRepairJobAndCalendarEvent from '../../shared/hooks/useDeleteRepairJobAndCalendarEvent';
-
 import EditModal from './components/edit-modal';
-import EditRepairJobForm from './components/edit-reoair-job-form';
+import EditRepairJobForm from './components/edit-repair-job-form';
 import RepairJobContent from './components/repair-job-content';
 import RepairJobHeader from './components/repair-job-header';
 import { repairJobSectionsConfig } from './config';
@@ -81,7 +80,7 @@ const RepairJobDetails = () => {
 
     onCloseDeleteModal();
 
-    push(AppRoutes.RepairJobTracking);
+    push(AppRoutes.RepairJobScheduling);
   };
 
   const REPAIR_JOB_DETAILS_MODALS_CONFIG = [
