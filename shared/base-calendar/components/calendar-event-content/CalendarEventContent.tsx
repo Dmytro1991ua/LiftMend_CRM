@@ -3,8 +3,6 @@ import { useCallback, useMemo } from 'react';
 import { EventContentArg } from '@fullcalendar/core';
 import { useRouter } from 'next/router';
 
-import { useBaseToast } from '@/shared/hooks';
-import { BaseToastVariant } from '@/shared/hooks/useBaseToast/types';
 import { AppRoutes } from '@/types/enums';
 
 import { getEventActionsConfig } from '../../config';
@@ -17,17 +15,7 @@ type CalendarEventContentProps = {
 };
 
 const CalendarEventContent = ({ eventInfo, calendarActions, onSetCalendarEvent }: CalendarEventContentProps) => {
-  const { baseToast } = useBaseToast(BaseToastVariant.Info);
-
   const router = useRouter();
-
-  const onHandleEditButtonClick = useCallback(
-    (e: React.MouseEvent<SVGElement, MouseEvent>) => {
-      e.stopPropagation();
-      baseToast('Not Implemented yet', '');
-    },
-    [baseToast]
-  );
 
   const onHandleDeleteButtonClick = useCallback(
     (e: React.MouseEvent<SVGElement, MouseEvent>) => {
@@ -49,8 +37,8 @@ const CalendarEventContent = ({ eventInfo, calendarActions, onSetCalendarEvent }
   };
 
   const eventActionsConfig = useMemo(
-    () => getEventActionsConfig(onHandleEditButtonClick, onHandleDeleteButtonClick),
-    [onHandleEditButtonClick, onHandleDeleteButtonClick]
+    () => getEventActionsConfig(onHandleDeleteButtonClick),
+    [onHandleDeleteButtonClick]
   );
 
   return (

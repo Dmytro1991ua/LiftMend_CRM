@@ -8,7 +8,8 @@ import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import SectionHeader from '@/shared/section-header';
 import { SectionHeaderDescription, SectionHeaderTitle } from '@/types/enums';
 
-import useDeleteRepairJobAndCalendarEvent from './hooks/useDeleteRepairJobAndCalendarEvent';
+import useDeleteRepairJobAndCalendarEvent from '../../shared/hooks/useDeleteRepairJobAndCalendarEvent';
+
 import useRepairJobTrackingFormState from './hooks/useRepairJobTrackingFormState';
 import useRepairJobTrackingModals from './hooks/useRepairJobTrackingModals';
 

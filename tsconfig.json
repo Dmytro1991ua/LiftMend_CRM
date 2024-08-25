@@ -19,7 +19,14 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@graphql/*": ["./graphql/*"],
+      "@pages/*": ["./pages/*"],
+      "@shared/*": ["./shared/*"],
+      "@modules/*": ["./modules/*"],
+      "@types/*": ["./types/*"],
+      "@lib/*": ["./lib/*"],
+      "@mocks/*": ["./mocks/*"]
     },
     "forceConsistentCasingInFileNames": true
   },

@@ -15,6 +15,7 @@ export const GET_REPAIR_JOB_BY_ID = gql`
       contactInformation
       startDate
       endDate
+      calendarEventId
     }
   }
 `;

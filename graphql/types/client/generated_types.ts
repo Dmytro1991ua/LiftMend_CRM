@@ -301,6 +301,7 @@ export type GetRepairJobByIdQuery = {
     contactInformation: string;
     startDate: any;
     endDate: any;
+    calendarEventId: string | null;
   };
 };
 

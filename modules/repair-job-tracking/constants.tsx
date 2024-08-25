@@ -24,8 +24,3 @@ export const STEP_VALIDATION_CONFIG: Record<number, keyof RepairJobFromFields> =
 
 export const DEFAULT_SCHEDULE_REPAIR_JOB_SUCCESS_MESSAGE = 'Successfully scheduled repair job';
 export const DEFAULT_SCHEDULE_REPAIR_JOB_FAIL_MESSAGE = 'Failed to schedule repair job';
-
-export const DEFAULT_DELETE_CALENDAR_EVENT_AND_REPAIR_JOB_SUCCESS_MESSAGE =
-  'Successfully deleted the calendar event and associated scheduled repair job';
-export const DEFAULT_DELETE_CALENDAR_EVENT_AND_REPAIR_JOB_FAIL_MESSAGE =
-  'Fail to deleted the calendar event and associated scheduled repair job';
