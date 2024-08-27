@@ -1,7 +1,7 @@
 export enum NavigationLinkLabel {
   Dashboard = 'Dashboard',
   ElevatorManagement = 'Elevator Management',
-  RepairJobTracking = 'Repair Job Tracking',
+  RepairJobScheduling = 'Repair Job Scheduling',
   Profile = 'Profile',
   Login = 'Login',
   Signup = 'Signup',

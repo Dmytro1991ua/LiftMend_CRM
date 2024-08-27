@@ -33,7 +33,7 @@ const CalendarEventContent = ({ eventInfo, calendarActions, onSetCalendarEvent }
 
     const repairJobId = clickedEvent.extendedProps?.repairJobId;
 
-    router.push(`${AppRoutes.RepairJobTracking}/${repairJobId}`);
+    router.push(`${AppRoutes.RepairJobScheduling}/${repairJobId}`);
   };
 
   const eventActionsConfig = useMemo(

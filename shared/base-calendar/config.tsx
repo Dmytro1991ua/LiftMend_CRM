@@ -1,7 +1,7 @@
 import { DateSelectArg } from '@fullcalendar/core';
 import { FaTrash } from 'react-icons/fa';
 
-import RepairJobForm from '@/modules/repair-job-tracking/components/repair-job-tracking-from';
+import RepairJobForm from '@/modules/repair-job-scheduling/components/repair-job-tracking-from';
 import BaseModal from '@/shared/base-modal';
 
 import DeleteModal from '../base-modal/delete-modal';

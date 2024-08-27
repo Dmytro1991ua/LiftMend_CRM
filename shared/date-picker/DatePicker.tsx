@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 import { Calendar as CalendarIcon } from 'lucide-react';
 import { DateRange } from 'react-day-picker';
@@ -9,6 +9,8 @@ import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 
+import TimePickerSection from './components/TimePickerSection';
+import useDatePicker from './hooks';
 import { DateRangeConfigKey } from './types';
 import { getDatePickerConfig, getDatePicketConfigKey } from './utils';
 
@@ -20,7 +22,7 @@ type DatePickerProps = {
 };
 
 const DatePicker = ({ dateRange, isDisabled, className, onChange }: DatePickerProps) => {
-  const [date, setDate] = useState<DateRange | undefined>(dateRange);
+  const { date, onHandleSelectDates, onHandleTimeChange } = useDatePicker({ dateRange, onChange });
 
   const datePickerConfig = useMemo(() => getDatePickerConfig(date), [date]);
   const configKey = useMemo(() => getDatePicketConfigKey(date), [date]);
@@ -50,11 +52,11 @@ const DatePicker = ({ dateRange, isDisabled, className, onChange }: DatePickerPr
             mode='range'
             numberOfMonths={2}
             selected={date}
-            onSelect={(range) => {
-              setDate(range);
-              onChange?.(range);
-            }}
+            onSelect={onHandleSelectDates}
           />
+          {date ? (
+            <TimePickerSection date={date} isDisabled={isDisabled} onHandleTimeChange={onHandleTimeChange} />
+          ) : null}
         </PopoverContent>
       </Popover>
     </div>

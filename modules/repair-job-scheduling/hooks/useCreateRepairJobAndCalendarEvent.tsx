@@ -11,6 +11,7 @@ import { getCalendarEventInfo } from '@/shared/utils';
 
 import { RepairJobFromFields } from '../components/repair-job-tracking-from/validation';
 import { DEFAULT_SCHEDULE_REPAIR_JOB_FAIL_MESSAGE, DEFAULT_SCHEDULE_REPAIR_JOB_SUCCESS_MESSAGE } from '../constants';
+import { adjustDateForAllDayEvent } from '../utils';
 
 type UseCreateRepairJobAndCalendarEventProps = {
   onSuccess?: (message: string) => void;
@@ -64,15 +65,26 @@ const useCreateRepairJobAndCalendarEvent = ({
 
       const { description, title } = getCalendarEventInfo({ elevatorType, elevatorLocation, buildingName, jobType });
 
+      const adjustedStartDate = adjustDateForAllDayEvent(
+        selectedDateRange?.start,
+        selectedDateRange?.allDay ?? false,
+        'start'
+      );
+      const adjustedEndDate = adjustDateForAllDayEvent(
+        selectedDateRange?.end,
+        selectedDateRange?.allDay ?? false,
+        'end'
+      );
+
       const repairJobPayload = {
         buildingName,
         elevatorLocation,
         elevatorType,
-        endDate: selectedDateRange?.end,
+        endDate: adjustedEndDate,
         jobDetails: jobDescription,
         jobPriority: priority,
         jobType,
-        startDate: selectedDateRange?.start,
+        startDate: adjustedStartDate,
         technicianName,
         technicianSkills,
         contactInformation,
@@ -81,8 +93,8 @@ const useCreateRepairJobAndCalendarEvent = ({
       const calendarEventPayload = {
         allDay: selectedDateRange?.allDay ?? false,
         description,
-        end: selectedDateRange?.end,
-        start: selectedDateRange?.start,
+        end: adjustedEndDate,
+        start: adjustedStartDate,
         title,
       };
 

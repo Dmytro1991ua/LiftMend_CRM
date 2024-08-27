@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 
 import { UseFormReset } from 'react-hook-form';
 
-import { RepairJobFromFields } from '@/modules/repair-job-tracking/components/repair-job-tracking-from/validation';
+import { RepairJobFromFields } from '@/modules/repair-job-scheduling/components/repair-job-tracking-from/validation';
 
 type useBaseStepperProps = {
   totalSteps?: number;

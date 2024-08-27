@@ -5,7 +5,7 @@ import { UseFormReturn, useForm } from 'react-hook-form';
 
 import { RepairJob } from '@/graphql/types/client/generated_types';
 
-import { repairJobDetailsFormSchema } from '../components/edit-reoair-job-form/validation';
+import { repairJobDetailsFormSchema } from '../components/edit-repair-job-form/validation';
 import { RepairJobDetailsFormValues } from '../types';
 import { convertRepairJobToFormValues } from '../utils';
 
