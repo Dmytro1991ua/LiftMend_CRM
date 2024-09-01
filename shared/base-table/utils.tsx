@@ -1,3 +1,4 @@
+import { Header } from '@tanstack/react-table';
 import { Hourglass } from 'react-loader-spinner';
 
 import BaseAlert from '../base-alert/BaseAlert';
@@ -38,4 +39,17 @@ export const getTableStatusContent = (
     ),
     [TableStatus.Empty]: <h3 className='text-link'>{emptyTableMessage || DEFAULT_EMPTY_TABLE_MESSAGE}</h3>,
   };
+};
+
+export const calculateColumnSizes = <T extends object>(headers: Header<T, unknown>[]) => {
+  const colSizes: { [key: string]: number } = {};
+
+  headers.forEach((header) => {
+    const headerId = header.id;
+    const columnId = header.column.id;
+    colSizes[`--header-${headerId}-size`] = header.getSize();
+    colSizes[`--col-${columnId}-size`] = header.column.getSize();
+  });
+
+  return colSizes;
 };

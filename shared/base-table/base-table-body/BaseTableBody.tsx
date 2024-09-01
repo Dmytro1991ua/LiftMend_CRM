@@ -31,12 +31,19 @@ const BaseTableBody = <T extends object>({
   );
 
   return (
-    <TableBody data-testid='base-table-body'>
+    <TableBody className='overflow-y-auto' data-testid='base-table-body'>
       {tableRows?.length ? (
         tableRows.map((row) => (
           <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
             {row.getVisibleCells().map((cell) => (
-              <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+              <TableCell
+                key={cell.id}
+                style={{
+                  width: `calc(var(--col-${cell.column.id}-size) * 1px)`,
+                }}
+              >
+                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+              </TableCell>
             ))}
           </TableRow>
         ))

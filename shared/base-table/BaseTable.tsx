@@ -1,4 +1,6 @@
-import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { useMemo, useState } from 'react';
+
+import { ColumnDef, ColumnSizingState, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Bars } from 'react-loader-spinner';
 
@@ -7,6 +9,7 @@ import { Table } from '@/components/ui/table';
 import BaseTableBody from './base-table-body';
 import BaseTableHeader from './base-table-header';
 import { INFINITE_SCROLL_OVERFLOW, SCROLL_WRAPPER_ID } from './types';
+import { calculateColumnSizes } from './utils';
 
 type BaseTableProps<T extends object> = {
   columns: ColumnDef<T>[];
@@ -27,14 +30,32 @@ const BaseTable = <T extends object>({
   errorMessage,
   loadMore,
 }: BaseTableProps<T>): React.JSX.Element => {
-  const { getHeaderGroups, getRowModel } = useReactTable({
+  const [colSizing, setColSizing] = useState<ColumnSizingState>({});
+
+  const { getHeaderGroups, getRowModel, getState, getFlatHeaders } = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    enableColumnResizing: true,
+    columnResizeMode: 'onChange',
+    onColumnSizingChange: setColSizing,
+    state: {
+      columnSizing: colSizing,
+    },
+    defaultColumn: {
+      minSize: 120,
+      maxSize: 500,
+    },
   });
 
+  const columnSizeVariables = useMemo(
+    () => calculateColumnSizes(getFlatHeaders()),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [getState().columnSizingInfo, getState().columnSizing, getFlatHeaders]
+  );
+
   return (
-    <div className='rounded-[2rem] border'>
+    <div className='relative w-full rounded-[2rem] border overflow-auto h-[60rem]' id={SCROLL_WRAPPER_ID}>
       <InfiniteScroll
         dataLength={getRowModel().rows.length}
         hasMore={hasMore}
@@ -43,7 +64,7 @@ const BaseTable = <T extends object>({
             ariaLabel='bars-loading'
             color='#306cce'
             height='30'
-            visible={true}
+            visible={hasMore}
             width='30'
             wrapperClass='justify-center'
           />
@@ -51,8 +72,9 @@ const BaseTable = <T extends object>({
         next={loadMore}
         scrollThreshold={0.99}
         scrollableTarget={SCROLL_WRAPPER_ID}
-        style={{ overflow: INFINITE_SCROLL_OVERFLOW }}>
-        <Table className='rounded-[2rem]' data-testid='base-table'>
+        style={{ overflow: INFINITE_SCROLL_OVERFLOW }}
+      >
+        <Table className='w-full table-fixed' data-testid='base-table' style={{ ...columnSizeVariables }}>
           <BaseTableHeader headerGroups={getHeaderGroups()} />
           <BaseTableBody
             columnLength={columns.length}

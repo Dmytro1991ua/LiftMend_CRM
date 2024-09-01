@@ -1,10 +1,9 @@
 import { RepairJob } from '@prisma/client';
 
 import DatePicker from '@/shared/date-picker';
-
-import RepairJobPriority from './components/repair-job-priority';
-import { Priority } from './components/repair-job-priority/config';
-import TechnicianSkills from './components/technician-skills/TechnicianSkills';
+import RepairJobPriority from '@/shared/repair-job/repair-job-priority';
+import { Priority } from '@/shared/repair-job/repair-job-priority/config';
+import TechnicianSkills from '@/shared/repair-job/technician-skills';
 
 type SectionField = { id: number; label: string; value: React.ReactNode | string; fieldClassName?: string };
 

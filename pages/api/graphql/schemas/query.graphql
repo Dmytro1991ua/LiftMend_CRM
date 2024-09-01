@@ -1,6 +1,6 @@
 type Query {
   getRepairJobScheduleData: RepairJobScheduleData!
   getCalendarEvents: [CalendarEvent!]!
-  getRepairJobs: [RepairJob!]!
+  getRepairJobs(paginationOptions: PaginationOptions): RepairJobConnection!
   getRepairJobById(id: ID!): RepairJob!
 }

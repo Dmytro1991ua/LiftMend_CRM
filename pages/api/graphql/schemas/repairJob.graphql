@@ -43,7 +43,7 @@ type RepairJobScheduleData {
   priorities: [String!]!
 }
 
-type RepairJob {
+type RepairJob implements Node {
   id: ID!
   jobType: String!
   jobDetails: String!
@@ -57,6 +57,17 @@ type RepairJob {
   startDate: DateTime!
   endDate: DateTime!
   calendarEventId: String
+}
+
+type RepairJobEdge implements Edge {
+  cursor: String!
+  node: RepairJob!
+}
+
+type RepairJobConnection implements Connection {
+  edges: [RepairJobEdge!]!
+  pageInfo: PageInfo!
+  total: Int!
 }
 
 input CreateRepairJobInput {

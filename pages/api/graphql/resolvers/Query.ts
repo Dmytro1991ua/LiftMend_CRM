@@ -1,7 +1,12 @@
-import { CalendarEvent, RepairJob } from '@/graphql/types/client/generated_types';
-import { QueryResolvers, RepairJobScheduleData } from '@/graphql/types/server/generated_types';
+import {
+  CalendarEvent,
+  QueryResolvers,
+  RepairJob,
+  RepairJobConnection,
+  RepairJobScheduleData,
+} from '@/graphql/types/server/generated_types';
 
-import { fetchRepairJobData, getSortedRepairJobData } from './utils';
+import { fetchRepairJobData, getSortedRepairJobData, makeConnectionObject } from './utils';
 
 const Query: QueryResolvers = {
   getRepairJobScheduleData: async (_, __, { prisma }): Promise<RepairJobScheduleData> => {
@@ -49,10 +54,20 @@ const Query: QueryResolvers = {
 
     return calendarEvents || [];
   },
-  getRepairJobs: async (_, __, { prisma }): Promise<RepairJob[]> => {
-    const scheduledRepairJobs = await prisma.repairJob.findMany();
+  getRepairJobs: async (_, { paginationOptions }, { prisma }): Promise<RepairJobConnection> => {
+    const scheduledRepairJobs = await prisma.repairJob.findMany({
+      skip: paginationOptions?.offset,
+      take: paginationOptions?.limit,
+    });
 
-    return scheduledRepairJobs || [];
+    const totalItems = await prisma.repairJob.count();
+
+    return makeConnectionObject({
+      items: scheduledRepairJobs,
+      totalItems,
+      paginationOptions,
+      getCursor: (repairJob: RepairJob) => repairJob.id,
+    });
   },
   getRepairJobById: async (_, { id }, { prisma }) => {
     const repairJob = await prisma.repairJob.findUnique({ where: { id } });

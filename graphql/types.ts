@@ -1,3 +1,5 @@
+import { FieldPolicy } from '@apollo/client';
+
 export type GQLErrorDetail = {
   code: string;
   issue: string;
@@ -19,3 +21,5 @@ export type GQLError = {
 export type ClientErrors = {
   [key: string]: (string | GQLError)[];
 };
+
+export type KeyArgs = FieldPolicy<unknown>['keyArgs'];

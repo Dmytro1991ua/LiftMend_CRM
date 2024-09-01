@@ -37,6 +37,12 @@ const Sidebar = () => {
     },
     {
       id: 4,
+      url: AppRoutes.RepairJobTracking,
+      icon: <BsTools className={commonIconClasses} />,
+      label: NavigationLinkLabel.RepairJobTracking,
+    },
+    {
+      id: 5,
       url: AppRoutes.Profile,
       icon: <BiSolidUser className={commonIconClasses} />,
       label: NavigationLinkLabel.Profile,
