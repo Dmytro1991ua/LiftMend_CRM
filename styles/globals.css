@@ -114,7 +114,7 @@ body {
   }
 
   .section-wrapper {
-    @apply relative flex flex-1 flex-col md:pl-7 drop-shadow-lg;
+    @apply relative flex flex-1 flex-col md:pl-7 drop-shadow-lg overflow-auto;
   }
 
   .content-wrapper {
@@ -127,5 +127,13 @@ body {
 
   .field-error {
     @apply absolute left-0 top-full pl-2 text-sm text-red-500;
+  }
+
+  .resizer {
+    @apply absolute right-0 top-0 bottom-0 h-full w-2 cursor-col-resize bg-transparent z-10 opacity-0 transition-all hover:opacity-100 hover:bg-gray-200;
+  }
+
+  .isResizing {
+    @apply bg-black bg-opacity-50;
   }
 }

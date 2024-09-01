@@ -32,6 +32,12 @@ export type CalendarEvent = {
   title: Scalars['String']['output'];
 };
 
+export type Connection = {
+  edges: Array<Edge>;
+  pageInfo: PageInfo;
+  total: Scalars['Int']['output'];
+};
+
 export type CreateCalendarEventInput = {
   allDay: Scalars['Boolean']['input'];
   description?: InputMaybe<Scalars['String']['input']>;
@@ -58,6 +64,11 @@ export type DeleteCalendarAndRepairJobResponse = {
   __typename?: 'DeleteCalendarAndRepairJobResponse';
   deletedEventId: Maybe<Scalars['ID']['output']>;
   deletedRepairJobId: Maybe<Scalars['ID']['output']>;
+};
+
+export type Edge = {
+  cursor: Scalars['String']['output'];
+  node: Node;
 };
 
 export type ElevatorLocation = {
@@ -93,19 +104,40 @@ export type MutationUpdateRepairJobArgs = {
   input: UpdateRepairJobInput;
 };
 
+export type Node = {
+  id: Scalars['ID']['output'];
+};
+
+export type PageInfo = {
+  __typename?: 'PageInfo';
+  endCursor: Maybe<Scalars['String']['output']>;
+  hasNextPage: Scalars['Boolean']['output'];
+  hasPreviousPage: Scalars['Boolean']['output'];
+  startCursor: Maybe<Scalars['String']['output']>;
+};
+
+export type PaginationOptions = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   getCalendarEvents: Array<CalendarEvent>;
   getRepairJobById: RepairJob;
   getRepairJobScheduleData: RepairJobScheduleData;
-  getRepairJobs: Array<RepairJob>;
+  getRepairJobs: RepairJobConnection;
 };
 
 export type QueryGetRepairJobByIdArgs = {
   id: Scalars['ID']['input'];
 };
 
-export type RepairJob = {
+export type QueryGetRepairJobsArgs = {
+  paginationOptions?: InputMaybe<PaginationOptions>;
+};
+
+export type RepairJob = Node & {
   __typename?: 'RepairJob';
   buildingName: Scalars['String']['output'];
   calendarEventId: Maybe<Scalars['String']['output']>;
@@ -120,6 +152,19 @@ export type RepairJob = {
   startDate: Scalars['DateTime']['output'];
   technicianName: Scalars['String']['output'];
   technicianSkills: Array<Scalars['String']['output']>;
+};
+
+export type RepairJobConnection = Connection & {
+  __typename?: 'RepairJobConnection';
+  edges: Array<RepairJobEdge>;
+  pageInfo: PageInfo;
+  total: Scalars['Int']['output'];
+};
+
+export type RepairJobEdge = Edge & {
+  __typename?: 'RepairJobEdge';
+  cursor: Scalars['String']['output'];
+  node: RepairJob;
 };
 
 export type RepairJobPriority = {
@@ -318,6 +363,45 @@ export type GetRepairJobFromDataQuery = {
     technicianNames: Array<string>;
     technicianSkills: Array<string>;
     priorities: Array<string>;
+  };
+};
+
+export type GetRepairJobsQueryVariables = Exact<{
+  paginationOptions?: InputMaybe<PaginationOptions>;
+}>;
+
+export type GetRepairJobsQuery = {
+  __typename?: 'Query';
+  getRepairJobs: {
+    __typename?: 'RepairJobConnection';
+    total: number;
+    edges: Array<{
+      __typename?: 'RepairJobEdge';
+      cursor: string;
+      node: {
+        __typename?: 'RepairJob';
+        id: string;
+        jobType: string;
+        jobDetails: string;
+        jobPriority: string;
+        elevatorType: string;
+        buildingName: string;
+        elevatorLocation: string;
+        technicianName: string;
+        technicianSkills: Array<string>;
+        contactInformation: string;
+        startDate: any;
+        endDate: any;
+        calendarEventId: string | null;
+      };
+    }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor: string | null;
+      endCursor: string | null;
+    };
   };
 };
 

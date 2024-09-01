@@ -8,7 +8,7 @@ const RepairJobPriority = ({ priority }: RepairJobPriorityProps) => {
   const { icon, label, className } = PRIORITY_CONFIG[priority] || {};
 
   return (
-    <span className='flex gap-1'>
+    <span className='flex items-center gap-1'>
       {icon}
       <span className={className}>{label}</span>
     </span>

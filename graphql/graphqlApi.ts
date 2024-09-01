@@ -1,6 +1,7 @@
 import { ApolloClient, ApolloQueryResult, FetchResult, HttpLink, InMemoryCache, from } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
 
+import { typePolicies } from './typePolicies';
 import { handleGraphQLErrors } from './utils';
 
 const uri = 'http://localhost:3000/api/graphql';
@@ -20,11 +21,15 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 const links = [errorLink, httpLink];
 
+const cache = new InMemoryCache({
+  typePolicies,
+});
+
 export const client = new ApolloClient({
   uri,
   credentials: 'same-origin',
   link: from(links),
-  cache: new InMemoryCache(),
+  cache,
   defaultOptions: {
     watchQuery: {
       errorPolicy: 'all',

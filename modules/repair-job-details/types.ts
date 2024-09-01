@@ -34,12 +34,12 @@ export type RepairJobDetailsFormValues = {
   calendarEventId: string | null;
   jobType: string | null;
   jobDescription?: string;
-  jobPriority: string | null | null;
+  jobPriority: string | null;
   scheduledDates?: DateRange;
-  elevatorType: string | null | null;
-  buildingName: string | null | null;
-  elevatorLocation: string | null | null;
-  technicianName: string | null | null;
+  elevatorType: string | null;
+  buildingName: string | null;
+  elevatorLocation: string | null;
+  technicianName: string | null;
   technicianSkill: string[];
   contactInfo?: string;
 };

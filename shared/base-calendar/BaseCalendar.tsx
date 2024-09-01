@@ -53,7 +53,6 @@ const BaseCalendar = ({
           <Fullcalendar
             dayMaxEvents={2}
             editable={false}
-            eventClick={(e) => console.log(e)}
             eventContent={(eventInfo) => (
               <CalendarEventContent
                 calendarActions={calendarActions}
@@ -62,7 +61,6 @@ const BaseCalendar = ({
               />
             )}
             events={events}
-            eventsSet={(events) => console.log(events)}
             headerToolbar={headerToolbar}
             height={calendarHeight}
             initialView={calendarView}

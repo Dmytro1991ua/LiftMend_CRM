@@ -1,6 +1,7 @@
-import { ApolloError } from '@apollo/client';
+import { ApolloError, FieldPolicy } from '@apollo/client';
+import { SafeReadonly } from '@apollo/client/cache/core/types/common';
 
-import { ClientErrors, GQLErrorDetail } from './types';
+import { ClientErrors, GQLErrorDetail, KeyArgs } from './types';
 
 import type { GraphQLError } from 'graphql';
 
@@ -137,3 +138,22 @@ export const onHandleMutationErrors = ({
     onFailure?.(message, errorMessage);
   }
 };
+
+export const concatPaginationWithEdges = <T extends { edges: unknown[] }>(
+  keyArgs: KeyArgs = false
+): FieldPolicy<T> => ({
+  keyArgs,
+  merge(existing, incoming, { args }): SafeReadonly<T> & { edges: unknown[] } {
+    const offset = args?.paginationOptions?.offset || 0;
+    const mergedEdges = existing && offset ? existing.edges.slice(0) : [];
+
+    for (let i = 0; i < incoming.edges.length; ++i) {
+      mergedEdges[offset + i] = incoming.edges[i];
+    }
+
+    return {
+      ...incoming,
+      edges: mergedEdges,
+    };
+  },
+});

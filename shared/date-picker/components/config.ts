@@ -11,4 +11,8 @@ export const TIME_PICKER_CONFIG: Record<TimePickerType, TimePickerConfig> = {
     label: 'End Date Time',
     subLabel: commonSubLabel,
   },
+  [TimePickerType.SINGLE]: {
+    label: 'Date Time',
+    subLabel: commonSubLabel,
+  },
 };
