@@ -49,7 +49,7 @@ const BaseTableBody = <T extends object>({
         ))
       ) : (
         <TableRow>
-          <TableCell className='h-[30rem] text-center' colSpan={columnLength}>
+          <TableCell className='h-[54rem] text-center' colSpan={columnLength}>
             {currentTableStatus ? tableStatusContent[currentTableStatus] : null}
           </TableCell>
         </TableRow>

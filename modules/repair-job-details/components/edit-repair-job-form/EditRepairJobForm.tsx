@@ -32,6 +32,7 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
       buildingNames,
       technicianNames,
       technicianSkills,
+      statuses,
     },
     loading,
     error,
@@ -60,6 +61,7 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
     technicianSkill,
     contactInfo,
     jobDescription,
+    status,
   } = currentRepairJob;
 
   const REPAIR_JOB_DETAILS_FORM_FIELD_CONFIG: FormFieldConfig[] = [
@@ -77,7 +79,7 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
           placeholder='Select Job Type'
         />
       ),
-      className: 'row-start-1 row-end-2 col-start-1 col-end-4',
+      className: 'row-start-1 row-end-2 col-start-1 col-end-3',
     },
     {
       id: 2,
@@ -107,7 +109,23 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
           placeholder='Select Job Priority'
         />
       ),
-      className: 'row-start-1 row-end-2 col-start-4 col-end-7',
+      className: 'row-start-1 row-end-2 col-start-3 col-end-5',
+    },
+    {
+      id: 3,
+      label: FormFieldLabel.JobStatus,
+      content: (
+        <ControlledSingleSelect<RepairJobDetailsFormValues>
+          captureMenuScroll={false}
+          className='mb-4'
+          defaultValue={status}
+          isMultiSelect={false}
+          name='status'
+          options={statuses}
+          placeholder='Select Job Status'
+        />
+      ),
+      className: 'row-start-1 row-end-2 col-start-5 col-end-7',
     },
     {
       id: 4,

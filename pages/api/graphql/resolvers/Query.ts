@@ -46,6 +46,10 @@ const Query: QueryResolvers = {
       () => getSortedRepairJobData(prisma.priorities, 'priorities'),
       'repair job priorities'
     );
+    repairJobScheduleData.statuses = await fetchRepairJobData(
+      () => getSortedRepairJobData(prisma.statuses, 'statuses'),
+      'repair job statutes'
+    );
 
     return repairJobScheduleData as RepairJobScheduleData;
   },
@@ -69,7 +73,7 @@ const Query: QueryResolvers = {
       getCursor: (repairJob: RepairJob) => repairJob.id,
     });
   },
-  getRepairJobById: async (_, { id }, { prisma }) => {
+  getRepairJobById: async (_, { id }, { prisma }): Promise<RepairJob> => {
     const repairJob = await prisma.repairJob.findUnique({ where: { id } });
 
     return repairJob || null;

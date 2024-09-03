@@ -1,38 +1,3 @@
-type RepairJobType {
-  id: ID!
-  types: [String!]!
-}
-
-type ElevatorType {
-  id: ID!
-  types: [String!]!
-}
-
-type BuildingName {
-  id: ID!
-  names: [String!]!
-}
-
-type ElevatorLocation {
-  id: ID!
-  locations: [String!]!
-}
-
-type TechnicianName {
-  id: ID!
-  names: [String!]!
-}
-
-type TechnicianSkill {
-  id: ID!
-  skills: [String!]!
-}
-
-type RepairJobPriority {
-  id: ID!
-  priorities: [String!]!
-}
-
 type RepairJobScheduleData {
   repairJobTypes: [String!]!
   elevatorTypes: [String!]!
@@ -41,6 +6,7 @@ type RepairJobScheduleData {
   technicianNames: [String!]!
   technicianSkills: [String!]!
   priorities: [String!]!
+  statuses: [String!]
 }
 
 type RepairJob implements Node {
@@ -57,6 +23,7 @@ type RepairJob implements Node {
   startDate: DateTime!
   endDate: DateTime!
   calendarEventId: String
+  status: String!
 }
 
 type RepairJobEdge implements Edge {
@@ -97,4 +64,5 @@ input UpdateRepairJobInput {
   technicianName: String
   technicianSkills: [String!]
   contactInformation: String
+  status: String
 }

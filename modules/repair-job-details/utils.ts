@@ -24,6 +24,7 @@ export const convertRepairJobToFormValues = (repairJob: RepairJob): RepairJobDet
   contactInfo: repairJob ? repairJob.contactInformation : '',
   id: repairJob ? repairJob.id : '',
   calendarEventId: repairJob ? repairJob.calendarEventId : null,
+  status: repairJob ? repairJob.status : null,
 });
 
 export const convertFormFieldsToRepairJob = (formFields: RepairJobDetailsFormValues): RepairJob => ({
@@ -40,6 +41,7 @@ export const convertFormFieldsToRepairJob = (formFields: RepairJobDetailsFormVal
   contactInformation: formFields.contactInfo ?? '',
   id: formFields.id ?? '',
   calendarEventId: formFields.calendarEventId ?? null,
+  status: formFields.status ?? '',
 });
 
 export const getFieldsToUpdate = (updatedRepairJob: RepairJob, originalRepairJob: RepairJob): Partial<RepairJob> => {

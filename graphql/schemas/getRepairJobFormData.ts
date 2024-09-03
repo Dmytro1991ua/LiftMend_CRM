@@ -10,6 +10,7 @@ export const GET_REPAIR_JOB_FORM_DATA = gql`
       technicianNames
       technicianSkills
       priorities
+      statuses
     }
   }
 `;
