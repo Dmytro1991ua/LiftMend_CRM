@@ -33,6 +33,11 @@ model TechnicianSkills {
   skills String[]
 }
 
+model Statuses {
+  id       Int      @id @default(autoincrement())
+  statuses String[]
+}
+
 model RepairJob {
   id                 String         @id @default(uuid())
   jobType            String
@@ -46,6 +51,7 @@ model RepairJob {
   contactInformation String
   startDate          DateTime
   endDate            DateTime
+  status             String         @default("Scheduled")
   calendarEventId    String?        @unique
   calendarEvent      CalendarEvent? @relation
 }

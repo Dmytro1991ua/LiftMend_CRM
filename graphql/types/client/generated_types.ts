@@ -15,12 +15,6 @@ export type Scalars = {
   DateTime: { input: any; output: any };
 };
 
-export type BuildingName = {
-  __typename?: 'BuildingName';
-  id: Scalars['ID']['output'];
-  names: Array<Scalars['String']['output']>;
-};
-
 export type CalendarEvent = {
   __typename?: 'CalendarEvent';
   allDay: Scalars['Boolean']['output'];
@@ -69,18 +63,6 @@ export type DeleteCalendarAndRepairJobResponse = {
 export type Edge = {
   cursor: Scalars['String']['output'];
   node: Node;
-};
-
-export type ElevatorLocation = {
-  __typename?: 'ElevatorLocation';
-  id: Scalars['ID']['output'];
-  locations: Array<Scalars['String']['output']>;
-};
-
-export type ElevatorType = {
-  __typename?: 'ElevatorType';
-  id: Scalars['ID']['output'];
-  types: Array<Scalars['String']['output']>;
 };
 
 export type Mutation = {
@@ -150,6 +132,7 @@ export type RepairJob = Node & {
   jobPriority: Scalars['String']['output'];
   jobType: Scalars['String']['output'];
   startDate: Scalars['DateTime']['output'];
+  status: Scalars['String']['output'];
   technicianName: Scalars['String']['output'];
   technicianSkills: Array<Scalars['String']['output']>;
 };
@@ -167,12 +150,6 @@ export type RepairJobEdge = Edge & {
   node: RepairJob;
 };
 
-export type RepairJobPriority = {
-  __typename?: 'RepairJobPriority';
-  id: Scalars['ID']['output'];
-  priorities: Array<Scalars['String']['output']>;
-};
-
 export type RepairJobScheduleData = {
   __typename?: 'RepairJobScheduleData';
   buildingNames: Array<Scalars['String']['output']>;
@@ -180,32 +157,15 @@ export type RepairJobScheduleData = {
   elevatorTypes: Array<Scalars['String']['output']>;
   priorities: Array<Scalars['String']['output']>;
   repairJobTypes: Array<Scalars['String']['output']>;
+  statuses: Maybe<Array<Scalars['String']['output']>>;
   technicianNames: Array<Scalars['String']['output']>;
   technicianSkills: Array<Scalars['String']['output']>;
-};
-
-export type RepairJobType = {
-  __typename?: 'RepairJobType';
-  id: Scalars['ID']['output'];
-  types: Array<Scalars['String']['output']>;
 };
 
 export type ScheduledEventAndRepairJobResponse = {
   __typename?: 'ScheduledEventAndRepairJobResponse';
   calendarEvent: CalendarEvent;
   repairJob: RepairJob;
-};
-
-export type TechnicianName = {
-  __typename?: 'TechnicianName';
-  id: Scalars['ID']['output'];
-  names: Array<Scalars['String']['output']>;
-};
-
-export type TechnicianSkill = {
-  __typename?: 'TechnicianSkill';
-  id: Scalars['ID']['output'];
-  skills: Array<Scalars['String']['output']>;
 };
 
 export type UpdateRepairJobInput = {
@@ -219,6 +179,7 @@ export type UpdateRepairJobInput = {
   jobPriority?: InputMaybe<Scalars['String']['input']>;
   jobType?: InputMaybe<Scalars['String']['input']>;
   startDate?: InputMaybe<Scalars['DateTime']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
   technicianName?: InputMaybe<Scalars['String']['input']>;
   technicianSkills?: InputMaybe<Array<Scalars['String']['input']>>;
 };
@@ -334,6 +295,7 @@ export type GetRepairJobByIdQuery = {
   __typename?: 'Query';
   getRepairJobById: {
     __typename?: 'RepairJob';
+    status: string;
     id: string;
     jobType: string;
     jobDetails: string;
@@ -363,6 +325,7 @@ export type GetRepairJobFromDataQuery = {
     technicianNames: Array<string>;
     technicianSkills: Array<string>;
     priorities: Array<string>;
+    statuses: Array<string> | null;
   };
 };
 
@@ -380,6 +343,7 @@ export type GetRepairJobsQuery = {
       cursor: string;
       node: {
         __typename?: 'RepairJob';
+        status: string;
         id: string;
         jobType: string;
         jobDetails: string;
@@ -414,6 +378,7 @@ export type UpdateRepairJobMutation = {
   updateRepairJob: {
     __typename?: 'RepairJob';
     id: string;
+    status: string;
     jobType: string;
     jobDetails: string;
     jobPriority: string;

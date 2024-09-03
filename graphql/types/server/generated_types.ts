@@ -18,12 +18,6 @@ export type Scalars = {
   DateTime: { input: any; output: any };
 };
 
-export type BuildingName = {
-  __typename?: 'BuildingName';
-  id: Scalars['ID']['output'];
-  names: Array<Scalars['String']['output']>;
-};
-
 export type CalendarEvent = {
   __typename?: 'CalendarEvent';
   allDay: Scalars['Boolean']['output'];
@@ -72,18 +66,6 @@ export type DeleteCalendarAndRepairJobResponse = {
 export type Edge = {
   cursor: Scalars['String']['output'];
   node: Node;
-};
-
-export type ElevatorLocation = {
-  __typename?: 'ElevatorLocation';
-  id: Scalars['ID']['output'];
-  locations: Array<Scalars['String']['output']>;
-};
-
-export type ElevatorType = {
-  __typename?: 'ElevatorType';
-  id: Scalars['ID']['output'];
-  types: Array<Scalars['String']['output']>;
 };
 
 export type Mutation = {
@@ -153,6 +135,7 @@ export type RepairJob = Node & {
   jobPriority: Scalars['String']['output'];
   jobType: Scalars['String']['output'];
   startDate: Scalars['DateTime']['output'];
+  status: Scalars['String']['output'];
   technicianName: Scalars['String']['output'];
   technicianSkills: Array<Scalars['String']['output']>;
 };
@@ -170,12 +153,6 @@ export type RepairJobEdge = Edge & {
   node: RepairJob;
 };
 
-export type RepairJobPriority = {
-  __typename?: 'RepairJobPriority';
-  id: Scalars['ID']['output'];
-  priorities: Array<Scalars['String']['output']>;
-};
-
 export type RepairJobScheduleData = {
   __typename?: 'RepairJobScheduleData';
   buildingNames: Array<Scalars['String']['output']>;
@@ -183,32 +160,15 @@ export type RepairJobScheduleData = {
   elevatorTypes: Array<Scalars['String']['output']>;
   priorities: Array<Scalars['String']['output']>;
   repairJobTypes: Array<Scalars['String']['output']>;
+  statuses?: Maybe<Array<Scalars['String']['output']>>;
   technicianNames: Array<Scalars['String']['output']>;
   technicianSkills: Array<Scalars['String']['output']>;
-};
-
-export type RepairJobType = {
-  __typename?: 'RepairJobType';
-  id: Scalars['ID']['output'];
-  types: Array<Scalars['String']['output']>;
 };
 
 export type ScheduledEventAndRepairJobResponse = {
   __typename?: 'ScheduledEventAndRepairJobResponse';
   calendarEvent: CalendarEvent;
   repairJob: RepairJob;
-};
-
-export type TechnicianName = {
-  __typename?: 'TechnicianName';
-  id: Scalars['ID']['output'];
-  names: Array<Scalars['String']['output']>;
-};
-
-export type TechnicianSkill = {
-  __typename?: 'TechnicianSkill';
-  id: Scalars['ID']['output'];
-  skills: Array<Scalars['String']['output']>;
 };
 
 export type UpdateRepairJobInput = {
@@ -222,6 +182,7 @@ export type UpdateRepairJobInput = {
   jobPriority?: InputMaybe<Scalars['String']['input']>;
   jobType?: InputMaybe<Scalars['String']['input']>;
   startDate?: InputMaybe<Scalars['DateTime']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
   technicianName?: InputMaybe<Scalars['String']['input']>;
   technicianSkills?: InputMaybe<Array<Scalars['String']['input']>>;
 };
@@ -316,7 +277,6 @@ export type ResolversInterfaceTypes<RefType extends Record<string, unknown>> = R
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
-  BuildingName: ResolverTypeWrapper<BuildingName>;
   CalendarEvent: ResolverTypeWrapper<CalendarEvent>;
   Connection: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Connection']>;
   CreateCalendarEventInput: CreateCalendarEventInput;
@@ -324,8 +284,6 @@ export type ResolversTypes = ResolversObject<{
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   DeleteCalendarAndRepairJobResponse: ResolverTypeWrapper<DeleteCalendarAndRepairJobResponse>;
   Edge: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Edge']>;
-  ElevatorLocation: ResolverTypeWrapper<ElevatorLocation>;
-  ElevatorType: ResolverTypeWrapper<ElevatorType>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
@@ -336,13 +294,9 @@ export type ResolversTypes = ResolversObject<{
   RepairJob: ResolverTypeWrapper<RepairJob>;
   RepairJobConnection: ResolverTypeWrapper<RepairJobConnection>;
   RepairJobEdge: ResolverTypeWrapper<RepairJobEdge>;
-  RepairJobPriority: ResolverTypeWrapper<RepairJobPriority>;
   RepairJobScheduleData: ResolverTypeWrapper<RepairJobScheduleData>;
-  RepairJobType: ResolverTypeWrapper<RepairJobType>;
   ScheduledEventAndRepairJobResponse: ResolverTypeWrapper<ScheduledEventAndRepairJobResponse>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
-  TechnicianName: ResolverTypeWrapper<TechnicianName>;
-  TechnicianSkill: ResolverTypeWrapper<TechnicianSkill>;
   UpdateRepairJobInput: UpdateRepairJobInput;
   User: ResolverTypeWrapper<UserModel>;
 }>;
@@ -350,7 +304,6 @@ export type ResolversTypes = ResolversObject<{
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean']['output'];
-  BuildingName: BuildingName;
   CalendarEvent: CalendarEvent;
   Connection: ResolversInterfaceTypes<ResolversParentTypes>['Connection'];
   CreateCalendarEventInput: CreateCalendarEventInput;
@@ -358,8 +311,6 @@ export type ResolversParentTypes = ResolversObject<{
   DateTime: Scalars['DateTime']['output'];
   DeleteCalendarAndRepairJobResponse: DeleteCalendarAndRepairJobResponse;
   Edge: ResolversInterfaceTypes<ResolversParentTypes>['Edge'];
-  ElevatorLocation: ElevatorLocation;
-  ElevatorType: ElevatorType;
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
   Mutation: {};
@@ -370,24 +321,11 @@ export type ResolversParentTypes = ResolversObject<{
   RepairJob: RepairJob;
   RepairJobConnection: RepairJobConnection;
   RepairJobEdge: RepairJobEdge;
-  RepairJobPriority: RepairJobPriority;
   RepairJobScheduleData: RepairJobScheduleData;
-  RepairJobType: RepairJobType;
   ScheduledEventAndRepairJobResponse: ScheduledEventAndRepairJobResponse;
   String: Scalars['String']['output'];
-  TechnicianName: TechnicianName;
-  TechnicianSkill: TechnicianSkill;
   UpdateRepairJobInput: UpdateRepairJobInput;
   User: UserModel;
-}>;
-
-export type BuildingNameResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['BuildingName'] = ResolversParentTypes['BuildingName']
-> = ResolversObject<{
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  names?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type CalendarEventResolvers<
@@ -434,24 +372,6 @@ export type EdgeResolvers<
   __resolveType: TypeResolveFn<'RepairJobEdge', ParentType, ContextType>;
   cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   node?: Resolver<ResolversTypes['Node'], ParentType, ContextType>;
-}>;
-
-export type ElevatorLocationResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['ElevatorLocation'] = ResolversParentTypes['ElevatorLocation']
-> = ResolversObject<{
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  locations?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type ElevatorTypeResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['ElevatorType'] = ResolversParentTypes['ElevatorType']
-> = ResolversObject<{
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  types?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type MutationResolvers<
@@ -532,6 +452,7 @@ export type RepairJobResolvers<
   jobPriority?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   jobType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   startDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   technicianName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   technicianSkills?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -556,15 +477,6 @@ export type RepairJobEdgeResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type RepairJobPriorityResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['RepairJobPriority'] = ResolversParentTypes['RepairJobPriority']
-> = ResolversObject<{
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  priorities?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
 export type RepairJobScheduleDataResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['RepairJobScheduleData'] = ResolversParentTypes['RepairJobScheduleData']
@@ -574,17 +486,9 @@ export type RepairJobScheduleDataResolvers<
   elevatorTypes?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   priorities?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   repairJobTypes?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  statuses?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
   technicianNames?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   technicianSkills?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type RepairJobTypeResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['RepairJobType'] = ResolversParentTypes['RepairJobType']
-> = ResolversObject<{
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  types?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -594,24 +498,6 @@ export type ScheduledEventAndRepairJobResponseResolvers<
 > = ResolversObject<{
   calendarEvent?: Resolver<ResolversTypes['CalendarEvent'], ParentType, ContextType>;
   repairJob?: Resolver<ResolversTypes['RepairJob'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type TechnicianNameResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['TechnicianName'] = ResolversParentTypes['TechnicianName']
-> = ResolversObject<{
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  names?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type TechnicianSkillResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['TechnicianSkill'] = ResolversParentTypes['TechnicianSkill']
-> = ResolversObject<{
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  skills?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -626,14 +512,11 @@ export type UserResolvers<
 }>;
 
 export type Resolvers<ContextType = any> = ResolversObject<{
-  BuildingName?: BuildingNameResolvers<ContextType>;
   CalendarEvent?: CalendarEventResolvers<ContextType>;
   Connection?: ConnectionResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   DeleteCalendarAndRepairJobResponse?: DeleteCalendarAndRepairJobResponseResolvers<ContextType>;
   Edge?: EdgeResolvers<ContextType>;
-  ElevatorLocation?: ElevatorLocationResolvers<ContextType>;
-  ElevatorType?: ElevatorTypeResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Node?: NodeResolvers<ContextType>;
   PageInfo?: PageInfoResolvers<ContextType>;
@@ -641,11 +524,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   RepairJob?: RepairJobResolvers<ContextType>;
   RepairJobConnection?: RepairJobConnectionResolvers<ContextType>;
   RepairJobEdge?: RepairJobEdgeResolvers<ContextType>;
-  RepairJobPriority?: RepairJobPriorityResolvers<ContextType>;
   RepairJobScheduleData?: RepairJobScheduleDataResolvers<ContextType>;
-  RepairJobType?: RepairJobTypeResolvers<ContextType>;
   ScheduledEventAndRepairJobResponse?: ScheduledEventAndRepairJobResponseResolvers<ContextType>;
-  TechnicianName?: TechnicianNameResolvers<ContextType>;
-  TechnicianSkill?: TechnicianSkillResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 }>;

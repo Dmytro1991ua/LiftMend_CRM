@@ -16,6 +16,7 @@ export type MultiStepDropdownOption = {
   technicianNames: DropdownOption[];
   technicianSkills: DropdownOption[];
   priorities: DropdownOption[];
+  statuses: DropdownOption[];
 };
 
 type UseFetchDropdownOptions = {
@@ -41,6 +42,7 @@ export const useFetchDropdownOptions = (): UseFetchDropdownOptions => {
         'technicianNames',
         'technicianSkills',
         'priorities',
+        'statuses',
       ];
 
       // Reduce the fields to an object with converted dropdown options

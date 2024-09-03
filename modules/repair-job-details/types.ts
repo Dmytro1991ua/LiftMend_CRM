@@ -12,6 +12,7 @@ export enum FormFieldLabel {
   JobType = 'Job Type',
   JobDescription = 'Job Description',
   JobPriority = 'Job Priority',
+  JobStatus = 'Job Status',
   ScheduledDates = 'Scheduled Dates',
   ElevatorType = 'Elevator Type',
   BuildingName = 'Building Name',
@@ -42,6 +43,7 @@ export type RepairJobDetailsFormValues = {
   technicianName: string | null;
   technicianSkill: string[];
   contactInfo?: string;
+  status: string | null;
 };
 
 export type FormFieldConfig = {

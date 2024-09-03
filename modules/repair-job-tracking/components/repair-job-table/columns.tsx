@@ -2,6 +2,8 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import RepairJobPriority from '@/shared/repair-job/repair-job-priority';
 import { Priority } from '@/shared/repair-job/repair-job-priority/config';
+import RepairJobStatus from '@/shared/repair-job/repair-job-status';
+import { Status } from '@/shared/repair-job/repair-job-status/config';
 import TechnicianSkills from '@/shared/repair-job/technician-skills';
 
 import DateCell from '../date-cell';
@@ -20,6 +22,7 @@ export type RepairJob = {
   technicianSkills: string[];
   contactInformation?: string;
   calendarEventId?: string | null;
+  status: string | null;
 };
 export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
   {
@@ -46,6 +49,17 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
     size: 180,
   },
   {
+    accessorKey: 'status',
+    header: 'Status',
+    cell: ({
+      row: {
+        original: { status },
+      },
+    }) => <RepairJobStatus status={status as Status} />,
+    enableResizing: true,
+    size: 180,
+  },
+  {
     accessorKey: 'startDate',
     header: () => <div className='text-center'>Start Date</div>,
     enableResizing: true,
@@ -53,7 +67,7 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
       row: {
         original: { startDate },
       },
-    }) => <DateCell date={startDate} />,
+    }) => <DateCell isDisabled date={startDate} />,
     size: 300,
   },
   {
@@ -64,7 +78,7 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
       row: {
         original: { endDate },
       },
-    }) => <DateCell date={endDate} />,
+    }) => <DateCell isDisabled date={endDate} />,
     size: 300,
   },
   {

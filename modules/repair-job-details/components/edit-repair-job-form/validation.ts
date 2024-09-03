@@ -34,4 +34,5 @@ export const repairJobDetailsFormSchema = z.object({
   technicianName: z.string().optional().nullable(),
   id: z.string().optional(),
   calendarEventId: z.string().optional(),
+  status: z.string().optional().nullable(),
 });

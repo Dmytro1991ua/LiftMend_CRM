@@ -8,6 +8,7 @@ export const GET_REPAIR_JOBS = gql`
       edges {
         cursor
         node {
+          status
           ...RepairJobFields
         }
       }

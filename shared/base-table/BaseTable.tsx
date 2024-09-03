@@ -55,7 +55,7 @@ const BaseTable = <T extends object>({
   );
 
   return (
-    <div className='relative w-full rounded-[2rem] border overflow-auto h-[60rem]' id={SCROLL_WRAPPER_ID}>
+    <div id={SCROLL_WRAPPER_ID}>
       <InfiniteScroll
         dataLength={getRowModel().rows.length}
         hasMore={hasMore}
@@ -74,16 +74,18 @@ const BaseTable = <T extends object>({
         scrollableTarget={SCROLL_WRAPPER_ID}
         style={{ overflow: INFINITE_SCROLL_OVERFLOW }}
       >
-        <Table className='w-full table-fixed' data-testid='base-table' style={{ ...columnSizeVariables }}>
-          <BaseTableHeader headerGroups={getHeaderGroups()} />
-          <BaseTableBody
-            columnLength={columns.length}
-            emptyTableMessage={emptyTableMessage}
-            errorMessage={errorMessage}
-            loading={loading}
-            tableRows={getRowModel().rows}
-          />
-        </Table>
+        <div className='relative w-full h-[58rem] rounded-[2rem] border overflow-auto'>
+          <Table className='w-full table-fixed' data-testid='base-table' style={{ ...columnSizeVariables }}>
+            <BaseTableHeader headerGroups={getHeaderGroups()} />
+            <BaseTableBody
+              columnLength={columns.length}
+              emptyTableMessage={emptyTableMessage}
+              errorMessage={errorMessage}
+              loading={loading}
+              tableRows={getRowModel().rows}
+            />
+          </Table>
+        </div>
       </InfiniteScroll>
     </div>
   );

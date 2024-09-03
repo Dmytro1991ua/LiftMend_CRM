@@ -1,8 +1,9 @@
-import { RepairJob } from '@prisma/client';
-
+import { RepairJob } from '@/graphql/types/client/generated_types';
 import DatePicker from '@/shared/date-picker';
 import RepairJobPriority from '@/shared/repair-job/repair-job-priority';
 import { Priority } from '@/shared/repair-job/repair-job-priority/config';
+import RepairJobStatus from '@/shared/repair-job/repair-job-status';
+import { Status } from '@/shared/repair-job/repair-job-status/config';
 import TechnicianSkills from '@/shared/repair-job/technician-skills';
 
 type SectionField = { id: number; label: string; value: React.ReactNode | string; fieldClassName?: string };
@@ -18,16 +19,23 @@ export const repairJobSectionsConfig = (repairJob: RepairJob): RepairJobSectionC
     id: 1,
     title: 'Repair Job Details',
     fields: [
-      { id: 3, label: 'Type', value: repairJob.jobType },
-      { id: 4, label: 'Details', value: repairJob.jobDetails },
       {
-        id: 5,
+        id: 3,
+        label: 'Status',
+        value: <RepairJobStatus status={repairJob.status as Status} />,
+        fieldClassName: 'items-center',
+      },
+      { id: 4, label: 'Type', value: repairJob.jobType },
+      { id: 5, label: 'Details', value: repairJob.jobDetails },
+      {
+        id: 6,
         label: 'Priority',
         value: <RepairJobPriority priority={repairJob.jobPriority as Priority} />,
         fieldClassName: 'items-center',
       },
+
       {
-        id: 6,
+        id: 7,
         label: 'Scheduled Dates',
         value: (
           <DatePicker
