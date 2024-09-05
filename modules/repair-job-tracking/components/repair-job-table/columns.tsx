@@ -31,12 +31,14 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
     accessorKey: 'jobType',
     header: 'Job Type',
     enableResizing: true,
+    enableSorting: true,
     size: 180,
   },
   {
     accessorKey: 'jobDetails',
     header: 'Job Details',
     enableResizing: true,
+    enableSorting: false,
     size: 250,
   },
   {
@@ -48,6 +50,7 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
       },
     }) => <RepairJobPriority priority={jobPriority as Priority} />,
     enableResizing: true,
+    enableSorting: true,
     size: 180,
   },
   {
@@ -59,6 +62,7 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
       },
     }) => <RepairJobStatus status={status as Status} />,
     enableResizing: true,
+    enableSorting: true,
     size: 180,
   },
   {
@@ -72,12 +76,14 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
     }) => (
       <DatePicker key={`${startDate}`} isDisabled isDateRangeMode={false} numberOfMonths={1} singleDate={startDate} />
     ),
+    enableSorting: true,
     size: 300,
   },
   {
     accessorKey: 'endDate',
     header: () => <div className='text-center'>End Date</div>,
     enableResizing: true,
+    enableSorting: true,
     cell: ({
       row: {
         original: { endDate },
@@ -89,12 +95,14 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
     accessorKey: 'elevatorType',
     header: 'Elevator Type',
     enableResizing: true,
+    enableSorting: true,
     size: 180,
   },
   {
     accessorKey: 'buildingName',
     header: 'Building Name',
     enableResizing: true,
+    enableSorting: true,
     size: 180,
   },
   {
@@ -107,6 +115,7 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
     accessorKey: 'technicianName',
     header: 'Technician Name',
     enableResizing: true,
+    enableSorting: true,
     size: 180,
   },
   {
@@ -119,17 +128,20 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
     }) => <TechnicianSkills className='flex flex-col text-center' skills={technicianSkills ?? []} />,
     size: 250,
     enableResizing: true,
+    enableSorting: false,
   },
   {
     accessorKey: 'contactInformation',
     header: 'Contact Information',
     enableResizing: true,
+    enableSorting: false,
     size: 180,
   },
   {
     accessorKey: 'editAction',
     header: () => <div className='text-center'>Edit</div>,
     cell: ({ row: { original } }) => <EditActionCell repairJob={original} />,
+    enableSorting: false,
     size: 40,
   },
 ];
