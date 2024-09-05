@@ -1,7 +1,9 @@
 import { RepairJob } from '@prisma/client';
 import { isEqual as _isEqual } from 'lodash';
 
-import { OverlappingKeys, RepairJobDetailsFormValues } from './types';
+import { RepairJobFormValues } from '@/shared/repair-job/edit-repair-job-form/types';
+
+import { OverlappingKeys } from './types';
 
 export const getModalTitle = (title: string, isEdit?: boolean): string => {
   const modalActionString = isEdit ? 'Edit' : 'Delete';
@@ -11,7 +13,7 @@ export const getModalTitle = (title: string, isEdit?: boolean): string => {
 
 export const getModalDescription = (title: string): string => `Are you sure you want to delete ${title}`;
 
-export const convertRepairJobToFormValues = (repairJob: RepairJob): RepairJobDetailsFormValues => ({
+export const convertRepairJobToFormValues = (repairJob: RepairJob): RepairJobFormValues => ({
   jobType: repairJob ? repairJob.jobType : null,
   jobDescription: repairJob ? repairJob.jobDetails : '',
   jobPriority: repairJob ? repairJob.jobPriority : null,
@@ -27,7 +29,7 @@ export const convertRepairJobToFormValues = (repairJob: RepairJob): RepairJobDet
   status: repairJob ? repairJob.status : null,
 });
 
-export const convertFormFieldsToRepairJob = (formFields: RepairJobDetailsFormValues): RepairJob => ({
+export const convertFormFieldsToRepairJob = (formFields: RepairJobFormValues): RepairJob => ({
   jobType: formFields.jobType ?? '',
   jobDetails: formFields.jobDescription ?? '',
   jobPriority: formFields.jobPriority ?? '',

@@ -1,27 +1,26 @@
 import { useMemo } from 'react';
 
 import { useRouter } from 'next/router';
-import { FormProvider, SubmitHandler } from 'react-hook-form';
+import { FormProvider } from 'react-hook-form';
 import { Audio } from 'react-loader-spinner';
 
 import DeleteModal from '@/shared/base-modal/delete-modal';
+import EditModal from '@/shared/base-modal/edit-modal';
 import useDeleteRepairJobAndCalendarEvent from '@/shared/hooks/useDeleteRepairJobAndCalendarEvent';
 import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import QueryResponse from '@/shared/query-response';
+import EditRepairJobForm from '@/shared/repair-job/edit-repair-job-form';
+import useRepairJobDetailsFormState from '@/shared/repair-job/hooks/useRepairJobDetailsFormState';
+import useRepairJobFormHandler from '@/shared/repair-job/hooks/useRepairJobFormHandler';
 import { getCalendarEventInfo } from '@/shared/utils';
 import { AppRoutes } from '@/types/enums';
 
-import EditModal from './components/edit-modal';
-import EditRepairJobForm from './components/edit-repair-job-form';
 import RepairJobContent from './components/repair-job-content';
 import RepairJobHeader from './components/repair-job-header';
 import { repairJobSectionsConfig } from './config';
 import { DEFAULT_DELETE_MODAL_TITLE } from './constants';
 import useFetchRepairJobById from './hooks/useFetchRepairJobById';
-import useRepairJobDetailsFormState from './hooks/useRepairJobDetailsFormState';
 import useRepairJobDetailsModals from './hooks/useRepairJobDetailsModals';
-import useUpdateRepairJob from './hooks/useUpdateRepairJob';
-import { RepairJobDetailsFormValues } from './types';
 import { getModalTitle } from './utils';
 
 const RepairJobDetails = () => {
@@ -56,24 +55,12 @@ const RepairJobDetails = () => {
 
   const deleteModalDescription = `Are you sure you want to delete scheduled ${title}?`;
 
-  const { onUpdateRepairJob, isLoading } = useUpdateRepairJob({ onError, onSuccess });
-
   const { onDeleteRepairJobAndCalendarEvent, isLoading: isDeleteLoading } = useDeleteRepairJobAndCalendarEvent({
     onError,
     onSuccess,
   });
 
-  const onSubmit: SubmitHandler<RepairJobDetailsFormValues> = async (data) => {
-    const updatedRepairJob = {
-      ...data,
-      id: repairJob.id,
-      calendarEventId: repairJob.calendarEventId,
-    };
-
-    await onUpdateRepairJob(updatedRepairJob, repairJob);
-
-    onReset();
-  };
+  const { onEditRepairJob, isEditRepairJobLoading } = useRepairJobFormHandler({ repairJob, onReset });
 
   const onDeleteRepairJob = async () => {
     await onDeleteRepairJobAndCalendarEvent(repairJob.calendarEventId ?? '', repairJob.id);
@@ -88,11 +75,11 @@ const RepairJobDetails = () => {
       id: 1,
       content: (
         <EditModal
-          isDisabled={!repairJobFormState.formState.isDirty || isLoading}
+          isDisabled={!repairJobFormState.formState.isDirty || isEditRepairJobLoading}
           isOpen={isEditModalOpen}
           title={getModalTitle(title, true)}
           onClose={onReset}
-          onSubmit={repairJobFormState.handleSubmit(onSubmit)}
+          onSubmit={repairJobFormState.handleSubmit(onEditRepairJob)}
         >
           <EditRepairJobForm repairJob={repairJob} />
         </EditModal>

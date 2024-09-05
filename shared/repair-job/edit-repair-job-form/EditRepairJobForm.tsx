@@ -13,14 +13,15 @@ import BaseTextarea from '@/shared/base-textarea';
 import DatePicker from '@/shared/date-picker/DatePicker';
 import QueryResponse from '@/shared/query-response';
 
-import { FormFieldConfig, FormFieldLabel, RepairJobDetailsFormValues } from '../../types';
-import { convertRepairJobToFormValues, formatScheduledDate } from '../../utils';
+import { convertRepairJobToFormValues, formatScheduledDate } from '../../../modules/repair-job-details/utils';
+
+import { FormFieldConfig, FormFieldLabel, RepairJobFormValues } from './types';
 
 type EditRepairJobFormProps = {
   repairJob: RepairJob;
 };
 
-type FormFieldKeys = keyof RepairJobDetailsFormValues;
+type FormFieldKeys = keyof RepairJobFormValues;
 
 const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
   const {
@@ -38,7 +39,7 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
     error,
   } = useFetchDropdownOptions();
 
-  const { control, clearErrors, setValue } = useFormContext<RepairJobDetailsFormValues>();
+  const { control, clearErrors, setValue } = useFormContext<RepairJobFormValues>();
 
   const currentRepairJob = useMemo(() => convertRepairJobToFormValues(repairJob), [repairJob]);
 
@@ -46,7 +47,7 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
   // ensuring that the form displays the latest values for each field.
   useEffect(() => {
     Object.keys(currentRepairJob).forEach((key) => {
-      setValue(key as keyof RepairJobDetailsFormValues, currentRepairJob[key as FormFieldKeys]);
+      setValue(key as keyof RepairJobFormValues, currentRepairJob[key as FormFieldKeys]);
     });
   }, [currentRepairJob, setValue]);
 
@@ -69,7 +70,7 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
       id: 1,
       label: FormFieldLabel.JobType,
       content: (
-        <ControlledSingleSelect<RepairJobDetailsFormValues>
+        <ControlledSingleSelect<RepairJobFormValues>
           captureMenuScroll={false}
           className='mb-4'
           defaultValue={jobType}
@@ -85,7 +86,7 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
       id: 2,
       label: FormFieldLabel.JobDescription,
       content: (
-        <BaseTextarea<RepairJobDetailsFormValues>
+        <BaseTextarea<RepairJobFormValues>
           defaultValue={jobDescription}
           id='jobDescription'
           name='jobDescription'
@@ -99,7 +100,7 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
       id: 3,
       label: FormFieldLabel.JobPriority,
       content: (
-        <ControlledSingleSelect<RepairJobDetailsFormValues>
+        <ControlledSingleSelect<RepairJobFormValues>
           captureMenuScroll={false}
           className='mb-4'
           defaultValue={jobPriority}
@@ -112,10 +113,10 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
       className: 'row-start-1 row-end-2 col-start-3 col-end-5',
     },
     {
-      id: 3,
+      id: 4,
       label: FormFieldLabel.JobStatus,
       content: (
-        <ControlledSingleSelect<RepairJobDetailsFormValues>
+        <ControlledSingleSelect<RepairJobFormValues>
           captureMenuScroll={false}
           className='mb-4'
           defaultValue={status}
@@ -128,7 +129,7 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
       className: 'row-start-1 row-end-2 col-start-5 col-end-7',
     },
     {
-      id: 4,
+      id: 5,
       label: FormFieldLabel.ScheduledDates,
       content: (
         <Controller
@@ -153,10 +154,10 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
       className: 'row-start-6 row-end-6 col-start-3 col-end-7 mt-1',
     },
     {
-      id: 5,
+      id: 6,
       label: FormFieldLabel.ElevatorType,
       content: (
-        <ControlledSingleSelect<RepairJobDetailsFormValues>
+        <ControlledSingleSelect<RepairJobFormValues>
           captureMenuScroll={false}
           className='mb-4'
           defaultValue={elevatorType}
@@ -169,10 +170,10 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
       className: 'row-start-3 row-end-4 col-start-1 col-end-4',
     },
     {
-      id: 6,
+      id: 7,
       label: FormFieldLabel.BuildingName,
       content: (
-        <ControlledSingleSelect<RepairJobDetailsFormValues>
+        <ControlledSingleSelect<RepairJobFormValues>
           captureMenuScroll={false}
           className='mb-4'
           defaultValue={buildingName}
@@ -185,10 +186,10 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
       className: 'row-start-3 row-end-4 col-start-4 col-end-7',
     },
     {
-      id: 7,
+      id: 8,
       label: FormFieldLabel.ElevatorLocation,
       content: (
-        <ControlledSingleSelect<RepairJobDetailsFormValues>
+        <ControlledSingleSelect<RepairJobFormValues>
           captureMenuScroll={false}
           className='mb-4'
           defaultValue={elevatorLocation}
@@ -201,10 +202,10 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
       className: 'row-start-4 row-end-5 col-start-1 col-end-4',
     },
     {
-      id: 8,
+      id: 9,
       label: FormFieldLabel.TechnicianName,
       content: (
-        <ControlledSingleSelect<RepairJobDetailsFormValues>
+        <ControlledSingleSelect<RepairJobFormValues>
           captureMenuScroll={false}
           className='mb-4'
           defaultValue={technicianName}
@@ -217,10 +218,10 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
       className: 'row-start-4 row-end-5 col-start-4 col-end-7',
     },
     {
-      id: 9,
+      id: 10,
       label: FormFieldLabel.TechnicianSkill,
       content: (
-        <ControlledMultiSelect<RepairJobDetailsFormValues>
+        <ControlledMultiSelect<RepairJobFormValues>
           captureMenuScroll={false}
           className='mb-4'
           clearErrors={clearErrors}
@@ -239,10 +240,10 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
       className: 'row-start-5 row-end-5 col-start-1 col-end-7',
     },
     {
-      id: 10,
+      id: 11,
       label: FormFieldLabel.ContactInformation,
       content: (
-        <BaseInput<RepairJobDetailsFormValues>
+        <BaseInput<RepairJobFormValues>
           defaultValue={contactInfo}
           id='contactInfo'
           name='contactInfo'
