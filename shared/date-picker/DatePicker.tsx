@@ -19,6 +19,8 @@ type DatePickerProps = {
   singleDate?: Date;
   className?: string;
   isDisabled?: boolean;
+  numberOfMonths?: number;
+  isDateRangeMode?: boolean;
   onChange?: (range?: DateRange) => void;
   onSingleDateChange?: (singleDate?: Date) => void;
 };
@@ -28,6 +30,8 @@ const DatePicker = ({
   singleDate,
   isDisabled,
   className,
+  numberOfMonths = 2,
+  isDateRangeMode = true,
   onChange,
   onSingleDateChange,
 }: DatePickerProps) => {
@@ -37,14 +41,11 @@ const DatePicker = ({
   const datePickerConfig = useMemo(() => getDatePickerConfig(dateRangeState, singleDate), [dateRangeState, singleDate]);
   const configKey = useMemo(() => getDatePicketConfigKey(dateRangeState, singleDate), [dateRangeState, singleDate]);
 
-  const isDateRangeMode = Boolean(dateRangeState?.from && dateRangeState?.to);
-
   const getDateRangeModeProps = useCallback(
     (): CalendarProps => ({
       defaultMonth: dateRangeState?.from,
       mode: 'range' as const,
       selected: dateRangeState,
-      numberOfMonths: 2,
       onSelect: (range: DateRange | undefined) => onHandleSelectDates(range),
     }),
     [dateRangeState, onHandleSelectDates]
@@ -54,7 +55,6 @@ const DatePicker = ({
     (): CalendarProps => ({
       defaultMonth: singleDateState ? new Date(singleDateState) : undefined,
       mode: 'single' as const,
-      numberOfMonths: 1,
       selected: singleDateState ? new Date(singleDateState) : undefined,
       onSelect: (date: Date | undefined) => onHandleSelectSingleDate(date),
     }),
@@ -79,6 +79,7 @@ const DatePicker = ({
                 configKey === DateRangeConfigKey.WithSingleDate) &&
                 'text-muted-foreground justify-center'
             )}
+            disabled={isDisabled}
             id='date'
             variant={'outline'}
           >
@@ -87,7 +88,7 @@ const DatePicker = ({
           </Button>
         </PopoverTrigger>
         <PopoverContent align='start' className='w-auto p-0'>
-          <Calendar initialFocus disabled={isDisabled} fromDate={new Date()} {...calendarProps} />
+          <Calendar initialFocus fromDate={new Date()} numberOfMonths={numberOfMonths} {...calendarProps} />
           {dateRangeState || singleDateState ? (
             <TimePickerSection
               dateRange={dateRangeState}

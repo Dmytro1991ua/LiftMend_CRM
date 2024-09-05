@@ -9,10 +9,10 @@ import {
   UpdateRepairJobMutation,
   UpdateRepairJobMutationVariables,
 } from '@/graphql/types/client/generated_types';
+import { RepairJobFormValues } from '@/shared/repair-job/edit-repair-job-form/types';
 import { getCalendarEventInfo } from '@/shared/utils';
 
-import { RepairJobDetailsFormValues } from '../types';
-import { convertFormFieldsToRepairJob, getFieldsToUpdate } from '../utils';
+import { convertFormFieldsToRepairJob, getFieldsToUpdate } from '../../../modules/repair-job-details/utils';
 
 type UseUpdateRepairJobProps = {
   onSuccess?: (message: string) => void;
@@ -21,7 +21,7 @@ type UseUpdateRepairJobProps = {
 
 type UseUpdateRepairJob = {
   isLoading: boolean;
-  onUpdateRepairJob: (formFields: RepairJobDetailsFormValues, originalRepairJob: RepairJob) => Promise<void>;
+  onUpdateRepairJob: (formFields: RepairJobFormValues, originalRepairJob: RepairJob) => Promise<void>;
 };
 
 const useUpdateRepairJob = ({ onSuccess, onError }: UseUpdateRepairJobProps): UseUpdateRepairJob => {
@@ -56,7 +56,7 @@ const useUpdateRepairJob = ({ onSuccess, onError }: UseUpdateRepairJobProps): Us
     }
   );
 
-  const onUpdateRepairJob = async (formFields: RepairJobDetailsFormValues, originalRepairJob: RepairJob) => {
+  const onUpdateRepairJob = async (formFields: RepairJobFormValues, originalRepairJob: RepairJob) => {
     try {
       const repairJob = convertFormFieldsToRepairJob(formFields);
       const fieldsToUpdate = getFieldsToUpdate(repairJob, originalRepairJob);

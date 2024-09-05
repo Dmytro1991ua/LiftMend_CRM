@@ -1,3 +1,3 @@
 export * from './useFetchRepairJobById';
 export * from './useRepairJobDetailsModals';
-export * from './useRepairJobDetailsFormState';
+export * from '../../../shared/repair-job/hooks/useRepairJobDetailsFormState';

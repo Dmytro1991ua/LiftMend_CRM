@@ -5,9 +5,9 @@ import { UseFormReturn, useForm } from 'react-hook-form';
 
 import { RepairJob } from '@/graphql/types/client/generated_types';
 
-import { repairJobDetailsFormSchema } from '../components/edit-repair-job-form/validation';
-import { RepairJobDetailsFormValues } from '../types';
-import { convertRepairJobToFormValues } from '../utils';
+import { convertRepairJobToFormValues } from '../../../modules/repair-job-details/utils';
+import { RepairJobFormValues } from '../edit-repair-job-form/types';
+import { repairJobDetailsFormSchema } from '../edit-repair-job-form/validation';
 
 type UseRepairJobDetailsFormStateProps = {
   onCloseModal: () => void;
@@ -16,7 +16,7 @@ type UseRepairJobDetailsFormStateProps = {
 
 type UseRepairJobDetailsFormState = {
   onReset: () => void;
-  repairJobFormState: UseFormReturn<RepairJobDetailsFormValues>;
+  repairJobFormState: UseFormReturn<RepairJobFormValues>;
 };
 
 const useRepairJobDetailsFormState = ({
@@ -25,7 +25,7 @@ const useRepairJobDetailsFormState = ({
 }: UseRepairJobDetailsFormStateProps): UseRepairJobDetailsFormState => {
   const currentRepairJob = useMemo(() => convertRepairJobToFormValues(repairJob), [repairJob]);
 
-  const formState = useForm<RepairJobDetailsFormValues>({
+  const formState = useForm<RepairJobFormValues>({
     shouldUnregister: false,
     mode: 'onChange',
     defaultValues: currentRepairJob,

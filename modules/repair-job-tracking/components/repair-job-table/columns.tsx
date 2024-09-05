@@ -1,28 +1,30 @@
 import { ColumnDef } from '@tanstack/react-table';
 
+import { Maybe } from '@/graphql/types/client/generated_types';
+import DatePicker from '@/shared/date-picker';
 import RepairJobPriority from '@/shared/repair-job/repair-job-priority';
 import { Priority } from '@/shared/repair-job/repair-job-priority/config';
 import RepairJobStatus from '@/shared/repair-job/repair-job-status';
 import { Status } from '@/shared/repair-job/repair-job-status/config';
 import TechnicianSkills from '@/shared/repair-job/technician-skills';
 
-import DateCell from '../date-cell';
+import EditActionCell from '../edit-action-cell/EditActionCell';
 
 export type RepairJob = {
   id: string;
-  jobType: string | null;
-  jobDetails?: string;
-  jobPriority: string | null;
+  jobType: string;
+  jobDetails: string;
+  jobPriority: string;
   startDate: Date;
   endDate: Date;
-  elevatorType: string | null | null;
-  buildingName: string | null | null;
-  elevatorLocation: string | null | null;
-  technicianName: string | null | null;
+  elevatorType: string;
+  buildingName: string;
+  elevatorLocation: string;
+  technicianName: string;
   technicianSkills: string[];
-  contactInformation?: string;
-  calendarEventId?: string | null;
-  status: string | null;
+  contactInformation: string;
+  calendarEventId: Maybe<string>;
+  status: string;
 };
 export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
   {
@@ -67,7 +69,9 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
       row: {
         original: { startDate },
       },
-    }) => <DateCell isDisabled date={startDate} />,
+    }) => (
+      <DatePicker key={`${startDate}`} isDisabled isDateRangeMode={false} numberOfMonths={1} singleDate={startDate} />
+    ),
     size: 300,
   },
   {
@@ -78,7 +82,7 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
       row: {
         original: { endDate },
       },
-    }) => <DateCell isDisabled date={endDate} />,
+    }) => <DatePicker key={`${endDate}`} isDisabled isDateRangeMode={false} numberOfMonths={1} singleDate={endDate} />,
     size: 300,
   },
   {
@@ -121,5 +125,11 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
     header: 'Contact Information',
     enableResizing: true,
     size: 180,
+  },
+  {
+    accessorKey: 'editAction',
+    header: () => <div className='text-center'>Edit</div>,
+    cell: ({ row: { original } }) => <EditActionCell repairJob={original} />,
+    size: 40,
   },
 ];
