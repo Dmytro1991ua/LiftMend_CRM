@@ -19,6 +19,12 @@ type CacheRef = {
   __ref: string;
 };
 
+type RepairJobCacheEdge = {
+  __typename: string;
+  node: {
+    __ref: string;
+  };
+};
 export const DEFAULT_DELETE_CALENDAR_EVENT_AND_REPAIR_JOB_SUCCESS_MESSAGE =
   'Successfully deleted the calendar event and associated scheduled repair job';
 export const DEFAULT_DELETE_CALENDAR_EVENT_AND_REPAIR_JOB_FAIL_MESSAGE =
@@ -47,8 +53,8 @@ const useDeleteRepairJobAndCalendarEvent = ({
               return updatedCalendarEvents;
             },
             getRepairJobs(existingRepairJobs = []) {
-              const updatedRepairJobs = existingRepairJobs.filter(
-                (job: CacheRef) => job.__ref !== `RepairJob:${repairJobId}`
+              const updatedRepairJobs = existingRepairJobs?.edges.filter(
+                (edge: RepairJobCacheEdge) => edge.node.__ref !== `RepairJob:${repairJobId}`
               );
 
               return updatedRepairJobs;

@@ -28,7 +28,7 @@ const useFetchRepairJobs = (): UseFetchRepairJobs => {
     [data?.getRepairJobs]
   );
 
-  const hasMore = !!data?.getRepairJobs.pageInfo.hasNextPage;
+  const hasMore = !!data?.getRepairJobs?.pageInfo?.hasNextPage;
 
   const onNext = async (): Promise<void> => {
     try {

@@ -8,6 +8,7 @@ import RepairJobStatus from '@/shared/repair-job/repair-job-status';
 import { Status } from '@/shared/repair-job/repair-job-status/config';
 import TechnicianSkills from '@/shared/repair-job/technician-skills';
 
+import DeleteActionCell from '../delete-action-cell';
 import EditActionCell from '../edit-action-cell/EditActionCell';
 
 export type RepairJob = {
@@ -130,6 +131,12 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
     accessorKey: 'editAction',
     header: () => <div className='text-center'>Edit</div>,
     cell: ({ row: { original } }) => <EditActionCell repairJob={original} />,
+    size: 40,
+  },
+  {
+    accessorKey: 'deleteAction',
+    header: () => <div className='text-center'>Delete</div>,
+    cell: ({ row: { original } }) => <DeleteActionCell repairJob={original} />,
     size: 40,
   },
 ];
