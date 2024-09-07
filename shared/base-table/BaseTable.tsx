@@ -42,10 +42,6 @@ const BaseTable = <T extends object>({
     state: {
       columnSizing: colSizing,
     },
-    defaultColumn: {
-      minSize: 120,
-      maxSize: 500,
-    },
   });
 
   const columnSizeVariables = useMemo(
@@ -72,8 +68,7 @@ const BaseTable = <T extends object>({
         next={loadMore}
         scrollThreshold={0.99}
         scrollableTarget={SCROLL_WRAPPER_ID}
-        style={{ overflow: INFINITE_SCROLL_OVERFLOW }}
-      >
+        style={{ overflow: INFINITE_SCROLL_OVERFLOW }}>
         <div className='relative w-full h-[58rem] rounded-[2rem] border overflow-auto'>
           <Table className='w-full table-fixed' data-testid='base-table' style={{ ...columnSizeVariables }}>
             <BaseTableHeader headerGroups={getHeaderGroups()} />

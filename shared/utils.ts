@@ -42,4 +42,10 @@ export const logError = (error: Error, info: { componentStack: string }): void =
   console.error(`Error caused by: ${info.componentStack}`);
 };
 
-export const getItemsFromQuery = <T>(data?: { edges: { node: T }[] }): T[] => data?.edges.map(({ node }) => node) || [];
+export const getItemsFromQuery = <T>(data?: { edges?: { node: T }[] }): T[] => {
+  if (!data?.edges) {
+    return [];
+  }
+
+  return data.edges.map(({ node }) => node);
+};
