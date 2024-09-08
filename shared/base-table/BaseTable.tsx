@@ -1,6 +1,13 @@
 import { useMemo, useState } from 'react';
 
-import { ColumnDef, ColumnSizingState, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import {
+  ColumnDef,
+  ColumnSizingState,
+  SortingState,
+  getCoreRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Bars } from 'react-loader-spinner';
 
@@ -31,6 +38,7 @@ const BaseTable = <T extends object>({
   loadMore,
 }: BaseTableProps<T>): React.JSX.Element => {
   const [colSizing, setColSizing] = useState<ColumnSizingState>({});
+  const [sorting, setSorting] = useState<SortingState>([]);
 
   const { getHeaderGroups, getRowModel, getState, getFlatHeaders } = useReactTable({
     data,
@@ -39,8 +47,11 @@ const BaseTable = <T extends object>({
     enableColumnResizing: true,
     columnResizeMode: 'onChange',
     onColumnSizingChange: setColSizing,
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
     state: {
       columnSizing: colSizing,
+      sorting,
     },
   });
 
@@ -68,7 +79,8 @@ const BaseTable = <T extends object>({
         next={loadMore}
         scrollThreshold={0.99}
         scrollableTarget={SCROLL_WRAPPER_ID}
-        style={{ overflow: INFINITE_SCROLL_OVERFLOW }}>
+        style={{ overflow: INFINITE_SCROLL_OVERFLOW }}
+      >
         <div className='relative w-full h-[58rem] rounded-[2rem] border overflow-auto'>
           <Table className='w-full table-fixed' data-testid='base-table' style={{ ...columnSizeVariables }}>
             <BaseTableHeader headerGroups={getHeaderGroups()} />
