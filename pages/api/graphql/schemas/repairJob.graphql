@@ -1,3 +1,15 @@
+enum RepairJobSortField {
+  JOB_TYPE
+  JOB_PRIORITY
+  STATUS
+  START_DATE
+  END_DATE
+  ELEVATOR_TYPE
+  BUILDING_NAME
+  ELEVATOR_LOCATION
+  TECHNICIAN_NAME
+}
+
 type RepairJobScheduleData {
   repairJobTypes: [String!]!
   elevatorTypes: [String!]!
@@ -65,4 +77,9 @@ input UpdateRepairJobInput {
   technicianSkills: [String!]
   contactInformation: String
   status: String
+}
+
+input RepairJobSortInput {
+  field: RepairJobSortField
+  order: OrderOption
 }

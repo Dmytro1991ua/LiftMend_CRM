@@ -5,7 +5,7 @@ import useFetchRepairJobs from '../../hooks/useFetchRepairJobs';
 import { REPAIR_JOB_COLUMNS } from './columns';
 
 const RepairJobTable = () => {
-  const { repairJobs, hasMore, loading, error, onNext } = useFetchRepairJobs();
+  const { repairJobs, hasMore, sorting, loading, error, onNext, onSetSorting } = useFetchRepairJobs();
 
   return (
     <BaseTable
@@ -15,6 +15,8 @@ const RepairJobTable = () => {
       hasMore={hasMore}
       loadMore={onNext}
       loading={loading}
+      sorting={sorting}
+      onSetSorting={onSetSorting}
     />
   );
 };

@@ -166,7 +166,6 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
     header: () => <div className='text-center'>Edit</div>,
     cell: ({ row: { original } }) => <EditActionCell repairJob={original} />,
     enableSorting: false,
-    size: 40,
     size: 80,
     enableResizing: false,
     minSize: 80,

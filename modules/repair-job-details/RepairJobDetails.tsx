@@ -69,8 +69,7 @@ const RepairJobDetails = () => {
           isOpen={isEditModalOpen}
           title={getModalTitle(title, true)}
           onClose={onReset}
-          onSubmit={repairJobFormState.handleSubmit(onEditRepairJob)}
-        >
+          onSubmit={repairJobFormState.handleSubmit(onEditRepairJob)}>
           <EditRepairJobForm repairJob={repairJob} />
         </EditModal>
       ),
@@ -101,7 +100,7 @@ const RepairJobDetails = () => {
           onOpenDeleteModal={onOpenDeleteModal}
           onOpenEditModal={onOpenEditModal}
         />
-        <div className='content-wrapper h-[73vh] overflow-y-auto overflow-x-hidden'>
+        <div className='content-wrapper h-[72vh] overflow-y-auto overflow-x-hidden'>
           <>
             <QueryResponse
               errorDescription={error}

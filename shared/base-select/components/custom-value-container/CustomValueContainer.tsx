@@ -47,8 +47,7 @@ export const CustomValueContainer = <T extends string, IsMulti extends boolean>(
             data={props.getValue()[0]}
             innerProps={{}}
             isDisabled={selectProps.isDisabled}
-            isFocused={selectProps?.isFocused}
-          >
+            isFocused={selectProps?.isFocused}>
             {selectProps.getOptionLabel ? selectProps.getOptionLabel(props.getValue()[0]) : ''}
           </CustomSingleValue>
         ) : (
@@ -56,8 +55,7 @@ export const CustomValueContainer = <T extends string, IsMulti extends boolean>(
             {...commonProps}
             innerProps={{}}
             isDisabled={selectProps?.isDisabled || false}
-            isFocused={selectProps?.isFocused || false}
-          >
+            isFocused={selectProps?.isFocused || false}>
             {selectProps?.placeholder}
           </CustomPlaceholder>
         );

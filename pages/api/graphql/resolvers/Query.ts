@@ -4,6 +4,7 @@ import {
   RepairJob,
   RepairJobConnection,
   RepairJobScheduleData,
+  RepairJobSortField,
 } from '@/graphql/types/server/generated_types';
 
 import { fetchRepairJobData, getSortedRepairJobData, makeConnectionObject } from './utils';
@@ -58,10 +59,28 @@ const Query: QueryResolvers = {
 
     return calendarEvents || [];
   },
-  getRepairJobs: async (_, { paginationOptions }, { prisma }): Promise<RepairJobConnection> => {
+  getRepairJobs: async (_, { paginationOptions, sortOptions }, { prisma }): Promise<RepairJobConnection> => {
+    const fieldMap: { [key in RepairJobSortField]: string } = {
+      [RepairJobSortField.JobType]: 'jobType',
+      [RepairJobSortField.JobPriority]: 'jobPriority',
+      [RepairJobSortField.Status]: 'status',
+      [RepairJobSortField.StartDate]: 'startDate',
+      [RepairJobSortField.EndDate]: 'endDate',
+      [RepairJobSortField.ElevatorType]: 'elevatorType',
+      [RepairJobSortField.BuildingName]: 'buildingName',
+      [RepairJobSortField.ElevatorLocation]: 'elevatorLocation',
+      [RepairJobSortField.TechnicianName]: 'technicianName',
+    };
+
+    const orderBy =
+      sortOptions?.field && sortOptions?.order
+        ? { [fieldMap[sortOptions.field]]: sortOptions.order.toLowerCase() }
+        : {};
+
     const scheduledRepairJobs = await prisma.repairJob.findMany({
       skip: paginationOptions?.offset,
       take: paginationOptions?.limit,
+      orderBy,
     });
 
     const totalItems = await prisma.repairJob.count();

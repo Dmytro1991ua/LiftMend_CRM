@@ -11,8 +11,7 @@ export const CustomPlaceholder = <T extends string, IsMulti extends boolean>({
     <components.Placeholder<DropdownOption<T>, IsMulti, DropdownOptionGroup<T>>
       {...props}
       isDisabled={isDisabled}
-      isFocused={isFocused}
-    >
+      isFocused={isFocused}>
       {props.children}
     </components.Placeholder>
   );

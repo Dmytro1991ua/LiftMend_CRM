@@ -40,8 +40,7 @@ const BaseTableBody = <T extends object>({
                 key={cell.id}
                 style={{
                   width: `calc(var(--col-${cell.column.id}-size) * 1px)`,
-                }}
-              >
+                }}>
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </TableCell>
             ))}

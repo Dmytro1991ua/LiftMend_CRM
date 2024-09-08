@@ -19,8 +19,7 @@ export const CustomSingleValue = <T extends string, IsMulti extends boolean>({
   return (
     <components.SingleValue<DropdownOption<T>, IsMulti, DropdownOptionGroup<T>>
       {...modifiedProps}
-      isDisabled={isDisabled}
-    >
+      isDisabled={isDisabled}>
       {props.children}
     </components.SingleValue>
   );

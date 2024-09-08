@@ -4,3 +4,5 @@ export const DEFAULT_PAGINATION = {
   limit: DEFAULT_PAGINATION_LIMIT,
   offset: DEFAULT_PAGINATION_OFFSET,
 };
+
+export const SORTING_STORAGE_KEY = 'sorting';

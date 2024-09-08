@@ -39,24 +39,21 @@ const CustomMenuList = <T extends string, IsMulti extends boolean>({
       innerRef={innerRef}
       options={options}
       //@ts-ignore
-      selectProps={selectProps}
-    >
+      selectProps={selectProps}>
       {renderCustomInput}
       {renderCustomMultiControls}
       <div
         ref={innerRef}
         className={cn('relative max-h-[15rem] pr-0 box-border overflow-y-auto')}
         data-testid='scrollable-options'
-        id='scrollable-options'
-      >
+        id='scrollable-options'>
         <InfiniteScroll
           dataLength={options.length}
           hasMore={selectProps?.hasMore ?? false}
           loader={<p>Loading....</p>}
           next={selectProps?.onNext ?? DEFAULT_LOAD_MORE}
           scrollThreshold={0.99}
-          scrollableTarget='scrollable-options'
-        >
+          scrollableTarget='scrollable-options'>
           {children}
         </InfiniteScroll>
       </div>

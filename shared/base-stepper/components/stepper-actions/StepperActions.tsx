@@ -83,8 +83,7 @@ const StepperActions: React.FC<StepperActionsProps> = ({
               size={size}
               type={type}
               variant={variant}
-              onClick={onClick}
-            >
+              onClick={onClick}>
               {isLoading ? <Loader2 className='mr-2 h-4 w-4 animate-spin' /> : label}
             </Button>
           )
