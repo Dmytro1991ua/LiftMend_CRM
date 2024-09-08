@@ -1,6 +1,13 @@
 import { useMemo, useState } from 'react';
 
-import { ColumnDef, SortingState, ColumnSizingState, getCoreRowModel, useReactTable, getSortedRowModel } from '@tanstack/react-table';
+import {
+  ColumnDef,
+  ColumnSizingState,
+  SortingState,
+  getCoreRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Bars } from 'react-loader-spinner';
 
@@ -46,10 +53,6 @@ const BaseTable = <T extends object>({
       columnSizing: colSizing,
       sorting,
     },
-    defaultColumn: {
-      minSize: 120,
-      maxSize: 500,
-    },
   });
 
   const columnSizeVariables = useMemo(
@@ -76,7 +79,8 @@ const BaseTable = <T extends object>({
         next={loadMore}
         scrollThreshold={0.99}
         scrollableTarget={SCROLL_WRAPPER_ID}
-        style={{ overflow: INFINITE_SCROLL_OVERFLOW }}>
+        style={{ overflow: INFINITE_SCROLL_OVERFLOW }}
+      >
         <div className='relative w-full h-[58rem] rounded-[2rem] border overflow-auto'>
           <Table className='w-full table-fixed' data-testid='base-table' style={{ ...columnSizeVariables }}>
             <BaseTableHeader headerGroups={getHeaderGroups()} />

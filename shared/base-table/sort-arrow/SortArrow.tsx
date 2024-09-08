@@ -1,4 +1,4 @@
-import { LuArrowUpDown, LuArrowUp, LuArrowDown } from 'react-icons/lu';
+import { LuArrowDown, LuArrowUp, LuArrowUpDown } from 'react-icons/lu';
 
 type SortArrowProps = {
   isSorted: 'asc' | 'desc' | false;
