@@ -4,11 +4,9 @@ import { FormProvider } from 'react-hook-form';
 
 import BaseCalendar from '@/shared/base-calendar';
 import { getCalendarModalsConfig } from '@/shared/base-calendar/config';
-import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
+import useRepairJobDeletion from '@/shared/repair-job/hooks/useRepairJobDeletion';
 import SectionHeader from '@/shared/section-header';
 import { SectionHeaderDescription, SectionHeaderTitle } from '@/types/enums';
-
-import useDeleteRepairJobAndCalendarEvent from '../../shared/hooks/useDeleteRepairJobAndCalendarEvent';
 
 import useRepairJobTrackingFormState from './hooks/useRepairJobTrackingFormState';
 import useRepairJobTrackingModals from './hooks/useRepairJobTrackingModals';
@@ -24,20 +22,11 @@ const RepairJobScheduling = () => {
     onHandleDateClick,
   } = useRepairJobTrackingModals();
 
-  const { onError, onSuccess } = useMutationResultToasts();
-
-  const { formState, onReset } = useRepairJobTrackingFormState({ onCloseCreateEventModal });
-
-  const { onDeleteRepairJobAndCalendarEvent, isLoading } = useDeleteRepairJobAndCalendarEvent({
-    onError,
-    onSuccess,
+  const { isDeleteRepairJobLoading, onDeleteCalendarEvent } = useRepairJobDeletion({
+    onCloseModal: onCloseDeleteEventModal,
   });
 
-  const onDeleteCalendarEvent = async (calendarEventId?: string, repairJobId?: string) => {
-    await onDeleteRepairJobAndCalendarEvent(calendarEventId, repairJobId);
-
-    onCloseDeleteEventModal();
-  };
+  const { formState, onReset } = useRepairJobTrackingFormState({ onCloseCreateEventModal });
 
   const modalsConfig = useMemo(
     () => getCalendarModalsConfig({ isCreateEventModalOpen, selectedDateRange, onReset }),
@@ -50,7 +39,7 @@ const RepairJobScheduling = () => {
     onOpenDeleteEventModal,
     onCloseDeleteEventModal,
     onHandleDateClick,
-    isLoading,
+    isDeleteRepairJobLoading,
   };
 
   return (

@@ -1,6 +1,13 @@
 import { useMemo, useState } from 'react';
 
-import { ColumnDef, SortingState, ColumnSizingState, getCoreRowModel, useReactTable, getSortedRowModel } from '@tanstack/react-table';
+import {
+  ColumnDef,
+  ColumnSizingState,
+  SortingState,
+  getCoreRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Bars } from 'react-loader-spinner';
 
@@ -45,10 +52,6 @@ const BaseTable = <T extends object>({
     state: {
       columnSizing: colSizing,
       sorting,
-    },
-    defaultColumn: {
-      minSize: 120,
-      maxSize: 500,
     },
   });
 
