@@ -148,6 +148,7 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
     }) => <TechnicianSkills className='flex flex-col text-center' skills={technicianSkills ?? []} />,
     size: 250,
     enableResizing: true,
+    enableSorting: false,
     minSize: 120,
     maxSize: 400,
   },
@@ -164,6 +165,7 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
     accessorKey: 'editAction',
     header: () => <div className='text-center'>Edit</div>,
     cell: ({ row: { original } }) => <EditActionCell repairJob={original} />,
+    enableSorting: false,
     size: 80,
     enableResizing: false,
     minSize: 80,
@@ -177,5 +179,6 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
     enableResizing: false,
     minSize: 80,
     maxSize: 100,
+    enableSorting: false,
   },
 ];

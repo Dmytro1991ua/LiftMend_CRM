@@ -10,12 +10,12 @@ export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' |
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string };
-  String: { input: string; output: string };
-  Boolean: { input: boolean; output: boolean };
-  Int: { input: number; output: number };
-  Float: { input: number; output: number };
-  DateTime: { input: any; output: any };
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+  DateTime: { input: any; output: any; }
 };
 
 export type CalendarEvent = {
@@ -75,15 +75,18 @@ export type Mutation = {
   updateRepairJob: RepairJob;
 };
 
+
 export type MutationCreateRepairJobAndEventArgs = {
   calendarEventInput: CreateCalendarEventInput;
   repairJobInput: CreateRepairJobInput;
 };
 
+
 export type MutationDeleteRepairJobAndEventArgs = {
   calendarEventId: Scalars['ID']['input'];
   repairJobId: Scalars['ID']['input'];
 };
+
 
 export type MutationUpdateRepairJobArgs = {
   input: UpdateRepairJobInput;
@@ -92,6 +95,11 @@ export type MutationUpdateRepairJobArgs = {
 export type Node = {
   id: Scalars['ID']['output'];
 };
+
+export enum OrderOption {
+  Asc = 'ASC',
+  Desc = 'DESC'
+}
 
 export type PageInfo = {
   __typename?: 'PageInfo';
@@ -114,12 +122,15 @@ export type Query = {
   getRepairJobs: RepairJobConnection;
 };
 
+
 export type QueryGetRepairJobByIdArgs = {
   id: Scalars['ID']['input'];
 };
 
+
 export type QueryGetRepairJobsArgs = {
   paginationOptions?: InputMaybe<PaginationOptions>;
+  sortOptions?: InputMaybe<RepairJobSortInput>;
 };
 
 export type RepairJob = Node & {
@@ -165,6 +176,23 @@ export type RepairJobScheduleData = {
   technicianSkills: Array<Scalars['String']['output']>;
 };
 
+export enum RepairJobSortField {
+  BuildingName = 'BUILDING_NAME',
+  ElevatorLocation = 'ELEVATOR_LOCATION',
+  ElevatorType = 'ELEVATOR_TYPE',
+  EndDate = 'END_DATE',
+  JobPriority = 'JOB_PRIORITY',
+  JobType = 'JOB_TYPE',
+  StartDate = 'START_DATE',
+  Status = 'STATUS',
+  TechnicianName = 'TECHNICIAN_NAME'
+}
+
+export type RepairJobSortInput = {
+  field?: InputMaybe<RepairJobSortField>;
+  order?: InputMaybe<OrderOption>;
+};
+
 export type ScheduledEventAndRepairJobResponse = {
   __typename?: 'ScheduledEventAndRepairJobResponse';
   calendarEvent: CalendarEvent;
@@ -199,12 +227,11 @@ export type ResolversObject<TObject> = WithIndex<TObject>;
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
 
+
 export type ResolverWithResolve<TResult, TParent, TContext, TArgs> = {
   resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
 };
-export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> =
-  | ResolverFn<TResult, TParent, TContext, TArgs>
-  | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
+export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> = ResolverFn<TResult, TParent, TContext, TArgs> | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
 
 export type ResolverFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
@@ -251,11 +278,7 @@ export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
   info: GraphQLResolveInfo
 ) => Maybe<TTypes> | Promise<Maybe<TTypes>>;
 
-export type IsTypeOfResolverFn<T = {}, TContext = {}> = (
-  obj: T,
-  context: TContext,
-  info: GraphQLResolveInfo
-) => boolean | Promise<boolean>;
+export type IsTypeOfResolverFn<T = {}, TContext = {}> = (obj: T, context: TContext, info: GraphQLResolveInfo) => boolean | Promise<boolean>;
 
 export type NextResolverFn<T> = () => Promise<T>;
 
@@ -267,11 +290,12 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
   info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
 
+
 /** Mapping of interface types */
 export type ResolversInterfaceTypes<RefType extends Record<string, unknown>> = ResolversObject<{
-  Connection: RepairJobConnection;
-  Edge: RepairJobEdge;
-  Node: RepairJob;
+  Connection: ( RepairJobConnection );
+  Edge: ( RepairJobEdge );
+  Node: ( RepairJob );
 }>;
 
 /** Mapping between all available schema types and the resolvers types */
@@ -288,6 +312,7 @@ export type ResolversTypes = ResolversObject<{
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   Node: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Node']>;
+  OrderOption: OrderOption;
   PageInfo: ResolverTypeWrapper<PageInfo>;
   PaginationOptions: PaginationOptions;
   Query: ResolverTypeWrapper<{}>;
@@ -295,6 +320,8 @@ export type ResolversTypes = ResolversObject<{
   RepairJobConnection: ResolverTypeWrapper<RepairJobConnection>;
   RepairJobEdge: ResolverTypeWrapper<RepairJobEdge>;
   RepairJobScheduleData: ResolverTypeWrapper<RepairJobScheduleData>;
+  RepairJobSortField: RepairJobSortField;
+  RepairJobSortInput: RepairJobSortInput;
   ScheduledEventAndRepairJobResponse: ResolverTypeWrapper<ScheduledEventAndRepairJobResponse>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   UpdateRepairJobInput: UpdateRepairJobInput;
@@ -322,16 +349,14 @@ export type ResolversParentTypes = ResolversObject<{
   RepairJobConnection: RepairJobConnection;
   RepairJobEdge: RepairJobEdge;
   RepairJobScheduleData: RepairJobScheduleData;
+  RepairJobSortInput: RepairJobSortInput;
   ScheduledEventAndRepairJobResponse: ScheduledEventAndRepairJobResponse;
   String: Scalars['String']['output'];
   UpdateRepairJobInput: UpdateRepairJobInput;
   User: UserModel;
 }>;
 
-export type CalendarEventResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['CalendarEvent'] = ResolversParentTypes['CalendarEvent']
-> = ResolversObject<{
+export type CalendarEventResolvers<ContextType = any, ParentType extends ResolversParentTypes['CalendarEvent'] = ResolversParentTypes['CalendarEvent']> = ResolversObject<{
   allDay?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   end?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
@@ -342,10 +367,7 @@ export type CalendarEventResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type ConnectionResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['Connection'] = ResolversParentTypes['Connection']
-> = ResolversObject<{
+export type ConnectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Connection'] = ResolversParentTypes['Connection']> = ResolversObject<{
   __resolveType: TypeResolveFn<'RepairJobConnection', ParentType, ContextType>;
   edges?: Resolver<Array<ResolversTypes['Edge']>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
@@ -356,60 +378,30 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
   name: 'DateTime';
 }
 
-export type DeleteCalendarAndRepairJobResponseResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['DeleteCalendarAndRepairJobResponse'] = ResolversParentTypes['DeleteCalendarAndRepairJobResponse']
-> = ResolversObject<{
+export type DeleteCalendarAndRepairJobResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['DeleteCalendarAndRepairJobResponse'] = ResolversParentTypes['DeleteCalendarAndRepairJobResponse']> = ResolversObject<{
   deletedEventId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   deletedRepairJobId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type EdgeResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['Edge'] = ResolversParentTypes['Edge']
-> = ResolversObject<{
+export type EdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Edge'] = ResolversParentTypes['Edge']> = ResolversObject<{
   __resolveType: TypeResolveFn<'RepairJobEdge', ParentType, ContextType>;
   cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   node?: Resolver<ResolversTypes['Node'], ParentType, ContextType>;
 }>;
 
-export type MutationResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
-> = ResolversObject<{
-  createRepairJobAndEvent?: Resolver<
-    ResolversTypes['ScheduledEventAndRepairJobResponse'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationCreateRepairJobAndEventArgs, 'calendarEventInput' | 'repairJobInput'>
-  >;
-  deleteRepairJobAndEvent?: Resolver<
-    ResolversTypes['DeleteCalendarAndRepairJobResponse'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationDeleteRepairJobAndEventArgs, 'calendarEventId' | 'repairJobId'>
-  >;
-  updateRepairJob?: Resolver<
-    ResolversTypes['RepairJob'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationUpdateRepairJobArgs, 'input'>
-  >;
+export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
+  createRepairJobAndEvent?: Resolver<ResolversTypes['ScheduledEventAndRepairJobResponse'], ParentType, ContextType, RequireFields<MutationCreateRepairJobAndEventArgs, 'calendarEventInput' | 'repairJobInput'>>;
+  deleteRepairJobAndEvent?: Resolver<ResolversTypes['DeleteCalendarAndRepairJobResponse'], ParentType, ContextType, RequireFields<MutationDeleteRepairJobAndEventArgs, 'calendarEventId' | 'repairJobId'>>;
+  updateRepairJob?: Resolver<ResolversTypes['RepairJob'], ParentType, ContextType, RequireFields<MutationUpdateRepairJobArgs, 'input'>>;
 }>;
 
-export type NodeResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['Node'] = ResolversParentTypes['Node']
-> = ResolversObject<{
+export type NodeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Node'] = ResolversParentTypes['Node']> = ResolversObject<{
   __resolveType: TypeResolveFn<'RepairJob', ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
 }>;
 
-export type PageInfoResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']
-> = ResolversObject<{
+export type PageInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = ResolversObject<{
   endCursor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   hasNextPage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   hasPreviousPage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
@@ -417,30 +409,14 @@ export type PageInfoResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type QueryResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
-> = ResolversObject<{
+export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   getCalendarEvents?: Resolver<Array<ResolversTypes['CalendarEvent']>, ParentType, ContextType>;
-  getRepairJobById?: Resolver<
-    ResolversTypes['RepairJob'],
-    ParentType,
-    ContextType,
-    RequireFields<QueryGetRepairJobByIdArgs, 'id'>
-  >;
+  getRepairJobById?: Resolver<ResolversTypes['RepairJob'], ParentType, ContextType, RequireFields<QueryGetRepairJobByIdArgs, 'id'>>;
   getRepairJobScheduleData?: Resolver<ResolversTypes['RepairJobScheduleData'], ParentType, ContextType>;
-  getRepairJobs?: Resolver<
-    ResolversTypes['RepairJobConnection'],
-    ParentType,
-    ContextType,
-    Partial<QueryGetRepairJobsArgs>
-  >;
+  getRepairJobs?: Resolver<ResolversTypes['RepairJobConnection'], ParentType, ContextType, Partial<QueryGetRepairJobsArgs>>;
 }>;
 
-export type RepairJobResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['RepairJob'] = ResolversParentTypes['RepairJob']
-> = ResolversObject<{
+export type RepairJobResolvers<ContextType = any, ParentType extends ResolversParentTypes['RepairJob'] = ResolversParentTypes['RepairJob']> = ResolversObject<{
   buildingName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   calendarEventId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   contactInformation?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -458,29 +434,20 @@ export type RepairJobResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type RepairJobConnectionResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['RepairJobConnection'] = ResolversParentTypes['RepairJobConnection']
-> = ResolversObject<{
+export type RepairJobConnectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['RepairJobConnection'] = ResolversParentTypes['RepairJobConnection']> = ResolversObject<{
   edges?: Resolver<Array<ResolversTypes['RepairJobEdge']>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
   total?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type RepairJobEdgeResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['RepairJobEdge'] = ResolversParentTypes['RepairJobEdge']
-> = ResolversObject<{
+export type RepairJobEdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['RepairJobEdge'] = ResolversParentTypes['RepairJobEdge']> = ResolversObject<{
   cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   node?: Resolver<ResolversTypes['RepairJob'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type RepairJobScheduleDataResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['RepairJobScheduleData'] = ResolversParentTypes['RepairJobScheduleData']
-> = ResolversObject<{
+export type RepairJobScheduleDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['RepairJobScheduleData'] = ResolversParentTypes['RepairJobScheduleData']> = ResolversObject<{
   buildingNames?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   elevatorLocations?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   elevatorTypes?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
@@ -492,19 +459,13 @@ export type RepairJobScheduleDataResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type ScheduledEventAndRepairJobResponseResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['ScheduledEventAndRepairJobResponse'] = ResolversParentTypes['ScheduledEventAndRepairJobResponse']
-> = ResolversObject<{
+export type ScheduledEventAndRepairJobResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['ScheduledEventAndRepairJobResponse'] = ResolversParentTypes['ScheduledEventAndRepairJobResponse']> = ResolversObject<{
   calendarEvent?: Resolver<ResolversTypes['CalendarEvent'], ParentType, ContextType>;
   repairJob?: Resolver<ResolversTypes['RepairJob'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type UserResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']
-> = ResolversObject<{
+export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -528,3 +489,4 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   ScheduledEventAndRepairJobResponse?: ScheduledEventAndRepairJobResponseResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 }>;
+

@@ -30,14 +30,12 @@ const CustomMultiControl = <T extends string, IsMulti extends boolean>({
       {selectProps?.multipleSelectControls ? (
         <div
           className='flex items-center justify-end gap-2 mb-2 p-2 border-b border-gray-200'
-          data-testid='multiple-select-controls'
-        >
+          data-testid='multiple-select-controls'>
           {isSelectAllVisible && (
             <span
               className='flex justify-between text-primary text-sm cursor-pointer hover:underline'
               data-testid='select-all-control'
-              onClick={(e): void => selectProps?.onSelectAll && selectProps.onSelectAll(e, selectAllOptions)}
-            >
+              onClick={(e): void => selectProps?.onSelectAll && selectProps.onSelectAll(e, selectAllOptions)}>
               Select All
             </span>
           )}
@@ -46,8 +44,7 @@ const CustomMultiControl = <T extends string, IsMulti extends boolean>({
             <span
               className='text-red-600 text-sm cursor-pointer hover:underline'
               data-testid='clear-all-control'
-              onClick={(e) => selectProps?.onClearAll && selectProps.onClearAll(e)}
-            >
+              onClick={(e) => selectProps?.onClearAll && selectProps.onClearAll(e)}>
               Clear All
             </span>
           )}

@@ -90,6 +90,12 @@ export type Node = {
   id: Scalars['ID']['output'];
 };
 
+export const OrderOption = {
+  Asc: 'ASC',
+  Desc: 'DESC',
+} as const;
+
+export type OrderOption = (typeof OrderOption)[keyof typeof OrderOption];
 export type PageInfo = {
   __typename?: 'PageInfo';
   endCursor: Maybe<Scalars['String']['output']>;
@@ -117,6 +123,7 @@ export type QueryGetRepairJobByIdArgs = {
 
 export type QueryGetRepairJobsArgs = {
   paginationOptions?: InputMaybe<PaginationOptions>;
+  sortOptions?: InputMaybe<RepairJobSortInput>;
 };
 
 export type RepairJob = Node & {
@@ -160,6 +167,25 @@ export type RepairJobScheduleData = {
   statuses: Maybe<Array<Scalars['String']['output']>>;
   technicianNames: Array<Scalars['String']['output']>;
   technicianSkills: Array<Scalars['String']['output']>;
+};
+
+export const RepairJobSortField = {
+  BuildingName: 'BUILDING_NAME',
+  ContactInformation: 'CONTACT_INFORMATION',
+  ElevatorLocation: 'ELEVATOR_LOCATION',
+  ElevatorType: 'ELEVATOR_TYPE',
+  EndDate: 'END_DATE',
+  JobPriority: 'JOB_PRIORITY',
+  JobType: 'JOB_TYPE',
+  StartDate: 'START_DATE',
+  Status: 'STATUS',
+  TechnicianName: 'TECHNICIAN_NAME',
+} as const;
+
+export type RepairJobSortField = (typeof RepairJobSortField)[keyof typeof RepairJobSortField];
+export type RepairJobSortInput = {
+  field?: InputMaybe<RepairJobSortField>;
+  order?: InputMaybe<OrderOption>;
 };
 
 export type ScheduledEventAndRepairJobResponse = {
@@ -331,6 +357,7 @@ export type GetRepairJobFromDataQuery = {
 
 export type GetRepairJobsQueryVariables = Exact<{
   paginationOptions?: InputMaybe<PaginationOptions>;
+  sortOptions?: InputMaybe<RepairJobSortInput>;
 }>;
 
 export type GetRepairJobsQuery = {

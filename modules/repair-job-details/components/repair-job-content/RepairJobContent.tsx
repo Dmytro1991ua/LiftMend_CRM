@@ -15,7 +15,7 @@ const RepairJobContent = ({ loading, error, repairJobSections }: RepairJobConten
   return (
     <>
       {repairJobSections.map(({ id, title, fields }) => (
-        <BaseCard key={id} cardClassName='mb-8' title={title}>
+        <BaseCard key={id} cardClassName='mb-8 last:mb-0' title={title}>
           <div className='flex flex-col gap-3'>
             {fields.map(({ id, label, value, fieldClassName }) => (
               <p
@@ -23,8 +23,7 @@ const RepairJobContent = ({ loading, error, repairJobSections }: RepairJobConten
                 className={cn(
                   'flex items-baseline gap-2 pb-2 border-b-2 border-gray-100 last:border-b-0',
                   fieldClassName
-                )}
-              >
+                )}>
                 <span className='text-lg font-bold'>{label}:</span>
                 <span className='text-gray-500'>{value}</span>
               </p>

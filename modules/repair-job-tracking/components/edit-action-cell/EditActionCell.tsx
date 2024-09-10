@@ -43,8 +43,7 @@ const EditActionCell = ({ repairJob }: EditActionCellProps) => {
           isOpen={isModalOpen}
           title={getModalTitle(title, true)}
           onClose={onCloseModal}
-          onSubmit={repairJobFormState.handleSubmit(onEditRepairJob)}
-        >
+          onSubmit={repairJobFormState.handleSubmit(onEditRepairJob)}>
           <EditRepairJobForm repairJob={repairJob} />
         </EditModal>
       </section>

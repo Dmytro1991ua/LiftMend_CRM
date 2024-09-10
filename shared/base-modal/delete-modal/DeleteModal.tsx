@@ -16,8 +16,7 @@ const DeleteModal = ({ isOpen, isLoading, title, description, onClose, onSubmit 
         />
       }
       title={title}
-      onClose={onClose}
-    >
+      onClose={onClose}>
       {description}
     </BaseModal>
   );

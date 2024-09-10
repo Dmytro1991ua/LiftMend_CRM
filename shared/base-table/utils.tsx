@@ -1,5 +1,8 @@
-import { Header } from '@tanstack/react-table';
+import { Header, SortingState } from '@tanstack/react-table';
+import { snakeCase as _snakeCase, toUpper as _toUpper } from 'lodash';
 import { Hourglass } from 'react-loader-spinner';
+
+import { OrderOption } from '@/graphql/types/client/generated_types';
 
 import BaseAlert from '../base-alert/BaseAlert';
 
@@ -52,4 +55,17 @@ export const calculateColumnSizes = <T extends object>(headers: Header<T, unknow
   });
 
   return colSizes;
+};
+
+export const formatTableSortingToQueryFormat = (sorting: SortingState) => {
+  if (!sorting.length) {
+    return { field: null, order: null };
+  }
+
+  const { id, desc } = sorting[0];
+
+  return {
+    field: _toUpper(_snakeCase(id)),
+    order: desc ? OrderOption.Desc : OrderOption.Asc,
+  };
 };

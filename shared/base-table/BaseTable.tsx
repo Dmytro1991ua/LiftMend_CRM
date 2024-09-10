@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react';
 import {
   ColumnDef,
   ColumnSizingState,
+  OnChangeFn,
   SortingState,
   getCoreRowModel,
   getSortedRowModel,
@@ -26,33 +27,40 @@ type BaseTableProps<T extends object> = {
   loadMore: () => void;
   emptyTableMessage?: string;
   errorMessage?: string;
+  sorting: SortingState;
+  onSetSorting: OnChangeFn<SortingState>;
 };
 
 const BaseTable = <T extends object>({
   columns,
+  sorting,
   data,
   loading,
   hasMore,
   emptyTableMessage,
   errorMessage,
+  onSetSorting,
   loadMore,
 }: BaseTableProps<T>): React.JSX.Element => {
   const [colSizing, setColSizing] = useState<ColumnSizingState>({});
-  const [sorting, setSorting] = useState<SortingState>([]);
+
+  const memoizedData = useMemo(() => data, [data]);
+  const memoizedColumns = useMemo(() => columns, [columns]);
 
   const { getHeaderGroups, getRowModel, getState, getFlatHeaders } = useReactTable({
-    data,
-    columns,
+    data: memoizedData,
+    columns: memoizedColumns,
     getCoreRowModel: getCoreRowModel(),
     enableColumnResizing: true,
     columnResizeMode: 'onChange',
     onColumnSizingChange: setColSizing,
-    onSortingChange: setSorting,
+    onSortingChange: onSetSorting,
     getSortedRowModel: getSortedRowModel(),
     state: {
       columnSizing: colSizing,
       sorting,
     },
+     manualSorting: true,
   });
 
   const columnSizeVariables = useMemo(
@@ -79,8 +87,7 @@ const BaseTable = <T extends object>({
         next={loadMore}
         scrollThreshold={0.99}
         scrollableTarget={SCROLL_WRAPPER_ID}
-        style={{ overflow: INFINITE_SCROLL_OVERFLOW }}
-      >
+        style={{ overflow: INFINITE_SCROLL_OVERFLOW }}>
         <div className='relative w-full h-[58rem] rounded-[2rem] border overflow-auto'>
           <Table className='w-full table-fixed' data-testid='base-table' style={{ ...columnSizeVariables }}>
             <BaseTableHeader headerGroups={getHeaderGroups()} />

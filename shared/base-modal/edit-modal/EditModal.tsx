@@ -17,8 +17,7 @@ const EditModal = ({ isOpen, isLoading, isDisabled, onClose, onSubmit, title, ch
         />
       }
       title={title}
-      onClose={onClose}
-    >
+      onClose={onClose}>
       {children}
     </BaseModal>
   );
