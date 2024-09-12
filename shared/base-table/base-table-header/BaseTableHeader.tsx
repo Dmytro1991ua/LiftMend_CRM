@@ -22,8 +22,10 @@ const BaseTableHeader = <T extends object>({ headerGroups }: BaseTableHeaderProp
                 width: `calc(var(--header-${header?.id}-size) * 1px)`,
               }}
               onClick={header.column.getToggleSortingHandler()}>
-              {flexRender(header.column.columnDef.header, header.getContext())}
-              {header.column.getCanSort() && <SortArrow isSorted={header.column.getIsSorted()} />}
+              <div className='flex items-center'>
+                {flexRender(header.column.columnDef.header, header.getContext())}
+                {header.column.getCanSort() && <SortArrow isSorted={header.column.getIsSorted()} />}
+              </div>
               <ColumnResizer header={header} />
             </TableHead>
           ))}
