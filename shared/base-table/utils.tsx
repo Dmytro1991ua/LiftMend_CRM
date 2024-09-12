@@ -7,6 +7,7 @@ import { OrderOption } from '@/graphql/types/client/generated_types';
 import BaseAlert from '../base-alert/BaseAlert';
 
 import { DEFAULT_EMPTY_TABLE_MESSAGE, DEFAULT_TABLE_ERROR_TITLE, TableState, TableStatus } from './types';
+import { TableStorageState } from '../storage/hooks/useStoredState';
 
 export const getTableStatusMod = (empty: boolean, loading?: boolean, errorMessage?: string): TableState => {
   if (loading) return TableStatus.Loading;
@@ -57,8 +58,10 @@ export const calculateColumnSizes = <T extends object>(headers: Header<T, unknow
   return colSizes;
 };
 
-export const formatTableSortingToQueryFormat = (sorting: SortingState) => {
-  if (!sorting.length) {
+export const formatTableSortingToQueryFormat = (tableStorageState: TableStorageState<SortingState>) => {
+  const sorting = tableStorageState?.sorting;
+
+  if (!sorting?.length) {
     return { field: null, order: null };
   }
 
