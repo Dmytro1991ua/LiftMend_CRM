@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 
 import { mockRows } from '@/mocks/baseTableMocks';
 import BaseTableBody from '@/shared/base-table/base-table-body';
-import { DEFAULT_EMPTY_TABLE_MESSAGE } from '@/shared/base-table/types';
+import { DEFAULT_EMPTY_TABLE_MESSAGE } from '@/shared/base-table/constants';
 
 describe('BaseTableBody', () => {
   const mockDefaultProps = {

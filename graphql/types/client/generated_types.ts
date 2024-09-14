@@ -122,6 +122,7 @@ export type QueryGetRepairJobByIdArgs = {
 };
 
 export type QueryGetRepairJobsArgs = {
+  filterOptions?: InputMaybe<RepairJobFilterOptions>;
   paginationOptions?: InputMaybe<PaginationOptions>;
   sortOptions?: InputMaybe<RepairJobSortInput>;
 };
@@ -157,6 +158,10 @@ export type RepairJobEdge = Edge & {
   node: RepairJob;
 };
 
+export type RepairJobFilterOptions = {
+  searchTerm?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type RepairJobScheduleData = {
   __typename?: 'RepairJobScheduleData';
   buildingNames: Array<Scalars['String']['output']>;
@@ -171,7 +176,6 @@ export type RepairJobScheduleData = {
 
 export const RepairJobSortField = {
   BuildingName: 'BUILDING_NAME',
-  ContactInformation: 'CONTACT_INFORMATION',
   ElevatorLocation: 'ELEVATOR_LOCATION',
   ElevatorType: 'ELEVATOR_TYPE',
   EndDate: 'END_DATE',
@@ -358,6 +362,7 @@ export type GetRepairJobFromDataQuery = {
 export type GetRepairJobsQueryVariables = Exact<{
   paginationOptions?: InputMaybe<PaginationOptions>;
   sortOptions?: InputMaybe<RepairJobSortInput>;
+  filterOptions?: InputMaybe<RepairJobFilterOptions>;
 }>;
 
 export type GetRepairJobsQuery = {

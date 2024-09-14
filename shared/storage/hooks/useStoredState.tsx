@@ -3,9 +3,9 @@ import { useEffect, useMemo, useState } from 'react';
 import { StorageEntity, sessionStorageWrapper } from '@/shared/storage/storageEntity';
 import { StorageTableName } from '@/shared/types';
 
-export type TableStorageState<T> = {
+export type TableStorageState<T = undefined, U = undefined> = {
   sorting?: T;
-  // filters?: U;
+  filters?: U;
 };
 
 /**
@@ -16,21 +16,21 @@ export type TableStorageState<T> = {
  * @param tableName - The key for storing the value within an object structure (like `repairJobTable`).
  * @returns An object containing the current state and a function to update it.
  */
-const useStoredTableState = <T,>(
+const useStoredTableState = <T, U>(
   storageKey: string,
   tableName: StorageTableName,
-  initialState?: TableStorageState<T>
+  initialState?: TableStorageState<T, U>
 ) => {
   const storage = useMemo(() => {
     if (typeof window !== 'undefined') {
-      return new StorageEntity<{ [key: string]: TableStorageState<T> }>(storageKey, sessionStorageWrapper);
+      return new StorageEntity<{ [key: string]: TableStorageState<T, U> }>(storageKey, sessionStorageWrapper);
     }
 
     return null;
   }, [storageKey]);
 
   // Initialize state by checking if tableName data exists, or use initialState
-  const [storedState, setStoredState] = useState<TableStorageState<T>>(() => {
+  const [storedState, setStoredState] = useState<TableStorageState<T, U>>(() => {
     if (typeof window !== 'undefined' && storage) {
       const storedData = storage.getData();
 

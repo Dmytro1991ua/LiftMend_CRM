@@ -1,7 +1,8 @@
-import { useMemo } from 'react';
+import { Dispatch, SetStateAction, useMemo } from 'react';
 
-import { useQuery } from '@apollo/client';
-import { OnChangeFn, SortingState } from '@tanstack/react-table';
+import { ApolloQueryResult, useQuery } from '@apollo/client';
+import { SortingState } from '@tanstack/react-table';
+import { debounce as _debounce } from 'lodash';
 
 import { GET_REPAIR_JOBS } from '@/graphql/schemas/getRepairJobs';
 import {
@@ -10,46 +11,54 @@ import {
   RepairJob,
   RepairJobSortField,
 } from '@/graphql/types/client/generated_types';
+import { TableFilters } from '@/shared/base-table/types';
 import { formatTableSortingToQueryFormat } from '@/shared/base-table/utils';
 import {
   DEFAULT_PAGINATION,
   DEFAULT_PAGINATION_LIMIT,
   DEFAULT_PAGINATION_OFFSET,
-  SORTING_STORAGE_KEY,
+  TABLE_STATE_STORAGE_KEY,
 } from '@/shared/constants';
-import { getItemsFromQuery, removeTypeNamesFromArray } from '@/shared/utils';
 import useStoredTableState from '@/shared/storage/hooks';
+import { TableStorageState } from '@/shared/storage/hooks/useStoredState';
 import { StorageTableName } from '@/shared/types';
+import { getItemsFromQuery, removeTypeNamesFromArray } from '@/shared/utils';
 
 type UseFetchRepairJobs = {
   repairJobs: RepairJob[];
-  sorting: SortingState;
   loading: boolean;
   error?: string;
   hasMore: boolean;
   onNext: () => Promise<void>;
-  onSetSorting: OnChangeFn<SortingState>;
+  tableStorageState: TableStorageState<SortingState, TableFilters>;
+  onSetTableStorageState: Dispatch<SetStateAction<TableStorageState<SortingState, TableFilters>>>;
+  refetch: (variables?: Partial<QueryGetRepairJobsArgs>) => Promise<ApolloQueryResult<GetRepairJobsQuery>>;
 };
 
 const useFetchRepairJobs = (): UseFetchRepairJobs => {
-  const { storedState: tableState, setStoredState: setTableState } = useStoredTableState<SortingState>(
-    SORTING_STORAGE_KEY,
-    StorageTableName.RepairJobTable,
-    undefined
-  );
+  const { storedState: tableStorageState, setStoredState: setTableState } = useStoredTableState<
+    SortingState,
+    TableFilters
+  >(TABLE_STATE_STORAGE_KEY, StorageTableName.RepairJobTable, undefined);
 
-  const { field, order } = useMemo(() => formatTableSortingToQueryFormat(tableState), [tableState]);
+  const { field, order } = useMemo(() => formatTableSortingToQueryFormat(tableStorageState), [tableStorageState]);
 
-  const { data, loading, error, fetchMore } = useQuery<GetRepairJobsQuery, QueryGetRepairJobsArgs>(GET_REPAIR_JOBS, {
-    variables: {
-      paginationOptions: DEFAULT_PAGINATION,
-      sortOptions: {
-        field: field as RepairJobSortField,
-        order,
+  const searchTerm = tableStorageState.filters?.searchTerm || '';
+
+  const { data, loading, error, fetchMore, refetch } = useQuery<GetRepairJobsQuery, QueryGetRepairJobsArgs>(
+    GET_REPAIR_JOBS,
+    {
+      variables: {
+        paginationOptions: DEFAULT_PAGINATION,
+        sortOptions: {
+          field: field as RepairJobSortField,
+          order,
+        },
+        filterOptions: { searchTerm },
       },
-    },
-    notifyOnNetworkStatusChange: true,
-  });
+      notifyOnNetworkStatusChange: true,
+    }
+  );
 
   const repairJobs = useMemo(
     () => removeTypeNamesFromArray(getItemsFromQuery<RepairJob>(data?.getRepairJobs)),
@@ -66,6 +75,7 @@ const useFetchRepairJobs = (): UseFetchRepairJobs => {
         await fetchMore({
           variables: {
             paginationOptions: { offset: newOffset, limit: DEFAULT_PAGINATION_LIMIT },
+            filterOptions: { searchTerm },
           },
         });
       }
@@ -74,26 +84,15 @@ const useFetchRepairJobs = (): UseFetchRepairJobs => {
     }
   };
 
-  const onSetSorting: OnChangeFn<SortingState> = (updaterOrValue) => {
-    setTableState((prevTableState) => {
-      const newSorting =
-        typeof updaterOrValue === 'function' ? updaterOrValue(prevTableState.sorting || []) : updaterOrValue;
-
-      return {
-        ...prevTableState,
-        sorting: newSorting,
-      };
-    });
-  };
-
   return {
     repairJobs,
-    sorting: tableState?.sorting ?? [],
     loading,
     error: error?.message,
     hasMore,
+    tableStorageState,
+    onSetTableStorageState: setTableState,
     onNext,
-    onSetSorting,
+    refetch,
   };
 };
 

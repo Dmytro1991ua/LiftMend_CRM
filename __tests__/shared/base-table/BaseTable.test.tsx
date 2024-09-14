@@ -4,7 +4,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { render, screen } from '@testing-library/react';
 
 import BaseTable from '@/shared/base-table';
-import { DEFAULT_EMPTY_TABLE_MESSAGE } from '@/shared/base-table/types';
+import { DEFAULT_EMPTY_TABLE_MESSAGE } from '@/shared/base-table/constants';
 
 type MockData = {
   name: string;
@@ -39,20 +39,50 @@ const loadMoreMock = jest.fn();
 
 describe('<BaseTable />', () => {
   it('should render loader on data loading', () => {
-    render(<BaseTable columns={mockColumns} data={[]} hasMore={false} loadMore={loadMoreMock} loading={true} />);
+    render(
+      <BaseTable
+        columns={mockColumns}
+        data={[]}
+        hasMore={false}
+        loadMore={loadMoreMock}
+        loading={true}
+        sorting={[]}
+        onSetSorting={jest.fn()}
+      />
+    );
 
     expect(screen.getByTestId('hourglass-svg')).toBeInTheDocument();
   });
 
   it('should render empty table message if there is no data', () => {
-    render(<BaseTable columns={mockColumns} data={[]} hasMore={false} loadMore={loadMoreMock} loading={false} />);
+    render(
+      <BaseTable
+        columns={mockColumns}
+        data={[]}
+        hasMore={false}
+        loadMore={loadMoreMock}
+        loading={false}
+        sorting={[]}
+        onSetSorting={jest.fn()}
+      />
+    );
 
     expect(screen.queryByTestId('loader')).not.toBeInTheDocument();
     expect(screen.getByText(DEFAULT_EMPTY_TABLE_MESSAGE)).toBeInTheDocument();
   });
 
   it('should render provided header names', () => {
-    render(<BaseTable columns={mockColumns} data={mockData} hasMore={false} loadMore={loadMoreMock} loading={false} />);
+    render(
+      <BaseTable
+        columns={mockColumns}
+        data={mockData}
+        hasMore={false}
+        loadMore={loadMoreMock}
+        loading={false}
+        sorting={[]}
+        onSetSorting={jest.fn()}
+      />
+    );
 
     const columnHeaders = screen.getAllByRole('columnheader');
 
@@ -62,7 +92,17 @@ describe('<BaseTable />', () => {
   });
 
   it('should correctly render cell content', () => {
-    render(<BaseTable columns={mockColumns} data={mockData} hasMore={false} loadMore={loadMoreMock} loading={false} />);
+    render(
+      <BaseTable
+        columns={mockColumns}
+        data={mockData}
+        hasMore={false}
+        loadMore={loadMoreMock}
+        loading={false}
+        sorting={[]}
+        onSetSorting={jest.fn()}
+      />
+    );
 
     const cells = screen.getAllByRole('cell');
     expect(cells).toHaveLength(mockData.length * mockColumns.length);

@@ -59,7 +59,17 @@ const Query: QueryResolvers = {
 
     return calendarEvents || [];
   },
-  getRepairJobs: async (_, { paginationOptions, sortOptions }, { prisma }): Promise<RepairJobConnection> => {
+  getRepairJobs: async (
+    _,
+    { paginationOptions, sortOptions, filterOptions },
+    { prisma }
+  ): Promise<RepairJobConnection> => {
+    const { searchTerm } = filterOptions || {};
+
+    const filters = {
+      ...(searchTerm && { id: searchTerm }),
+    };
+
     const fieldMap: { [key in RepairJobSortField]: string } = {
       [RepairJobSortField.JobType]: 'jobType',
       [RepairJobSortField.JobPriority]: 'jobPriority',
@@ -80,6 +90,7 @@ const Query: QueryResolvers = {
     const scheduledRepairJobs = await prisma.repairJob.findMany({
       skip: paginationOptions?.offset,
       take: paginationOptions?.limit,
+      where: filters,
       orderBy,
     });
 

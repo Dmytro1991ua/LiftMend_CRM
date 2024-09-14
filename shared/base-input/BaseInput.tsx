@@ -1,68 +1,51 @@
-import { FieldValues, Path, useFormContext, useWatch } from 'react-hook-form';
+import { InputHTMLAttributes } from 'react';
 
-import { Input, InputProps } from '@/components/ui/input';
+import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-import { getNestedError } from '@/modules/repair-job-scheduling/utils';
 
-import { getCommonFormLabelErrorStyles } from '../utils';
-
-export interface BaseInputProps<T extends FieldValues> extends InputProps {
-  name: Path<T>;
-  id?: string;
-  type?: 'text' | 'password' | 'number' | 'email';
+export interface BaseInputProps<T extends string> extends InputHTMLAttributes<HTMLInputElement> {
+  value: T;
+  name: string;
   label?: string;
-  placeholder?: string;
-  disabled?: boolean;
   className?: string;
+  placeholder?: string;
   isLastElement?: boolean;
+  disabled?: boolean;
+  startIcon?: JSX.Element;
+  endIcon?: JSX.Element;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const BaseInput = <T extends FieldValues>({
-  name,
-  id,
-  type = 'text',
-  disabled,
+const BaseInput = <T extends string>({
   label,
-  placeholder,
   className,
   isLastElement,
+  value,
+  name,
+  disabled,
+  startIcon,
+  endIcon,
   onChange,
   ...props
 }: BaseInputProps<T>) => {
-  const {
-    control,
-    register,
-    formState: { errors },
-  } = useFormContext<T>();
-
-  const value = useWatch({ control, name });
-
-  const errorKey = getNestedError(errors, name);
-  const hasError = !!errorKey;
-
-  const labelErrorStyles = getCommonFormLabelErrorStyles(hasError);
-
   return (
     <div className={cn('relative grid w-full items-center gap-1.5', !isLastElement && 'mb-8')}>
-      <label className={labelErrorStyles} htmlFor={id}>
-        {label}
-      </label>
+      {label && (
+        <label className='font-bold' htmlFor={props.id}>
+          {label}
+        </label>
+      )}
       <Input
-        id={id}
-        placeholder={placeholder}
-        type={type}
-        value={value}
-        {...register(name)}
-        className={className}
-        disabled={disabled}
-        error={hasError}
-        onChange={(e) => {
-          register(name).onChange(e);
-          onChange && onChange(e);
-        }}
         {...props}
+        className={cn('border p-2 rounded', className)}
+        disabled={disabled}
+        endIcon={endIcon}
+        hasValue={!!value}
+        name={name}
+        startIcon={startIcon}
+        value={value}
+        onChange={(e) => onChange && onChange(e)}
       />
-      {hasError && <span className='field-error'>{errorKey?.message}</span>}
     </div>
   );
 };
