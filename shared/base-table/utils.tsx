@@ -5,9 +5,10 @@ import { Hourglass } from 'react-loader-spinner';
 import { OrderOption } from '@/graphql/types/client/generated_types';
 
 import BaseAlert from '../base-alert/BaseAlert';
-
-import { DEFAULT_EMPTY_TABLE_MESSAGE, DEFAULT_TABLE_ERROR_TITLE, TableState, TableStatus } from './types';
 import { TableStorageState } from '../storage/hooks/useStoredState';
+
+import { DEFAULT_EMPTY_TABLE_MESSAGE, DEFAULT_TABLE_ERROR_TITLE } from './constants';
+import { TableFilters, TableState, TableStatus } from './types';
 
 export const getTableStatusMod = (empty: boolean, loading?: boolean, errorMessage?: string): TableState => {
   if (loading) return TableStatus.Loading;
@@ -58,7 +59,7 @@ export const calculateColumnSizes = <T extends object>(headers: Header<T, unknow
   return colSizes;
 };
 
-export const formatTableSortingToQueryFormat = (tableStorageState: TableStorageState<SortingState>) => {
+export const formatTableSortingToQueryFormat = (tableStorageState: TableStorageState<SortingState, TableFilters>) => {
   const sorting = tableStorageState?.sorting;
 
   if (!sorting?.length) {

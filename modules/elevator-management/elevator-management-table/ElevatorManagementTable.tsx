@@ -16,7 +16,17 @@ const ElevatorManagementTable = () => {
     []
   );
 
-  return <BaseTable columns={columns} data={data} hasMore={false} loadMore={() => null} loading={false} />;
+  return (
+    <BaseTable
+      columns={columns}
+      data={data}
+      hasMore={false}
+      loadMore={() => null}
+      loading={false}
+      sorting={[]}
+      onSetSorting={jest.fn()}
+    />
+  );
 };
 
 export default ElevatorManagementTable;

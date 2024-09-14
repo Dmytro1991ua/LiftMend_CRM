@@ -13,10 +13,11 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { Bars } from 'react-loader-spinner';
 
 import { Table } from '@/components/ui/table';
+import { cn } from '@/lib/utils';
 
 import BaseTableBody from './base-table-body';
 import BaseTableHeader from './base-table-header';
-import { INFINITE_SCROLL_OVERFLOW, SCROLL_WRAPPER_ID } from './types';
+import { INFINITE_SCROLL_OVERFLOW, SCROLL_WRAPPER_ID } from './constants';
 import { calculateColumnSizes } from './utils';
 
 type BaseTableProps<T extends object> = {
@@ -29,6 +30,7 @@ type BaseTableProps<T extends object> = {
   errorMessage?: string;
   sorting: SortingState;
   onSetSorting: OnChangeFn<SortingState>;
+  className?: string;
 };
 
 const BaseTable = <T extends object>({
@@ -40,6 +42,7 @@ const BaseTable = <T extends object>({
   emptyTableMessage,
   errorMessage,
   onSetSorting,
+  className,
   loadMore,
 }: BaseTableProps<T>): React.JSX.Element => {
   const [colSizing, setColSizing] = useState<ColumnSizingState>({});
@@ -60,7 +63,7 @@ const BaseTable = <T extends object>({
       columnSizing: colSizing,
       sorting,
     },
-     manualSorting: true,
+    manualSorting: true,
   });
 
   const columnSizeVariables = useMemo(
@@ -87,11 +90,13 @@ const BaseTable = <T extends object>({
         next={loadMore}
         scrollThreshold={0.99}
         scrollableTarget={SCROLL_WRAPPER_ID}
-        style={{ overflow: INFINITE_SCROLL_OVERFLOW }}>
-        <div className='relative w-full h-[58rem] rounded-[2rem] border overflow-auto'>
+        style={{ overflow: INFINITE_SCROLL_OVERFLOW }}
+      >
+        <div className={cn('relative w-full rounded-[2rem] border overflow-auto', className)}>
           <Table className='w-full table-fixed' data-testid='base-table' style={{ ...columnSizeVariables }}>
             <BaseTableHeader headerGroups={getHeaderGroups()} />
             <BaseTableBody
+              className={className}
               columnLength={columns.length}
               emptyTableMessage={emptyTableMessage}
               errorMessage={errorMessage}

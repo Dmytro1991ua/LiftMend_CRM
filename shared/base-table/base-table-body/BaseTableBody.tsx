@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import { Row, flexRender } from '@tanstack/react-table';
 
 import { TableBody, TableCell, TableRow } from '@/components/ui/table';
+import { cn } from '@/lib/utils';
 
 import { getTableStatusContent, getTableStatusMod } from '../utils';
 
@@ -12,6 +13,7 @@ type BaseTableBodyProps<T extends object> = {
   emptyTableMessage?: string;
   loading?: boolean;
   errorMessage?: string;
+  className?: string;
 };
 
 const BaseTableBody = <T extends object>({
@@ -20,6 +22,7 @@ const BaseTableBody = <T extends object>({
   emptyTableMessage,
   loading,
   errorMessage,
+  className,
 }: BaseTableBodyProps<T>): React.JSX.Element => {
   const isTableEmpty = tableRows?.length === 0;
 
@@ -40,7 +43,8 @@ const BaseTableBody = <T extends object>({
                 key={cell.id}
                 style={{
                   width: `calc(var(--col-${cell.column.id}-size) * 1px)`,
-                }}>
+                }}
+              >
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </TableCell>
             ))}
@@ -48,7 +52,7 @@ const BaseTableBody = <T extends object>({
         ))
       ) : (
         <TableRow>
-          <TableCell className='h-[54rem] text-center' colSpan={columnLength}>
+          <TableCell className={cn('text-center', className)} colSpan={columnLength}>
             {currentTableStatus ? tableStatusContent[currentTableStatus] : null}
           </TableCell>
         </TableRow>

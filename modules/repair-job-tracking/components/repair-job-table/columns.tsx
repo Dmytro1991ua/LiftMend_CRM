@@ -38,6 +38,14 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
     maxSize: 350,
   },
   {
+    accessorKey: 'id',
+    header: 'Job Id',
+    enableResizing: true,
+    enableSorting: false,
+    size: 320,
+    maxSize: 320,
+  },
+  {
     accessorKey: 'jobDetails',
     header: 'Job Details',
     enableResizing: true,

@@ -83,3 +83,7 @@ input RepairJobSortInput {
   field: RepairJobSortField
   order: OrderOption
 }
+
+input RepairJobFilterOptions {
+  searchTerm: String
+}

@@ -6,7 +6,7 @@ import { CirclesWithBar } from 'react-loader-spinner';
 import { RepairJob } from '@/graphql/types/client/generated_types';
 import { useFetchDropdownOptions } from '@/modules/repair-job-scheduling/hooks';
 import BaseAlert from '@/shared/base-alert/BaseAlert';
-import BaseInput from '@/shared/base-input';
+import FormInput from '@/shared/base-input/form-input';
 import ControlledMultiSelect from '@/shared/base-select/components/controlled-multi-select';
 import ControlledSingleSelect from '@/shared/base-select/components/controlled-single-select/ControlledSingleSelect';
 import BaseTextarea from '@/shared/base-textarea';
@@ -243,7 +243,7 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
       id: 11,
       label: FormFieldLabel.ContactInformation,
       content: (
-        <BaseInput<RepairJobFormValues>
+        <FormInput<RepairJobFormValues>
           defaultValue={contactInfo}
           id='contactInfo'
           name='contactInfo'

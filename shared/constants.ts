@@ -5,4 +5,5 @@ export const DEFAULT_PAGINATION = {
   offset: DEFAULT_PAGINATION_OFFSET,
 };
 
-export const SORTING_STORAGE_KEY = 'sorting';
+export const TABLE_STATE_STORAGE_KEY = 'tableState';
+export const DEFAULT_DEBOUNCE_TIMEOUT = 500;

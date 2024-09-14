@@ -4,7 +4,7 @@ import { useFormContext } from 'react-hook-form';
 import { Bars } from 'react-loader-spinner';
 
 import BaseAlert from '@/shared/base-alert/BaseAlert';
-import BaseInput from '@/shared/base-input';
+import FormInput from '@/shared/base-input/form-input';
 import ControlledMultiSelect from '@/shared/base-select/components/controlled-multi-select';
 import ControlledSingleSelect from '@/shared/base-select/components/controlled-single-select';
 import QueryResponse from '@/shared/query-response';
@@ -63,7 +63,7 @@ const TechnicianAssignment = () => {
     {
       id: 3,
       content: (
-        <BaseInput<RepairJobFromFields>
+        <FormInput<RepairJobFromFields>
           id='contactInformation'
           label='Technician Contact Information'
           name='technicianAssignment.contactInformation'
