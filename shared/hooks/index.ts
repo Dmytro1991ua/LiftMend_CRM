@@ -4,3 +4,4 @@ export * from './useMutationResultToasts';
 export * from './useDeleteRepairJobAndCalendarEvent';
 export * from './useSearchInTable';
 export * from './useSortingInTable';
+export * from './useRowSelectionInTable';

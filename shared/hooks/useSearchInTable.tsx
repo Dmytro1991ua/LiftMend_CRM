@@ -8,32 +8,23 @@ import { TableFilters } from '@/shared/base-table/types';
 import { DEFAULT_DEBOUNCE_TIMEOUT, DEFAULT_PAGINATION } from '@/shared/constants';
 import { TableStorageState } from '@/shared/storage/hooks/useStoredState';
 
-type RefetchVariables = {
-  paginationOptions: {
-    limit: number;
-    offset: number;
-  };
-  filterOptions: {
-    searchTerm: string;
-  };
-};
-
-type UseSearchInTableProps<TVariables extends RefetchVariables, TData> = {
-  tableStorageState: TableStorageState<SortingState, TableFilters>;
-  onSetTableStorageState: Dispatch<SetStateAction<TableStorageState<SortingState, TableFilters>>>;
-  refetch: (variables: TVariables) => Promise<ApolloQueryResult<TData>>;
+type UseSearchInTableProps<T, TVariables, TData> = {
+  tableStorageState: TableStorageState<SortingState, TableFilters<T>>;
+  onSetTableStorageState: Dispatch<SetStateAction<TableStorageState<SortingState, TableFilters<T>>>>;
+  refetch: (variables: Partial<TVariables>) => Promise<ApolloQueryResult<TData>>;
 };
 
 type UseSearchInTable = {
+  searchTerm: string;
   onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onClearSearch: () => Promise<void>;
 };
 
-const useSearchInTable = <TVariables extends RefetchVariables, TData>({
+const useSearchInTable = <T, TVariables, TData>({
   tableStorageState,
   onSetTableStorageState,
   refetch,
-}: UseSearchInTableProps<TVariables, TData>): UseSearchInTable => {
+}: UseSearchInTableProps<T, TVariables, TData>): UseSearchInTable => {
   const searchTerm = tableStorageState.filters?.searchTerm || '';
 
   const debouncedSearch = useMemo(
@@ -89,6 +80,7 @@ const useSearchInTable = <TVariables extends RefetchVariables, TData>({
   }, []);
 
   return {
+    searchTerm,
     onSearch,
     onClearSearch,
   };

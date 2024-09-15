@@ -1,4 +1,4 @@
-const withTM = require('next-transpile-modules')(['react-select']);
+const withTM = require('next-transpile-modules')(['react-select', '@radix-ui/react-checkbox']);
 
 const nextConfig = {
   reactStrictMode: true,
