@@ -1,6 +1,8 @@
 import { ColumnDef } from '@tanstack/react-table';
 
+import { Checkbox } from '@/components/ui/checkbox';
 import { Maybe } from '@/graphql/types/client/generated_types';
+import BaseTableCheckbox from '@/shared/base-table/base-table-checkbox';
 import DatePicker from '@/shared/date-picker';
 import RepairJobPriority from '@/shared/repair-job/repair-job-priority';
 import { Priority } from '@/shared/repair-job/repair-job-priority/config';
@@ -28,6 +30,19 @@ export type RepairJob = {
   status: string;
 };
 export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
+  {
+    id: 'select',
+    header: ({ table }) => <BaseTableCheckbox table={table} />,
+    cell: ({ row }) => (
+      <Checkbox
+        aria-label='Select row'
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+      />
+    ),
+    enableSorting: false,
+    enableResizing: false,
+  },
   {
     accessorKey: 'jobType',
     header: 'Job Type',

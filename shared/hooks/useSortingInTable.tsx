@@ -5,15 +5,19 @@ import { OnChangeFn, SortingState } from '@tanstack/react-table';
 import { TableFilters } from '@/shared/base-table/types';
 import { TableStorageState } from '@/shared/storage/hooks/useStoredState';
 
-type UseSortingProps = {
-  onSetTableStorageState: Dispatch<SetStateAction<TableStorageState<SortingState, TableFilters>>>;
+type UseSortingProps<T> = {
+  tableStorageState: TableStorageState<SortingState, TableFilters<T>>;
+  onSetTableStorageState: Dispatch<SetStateAction<TableStorageState<SortingState, TableFilters<T>>>>;
 };
 
 type UseSorting = {
+  sorting: SortingState;
   onSetSorting: OnChangeFn<SortingState>;
 };
 
-const useSortingInTable = ({ onSetTableStorageState }: UseSortingProps): UseSorting => {
+const useSortingInTable = <T,>({ tableStorageState, onSetTableStorageState }: UseSortingProps<T>): UseSorting => {
+  const sorting = tableStorageState.sorting ?? [];
+
   const onSetSorting: OnChangeFn<SortingState> = (updaterOrValue) => {
     onSetTableStorageState((prevTableState) => {
       const newSorting =
@@ -27,6 +31,7 @@ const useSortingInTable = ({ onSetTableStorageState }: UseSortingProps): UseSort
   };
 
   return {
+    sorting,
     onSetSorting,
   };
 };

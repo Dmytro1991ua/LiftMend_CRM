@@ -18,6 +18,7 @@ import { cn } from '@/lib/utils';
 import BaseTableBody from './base-table-body';
 import BaseTableHeader from './base-table-header';
 import { INFINITE_SCROLL_OVERFLOW, SCROLL_WRAPPER_ID } from './constants';
+import { RowSelectionState } from './types';
 import { calculateColumnSizes } from './utils';
 
 type BaseTableProps<T extends object> = {
@@ -30,6 +31,8 @@ type BaseTableProps<T extends object> = {
   errorMessage?: string;
   sorting: SortingState;
   onSetSorting: OnChangeFn<SortingState>;
+  rowSelection: RowSelectionState;
+  onRowSelectionChange: OnChangeFn<RowSelectionState>;
   className?: string;
 };
 
@@ -44,6 +47,8 @@ const BaseTable = <T extends object>({
   onSetSorting,
   className,
   loadMore,
+  rowSelection,
+  onRowSelectionChange,
 }: BaseTableProps<T>): React.JSX.Element => {
   const [colSizing, setColSizing] = useState<ColumnSizingState>({});
 
@@ -59,9 +64,12 @@ const BaseTable = <T extends object>({
     onColumnSizingChange: setColSizing,
     onSortingChange: onSetSorting,
     getSortedRowModel: getSortedRowModel(),
+    onRowSelectionChange,
+
     state: {
       columnSizing: colSizing,
       sorting,
+      rowSelection,
     },
     manualSorting: true,
   });

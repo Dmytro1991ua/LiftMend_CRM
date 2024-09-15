@@ -59,7 +59,9 @@ export const calculateColumnSizes = <T extends object>(headers: Header<T, unknow
   return colSizes;
 };
 
-export const formatTableSortingToQueryFormat = (tableStorageState: TableStorageState<SortingState, TableFilters>) => {
+export const formatTableSortingToQueryFormat = <T,>(
+  tableStorageState: TableStorageState<SortingState, TableFilters<T>>
+) => {
   const sorting = tableStorageState?.sorting;
 
   if (!sorting?.length) {

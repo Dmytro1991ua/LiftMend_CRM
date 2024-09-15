@@ -23,7 +23,9 @@ const ElevatorManagementTable = () => {
       hasMore={false}
       loadMore={() => null}
       loading={false}
+      rowSelection={[]}
       sorting={[]}
+      onRowSelectionChange={jest.fn()}
       onSetSorting={jest.fn()}
     />
   );

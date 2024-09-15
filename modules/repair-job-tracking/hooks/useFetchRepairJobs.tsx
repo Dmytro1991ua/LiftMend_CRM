@@ -5,12 +5,7 @@ import { SortingState } from '@tanstack/react-table';
 import { debounce as _debounce } from 'lodash';
 
 import { GET_REPAIR_JOBS } from '@/graphql/schemas/getRepairJobs';
-import {
-  GetRepairJobsQuery,
-  QueryGetRepairJobsArgs,
-  RepairJob,
-  RepairJobSortField,
-} from '@/graphql/types/client/generated_types';
+import { GetRepairJobsQuery, QueryGetRepairJobsArgs, RepairJobSortField } from '@/graphql/types/client/generated_types';
 import { TableFilters } from '@/shared/base-table/types';
 import { formatTableSortingToQueryFormat } from '@/shared/base-table/utils';
 import {
@@ -24,21 +19,23 @@ import { TableStorageState } from '@/shared/storage/hooks/useStoredState';
 import { StorageTableName } from '@/shared/types';
 import { getItemsFromQuery, removeTypeNamesFromArray } from '@/shared/utils';
 
-type UseFetchRepairJobs = {
+import { RepairJob } from '../components/repair-job-table/columns';
+
+type UseFetchRepairJobs<T> = {
   repairJobs: RepairJob[];
   loading: boolean;
   error?: string;
   hasMore: boolean;
   onNext: () => Promise<void>;
-  tableStorageState: TableStorageState<SortingState, TableFilters>;
-  onSetTableStorageState: Dispatch<SetStateAction<TableStorageState<SortingState, TableFilters>>>;
+  tableStorageState: TableStorageState<SortingState, TableFilters<T>>;
+  onSetTableStorageState: Dispatch<SetStateAction<TableStorageState<SortingState, TableFilters<T>>>>;
   refetch: (variables?: Partial<QueryGetRepairJobsArgs>) => Promise<ApolloQueryResult<GetRepairJobsQuery>>;
 };
 
-const useFetchRepairJobs = (): UseFetchRepairJobs => {
+const useFetchRepairJobs = <T,>(): UseFetchRepairJobs<T> => {
   const { storedState: tableStorageState, setStoredState: setTableState } = useStoredTableState<
     SortingState,
-    TableFilters
+    TableFilters<T>
   >(TABLE_STATE_STORAGE_KEY, StorageTableName.RepairJobTable, undefined);
 
   const { field, order } = useMemo(() => formatTableSortingToQueryFormat(tableStorageState), [tableStorageState]);

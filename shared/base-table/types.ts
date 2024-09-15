@@ -6,6 +6,10 @@ export enum TableStatus {
 
 export type TableState = 'empty' | 'error' | 'loading' | null;
 
-export type TableFilters = {
-  searchTerm: string;
+export type RowSelectionState = Record<number, boolean>;
+
+export type TableFilters<T> = {
+  searchTerm?: string;
+  selectedRows?: T[];
+  rowSelectionState?: RowSelectionState;
 };

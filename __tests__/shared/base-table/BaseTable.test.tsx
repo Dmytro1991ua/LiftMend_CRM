@@ -46,7 +46,9 @@ describe('<BaseTable />', () => {
         hasMore={false}
         loadMore={loadMoreMock}
         loading={true}
+        rowSelection={[]}
         sorting={[]}
+        onRowSelectionChange={jest.fn()}
         onSetSorting={jest.fn()}
       />
     );
@@ -62,7 +64,9 @@ describe('<BaseTable />', () => {
         hasMore={false}
         loadMore={loadMoreMock}
         loading={false}
+        rowSelection={[]}
         sorting={[]}
+        onRowSelectionChange={jest.fn()}
         onSetSorting={jest.fn()}
       />
     );
@@ -79,7 +83,9 @@ describe('<BaseTable />', () => {
         hasMore={false}
         loadMore={loadMoreMock}
         loading={false}
+        rowSelection={[]}
         sorting={[]}
+        onRowSelectionChange={jest.fn()}
         onSetSorting={jest.fn()}
       />
     );
@@ -99,7 +105,9 @@ describe('<BaseTable />', () => {
         hasMore={false}
         loadMore={loadMoreMock}
         loading={false}
+        rowSelection={[]}
         sorting={[]}
+        onRowSelectionChange={jest.fn()}
         onSetSorting={jest.fn()}
       />
     );
