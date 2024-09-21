@@ -1,9 +1,8 @@
-import { useMemo, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useMemo } from 'react';
 
 import {
+  Column,
   ColumnDef,
-  ColumnSizingState,
-  OnChangeFn,
   SortingState,
   getCoreRowModel,
   getSortedRowModel,
@@ -15,11 +14,13 @@ import { Bars } from 'react-loader-spinner';
 import { Table } from '@/components/ui/table';
 import { cn } from '@/lib/utils';
 
+import { TableStorageState } from '../storage/hooks/useStoredState';
+
 import BaseTableBody from './base-table-body';
 import BaseTableHeader from './base-table-header';
 import { INFINITE_SCROLL_OVERFLOW, SCROLL_WRAPPER_ID } from './constants';
-import { RowSelectionState } from './types';
-import { calculateColumnSizes } from './utils';
+import useTableState from './hooks/useTableState';
+import { TableFilters } from './types';
 
 type BaseTableProps<T extends object> = {
   columns: ColumnDef<T>[];
@@ -29,56 +30,64 @@ type BaseTableProps<T extends object> = {
   loadMore: () => void;
   emptyTableMessage?: string;
   errorMessage?: string;
-  sorting: SortingState;
-  onSetSorting: OnChangeFn<SortingState>;
-  rowSelection: RowSelectionState;
-  onRowSelectionChange: OnChangeFn<RowSelectionState>;
   className?: string;
+  tableStorageState: TableStorageState<SortingState, TableFilters<T>>;
+  onSetTableStorageState: Dispatch<SetStateAction<TableStorageState<SortingState, TableFilters<T>>>>;
+  onSetTableColumns: (columns: Column<T>[]) => void;
 };
 
 const BaseTable = <T extends object>({
   columns,
-  sorting,
   data,
   loading,
   hasMore,
   emptyTableMessage,
   errorMessage,
-  onSetSorting,
   className,
   loadMore,
-  rowSelection,
-  onRowSelectionChange,
+  tableStorageState,
+  onSetTableStorageState,
+  onSetTableColumns,
 }: BaseTableProps<T>): React.JSX.Element => {
-  const [colSizing, setColSizing] = useState<ColumnSizingState>({});
+  const {
+    columnResizing,
+    columnVisibility,
+    sorting,
+    rowSelection,
+    onColumnResizing,
+    onRowSelectionChange,
+    onSetSorting,
+    onToggleColumnVisibility,
+  } = useTableState<T>({ tableStorageState, onSetTableStorageState, data });
 
   const memoizedData = useMemo(() => data, [data]);
   const memoizedColumns = useMemo(() => columns, [columns]);
 
-  const { getHeaderGroups, getRowModel, getState, getFlatHeaders } = useReactTable({
+  const { getHeaderGroups, getRowModel, getAllColumns, getTotalSize } = useReactTable({
     data: memoizedData,
     columns: memoizedColumns,
     getCoreRowModel: getCoreRowModel(),
     enableColumnResizing: true,
     columnResizeMode: 'onChange',
-    onColumnSizingChange: setColSizing,
+    onColumnSizingChange: onColumnResizing,
     onSortingChange: onSetSorting,
     getSortedRowModel: getSortedRowModel(),
     onRowSelectionChange,
-
+    onColumnVisibilityChange: onToggleColumnVisibility,
     state: {
-      columnSizing: colSizing,
+      columnSizing: columnResizing,
       sorting,
       rowSelection,
+      columnVisibility,
     },
     manualSorting: true,
   });
 
-  const columnSizeVariables = useMemo(
-    () => calculateColumnSizes(getFlatHeaders()),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [getState().columnSizingInfo, getState().columnSizing, getFlatHeaders]
-  );
+  const allColumns = useMemo(() => getAllColumns(), [getAllColumns]);
+
+  useEffect(() => {
+    onSetTableColumns(allColumns);
+  }, [onSetTableColumns, allColumns]);
 
   return (
     <div id={SCROLL_WRAPPER_ID}>
@@ -89,9 +98,9 @@ const BaseTable = <T extends object>({
           <Bars
             ariaLabel='bars-loading'
             color='#306cce'
-            height='30'
+            height='50'
             visible={hasMore}
-            width='30'
+            width='50'
             wrapperClass='justify-center'
           />
         }
@@ -101,8 +110,8 @@ const BaseTable = <T extends object>({
         style={{ overflow: INFINITE_SCROLL_OVERFLOW }}
       >
         <div className={cn('relative w-full rounded-[2rem] border overflow-auto', className)}>
-          <Table className='w-full table-fixed' data-testid='base-table' style={{ ...columnSizeVariables }}>
-            <BaseTableHeader headerGroups={getHeaderGroups()} />
+          <Table className='w-full table-fixed' data-testid='base-table' style={{ width: getTotalSize() }}>
+            <BaseTableHeader columnVisibility={columnVisibility} headerGroups={getHeaderGroups()} />
             <BaseTableBody
               className={className}
               columnLength={columns.length}

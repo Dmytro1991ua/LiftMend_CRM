@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 
 import { getTableStatusContent, getTableStatusMod } from '../utils';
 
-type BaseTableBodyProps<T extends object> = {
+type BaseTableBodyProps<T> = {
   tableRows: Row<T>[];
   columnLength: number;
   emptyTableMessage?: string;
@@ -16,7 +16,7 @@ type BaseTableBodyProps<T extends object> = {
   className?: string;
 };
 
-const BaseTableBody = <T extends object>({
+const BaseTableBody = <T,>({
   tableRows,
   columnLength,
   emptyTableMessage,

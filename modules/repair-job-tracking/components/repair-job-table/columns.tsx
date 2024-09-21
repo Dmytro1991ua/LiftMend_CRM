@@ -29,6 +29,7 @@ export type RepairJob = {
   calendarEventId: Maybe<string>;
   status: string;
 };
+
 export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
   {
     id: 'select',
@@ -42,6 +43,7 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
     ),
     enableSorting: false,
     enableResizing: false,
+    size: 60,
   },
   {
     accessorKey: 'jobType',
@@ -185,7 +187,7 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
     maxSize: 300,
   },
   {
-    accessorKey: 'editAction',
+    accessorKey: 'edit',
     header: () => <div className='text-center'>Edit</div>,
     cell: ({ row: { original } }) => <EditActionCell repairJob={original} />,
     enableSorting: false,
@@ -195,7 +197,7 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
     maxSize: 100,
   },
   {
-    accessorKey: 'deleteAction',
+    accessorKey: 'delete',
     header: () => <div className='text-center'>Delete</div>,
     cell: ({ row: { original } }) => <DeleteActionCell repairJob={original} />,
     size: 80,

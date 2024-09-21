@@ -1,24 +1,10 @@
-import { Dispatch, SetStateAction, useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
-import { ApolloQueryResult } from '@apollo/client';
-import { SortingState } from '@tanstack/react-table';
 import { debounce as _debounce } from 'lodash';
 
-import { TableFilters } from '@/shared/base-table/types';
 import { DEFAULT_DEBOUNCE_TIMEOUT, DEFAULT_PAGINATION } from '@/shared/constants';
-import { TableStorageState } from '@/shared/storage/hooks/useStoredState';
 
-type UseSearchInTableProps<T, TVariables, TData> = {
-  tableStorageState: TableStorageState<SortingState, TableFilters<T>>;
-  onSetTableStorageState: Dispatch<SetStateAction<TableStorageState<SortingState, TableFilters<T>>>>;
-  refetch: (variables: Partial<TVariables>) => Promise<ApolloQueryResult<TData>>;
-};
-
-type UseSearchInTable = {
-  searchTerm: string;
-  onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onClearSearch: () => Promise<void>;
-};
+import { UseSearchInTable, UseSearchInTableProps } from './types';
 
 const useSearchInTable = <T, TVariables, TData>({
   tableStorageState,

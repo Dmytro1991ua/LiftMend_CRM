@@ -1,21 +1,14 @@
-import { Dispatch, SetStateAction } from 'react';
+import { OnChangeFn } from '@tanstack/react-table';
 
-import { OnChangeFn, SortingState } from '@tanstack/react-table';
+import { RowSelectionState } from '../types';
 
-import { RowSelectionState, TableFilters } from '../base-table/types';
-import { TableStorageState } from '../storage/hooks/useStoredState';
-
-type UseRowSelectionProps<T> = {
-  tableStorageState: TableStorageState<SortingState, TableFilters<T>>;
-  onSetTableStorageState: Dispatch<SetStateAction<TableStorageState<SortingState, TableFilters<T>>>>;
-  tableData: T[];
-};
+import { UseRowSelectionInTable, UseRowSelectionProps } from './types';
 
 const useRowSelectionInTable = <T,>({
   tableStorageState,
   tableData,
   onSetTableStorageState,
-}: UseRowSelectionProps<T>) => {
+}: UseRowSelectionProps<T>): UseRowSelectionInTable => {
   const rowSelection = tableStorageState?.filters?.rowSelectionState || {};
 
   const onRowSelectionChange: OnChangeFn<RowSelectionState> = (updaterOrValue) => {

@@ -17,16 +17,15 @@ const ElevatorManagementTable = () => {
   );
 
   return (
-    <BaseTable
+    <BaseTable<Payment>
       columns={columns}
       data={data}
       hasMore={false}
       loadMore={() => null}
       loading={false}
-      rowSelection={[]}
-      sorting={[]}
-      onRowSelectionChange={jest.fn()}
-      onSetSorting={jest.fn()}
+      tableStorageState={{}}
+      onSetTableColumns={() => {}}
+      onSetTableStorageState={() => {}}
     />
   );
 };
