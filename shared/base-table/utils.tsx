@@ -1,4 +1,4 @@
-import { Header, SortingState } from '@tanstack/react-table';
+import { SortingState } from '@tanstack/react-table';
 import { snakeCase as _snakeCase, toUpper as _toUpper } from 'lodash';
 import { Hourglass } from 'react-loader-spinner';
 
@@ -44,19 +44,6 @@ export const getTableStatusContent = (
     ),
     [TableStatus.Empty]: <h3 className='text-link'>{emptyTableMessage || DEFAULT_EMPTY_TABLE_MESSAGE}</h3>,
   };
-};
-
-export const calculateColumnSizes = <T extends object>(headers: Header<T, unknown>[]) => {
-  const colSizes: { [key: string]: number } = {};
-
-  headers.forEach((header) => {
-    const headerId = header.id;
-    const columnId = header.column.id;
-    colSizes[`--header-${headerId}-size`] = header.getSize();
-    colSizes[`--col-${columnId}-size`] = header.column.getSize();
-  });
-
-  return colSizes;
 };
 
 export const formatTableSortingToQueryFormat = <T,>(

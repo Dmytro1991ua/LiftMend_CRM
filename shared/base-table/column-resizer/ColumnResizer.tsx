@@ -3,7 +3,7 @@ import { Header } from '@tanstack/react-table';
 type ColumnResizerProps<T> = {
   header: Header<T, unknown>;
 };
-const ColumnResizer = <T extends object>({ header }: ColumnResizerProps<T>) => {
+const ColumnResizer = <T,>({ header }: ColumnResizerProps<T>) => {
   const {
     getResizeHandler,
     column: { getCanResize, getIsResizing },
@@ -16,6 +16,7 @@ const ColumnResizer = <T extends object>({ header }: ColumnResizerProps<T>) => {
       {...{
         onMouseDown: getResizeHandler(),
         onTouchStart: getResizeHandler(),
+        onClick: (e) => e.stopPropagation(),
         className: `resizer ${getIsResizing() ? 'isResizing' : ''}`,
         style: {
           userSelect: 'none',

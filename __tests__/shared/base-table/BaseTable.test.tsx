@@ -40,16 +40,15 @@ const loadMoreMock = jest.fn();
 describe('<BaseTable />', () => {
   it('should render loader on data loading', () => {
     render(
-      <BaseTable
+      <BaseTable<MockData>
         columns={mockColumns}
         data={[]}
         hasMore={false}
         loadMore={loadMoreMock}
         loading={true}
-        rowSelection={[]}
-        sorting={[]}
-        onRowSelectionChange={jest.fn()}
-        onSetSorting={jest.fn()}
+        tableStorageState={{}}
+        onSetTableColumns={jest.fn()}
+        onSetTableStorageState={jest.fn()}
       />
     );
 
@@ -58,16 +57,15 @@ describe('<BaseTable />', () => {
 
   it('should render empty table message if there is no data', () => {
     render(
-      <BaseTable
+      <BaseTable<MockData>
         columns={mockColumns}
         data={[]}
         hasMore={false}
         loadMore={loadMoreMock}
         loading={false}
-        rowSelection={[]}
-        sorting={[]}
-        onRowSelectionChange={jest.fn()}
-        onSetSorting={jest.fn()}
+        tableStorageState={{}}
+        onSetTableColumns={jest.fn()}
+        onSetTableStorageState={jest.fn()}
       />
     );
 
@@ -77,16 +75,15 @@ describe('<BaseTable />', () => {
 
   it('should render provided header names', () => {
     render(
-      <BaseTable
+      <BaseTable<MockData>
         columns={mockColumns}
         data={mockData}
         hasMore={false}
         loadMore={loadMoreMock}
         loading={false}
-        rowSelection={[]}
-        sorting={[]}
-        onRowSelectionChange={jest.fn()}
-        onSetSorting={jest.fn()}
+        tableStorageState={{}}
+        onSetTableColumns={jest.fn()}
+        onSetTableStorageState={jest.fn()}
       />
     );
 
@@ -99,16 +96,15 @@ describe('<BaseTable />', () => {
 
   it('should correctly render cell content', () => {
     render(
-      <BaseTable
+      <BaseTable<MockData>
         columns={mockColumns}
         data={mockData}
         hasMore={false}
         loadMore={loadMoreMock}
         loading={false}
-        rowSelection={[]}
-        sorting={[]}
-        onRowSelectionChange={jest.fn()}
-        onSetSorting={jest.fn()}
+        tableStorageState={{}}
+        onSetTableColumns={jest.fn()}
+        onSetTableStorageState={jest.fn()}
       />
     );
 

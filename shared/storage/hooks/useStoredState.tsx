@@ -25,7 +25,6 @@ const useStoredTableState = <T, U>(
     if (typeof window !== 'undefined') {
       return new StorageEntity<{ [key: string]: TableStorageState<T, U> }>(storageKey, sessionStorageWrapper);
     }
-
     return null;
   }, [storageKey]);
 
@@ -33,10 +32,8 @@ const useStoredTableState = <T, U>(
   const [storedState, setStoredState] = useState<TableStorageState<T, U>>(() => {
     if (typeof window !== 'undefined' && storage) {
       const storedData = storage.getData();
-
       return storedData?.[tableName] || initialState || {};
     }
-
     return initialState || {};
   });
 
@@ -44,7 +41,6 @@ const useStoredTableState = <T, U>(
   useEffect(() => {
     if (typeof window !== 'undefined' && storage) {
       const currentData = storage.getData() || {};
-
       storage.setData({
         ...currentData,
         [tableName]: storedState,

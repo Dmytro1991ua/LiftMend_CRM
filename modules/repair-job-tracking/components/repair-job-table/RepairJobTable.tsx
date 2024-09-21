@@ -1,11 +1,13 @@
+import { useState } from 'react';
+
+import { Column } from '@tanstack/react-table';
+
 import { GetRepairJobsQuery, QueryGetRepairJobsArgs } from '@/graphql/types/client/generated_types';
 import BaseTable from '@/shared/base-table';
-import useRowSelectionInTable from '@/shared/hooks/useRowSelectionInTable';
-import useSearchInTable from '@/shared/hooks/useSearchInTable';
-import useSortingInTable from '@/shared/hooks/useSortingInTable';
+import useSearchInTable from '@/shared/base-table/hooks/useSearchInTable';
+import TableActionBar from '@/shared/base-table/table-action-bar';
 
 import useFetchRepairJobs from '../../hooks';
-import TableActionBar from '../table-action-bar';
 
 import { REPAIR_JOB_COLUMNS, RepairJob } from './columns';
 
@@ -23,18 +25,17 @@ const RepairJobTable = () => {
     refetch,
   });
 
-  const { sorting, onSetSorting } = useSortingInTable<RepairJob>({ tableStorageState, onSetTableStorageState });
-
-  const { rowSelection, onRowSelectionChange } = useRowSelectionInTable<RepairJob>({
-    tableStorageState,
-    onSetTableStorageState,
-    tableData: repairJobs,
-  });
+  const [tableColumns, setTableColumns] = useState<Column<RepairJob, unknown>[]>([]);
 
   return (
     <>
-      <TableActionBar searchTerm={searchTerm} onClearSearch={onClearSearch} onSearch={onSearch} />
-      <BaseTable
+      <TableActionBar<RepairJob>
+        columns={tableColumns}
+        searchTerm={searchTerm}
+        onClearSearch={onClearSearch}
+        onSearch={onSearch}
+      />
+      <BaseTable<RepairJob>
         className='h-[48rem]'
         columns={REPAIR_JOB_COLUMNS}
         data={repairJobs}
@@ -42,10 +43,9 @@ const RepairJobTable = () => {
         hasMore={hasMore}
         loadMore={onNext}
         loading={loading}
-        rowSelection={rowSelection}
-        sorting={sorting}
-        onRowSelectionChange={onRowSelectionChange}
-        onSetSorting={onSetSorting}
+        tableStorageState={tableStorageState}
+        onSetTableColumns={setTableColumns}
+        onSetTableStorageState={onSetTableStorageState}
       />
     </>
   );
