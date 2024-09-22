@@ -47,6 +47,7 @@ describe('<BaseTable />', () => {
         loadMore={loadMoreMock}
         loading={true}
         tableStorageState={{}}
+        onHandleEventClick={jest.fn()}
         onSetTableColumns={jest.fn()}
         onSetTableStorageState={jest.fn()}
       />
@@ -64,6 +65,7 @@ describe('<BaseTable />', () => {
         loadMore={loadMoreMock}
         loading={false}
         tableStorageState={{}}
+        onHandleEventClick={jest.fn()}
         onSetTableColumns={jest.fn()}
         onSetTableStorageState={jest.fn()}
       />
@@ -82,6 +84,7 @@ describe('<BaseTable />', () => {
         loadMore={loadMoreMock}
         loading={false}
         tableStorageState={{}}
+        onHandleEventClick={jest.fn()}
         onSetTableColumns={jest.fn()}
         onSetTableStorageState={jest.fn()}
       />
@@ -103,6 +106,7 @@ describe('<BaseTable />', () => {
         loadMore={loadMoreMock}
         loading={false}
         tableStorageState={{}}
+        onHandleEventClick={jest.fn()}
         onSetTableColumns={jest.fn()}
         onSetTableStorageState={jest.fn()}
       />

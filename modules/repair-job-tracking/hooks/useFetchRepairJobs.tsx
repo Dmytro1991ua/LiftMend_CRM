@@ -1,8 +1,7 @@
 import { Dispatch, SetStateAction, useMemo } from 'react';
 
 import { ApolloQueryResult, useQuery } from '@apollo/client';
-import { Column, SortingState } from '@tanstack/react-table';
-import { debounce as _debounce } from 'lodash';
+import { SortingState } from '@tanstack/react-table';
 
 import { GET_REPAIR_JOBS } from '@/graphql/schemas/getRepairJobs';
 import { GetRepairJobsQuery, QueryGetRepairJobsArgs, RepairJobSortField } from '@/graphql/types/client/generated_types';

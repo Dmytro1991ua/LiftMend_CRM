@@ -14,6 +14,7 @@ type BaseTableBodyProps<T> = {
   loading?: boolean;
   errorMessage?: string;
   className?: string;
+  onHandleEventClick: (rowData: Row<T>) => void;
 };
 
 const BaseTableBody = <T,>({
@@ -23,6 +24,7 @@ const BaseTableBody = <T,>({
   loading,
   errorMessage,
   className,
+  onHandleEventClick,
 }: BaseTableBodyProps<T>): React.JSX.Element => {
   const isTableEmpty = tableRows?.length === 0;
 
@@ -37,7 +39,12 @@ const BaseTableBody = <T,>({
     <TableBody className='overflow-y-auto' data-testid='base-table-body'>
       {tableRows?.length ? (
         tableRows.map((row) => (
-          <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+          <TableRow
+            key={row.id}
+            className='cursor-pointer'
+            data-state={row.getIsSelected() && 'selected'}
+            onClick={() => onHandleEventClick(row)}
+          >
             {row.getVisibleCells().map((cell) => (
               <TableCell
                 key={cell.id}
