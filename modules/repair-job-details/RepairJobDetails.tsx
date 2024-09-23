@@ -26,7 +26,7 @@ import { getModalTitle } from './utils';
 const RepairJobDetails = () => {
   const {
     query: { repairJobId },
-    push,
+    back,
   } = useRouter();
 
   const { repairJob, loading, error } = useFetchRepairJobById(repairJobId as string);
@@ -50,7 +50,7 @@ const RepairJobDetails = () => {
     onCloseModal: onCloseDeleteModal,
     calendarEventId: repairJob.calendarEventId ?? '',
     repairJobId: repairJob.id,
-    onRedirect: () => push(AppRoutes.RepairJobScheduling),
+    onRedirect: () => back(),
   });
 
   const { description, title } = getCalendarEventInfo({
@@ -69,7 +69,8 @@ const RepairJobDetails = () => {
           isOpen={isEditModalOpen}
           title={getModalTitle(title, true)}
           onClose={onReset}
-          onSubmit={repairJobFormState.handleSubmit(onEditRepairJob)}>
+          onSubmit={repairJobFormState.handleSubmit(onEditRepairJob)}
+        >
           <EditRepairJobForm repairJob={repairJob} />
         </EditModal>
       ),

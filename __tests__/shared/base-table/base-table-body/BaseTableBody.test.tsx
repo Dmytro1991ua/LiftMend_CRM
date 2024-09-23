@@ -11,6 +11,7 @@ describe('BaseTableBody', () => {
     emptyTableMessage: '',
     loading: false,
     errorMessage: '',
+    onHandleEventClick: () => jest.fn(),
   };
 
   it('should render component without crashing', () => {
