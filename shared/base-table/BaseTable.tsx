@@ -3,6 +3,7 @@ import { Dispatch, SetStateAction, useEffect, useMemo } from 'react';
 import {
   Column,
   ColumnDef,
+  Row,
   SortingState,
   getCoreRowModel,
   getSortedRowModel,
@@ -34,6 +35,7 @@ type BaseTableProps<T extends object> = {
   tableStorageState: TableStorageState<SortingState, TableFilters<T>>;
   onSetTableStorageState: Dispatch<SetStateAction<TableStorageState<SortingState, TableFilters<T>>>>;
   onSetTableColumns: (columns: Column<T>[]) => void;
+  onHandleEventClick: (rowData: Row<T>) => void;
 };
 
 const BaseTable = <T extends object>({
@@ -48,6 +50,7 @@ const BaseTable = <T extends object>({
   tableStorageState,
   onSetTableStorageState,
   onSetTableColumns,
+  onHandleEventClick,
 }: BaseTableProps<T>): React.JSX.Element => {
   const {
     columnResizing,
@@ -119,6 +122,7 @@ const BaseTable = <T extends object>({
               errorMessage={errorMessage}
               loading={loading}
               tableRows={getRowModel().rows}
+              onHandleEventClick={onHandleEventClick}
             />
           </Table>
         </div>

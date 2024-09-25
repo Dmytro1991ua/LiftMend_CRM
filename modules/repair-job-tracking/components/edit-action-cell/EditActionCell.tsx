@@ -32,10 +32,16 @@ const EditActionCell = ({ repairJob }: EditActionCellProps) => {
 
   const { onEditRepairJob, isEditRepairJobLoading } = useRepairJobFormHandler({ repairJob, onReset });
 
+  const onHandleEditClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+
+    onOpenModal();
+  };
+
   return (
     <FormProvider {...repairJobFormState}>
       <section className='flex justify-center items-center'>
-        <Button className='hover:bg-transparent' variant='ghost' onClick={onOpenModal}>
+        <Button className='hover:bg-transparent' variant='ghost' onClick={onHandleEditClick}>
           <FaEdit className='h-5 w-5 text-primary' />
         </Button>
         <EditModal
@@ -43,7 +49,8 @@ const EditActionCell = ({ repairJob }: EditActionCellProps) => {
           isOpen={isModalOpen}
           title={getModalTitle(title, true)}
           onClose={onCloseModal}
-          onSubmit={repairJobFormState.handleSubmit(onEditRepairJob)}>
+          onSubmit={repairJobFormState.handleSubmit(onEditRepairJob)}
+        >
           <EditRepairJobForm repairJob={repairJob} />
         </EditModal>
       </section>

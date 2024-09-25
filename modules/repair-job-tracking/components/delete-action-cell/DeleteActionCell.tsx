@@ -30,9 +30,15 @@ const DeleteActionCell = ({ repairJob }: DeleteActionCelProps) => {
     jobType: repairJob.jobType,
   });
 
+  const onHandleDeleteClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+
+    onOpenModal();
+  };
+
   return (
     <section className='flex justify-center items-center'>
-      <Button className='hover:bg-transparent' variant='ghost' onClick={onOpenModal}>
+      <Button className='hover:bg-transparent' variant='ghost' onClick={onHandleDeleteClick}>
         <FaTrashAlt className='h-4 w-4 text-red-500' />
       </Button>
       <DeleteModal
