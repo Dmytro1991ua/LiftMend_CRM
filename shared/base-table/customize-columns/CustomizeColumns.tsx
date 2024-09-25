@@ -20,12 +20,12 @@ const CustomizeColumns = <T,>({ columns }: CustomizeColumnsProps<T>) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className='ml-auto hidden h-8 lg:flex' size='sm' variant='outline'>
+        <Button className='ml-auto h-8 py-5 px-3 bg-primary text-white' size='sm' variant='outline'>
           <CiSettings className='mr-2 h-4 w-4' />
           Customize Columns
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className='w-[20rem]'>
+      <DropdownMenuContent align='end' className='w-[25rem]'>
         <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <CustomizeColumnsContent columns={columns} />
