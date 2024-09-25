@@ -3,9 +3,10 @@ import { Dispatch, SetStateAction } from 'react';
 import { ApolloQueryResult } from '@apollo/client';
 import { ColumnSizingState, OnChangeFn, RowSelectionState, SortingState, VisibilityState } from '@tanstack/react-table';
 
+import { DropdownOption } from '@/shared/base-select/types';
 import { TableStorageState } from '@/shared/storage/hooks/useStoredState';
 
-import { TableFilters } from '../types';
+import { FilterKey, TableFilters } from '../types';
 
 export type BaseHookProps<T> = {
   tableStorageState: TableStorageState<SortingState, TableFilters<T>>;
@@ -51,3 +52,9 @@ export type UseSorting = {
 };
 
 export type TableStateReturn = UseSorting & UseRowSelectionInTable & UseColumnsVisibility & UseColumnResizing;
+
+export type UseFilterInTable<T> = {
+  filters: TableFilters<T>;
+  onFilterChange: (key: FilterKey, selectedOption: DropdownOption) => void;
+  onClearFilter: (key: FilterKey) => void;
+};

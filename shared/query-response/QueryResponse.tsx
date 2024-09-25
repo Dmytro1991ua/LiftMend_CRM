@@ -4,10 +4,10 @@ import { useBaseToast } from '../hooks';
 import { BaseToastVariant } from '../hooks/useBaseToast/types';
 
 type QueryResponseProps = {
-  loading: boolean;
+  loading?: boolean;
   errorMessage?: string;
   errorDescription?: string;
-  loadingComponent: JSX.Element;
+  loadingComponent?: JSX.Element;
   errorComponent?: JSX.Element;
 };
 
