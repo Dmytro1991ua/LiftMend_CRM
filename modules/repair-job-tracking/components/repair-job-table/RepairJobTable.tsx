@@ -4,14 +4,18 @@ import { Column, Row } from '@tanstack/react-table';
 import { useRouter } from 'next/router';
 
 import { GetRepairJobsQuery, QueryGetRepairJobsArgs } from '@/graphql/types/client/generated_types';
+import { useFetchDropdownOptions } from '@/modules/repair-job-scheduling/hooks';
 import BaseTable from '@/shared/base-table';
+import useFilterInTable from '@/shared/base-table/hooks/useFilterInTable';
 import useSearchInTable from '@/shared/base-table/hooks/useSearchInTable';
 import TableActionBar from '@/shared/base-table/table-action-bar';
+import QueryResponse from '@/shared/query-response';
 import { AppRoutes } from '@/types/enums';
 
 import useFetchRepairJobs from '../../hooks';
 
 import { REPAIR_JOB_COLUMNS, RepairJob } from './columns';
+import { getRepairJobFilterConfig } from './config';
 import { getEmptyTableMessage } from './utils';
 
 const RepairJobTable = () => {
@@ -30,8 +34,16 @@ const RepairJobTable = () => {
     refetch,
   });
 
+  const { filters, onFilterChange, onClearFilter } = useFilterInTable<RepairJob>({
+    tableStorageState,
+    onSetTableStorageState,
+  });
+
+  const { dropdownOptions, error: repairJobDataError } = useFetchDropdownOptions();
+
   const [tableColumns, setTableColumns] = useState<Column<RepairJob, unknown>[]>([]);
 
+  const filtersConfig = useMemo(() => getRepairJobFilterConfig(dropdownOptions), [dropdownOptions]);
   const emptyTableMessage = useMemo(
     () => getEmptyTableMessage(searchTerm, !!repairJobs.length),
     [searchTerm, repairJobs.length]
@@ -47,10 +59,15 @@ const RepairJobTable = () => {
 
   return (
     <>
+      <QueryResponse errorDescription={repairJobDataError} errorMessage='Failed to fetch repair job data' />
       <TableActionBar<RepairJob>
         columns={tableColumns}
+        filtersConfig={filtersConfig}
         searchTerm={searchTerm}
+        storedFilters={filters}
+        onClearFilter={onClearFilter}
         onClearSearch={onClearSearch}
+        onFilterChange={onFilterChange}
         onSearch={onSearch}
       />
       <BaseTable<RepairJob>

@@ -52,6 +52,7 @@ const useFetchRepairJobs = <T,>(): UseFetchRepairJobs<T> => {
         },
         filterOptions: { searchTerm },
       },
+      fetchPolicy: 'cache-first',
       notifyOnNetworkStatusChange: true,
     }
   );
