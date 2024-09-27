@@ -49,12 +49,18 @@ const RepairJobTable = () => {
     [searchTerm, repairJobs.length]
   );
 
-  const onHandleEventClick = (rowData: Row<RepairJob>) => {
+  const onHandleRowClick = (rowData: Row<RepairJob>) => {
     const {
       original: { id: repairJobId },
     } = rowData;
 
-    router.push(`${AppRoutes.RepairJobTracking}/${repairJobId}`);
+    // Check if any text is selected by the user (e.g., for copying)
+    const selectedText = window.getSelection()?.toString();
+
+    // If no text is selected, proceed to navigate to the repair job detail page
+    if (!selectedText) {
+      router.push(`${AppRoutes.RepairJobTracking}/${repairJobId}`);
+    }
   };
 
   return (
@@ -80,7 +86,7 @@ const RepairJobTable = () => {
         loadMore={onNext}
         loading={loading}
         tableStorageState={tableStorageState}
-        onHandleEventClick={onHandleEventClick}
+        onHandleRowClick={onHandleRowClick}
         onSetTableColumns={setTableColumns}
         onSetTableStorageState={onSetTableStorageState}
       />

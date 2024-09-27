@@ -13,12 +13,15 @@ import {
   DEFAULT_PAGINATION_OFFSET,
   TABLE_STATE_STORAGE_KEY,
 } from '@/shared/constants';
+import { convertStoredFiltersToQueryFormat } from '@/shared/repair-job/table-filters/utils';
 import useStoredTableState from '@/shared/storage/hooks';
 import { TableStorageState } from '@/shared/storage/hooks/useStoredState';
 import { StorageTableName } from '@/shared/types';
 import { getItemsFromQuery, removeTypeNamesFromArray } from '@/shared/utils';
 
 import { RepairJob } from '../components/repair-job-table/columns';
+
+import { REPAIR_JOBS_TABLE_FILTER_KEY_MAP } from './constants';
 
 type UseFetchRepairJobs<T> = {
   repairJobs: RepairJob[];
@@ -40,6 +43,15 @@ const useFetchRepairJobs = <T,>(): UseFetchRepairJobs<T> => {
   const { field, order } = useMemo(() => formatTableSortingToQueryFormat(tableStorageState), [tableStorageState]);
 
   const searchTerm = tableStorageState.filters?.searchTerm || '';
+  const filterValues = useMemo(
+    () => tableStorageState.filters?.filterValues || {},
+    [tableStorageState.filters?.filterValues]
+  );
+
+  const filters = useMemo(
+    () => convertStoredFiltersToQueryFormat(filterValues, REPAIR_JOBS_TABLE_FILTER_KEY_MAP),
+    [filterValues]
+  );
 
   const { data, loading, error, fetchMore, refetch } = useQuery<GetRepairJobsQuery, QueryGetRepairJobsArgs>(
     GET_REPAIR_JOBS,
@@ -50,7 +62,10 @@ const useFetchRepairJobs = <T,>(): UseFetchRepairJobs<T> => {
           field: field as RepairJobSortField,
           order,
         },
-        filterOptions: { searchTerm },
+        filterOptions: {
+          searchTerm,
+          ...filters,
+        },
       },
       fetchPolicy: 'cache-first',
       notifyOnNetworkStatusChange: true,
@@ -72,7 +87,7 @@ const useFetchRepairJobs = <T,>(): UseFetchRepairJobs<T> => {
         await fetchMore({
           variables: {
             paginationOptions: { offset: newOffset, limit: DEFAULT_PAGINATION_LIMIT },
-            filterOptions: { searchTerm },
+            filterOptions: { searchTerm, ...filters },
           },
         });
       }

@@ -1,6 +1,12 @@
 import { orderBy as _orderBy } from 'lodash';
 
-import { InputMaybe, PaginationOptions } from '@/graphql/types/server/generated_types';
+import {
+  InputMaybe,
+  PaginationOptions,
+  RepairJobFilterOptions,
+  RepairJobSortField,
+  RepairJobSortInput,
+} from '@/graphql/types/server/generated_types';
 
 import { Connection, Edge, PageInfo } from '../types';
 
@@ -59,4 +65,38 @@ export const makeConnectionObject = <T>({
     pageInfo,
     total: totalItems,
   };
+};
+
+export const createRepairJobFilterOptions = (filterOptions: InputMaybe<RepairJobFilterOptions>) => {
+  const { searchTerm, jobType, jobPriority, buildingName, elevatorLocation, elevatorType, technicianName, status } =
+    filterOptions || {};
+
+  return {
+    ...(searchTerm && { id: searchTerm }),
+    ...(jobType && jobType.length > 0 && { jobType: { in: jobType } }),
+    ...(jobPriority && jobPriority.length > 0 && { jobPriority: { in: jobPriority } }),
+    ...(elevatorType && elevatorType.length > 0 && { elevatorType: { in: elevatorType } }),
+    ...(buildingName && buildingName.length > 0 && { buildingName: { in: buildingName } }),
+    ...(elevatorLocation && elevatorLocation.length > 0 && { elevatorLocation: { in: elevatorLocation } }),
+    ...(technicianName && technicianName.length > 0 && { technicianName: { in: technicianName } }),
+    ...(status && status.length > 0 && { status: { in: status } }),
+  };
+};
+
+export const createRepairJobSortOptions = (sortOptions: InputMaybe<RepairJobSortInput>): Record<string, string> => {
+  const fieldMap: { [key in RepairJobSortField]: string } = {
+    [RepairJobSortField.JobType]: 'jobType',
+    [RepairJobSortField.JobPriority]: 'jobPriority',
+    [RepairJobSortField.Status]: 'status',
+    [RepairJobSortField.StartDate]: 'startDate',
+    [RepairJobSortField.EndDate]: 'endDate',
+    [RepairJobSortField.ElevatorType]: 'elevatorType',
+    [RepairJobSortField.BuildingName]: 'buildingName',
+    [RepairJobSortField.ElevatorLocation]: 'elevatorLocation',
+    [RepairJobSortField.TechnicianName]: 'technicianName',
+  };
+
+  return sortOptions?.field && sortOptions?.order
+    ? { [fieldMap[sortOptions.field]]: sortOptions.order.toLowerCase() }
+    : {};
 };

@@ -24,7 +24,7 @@ const ElevatorManagementTable = () => {
       loadMore={() => null}
       loading={false}
       tableStorageState={{}}
-      onHandleEventClick={() => {}}
+      onHandleRowClick={() => {}}
       onSetTableColumns={() => {}}
       onSetTableStorageState={() => {}}
     />

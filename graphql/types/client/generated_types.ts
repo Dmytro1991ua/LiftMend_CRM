@@ -159,7 +159,14 @@ export type RepairJobEdge = Edge & {
 };
 
 export type RepairJobFilterOptions = {
+  buildingName?: InputMaybe<Array<Scalars['String']['input']>>;
+  elevatorLocation?: InputMaybe<Array<Scalars['String']['input']>>;
+  elevatorType?: InputMaybe<Array<Scalars['String']['input']>>;
+  jobPriority?: InputMaybe<Array<Scalars['String']['input']>>;
+  jobType?: InputMaybe<Array<Scalars['String']['input']>>;
   searchTerm?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<Array<Scalars['String']['input']>>;
+  technicianName?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 export type RepairJobScheduleData = {

@@ -40,6 +40,7 @@ const useSearchInTable = <T, TVariables, TData>({
         },
       }));
 
+      debouncedSearch.cancel();
       debouncedSearch(searchTerm);
     },
     [debouncedSearch, onSetTableStorageState]
