@@ -14,7 +14,6 @@ import useRepairJobDetailsFormState from '@/shared/repair-job/hooks/useRepairJob
 import useRepairJobFormHandler from '@/shared/repair-job/hooks/useRepairJobFormHandler';
 import { getDeleteModalDescription } from '@/shared/repair-job/utils';
 import { getCalendarEventInfo } from '@/shared/utils';
-import { AppRoutes } from '@/types/enums';
 
 import RepairJobContent from './components/repair-job-content';
 import RepairJobHeader from './components/repair-job-header';

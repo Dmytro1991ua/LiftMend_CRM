@@ -86,4 +86,11 @@ input RepairJobSortInput {
 
 input RepairJobFilterOptions {
   searchTerm: String
+  jobType: [String!]
+  jobPriority: [String!]
+  elevatorType: [String!]
+  buildingName: [String!]
+  elevatorLocation: [String!]
+  technicianName: [String!]
+  status: [String!]
 }

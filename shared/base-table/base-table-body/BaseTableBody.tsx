@@ -14,7 +14,7 @@ type BaseTableBodyProps<T> = {
   loading?: boolean;
   errorMessage?: string;
   className?: string;
-  onHandleEventClick: (rowData: Row<T>) => void;
+  onHandleRowClick: (rowData: Row<T>) => void;
 };
 
 const BaseTableBody = <T,>({
@@ -24,7 +24,7 @@ const BaseTableBody = <T,>({
   loading,
   errorMessage,
   className,
-  onHandleEventClick,
+  onHandleRowClick,
 }: BaseTableBodyProps<T>): React.JSX.Element => {
   const isTableEmpty = tableRows?.length === 0;
 
@@ -43,7 +43,12 @@ const BaseTableBody = <T,>({
             key={row.id}
             className='cursor-pointer'
             data-state={row.getIsSelected() && 'selected'}
-            onClick={() => onHandleEventClick(row)}
+            onClick={(e) => {
+              e.stopPropagation();
+
+              onHandleRowClick(row);
+            }}
+            onMouseDown={(e) => e.stopPropagation()}
           >
             {row.getVisibleCells().map((cell) => (
               <TableCell
