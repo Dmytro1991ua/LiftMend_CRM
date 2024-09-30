@@ -1,14 +1,7 @@
-import { Dispatch, SetStateAction, useEffect, useMemo } from 'react';
+import { Dispatch, SetStateAction, useMemo } from 'react';
 
-import {
-  Column,
-  ColumnDef,
-  Row,
-  SortingState,
-  getCoreRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from '@tanstack/react-table';
+import { ApolloQueryResult } from '@apollo/client';
+import { ColumnDef, Row, SortingState, getCoreRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Bars } from 'react-loader-spinner';
 
@@ -16,14 +9,16 @@ import { Table } from '@/components/ui/table';
 import { cn } from '@/lib/utils';
 
 import { TableStorageState } from '../storage/hooks/useStoredState';
+import { TableNames } from '../types';
 
 import BaseTableBody from './base-table-body';
 import BaseTableHeader from './base-table-header';
 import { INFINITE_SCROLL_OVERFLOW, SCROLL_WRAPPER_ID } from './constants';
 import useTableState from './hooks/useTableState';
-import { TableFilters } from './types';
+import TableActionBar from './table-action-bar';
+import { TableFilters, TableFiltersConfig } from './types';
 
-type BaseTableProps<T extends object> = {
+type BaseTableProps<T extends object, K, M> = {
   columns: ColumnDef<T>[];
   data: T[];
   loading: boolean;
@@ -33,12 +28,14 @@ type BaseTableProps<T extends object> = {
   errorMessage?: string;
   className?: string;
   tableStorageState: TableStorageState<SortingState, TableFilters<T>>;
+  tableName: TableNames;
+  filtersConfig: TableFiltersConfig[];
+  refetch: (variables: Partial<K>) => Promise<ApolloQueryResult<M>>;
   onSetTableStorageState: Dispatch<SetStateAction<TableStorageState<SortingState, TableFilters<T>>>>;
-  onSetTableColumns: (columns: Column<T>[]) => void;
   onHandleRowClick: (rowData: Row<T>) => void;
 };
 
-const BaseTable = <T extends object>({
+const BaseTable = <T extends object, K, M>({
   columns,
   data,
   loading,
@@ -48,11 +45,15 @@ const BaseTable = <T extends object>({
   className,
   loadMore,
   tableStorageState,
+  tableName,
+  filtersConfig,
+  refetch,
   onSetTableStorageState,
-  onSetTableColumns,
   onHandleRowClick,
-}: BaseTableProps<T>): React.JSX.Element => {
+}: BaseTableProps<T, K, M>): React.JSX.Element => {
   const {
+    searchTerm,
+    filters,
     columnResizing,
     columnVisibility,
     sorting,
@@ -61,12 +62,16 @@ const BaseTable = <T extends object>({
     onRowSelectionChange,
     onSetSorting,
     onToggleColumnVisibility,
-  } = useTableState<T>({ tableStorageState, onSetTableStorageState, data });
+    onClearFilter,
+    onFilterChange,
+    onSearch,
+    onClearSearch,
+  } = useTableState<T, K, M>({ tableStorageState, onSetTableStorageState, data, refetch });
 
   const memoizedData = useMemo(() => data, [data]);
   const memoizedColumns = useMemo(() => columns, [columns]);
 
-  const { getHeaderGroups, getRowModel, getAllColumns, getTotalSize } = useReactTable({
+  const { getHeaderGroups, getRowModel, getTotalSize, getAllColumns } = useReactTable({
     data: memoizedData,
     columns: memoizedColumns,
     getCoreRowModel: getCoreRowModel(),
@@ -86,48 +91,57 @@ const BaseTable = <T extends object>({
     manualSorting: true,
   });
 
-  const allColumns = useMemo(() => getAllColumns(), [getAllColumns]);
-
-  useEffect(() => {
-    onSetTableColumns(allColumns);
-  }, [onSetTableColumns, allColumns]);
-
   return (
-    <div id={SCROLL_WRAPPER_ID}>
-      <InfiniteScroll
-        dataLength={getRowModel().rows.length}
-        hasMore={hasMore}
-        loader={
-          <Bars
-            ariaLabel='bars-loading'
-            color='#306cce'
-            height='50'
-            visible={hasMore}
-            width='50'
-            wrapperClass='justify-center'
-          />
-        }
-        next={loadMore}
-        scrollThreshold={0.99}
-        scrollableTarget={SCROLL_WRAPPER_ID}
-        style={{ overflow: INFINITE_SCROLL_OVERFLOW }}
-      >
-        <div className={cn('relative w-full rounded-[2rem] border overflow-auto', className)}>
-          <Table className='w-full table-fixed' data-testid='base-table' style={{ width: getTotalSize() }}>
-            <BaseTableHeader columnVisibility={columnVisibility} headerGroups={getHeaderGroups()} />
-            <BaseTableBody
-              className={className}
-              columnLength={columns.length}
-              emptyTableMessage={emptyTableMessage}
-              errorMessage={errorMessage}
-              loading={loading}
-              tableRows={getRowModel().rows}
-              onHandleRowClick={onHandleRowClick}
+    <>
+      <TableActionBar<T>
+        columns={getAllColumns() ?? []}
+        filtersConfig={filtersConfig}
+        isExportButtonDisabled={!memoizedData.length}
+        rowModel={getRowModel()}
+        searchTerm={searchTerm}
+        storedFilters={filters}
+        tableName={tableName}
+        onClearFilter={onClearFilter}
+        onClearSearch={onClearSearch}
+        onFilterChange={onFilterChange}
+        onSearch={onSearch}
+      />
+      <div id={SCROLL_WRAPPER_ID}>
+        <InfiniteScroll
+          dataLength={getRowModel().rows.length}
+          hasMore={hasMore}
+          loader={
+            <Bars
+              ariaLabel='bars-loading'
+              color='#306cce'
+              height='50'
+              visible={hasMore}
+              width='50'
+              wrapperClass='justify-center'
             />
-          </Table>
-        </div>
-      </InfiniteScroll>
-    </div>
+          }
+          next={loadMore}
+          scrollThreshold={0.99}
+          scrollableTarget={SCROLL_WRAPPER_ID}
+          style={{ overflow: INFINITE_SCROLL_OVERFLOW }}
+        >
+          <div className={cn('relative w-full rounded-[2rem] border overflow-auto', className)}>
+            <Table className='w-full table-fixed' data-testid='base-table' style={{ width: getTotalSize() }}>
+              <BaseTableHeader columnVisibility={columnVisibility} headerGroups={getHeaderGroups()} />
+              <BaseTableBody
+                className={className}
+                columnLength={columns.length}
+                emptyTableMessage={emptyTableMessage}
+                errorMessage={errorMessage}
+                loading={loading}
+                tableRows={getRowModel().rows}
+                onHandleRowClick={onHandleRowClick}
+              />
+            </Table>
+          </div>
+        </InfiniteScroll>
+      </div>
+    </>
   );
 };
 

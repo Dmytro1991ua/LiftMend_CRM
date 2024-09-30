@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { debounce as _debounce } from 'lodash';
 
@@ -11,12 +11,20 @@ const useSearchInTable = <T, TVariables, TData>({
   onSetTableStorageState,
   refetch,
 }: UseSearchInTableProps<T, TVariables, TData>): UseSearchInTable => {
-  const searchTerm = tableStorageState.filters?.searchTerm || '';
+  const [debounceSearchTerm, setDebounceSearchTerm] = useState<string>(tableStorageState.filters?.searchTerm || '');
 
   const debouncedSearch = useMemo(
     () =>
       _debounce(async (searchTerm: string): Promise<void> => {
         try {
+          onSetTableStorageState((prevState) => ({
+            ...prevState,
+            filters: {
+              ...prevState.filters,
+              searchTerm: searchTerm,
+            },
+          }));
+
           await refetch({
             paginationOptions: DEFAULT_PAGINATION,
             filterOptions: { searchTerm },
@@ -25,25 +33,17 @@ const useSearchInTable = <T, TVariables, TData>({
           console.error(e);
         }
       }, DEFAULT_DEBOUNCE_TIMEOUT),
-    [refetch]
+    [refetch, onSetTableStorageState]
   );
 
   const onSearch = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const searchTerm = e.target.value.toLowerCase().trim();
+      const newSearchTerm = e.target.value.toLowerCase().trim();
 
-      onSetTableStorageState((prevState) => ({
-        ...prevState,
-        filters: {
-          ...prevState.filters,
-          searchTerm: searchTerm,
-        },
-      }));
-
-      debouncedSearch.cancel();
-      debouncedSearch(searchTerm);
+      setDebounceSearchTerm(newSearchTerm);
+      debouncedSearch(newSearchTerm);
     },
-    [debouncedSearch, onSetTableStorageState]
+    [debouncedSearch]
   );
 
   const onClearSearch = useCallback(async () => {
@@ -58,7 +58,7 @@ const useSearchInTable = <T, TVariables, TData>({
 
       await refetch({
         paginationOptions: DEFAULT_PAGINATION,
-        filterOptions: { searchTerm },
+        filterOptions: { searchTerm: '' },
       } as TVariables);
     } catch (e) {
       console.error(e);
@@ -67,7 +67,7 @@ const useSearchInTable = <T, TVariables, TData>({
   }, []);
 
   return {
-    searchTerm,
+    searchTerm: debounceSearchTerm,
     onSearch,
     onClearSearch,
   };

@@ -10,9 +10,8 @@ import { useModal } from '@/shared/hooks';
 import EditRepairJobForm from '@/shared/repair-job/edit-repair-job-form';
 import useRepairJobDetailsFormState from '@/shared/repair-job/hooks/useRepairJobDetailsFormState';
 import useRepairJobFormHandler from '@/shared/repair-job/hooks/useRepairJobFormHandler';
+import { RepairJob } from '@/shared/types';
 import { getCalendarEventInfo } from '@/shared/utils';
-
-import { RepairJob } from '../repair-job-table/columns';
 
 type EditActionCellProps = {
   repairJob: RepairJob;

@@ -30,6 +30,8 @@ export enum FilterKey {
   Statuses = 'statuses',
 }
 
+export type Nullable<T> = T | null;
+
 export type TableState = 'empty' | 'error' | 'loading' | null;
 
 export type RowSelectionState = Record<number, boolean>;
