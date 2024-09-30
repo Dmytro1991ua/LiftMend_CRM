@@ -16,10 +16,8 @@ import {
 import { convertStoredFiltersToQueryFormat } from '@/shared/repair-job/table-filters/utils';
 import useStoredTableState from '@/shared/storage/hooks';
 import { TableStorageState } from '@/shared/storage/hooks/useStoredState';
-import { StorageTableName } from '@/shared/types';
+import { RepairJob, StorageTableName } from '@/shared/types';
 import { getItemsFromQuery, removeTypeNamesFromArray } from '@/shared/utils';
-
-import { RepairJob } from '../components/repair-job-table/columns';
 
 import { REPAIR_JOBS_TABLE_FILTER_KEY_MAP } from './constants';
 
@@ -42,7 +40,10 @@ const useFetchRepairJobs = <T,>(): UseFetchRepairJobs<T> => {
 
   const { field, order } = useMemo(() => formatTableSortingToQueryFormat(tableStorageState), [tableStorageState]);
 
-  const searchTerm = tableStorageState.filters?.searchTerm || '';
+  const searchTerm = useMemo(
+    () => tableStorageState.filters?.searchTerm || '',
+    [tableStorageState.filters?.searchTerm]
+  );
   const filterValues = useMemo(
     () => tableStorageState.filters?.filterValues || {},
     [tableStorageState.filters?.filterValues]
@@ -67,7 +68,6 @@ const useFetchRepairJobs = <T,>(): UseFetchRepairJobs<T> => {
           ...filters,
         },
       },
-      fetchPolicy: 'cache-first',
       notifyOnNetworkStatusChange: true,
     }
   );

@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 
 import BaseTable from '@/shared/base-table/BaseTable';
+import { TableNames } from '@/shared/types';
 
 import { Payment, columns } from './columns';
 
@@ -17,15 +18,17 @@ const ElevatorManagementTable = () => {
   );
 
   return (
-    <BaseTable<Payment>
+    <BaseTable<Payment, unknown, unknown>
       columns={columns}
       data={data}
+      filtersConfig={[]}
       hasMore={false}
       loadMore={() => null}
       loading={false}
+      refetch={() => null!}
+      tableName={TableNames.RepairJobsTable}
       tableStorageState={{}}
       onHandleRowClick={() => {}}
-      onSetTableColumns={() => {}}
       onSetTableStorageState={() => {}}
     />
   );

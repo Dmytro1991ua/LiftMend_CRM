@@ -13,8 +13,9 @@ export type BaseHookProps<T> = {
   onSetTableStorageState: Dispatch<SetStateAction<TableStorageState<SortingState, TableFilters<T>>>>;
 };
 
-export type BaseTableProps<T> = BaseHookProps<T> & {
+export type BaseTableProps<T, TVariables, TData> = BaseHookProps<T> & {
   data: T[];
+  refetch: (variables: Partial<TVariables>) => Promise<ApolloQueryResult<TData>>;
 };
 
 export type UseRowSelectionProps<T> = BaseHookProps<T> & {
@@ -51,7 +52,12 @@ export type UseSorting = {
   onSetSorting: OnChangeFn<SortingState>;
 };
 
-export type TableStateReturn = UseSorting & UseRowSelectionInTable & UseColumnsVisibility & UseColumnResizing;
+export type TableStateReturn<T> = UseSorting &
+  UseRowSelectionInTable &
+  UseColumnsVisibility &
+  UseColumnResizing &
+  UseSearchInTable &
+  UseFilterInTable<T>;
 
 export type UseFilterInTable<T> = {
   filters: TableFilters<T>;

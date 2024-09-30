@@ -9,26 +9,10 @@ import { Priority } from '@/shared/repair-job/repair-job-priority/config';
 import RepairJobStatus from '@/shared/repair-job/repair-job-status';
 import { Status } from '@/shared/repair-job/repair-job-status/config';
 import TechnicianSkills from '@/shared/repair-job/technician-skills';
+import { RepairJob } from '@/shared/types';
 
 import DeleteActionCell from '../delete-action-cell';
 import EditActionCell from '../edit-action-cell/EditActionCell';
-
-export type RepairJob = {
-  id: string;
-  jobType: string;
-  jobDetails: string;
-  jobPriority: string;
-  startDate: Date;
-  endDate: Date;
-  elevatorType: string;
-  buildingName: string;
-  elevatorLocation: string;
-  technicianName: string;
-  technicianSkills: string[];
-  contactInformation: string;
-  calendarEventId: Maybe<string>;
-  status: string;
-};
 
 export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
   {
@@ -101,7 +85,7 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
   },
   {
     accessorKey: 'startDate',
-    header: () => <div className='text-center'>Start Date</div>,
+    header: 'Start Date',
     enableResizing: true,
     cell: ({
       row: {
@@ -117,7 +101,7 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
   },
   {
     accessorKey: 'endDate',
-    header: () => <div className='text-center'>End Date</div>,
+    header: 'End Date',
     enableResizing: true,
     enableSorting: true,
     cell: ({
@@ -165,7 +149,7 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
   },
   {
     accessorKey: 'technicianSkills',
-    header: () => <div className='text-center'>Technician Skills</div>,
+    header: 'Technician Skills',
     cell: ({
       row: {
         original: { technicianSkills },
@@ -188,7 +172,7 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
   },
   {
     accessorKey: 'edit',
-    header: () => <div className='text-center'>Edit</div>,
+    header: 'Edit',
     cell: ({ row: { original } }) => <EditActionCell repairJob={original} />,
     enableSorting: false,
     size: 80,
@@ -198,7 +182,7 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
   },
   {
     accessorKey: 'delete',
-    header: () => <div className='text-center'>Delete</div>,
+    header: 'Delete',
     cell: ({ row: { original } }) => <DeleteActionCell repairJob={original} />,
     size: 80,
     enableResizing: false,

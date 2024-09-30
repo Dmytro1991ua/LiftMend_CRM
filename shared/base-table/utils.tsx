@@ -1,4 +1,5 @@
 import { SortingState } from '@tanstack/react-table';
+import { format } from 'date-fns';
 import { snakeCase as _snakeCase, toUpper as _toUpper } from 'lodash';
 import { Hourglass } from 'react-loader-spinner';
 
@@ -8,7 +9,7 @@ import BaseAlert from '../base-alert/BaseAlert';
 import { TableStorageState } from '../storage/hooks/useStoredState';
 
 import { DEFAULT_EMPTY_TABLE_MESSAGE, DEFAULT_TABLE_ERROR_TITLE } from './constants';
-import { TableFilters, TableState, TableStatus } from './types';
+import { Nullable, TableFilters, TableState, TableStatus } from './types';
 
 export const getTableStatusMod = (empty: boolean, loading?: boolean, errorMessage?: string): TableState => {
   if (loading) return TableStatus.Loading;
@@ -61,4 +62,10 @@ export const formatTableSortingToQueryFormat = <T,>(
     field: _toUpper(_snakeCase(id)),
     order: desc ? OrderOption.Desc : OrderOption.Asc,
   };
+};
+
+export const formatDate = (value: Nullable<Date>, shortYearFormat = false): string => {
+  if (!value) return '';
+
+  return format(value, `MM/dd/yy${shortYearFormat ? '' : 'yy'}`);
 };

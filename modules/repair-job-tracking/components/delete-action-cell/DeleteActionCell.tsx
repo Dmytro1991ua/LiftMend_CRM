@@ -6,9 +6,8 @@ import { useModal } from '@/shared/hooks';
 import { DEFAULT_DELETE_MODAL_TITLE } from '@/shared/repair-job/constants';
 import useRepairJobDeletion from '@/shared/repair-job/hooks/useRepairJobDeletion';
 import { getDeleteModalDescription } from '@/shared/repair-job/utils';
+import { RepairJob } from '@/shared/types';
 import { getCalendarEventInfo } from '@/shared/utils';
-
-import { RepairJob } from '../repair-job-table/columns';
 
 type DeleteActionCelProps = {
   repairJob: RepairJob;

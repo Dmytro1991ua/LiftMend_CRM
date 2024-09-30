@@ -5,6 +5,7 @@ import { render, screen } from '@testing-library/react';
 
 import BaseTable from '@/shared/base-table';
 import { DEFAULT_EMPTY_TABLE_MESSAGE } from '@/shared/base-table/constants';
+import { TableNames } from '@/shared/types';
 
 type MockData = {
   name: string;
@@ -40,15 +41,17 @@ const loadMoreMock = jest.fn();
 describe('<BaseTable />', () => {
   it('should render loader on data loading', () => {
     render(
-      <BaseTable<MockData>
+      <BaseTable<MockData, unknown, unknown>
         columns={mockColumns}
         data={[]}
+        filtersConfig={[]}
         hasMore={false}
         loadMore={loadMoreMock}
         loading={true}
+        refetch={() => null!}
+        tableName={TableNames.RepairJobsTable}
         tableStorageState={{}}
         onHandleRowClick={jest.fn()}
-        onSetTableColumns={jest.fn()}
         onSetTableStorageState={jest.fn()}
       />
     );
@@ -58,15 +61,17 @@ describe('<BaseTable />', () => {
 
   it('should render empty table message if there is no data', () => {
     render(
-      <BaseTable<MockData>
+      <BaseTable<MockData, unknown, unknown>
         columns={mockColumns}
         data={[]}
+        filtersConfig={[]}
         hasMore={false}
         loadMore={loadMoreMock}
         loading={false}
+        refetch={() => null!}
+        tableName={TableNames.RepairJobsTable}
         tableStorageState={{}}
         onHandleRowClick={jest.fn()}
-        onSetTableColumns={jest.fn()}
         onSetTableStorageState={jest.fn()}
       />
     );
@@ -77,15 +82,17 @@ describe('<BaseTable />', () => {
 
   it('should render provided header names', () => {
     render(
-      <BaseTable<MockData>
+      <BaseTable<MockData, unknown, unknown>
         columns={mockColumns}
         data={mockData}
+        filtersConfig={[]}
         hasMore={false}
         loadMore={loadMoreMock}
         loading={false}
+        refetch={() => null!}
+        tableName={TableNames.RepairJobsTable}
         tableStorageState={{}}
         onHandleRowClick={jest.fn()}
-        onSetTableColumns={jest.fn()}
         onSetTableStorageState={jest.fn()}
       />
     );
@@ -99,15 +106,17 @@ describe('<BaseTable />', () => {
 
   it('should correctly render cell content', () => {
     render(
-      <BaseTable<MockData>
+      <BaseTable<MockData, unknown, unknown>
         columns={mockColumns}
         data={mockData}
+        filtersConfig={[]}
         hasMore={false}
         loadMore={loadMoreMock}
         loading={false}
+        refetch={() => null!}
+        tableName={TableNames.RepairJobsTable}
         tableStorageState={{}}
         onHandleRowClick={jest.fn()}
-        onSetTableColumns={jest.fn()}
         onSetTableStorageState={jest.fn()}
       />
     );
