@@ -38,7 +38,6 @@ const TableActionBar = <T,>({
   onFilterChange,
   onClearFilter,
 }: TableActionBarProps<T>) => {
-  console.log(rowModel?.rows);
   return (
     <section className='flex items-center justify-between py-4'>
       <div className='flex items-center gap-2'>
