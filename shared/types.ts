@@ -8,6 +8,7 @@ export enum StorageTableName {
 
 export enum TableNames {
   RepairJobsTable = 'RepairJobs',
+  ElevatorManagementTable = 'ElevatorManagement',
 }
 
 export type CalendarEventInfoPayload = {
@@ -52,7 +53,18 @@ export type RepairJob = {
   status: string;
 };
 
-export type TableModel = RepairJob;
+export type ElevatorRecord = {
+  elevatorType: string;
+  elevatorLocation: string;
+  buildingName: string;
+  status: string;
+  lastMaintenanceDate: Date;
+  nextMaintenanceDate: Date;
+  technicianName: string;
+  capacity: number;
+};
+
+export type TableModel = RepairJob & ElevatorRecord;
 export type TableValue = string | Date | string[] | Maybe<string> | unknown;
 
 export type ColumnsValueAccessors = {
