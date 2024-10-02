@@ -5,24 +5,26 @@ import BaseModal from '@/shared/base-modal';
 import ModalFooter from '@/shared/base-modal/modal-footer';
 import { useModal } from '@/shared/hooks';
 import SectionHeader from '@/shared/section-header';
-import { SectionHeaderTitle } from '@/types/enums';
+import { SectionHeaderDescription, SectionHeaderTitle } from '@/types/enums';
 
-import ElevatorManagementTable from './elevator-management-table';
+import ElevatorManagementTable from './components/elevator-management-table';
+import { ADD_ELEVATOR_RECORD_BUTTON_LABEL } from './constants';
 
 const ElevatorManagement = (): React.JSX.Element => {
   const { isModalOpen, onCloseModal, onOpenModal } = useModal();
 
-  //TODO: Example on how to use actionComponent for SectionHeader
-  const sectionHeaderButton = (
-    <Button onClick={onOpenModal}>
-      <HiPlus />
-      <span className='ml-2'>Add Task</span>
-    </Button>
-  );
-
   return (
     <div className='flex flex-col'>
-      <SectionHeader actionComponent={sectionHeaderButton} title={SectionHeaderTitle.ElevatorManagement} />
+      <SectionHeader
+        actionComponent={
+          <Button onClick={onOpenModal}>
+            <HiPlus />
+            <span className='ml-2'>{ADD_ELEVATOR_RECORD_BUTTON_LABEL}</span>
+          </Button>
+        }
+        subtitle={SectionHeaderDescription.ElevatorManagement}
+        title={SectionHeaderTitle.ElevatorManagement}
+      />
       <div className='content-wrapper'>
         <ElevatorManagementTable />
       </div>
@@ -36,8 +38,9 @@ const ElevatorManagement = (): React.JSX.Element => {
             onSubmit={onCloseModal}
           />
         }
-        title='Create Elevator Details'
-        onClose={onCloseModal}>
+        title='Create Elevator Record'
+        onClose={onCloseModal}
+      >
         <p>Test description</p>
       </BaseModal>
     </div>

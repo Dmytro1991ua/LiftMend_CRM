@@ -50,6 +50,7 @@ export const formatToCSVValue = (value?: string | string[] | null | Date | boole
 const getAccessorValue = <T>(cell: Cell<T, unknown>, tableName: TableNames): string => {
   const customAccessorsMap: Record<TableNames, Record<string, (cell: Cell<T, unknown>) => string>> = {
     [TableNames.RepairJobsTable]: {},
+    [TableNames.ElevatorManagementTable]: {},
   };
 
   const accessor = customAccessorsMap[tableName]?.[cell.column.id] || columnsValueAccessors[cell.column.id];
