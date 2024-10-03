@@ -3,8 +3,6 @@ import { toZonedTime } from 'date-fns-tz';
 import { get as _get } from 'lodash';
 import { FieldErrors, FieldValues } from 'react-hook-form';
 
-import { DropdownOption } from '@/shared/base-select/types';
-
 import { TimePosition } from './types';
 
 export const getNestedError = <T extends FieldValues>(

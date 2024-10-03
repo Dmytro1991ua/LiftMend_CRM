@@ -8,6 +8,7 @@ import SectionHeader from '@/shared/section-header';
 import { SectionHeaderDescription, SectionHeaderTitle } from '@/types/enums';
 
 import ElevatorManagementTable from './components/elevator-management-table';
+import ElevatorRecordForm from './components/elevator-record-form';
 import { ADD_ELEVATOR_RECORD_BUTTON_LABEL } from './constants';
 
 const ElevatorManagement = (): React.JSX.Element => {
@@ -41,7 +42,7 @@ const ElevatorManagement = (): React.JSX.Element => {
         title='Create Elevator Record'
         onClose={onCloseModal}
       >
-        <p>Test description</p>
+        <ElevatorRecordForm />
       </BaseModal>
     </div>
   );

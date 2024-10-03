@@ -1,7 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table';
 
 import { Checkbox } from '@/components/ui/checkbox';
-import { Maybe } from '@/graphql/types/client/generated_types';
 import BaseTableCheckbox from '@/shared/base-table/base-table-checkbox';
 import DatePicker from '@/shared/date-picker';
 import RepairJobPriority from '@/shared/repair-job/repair-job-priority';
