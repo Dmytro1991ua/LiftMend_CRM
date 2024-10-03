@@ -3,13 +3,15 @@ import { Fragment } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { Bars } from 'react-loader-spinner';
 
+import { GetRepairJobFromDataQuery } from '@/graphql/types/client/generated_types';
 import BaseAlert from '@/shared/base-alert/BaseAlert';
 import ControlledSingleSelect from '@/shared/base-select/components/controlled-single-select/ControlledSingleSelect';
 import BaseTextarea from '@/shared/base-textarea';
+import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions';
+import { DropdownOptions } from '@/shared/hooks/useFetchDropdownOptions/config';
 import QueryResponse from '@/shared/query-response';
 import { FormFieldConfig } from '@/shared/types';
 
-import { useFetchDropdownOptions } from '../../hooks';
 import { RepairJobFromFields } from '../repair-job-tracking-from/validation';
 
 const JobDetails = () => {
@@ -19,7 +21,7 @@ const JobDetails = () => {
     dropdownOptions: { repairJobTypes, priorities },
     loading,
     error,
-  } = useFetchDropdownOptions();
+  } = useFetchDropdownOptions<GetRepairJobFromDataQuery>(DropdownOptions.RepairJob);
 
   const JOB_DETAILS_FORM_FIELDS_CONFIG: FormFieldConfig[] = [
     {

@@ -1,5 +1,5 @@
-import { MultiStepDropdownOption } from '@/modules/repair-job-scheduling/hooks';
 import { FilterKey, FilterLabel, TableFiltersConfig } from '@/shared/base-table/types';
+import { MultiStepDropdownOption } from '@/shared/hooks/useFetchDropdownOptions';
 
 export const getRepairJobFilterConfig = (dropdownOptions: MultiStepDropdownOption): TableFiltersConfig[] => {
   return [

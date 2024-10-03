@@ -7,4 +7,5 @@ type Query {
     filterOptions: RepairJobFilterOptions
   ): RepairJobConnection!
   getRepairJobById(id: ID!): RepairJob!
+  getElevatorRecordFormData: ElevatorRecordFormData!
 }

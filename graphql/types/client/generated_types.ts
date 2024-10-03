@@ -65,6 +65,15 @@ export type Edge = {
   node: Node;
 };
 
+export type ElevatorRecordFormData = {
+  __typename?: 'ElevatorRecordFormData';
+  buildingNames: Array<Scalars['String']['output']>;
+  elevatorLocations: Array<Scalars['String']['output']>;
+  elevatorStatuses: Maybe<Array<Scalars['String']['output']>>;
+  elevatorTypes: Array<Scalars['String']['output']>;
+  technicianNames: Array<Scalars['String']['output']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createRepairJobAndEvent: ScheduledEventAndRepairJobResponse;
@@ -112,6 +121,7 @@ export type PaginationOptions = {
 export type Query = {
   __typename?: 'Query';
   getCalendarEvents: Array<CalendarEvent>;
+  getElevatorRecordFormData: ElevatorRecordFormData;
   getRepairJobById: RepairJob;
   getRepairJobScheduleData: RepairJobScheduleData;
   getRepairJobs: RepairJobConnection;
@@ -322,6 +332,20 @@ export type GetCalendarEventsQuery = {
     description: string | null;
     repairJobId: string | null;
   }>;
+};
+
+export type GetElevatorRecordFormDataQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetElevatorRecordFormDataQuery = {
+  __typename?: 'Query';
+  getElevatorRecordFormData: {
+    __typename?: 'ElevatorRecordFormData';
+    elevatorTypes: Array<string>;
+    buildingNames: Array<string>;
+    elevatorLocations: Array<string>;
+    technicianNames: Array<string>;
+    elevatorStatuses: Array<string> | null;
+  };
 };
 
 export type GetRepairJobByIdQueryVariables = Exact<{

@@ -12,12 +12,6 @@ export const getNestedError = <T extends FieldValues>(
   name: string
 ): FieldErrors<T>[string] | undefined => _get(errors, name) as FieldErrors<T>[string] | undefined;
 
-export const convertQueryResponseToDropdownOptions = (options: string[]): DropdownOption<string>[] =>
-  options.map((option: string) => ({
-    value: option,
-    label: option,
-  }));
-
 /**
  * Adjusts the date for all-day events based on the provided time position.
  *
