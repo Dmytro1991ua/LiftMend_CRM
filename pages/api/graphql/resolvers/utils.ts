@@ -12,7 +12,7 @@ import { Connection, Edge, PageInfo } from '../types';
 
 import { DEFAULT_PAGINATION } from './constants';
 
-export const getSortedRepairJobData = async <T>(
+export const getSortedFormDropdownData = async <T>(
   model: { findMany: () => Promise<T[]> },
   field: keyof T
 ): Promise<string[]> => {
@@ -21,7 +21,7 @@ export const getSortedRepairJobData = async <T>(
   return _orderBy(data.flatMap((item) => item[field] as string[]));
 };
 
-export async function fetchRepairJobData<T>(fetchFunction: () => Promise<T>, label: string): Promise<T> {
+export async function fetchFormDropdownData<T>(fetchFunction: () => Promise<T>, label: string): Promise<T> {
   try {
     return await fetchFunction();
   } catch (error) {

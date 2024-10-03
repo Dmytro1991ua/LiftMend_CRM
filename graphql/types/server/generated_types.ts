@@ -68,6 +68,15 @@ export type Edge = {
   node: Node;
 };
 
+export type ElevatorRecordFormData = {
+  __typename?: 'ElevatorRecordFormData';
+  buildingNames: Array<Scalars['String']['output']>;
+  elevatorLocations: Array<Scalars['String']['output']>;
+  elevatorStatuses?: Maybe<Array<Scalars['String']['output']>>;
+  elevatorTypes: Array<Scalars['String']['output']>;
+  technicianNames: Array<Scalars['String']['output']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createRepairJobAndEvent: ScheduledEventAndRepairJobResponse;
@@ -114,6 +123,7 @@ export type PaginationOptions = {
 export type Query = {
   __typename?: 'Query';
   getCalendarEvents: Array<CalendarEvent>;
+  getElevatorRecordFormData: ElevatorRecordFormData;
   getRepairJobById: RepairJob;
   getRepairJobScheduleData: RepairJobScheduleData;
   getRepairJobs: RepairJobConnection;
@@ -319,6 +329,7 @@ export type ResolversTypes = ResolversObject<{
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   DeleteCalendarAndRepairJobResponse: ResolverTypeWrapper<DeleteCalendarAndRepairJobResponse>;
   Edge: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Edge']>;
+  ElevatorRecordFormData: ResolverTypeWrapper<ElevatorRecordFormData>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
@@ -350,6 +361,7 @@ export type ResolversParentTypes = ResolversObject<{
   DateTime: Scalars['DateTime']['output'];
   DeleteCalendarAndRepairJobResponse: DeleteCalendarAndRepairJobResponse;
   Edge: ResolversInterfaceTypes<ResolversParentTypes>['Edge'];
+  ElevatorRecordFormData: ElevatorRecordFormData;
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
   Mutation: {};
@@ -415,6 +427,18 @@ export type EdgeResolvers<
   node?: Resolver<ResolversTypes['Node'], ParentType, ContextType>;
 }>;
 
+export type ElevatorRecordFormDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['ElevatorRecordFormData'] = ResolversParentTypes['ElevatorRecordFormData']
+> = ResolversObject<{
+  buildingNames?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  elevatorLocations?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  elevatorStatuses?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
+  elevatorTypes?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  technicianNames?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type MutationResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
@@ -463,6 +487,7 @@ export type QueryResolvers<
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = ResolversObject<{
   getCalendarEvents?: Resolver<Array<ResolversTypes['CalendarEvent']>, ParentType, ContextType>;
+  getElevatorRecordFormData?: Resolver<ResolversTypes['ElevatorRecordFormData'], ParentType, ContextType>;
   getRepairJobById?: Resolver<
     ResolversTypes['RepairJob'],
     ParentType,
@@ -558,6 +583,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   DateTime?: GraphQLScalarType;
   DeleteCalendarAndRepairJobResponse?: DeleteCalendarAndRepairJobResponseResolvers<ContextType>;
   Edge?: EdgeResolvers<ContextType>;
+  ElevatorRecordFormData?: ElevatorRecordFormDataResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Node?: NodeResolvers<ContextType>;
   PageInfo?: PageInfoResolvers<ContextType>;

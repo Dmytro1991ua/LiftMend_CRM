@@ -3,14 +3,15 @@ import { useEffect, useMemo } from 'react';
 import { Controller, Form, useFormContext } from 'react-hook-form';
 import { CirclesWithBar } from 'react-loader-spinner';
 
-import { RepairJob } from '@/graphql/types/client/generated_types';
-import { useFetchDropdownOptions } from '@/modules/repair-job-scheduling/hooks';
+import { GetRepairJobFromDataQuery, RepairJob } from '@/graphql/types/client/generated_types';
 import BaseAlert from '@/shared/base-alert/BaseAlert';
 import FormInput from '@/shared/base-input/form-input';
 import ControlledMultiSelect from '@/shared/base-select/components/controlled-multi-select';
 import ControlledSingleSelect from '@/shared/base-select/components/controlled-single-select/ControlledSingleSelect';
 import BaseTextarea from '@/shared/base-textarea';
 import DatePicker from '@/shared/date-picker/DatePicker';
+import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions';
+import { DropdownOptions } from '@/shared/hooks/useFetchDropdownOptions/config';
 import QueryResponse from '@/shared/query-response';
 
 import { convertRepairJobToFormValues, formatScheduledDate } from '../../../modules/repair-job-details/utils';
@@ -37,7 +38,7 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
     },
     loading,
     error,
-  } = useFetchDropdownOptions();
+  } = useFetchDropdownOptions<GetRepairJobFromDataQuery>(DropdownOptions.RepairJob);
 
   const { control, clearErrors, setValue } = useFormContext<RepairJobFormValues>();
 

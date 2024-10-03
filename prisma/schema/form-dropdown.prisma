@@ -1,0 +1,44 @@
+model JobTypes {
+  id        Int      @id @default(autoincrement())
+  job_types String[]
+}
+
+model Priorities {
+  id         Int      @id @default(autoincrement())
+  priorities String[]
+}
+
+model ElevatorTypes {
+  id             Int      @id @default(autoincrement())
+  elevator_types String[]
+}
+
+model BuildingNames {
+  id             Int      @id @default(autoincrement())
+  building_names String[]
+}
+
+model ElevatorLocations {
+  id        Int      @id @default(autoincrement())
+  locations String[]
+}
+
+model TechnicianNames {
+  id    Int      @id @default(autoincrement())
+  names String[]
+}
+
+model TechnicianSkills {
+  id     Int      @id @default(autoincrement())
+  skills String[]
+}
+
+model Statuses {
+  id       Int      @id @default(autoincrement())
+  statuses String[]
+}
+
+model ElevatorStatuses {
+  id               Int      @id @default(autoincrement())
+  elevatorStatuses String[]
+}

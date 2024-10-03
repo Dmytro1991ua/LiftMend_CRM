@@ -3,10 +3,15 @@ import { useMemo } from 'react';
 import { Row } from '@tanstack/react-table';
 import { useRouter } from 'next/router';
 
-import { GetRepairJobsQuery, QueryGetRepairJobsArgs } from '@/graphql/types/client/generated_types';
-import { useFetchDropdownOptions } from '@/modules/repair-job-scheduling/hooks';
+import {
+  GetRepairJobFromDataQuery,
+  GetRepairJobsQuery,
+  QueryGetRepairJobsArgs,
+} from '@/graphql/types/client/generated_types';
 import BaseTable from '@/shared/base-table';
 import useSearchInTable from '@/shared/base-table/hooks/useSearchInTable';
+import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions';
+import { DropdownOptions } from '@/shared/hooks/useFetchDropdownOptions/config';
 import QueryResponse from '@/shared/query-response';
 import { RepairJob, TableNames } from '@/shared/types';
 import { AppRoutes } from '@/types/enums';
@@ -29,7 +34,9 @@ const RepairJobTable = () => {
     refetch,
   });
 
-  const { dropdownOptions, error: repairJobDataError } = useFetchDropdownOptions();
+  const { dropdownOptions, error: repairJobDataError } = useFetchDropdownOptions<GetRepairJobFromDataQuery>(
+    DropdownOptions.RepairJob
+  );
 
   const filtersConfig = useMemo(() => getRepairJobFilterConfig(dropdownOptions), [dropdownOptions]);
 

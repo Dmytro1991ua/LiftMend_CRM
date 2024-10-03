@@ -1,0 +1,7 @@
+type ElevatorRecordFormData {
+  elevatorTypes: [String!]!
+  buildingNames: [String!]!
+  elevatorLocations: [String!]!
+  technicianNames: [String!]!
+  elevatorStatuses: [String!]
+}
