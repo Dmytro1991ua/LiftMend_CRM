@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { UseFormReturn, useForm } from 'react-hook-form';
 
 import {
-  INITIAL_VALUES,
+  INITIAL_REPAIR_JOB_VALUES,
   RepairJobFromFields,
   repairJobFormSchema,
 } from '../components/repair-job-tracking-from/validation';
@@ -24,14 +24,14 @@ const useRepairJobTrackingFormState = ({
   const formState = useForm<RepairJobFromFields>({
     shouldUnregister: false,
     mode: 'onSubmit',
-    defaultValues: INITIAL_VALUES,
+    defaultValues: INITIAL_REPAIR_JOB_VALUES,
     resolver: zodResolver(repairJobFormSchema),
   });
 
   const { reset, clearErrors } = formState;
 
   const onReset = useCallback((): void => {
-    reset(INITIAL_VALUES);
+    reset(INITIAL_REPAIR_JOB_VALUES);
     clearErrors();
     onCloseCreateEventModal();
   }, [reset, clearErrors, onCloseCreateEventModal]);

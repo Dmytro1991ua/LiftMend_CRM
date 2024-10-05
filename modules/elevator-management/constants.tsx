@@ -1,6 +1,7 @@
 import ElevatorDetails from './components/elevator-record-form/steps/elevator-details';
 import MaintenanceInformation from './components/elevator-record-form/steps/maintenance-information';
 import TechnicianInformation from './components/elevator-record-form/steps/technician-information';
+import { ElevatorRecordFormFields } from './components/elevator-record-form/validation';
 import { ElevatorRecordSteps } from './types';
 
 export { ElevatorRecordSteps } from './types';
@@ -13,8 +14,14 @@ export const ELEVATOR_RECORD_FORM_STEPS = [
   { id: ElevatorRecordSteps.TechnicianInformation, value: 'Technician Information' },
 ];
 
-export const STEP_CONTENT_CONFIG: Record<ElevatorRecordSteps, React.ReactNode> = {
+export const ELEVATOR_RECORD_STEP_CONTENT_CONFIG: Record<ElevatorRecordSteps, React.ReactNode> = {
   [ElevatorRecordSteps.ElevatorDetails]: <ElevatorDetails />,
   [ElevatorRecordSteps.MaintenanceInformation]: <MaintenanceInformation />,
   [ElevatorRecordSteps.TechnicianInformation]: <TechnicianInformation />,
+};
+
+export const ELEVATOR_RECORD_STEP_STEP_VALIDATION_CONFIG: Record<number, keyof ElevatorRecordFormFields> = {
+  0: 'elevatorDetails',
+  1: 'maintenanceInfo',
+  2: 'technicianInfo',
 };

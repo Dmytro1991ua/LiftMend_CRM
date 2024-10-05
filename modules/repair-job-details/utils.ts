@@ -60,5 +60,3 @@ export const getFieldsToUpdate = (updatedRepairJob: RepairJob, originalRepairJob
 
   return fieldsToUpdate;
 };
-
-export const formatScheduledDate = (date?: Date | string | null) => (date instanceof Date ? date.toISOString() : date);

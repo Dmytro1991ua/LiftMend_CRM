@@ -1,16 +1,13 @@
 import { Fragment } from 'react';
 
 import { useFormContext } from 'react-hook-form';
-import { Bars } from 'react-loader-spinner';
 
 import { GetRepairJobFromDataQuery } from '@/graphql/types/client/generated_types';
-import BaseAlert from '@/shared/base-alert/BaseAlert';
 import FormInput from '@/shared/base-input/form-input';
 import ControlledMultiSelect from '@/shared/base-select/components/controlled-multi-select';
 import ControlledSingleSelect from '@/shared/base-select/components/controlled-single-select';
 import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions';
 import { DropdownOptions } from '@/shared/hooks/useFetchDropdownOptions/config';
-import QueryResponse from '@/shared/query-response';
 
 import { FormFieldConfig } from '../../types';
 import { RepairJobFromFields } from '../repair-job-tracking-from/validation';
@@ -20,8 +17,6 @@ const TechnicianAssignment = () => {
 
   const {
     dropdownOptions: { technicianNames, technicianSkills },
-    loading,
-    error,
   } = useFetchDropdownOptions<GetRepairJobFromDataQuery>(DropdownOptions.RepairJob);
 
   const TECHNICIAN_ASSIGNMENT_FORM_FIELDS_CONFIG: FormFieldConfig[] = [
@@ -77,31 +72,11 @@ const TechnicianAssignment = () => {
   ];
 
   return (
-    <>
-      <QueryResponse
-        errorComponent={
-          <BaseAlert description={error} title='Failed to fetch technician assignment data' variant='destructive' />
-        }
-        loading={loading}
-        loadingComponent={
-          <Bars
-            ariaLabel='bars-loading'
-            color='#2563eb'
-            height='80'
-            visible={true}
-            width='80'
-            wrapperClass='justify-center'
-          />
-        }
-      />
-      {!loading && !error && (
-        <section>
-          {TECHNICIAN_ASSIGNMENT_FORM_FIELDS_CONFIG.map(({ id, content }) => (
-            <Fragment key={id}>{content}</Fragment>
-          ))}
-        </section>
-      )}
-    </>
+    <section>
+      {TECHNICIAN_ASSIGNMENT_FORM_FIELDS_CONFIG.map(({ id, content }) => (
+        <Fragment key={id}>{content}</Fragment>
+      ))}
+    </section>
   );
 };
 

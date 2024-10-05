@@ -13,6 +13,7 @@ export type DropdownOptionConfig = {
   schema: DocumentNode;
   queryName: string;
 };
+
 export const DROPDOWN_OPTIONS_CONFIG: Record<DropdownOptions, DropdownOptionConfig> = {
   [DropdownOptions.RepairJob]: {
     schema: GET_REPAIR_JOB_FORM_DATA,
