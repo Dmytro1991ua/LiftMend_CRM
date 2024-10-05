@@ -38,6 +38,14 @@ export const ELEVATOR_MANAGEMENT_COLUMNS: ColumnDef<ElevatorRecord>[] = [
     maxSize: 350,
   },
   {
+    accessorKey: 'capacity',
+    header: 'Capacity',
+    enableResizing: true,
+    size: 100,
+    minSize: 100,
+    maxSize: 120,
+  },
+  {
     accessorKey: 'buildingName',
     header: 'Building Name',
     enableResizing: true,
