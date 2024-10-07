@@ -21,9 +21,8 @@ type TableActionBarProps<T> = {
   rowModel?: RowModel<T>;
   tableName: TableNames;
   isExportButtonDisabled?: boolean;
+  searchFieldPlaceholder?: string;
 };
-
-export const DEFAULT_SEARCH_INPUT_PLACEHOLDER = 'Search by Repair Job ID';
 
 const TableActionBar = <T,>({
   searchTerm,
@@ -33,6 +32,7 @@ const TableActionBar = <T,>({
   rowModel,
   tableName,
   isExportButtonDisabled,
+  searchFieldPlaceholder,
   onClearSearch,
   onSearch,
   onFilterChange,
@@ -57,7 +57,7 @@ const TableActionBar = <T,>({
       <div className='flex items-center gap-2 ml-auto'>
         <SearchInput
           isLastElement={true}
-          placeholder={DEFAULT_SEARCH_INPUT_PLACEHOLDER}
+          placeholder={searchFieldPlaceholder}
           value={searchTerm}
           onChange={onSearch}
           onClearSearch={onClearSearch}

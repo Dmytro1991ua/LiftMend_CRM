@@ -30,6 +30,14 @@ export const ELEVATOR_MANAGEMENT_COLUMNS: ColumnDef<ElevatorRecord>[] = [
     maxSize: 350,
   },
   {
+    accessorKey: 'id',
+    header: 'Record Id',
+    enableResizing: true,
+    enableSorting: false,
+    size: 320,
+    maxSize: 320,
+  },
+  {
     accessorKey: 'elevatorLocation',
     header: 'Elevator Location',
     enableResizing: true,

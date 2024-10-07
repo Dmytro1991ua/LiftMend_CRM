@@ -1,7 +1,43 @@
+type ElevatorRecord implements Node {
+  id: ID!
+  elevatorType: String!
+  buildingName: String!
+  elevatorLocation: String!
+  technicianName: String!
+  contactInformation: String!
+  lastMaintenanceDate: DateTime!
+  nextMaintenanceDate: DateTime!
+  capacity: Int!
+  status: String!
+}
+
+type ElevatorRecordEdge implements Edge {
+  cursor: String!
+  node: ElevatorRecord!
+}
+
+type ElevatorRecordConnection implements Connection {
+  edges: [ElevatorRecordEdge!]!
+  pageInfo: PageInfo!
+  total: Int!
+}
+
 type ElevatorRecordFormData {
   elevatorTypes: [String!]!
   buildingNames: [String!]!
   elevatorLocations: [String!]!
   technicianNames: [String!]!
   elevatorStatuses: [String!]
+}
+
+input CreateElevatorRecordInput {
+  elevatorType: String!
+  buildingName: String!
+  elevatorLocation: String!
+  technicianName: String!
+  contactInformation: String!
+  lastMaintenanceDate: DateTime!
+  nextMaintenanceDate: DateTime!
+  capacity: Int!
+  status: String!
 }
