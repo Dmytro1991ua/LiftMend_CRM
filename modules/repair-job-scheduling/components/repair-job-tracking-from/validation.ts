@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const INITIAL_VALUES = {
+export const INITIAL_REPAIR_JOB_VALUES = {
   jobDetails: {
     jobType: '',
     jobDescription: '',

@@ -20,7 +20,7 @@ type UseFetchDropdownOptions = {
 export const useFetchDropdownOptions = <T,>(configKey: DropdownOptions): UseFetchDropdownOptions => {
   const { schema, queryName, fields } = DROPDOWN_OPTIONS_CONFIG[configKey] || {};
 
-  const { data, error, loading } = useQuery<T>(schema);
+  const { data, error, loading } = useQuery<T>(schema, { fetchPolicy: 'cache-first' });
 
   const dropdownOptions: MultiStepDropdownOption = useMemo(() => {
     const queryNameData = _get(data, queryName, []) as Record<string, string[]>;

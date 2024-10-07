@@ -49,3 +49,5 @@ export const getItemsFromQuery = <T>(data?: { edges?: { node: T }[] }): T[] => {
 
   return data.edges.map(({ node }) => node);
 };
+
+export const formatScheduledDate = (date?: Date | string | null) => (date instanceof Date ? date.toISOString() : date);

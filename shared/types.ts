@@ -28,6 +28,7 @@ export type ButtonVariant = 'default' | 'destructive' | 'outline' | 'secondary' 
 export type FormFieldConfig = {
   id: number;
   content: JSX.Element;
+  className?: string;
 };
 
 export interface AppStorage {

@@ -1,14 +1,20 @@
 import { useMemo } from 'react';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider } from 'react-hook-form';
 
 import BaseCalendar from '@/shared/base-calendar';
 import { getCalendarModalsConfig } from '@/shared/base-calendar/config';
+import useFormState from '@/shared/hooks/useFormState';
 import useRepairJobDeletion from '@/shared/repair-job/hooks/useRepairJobDeletion';
 import SectionHeader from '@/shared/section-header';
 import { SectionHeaderDescription, SectionHeaderTitle } from '@/types/enums';
 
-import useRepairJobTrackingFormState from './hooks/useRepairJobTrackingFormState';
+import {
+  INITIAL_REPAIR_JOB_VALUES,
+  RepairJobFromFields,
+  repairJobFormSchema,
+} from './components/repair-job-tracking-from/validation';
 import useRepairJobTrackingModals from './hooks/useRepairJobTrackingModals';
 
 const RepairJobScheduling = () => {
@@ -26,7 +32,11 @@ const RepairJobScheduling = () => {
     onCloseModal: onCloseDeleteEventModal,
   });
 
-  const { formState, onReset } = useRepairJobTrackingFormState({ onCloseCreateEventModal });
+  const { formState, onReset } = useFormState<RepairJobFromFields>({
+    initialValues: INITIAL_REPAIR_JOB_VALUES,
+    onCloseModal: onCloseCreateEventModal,
+    resolver: zodResolver(repairJobFormSchema),
+  });
 
   const modalsConfig = useMemo(
     () => getCalendarModalsConfig({ isCreateEventModalOpen, selectedDateRange, onReset }),

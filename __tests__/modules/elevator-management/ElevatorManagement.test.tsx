@@ -1,19 +1,26 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 
+import { MockProviderHook } from '@/mocks/testMocks';
 import ElevatorManagement from '@/modules/elevator-management';
 import { ADD_ELEVATOR_RECORD_BUTTON_LABEL } from '@/modules/elevator-management/constants';
 import { SectionHeaderTitle } from '@/types/enums';
 
 describe('ElevatorManagement', () => {
+  const ElevatorManagementComponent = () => (
+    <MockProviderHook mocks={[]}>
+      <ElevatorManagement />
+    </MockProviderHook>
+  );
+
   it('should render component without crashing', () => {
-    render(<ElevatorManagement />);
+    render(<ElevatorManagementComponent />);
 
     expect(screen.getByText(SectionHeaderTitle.ElevatorManagement)).toBeInTheDocument();
     expect(screen.getByTestId('base-table')).toBeInTheDocument();
   });
 
   it('should open modal on button click', () => {
-    render(<ElevatorManagement />);
+    render(<ElevatorManagementComponent />);
 
     const modalButton = screen.getByText(ADD_ELEVATOR_RECORD_BUTTON_LABEL);
 
@@ -22,11 +29,11 @@ describe('ElevatorManagement', () => {
     expect(screen.getByRole('dialog')).toBeInTheDocument();
     expect(screen.getByText('Create Elevator Record')).toBeInTheDocument();
     expect(screen.getByText('Cancel')).toBeInTheDocument();
-    expect(screen.getByText('Submit')).toBeInTheDocument();
+    expect(screen.getByText('Next')).toBeInTheDocument();
   });
 
   it('should close modal on button click', () => {
-    render(<ElevatorManagement />);
+    render(<ElevatorManagementComponent />);
 
     const modalButton = screen.getByText(ADD_ELEVATOR_RECORD_BUTTON_LABEL);
 

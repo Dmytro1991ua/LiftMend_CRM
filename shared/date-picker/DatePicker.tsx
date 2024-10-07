@@ -14,16 +14,17 @@ import useDatePicker from './hooks';
 import { DateRangeConfigKey } from './types';
 import { getDatePickerConfig, getDatePicketConfigKey } from './utils';
 
-type DatePickerProps = {
+export interface DatePickerProps {
   dateRange?: DateRange;
   singleDate?: Date;
   className?: string;
   isDisabled?: boolean;
   numberOfMonths?: number;
   isDateRangeMode?: boolean;
+  hasError?: boolean;
   onChange?: (range?: DateRange) => void;
   onSingleDateChange?: (singleDate?: Date) => void;
-};
+}
 
 const DatePicker = ({
   dateRange,
@@ -32,6 +33,7 @@ const DatePicker = ({
   className,
   numberOfMonths = 2,
   isDateRangeMode = true,
+  hasError,
   onChange,
   onSingleDateChange,
 }: DatePickerProps) => {
@@ -77,11 +79,13 @@ const DatePicker = ({
                 !singleDate ||
                 configKey === DateRangeConfigKey.WithDateRangeSingleDate ||
                 configKey === DateRangeConfigKey.WithSingleDate) &&
-                'text-muted-foreground justify-center'
+                'text-muted-foreground justify-center',
+              hasError ? 'border-red-500 bg-red-100 text-red-400 hover:bg-red-100 hover:text-red-400' : 'bg-white'
             )}
             disabled={isDisabled}
             id='date'
-            variant={'outline'}>
+            variant={'outline'}
+          >
             <CalendarIcon className='mr-3 h-4 w-4' />
             {datePickerConfig[configKey]}
           </Button>

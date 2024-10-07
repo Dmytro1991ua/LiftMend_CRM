@@ -13,8 +13,9 @@ import DatePicker from '@/shared/date-picker/DatePicker';
 import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions';
 import { DropdownOptions } from '@/shared/hooks/useFetchDropdownOptions/config';
 import QueryResponse from '@/shared/query-response';
+import { formatScheduledDate } from '@/shared/utils';
 
-import { convertRepairJobToFormValues, formatScheduledDate } from '../../../modules/repair-job-details/utils';
+import { convertRepairJobToFormValues } from '../../../modules/repair-job-details/utils';
 
 import { FormFieldConfig, FormFieldLabel, RepairJobFormValues } from './types';
 
