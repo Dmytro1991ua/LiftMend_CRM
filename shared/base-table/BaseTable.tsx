@@ -27,6 +27,7 @@ type BaseTableProps<T extends object, K, M> = {
   emptyTableMessage?: string;
   errorMessage?: string;
   className?: string;
+  searchFieldPlaceholder?: string;
   tableStorageState: TableStorageState<SortingState, TableFilters<T>>;
   tableName: TableNames;
   filtersConfig: TableFiltersConfig[];
@@ -47,6 +48,7 @@ const BaseTable = <T extends object, K, M>({
   tableStorageState,
   tableName,
   filtersConfig,
+  searchFieldPlaceholder,
   refetch,
   onSetTableStorageState,
   onHandleRowClick,
@@ -98,6 +100,7 @@ const BaseTable = <T extends object, K, M>({
         filtersConfig={filtersConfig}
         isExportButtonDisabled={!memoizedData.length}
         rowModel={getRowModel()}
+        searchFieldPlaceholder={searchFieldPlaceholder}
         searchTerm={searchTerm}
         storedFilters={filters}
         tableName={tableName}

@@ -25,3 +25,5 @@ export const ELEVATOR_RECORD_STEP_STEP_VALIDATION_CONFIG: Record<number, keyof E
   1: 'maintenanceInfo',
   2: 'technicianInfo',
 };
+
+export const DEFAULT_ELEVATOR_MANAGEMENT_SEARCH_INPUT_PLACEHOLDER = 'Search by Record ID';

@@ -1,5 +1,7 @@
 import {
   CalendarEvent,
+  ElevatorRecord,
+  ElevatorRecordConnection,
   ElevatorRecordFormData,
   QueryResolvers,
   RepairJob,
@@ -123,6 +125,18 @@ const Query: QueryResolvers = {
     );
 
     return elevatorRecordFormData as ElevatorRecordFormData;
+  },
+  getElevatorRecords: async (_, { paginationOptions }, { prisma }): Promise<ElevatorRecordConnection> => {
+    const elevatorRecords = await prisma.elevatorRecord.findMany();
+
+    const totalItems = await prisma.elevatorRecord.count();
+
+    return makeConnectionObject({
+      items: elevatorRecords,
+      totalItems,
+      paginationOptions,
+      getCursor: (repairJob: ElevatorRecord) => repairJob.id,
+    });
   },
 };
 

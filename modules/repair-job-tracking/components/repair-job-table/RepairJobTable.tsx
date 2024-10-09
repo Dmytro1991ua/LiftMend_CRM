@@ -20,6 +20,7 @@ import useFetchRepairJobs from '../../hooks';
 
 import { REPAIR_JOB_COLUMNS } from './columns';
 import { getRepairJobFilterConfig } from './config';
+import { DEFAULT_SEARCH_INPUT_PLACEHOLDER } from './constants';
 import { getEmptyTableMessage } from './utils';
 
 const RepairJobTable = () => {
@@ -73,6 +74,7 @@ const RepairJobTable = () => {
         loadMore={onNext}
         loading={loading}
         refetch={refetch}
+        searchFieldPlaceholder={DEFAULT_SEARCH_INPUT_PLACEHOLDER}
         tableName={TableNames.RepairJobsTable}
         tableStorageState={tableStorageState}
         onHandleRowClick={onHandleRowClick}

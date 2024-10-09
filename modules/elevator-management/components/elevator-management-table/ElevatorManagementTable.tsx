@@ -1,6 +1,8 @@
 import BaseTable from '@/shared/base-table/BaseTable';
 import { ElevatorRecord, TableNames } from '@/shared/types';
 
+import { DEFAULT_ELEVATOR_MANAGEMENT_SEARCH_INPUT_PLACEHOLDER } from '../../constants';
+
 import { ELEVATOR_MANAGEMENT_COLUMNS } from './columns';
 
 const ElevatorManagementTable = () => {
@@ -14,6 +16,7 @@ const ElevatorManagementTable = () => {
       loadMore={() => null}
       loading={false}
       refetch={() => null!}
+      searchFieldPlaceholder={DEFAULT_ELEVATOR_MANAGEMENT_SEARCH_INPUT_PLACEHOLDER}
       tableName={TableNames.ElevatorManagementTable}
       tableStorageState={{}}
       onHandleRowClick={() => {}}

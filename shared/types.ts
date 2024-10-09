@@ -55,6 +55,7 @@ export type RepairJob = {
 };
 
 export type ElevatorRecord = {
+  id: string;
   elevatorType: string;
   elevatorLocation: string;
   buildingName: string;
