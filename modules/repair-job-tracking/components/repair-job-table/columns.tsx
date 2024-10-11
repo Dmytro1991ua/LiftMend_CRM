@@ -3,10 +3,8 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Checkbox } from '@/components/ui/checkbox';
 import BaseTableCheckbox from '@/shared/base-table/base-table-checkbox';
 import DatePicker from '@/shared/date-picker';
-import RepairJobPriority from '@/shared/repair-job/repair-job-priority';
-import { Priority } from '@/shared/repair-job/repair-job-priority/config';
-import RepairJobStatus from '@/shared/repair-job/repair-job-status';
-import { Status } from '@/shared/repair-job/repair-job-status/config';
+import Pill from '@/shared/pill';
+import { PillStatus } from '@/shared/pill/config';
 import TechnicianSkills from '@/shared/repair-job/technician-skills';
 import { RepairJob } from '@/shared/types';
 
@@ -61,7 +59,7 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
       row: {
         original: { jobPriority },
       },
-    }) => <RepairJobPriority priority={jobPriority as Priority} />,
+    }) => <Pill status={jobPriority as PillStatus} />,
     enableResizing: true,
     enableSorting: true,
     size: 180,
@@ -75,7 +73,7 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
       row: {
         original: { status },
       },
-    }) => <RepairJobStatus status={status as Status} />,
+    }) => <Pill status={status as PillStatus} />,
     enableResizing: true,
     enableSorting: true,
     size: 180,

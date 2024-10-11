@@ -3,7 +3,10 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Checkbox } from '@/components/ui/checkbox';
 import BaseTableCheckbox from '@/shared/base-table/base-table-checkbox';
 import DatePicker from '@/shared/date-picker';
+import { PillStatus } from '@/shared/pill/config';
 import { ElevatorRecord } from '@/shared/types';
+
+import Pill from '../../../../shared/pill/Pill';
 
 export const ELEVATOR_MANAGEMENT_COLUMNS: ColumnDef<ElevatorRecord>[] = [
   {
@@ -58,12 +61,17 @@ export const ELEVATOR_MANAGEMENT_COLUMNS: ColumnDef<ElevatorRecord>[] = [
     header: 'Building Name',
     enableResizing: true,
     enableSorting: true,
-    size: 180,
-    maxSize: 350,
+    size: 220,
+    maxSize: 180,
   },
   {
     accessorKey: 'status',
     header: 'Status',
+    cell: ({
+      row: {
+        original: { status },
+      },
+    }) => <Pill status={status as PillStatus} />,
     enableResizing: true,
     enableSorting: true,
     size: 180,

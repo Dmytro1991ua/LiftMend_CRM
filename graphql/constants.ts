@@ -13,3 +13,5 @@ export const REPAIR_JOB_KEY_FIELDS = [
   'sortOptions',
   ['field', 'order'],
 ];
+
+export const ELEVATOR_RECORD_KEY_FIELDS = [];

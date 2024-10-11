@@ -22,6 +22,7 @@ export interface DatePickerProps {
   numberOfMonths?: number;
   isDateRangeMode?: boolean;
   hasError?: boolean;
+  allowPastDates?: boolean;
   onChange?: (range?: DateRange) => void;
   onSingleDateChange?: (singleDate?: Date) => void;
 }
@@ -34,6 +35,7 @@ const DatePicker = ({
   numberOfMonths = 2,
   isDateRangeMode = true,
   hasError,
+  allowPastDates = false,
   onChange,
   onSingleDateChange,
 }: DatePickerProps) => {
@@ -48,9 +50,10 @@ const DatePicker = ({
       defaultMonth: dateRangeState?.from,
       mode: 'range' as const,
       selected: dateRangeState,
+      fromDate: allowPastDates ? undefined : new Date(),
       onSelect: (range: DateRange | undefined) => onHandleSelectDates(range),
     }),
-    [dateRangeState, onHandleSelectDates]
+    [dateRangeState, allowPastDates, onHandleSelectDates]
   );
 
   const getSingleDateModeProps = useCallback(
@@ -58,9 +61,10 @@ const DatePicker = ({
       defaultMonth: singleDateState ? new Date(singleDateState) : undefined,
       mode: 'single' as const,
       selected: singleDateState ? new Date(singleDateState) : undefined,
+      fromDate: allowPastDates ? undefined : new Date(),
       onSelect: (date: Date | undefined) => onHandleSelectSingleDate(date),
     }),
-    [singleDateState, onHandleSelectSingleDate]
+    [singleDateState, allowPastDates, onHandleSelectSingleDate]
   );
 
   const calendarProps = useMemo(
