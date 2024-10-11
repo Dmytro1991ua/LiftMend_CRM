@@ -1,9 +1,7 @@
 import { RepairJob } from '@/graphql/types/client/generated_types';
 import DatePicker from '@/shared/date-picker';
-import RepairJobPriority from '@/shared/repair-job/repair-job-priority';
-import { Priority } from '@/shared/repair-job/repair-job-priority/config';
-import RepairJobStatus from '@/shared/repair-job/repair-job-status';
-import { Status } from '@/shared/repair-job/repair-job-status/config';
+import Pill from '@/shared/pill';
+import { PillStatus } from '@/shared/pill/config';
 import TechnicianSkills from '@/shared/repair-job/technician-skills';
 
 type SectionField = { id: number; label: string; value: React.ReactNode | string; fieldClassName?: string };
@@ -22,7 +20,7 @@ export const repairJobSectionsConfig = (repairJob: RepairJob): RepairJobSectionC
       {
         id: 3,
         label: 'Status',
-        value: <RepairJobStatus status={repairJob.status as Status} />,
+        value: <Pill status={repairJob.status as PillStatus} />,
         fieldClassName: 'items-center',
       },
       { id: 4, label: 'Type', value: repairJob.jobType },
@@ -30,7 +28,7 @@ export const repairJobSectionsConfig = (repairJob: RepairJob): RepairJobSectionC
       {
         id: 6,
         label: 'Priority',
-        value: <RepairJobPriority priority={repairJob.jobPriority as Priority} />,
+        value: <Pill status={repairJob.jobPriority as PillStatus} />,
         fieldClassName: 'items-center',
       },
 

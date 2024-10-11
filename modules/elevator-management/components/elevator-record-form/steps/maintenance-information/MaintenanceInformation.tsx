@@ -22,6 +22,7 @@ const MaintenanceInformation = () => {
       id: 1,
       content: (
         <ControlledSingleDatePicker
+          allowPastDates={true}
           className='mb-8'
           clearErrors={clearErrors}
           isDateRangeMode={false}

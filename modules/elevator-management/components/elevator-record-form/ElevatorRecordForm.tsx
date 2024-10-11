@@ -11,12 +11,12 @@ export type ElevatorRecordFormProps = {
 };
 
 const ElevatorRecordForm = ({ onReset }: ElevatorRecordFormProps) => {
-  const { onHandleNext, onSubmit } = useElevatorRecordForm({ onReset });
+  const { isLoading, onHandleNext, onSubmit } = useElevatorRecordForm({ onReset });
 
   return (
     <Form>
       <BaseStepper
-        isLoading={false}
+        isLoading={isLoading}
         stepContentConfig={ELEVATOR_RECORD_STEP_CONTENT_CONFIG}
         steps={ELEVATOR_RECORD_FORM_STEPS}
         onHandleNext={onHandleNext}
