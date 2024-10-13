@@ -1,29 +1,25 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 
-import { Controller, Form, useFormContext } from 'react-hook-form';
-import { CirclesWithBar } from 'react-loader-spinner';
+import { useFormContext } from 'react-hook-form';
 
 import { GetRepairJobFromDataQuery, RepairJob } from '@/graphql/types/client/generated_types';
-import BaseAlert from '@/shared/base-alert/BaseAlert';
 import FormInput from '@/shared/base-input/form-input';
 import ControlledMultiSelect from '@/shared/base-select/components/controlled-multi-select';
 import ControlledSingleSelect from '@/shared/base-select/components/controlled-single-select/ControlledSingleSelect';
 import BaseTextarea from '@/shared/base-textarea';
-import DatePicker from '@/shared/date-picker/DatePicker';
+import ControlledDateRangePicker from '@/shared/date-picker/components/controlled-date-range-picker';
+import EditEntityForm from '@/shared/edit-entity-form/EditEntityForm';
 import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions';
 import { DropdownOptions } from '@/shared/hooks/useFetchDropdownOptions/config';
-import QueryResponse from '@/shared/query-response';
-import { formatScheduledDate } from '@/shared/utils';
+import { FormFieldConfig, FormFieldLabel } from '@/shared/types';
 
 import { convertRepairJobToFormValues } from '../../../modules/repair-job-details/utils';
 
-import { FormFieldConfig, FormFieldLabel, RepairJobFormValues } from './types';
+import { RepairJobFormValues } from './types';
 
 type EditRepairJobFormProps = {
   repairJob: RepairJob;
 };
-
-type FormFieldKeys = keyof RepairJobFormValues;
 
 const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
   const {
@@ -41,17 +37,9 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
     error,
   } = useFetchDropdownOptions<GetRepairJobFromDataQuery>(DropdownOptions.RepairJob);
 
-  const { control, clearErrors, setValue } = useFormContext<RepairJobFormValues>();
+  const { clearErrors } = useFormContext<RepairJobFormValues>();
 
   const currentRepairJob = useMemo(() => convertRepairJobToFormValues(repairJob), [repairJob]);
-
-  // Sync form fields with the currentRepairJob object whenever it changes,
-  // ensuring that the form displays the latest values for each field.
-  useEffect(() => {
-    Object.keys(currentRepairJob).forEach((key) => {
-      setValue(key as keyof RepairJobFormValues, currentRepairJob[key as FormFieldKeys]);
-    });
-  }, [currentRepairJob, setValue]);
 
   const {
     jobType,
@@ -67,7 +55,7 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
     status,
   } = currentRepairJob;
 
-  const REPAIR_JOB_DETAILS_FORM_FIELD_CONFIG: FormFieldConfig[] = [
+  const REPAIR_JOB_FORM_FIELD_CONFIG: FormFieldConfig[] = [
     {
       id: 1,
       label: FormFieldLabel.JobType,
@@ -75,6 +63,7 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
         <ControlledSingleSelect<RepairJobFormValues>
           captureMenuScroll={false}
           className='mb-4'
+          clearErrors={clearErrors}
           defaultValue={jobType}
           isMultiSelect={false}
           name='jobType'
@@ -105,6 +94,7 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
         <ControlledSingleSelect<RepairJobFormValues>
           captureMenuScroll={false}
           className='mb-4'
+          clearErrors={clearErrors}
           defaultValue={jobPriority}
           isMultiSelect={false}
           name='jobPriority'
@@ -121,6 +111,7 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
         <ControlledSingleSelect<RepairJobFormValues>
           captureMenuScroll={false}
           className='mb-4'
+          clearErrors={clearErrors}
           defaultValue={status}
           isMultiSelect={false}
           name='status'
@@ -134,25 +125,9 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
       id: 5,
       label: FormFieldLabel.ScheduledDates,
       content: (
-        <Controller
-          control={control}
-          defaultValue={scheduledDates}
-          name='scheduledDates'
-          render={({ field: { onChange } }) => (
-            <DatePicker
-              dateRange={scheduledDates}
-              onChange={(range) => {
-                const formattedRange = {
-                  from: formatScheduledDate(range?.from),
-                  to: formatScheduledDate(range?.to),
-                };
-
-                onChange(formattedRange);
-              }}
-            />
-          )}
-        />
+        <ControlledDateRangePicker clearErrors={clearErrors} defaultValue={scheduledDates} name='scheduledDates' />
       ),
+
       className: 'row-start-6 row-end-6 col-start-3 col-end-7 mt-1',
     },
     {
@@ -162,6 +137,7 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
         <ControlledSingleSelect<RepairJobFormValues>
           captureMenuScroll={false}
           className='mb-4'
+          clearErrors={clearErrors}
           defaultValue={elevatorType}
           isMultiSelect={false}
           name='elevatorType'
@@ -178,6 +154,7 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
         <ControlledSingleSelect<RepairJobFormValues>
           captureMenuScroll={false}
           className='mb-4'
+          clearErrors={clearErrors}
           defaultValue={buildingName}
           isMultiSelect={false}
           name='buildingName'
@@ -194,6 +171,7 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
         <ControlledSingleSelect<RepairJobFormValues>
           captureMenuScroll={false}
           className='mb-4'
+          clearErrors={clearErrors}
           defaultValue={elevatorLocation}
           isMultiSelect={false}
           name='elevatorLocation'
@@ -210,6 +188,7 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
         <ControlledSingleSelect<RepairJobFormValues>
           captureMenuScroll={false}
           className='mb-4'
+          clearErrors={clearErrors}
           defaultValue={technicianName}
           isMultiSelect={false}
           name='technicianName'
@@ -258,34 +237,12 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
   ];
 
   return (
-    <Form className='grid grid-cols-6 gap-2'>
-      <QueryResponse
-        errorComponent={
-          <BaseAlert description={error} title='Failed to fetch job details data' variant='destructive' />
-        }
-        loading={loading}
-        loadingComponent={
-          <CirclesWithBar
-            ariaLabel='bars-loading'
-            color='#2563eb'
-            height='70'
-            visible={true}
-            width='70'
-            wrapperClass='row-start-1 row-end-7 col-start-1 col-end-7 justify-center items-center'
-          />
-        }
-      />
-      {!loading && !error && (
-        <>
-          {REPAIR_JOB_DETAILS_FORM_FIELD_CONFIG.map(({ id, label, className, content }) => (
-            <div key={id} className={className}>
-              <span className='block text-sm font-bold mb-2'>{label}</span>
-              <>{content}</>
-            </div>
-          ))}
-        </>
-      )}
-    </Form>
+    <EditEntityForm<RepairJobFormValues>
+      error={error}
+      fieldConfigs={REPAIR_JOB_FORM_FIELD_CONFIG}
+      formValues={currentRepairJob}
+      loading={loading}
+    />
   );
 };
 

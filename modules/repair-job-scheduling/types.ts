@@ -4,10 +4,4 @@ export enum RepairJobTrackingSteps {
   TechnicianAssignment,
 }
 
-export type FormFieldConfig = {
-  id: number;
-  content: JSX.Element;
-  className?: string;
-};
-
 export type TimePosition = 'start' | 'end';

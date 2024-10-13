@@ -10,9 +10,9 @@ import {
   UpdateRepairJobMutationVariables,
 } from '@/graphql/types/client/generated_types';
 import { RepairJobFormValues } from '@/shared/repair-job/edit-repair-job-form/types';
-import { getCalendarEventInfo } from '@/shared/utils';
+import { getCalendarEventInfo, getFieldsToUpdateForMutation } from '@/shared/utils';
 
-import { convertFormFieldsToRepairJob, getFieldsToUpdate } from '../../../modules/repair-job-details/utils';
+import { convertFormFieldsToRepairJob } from '../../../modules/repair-job-details/utils';
 
 type UseUpdateRepairJobProps = {
   onSuccess?: (message: string) => void;
@@ -21,7 +21,7 @@ type UseUpdateRepairJobProps = {
 
 type UseUpdateRepairJob = {
   isLoading: boolean;
-  onUpdateRepairJob: (formFields: RepairJobFormValues, originalRepairJob: RepairJob) => Promise<void>;
+  onUpdateRepairJob: (formFields: RepairJobFormValues, originalRepairJob?: RepairJob) => Promise<void>;
 };
 
 const useUpdateRepairJob = ({ onSuccess, onError }: UseUpdateRepairJobProps): UseUpdateRepairJob => {
@@ -31,8 +31,7 @@ const useUpdateRepairJob = ({ onSuccess, onError }: UseUpdateRepairJobProps): Us
       update(cache, { data }) {
         if (!data) return;
 
-        const { calendarEventId, startDate, endDate, elevatorType, elevatorLocation, buildingName, jobType } =
-          data.updateRepairJob;
+        const { calendarEventId, elevatorType, elevatorLocation, buildingName, jobType } = data.updateRepairJob;
 
         const { title, description } = getCalendarEventInfo({ elevatorType, elevatorLocation, buildingName, jobType });
 
@@ -48,18 +47,16 @@ const useUpdateRepairJob = ({ onSuccess, onError }: UseUpdateRepairJobProps): Us
             ...existingCalendarEvent,
             title,
             description,
-            start: startDate,
-            end: endDate,
           },
         });
       },
     }
   );
 
-  const onUpdateRepairJob = async (formFields: RepairJobFormValues, originalRepairJob: RepairJob) => {
+  const onUpdateRepairJob = async (formFields: RepairJobFormValues, originalRepairJob?: RepairJob) => {
     try {
       const repairJob = convertFormFieldsToRepairJob(formFields);
-      const fieldsToUpdate = getFieldsToUpdate(repairJob, originalRepairJob);
+      const fieldsToUpdate = getFieldsToUpdateForMutation(repairJob, originalRepairJob);
 
       const result = await updateRepairJob({
         variables: {

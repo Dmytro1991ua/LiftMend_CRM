@@ -121,6 +121,7 @@ export type Mutation = {
   createElevatorRecord: ElevatorRecord;
   createRepairJobAndEvent: ScheduledEventAndRepairJobResponse;
   deleteRepairJobAndEvent: DeleteCalendarAndRepairJobResponse;
+  updateElevatorRecord: ElevatorRecord;
   updateRepairJob: RepairJob;
 };
 
@@ -136,6 +137,10 @@ export type MutationCreateRepairJobAndEventArgs = {
 export type MutationDeleteRepairJobAndEventArgs = {
   calendarEventId: Scalars['ID']['input'];
   repairJobId: Scalars['ID']['input'];
+};
+
+export type MutationUpdateElevatorRecordArgs = {
+  input: UpdateElevatorRecordInput;
 };
 
 export type MutationUpdateRepairJobArgs = {
@@ -263,6 +268,19 @@ export type ScheduledEventAndRepairJobResponse = {
   __typename?: 'ScheduledEventAndRepairJobResponse';
   calendarEvent: CalendarEvent;
   repairJob: RepairJob;
+};
+
+export type UpdateElevatorRecordInput = {
+  buildingName?: InputMaybe<Scalars['String']['input']>;
+  capacity?: InputMaybe<Scalars['Int']['input']>;
+  contactInformation?: InputMaybe<Scalars['String']['input']>;
+  elevatorLocation?: InputMaybe<Scalars['String']['input']>;
+  elevatorType?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['ID']['input'];
+  lastMaintenanceDate?: InputMaybe<Scalars['DateTime']['input']>;
+  nextMaintenanceDate?: InputMaybe<Scalars['DateTime']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  technicianName?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateRepairJobInput = {
@@ -400,6 +418,7 @@ export type ResolversTypes = ResolversObject<{
   RepairJobSortInput: RepairJobSortInput;
   ScheduledEventAndRepairJobResponse: ResolverTypeWrapper<ScheduledEventAndRepairJobResponse>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
+  UpdateElevatorRecordInput: UpdateElevatorRecordInput;
   UpdateRepairJobInput: UpdateRepairJobInput;
   User: ResolverTypeWrapper<UserModel>;
 }>;
@@ -434,6 +453,7 @@ export type ResolversParentTypes = ResolversObject<{
   RepairJobSortInput: RepairJobSortInput;
   ScheduledEventAndRepairJobResponse: ScheduledEventAndRepairJobResponse;
   String: Scalars['String']['output'];
+  UpdateElevatorRecordInput: UpdateElevatorRecordInput;
   UpdateRepairJobInput: UpdateRepairJobInput;
   User: UserModel;
 }>;
@@ -553,6 +573,12 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     RequireFields<MutationDeleteRepairJobAndEventArgs, 'calendarEventId' | 'repairJobId'>
+  >;
+  updateElevatorRecord?: Resolver<
+    ResolversTypes['ElevatorRecord'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateElevatorRecordArgs, 'input'>
   >;
   updateRepairJob?: Resolver<
     ResolversTypes['RepairJob'],

@@ -5,19 +5,11 @@ import { RepairJobFormValues } from '@/shared/repair-job/edit-repair-job-form/ty
 
 import { OverlappingKeys } from './types';
 
-export const getModalTitle = (title: string, isEdit?: boolean): string => {
-  const modalActionString = isEdit ? 'Edit' : 'Delete';
-
-  return `${modalActionString} ${title}`;
-};
-
-export const getModalDescription = (title: string): string => `Are you sure you want to delete ${title}`;
-
 export const convertRepairJobToFormValues = (repairJob: RepairJob): RepairJobFormValues => ({
   jobType: repairJob ? repairJob.jobType : null,
   jobDescription: repairJob ? repairJob.jobDetails : '',
   jobPriority: repairJob ? repairJob.jobPriority : null,
-  scheduledDates: repairJob ? { from: repairJob.startDate, to: repairJob.endDate } : undefined,
+  scheduledDates: repairJob ? { from: repairJob.startDate || null, to: repairJob.endDate || null } : undefined,
   elevatorType: repairJob ? repairJob.elevatorType : null,
   buildingName: repairJob ? repairJob.buildingName : null,
   elevatorLocation: repairJob ? repairJob.elevatorLocation : null,

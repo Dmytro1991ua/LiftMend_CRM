@@ -5,22 +5,32 @@ import {
   ELEVATOR_RECORD_STEP_STEP_VALIDATION_CONFIG,
 } from '@/modules/elevator-management/constants';
 import useCreateElevatorRecord from '@/modules/elevator-management/hooks/useCreateElevatorRecord';
+import useUpdateElevatorRecord from '@/modules/elevator-management/hooks/useUpdateElevatorRecord';
+import { ElevatorRecordFormValues } from '@/modules/elevator-management/types';
 import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
+import { ElevatorRecord } from '@/shared/types';
 
-import { ElevatorRecordFormProps } from '../ElevatorRecordForm';
 import { ElevatorRecordFormFields } from '../validation';
 
-type UseElevatorRecordForm = {
-  isLoading: boolean;
-  onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void>;
-  onHandleNext: (activeStep: number) => Promise<boolean>;
+type UseElevatorRecordFormProps = {
+  elevatorRecord?: ElevatorRecord;
+  onReset: () => void;
 };
 
-const useElevatorRecordForm = ({ onReset }: ElevatorRecordFormProps): UseElevatorRecordForm => {
+type UseElevatorRecordForm = {
+  isCreateRecordLoading: boolean;
+  isUpdateRecordLoading: boolean;
+  onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void>;
+  onHandleNext: (activeStep: number) => Promise<boolean>;
+  onEditElevatorRecord: SubmitHandler<ElevatorRecordFormValues>;
+};
+
+const useElevatorRecordForm = ({ elevatorRecord, onReset }: UseElevatorRecordFormProps): UseElevatorRecordForm => {
   const { handleSubmit, trigger } = useFormContext<ElevatorRecordFormFields>();
   const { onError, onSuccess } = useMutationResultToasts();
 
-  const { onCreateElevatorRecord, isLoading } = useCreateElevatorRecord({ onError, onSuccess });
+  const { onCreateElevatorRecord, isLoading: isCreateRecordLoading } = useCreateElevatorRecord({ onError, onSuccess });
+  const { onUpdateElevatorRecord, isLoading: isUpdateRecordLoading } = useUpdateElevatorRecord({ onError, onSuccess });
 
   const onHandleNext = async (activeStep: number): Promise<boolean> => {
     const stepId = ELEVATOR_RECORD_FORM_STEPS[activeStep].id;
@@ -32,6 +42,17 @@ const useElevatorRecordForm = ({ onReset }: ElevatorRecordFormProps): UseElevato
     return isValid;
   };
 
+  const onEditElevatorRecord: SubmitHandler<ElevatorRecordFormValues> = async (data) => {
+    const updateElevatorRecord = {
+      ...data,
+      id: elevatorRecord?.id ?? '',
+    };
+
+    await onUpdateElevatorRecord(updateElevatorRecord, elevatorRecord);
+
+    onReset();
+  };
+
   const onSubmit: SubmitHandler<ElevatorRecordFormFields> = async (data) => {
     await onCreateElevatorRecord(data);
 
@@ -39,9 +60,11 @@ const useElevatorRecordForm = ({ onReset }: ElevatorRecordFormProps): UseElevato
   };
 
   return {
-    isLoading,
+    isCreateRecordLoading,
+    isUpdateRecordLoading,
     onHandleNext,
     onSubmit: handleSubmit(onSubmit),
+    onEditElevatorRecord,
   };
 };
 

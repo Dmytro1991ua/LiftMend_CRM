@@ -1,3 +1,5 @@
+import { isEqual as _isEqual } from 'lodash';
+
 import { ActiveRoute } from '@/types/type';
 
 import { CalendarEventInfo, CalendarEventInfoPayload } from './types';
@@ -51,3 +53,18 @@ export const getItemsFromQuery = <T>(data?: { edges?: { node: T }[] }): T[] => {
 };
 
 export const formatScheduledDate = (date?: Date | string | null) => (date instanceof Date ? date.toISOString() : date);
+
+export const getFieldsToUpdateForMutation = <T extends object>(updatedObject: T, originalObject?: T): Partial<T> => {
+  const fieldsToUpdate: Partial<T> = {};
+
+  (Object.keys(updatedObject) as Array<keyof T>).forEach((key) => {
+    const newValue = updatedObject[key];
+    const originalValue = originalObject?.[key];
+
+    if (!_isEqual(newValue, originalValue) && newValue !== null) {
+      fieldsToUpdate[key] = newValue;
+    }
+  });
+
+  return fieldsToUpdate;
+};

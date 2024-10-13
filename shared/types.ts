@@ -11,6 +11,24 @@ export enum TableNames {
   ElevatorManagementTable = 'ElevatorManagement',
 }
 
+export enum FormFieldLabel {
+  JobType = 'Job Type',
+  JobDescription = 'Job Description',
+  JobPriority = 'Job Priority',
+  JobStatus = 'Job Status',
+  ScheduledDates = 'Scheduled Dates',
+  ElevatorType = 'Elevator Type',
+  BuildingName = 'Building Name',
+  ElevatorLocation = 'Elevator Location',
+  TechnicianName = 'Technician Name',
+  TechnicianSkill = 'Technician Skill(s)',
+  ContactInformation = 'Contact Information',
+  LastMaintenanceDate = 'Last Maintenance Date',
+  NextMaintenanceDate = 'Next Maintenance Date',
+  Capacity = 'Capacity',
+  Status = 'Status',
+}
+
 export type CalendarEventInfoPayload = {
   elevatorType: string;
   buildingName: string;
@@ -27,6 +45,7 @@ export type ButtonVariant = 'default' | 'destructive' | 'outline' | 'secondary' 
 
 export type FormFieldConfig = {
   id: number;
+  label?: FormFieldLabel;
   content: JSX.Element;
   className?: string;
 };
@@ -63,7 +82,8 @@ export type ElevatorRecord = {
   lastMaintenanceDate: Date;
   nextMaintenanceDate: Date;
   technicianName: string;
-  capacity: number;
+  capacity: number | null;
+  contactInformation: string;
 };
 
 export type TableModel = RepairJob & ElevatorRecord;

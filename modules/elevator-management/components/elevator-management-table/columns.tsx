@@ -7,6 +7,7 @@ import { PillStatus } from '@/shared/pill/config';
 import { ElevatorRecord } from '@/shared/types';
 
 import Pill from '../../../../shared/pill/Pill';
+import EditActionCell from '../edit-action-cell';
 
 export const ELEVATOR_MANAGEMENT_COLUMNS: ColumnDef<ElevatorRecord>[] = [
   {
@@ -139,5 +140,15 @@ export const ELEVATOR_MANAGEMENT_COLUMNS: ColumnDef<ElevatorRecord>[] = [
     size: 180,
     minSize: 120,
     maxSize: 300,
+  },
+  {
+    accessorKey: 'edit',
+    header: 'Edit',
+    cell: ({ row: { original } }) => <EditActionCell elevatorRecord={original} />,
+    enableSorting: false,
+    size: 80,
+    enableResizing: false,
+    minSize: 80,
+    maxSize: 100,
   },
 ];
