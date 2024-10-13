@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const repairJobDetailsFormSchema = z.object({
+export const repairJobEditFormSchema = z.object({
   jobDescription: z
     .string()
     .min(10, 'Job description must be at least 10 characters long')
@@ -23,9 +23,11 @@ export const repairJobDetailsFormSchema = z.object({
   jobPriority: z.string().optional().nullable(),
   scheduledDates: z
     .object({
-      from: z.string().optional(),
-      to: z.string().optional(),
+      from: z.string().nullable().optional(),
+      to: z.string().nullable().optional(),
     })
+    .refine((dates) => dates.from || dates.to, { message: 'Start date must be provided' })
+    .refine((dates) => !dates.from || dates.to, { message: 'End date must be provided when a start date is set' })
     .optional()
     .nullable(),
   elevatorType: z.string().optional().nullable(),

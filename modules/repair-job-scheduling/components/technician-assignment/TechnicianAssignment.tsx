@@ -8,8 +8,8 @@ import ControlledMultiSelect from '@/shared/base-select/components/controlled-mu
 import ControlledSingleSelect from '@/shared/base-select/components/controlled-single-select';
 import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions';
 import { DropdownOptions } from '@/shared/hooks/useFetchDropdownOptions/config';
+import { FormFieldConfig } from '@/shared/types';
 
-import { FormFieldConfig } from '../../types';
 import { RepairJobFromFields } from '../repair-job-tracking-from/validation';
 
 const TechnicianAssignment = () => {

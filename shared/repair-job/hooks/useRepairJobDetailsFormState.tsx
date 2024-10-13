@@ -7,7 +7,7 @@ import { RepairJob } from '@/graphql/types/client/generated_types';
 
 import { convertRepairJobToFormValues } from '../../../modules/repair-job-details/utils';
 import { RepairJobFormValues } from '../edit-repair-job-form/types';
-import { repairJobDetailsFormSchema } from '../edit-repair-job-form/validation';
+import { repairJobEditFormSchema } from '../edit-repair-job-form/validation';
 
 type UseRepairJobDetailsFormStateProps = {
   onCloseModal: () => void;
@@ -29,7 +29,7 @@ const useRepairJobDetailsFormState = ({
     shouldUnregister: false,
     mode: 'onChange',
     defaultValues: currentRepairJob,
-    resolver: zodResolver(repairJobDetailsFormSchema),
+    resolver: zodResolver(repairJobEditFormSchema),
   });
 
   const { reset, clearErrors } = formState;

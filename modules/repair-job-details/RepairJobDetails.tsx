@@ -1,16 +1,20 @@
 import { useMemo } from 'react';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/router';
 import { FormProvider } from 'react-hook-form';
 import { Audio } from 'react-loader-spinner';
 
 import DeleteModal from '@/shared/base-modal/delete-modal';
 import EditModal from '@/shared/base-modal/edit-modal';
+import { getModalTitle } from '@/shared/base-modal/edit-modal/utils';
+import useFormState from '@/shared/hooks/useFormState';
 import QueryResponse from '@/shared/query-response';
 import { DEFAULT_DELETE_MODAL_TITLE } from '@/shared/repair-job/constants';
 import EditRepairJobForm from '@/shared/repair-job/edit-repair-job-form';
+import { RepairJobFormValues } from '@/shared/repair-job/edit-repair-job-form/types';
+import { repairJobEditFormSchema } from '@/shared/repair-job/edit-repair-job-form/validation';
 import useRepairJobDeletion from '@/shared/repair-job/hooks/useRepairJobDeletion';
-import useRepairJobDetailsFormState from '@/shared/repair-job/hooks/useRepairJobDetailsFormState';
 import useRepairJobFormHandler from '@/shared/repair-job/hooks/useRepairJobFormHandler';
 import { getDeleteModalDescription } from '@/shared/repair-job/utils';
 import { getCalendarEventInfo } from '@/shared/utils';
@@ -20,7 +24,7 @@ import RepairJobHeader from './components/repair-job-header';
 import { repairJobSectionsConfig } from './config';
 import useFetchRepairJobById from './hooks/useFetchRepairJobById';
 import useRepairJobDetailsModals from './hooks/useRepairJobDetailsModals';
-import { getModalTitle } from './utils';
+import { convertRepairJobToFormValues } from './utils';
 
 const RepairJobDetails = () => {
   const {
@@ -39,7 +43,13 @@ const RepairJobDetails = () => {
     onOpenDeleteModal,
   } = useRepairJobDetailsModals();
 
-  const { repairJobFormState, onReset } = useRepairJobDetailsFormState({ repairJob, onCloseModal: onCloseEditModal });
+  const currentRepairJob = useMemo(() => convertRepairJobToFormValues(repairJob), [repairJob]);
+
+  const { formState, onReset } = useFormState<RepairJobFormValues>({
+    initialValues: currentRepairJob,
+    onCloseModal: onCloseEditModal,
+    resolver: zodResolver(repairJobEditFormSchema),
+  });
 
   const repairJobSections = useMemo(() => repairJobSectionsConfig(repairJob), [repairJob]);
 
@@ -64,11 +74,11 @@ const RepairJobDetails = () => {
       id: 1,
       content: (
         <EditModal
-          isDisabled={!repairJobFormState.formState.isDirty || isEditRepairJobLoading}
+          isDisabled={!formState.formState.isDirty || isEditRepairJobLoading}
           isOpen={isEditModalOpen}
           title={getModalTitle(title, true)}
           onClose={onReset}
-          onSubmit={repairJobFormState.handleSubmit(onEditRepairJob)}
+          onSubmit={formState.handleSubmit(onEditRepairJob)}
         >
           <EditRepairJobForm repairJob={repairJob} />
         </EditModal>
@@ -91,7 +101,7 @@ const RepairJobDetails = () => {
   ];
 
   return (
-    <FormProvider {...repairJobFormState}>
+    <FormProvider {...formState}>
       <section>
         <RepairJobHeader
           description={description}

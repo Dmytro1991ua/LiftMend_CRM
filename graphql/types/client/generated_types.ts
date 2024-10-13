@@ -118,6 +118,7 @@ export type Mutation = {
   createElevatorRecord: ElevatorRecord;
   createRepairJobAndEvent: ScheduledEventAndRepairJobResponse;
   deleteRepairJobAndEvent: DeleteCalendarAndRepairJobResponse;
+  updateElevatorRecord: ElevatorRecord;
   updateRepairJob: RepairJob;
 };
 
@@ -133,6 +134,10 @@ export type MutationCreateRepairJobAndEventArgs = {
 export type MutationDeleteRepairJobAndEventArgs = {
   calendarEventId: Scalars['ID']['input'];
   repairJobId: Scalars['ID']['input'];
+};
+
+export type MutationUpdateElevatorRecordArgs = {
+  input: UpdateElevatorRecordInput;
 };
 
 export type MutationUpdateRepairJobArgs = {
@@ -262,6 +267,19 @@ export type ScheduledEventAndRepairJobResponse = {
   __typename?: 'ScheduledEventAndRepairJobResponse';
   calendarEvent: CalendarEvent;
   repairJob: RepairJob;
+};
+
+export type UpdateElevatorRecordInput = {
+  buildingName?: InputMaybe<Scalars['String']['input']>;
+  capacity?: InputMaybe<Scalars['Int']['input']>;
+  contactInformation?: InputMaybe<Scalars['String']['input']>;
+  elevatorLocation?: InputMaybe<Scalars['String']['input']>;
+  elevatorType?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['ID']['input'];
+  lastMaintenanceDate?: InputMaybe<Scalars['DateTime']['input']>;
+  nextMaintenanceDate?: InputMaybe<Scalars['DateTime']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  technicianName?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateRepairJobInput = {
@@ -549,6 +567,27 @@ export type GetRepairJobsQuery = {
       startCursor: string | null;
       endCursor: string | null;
     };
+  };
+};
+
+export type UpdateElevatorRecordMutationVariables = Exact<{
+  input: UpdateElevatorRecordInput;
+}>;
+
+export type UpdateElevatorRecordMutation = {
+  __typename?: 'Mutation';
+  updateElevatorRecord: {
+    __typename?: 'ElevatorRecord';
+    id: string;
+    elevatorType: string;
+    buildingName: string;
+    elevatorLocation: string;
+    technicianName: string;
+    contactInformation: string;
+    lastMaintenanceDate: any;
+    nextMaintenanceDate: any;
+    capacity: number;
+    status: string;
   };
 };
 

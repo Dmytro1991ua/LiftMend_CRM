@@ -41,3 +41,16 @@ input CreateElevatorRecordInput {
   capacity: Int!
   status: String!
 }
+
+input UpdateElevatorRecordInput {
+  id: ID!
+  elevatorType: String
+  buildingName: String
+  elevatorLocation: String
+  technicianName: String
+  contactInformation: String
+  lastMaintenanceDate: DateTime
+  nextMaintenanceDate: DateTime
+  capacity: Int
+  status: String
+}

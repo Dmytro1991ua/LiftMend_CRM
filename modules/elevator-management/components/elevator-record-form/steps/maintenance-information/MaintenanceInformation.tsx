@@ -1,12 +1,11 @@
 import { useFormContext } from 'react-hook-form';
 
 import { GetElevatorRecordFormDataQuery } from '@/graphql/types/client/generated_types';
-import { FormFieldLabel } from '@/modules/elevator-management/types';
 import ControlledSingleSelect from '@/shared/base-select/components/controlled-single-select';
 import ControlledSingleDatePicker from '@/shared/date-picker/components/controlled-single-date-picker/ControlledSingleDatePicker';
 import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions';
 import { DropdownOptions } from '@/shared/hooks/useFetchDropdownOptions/config';
-import { FormFieldConfig } from '@/shared/types';
+import { FormFieldConfig, FormFieldLabel } from '@/shared/types';
 
 import { ElevatorRecordFormFields } from '../../validation';
 

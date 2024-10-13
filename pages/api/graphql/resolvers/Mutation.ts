@@ -75,6 +75,16 @@ const Mutation: MutationResolvers = {
 
     return elevatorRecord;
   },
+  updateElevatorRecord: async (_, { input }, { prisma }): Promise<ElevatorRecord> => {
+    const { id, ...fieldsToUpdate } = input;
+
+    const updatedElevatorRecord = await prisma.elevatorRecord.update({
+      where: { id },
+      data: { ...fieldsToUpdate },
+    });
+
+    return updatedElevatorRecord;
+  },
 };
 
 export default Mutation;
