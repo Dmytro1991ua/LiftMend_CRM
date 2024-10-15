@@ -75,6 +75,11 @@ export type DeleteCalendarAndRepairJobResponse = {
   deletedRepairJobId?: Maybe<Scalars['ID']['output']>;
 };
 
+export type DeleteElevatorRecordResponse = {
+  __typename?: 'DeleteElevatorRecordResponse';
+  id: Scalars['ID']['output'];
+};
+
 export type Edge = {
   cursor: Scalars['String']['output'];
   node: Node;
@@ -120,6 +125,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createElevatorRecord: ElevatorRecord;
   createRepairJobAndEvent: ScheduledEventAndRepairJobResponse;
+  deleteElevatorRecord: DeleteElevatorRecordResponse;
   deleteRepairJobAndEvent: DeleteCalendarAndRepairJobResponse;
   updateElevatorRecord: ElevatorRecord;
   updateRepairJob: RepairJob;
@@ -132,6 +138,10 @@ export type MutationCreateElevatorRecordArgs = {
 export type MutationCreateRepairJobAndEventArgs = {
   calendarEventInput: CreateCalendarEventInput;
   repairJobInput: CreateRepairJobInput;
+};
+
+export type MutationDeleteElevatorRecordArgs = {
+  id: Scalars['ID']['input'];
 };
 
 export type MutationDeleteRepairJobAndEventArgs = {
@@ -396,6 +406,7 @@ export type ResolversTypes = ResolversObject<{
   CreateRepairJobInput: CreateRepairJobInput;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   DeleteCalendarAndRepairJobResponse: ResolverTypeWrapper<DeleteCalendarAndRepairJobResponse>;
+  DeleteElevatorRecordResponse: ResolverTypeWrapper<DeleteElevatorRecordResponse>;
   Edge: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Edge']>;
   ElevatorRecord: ResolverTypeWrapper<ElevatorRecord>;
   ElevatorRecordConnection: ResolverTypeWrapper<ElevatorRecordConnection>;
@@ -433,6 +444,7 @@ export type ResolversParentTypes = ResolversObject<{
   CreateRepairJobInput: CreateRepairJobInput;
   DateTime: Scalars['DateTime']['output'];
   DeleteCalendarAndRepairJobResponse: DeleteCalendarAndRepairJobResponse;
+  DeleteElevatorRecordResponse: DeleteElevatorRecordResponse;
   Edge: ResolversInterfaceTypes<ResolversParentTypes>['Edge'];
   ElevatorRecord: ElevatorRecord;
   ElevatorRecordConnection: ElevatorRecordConnection;
@@ -492,6 +504,14 @@ export type DeleteCalendarAndRepairJobResponseResolvers<
 > = ResolversObject<{
   deletedEventId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   deletedRepairJobId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type DeleteElevatorRecordResponseResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['DeleteElevatorRecordResponse'] = ResolversParentTypes['DeleteElevatorRecordResponse']
+> = ResolversObject<{
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -567,6 +587,12 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     RequireFields<MutationCreateRepairJobAndEventArgs, 'calendarEventInput' | 'repairJobInput'>
+  >;
+  deleteElevatorRecord?: Resolver<
+    ResolversTypes['DeleteElevatorRecordResponse'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteElevatorRecordArgs, 'id'>
   >;
   deleteRepairJobAndEvent?: Resolver<
     ResolversTypes['DeleteCalendarAndRepairJobResponse'],
@@ -713,6 +739,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   Connection?: ConnectionResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   DeleteCalendarAndRepairJobResponse?: DeleteCalendarAndRepairJobResponseResolvers<ContextType>;
+  DeleteElevatorRecordResponse?: DeleteElevatorRecordResponseResolvers<ContextType>;
   Edge?: EdgeResolvers<ContextType>;
   ElevatorRecord?: ElevatorRecordResolvers<ContextType>;
   ElevatorRecordConnection?: ElevatorRecordConnectionResolvers<ContextType>;

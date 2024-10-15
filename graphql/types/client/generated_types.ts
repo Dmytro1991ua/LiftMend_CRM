@@ -72,6 +72,11 @@ export type DeleteCalendarAndRepairJobResponse = {
   deletedRepairJobId: Maybe<Scalars['ID']['output']>;
 };
 
+export type DeleteElevatorRecordResponse = {
+  __typename?: 'DeleteElevatorRecordResponse';
+  id: Scalars['ID']['output'];
+};
+
 export type Edge = {
   cursor: Scalars['String']['output'];
   node: Node;
@@ -117,6 +122,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createElevatorRecord: ElevatorRecord;
   createRepairJobAndEvent: ScheduledEventAndRepairJobResponse;
+  deleteElevatorRecord: DeleteElevatorRecordResponse;
   deleteRepairJobAndEvent: DeleteCalendarAndRepairJobResponse;
   updateElevatorRecord: ElevatorRecord;
   updateRepairJob: RepairJob;
@@ -129,6 +135,10 @@ export type MutationCreateElevatorRecordArgs = {
 export type MutationCreateRepairJobAndEventArgs = {
   calendarEventInput: CreateCalendarEventInput;
   repairJobInput: CreateRepairJobInput;
+};
+
+export type MutationDeleteElevatorRecordArgs = {
+  id: Scalars['ID']['input'];
 };
 
 export type MutationDeleteRepairJobAndEventArgs = {
@@ -404,6 +414,15 @@ export type CreateRepairJobAndCalendarEventMutation = {
       repairJobId: string | null;
     };
   };
+};
+
+export type DeleteElevatorRecordMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+export type DeleteElevatorRecordMutation = {
+  __typename?: 'Mutation';
+  deleteElevatorRecord: { __typename?: 'DeleteElevatorRecordResponse'; id: string };
 };
 
 export type DeleteRepairJobAndEventMutationVariables = Exact<{

@@ -42,7 +42,7 @@ export const useBaseToast = (variant: BaseToastVariant): UseBaseToast => {
       return {
         action: (
           <div className='w-full flex items-center'>
-            {config.icon}
+            <div className='flex-0 flex-shrink-0 basis-8'>{config.icon}</div>
             <div className='flex flex-col ml-2'>
               <span className='first-letter:capitalize text-lg font-semibold'>{message}</span>
               <span className='first-letter:capitalize text-sm'>{description}</span>

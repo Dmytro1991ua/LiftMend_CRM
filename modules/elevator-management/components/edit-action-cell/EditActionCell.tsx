@@ -49,7 +49,7 @@ const EditActionCell = ({ elevatorRecord }: EditActionCellProps) => {
         <EditModal
           isDisabled={!formState.formState.isDirty || isUpdateRecordLoading}
           isOpen={isModalOpen}
-          title={getModalTitle('title', true)}
+          title={getModalTitle(elevatorRecord.elevatorType, true, 'elevator record')}
           onClose={onCloseModal}
           onSubmit={formState.handleSubmit(onEditElevatorRecord)}
         >
