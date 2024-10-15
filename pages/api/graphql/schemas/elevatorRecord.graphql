@@ -54,3 +54,7 @@ input UpdateElevatorRecordInput {
   capacity: Int
   status: String
 }
+
+type DeleteElevatorRecordResponse {
+  id: ID!
+}

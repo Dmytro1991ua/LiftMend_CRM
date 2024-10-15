@@ -7,6 +7,7 @@ import { PillStatus } from '@/shared/pill/config';
 import { ElevatorRecord } from '@/shared/types';
 
 import Pill from '../../../../shared/pill/Pill';
+import DeleteActionCell from '../delete-action-cell';
 import EditActionCell from '../edit-action-cell';
 
 export const ELEVATOR_MANAGEMENT_COLUMNS: ColumnDef<ElevatorRecord>[] = [
@@ -150,5 +151,15 @@ export const ELEVATOR_MANAGEMENT_COLUMNS: ColumnDef<ElevatorRecord>[] = [
     enableResizing: false,
     minSize: 80,
     maxSize: 100,
+  },
+  {
+    accessorKey: 'delete',
+    header: 'Delete',
+    cell: ({ row: { original } }) => <DeleteActionCell elevatorRecord={original} />,
+    size: 80,
+    enableResizing: false,
+    minSize: 80,
+    maxSize: 100,
+    enableSorting: false,
   },
 ];
