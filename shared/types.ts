@@ -4,6 +4,7 @@ import { Maybe } from '@/graphql/types/client/generated_types';
 
 export enum StorageTableName {
   RepairJobTable = 'repairJobTable',
+  ElevatorManagementTable = 'elevatorManagementTable',
 }
 
 export enum TableNames {

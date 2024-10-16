@@ -58,3 +58,7 @@ input UpdateElevatorRecordInput {
 type DeleteElevatorRecordResponse {
   id: ID!
 }
+
+input ElevatorRecordFilterOptions {
+  searchTerm: String
+}

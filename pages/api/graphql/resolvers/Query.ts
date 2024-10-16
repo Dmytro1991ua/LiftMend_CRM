@@ -10,6 +10,7 @@ import {
 } from '@/graphql/types/server/generated_types';
 
 import {
+  createElevatorRecordFilterOptions,
   createRepairJobFilterOptions,
   createRepairJobSortOptions,
   fetchFormDropdownData,
@@ -126,8 +127,16 @@ const Query: QueryResolvers = {
 
     return elevatorRecordFormData as ElevatorRecordFormData;
   },
-  getElevatorRecords: async (_, { paginationOptions }, { prisma }): Promise<ElevatorRecordConnection> => {
-    const elevatorRecords = await prisma.elevatorRecord.findMany();
+  getElevatorRecords: async (
+    _,
+    { paginationOptions, filterOptions },
+    { prisma }
+  ): Promise<ElevatorRecordConnection> => {
+    const filters = createElevatorRecordFilterOptions(filterOptions);
+
+    const elevatorRecords = await prisma.elevatorRecord.findMany({
+      where: filters,
+    });
 
     const totalItems = await prisma.elevatorRecord.count();
 
