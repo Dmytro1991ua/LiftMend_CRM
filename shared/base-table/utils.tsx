@@ -8,7 +8,11 @@ import { OrderOption } from '@/graphql/types/client/generated_types';
 import BaseAlert from '../base-alert/BaseAlert';
 import { TableStorageState } from '../storage/hooks/useStoredState';
 
-import { DEFAULT_EMPTY_TABLE_MESSAGE, DEFAULT_TABLE_ERROR_TITLE } from './constants';
+import {
+  DEFAULT_EMPTY_SEARCH_RESULT_TABLE_MESSAGE,
+  DEFAULT_EMPTY_TABLE_MESSAGE,
+  DEFAULT_TABLE_ERROR_TITLE,
+} from './constants';
 import { Nullable, TableFilters, TableState, TableStatus } from './types';
 
 export const getTableStatusMod = (empty: boolean, loading?: boolean, errorMessage?: string): TableState => {
@@ -68,4 +72,16 @@ export const formatDate = (value: Nullable<Date>, shortYearFormat = false): stri
   if (!value) return '';
 
   return format(value, `MM/dd/yy${shortYearFormat ? '' : 'yy'}`);
+};
+
+export const getEmptyTableMessage = (searchTerm: string, hasTableData: boolean, noTableDataMessage: string): string => {
+  if (searchTerm && !hasTableData) {
+    return DEFAULT_EMPTY_SEARCH_RESULT_TABLE_MESSAGE;
+  }
+
+  if (!hasTableData) {
+    return noTableDataMessage;
+  }
+
+  return '';
 };

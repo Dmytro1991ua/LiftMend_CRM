@@ -1,6 +1,7 @@
 import { orderBy as _orderBy } from 'lodash';
 
 import {
+  ElevatorRecordFilterOptions,
   InputMaybe,
   PaginationOptions,
   RepairJobFilterOptions,
@@ -99,4 +100,12 @@ export const createRepairJobSortOptions = (sortOptions: InputMaybe<RepairJobSort
   return sortOptions?.field && sortOptions?.order
     ? { [fieldMap[sortOptions.field]]: sortOptions.order.toLowerCase() }
     : {};
+};
+
+export const createElevatorRecordFilterOptions = (filterOptions: InputMaybe<ElevatorRecordFilterOptions>) => {
+  const { searchTerm } = filterOptions || {};
+
+  return {
+    ...(searchTerm && { id: searchTerm }),
+  };
 };

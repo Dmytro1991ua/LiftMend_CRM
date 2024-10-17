@@ -47,6 +47,8 @@ const useSearchInTable = <T, TVariables, TData>({
   );
 
   const onClearSearch = useCallback(async () => {
+    setDebounceSearchTerm('');
+
     try {
       onSetTableStorageState((prevState) => ({
         ...prevState,

@@ -109,6 +109,10 @@ export type ElevatorRecordEdge = Edge & {
   node: ElevatorRecord;
 };
 
+export type ElevatorRecordFilterOptions = {
+  searchTerm?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type ElevatorRecordFormData = {
   __typename?: 'ElevatorRecordFormData';
   buildingNames: Array<Scalars['String']['output']>;
@@ -188,6 +192,7 @@ export type Query = {
 };
 
 export type QueryGetElevatorRecordsArgs = {
+  filterOptions?: InputMaybe<ElevatorRecordFilterOptions>;
   paginationOptions?: InputMaybe<PaginationOptions>;
 };
 
@@ -471,6 +476,7 @@ export type GetElevatorRecordFormDataQuery = {
 
 export type GetElevatorRecordsQueryVariables = Exact<{
   paginationOptions?: InputMaybe<PaginationOptions>;
+  filterOptions?: InputMaybe<ElevatorRecordFilterOptions>;
 }>;
 
 export type GetElevatorRecordsQuery = {

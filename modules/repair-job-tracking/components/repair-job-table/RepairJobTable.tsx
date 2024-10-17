@@ -10,6 +10,7 @@ import {
 } from '@/graphql/types/client/generated_types';
 import BaseTable from '@/shared/base-table';
 import useSearchInTable from '@/shared/base-table/hooks/useSearchInTable';
+import { getEmptyTableMessage } from '@/shared/base-table/utils';
 import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions';
 import { DropdownOptions } from '@/shared/hooks/useFetchDropdownOptions/config';
 import QueryResponse from '@/shared/query-response';
@@ -20,8 +21,7 @@ import useFetchRepairJobs from '../../hooks';
 
 import { REPAIR_JOB_COLUMNS } from './columns';
 import { getRepairJobFilterConfig } from './config';
-import { DEFAULT_SEARCH_INPUT_PLACEHOLDER } from './constants';
-import { getEmptyTableMessage } from './utils';
+import { DEFAULT_REPAIR_JOBS_TABLE_EMPTY_TABLE_MESSAGE, DEFAULT_SEARCH_INPUT_PLACEHOLDER } from './constants';
 
 const RepairJobTable = () => {
   const router = useRouter();
@@ -42,7 +42,7 @@ const RepairJobTable = () => {
   const filtersConfig = useMemo(() => getRepairJobFilterConfig(dropdownOptions), [dropdownOptions]);
 
   const emptyTableMessage = useMemo(
-    () => getEmptyTableMessage(searchTerm, !!repairJobs.length),
+    () => getEmptyTableMessage(searchTerm, !!repairJobs.length, DEFAULT_REPAIR_JOBS_TABLE_EMPTY_TABLE_MESSAGE),
     [searchTerm, repairJobs.length]
   );
 

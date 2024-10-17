@@ -112,6 +112,10 @@ export type ElevatorRecordEdge = Edge & {
   node: ElevatorRecord;
 };
 
+export type ElevatorRecordFilterOptions = {
+  searchTerm?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type ElevatorRecordFormData = {
   __typename?: 'ElevatorRecordFormData';
   buildingNames: Array<Scalars['String']['output']>;
@@ -190,6 +194,7 @@ export type Query = {
 };
 
 export type QueryGetElevatorRecordsArgs = {
+  filterOptions?: InputMaybe<ElevatorRecordFilterOptions>;
   paginationOptions?: InputMaybe<PaginationOptions>;
 };
 
@@ -411,6 +416,7 @@ export type ResolversTypes = ResolversObject<{
   ElevatorRecord: ResolverTypeWrapper<ElevatorRecord>;
   ElevatorRecordConnection: ResolverTypeWrapper<ElevatorRecordConnection>;
   ElevatorRecordEdge: ResolverTypeWrapper<ElevatorRecordEdge>;
+  ElevatorRecordFilterOptions: ElevatorRecordFilterOptions;
   ElevatorRecordFormData: ResolverTypeWrapper<ElevatorRecordFormData>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
@@ -449,6 +455,7 @@ export type ResolversParentTypes = ResolversObject<{
   ElevatorRecord: ElevatorRecord;
   ElevatorRecordConnection: ElevatorRecordConnection;
   ElevatorRecordEdge: ElevatorRecordEdge;
+  ElevatorRecordFilterOptions: ElevatorRecordFilterOptions;
   ElevatorRecordFormData: ElevatorRecordFormData;
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];

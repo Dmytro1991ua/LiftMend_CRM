@@ -8,5 +8,8 @@ type Query {
   ): RepairJobConnection!
   getRepairJobById(id: ID!): RepairJob!
   getElevatorRecordFormData: ElevatorRecordFormData!
-  getElevatorRecords(paginationOptions: PaginationOptions): ElevatorRecordConnection!
+  getElevatorRecords(
+    paginationOptions: PaginationOptions
+    filterOptions: ElevatorRecordFilterOptions
+  ): ElevatorRecordConnection!
 }

@@ -1,27 +1,52 @@
-import { useMemo } from 'react';
+import { Dispatch, SetStateAction, useMemo } from 'react';
 
-import { useQuery } from '@apollo/client';
+import { ApolloQueryResult, useQuery } from '@apollo/client';
+import { SortingState } from '@tanstack/react-table';
 
 import { GET_ELEVATOR_RECORDS } from '@/graphql/schemas';
 import { GetElevatorRecordsQuery, QueryGetElevatorRecordsArgs } from '@/graphql/types/client/generated_types';
-import { DEFAULT_PAGINATION, DEFAULT_PAGINATION_LIMIT, DEFAULT_PAGINATION_OFFSET } from '@/shared/constants';
-import { ElevatorRecord } from '@/shared/types';
+import { TableFilters } from '@/shared/base-table/types';
+import {
+  DEFAULT_PAGINATION,
+  DEFAULT_PAGINATION_LIMIT,
+  DEFAULT_PAGINATION_OFFSET,
+  TABLE_STATE_STORAGE_KEY,
+} from '@/shared/constants';
+import useStoredTableState from '@/shared/storage/hooks';
+import { TableStorageState } from '@/shared/storage/hooks/useStoredState';
+import { ElevatorRecord, StorageTableName } from '@/shared/types';
 import { getItemsFromQuery, removeTypeNamesFromArray } from '@/shared/utils';
 
-type UseGetElevatorRecords = {
+type UseGetElevatorRecords<T> = {
   elevatorRecords: ElevatorRecord[];
   loading: boolean;
   hasMore: boolean;
   error?: string;
   onNext: () => Promise<void>;
+  tableStorageState: TableStorageState<SortingState, TableFilters<T>>;
+  onSetTableStorageState: Dispatch<SetStateAction<TableStorageState<SortingState, TableFilters<T>>>>;
+  refetch: (variables?: Partial<QueryGetElevatorRecordsArgs>) => Promise<ApolloQueryResult<GetElevatorRecordsQuery>>;
 };
 
-const useGetElevatorRecords = (): UseGetElevatorRecords => {
-  const { data, error, loading, fetchMore } = useQuery<GetElevatorRecordsQuery, QueryGetElevatorRecordsArgs>(
+const useGetElevatorRecords = <T>(): UseGetElevatorRecords<T> => {
+  const { storedState: tableStorageState, setStoredState: setTableState } = useStoredTableState<
+    SortingState,
+    TableFilters<T>
+  >(TABLE_STATE_STORAGE_KEY, StorageTableName.ElevatorManagementTable, undefined);
+
+  const searchTerm = useMemo(
+    () => tableStorageState.filters?.searchTerm || '',
+    [tableStorageState.filters?.searchTerm]
+  );
+
+  const { data, error, loading, fetchMore, refetch } = useQuery<GetElevatorRecordsQuery, QueryGetElevatorRecordsArgs>(
     GET_ELEVATOR_RECORDS,
     {
       variables: {
         paginationOptions: DEFAULT_PAGINATION,
+        filterOptions: {
+          searchTerm,
+        },
       },
       notifyOnNetworkStatusChange: true,
     }
@@ -42,6 +67,7 @@ const useGetElevatorRecords = (): UseGetElevatorRecords => {
         await fetchMore({
           variables: {
             paginationOptions: { offset: newOffset, limit: DEFAULT_PAGINATION_LIMIT },
+            filterOptions: { searchTerm },
           },
         });
       }
@@ -50,7 +76,16 @@ const useGetElevatorRecords = (): UseGetElevatorRecords => {
     }
   };
 
-  return { elevatorRecords, loading, hasMore, error: error?.message, onNext };
+  return {
+    elevatorRecords,
+    loading,
+    hasMore,
+    error: error?.message,
+    onNext,
+    tableStorageState,
+    onSetTableStorageState: setTableState,
+    refetch,
+  };
 };
 
 export default useGetElevatorRecords;

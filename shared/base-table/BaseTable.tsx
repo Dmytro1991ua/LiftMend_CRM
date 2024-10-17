@@ -69,6 +69,7 @@ const BaseTable = <T extends object, K, M>({
     onSearch,
     onClearSearch,
   } = useTableState<T, K, M>({ tableStorageState, onSetTableStorageState, data, refetch });
+  console.log(searchTerm);
 
   const memoizedData = useMemo(() => data, [data]);
   const memoizedColumns = useMemo(() => columns, [columns]);
