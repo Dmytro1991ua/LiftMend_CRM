@@ -7,3 +7,5 @@ introspection.json
 graphql/types/server/generated_types.ts
 jest.config.ts
 next.config.js
+graphql/graphqlAPI.ts
+graphql/types

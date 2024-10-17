@@ -12,19 +12,3 @@ export const getSelectedFilterCountLabel = (label: string, selectedFilterCount: 
     </>
   );
 };
-
-export const convertStoredFiltersToQueryFormat = (
-  filterValues: FilterValues,
-  filterKeyMap: Record<string, string>
-): Record<string, string[]> =>
-  Object.fromEntries(
-    Object.entries(filterValues || {}).map(([key, value]) => {
-      // map stored filter key to query filter key
-      const queryFilterKey = filterKeyMap[key] || key;
-
-      // transform dropdown value to array for GraphQL query format (e.g., ['value1', 'value2'])
-      const transformedValue = value.map?.((item) => item.value) || value;
-
-      return [queryFilterKey, transformedValue];
-    })
-  );

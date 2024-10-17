@@ -113,7 +113,12 @@ export type ElevatorRecordEdge = Edge & {
 };
 
 export type ElevatorRecordFilterOptions = {
+  buildingName?: InputMaybe<Array<Scalars['String']['input']>>;
+  elevatorLocation?: InputMaybe<Array<Scalars['String']['input']>>;
+  elevatorType?: InputMaybe<Array<Scalars['String']['input']>>;
   searchTerm?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<Array<Scalars['String']['input']>>;
+  technicianName?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 export type ElevatorRecordFormData = {

@@ -27,7 +27,7 @@ const EditActionCell = ({ elevatorRecord }: EditActionCellProps) => {
   const currentElevatorRecord = useMemo(() => convertElevatorRecordToFormValues(elevatorRecord), [elevatorRecord]);
 
   const { formState, onReset } = useFormState<ElevatorRecordFormValues>({
-    initialValues: currentElevatorRecord!,
+    initialValues: currentElevatorRecord,
     onCloseModal,
     resolver: zodResolver(elevatorRecordEditFormSchema),
   });

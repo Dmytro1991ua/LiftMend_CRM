@@ -6,6 +6,7 @@ import { SortingState } from '@tanstack/react-table';
 import { GET_ELEVATOR_RECORDS } from '@/graphql/schemas';
 import { GetElevatorRecordsQuery, QueryGetElevatorRecordsArgs } from '@/graphql/types/client/generated_types';
 import { TableFilters } from '@/shared/base-table/types';
+import { convertStoredFiltersToQueryFormat } from '@/shared/base-table/utils';
 import {
   DEFAULT_PAGINATION,
   DEFAULT_PAGINATION_LIMIT,
@@ -16,6 +17,8 @@ import useStoredTableState from '@/shared/storage/hooks';
 import { TableStorageState } from '@/shared/storage/hooks/useStoredState';
 import { ElevatorRecord, StorageTableName } from '@/shared/types';
 import { getItemsFromQuery, removeTypeNamesFromArray } from '@/shared/utils';
+
+import { ELEVATOR_RECORDS_TABLE_FILTER_KEY_MAP } from './constants';
 
 type UseGetElevatorRecords<T> = {
   elevatorRecords: ElevatorRecord[];
@@ -39,6 +42,16 @@ const useGetElevatorRecords = <T>(): UseGetElevatorRecords<T> => {
     [tableStorageState.filters?.searchTerm]
   );
 
+  const filterValues = useMemo(
+    () => tableStorageState.filters?.filterValues || {},
+    [tableStorageState.filters?.filterValues]
+  );
+
+  const filters = useMemo(
+    () => convertStoredFiltersToQueryFormat(filterValues, ELEVATOR_RECORDS_TABLE_FILTER_KEY_MAP),
+    [filterValues]
+  );
+
   const { data, error, loading, fetchMore, refetch } = useQuery<GetElevatorRecordsQuery, QueryGetElevatorRecordsArgs>(
     GET_ELEVATOR_RECORDS,
     {
@@ -46,6 +59,7 @@ const useGetElevatorRecords = <T>(): UseGetElevatorRecords<T> => {
         paginationOptions: DEFAULT_PAGINATION,
         filterOptions: {
           searchTerm,
+          ...filters,
         },
       },
       notifyOnNetworkStatusChange: true,
@@ -67,7 +81,7 @@ const useGetElevatorRecords = <T>(): UseGetElevatorRecords<T> => {
         await fetchMore({
           variables: {
             paginationOptions: { offset: newOffset, limit: DEFAULT_PAGINATION_LIMIT },
-            filterOptions: { searchTerm },
+            filterOptions: { searchTerm, ...filters },
           },
         });
       }

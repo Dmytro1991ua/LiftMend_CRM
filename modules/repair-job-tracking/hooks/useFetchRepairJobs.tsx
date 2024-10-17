@@ -6,14 +6,13 @@ import { SortingState } from '@tanstack/react-table';
 import { GET_REPAIR_JOBS } from '@/graphql/schemas/getRepairJobs';
 import { GetRepairJobsQuery, QueryGetRepairJobsArgs, RepairJobSortField } from '@/graphql/types/client/generated_types';
 import { TableFilters } from '@/shared/base-table/types';
-import { formatTableSortingToQueryFormat } from '@/shared/base-table/utils';
+import { convertStoredFiltersToQueryFormat, formatTableSortingToQueryFormat } from '@/shared/base-table/utils';
 import {
   DEFAULT_PAGINATION,
   DEFAULT_PAGINATION_LIMIT,
   DEFAULT_PAGINATION_OFFSET,
   TABLE_STATE_STORAGE_KEY,
 } from '@/shared/constants';
-import { convertStoredFiltersToQueryFormat } from '@/shared/repair-job/table-filters/utils';
 import useStoredTableState from '@/shared/storage/hooks';
 import { TableStorageState } from '@/shared/storage/hooks/useStoredState';
 import { RepairJob, StorageTableName } from '@/shared/types';
