@@ -120,6 +120,7 @@
       "node": {
         "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
-    }
+    },
+    "ignorePatterns": ["graphql/graphqlAPI.ts", "graphql/types/client/**"]
   }
 }

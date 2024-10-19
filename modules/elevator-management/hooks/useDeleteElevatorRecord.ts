@@ -1,11 +1,9 @@
 import { ApolloError, useMutation } from '@apollo/client';
 
 import { DELETE_ELEVATOR_RECORD } from '@/graphql/schemas/deleteElevatorRecord';
-import { DELETE_REPAIR_JOB_AND_EVENT } from '@/graphql/schemas/deleteRepairJobAndCalendarEvent';
 import {
   DeleteElevatorRecordMutation,
   DeleteElevatorRecordMutationVariables,
-  DeleteRepairJobAndEventMutation,
 } from '@/graphql/types/client/generated_types';
 import { onHandleMutationErrors } from '@/graphql/utils';
 

@@ -13,7 +13,7 @@ import {
   DEFAULT_EMPTY_TABLE_MESSAGE,
   DEFAULT_TABLE_ERROR_TITLE,
 } from './constants';
-import { Nullable, TableFilters, TableState, TableStatus } from './types';
+import { FilterValues, Nullable, TableFilters, TableState, TableStatus } from './types';
 
 export const getTableStatusMod = (empty: boolean, loading?: boolean, errorMessage?: string): TableState => {
   if (loading) return TableStatus.Loading;
@@ -85,3 +85,19 @@ export const getEmptyTableMessage = (searchTerm: string, hasTableData: boolean, 
 
   return '';
 };
+
+export const convertStoredFiltersToQueryFormat = (
+  filterValues: FilterValues,
+  filterKeyMap: Record<string, string>
+): Record<string, string[]> =>
+  Object.fromEntries(
+    Object.entries(filterValues || {}).map(([key, value]) => {
+      // map stored filter key to query filter key
+      const queryFilterKey = filterKeyMap[key] || key;
+
+      // transform dropdown value to array for GraphQL query format (e.g., ['value1', 'value2'])
+      const transformedValue = value.map?.((item) => item.value) || value;
+
+      return [queryFilterKey, transformedValue];
+    })
+  );

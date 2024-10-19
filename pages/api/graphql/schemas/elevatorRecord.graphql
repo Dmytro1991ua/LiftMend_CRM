@@ -61,4 +61,9 @@ type DeleteElevatorRecordResponse {
 
 input ElevatorRecordFilterOptions {
   searchTerm: String
+  elevatorType: [String!]
+  buildingName: [String!]
+  elevatorLocation: [String!]
+  technicianName: [String!]
+  status: [String!]
 }
