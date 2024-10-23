@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-type useRepairJobDetailsModals = {
+type UseDetailsPageModals = {
   isEditModalOpen: boolean;
   isDeleteModalOpen: boolean;
   onOpenEditModal: () => void;
@@ -9,7 +9,7 @@ type useRepairJobDetailsModals = {
   onCloseDeleteModal: () => void;
 };
 
-const useRepairJobDetailsModals = (): useRepairJobDetailsModals => {
+const useDetailsPageModals = (): UseDetailsPageModals => {
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
@@ -29,4 +29,4 @@ const useRepairJobDetailsModals = (): useRepairJobDetailsModals => {
   };
 };
 
-export default useRepairJobDetailsModals;
+export default useDetailsPageModals;

@@ -15,8 +15,7 @@ import { ElevatorRecordFormValues } from '../../types';
 import { convertElevatorRecordToFormValues } from '../../utils';
 import EditElevatorRecordForm from '../edit-elevator-record-form';
 import { elevatorRecordEditFormSchema } from '../edit-elevator-record-form/validation';
-import useElevatorRecordForm from '../elevator-record-form/hooks';
-
+import useEditElevatorRecordForm from '../elevator-record-form/hooks/useEditElevatorRecordForm';
 type EditActionCellProps = {
   elevatorRecord: ElevatorRecord;
 };
@@ -32,7 +31,7 @@ const EditActionCell = ({ elevatorRecord }: EditActionCellProps) => {
     resolver: zodResolver(elevatorRecordEditFormSchema),
   });
 
-  const { isUpdateRecordLoading, onEditElevatorRecord } = useElevatorRecordForm({ onReset, elevatorRecord });
+  const { isUpdateRecordLoading, onEditElevatorRecord } = useEditElevatorRecordForm({ onReset, elevatorRecord });
 
   const onHandleEditClick = (event: React.MouseEvent) => {
     event.stopPropagation();

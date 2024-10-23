@@ -8,7 +8,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/compon
 import { cn } from '@/lib/utils';
 import { DropdownOption } from '@/shared/base-select/types';
 
-import { FilterKey, TableFiltersConfig, TableFilters as TableFiltersType } from '../../base-table/types';
+import { FilterKey, TableFiltersConfig, TableFilters as TableFiltersType } from '../types';
 
 import FilterItem from './filter-item';
 import { getSelectedFilterCountLabel, getSelectedFiltersCount } from './utils';

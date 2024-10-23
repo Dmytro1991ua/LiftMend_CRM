@@ -2,7 +2,7 @@ import { Column, RowModel } from '@tanstack/react-table';
 
 import SearchInput from '@/shared/base-input/search-input';
 import { DropdownOption } from '@/shared/base-select/types';
-import TableFilters from '@/shared/repair-job/table-filters';
+import TableFilters from '@/shared/base-table/table-filters';
 import { TableNames } from '@/shared/types';
 
 import CustomizeColumns from '../customize-columns';

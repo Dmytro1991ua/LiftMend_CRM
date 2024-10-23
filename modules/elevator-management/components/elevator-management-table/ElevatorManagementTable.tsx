@@ -1,13 +1,17 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
+
+import { Row } from '@tanstack/react-table';
+import { useRouter } from 'next/router';
 
 import { GetElevatorRecordsQuery, QueryGetElevatorRecordsArgs } from '@/graphql/types/client/generated_types';
 import BaseTable from '@/shared/base-table/BaseTable';
 import useSearchInTable from '@/shared/base-table/hooks/useSearchInTable';
-import { getEmptyTableMessage } from '@/shared/base-table/utils';
+import { getEmptyTableMessage, onHandleRowClick } from '@/shared/base-table/utils';
 import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions';
 import { DropdownOptions } from '@/shared/hooks/useFetchDropdownOptions/config';
 import QueryResponse from '@/shared/query-response';
 import { ElevatorRecord, TableNames } from '@/shared/types';
+import { AppRoutes } from '@/types/enums';
 
 import {
   DEFAULT_ELEVATOR_MANAGEMENT_SEARCH_INPUT_PLACEHOLDER,
@@ -19,6 +23,8 @@ import { ELEVATOR_MANAGEMENT_COLUMNS } from './columns';
 import { getElevatorRecordFilterConfig } from './config';
 
 const ElevatorManagementTable = () => {
+  const router = useRouter();
+
   const { elevatorRecords, error, loading, hasMore, onNext, tableStorageState, onSetTableStorageState, refetch } =
     useGetElevatorRecords<ElevatorRecord>();
 
@@ -40,6 +46,17 @@ const ElevatorManagementTable = () => {
     [searchTerm, elevatorRecords.length]
   );
 
+  const onElevatorRecordRowClick = useCallback(
+    (rowData: Row<ElevatorRecord>) => {
+      const {
+        original: { id },
+      } = rowData;
+
+      onHandleRowClick({ id, route: AppRoutes.ElevatorManagement, router });
+    },
+    [router]
+  );
+
   return (
     <>
       <QueryResponse errorDescription={elevatorRecordDataError} errorMessage='Failed to fetch elevator record data' />
@@ -57,7 +74,7 @@ const ElevatorManagementTable = () => {
         searchFieldPlaceholder={DEFAULT_ELEVATOR_MANAGEMENT_SEARCH_INPUT_PLACEHOLDER}
         tableName={TableNames.ElevatorManagementTable}
         tableStorageState={tableStorageState}
-        onHandleRowClick={() => {}}
+        onHandleRowClick={onElevatorRecordRowClick}
         onSetTableStorageState={onSetTableStorageState}
       />
     </>

@@ -44,7 +44,7 @@ export type CalendarEventInfo = {
 
 export type ButtonVariant = 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
 
-export type FormFieldConfig = {
+export type ItemConfig = {
   id: number;
   label?: FormFieldLabel;
   content: JSX.Element;

@@ -5,9 +5,9 @@ import { UseFormReturn, useForm } from 'react-hook-form';
 
 import { RepairJob } from '@/graphql/types/client/generated_types';
 
-import { convertRepairJobToFormValues } from '../../../modules/repair-job-details/utils';
 import { RepairJobFormValues } from '../edit-repair-job-form/types';
 import { repairJobEditFormSchema } from '../edit-repair-job-form/validation';
+import { convertRepairJobToFormValues } from '../repair-job-details/utils';
 
 type UseRepairJobDetailsFormStateProps = {
   onCloseModal: () => void;

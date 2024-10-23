@@ -147,6 +147,11 @@ const Query: QueryResolvers = {
       getCursor: (repairJob: ElevatorRecord) => repairJob.id,
     });
   },
+  getElevatorRecordById: async (_, { id }, { prisma }): Promise<ElevatorRecord> => {
+    const elevatorRecord = await prisma.elevatorRecord.findUnique({ where: { id } });
+
+    return elevatorRecord || null;
+  },
 };
 
 export default Query;

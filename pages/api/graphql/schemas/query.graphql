@@ -12,4 +12,5 @@ type Query {
     paginationOptions: PaginationOptions
     filterOptions: ElevatorRecordFilterOptions
   ): ElevatorRecordConnection!
+  getElevatorRecordById(id: ID!): ElevatorRecord!
 }

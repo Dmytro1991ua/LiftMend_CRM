@@ -11,9 +11,9 @@ import ControlledDateRangePicker from '@/shared/date-picker/components/controlle
 import EditEntityForm from '@/shared/edit-entity-form/EditEntityForm';
 import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions';
 import { DropdownOptions } from '@/shared/hooks/useFetchDropdownOptions/config';
-import { FormFieldConfig, FormFieldLabel } from '@/shared/types';
+import { FormFieldLabel, ItemConfig } from '@/shared/types';
 
-import { convertRepairJobToFormValues } from '../../../modules/repair-job-details/utils';
+import { convertRepairJobToFormValues } from '../repair-job-details/utils';
 
 import { RepairJobFormValues } from './types';
 
@@ -55,7 +55,7 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
     status,
   } = currentRepairJob;
 
-  const REPAIR_JOB_FORM_FIELD_CONFIG: FormFieldConfig[] = [
+  const REPAIR_JOB_FORM_FIELD_CONFIG: ItemConfig[] = [
     {
       id: 1,
       label: FormFieldLabel.JobType,
