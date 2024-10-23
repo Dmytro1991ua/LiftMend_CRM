@@ -2,6 +2,7 @@ export enum AppRoutes {
   Default = '/',
   Dashboard = '/dashboard',
   ElevatorManagement = '/elevator-management',
+  ElevatorManagementDetails = '/elevator-management/[elevatorRecordId]',
   RepairJobScheduling = '/repair-job-scheduling',
   RepairJobTracking = '/repair-job-tracking',
   RepairJobDetails = '/repair-job-details/[repairJobId]',

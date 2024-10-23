@@ -1,9 +1,11 @@
 import { SortingState } from '@tanstack/react-table';
 import { format } from 'date-fns';
 import { snakeCase as _snakeCase, toUpper as _toUpper } from 'lodash';
+import { NextRouter } from 'next/router';
 import { Hourglass } from 'react-loader-spinner';
 
 import { OrderOption } from '@/graphql/types/client/generated_types';
+import { AppRoutes } from '@/types/enums';
 
 import BaseAlert from '../base-alert/BaseAlert';
 import { TableStorageState } from '../storage/hooks/useStoredState';
@@ -101,3 +103,13 @@ export const convertStoredFiltersToQueryFormat = (
       return [queryFilterKey, transformedValue];
     })
   );
+
+export const onHandleRowClick = ({ id, route, router }: { id: string; router: NextRouter; route: AppRoutes }) => {
+  // Check if any text is selected by the user (e.g., for copying)
+  const selectedText = window.getSelection()?.toString();
+
+  // If no text is selected, proceed to navigate to the repair job detail page
+  if (!selectedText) {
+    router.push(`${route}/${id}`);
+  }
+};

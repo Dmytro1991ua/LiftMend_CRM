@@ -5,7 +5,7 @@ import ControlledSingleSelect from '@/shared/base-select/components/controlled-s
 import ControlledSingleDatePicker from '@/shared/date-picker/components/controlled-single-date-picker/ControlledSingleDatePicker';
 import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions';
 import { DropdownOptions } from '@/shared/hooks/useFetchDropdownOptions/config';
-import { FormFieldConfig, FormFieldLabel } from '@/shared/types';
+import { FormFieldLabel, ItemConfig } from '@/shared/types';
 
 import { ElevatorRecordFormFields } from '../../validation';
 
@@ -16,7 +16,7 @@ const MaintenanceInformation = () => {
     dropdownOptions: { elevatorStatuses },
   } = useFetchDropdownOptions<GetElevatorRecordFormDataQuery>(DropdownOptions.ElevatorManagement);
 
-  const MAINTENANCE_INFO_FORM_FIELDS_CONFIG: FormFieldConfig[] = [
+  const MAINTENANCE_INFO_FORM_FIELDS_CONFIG: ItemConfig[] = [
     {
       id: 1,
       content: (

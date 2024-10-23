@@ -5,7 +5,6 @@ import { FormProvider } from 'react-hook-form';
 import { FaEdit } from 'react-icons/fa';
 
 import { Button } from '@/components/ui/button';
-import { convertRepairJobToFormValues } from '@/modules/repair-job-details/utils';
 import EditModal from '@/shared/base-modal/edit-modal/EditModal';
 import { getModalTitle } from '@/shared/base-modal/edit-modal/utils';
 import { useModal } from '@/shared/hooks';
@@ -14,6 +13,7 @@ import EditRepairJobForm from '@/shared/repair-job/edit-repair-job-form';
 import { RepairJobFormValues } from '@/shared/repair-job/edit-repair-job-form/types';
 import { repairJobEditFormSchema } from '@/shared/repair-job/edit-repair-job-form/validation';
 import useRepairJobFormHandler from '@/shared/repair-job/hooks/useRepairJobFormHandler';
+import { convertRepairJobToFormValues } from '@/shared/repair-job/repair-job-details/utils';
 import { RepairJob } from '@/shared/types';
 import { getCalendarEventInfo } from '@/shared/utils';
 

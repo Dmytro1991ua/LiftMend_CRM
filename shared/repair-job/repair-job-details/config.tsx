@@ -1,18 +1,11 @@
 import { RepairJob } from '@/graphql/types/client/generated_types';
+import { DetailsPageSectionsConfig } from '@/shared/base-details-page/types';
 import DatePicker from '@/shared/date-picker';
 import Pill from '@/shared/pill';
 import { PillStatus } from '@/shared/pill/config';
 import TechnicianSkills from '@/shared/repair-job/technician-skills';
 
-type SectionField = { id: number; label: string; value: React.ReactNode | string; fieldClassName?: string };
-
-export type RepairJobSectionConfig = {
-  id: number;
-  title: string;
-  fields: SectionField[];
-};
-
-export const repairJobSectionsConfig = (repairJob: RepairJob): RepairJobSectionConfig[] => [
+export const repairJobSectionsConfig = (repairJob: RepairJob): DetailsPageSectionsConfig[] => [
   {
     id: 1,
     title: 'Repair Job Details',

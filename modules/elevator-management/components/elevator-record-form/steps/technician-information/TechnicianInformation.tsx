@@ -7,7 +7,7 @@ import FormInput from '@/shared/base-input/form-input';
 import ControlledSingleSelect from '@/shared/base-select/components/controlled-single-select';
 import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions';
 import { DropdownOptions } from '@/shared/hooks/useFetchDropdownOptions/config';
-import { FormFieldConfig } from '@/shared/types';
+import { ItemConfig } from '@/shared/types';
 
 import { ElevatorRecordFormFields } from '../../validation';
 
@@ -18,7 +18,7 @@ const TechnicianInformation = () => {
     dropdownOptions: { technicianNames },
   } = useFetchDropdownOptions<GetElevatorRecordFormDataQuery>(DropdownOptions.ElevatorManagement);
 
-  const TECHNICIAN_INFORMATION_FORM_FIELDS_CONFIG: FormFieldConfig[] = [
+  const TECHNICIAN_INFORMATION_FORM_FIELDS_CONFIG: ItemConfig[] = [
     {
       id: 1,
       content: (

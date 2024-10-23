@@ -8,7 +8,7 @@ import ControlledMultiSelect from '@/shared/base-select/components/controlled-mu
 import ControlledSingleSelect from '@/shared/base-select/components/controlled-single-select';
 import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions';
 import { DropdownOptions } from '@/shared/hooks/useFetchDropdownOptions/config';
-import { FormFieldConfig } from '@/shared/types';
+import { ItemConfig } from '@/shared/types';
 
 import { RepairJobFromFields } from '../repair-job-tracking-from/validation';
 
@@ -19,7 +19,7 @@ const TechnicianAssignment = () => {
     dropdownOptions: { technicianNames, technicianSkills },
   } = useFetchDropdownOptions<GetRepairJobFromDataQuery>(DropdownOptions.RepairJob);
 
-  const TECHNICIAN_ASSIGNMENT_FORM_FIELDS_CONFIG: FormFieldConfig[] = [
+  const TECHNICIAN_ASSIGNMENT_FORM_FIELDS_CONFIG: ItemConfig[] = [
     {
       id: 1,
       content: (

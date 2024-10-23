@@ -9,9 +9,9 @@ import { Audio } from 'react-loader-spinner';
 import { Button } from '@/components/ui/button';
 import SectionHeader from '@/shared/section-header';
 
-import { ActionButtonConfig, ActionButtonLabel } from '../../types';
+import { ActionButtonLabel, DetailsPageActionButtonConfig } from '../types';
 
-type RepairJobHeaderProps = {
+type DetailsPageHeaderProps = {
   loading: boolean;
   description: string;
   title: string;
@@ -19,14 +19,20 @@ type RepairJobHeaderProps = {
   onOpenDeleteModal: () => void;
 };
 
-const RepairJobHeader = ({ loading, description, title, onOpenEditModal, onOpenDeleteModal }: RepairJobHeaderProps) => {
+const DetailsPageHeader = ({
+  loading,
+  description,
+  title,
+  onOpenEditModal,
+  onOpenDeleteModal,
+}: DetailsPageHeaderProps) => {
   const router = useRouter();
 
   const onHandleGoBack = useCallback(() => {
     router.back();
   }, [router]);
 
-  const ACTION_BUTTONS_CONFIG: ActionButtonConfig[] = [
+  const ACTION_BUTTONS_CONFIG: DetailsPageActionButtonConfig[] = [
     {
       id: 1,
       variant: 'default',
@@ -76,4 +82,4 @@ const RepairJobHeader = ({ loading, description, title, onOpenEditModal, onOpenD
   );
 };
 
-export default RepairJobHeader;
+export default DetailsPageHeader;

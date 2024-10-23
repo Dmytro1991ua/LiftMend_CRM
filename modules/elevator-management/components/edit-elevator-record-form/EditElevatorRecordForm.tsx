@@ -9,7 +9,7 @@ import ControlledSingleDatePicker from '@/shared/date-picker/components/controll
 import EditEntityForm from '@/shared/edit-entity-form/EditEntityForm';
 import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions';
 import { DropdownOptions } from '@/shared/hooks/useFetchDropdownOptions/config';
-import { ElevatorRecord, FormFieldConfig, FormFieldLabel } from '@/shared/types';
+import { ElevatorRecord, FormFieldLabel, ItemConfig } from '@/shared/types';
 
 import { ElevatorRecordFormValues } from '../../types';
 import { convertElevatorRecordToFormValues } from '../../utils';
@@ -41,7 +41,7 @@ const EditElevatorRecordForm = ({ elevatorRecord }: EditElevatorRecordFormProps)
     contactInformation,
   } = currentElevatorRecord;
 
-  const ELEVATOR_RECORD_FORM_FIELD_CONFIG: FormFieldConfig[] = [
+  const ELEVATOR_RECORD_FORM_FIELD_CONFIG: ItemConfig[] = [
     {
       id: 1,
       label: FormFieldLabel.BuildingName,
