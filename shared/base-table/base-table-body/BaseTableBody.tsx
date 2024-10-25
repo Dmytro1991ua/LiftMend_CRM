@@ -14,6 +14,7 @@ type BaseTableBodyProps<T> = {
   loading?: boolean;
   errorMessage?: string;
   className?: string;
+  rowTooltipMessage?: string;
   onHandleRowClick: (rowData: Row<T>) => void;
 };
 
@@ -24,6 +25,7 @@ const BaseTableBody = <T,>({
   loading,
   errorMessage,
   className,
+  rowTooltipMessage,
   onHandleRowClick,
 }: BaseTableBodyProps<T>): React.JSX.Element => {
   const isTableEmpty = tableRows?.length === 0;
@@ -43,6 +45,7 @@ const BaseTableBody = <T,>({
             key={row.id}
             className='cursor-pointer'
             data-state={row.getIsSelected() && 'selected'}
+            title={rowTooltipMessage}
             onClick={(e) => {
               e.stopPropagation();
 

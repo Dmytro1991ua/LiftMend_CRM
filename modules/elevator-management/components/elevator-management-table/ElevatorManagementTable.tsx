@@ -4,6 +4,7 @@ import { Row } from '@tanstack/react-table';
 import { useRouter } from 'next/router';
 
 import { GetElevatorRecordsQuery, QueryGetElevatorRecordsArgs } from '@/graphql/types/client/generated_types';
+import { DEFAULT_ELEVATOR_RECORD_TABLE_ROW_TOOLTIP_MESSAGE } from '@/modules/repair-job-scheduling/constants';
 import BaseTable from '@/shared/base-table/BaseTable';
 import useSearchInTable from '@/shared/base-table/hooks/useSearchInTable';
 import { getEmptyTableMessage, onHandleRowClick } from '@/shared/base-table/utils';
@@ -71,6 +72,7 @@ const ElevatorManagementTable = () => {
         loadMore={onNext}
         loading={loading}
         refetch={refetch}
+        rowTooltipMessage={DEFAULT_ELEVATOR_RECORD_TABLE_ROW_TOOLTIP_MESSAGE}
         searchFieldPlaceholder={DEFAULT_ELEVATOR_MANAGEMENT_SEARCH_INPUT_PLACEHOLDER}
         tableName={TableNames.ElevatorManagementTable}
         tableStorageState={tableStorageState}

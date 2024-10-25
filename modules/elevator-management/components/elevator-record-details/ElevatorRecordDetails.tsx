@@ -6,11 +6,14 @@ import { FormProvider } from 'react-hook-form';
 
 import BaseDetailsPage from '@/shared/base-details-page';
 import useDetailsPageModals from '@/shared/base-details-page/hooks/useDetailsPageModals';
+import EditModal from '@/shared/base-modal/edit-modal';
+import { getModalTitle } from '@/shared/base-modal/edit-modal/utils';
 import useFormState from '@/shared/hooks/useFormState';
 import { getElevatorRecordInfo } from '@/shared/utils';
 
 import { ElevatorRecordFormValues } from '../../types';
 import { convertElevatorRecordToFormValues } from '../../utils';
+import EditElevatorRecordForm from '../edit-elevator-record-form';
 import { elevatorRecordEditFormSchema } from '../edit-elevator-record-form/validation';
 import useEditElevatorRecordForm from '../elevator-record-form/hooks/useEditElevatorRecordForm';
 
@@ -48,6 +51,23 @@ const ElevatorRecordDetails = () => {
 
   const { isUpdateRecordLoading, onEditElevatorRecord } = useEditElevatorRecordForm({ onReset, elevatorRecord });
 
+  const ELEVATOR_RECORD_DETAILS_MODALS_CONFIG = [
+    {
+      id: 1,
+      content: (
+        <EditModal
+          isDisabled={!formState.formState.isDirty || isUpdateRecordLoading}
+          isOpen={isEditModalOpen}
+          title={getModalTitle(title, true)}
+          onClose={onReset}
+          onSubmit={formState.handleSubmit(onEditElevatorRecord)}
+        >
+          <EditElevatorRecordForm elevatorRecord={elevatorRecord} />
+        </EditModal>
+      ),
+    },
+  ];
+
   return (
     <FormProvider {...formState}>
       <BaseDetailsPage
@@ -56,7 +76,7 @@ const ElevatorRecordDetails = () => {
         error={error}
         errorMessage={`Failed to fetch Elevator Record Details by ${elevatorRecordId}`}
         loading={loading}
-        modalConfig={[]}
+        modalConfig={ELEVATOR_RECORD_DETAILS_MODALS_CONFIG}
         title={title}
         onOpenDeleteModal={onOpenDeleteModal}
         onOpenEditModal={onOpenEditModal}
