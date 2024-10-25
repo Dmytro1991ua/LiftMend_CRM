@@ -21,7 +21,11 @@ import useFetchRepairJobs from '../../hooks';
 
 import { REPAIR_JOB_COLUMNS } from './columns';
 import { getRepairJobFilterConfig } from './config';
-import { DEFAULT_REPAIR_JOBS_TABLE_EMPTY_TABLE_MESSAGE, DEFAULT_SEARCH_INPUT_PLACEHOLDER } from './constants';
+import {
+  DEFAULT_REPAIR_JOBS_TABLE_EMPTY_TABLE_MESSAGE,
+  DEFAULT_REPAIR_JOB_TABLE_ROW_TOOLTIP_MESSAGE,
+  DEFAULT_SEARCH_INPUT_PLACEHOLDER,
+} from './constants';
 
 const RepairJobTable = () => {
   const router = useRouter();
@@ -71,6 +75,7 @@ const RepairJobTable = () => {
         loadMore={onNext}
         loading={loading}
         refetch={refetch}
+        rowTooltipMessage={DEFAULT_REPAIR_JOB_TABLE_ROW_TOOLTIP_MESSAGE}
         searchFieldPlaceholder={DEFAULT_SEARCH_INPUT_PLACEHOLDER}
         tableName={TableNames.RepairJobsTable}
         tableStorageState={tableStorageState}
