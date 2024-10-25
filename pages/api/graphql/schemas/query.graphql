@@ -13,4 +13,5 @@ type Query {
     filterOptions: ElevatorRecordFilterOptions
   ): ElevatorRecordConnection!
   getElevatorRecordById(id: ID!): ElevatorRecord!
+  getTechnicianRecords(paginationOptions: PaginationOptions): TechnicianRecordConnection!
 }
