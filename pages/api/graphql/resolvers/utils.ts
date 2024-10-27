@@ -2,6 +2,8 @@ import { orderBy as _orderBy } from 'lodash';
 
 import {
   ElevatorRecordFilterOptions,
+  ElevatorRecordSortField,
+  ElevatorRecordSortInput,
   InputMaybe,
   PaginationOptions,
   RepairJobFilterOptions,
@@ -113,4 +115,22 @@ export const createElevatorRecordFilterOptions = (filterOptions: InputMaybe<Elev
     ...(technicianName && technicianName.length > 0 && { technicianName: { in: technicianName } }),
     ...(status && status.length > 0 && { status: { in: status } }),
   };
+};
+
+export const createElevatorRecordSortOptions = (
+  sortOptions: InputMaybe<ElevatorRecordSortInput>
+): Record<string, string> => {
+  const fieldMap: { [key in ElevatorRecordSortField]: string } = {
+    [ElevatorRecordSortField.Status]: 'status',
+    [ElevatorRecordSortField.LastMaintenanceDate]: 'lastMaintenanceDate',
+    [ElevatorRecordSortField.NextMaintenanceDate]: 'nextMaintenanceDate',
+    [ElevatorRecordSortField.ElevatorType]: 'elevatorType',
+    [ElevatorRecordSortField.BuildingName]: 'buildingName',
+    [ElevatorRecordSortField.ElevatorLocation]: 'elevatorLocation',
+    [ElevatorRecordSortField.TechnicianName]: 'technicianName',
+  };
+
+  return sortOptions?.field && sortOptions?.order
+    ? { [fieldMap[sortOptions.field]]: sortOptions.order.toLowerCase() }
+    : {};
 };

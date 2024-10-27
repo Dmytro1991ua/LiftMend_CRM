@@ -37,7 +37,7 @@ export const ELEVATOR_MANAGEMENT_COLUMNS: ColumnDef<ElevatorRecord>[] = [
   {
     accessorKey: 'id',
     header: 'Record Id',
-    enableResizing: true,
+    enableResizing: false,
     enableSorting: false,
     size: 320,
     maxSize: 320,
@@ -46,6 +46,7 @@ export const ELEVATOR_MANAGEMENT_COLUMNS: ColumnDef<ElevatorRecord>[] = [
     accessorKey: 'elevatorLocation',
     header: 'Elevator Location',
     enableResizing: true,
+    enableSorting: true,
     size: 180,
     minSize: 120,
     maxSize: 350,
@@ -53,7 +54,8 @@ export const ELEVATOR_MANAGEMENT_COLUMNS: ColumnDef<ElevatorRecord>[] = [
   {
     accessorKey: 'capacity',
     header: 'Capacity',
-    enableResizing: true,
+    enableResizing: false,
+    enableSorting: false,
     size: 100,
     minSize: 100,
     maxSize: 120,

@@ -110,7 +110,12 @@ export type ElevatorRecordEdge = Edge & {
 };
 
 export type ElevatorRecordFilterOptions = {
+  buildingName?: InputMaybe<Array<Scalars['String']['input']>>;
+  elevatorLocation?: InputMaybe<Array<Scalars['String']['input']>>;
+  elevatorType?: InputMaybe<Array<Scalars['String']['input']>>;
   searchTerm?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<Array<Scalars['String']['input']>>;
+  technicianName?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 export type ElevatorRecordFormData = {
@@ -120,6 +125,22 @@ export type ElevatorRecordFormData = {
   elevatorStatuses: Maybe<Array<Scalars['String']['output']>>;
   elevatorTypes: Array<Scalars['String']['output']>;
   technicianNames: Array<Scalars['String']['output']>;
+};
+
+export const ElevatorRecordSortField = {
+  BuildingName: 'BUILDING_NAME',
+  ElevatorLocation: 'ELEVATOR_LOCATION',
+  ElevatorType: 'ELEVATOR_TYPE',
+  LastMaintenanceDate: 'LAST_MAINTENANCE_DATE',
+  NextMaintenanceDate: 'NEXT_MAINTENANCE_DATE',
+  Status: 'STATUS',
+  TechnicianName: 'TECHNICIAN_NAME',
+} as const;
+
+export type ElevatorRecordSortField = (typeof ElevatorRecordSortField)[keyof typeof ElevatorRecordSortField];
+export type ElevatorRecordSortInput = {
+  field?: InputMaybe<ElevatorRecordSortField>;
+  order?: InputMaybe<OrderOption>;
 };
 
 export type Mutation = {
@@ -194,6 +215,7 @@ export type Query = {
 export type QueryGetElevatorRecordsArgs = {
   filterOptions?: InputMaybe<ElevatorRecordFilterOptions>;
   paginationOptions?: InputMaybe<PaginationOptions>;
+  sortOptions?: InputMaybe<ElevatorRecordSortInput>;
 };
 
 export type QueryGetRepairJobByIdArgs = {
@@ -477,6 +499,7 @@ export type GetElevatorRecordFormDataQuery = {
 export type GetElevatorRecordsQueryVariables = Exact<{
   paginationOptions?: InputMaybe<PaginationOptions>;
   filterOptions?: InputMaybe<ElevatorRecordFilterOptions>;
+  sortOptions?: InputMaybe<ElevatorRecordSortInput>;
 }>;
 
 export type GetElevatorRecordsQuery = {

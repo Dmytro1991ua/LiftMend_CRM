@@ -11,5 +11,6 @@ type Query {
   getElevatorRecords(
     paginationOptions: PaginationOptions
     filterOptions: ElevatorRecordFilterOptions
+    sortOptions: ElevatorRecordSortInput
   ): ElevatorRecordConnection!
 }

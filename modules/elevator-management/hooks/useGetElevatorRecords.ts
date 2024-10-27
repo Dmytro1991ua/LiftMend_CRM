@@ -4,9 +4,13 @@ import { ApolloQueryResult, useQuery } from '@apollo/client';
 import { SortingState } from '@tanstack/react-table';
 
 import { GET_ELEVATOR_RECORDS } from '@/graphql/schemas';
-import { GetElevatorRecordsQuery, QueryGetElevatorRecordsArgs } from '@/graphql/types/client/generated_types';
+import {
+  ElevatorRecordSortField,
+  GetElevatorRecordsQuery,
+  QueryGetElevatorRecordsArgs,
+} from '@/graphql/types/client/generated_types';
 import { TableFilters } from '@/shared/base-table/types';
-import { convertStoredFiltersToQueryFormat } from '@/shared/base-table/utils';
+import { convertStoredFiltersToQueryFormat, formatTableSortingToQueryFormat } from '@/shared/base-table/utils';
 import {
   DEFAULT_PAGINATION,
   DEFAULT_PAGINATION_LIMIT,
@@ -37,6 +41,8 @@ const useGetElevatorRecords = <T>(): UseGetElevatorRecords<T> => {
     TableFilters<T>
   >(TABLE_STATE_STORAGE_KEY, StorageTableName.ElevatorManagementTable, undefined);
 
+  const { field, order } = useMemo(() => formatTableSortingToQueryFormat(tableStorageState), [tableStorageState]);
+
   const searchTerm = useMemo(
     () => tableStorageState.filters?.searchTerm || '',
     [tableStorageState.filters?.searchTerm]
@@ -57,6 +63,10 @@ const useGetElevatorRecords = <T>(): UseGetElevatorRecords<T> => {
     {
       variables: {
         paginationOptions: DEFAULT_PAGINATION,
+        sortOptions: {
+          field: field as ElevatorRecordSortField,
+          order,
+        },
         filterOptions: {
           searchTerm,
           ...filters,
