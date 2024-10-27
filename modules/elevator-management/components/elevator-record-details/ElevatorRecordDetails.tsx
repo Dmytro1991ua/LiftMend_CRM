@@ -6,13 +6,17 @@ import { FormProvider } from 'react-hook-form';
 
 import BaseDetailsPage from '@/shared/base-details-page';
 import useDetailsPageModals from '@/shared/base-details-page/hooks/useDetailsPageModals';
+import DeleteModal from '@/shared/base-modal/delete-modal';
 import EditModal from '@/shared/base-modal/edit-modal';
 import { getModalTitle } from '@/shared/base-modal/edit-modal/utils';
 import useFormState from '@/shared/hooks/useFormState';
+import { getDeleteModalDescription } from '@/shared/repair-job/utils';
 import { getElevatorRecordInfo } from '@/shared/utils';
 
+import { DEFAULT_DELETE_ELEVATOR_MODAL_TITLE } from '../../constants';
 import { ElevatorRecordFormValues } from '../../types';
 import { convertElevatorRecordToFormValues } from '../../utils';
+import useElevatorRecordDeletion from '../delete-action-cell/hooks/useElevatorRecordDeletion';
 import EditElevatorRecordForm from '../edit-elevator-record-form';
 import { elevatorRecordEditFormSchema } from '../edit-elevator-record-form/validation';
 import useEditElevatorRecordForm from '../elevator-record-form/hooks/useEditElevatorRecordForm';
@@ -51,6 +55,12 @@ const ElevatorRecordDetails = () => {
 
   const { isUpdateRecordLoading, onEditElevatorRecord } = useEditElevatorRecordForm({ onReset, elevatorRecord });
 
+  const { isDeleteElevatorRecordLoading, onHandleDeleteElevatorRecord } = useElevatorRecordDeletion({
+    onCloseModal: onCloseDeleteModal,
+    id: elevatorRecord.id,
+    onRedirect: () => back(),
+  });
+
   const ELEVATOR_RECORD_DETAILS_MODALS_CONFIG = [
     {
       id: 1,
@@ -64,6 +74,20 @@ const ElevatorRecordDetails = () => {
         >
           <EditElevatorRecordForm elevatorRecord={elevatorRecord} />
         </EditModal>
+      ),
+    },
+    {
+      id: 2,
+      content: (
+        <DeleteModal
+          description={getDeleteModalDescription(title)}
+          isDisabled={isDeleteElevatorRecordLoading}
+          isLoading={isDeleteElevatorRecordLoading}
+          isOpen={isDeleteModalOpen}
+          title={DEFAULT_DELETE_ELEVATOR_MODAL_TITLE}
+          onClose={onCloseDeleteModal}
+          onSubmit={onHandleDeleteElevatorRecord}
+        />
       ),
     },
   ];
