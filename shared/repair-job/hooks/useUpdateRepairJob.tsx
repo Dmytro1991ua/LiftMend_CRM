@@ -12,7 +12,7 @@ import {
 import { RepairJobFormValues } from '@/shared/repair-job/edit-repair-job-form/types';
 import { getCalendarEventInfo, getFieldsToUpdateForMutation } from '@/shared/utils';
 
-import { convertFormFieldsToRepairJob } from '../../../modules/repair-job-details/utils';
+import { convertFormFieldsToRepairJob } from '../repair-job-details/utils';
 
 type UseUpdateRepairJobProps = {
   onSuccess?: (message: string) => void;

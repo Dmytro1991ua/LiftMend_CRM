@@ -3,13 +3,13 @@ import { useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/router';
 import { FormProvider } from 'react-hook-form';
-import { Audio } from 'react-loader-spinner';
 
+import BaseDetailsPage from '@/shared/base-details-page';
+import useDetailsPageModals from '@/shared/base-details-page/hooks/useDetailsPageModals';
 import DeleteModal from '@/shared/base-modal/delete-modal';
 import EditModal from '@/shared/base-modal/edit-modal';
 import { getModalTitle } from '@/shared/base-modal/edit-modal/utils';
 import useFormState from '@/shared/hooks/useFormState';
-import QueryResponse from '@/shared/query-response';
 import { DEFAULT_DELETE_MODAL_TITLE } from '@/shared/repair-job/constants';
 import EditRepairJobForm from '@/shared/repair-job/edit-repair-job-form';
 import { RepairJobFormValues } from '@/shared/repair-job/edit-repair-job-form/types';
@@ -19,11 +19,8 @@ import useRepairJobFormHandler from '@/shared/repair-job/hooks/useRepairJobFormH
 import { getDeleteModalDescription } from '@/shared/repair-job/utils';
 import { getCalendarEventInfo } from '@/shared/utils';
 
-import RepairJobContent from './components/repair-job-content';
-import RepairJobHeader from './components/repair-job-header';
 import { repairJobSectionsConfig } from './config';
 import useFetchRepairJobById from './hooks/useFetchRepairJobById';
-import useRepairJobDetailsModals from './hooks/useRepairJobDetailsModals';
 import { convertRepairJobToFormValues } from './utils';
 
 const RepairJobDetails = () => {
@@ -41,7 +38,7 @@ const RepairJobDetails = () => {
     onOpenEditModal,
     onCloseDeleteModal,
     onOpenDeleteModal,
-  } = useRepairJobDetailsModals();
+  } = useDetailsPageModals();
 
   const currentRepairJob = useMemo(() => convertRepairJobToFormValues(repairJob), [repairJob]);
 
@@ -102,38 +99,17 @@ const RepairJobDetails = () => {
 
   return (
     <FormProvider {...formState}>
-      <section>
-        <RepairJobHeader
-          description={description}
-          loading={loading}
-          title={title}
-          onOpenDeleteModal={onOpenDeleteModal}
-          onOpenEditModal={onOpenEditModal}
-        />
-        <div className='content-wrapper h-[72vh] overflow-y-auto overflow-x-hidden'>
-          <>
-            <QueryResponse
-              errorDescription={error}
-              errorMessage={`Failed to fetch Repair Job Details by ${repairJobId}`}
-              loading={loading}
-              loadingComponent={
-                <Audio
-                  ariaLabel='bars-loading'
-                  color='#2563eb'
-                  height='80'
-                  visible={true}
-                  width='80'
-                  wrapperClass='h-full items-center justify-center'
-                />
-              }
-            />
-            <RepairJobContent error={error} loading={loading} repairJobSections={repairJobSections} />
-          </>
-        </div>
-        {REPAIR_JOB_DETAILS_MODALS_CONFIG.map((config) => (
-          <div key={config.id}>{config.content}</div>
-        ))}
-      </section>
+      <BaseDetailsPage
+        description={description}
+        detailsPageSections={repairJobSections}
+        error={error}
+        errorMessage={`Failed to fetch Repair Job Details by ${repairJobId}`}
+        loading={loading}
+        modalConfig={REPAIR_JOB_DETAILS_MODALS_CONFIG}
+        title={title}
+        onOpenDeleteModal={onOpenDeleteModal}
+        onOpenEditModal={onOpenEditModal}
+      />
     </FormProvider>
   );
 };

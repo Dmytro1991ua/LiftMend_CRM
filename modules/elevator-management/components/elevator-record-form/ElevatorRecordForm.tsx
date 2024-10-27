@@ -4,14 +4,14 @@ import BaseStepper from '@/shared/base-stepper';
 
 import { ELEVATOR_RECORD_FORM_STEPS, ELEVATOR_RECORD_STEP_CONTENT_CONFIG } from '../../constants';
 
-import useElevatorRecordForm from './hooks/useElevatorRecordForm';
+import useCreateElevatorRecordForm from './hooks/useCrateElevatorRecordForm';
 
 export type ElevatorRecordFormProps = {
   onReset: () => void;
 };
 
 const ElevatorRecordForm = ({ onReset }: ElevatorRecordFormProps) => {
-  const { isCreateRecordLoading, onHandleNext, onSubmit } = useElevatorRecordForm({ onReset });
+  const { isCreateRecordLoading, onHandleNext, onSubmit } = useCreateElevatorRecordForm({ onReset });
 
   return (
     <Form>

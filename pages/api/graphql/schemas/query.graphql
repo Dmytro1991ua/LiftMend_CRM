@@ -13,4 +13,5 @@ type Query {
     filterOptions: ElevatorRecordFilterOptions
     sortOptions: ElevatorRecordSortInput
   ): ElevatorRecordConnection!
+  getElevatorRecordById(id: ID!): ElevatorRecord!
 }

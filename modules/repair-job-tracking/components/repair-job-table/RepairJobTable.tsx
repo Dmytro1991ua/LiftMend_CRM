@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { Row } from '@tanstack/react-table';
 import { useRouter } from 'next/router';
@@ -10,7 +10,7 @@ import {
 } from '@/graphql/types/client/generated_types';
 import BaseTable from '@/shared/base-table';
 import useSearchInTable from '@/shared/base-table/hooks/useSearchInTable';
-import { getEmptyTableMessage } from '@/shared/base-table/utils';
+import { getEmptyTableMessage, onHandleRowClick } from '@/shared/base-table/utils';
 import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions';
 import { DropdownOptions } from '@/shared/hooks/useFetchDropdownOptions/config';
 import QueryResponse from '@/shared/query-response';
@@ -21,7 +21,11 @@ import useFetchRepairJobs from '../../hooks';
 
 import { REPAIR_JOB_COLUMNS } from './columns';
 import { getRepairJobFilterConfig } from './config';
-import { DEFAULT_REPAIR_JOBS_TABLE_EMPTY_TABLE_MESSAGE, DEFAULT_SEARCH_INPUT_PLACEHOLDER } from './constants';
+import {
+  DEFAULT_REPAIR_JOBS_TABLE_EMPTY_TABLE_MESSAGE,
+  DEFAULT_REPAIR_JOB_TABLE_ROW_TOOLTIP_MESSAGE,
+  DEFAULT_SEARCH_INPUT_PLACEHOLDER,
+} from './constants';
 
 const RepairJobTable = () => {
   const router = useRouter();
@@ -46,19 +50,16 @@ const RepairJobTable = () => {
     [searchTerm, repairJobs.length]
   );
 
-  const onHandleRowClick = (rowData: Row<RepairJob>) => {
-    const {
-      original: { id: repairJobId },
-    } = rowData;
+  const onRepairJobRowClick = useCallback(
+    (rowData: Row<RepairJob>) => {
+      const {
+        original: { id },
+      } = rowData;
 
-    // Check if any text is selected by the user (e.g., for copying)
-    const selectedText = window.getSelection()?.toString();
-
-    // If no text is selected, proceed to navigate to the repair job detail page
-    if (!selectedText) {
-      router.push(`${AppRoutes.RepairJobTracking}/${repairJobId}`);
-    }
-  };
+      onHandleRowClick({ id, route: AppRoutes.RepairJobTracking, router });
+    },
+    [router]
+  );
 
   return (
     <>
@@ -74,10 +75,11 @@ const RepairJobTable = () => {
         loadMore={onNext}
         loading={loading}
         refetch={refetch}
+        rowTooltipMessage={DEFAULT_REPAIR_JOB_TABLE_ROW_TOOLTIP_MESSAGE}
         searchFieldPlaceholder={DEFAULT_SEARCH_INPUT_PLACEHOLDER}
         tableName={TableNames.RepairJobsTable}
         tableStorageState={tableStorageState}
-        onHandleRowClick={onHandleRowClick}
+        onHandleRowClick={onRepairJobRowClick}
         onSetTableStorageState={onSetTableStorageState}
       />
     </>

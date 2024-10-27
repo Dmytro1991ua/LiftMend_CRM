@@ -5,16 +5,21 @@ import { CirclesWithBar } from 'react-loader-spinner';
 
 import BaseAlert from '../base-alert/BaseAlert';
 import QueryResponse from '../query-response';
-import { FormFieldConfig } from '../types';
+import { ItemConfig } from '../types';
 
-type GenericFormProps<T> = {
+type EditEntityFormProps<T> = {
   formValues: T;
-  fieldConfigs: FormFieldConfig[];
+  fieldConfigs: ItemConfig[];
   loading: boolean;
   error?: string;
 };
 
-const EditEntityForm = <T extends FieldValues>({ formValues, fieldConfigs, loading, error }: GenericFormProps<T>) => {
+const EditEntityForm = <T extends FieldValues>({
+  formValues,
+  fieldConfigs,
+  loading,
+  error,
+}: EditEntityFormProps<T>) => {
   const { setValue, clearErrors } = useFormContext<T>();
 
   useEffect(() => {

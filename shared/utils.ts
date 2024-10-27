@@ -2,7 +2,7 @@ import { isEqual as _isEqual } from 'lodash';
 
 import { ActiveRoute } from '@/types/type';
 
-import { CalendarEventInfo, CalendarEventInfoPayload } from './types';
+import { CalendarEventInfo, CalendarEventInfoPayload, ElevatorRecord } from './types';
 
 export const getCommonFormLabelErrorStyles = (hasError: boolean): string =>
   `text-sm font-bold ${hasError ? 'text-red-400' : ''}`;
@@ -67,4 +67,13 @@ export const getFieldsToUpdateForMutation = <T extends object>(updatedObject: T,
   });
 
   return fieldsToUpdate;
+};
+
+export const getElevatorRecordInfo = (elevatorRecord: ElevatorRecord): CalendarEventInfo => {
+  const { elevatorLocation, elevatorType, buildingName } = elevatorRecord;
+
+  return {
+    description: `Elevator Record of ${elevatorType} at ${buildingName} - ${elevatorLocation}`,
+    title: `${elevatorType} Information`,
+  };
 };

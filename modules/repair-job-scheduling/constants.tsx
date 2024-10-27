@@ -24,3 +24,5 @@ export const STEP_VALIDATION_CONFIG: Record<number, keyof RepairJobFromFields> =
 
 export const DEFAULT_SCHEDULE_REPAIR_JOB_SUCCESS_MESSAGE = 'Successfully scheduled repair job';
 export const DEFAULT_SCHEDULE_REPAIR_JOB_FAIL_MESSAGE = 'Failed to schedule repair job';
+export const DEFAULT_ELEVATOR_RECORD_TABLE_ROW_TOOLTIP_MESSAGE =
+  'Click on Elevator Record table row to see details page';

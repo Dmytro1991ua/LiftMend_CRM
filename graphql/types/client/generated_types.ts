@@ -205,11 +205,16 @@ export type PaginationOptions = {
 export type Query = {
   __typename?: 'Query';
   getCalendarEvents: Array<CalendarEvent>;
+  getElevatorRecordById: ElevatorRecord;
   getElevatorRecordFormData: ElevatorRecordFormData;
   getElevatorRecords: ElevatorRecordConnection;
   getRepairJobById: RepairJob;
   getRepairJobScheduleData: RepairJobScheduleData;
   getRepairJobs: RepairJobConnection;
+};
+
+export type QueryGetElevatorRecordByIdArgs = {
+  id: Scalars['ID']['input'];
 };
 
 export type QueryGetElevatorRecordsArgs = {
@@ -480,6 +485,27 @@ export type GetCalendarEventsQuery = {
     description: string | null;
     repairJobId: string | null;
   }>;
+};
+
+export type GetElevatorRecordByIdQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+export type GetElevatorRecordByIdQuery = {
+  __typename?: 'Query';
+  getElevatorRecordById: {
+    __typename?: 'ElevatorRecord';
+    id: string;
+    elevatorType: string;
+    buildingName: string;
+    elevatorLocation: string;
+    technicianName: string;
+    contactInformation: string;
+    lastMaintenanceDate: any;
+    nextMaintenanceDate: any;
+    capacity: number;
+    status: string;
+  };
 };
 
 export type GetElevatorRecordFormDataQueryVariables = Exact<{ [key: string]: never }>;

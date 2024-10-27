@@ -206,11 +206,16 @@ export type PaginationOptions = {
 export type Query = {
   __typename?: 'Query';
   getCalendarEvents: Array<CalendarEvent>;
+  getElevatorRecordById: ElevatorRecord;
   getElevatorRecordFormData: ElevatorRecordFormData;
   getElevatorRecords: ElevatorRecordConnection;
   getRepairJobById: RepairJob;
   getRepairJobScheduleData: RepairJobScheduleData;
   getRepairJobs: RepairJobConnection;
+};
+
+export type QueryGetElevatorRecordByIdArgs = {
+  id: Scalars['ID']['input'];
 };
 
 export type QueryGetElevatorRecordsArgs = {
@@ -669,6 +674,12 @@ export type QueryResolvers<
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = ResolversObject<{
   getCalendarEvents?: Resolver<Array<ResolversTypes['CalendarEvent']>, ParentType, ContextType>;
+  getElevatorRecordById?: Resolver<
+    ResolversTypes['ElevatorRecord'],
+    ParentType,
+    ContextType,
+    RequireFields<QueryGetElevatorRecordByIdArgs, 'id'>
+  >;
   getElevatorRecordFormData?: Resolver<ResolversTypes['ElevatorRecordFormData'], ParentType, ContextType>;
   getElevatorRecords?: Resolver<
     ResolversTypes['ElevatorRecordConnection'],

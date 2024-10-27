@@ -10,7 +10,7 @@ import BaseTextarea from '@/shared/base-textarea';
 import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions';
 import { DropdownOptions } from '@/shared/hooks/useFetchDropdownOptions/config';
 import QueryResponse from '@/shared/query-response';
-import { FormFieldConfig } from '@/shared/types';
+import { ItemConfig } from '@/shared/types';
 
 import { RepairJobFromFields } from '../repair-job-tracking-from/validation';
 
@@ -23,7 +23,7 @@ const JobDetails = () => {
     error,
   } = useFetchDropdownOptions<GetRepairJobFromDataQuery>(DropdownOptions.RepairJob);
 
-  const JOB_DETAILS_FORM_FIELDS_CONFIG: FormFieldConfig[] = [
+  const JOB_DETAILS_FORM_FIELDS_CONFIG: ItemConfig[] = [
     {
       id: 1,
       content: (

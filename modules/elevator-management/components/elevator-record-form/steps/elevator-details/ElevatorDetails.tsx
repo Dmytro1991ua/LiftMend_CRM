@@ -10,7 +10,7 @@ import ControlledSingleSelect from '@/shared/base-select/components/controlled-s
 import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions';
 import { DropdownOptions } from '@/shared/hooks/useFetchDropdownOptions/config';
 import QueryResponse from '@/shared/query-response';
-import { FormFieldConfig } from '@/shared/types';
+import { ItemConfig } from '@/shared/types';
 
 import { ElevatorRecordFormFields } from '../../validation';
 
@@ -23,7 +23,7 @@ const ElevatorDetails = () => {
     error,
   } = useFetchDropdownOptions<GetElevatorRecordFormDataQuery>(DropdownOptions.ElevatorManagement);
 
-  const ELEVATOR_DETAILS_FORM_FIELDS_CONFIG: FormFieldConfig[] = [
+  const ELEVATOR_DETAILS_FORM_FIELDS_CONFIG: ItemConfig[] = [
     {
       id: 1,
       content: (

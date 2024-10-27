@@ -10,13 +10,13 @@ import { getModalTitle } from '@/shared/base-modal/edit-modal/utils';
 import { useModal } from '@/shared/hooks';
 import useFormState from '@/shared/hooks/useFormState';
 import { ElevatorRecord } from '@/shared/types';
+import { getElevatorRecordInfo } from '@/shared/utils';
 
 import { ElevatorRecordFormValues } from '../../types';
 import { convertElevatorRecordToFormValues } from '../../utils';
 import EditElevatorRecordForm from '../edit-elevator-record-form';
 import { elevatorRecordEditFormSchema } from '../edit-elevator-record-form/validation';
-import useElevatorRecordForm from '../elevator-record-form/hooks';
-
+import useEditElevatorRecordForm from '../elevator-record-form/hooks/useEditElevatorRecordForm';
 type EditActionCellProps = {
   elevatorRecord: ElevatorRecord;
 };
@@ -26,13 +26,15 @@ const EditActionCell = ({ elevatorRecord }: EditActionCellProps) => {
 
   const currentElevatorRecord = useMemo(() => convertElevatorRecordToFormValues(elevatorRecord), [elevatorRecord]);
 
+  const { title } = useMemo(() => getElevatorRecordInfo(elevatorRecord), [elevatorRecord]);
+
   const { formState, onReset } = useFormState<ElevatorRecordFormValues>({
     initialValues: currentElevatorRecord,
     onCloseModal,
     resolver: zodResolver(elevatorRecordEditFormSchema),
   });
 
-  const { isUpdateRecordLoading, onEditElevatorRecord } = useElevatorRecordForm({ onReset, elevatorRecord });
+  const { isUpdateRecordLoading, onEditElevatorRecord } = useEditElevatorRecordForm({ onReset, elevatorRecord });
 
   const onHandleEditClick = (event: React.MouseEvent) => {
     event.stopPropagation();
@@ -49,7 +51,7 @@ const EditActionCell = ({ elevatorRecord }: EditActionCellProps) => {
         <EditModal
           isDisabled={!formState.formState.isDirty || isUpdateRecordLoading}
           isOpen={isModalOpen}
-          title={getModalTitle(elevatorRecord.elevatorType, true, 'elevator record')}
+          title={getModalTitle(title, true)}
           onClose={onCloseModal}
           onSubmit={formState.handleSubmit(onEditElevatorRecord)}
         >
