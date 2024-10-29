@@ -1,3 +1,13 @@
+enum ElevatorRecordSortField {
+  STATUS
+  ELEVATOR_TYPE
+  BUILDING_NAME
+  ELEVATOR_LOCATION
+  TECHNICIAN_NAME
+  LAST_MAINTENANCE_DATE
+  NEXT_MAINTENANCE_DATE
+}
+
 type ElevatorRecord implements Node {
   id: ID!
   elevatorType: String!
@@ -66,4 +76,9 @@ input ElevatorRecordFilterOptions {
   elevatorLocation: [String!]
   technicianName: [String!]
   status: [String!]
+}
+
+input ElevatorRecordSortInput {
+  field: ElevatorRecordSortField
+  order: OrderOption
 }

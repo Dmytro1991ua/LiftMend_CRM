@@ -11,6 +11,7 @@ import {
 
 import {
   createElevatorRecordFilterOptions,
+  createElevatorRecordSortOptions,
   createRepairJobFilterOptions,
   createRepairJobSortOptions,
   fetchFormDropdownData,
@@ -129,13 +130,17 @@ const Query: QueryResolvers = {
   },
   getElevatorRecords: async (
     _,
-    { paginationOptions, filterOptions },
+    { paginationOptions, filterOptions, sortOptions },
     { prisma }
   ): Promise<ElevatorRecordConnection> => {
     const filters = createElevatorRecordFilterOptions(filterOptions);
+    const orderBy = createElevatorRecordSortOptions(sortOptions);
 
     const elevatorRecords = await prisma.elevatorRecord.findMany({
+      skip: paginationOptions?.offset,
+      take: paginationOptions?.limit,
       where: filters,
+      orderBy,
     });
 
     const totalItems = await prisma.elevatorRecord.count();
