@@ -130,6 +130,21 @@ export type ElevatorRecordFormData = {
   technicianNames: Array<Scalars['String']['output']>;
 };
 
+export enum ElevatorRecordSortField {
+  BuildingName = 'BUILDING_NAME',
+  ElevatorLocation = 'ELEVATOR_LOCATION',
+  ElevatorType = 'ELEVATOR_TYPE',
+  LastMaintenanceDate = 'LAST_MAINTENANCE_DATE',
+  NextMaintenanceDate = 'NEXT_MAINTENANCE_DATE',
+  Status = 'STATUS',
+  TechnicianName = 'TECHNICIAN_NAME',
+}
+
+export type ElevatorRecordSortInput = {
+  field?: InputMaybe<ElevatorRecordSortField>;
+  order?: InputMaybe<OrderOption>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createElevatorRecord: ElevatorRecord;
@@ -207,6 +222,7 @@ export type QueryGetElevatorRecordByIdArgs = {
 export type QueryGetElevatorRecordsArgs = {
   filterOptions?: InputMaybe<ElevatorRecordFilterOptions>;
   paginationOptions?: InputMaybe<PaginationOptions>;
+  sortOptions?: InputMaybe<ElevatorRecordSortInput>;
 };
 
 export type QueryGetRepairJobByIdArgs = {
@@ -457,6 +473,8 @@ export type ResolversTypes = ResolversObject<{
   ElevatorRecordEdge: ResolverTypeWrapper<ElevatorRecordEdge>;
   ElevatorRecordFilterOptions: ElevatorRecordFilterOptions;
   ElevatorRecordFormData: ResolverTypeWrapper<ElevatorRecordFormData>;
+  ElevatorRecordSortField: ElevatorRecordSortField;
+  ElevatorRecordSortInput: ElevatorRecordSortInput;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
@@ -499,6 +517,7 @@ export type ResolversParentTypes = ResolversObject<{
   ElevatorRecordEdge: ElevatorRecordEdge;
   ElevatorRecordFilterOptions: ElevatorRecordFilterOptions;
   ElevatorRecordFormData: ElevatorRecordFormData;
+  ElevatorRecordSortInput: ElevatorRecordSortInput;
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
   Mutation: {};
