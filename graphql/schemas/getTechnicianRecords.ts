@@ -1,0 +1,27 @@
+import gql from 'graphql-tag';
+
+import { TECHNICIAN_RECORD_FRAGMENT } from '../fragments/technicianRecordFragment';
+
+import { TechnicianRecord } from './../types/server/generated_types';
+
+export const GET_TECHNICIAN_RECORDS = gql`
+  query GetTechnicianRecords($paginationOptions: PaginationOptions) {
+    getTechnicianRecords(paginationOptions: $paginationOptions) {
+      edges {
+        cursor
+        node {
+          ...TechnicianRecordFields
+        }
+      }
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+      total
+    }
+  }
+
+  ${TECHNICIAN_RECORD_FRAGMENT}
+`;

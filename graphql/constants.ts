@@ -20,3 +20,5 @@ export const ELEVATOR_RECORD_KEY_FIELDS = [
   'sortOptions',
   ['field', 'order'],
 ];
+
+export const TECHNICIAN_RECORD_KEY_FIELDS = [];

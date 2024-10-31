@@ -160,7 +160,10 @@ const Query: QueryResolvers = {
     return elevatorRecord || null;
   },
   getTechnicianRecords: async (_, { paginationOptions }, { prisma }): Promise<TechnicianRecordConnection> => {
-    const technicianRecords = await prisma.technicianRecord.findMany();
+    const technicianRecords = await prisma.technicianRecord.findMany({
+      skip: paginationOptions?.offset,
+      take: paginationOptions?.limit,
+    });
 
     const totalItems = await prisma.technicianRecord.count();
 

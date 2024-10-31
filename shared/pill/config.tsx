@@ -3,10 +3,10 @@ import {
   BsFillExclamationOctagonFill,
   BsFillExclamationTriangleFill,
 } from 'react-icons/bs';
-import { FaHourglassStart, FaTools } from 'react-icons/fa';
+import { FaHourglassStart, FaTools, FaUserCheck, FaUserSlash } from 'react-icons/fa';
 import { FaClock, FaPause } from 'react-icons/fa6';
 import { IoIosCheckmarkCircle, IoMdCheckmarkCircleOutline } from 'react-icons/io';
-import { MdCancel, MdWarning } from 'react-icons/md';
+import { MdCancel, MdOutlineWorkOutline, MdPersonOff, MdWarning } from 'react-icons/md';
 
 export enum PillStatus {
   Scheduled = 'Scheduled',
@@ -20,6 +20,12 @@ export enum PillStatus {
   High = 'High',
   Medium = 'Medium',
   Low = 'Low',
+  Available = 'Available',
+  Busy = 'Busy',
+  OnLeave = 'On Leave',
+  Inactive = 'Inactive',
+  Active = 'Active',
+  Retired = 'Retired',
 }
 
 type PillConfig = {
@@ -83,5 +89,35 @@ export const PILL_CONFIG: Record<PillStatus, PillConfig> = {
     icon: <BsFillExclamationOctagonFill className='h-6 w-6 text-green-500' />,
     label: PillStatus.Low,
     className: 'text-green-500',
+  },
+  [PillStatus.Available]: {
+    icon: <FaUserCheck className='h-6 w-6 text-green-500' />,
+    label: PillStatus.Available,
+    className: 'text-green-500',
+  },
+  [PillStatus.Busy]: {
+    icon: <FaHourglassStart className='h-6 w-6 text-orange-500' />,
+    label: PillStatus.Busy,
+    className: 'text-orange-500',
+  },
+  [PillStatus.OnLeave]: {
+    icon: <MdPersonOff className='h-6 w-6 text-yellow-500' />,
+    label: PillStatus.OnLeave,
+    className: 'text-yellow-500',
+  },
+  [PillStatus.Inactive]: {
+    icon: <FaUserSlash className='h-6 w-6 text-gray-500' />,
+    label: PillStatus.Inactive,
+    className: 'text-gray-500',
+  },
+  [PillStatus.Active]: {
+    icon: <MdOutlineWorkOutline className='h-6 w-6 text-blue-500' />,
+    label: PillStatus.Active,
+    className: 'text-blue-500',
+  },
+  [PillStatus.Retired]: {
+    icon: <MdCancel className='h-6 w-6 text-gray-400' />,
+    label: PillStatus.Retired,
+    className: 'text-gray-400',
   },
 };

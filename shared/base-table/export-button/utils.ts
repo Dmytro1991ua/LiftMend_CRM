@@ -51,6 +51,7 @@ const getAccessorValue = <T>(cell: Cell<T, unknown>, tableName: TableNames): str
   const customAccessorsMap: Record<TableNames, Record<string, (cell: Cell<T, unknown>) => string>> = {
     [TableNames.RepairJobsTable]: {},
     [TableNames.ElevatorManagementTable]: {},
+    [TableNames.TechnicianManagementTable]: {},
   };
 
   const accessor = customAccessorsMap[tableName]?.[cell.column.id] || columnsValueAccessors[cell.column.id];

@@ -111,7 +111,7 @@ const BaseTable = <T extends object, K, M>({
         onFilterChange={onFilterChange}
         onSearch={onSearch}
       />
-      <div id={SCROLL_WRAPPER_ID}>
+      <div className={cn('overflow-y-auto', className)} id={SCROLL_WRAPPER_ID}>
         <InfiniteScroll
           dataLength={getRowModel().rows.length}
           hasMore={hasMore}
@@ -119,10 +119,10 @@ const BaseTable = <T extends object, K, M>({
             <Bars
               ariaLabel='bars-loading'
               color='#306cce'
-              height='50'
+              height='30'
               visible={hasMore}
-              width='50'
-              wrapperClass='justify-center'
+              width='30'
+              wrapperClass='justify-center py-2'
             />
           }
           next={loadMore}
@@ -130,7 +130,7 @@ const BaseTable = <T extends object, K, M>({
           scrollableTarget={SCROLL_WRAPPER_ID}
           style={{ overflow: INFINITE_SCROLL_OVERFLOW }}
         >
-          <div className={cn('relative w-full rounded-[2rem] border overflow-auto', className)}>
+          <div className={cn('relative w-fit rounded-[2rem] border')}>
             <Table className='w-full table-fixed' data-testid='base-table' style={{ width: getTotalSize() }}>
               <BaseTableHeader columnVisibility={columnVisibility} headerGroups={getHeaderGroups()} />
               <BaseTableBody

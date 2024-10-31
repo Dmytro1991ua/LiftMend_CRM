@@ -211,6 +211,7 @@ export type Query = {
   getRepairJobById: RepairJob;
   getRepairJobScheduleData: RepairJobScheduleData;
   getRepairJobs: RepairJobConnection;
+  getTechnicianRecords: TechnicianRecordConnection;
 };
 
 export type QueryGetElevatorRecordByIdArgs = {
@@ -231,6 +232,10 @@ export type QueryGetRepairJobsArgs = {
   filterOptions?: InputMaybe<RepairJobFilterOptions>;
   paginationOptions?: InputMaybe<PaginationOptions>;
   sortOptions?: InputMaybe<RepairJobSortInput>;
+};
+
+export type QueryGetTechnicianRecordsArgs = {
+  paginationOptions?: InputMaybe<PaginationOptions>;
 };
 
 export type RepairJob = Node & {
@@ -311,6 +316,30 @@ export type ScheduledEventAndRepairJobResponse = {
   repairJob: RepairJob;
 };
 
+export type TechnicianRecord = Node & {
+  __typename?: 'TechnicianRecord';
+  availabilityStatus: Scalars['String']['output'];
+  certifications: Array<Scalars['String']['output']>;
+  contactInformation: Scalars['String']['output'];
+  employmentStatus: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  skills: Array<Scalars['String']['output']>;
+};
+
+export type TechnicianRecordConnection = Connection & {
+  __typename?: 'TechnicianRecordConnection';
+  edges: Array<TechnicianRecordEdges>;
+  pageInfo: PageInfo;
+  total: Scalars['Int']['output'];
+};
+
+export type TechnicianRecordEdges = Edge & {
+  __typename?: 'TechnicianRecordEdges';
+  cursor: Scalars['String']['output'];
+  node: TechnicianRecord;
+};
+
 export type UpdateElevatorRecordInput = {
   buildingName?: InputMaybe<Scalars['String']['input']>;
   capacity?: InputMaybe<Scalars['Int']['input']>;
@@ -387,6 +416,17 @@ export type RepairJobFieldsFragment = {
   startDate: any;
   endDate: any;
   calendarEventId: string | null;
+};
+
+export type TechnicianRecordFieldsFragment = {
+  __typename?: 'TechnicianRecord';
+  id: string;
+  name: string;
+  contactInformation: string;
+  skills: Array<string>;
+  certifications: Array<string>;
+  availabilityStatus: string;
+  employmentStatus: string;
 };
 
 export type CreateElevatorRecordMutationVariables = Exact<{
@@ -632,6 +672,39 @@ export type GetRepairJobsQuery = {
         startDate: any;
         endDate: any;
         calendarEventId: string | null;
+      };
+    }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor: string | null;
+      endCursor: string | null;
+    };
+  };
+};
+
+export type GetTechnicianRecordsQueryVariables = Exact<{
+  paginationOptions?: InputMaybe<PaginationOptions>;
+}>;
+
+export type GetTechnicianRecordsQuery = {
+  __typename?: 'Query';
+  getTechnicianRecords: {
+    __typename?: 'TechnicianRecordConnection';
+    total: number;
+    edges: Array<{
+      __typename?: 'TechnicianRecordEdges';
+      cursor: string;
+      node: {
+        __typename?: 'TechnicianRecord';
+        id: string;
+        name: string;
+        contactInformation: string;
+        skills: Array<string>;
+        certifications: Array<string>;
+        availabilityStatus: string;
+        employmentStatus: string;
       };
     }>;
     pageInfo: {

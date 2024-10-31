@@ -1,11 +1,11 @@
 import { ColumnDef } from '@tanstack/react-table';
 
 import { Checkbox } from '@/components/ui/checkbox';
+import Badge from '@/shared/badge';
 import BaseTableCheckbox from '@/shared/base-table/base-table-checkbox';
 import DatePicker from '@/shared/date-picker';
 import Pill from '@/shared/pill';
 import { PillStatus } from '@/shared/pill/config';
-import TechnicianSkills from '@/shared/repair-job/technician-skills';
 import { RepairJob } from '@/shared/types';
 
 import DeleteActionCell from '../delete-action-cell';
@@ -151,7 +151,7 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
       row: {
         original: { technicianSkills },
       },
-    }) => <TechnicianSkills className='flex flex-col text-center' skills={technicianSkills ?? []} />,
+    }) => <Badge bgColor='bg-teal-600' className='flex flex-col text-center' items={technicianSkills ?? []} />,
     size: 250,
     enableResizing: true,
     enableSorting: false,

@@ -10,6 +10,7 @@ export enum StorageTableName {
 export enum TableNames {
   RepairJobsTable = 'RepairJobs',
   ElevatorManagementTable = 'ElevatorManagement',
+  TechnicianManagementTable = 'TechnicianManagement',
 }
 
 export enum FormFieldLabel {
@@ -87,7 +88,17 @@ export type ElevatorRecord = {
   contactInformation: string;
 };
 
-export type TableModel = RepairJob & ElevatorRecord;
+export type TechnicianRecord = {
+  id: string;
+  availabilityStatus: string;
+  certifications: string[];
+  contactInformation: string;
+  employmentStatus: string;
+  name: string;
+  skills: string[];
+};
+
+export type TableModel = RepairJob & ElevatorRecord & TechnicianRecord;
 export type TableValue = string | Date | string[] | Maybe<string> | unknown;
 
 export type ColumnsValueAccessors = {

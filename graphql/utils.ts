@@ -145,11 +145,15 @@ export const concatPaginationWithEdges = <T extends { edges: unknown[] }>(
   keyArgs,
   merge(existing, incoming, { args }): SafeReadonly<T> & { edges: unknown[] } {
     const offset = args?.paginationOptions?.offset || 0;
-    const mergedEdges = existing && offset ? existing.edges.slice(0) : [];
+    const mergedEdges = existing?.edges.slice() || []; // Start with existing edges
 
     for (let i = 0; i < incoming.edges.length; ++i) {
-      mergedEdges[offset + i] = incoming.edges[i];
+      mergedEdges[offset + i] = incoming.edges[i]; // Append incoming edges
     }
+    console.log({
+      ...incoming,
+      edges: mergedEdges,
+    });
 
     return {
       ...incoming,
