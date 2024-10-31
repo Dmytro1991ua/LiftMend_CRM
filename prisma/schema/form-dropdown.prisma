@@ -42,3 +42,18 @@ model ElevatorStatuses {
   id               Int      @id @default(autoincrement())
   elevatorStatuses String[]
 }
+
+model AvailabilityStatuses {
+  id                   Int      @id @default(autoincrement())
+  availabilityStatuses String[]
+}
+
+model Certifications {
+  id             Int      @id @default(autoincrement())
+  certifications String[]
+}
+
+model EmploymentStatuses {
+  id                 Int      @id @default(autoincrement())
+  employmentStatuses String[]
+}

@@ -7,6 +7,8 @@ import {
   RepairJob,
   RepairJobConnection,
   RepairJobScheduleData,
+  TechnicianRecord,
+  TechnicianRecordConnection,
 } from '@/graphql/types/server/generated_types';
 
 import {
@@ -149,13 +151,25 @@ const Query: QueryResolvers = {
       items: elevatorRecords,
       totalItems,
       paginationOptions,
-      getCursor: (repairJob: ElevatorRecord) => repairJob.id,
+      getCursor: (elevatorRecord: ElevatorRecord) => elevatorRecord.id,
     });
   },
   getElevatorRecordById: async (_, { id }, { prisma }): Promise<ElevatorRecord> => {
     const elevatorRecord = await prisma.elevatorRecord.findUnique({ where: { id } });
 
     return elevatorRecord || null;
+  },
+  getTechnicianRecords: async (_, { paginationOptions }, { prisma }): Promise<TechnicianRecordConnection> => {
+    const technicianRecords = await prisma.technicianRecord.findMany();
+
+    const totalItems = await prisma.technicianRecord.count();
+
+    return makeConnectionObject({
+      items: technicianRecords,
+      totalItems,
+      paginationOptions,
+      getCursor: (technicianRecord: TechnicianRecord) => technicianRecord.id,
+    });
   },
 };
 

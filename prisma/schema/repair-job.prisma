@@ -2,7 +2,6 @@ model RepairJob {
   id                 String         @id @default(uuid())
   jobType            String
   jobDetails         String
-  jobPriority        String
   elevatorType       String
   buildingName       String
   elevatorLocation   String
@@ -11,7 +10,8 @@ model RepairJob {
   contactInformation String
   startDate          DateTime
   endDate            DateTime
-  status             String         @default("Scheduled")
   calendarEventId    String?        @unique
-  calendarEvent      CalendarEvent? @relation
+  jobPriority        String
+  status             String         @default("Scheduled")
+  calendarEvent      CalendarEvent?
 }

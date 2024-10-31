@@ -1,0 +1,11 @@
+model TechnicianRecord {
+  id                 String    @id(map: "technicianrecord_pkey") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name               String
+  contactInformation String
+  skills             String[]  @default([])
+  certifications     String[]  @default([])
+  availabilityStatus String?   @default("Available")
+  employmentStatus   String?   @default("Active")
+  createdAt          DateTime? @default(now()) @db.Timestamp(6)
+  updatedAt          DateTime? @default(now()) @updatedAt @db.Timestamp(6)
+}

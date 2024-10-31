@@ -1,0 +1,20 @@
+type TechnicianRecord implements Node {
+  id: ID!
+  name: String!
+  contactInformation: String!
+  skills: [String!]!
+  certifications: [String!]!
+  availabilityStatus: String!
+  employmentStatus: String!
+}
+
+type TechnicianRecordEdges implements Edge {
+  cursor: String!
+  node: TechnicianRecord!
+}
+
+type TechnicianRecordConnection implements Connection {
+  edges: [TechnicianRecordEdges!]!
+  pageInfo: PageInfo!
+  total: Int!
+}
