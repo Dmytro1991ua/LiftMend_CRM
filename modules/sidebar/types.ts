@@ -3,6 +3,7 @@ export enum NavigationLinkLabel {
   ElevatorManagement = 'Elevator Management',
   RepairJobScheduling = 'Repair Job Scheduling',
   RepairJobTracking = 'Repair Job Tracking',
+  TechnicianManagement = 'Technician Management',
   Profile = 'Profile',
   Login = 'Login',
   Signup = 'Signup',

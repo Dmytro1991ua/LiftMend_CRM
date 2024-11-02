@@ -3,6 +3,7 @@ import { BiLogOut, BiSolidUser } from 'react-icons/bi';
 import { BsTools } from 'react-icons/bs';
 import { FaCalendarAlt } from 'react-icons/fa';
 import { FaElevator } from 'react-icons/fa6';
+import { GrUserWorker } from 'react-icons/gr';
 import { MdElevator } from 'react-icons/md';
 import { RiDashboardFill } from 'react-icons/ri';
 
@@ -43,6 +44,12 @@ const Sidebar = () => {
     },
     {
       id: 5,
+      url: AppRoutes.TechnicianManagement,
+      icon: <GrUserWorker className={commonIconClasses} />,
+      label: NavigationLinkLabel.TechnicianManagement,
+    },
+    {
+      id: 6,
       url: AppRoutes.Profile,
       icon: <BiSolidUser className={commonIconClasses} />,
       label: NavigationLinkLabel.Profile,
