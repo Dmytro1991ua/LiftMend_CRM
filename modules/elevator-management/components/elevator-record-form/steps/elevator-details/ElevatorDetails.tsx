@@ -97,6 +97,7 @@ const ElevatorDetails = () => {
         errorComponent={
           <BaseAlert description={error} title='Failed to fetch elevator details data' variant='destructive' />
         }
+        isErrorOccurred={!!error}
         loading={loading}
         loadingComponent={
           <Bars

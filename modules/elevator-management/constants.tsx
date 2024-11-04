@@ -20,7 +20,7 @@ export const ELEVATOR_RECORD_STEP_CONTENT_CONFIG: Record<ElevatorRecordSteps, Re
   [ElevatorRecordSteps.TechnicianInformation]: <TechnicianInformation />,
 };
 
-export const ELEVATOR_RECORD_STEP_STEP_VALIDATION_CONFIG: Record<number, keyof ElevatorRecordFormFields> = {
+export const ELEVATOR_RECORD_STEP_VALIDATION_CONFIG: Record<number, keyof ElevatorRecordFormFields> = {
   0: 'elevatorDetails',
   1: 'maintenanceInfo',
   2: 'technicianInfo',

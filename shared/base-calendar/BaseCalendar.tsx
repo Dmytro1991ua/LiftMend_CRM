@@ -36,6 +36,7 @@ const BaseCalendar = ({
       <QueryResponse
         errorDescription={error}
         errorMessage='Failed to fetch Calendar Events'
+        isErrorOccurred={!!error}
         loading={loading}
         loadingComponent={
           <Circles
@@ -49,7 +50,7 @@ const BaseCalendar = ({
         }
       />
       <div data-testid='calendar'>
-        {!loading && !error ? (
+        {!loading ? (
           <Fullcalendar
             dayMaxEvents={2}
             editable={false}

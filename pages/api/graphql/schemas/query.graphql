@@ -15,4 +15,5 @@ type Query {
   ): ElevatorRecordConnection!
   getElevatorRecordById(id: ID!): ElevatorRecord!
   getTechnicianRecords(paginationOptions: PaginationOptions): TechnicianRecordConnection!
+  getTechnicianRecordFormData: TechnicianRecordFormData!
 }

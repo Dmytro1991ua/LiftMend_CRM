@@ -211,6 +211,7 @@ export type Query = {
   getRepairJobById: RepairJob;
   getRepairJobScheduleData: RepairJobScheduleData;
   getRepairJobs: RepairJobConnection;
+  getTechnicianRecordFormData: TechnicianRecordFormData;
   getTechnicianRecords: TechnicianRecordConnection;
 };
 
@@ -338,6 +339,14 @@ export type TechnicianRecordEdges = Edge & {
   __typename?: 'TechnicianRecordEdges';
   cursor: Scalars['String']['output'];
   node: TechnicianRecord;
+};
+
+export type TechnicianRecordFormData = {
+  __typename?: 'TechnicianRecordFormData';
+  availabilityStatuses: Array<Scalars['String']['output']>;
+  certifications: Array<Scalars['String']['output']>;
+  employmentStatuses: Array<Scalars['String']['output']>;
+  skills: Array<Scalars['String']['output']>;
 };
 
 export type UpdateElevatorRecordInput = {
@@ -681,6 +690,19 @@ export type GetRepairJobsQuery = {
       startCursor: string | null;
       endCursor: string | null;
     };
+  };
+};
+
+export type GetTechnicianRecordFormDataQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetTechnicianRecordFormDataQuery = {
+  __typename?: 'Query';
+  getTechnicianRecordFormData: {
+    __typename?: 'TechnicianRecordFormData';
+    availabilityStatuses: Array<string>;
+    certifications: Array<string>;
+    employmentStatuses: Array<string>;
+    skills: Array<string>;
   };
 };
 

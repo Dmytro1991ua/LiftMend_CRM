@@ -38,12 +38,13 @@ export const getBaseSelectStylesConfig = <T extends string, IsMulti extends bool
     cursor: state.isDisabled ? 'not-allowed' : 'pointer-events',
     pointerEvents: state.isDisabled ? 'all' : 'visible',
     padding: state.isMulti ? '0.5rem' : '0.2rem',
-    backgroundColor: hasError ? '#fee2e2' : '#ffff',
+    backgroundColor: state.isDisabled ? '#e5e7eb' : hasError ? '#fee2e2' : '#fff',
     outline: 'none',
     transition: 'border-color 0.2s, box-shadow 0.2s',
+    opacity: state.isDisabled ? '0.6' : '1',
 
     '&:hover': {
-      borderColor: hasError ? '#f87171' : '#3b82f6',
+      borderColor: state.isDisabled ? 'transparent' : hasError ? '#f87171' : '#3b82f6',
     },
 
     ...(state.isFocused && {
