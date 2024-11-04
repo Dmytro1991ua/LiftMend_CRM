@@ -150,10 +150,6 @@ export const concatPaginationWithEdges = <T extends { edges: unknown[] }>(
     for (let i = 0; i < incoming.edges.length; ++i) {
       mergedEdges[offset + i] = incoming.edges[i]; // Append incoming edges
     }
-    console.log({
-      ...incoming,
-      edges: mergedEdges,
-    });
 
     return {
       ...incoming,
