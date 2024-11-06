@@ -9,6 +9,7 @@ import {
   RepairJobScheduleData,
   TechnicianRecord,
   TechnicianRecordConnection,
+  TechnicianRecordFormData,
 } from '@/graphql/types/server/generated_types';
 
 import {
@@ -173,6 +174,31 @@ const Query: QueryResolvers = {
       paginationOptions,
       getCursor: (technicianRecord: TechnicianRecord) => technicianRecord.id,
     });
+  },
+  getTechnicianRecordFormData: async (_, __, { prisma }): Promise<TechnicianRecordFormData> => {
+    const technicianRecordFormData: Partial<TechnicianRecordFormData> = {};
+
+    technicianRecordFormData.availabilityStatuses = await fetchFormDropdownData(
+      () => getSortedFormDropdownData(prisma.availabilityStatuses, 'availabilityStatuses'),
+      'availability statuses'
+    );
+
+    technicianRecordFormData.certifications = await fetchFormDropdownData(
+      () => getSortedFormDropdownData(prisma.certifications, 'certifications'),
+      'certifications'
+    );
+
+    technicianRecordFormData.skills = await fetchFormDropdownData(
+      () => getSortedFormDropdownData(prisma.technicianSkills, 'skills'),
+      'technician skills'
+    );
+
+    technicianRecordFormData.employmentStatuses = await fetchFormDropdownData(
+      () => getSortedFormDropdownData(prisma.employmentStatuses, 'employmentStatuses'),
+      'employment statuses'
+    );
+
+    return technicianRecordFormData as TechnicianRecordFormData;
   },
 };
 

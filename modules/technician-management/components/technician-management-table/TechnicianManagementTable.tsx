@@ -14,7 +14,11 @@ const TechnicianManagementTable = () => {
 
   return (
     <>
-      <QueryResponse errorDescription={error} errorMessage='Failed to fetch technician record data' />
+      <QueryResponse
+        errorDescription={error}
+        errorMessage='Failed to fetch technician record data'
+        isErrorOccurred={!!error}
+      />
       <BaseTable<TechnicianRecord, QueryGetTechnicianRecordsArgs, GetTechnicianRecordsQuery>
         className='h-[48rem]'
         columns={TECHNICIAN_RECORD_COLUMNS}

@@ -60,7 +60,11 @@ const ElevatorManagementTable = () => {
 
   return (
     <>
-      <QueryResponse errorDescription={elevatorRecordDataError} errorMessage='Failed to fetch elevator record data' />
+      <QueryResponse
+        errorDescription={elevatorRecordDataError}
+        errorMessage='Failed to fetch elevator record data'
+        isErrorOccurred={!!elevatorRecordDataError}
+      />
       <BaseTable<ElevatorRecord, QueryGetElevatorRecordsArgs, GetElevatorRecordsQuery>
         className='h-[48rem]'
         columns={ELEVATOR_MANAGEMENT_COLUMNS}

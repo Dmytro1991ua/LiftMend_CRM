@@ -168,6 +168,7 @@ export interface ControlledSingleSelectProps<T extends FieldValues>
   className?: string;
   clearErrors?: UseFormClearErrors<T>;
   defaultValue?: PathValue<T, Path<T>> | undefined;
+  infoTooltip?: JSX.Element;
 }
 
 export interface ControlledMultiSelectProps<T extends FieldValues>

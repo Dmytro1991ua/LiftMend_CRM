@@ -15,6 +15,7 @@ const ControlledSingleSelect = <T extends FieldValues>({
   disabled,
   className,
   defaultValue,
+  infoTooltip,
   clearErrors,
   ...props
 }: ControlledSingleSelectProps<T>) => {
@@ -30,7 +31,10 @@ const ControlledSingleSelect = <T extends FieldValues>({
 
   return (
     <div className={cn('relative grid w-full items-center gap-1.5', className)}>
-      {label && <label className={labelErrorStyles}>{label}</label>}
+      <div className='flex items-center gap-2'>
+        {label && <label className={labelErrorStyles}>{label}</label>}
+        {disabled && infoTooltip}
+      </div>
       <Controller
         control={control}
         defaultValue={defaultValue}

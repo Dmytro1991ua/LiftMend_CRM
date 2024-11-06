@@ -2,10 +2,12 @@ import { DocumentNode } from 'graphql';
 
 import { GET_REPAIR_JOB_FORM_DATA } from '@/graphql/schemas';
 import { GET_ELEVATOR_RECORD_FORM_DATA } from '@/graphql/schemas/getElevatorRecordFormData';
+import { GET_TECHNICIAN_RECORD_FORM_DATA } from '@/graphql/schemas/getTechnicianRecordFormData';
 
 export enum DropdownOptions {
   RepairJob,
   ElevatorManagement,
+  TechnicianManagement,
 }
 
 export type DropdownOptionConfig = {
@@ -33,5 +35,10 @@ export const DROPDOWN_OPTIONS_CONFIG: Record<DropdownOptions, DropdownOptionConf
     schema: GET_ELEVATOR_RECORD_FORM_DATA,
     queryName: 'getElevatorRecordFormData',
     fields: ['elevatorTypes', 'buildingNames', 'elevatorLocations', 'technicianNames', 'elevatorStatuses'],
+  },
+  [DropdownOptions.TechnicianManagement]: {
+    schema: GET_TECHNICIAN_RECORD_FORM_DATA,
+    queryName: 'getTechnicianRecordFormData',
+    fields: ['availabilityStatuses', 'certifications', 'employmentStatuses', 'skills'],
   },
 };

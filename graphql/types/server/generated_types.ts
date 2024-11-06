@@ -212,6 +212,7 @@ export type Query = {
   getRepairJobById: RepairJob;
   getRepairJobScheduleData: RepairJobScheduleData;
   getRepairJobs: RepairJobConnection;
+  getTechnicianRecordFormData: TechnicianRecordFormData;
   getTechnicianRecords: TechnicianRecordConnection;
 };
 
@@ -338,6 +339,14 @@ export type TechnicianRecordEdges = Edge & {
   __typename?: 'TechnicianRecordEdges';
   cursor: Scalars['String']['output'];
   node: TechnicianRecord;
+};
+
+export type TechnicianRecordFormData = {
+  __typename?: 'TechnicianRecordFormData';
+  availabilityStatuses: Array<Scalars['String']['output']>;
+  certifications: Array<Scalars['String']['output']>;
+  employmentStatuses: Array<Scalars['String']['output']>;
+  skills: Array<Scalars['String']['output']>;
 };
 
 export type UpdateElevatorRecordInput = {
@@ -495,6 +504,7 @@ export type ResolversTypes = ResolversObject<{
   TechnicianRecord: ResolverTypeWrapper<TechnicianRecord>;
   TechnicianRecordConnection: ResolverTypeWrapper<TechnicianRecordConnection>;
   TechnicianRecordEdges: ResolverTypeWrapper<TechnicianRecordEdges>;
+  TechnicianRecordFormData: ResolverTypeWrapper<TechnicianRecordFormData>;
   UpdateElevatorRecordInput: UpdateElevatorRecordInput;
   UpdateRepairJobInput: UpdateRepairJobInput;
   User: ResolverTypeWrapper<UserModel>;
@@ -536,6 +546,7 @@ export type ResolversParentTypes = ResolversObject<{
   TechnicianRecord: TechnicianRecord;
   TechnicianRecordConnection: TechnicianRecordConnection;
   TechnicianRecordEdges: TechnicianRecordEdges;
+  TechnicianRecordFormData: TechnicianRecordFormData;
   UpdateElevatorRecordInput: UpdateElevatorRecordInput;
   UpdateRepairJobInput: UpdateRepairJobInput;
   User: UserModel;
@@ -743,6 +754,7 @@ export type QueryResolvers<
     ContextType,
     Partial<QueryGetRepairJobsArgs>
   >;
+  getTechnicianRecordFormData?: Resolver<ResolversTypes['TechnicianRecordFormData'], ParentType, ContextType>;
   getTechnicianRecords?: Resolver<
     ResolversTypes['TechnicianRecordConnection'],
     ParentType,
@@ -848,6 +860,17 @@ export type TechnicianRecordEdgesResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type TechnicianRecordFormDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['TechnicianRecordFormData'] = ResolversParentTypes['TechnicianRecordFormData']
+> = ResolversObject<{
+  availabilityStatuses?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  certifications?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  employmentStatuses?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  skills?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type UserResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']
@@ -881,5 +904,6 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   TechnicianRecord?: TechnicianRecordResolvers<ContextType>;
   TechnicianRecordConnection?: TechnicianRecordConnectionResolvers<ContextType>;
   TechnicianRecordEdges?: TechnicianRecordEdgesResolvers<ContextType>;
+  TechnicianRecordFormData?: TechnicianRecordFormDataResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 }>;

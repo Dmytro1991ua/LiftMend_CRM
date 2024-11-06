@@ -63,7 +63,11 @@ const RepairJobTable = () => {
 
   return (
     <>
-      <QueryResponse errorDescription={repairJobDataError} errorMessage='Failed to fetch repair job data' />
+      <QueryResponse
+        errorDescription={repairJobDataError}
+        errorMessage='Failed to fetch repair job data'
+        isErrorOccurred={!!error}
+      />
       <BaseTable<RepairJob, QueryGetRepairJobsArgs, GetRepairJobsQuery>
         className='h-[48rem]'
         columns={REPAIR_JOB_COLUMNS}

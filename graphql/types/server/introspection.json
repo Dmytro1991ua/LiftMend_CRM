@@ -2084,6 +2084,22 @@
             "deprecationReason": null
           },
           {
+            "name": "getTechnicianRecordFormData",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "TechnicianRecordFormData",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "getTechnicianRecords",
             "description": null,
             "args": [
@@ -3264,6 +3280,113 @@
             "ofType": null
           }
         ],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "TechnicianRecordFormData",
+        "description": null,
+        "fields": [
+          {
+            "name": "availabilityStatuses",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "certifications",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "employmentStatuses",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "skills",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
         "enumValues": null,
         "possibleTypes": null
       },

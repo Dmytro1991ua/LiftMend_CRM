@@ -1,5 +1,6 @@
 import { Audio } from 'react-loader-spinner';
 
+import BaseAlert from '../base-alert/BaseAlert';
 import QueryResponse from '../query-response';
 import { ItemConfig } from '../types';
 
@@ -42,8 +43,8 @@ const BaseDetailsPage = ({
       <div className='content-wrapper h-[72vh] overflow-y-auto overflow-x-hidden'>
         <>
           <QueryResponse
-            errorDescription={error}
-            errorMessage={errorMessage}
+            errorComponent={<BaseAlert description={error} title={errorMessage} variant='destructive' />}
+            isErrorOccurred={!!error}
             loading={loading}
             loadingComponent={
               <Audio

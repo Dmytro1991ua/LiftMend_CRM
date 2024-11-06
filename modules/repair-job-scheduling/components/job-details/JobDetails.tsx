@@ -73,6 +73,7 @@ const JobDetails = () => {
         errorComponent={
           <BaseAlert description={error} title='Failed to fetch job details data' variant='destructive' />
         }
+        isErrorOccurred={!!error}
         loading={loading}
         loadingComponent={
           <Bars

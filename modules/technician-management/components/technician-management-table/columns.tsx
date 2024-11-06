@@ -24,10 +24,10 @@ export const TECHNICIAN_RECORD_COLUMNS: ColumnDef<TechnicianRecord>[] = [
   },
   {
     accessorKey: 'name',
-    header: 'Technician Name',
+    header: 'Full Name',
     enableResizing: true,
     enableSorting: true,
-    size: 180,
+    size: 150,
     minSize: 120,
     maxSize: 350,
   },
@@ -64,7 +64,7 @@ export const TECHNICIAN_RECORD_COLUMNS: ColumnDef<TechnicianRecord>[] = [
   },
   {
     accessorKey: 'skills',
-    header: 'Technician Skills',
+    header: 'Skills',
     cell: ({
       row: {
         original: { skills },
@@ -78,7 +78,7 @@ export const TECHNICIAN_RECORD_COLUMNS: ColumnDef<TechnicianRecord>[] = [
   },
   {
     accessorKey: 'certifications',
-    header: 'Technician Certificates',
+    header: 'Certificates',
     cell: ({
       row: {
         original: { certifications },

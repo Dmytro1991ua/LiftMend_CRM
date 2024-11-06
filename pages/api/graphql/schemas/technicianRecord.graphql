@@ -18,3 +18,10 @@ type TechnicianRecordConnection implements Connection {
   pageInfo: PageInfo!
   total: Int!
 }
+
+type TechnicianRecordFormData {
+  availabilityStatuses: [String!]!
+  certifications: [String!]!
+  employmentStatuses: [String!]!
+  skills: [String!]!
+}

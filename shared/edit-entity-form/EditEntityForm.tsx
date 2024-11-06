@@ -33,6 +33,7 @@ const EditEntityForm = <T extends FieldValues>({
     <Form className='grid grid-cols-6 gap-2'>
       <QueryResponse
         errorComponent={<BaseAlert description={error || ''} title='Failed to fetch form data' variant='destructive' />}
+        isErrorOccurred={!!error}
         loading={loading}
         loadingComponent={
           <CirclesWithBar

@@ -2,7 +2,7 @@ import { SubmitHandler, useFormContext } from 'react-hook-form';
 
 import {
   ELEVATOR_RECORD_FORM_STEPS,
-  ELEVATOR_RECORD_STEP_STEP_VALIDATION_CONFIG,
+  ELEVATOR_RECORD_STEP_VALIDATION_CONFIG,
 } from '@/modules/elevator-management/constants';
 import useCreateElevatorRecord from '@/modules/elevator-management/hooks/useCreateElevatorRecord';
 import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
@@ -27,7 +27,7 @@ const useCreateElevatorRecordForm = ({ onReset }: UseElevatorRecordFormProps): U
 
   const onHandleNext = async (activeStep: number): Promise<boolean> => {
     const stepId = ELEVATOR_RECORD_FORM_STEPS[activeStep].id;
-    const stepKey = ELEVATOR_RECORD_STEP_STEP_VALIDATION_CONFIG[stepId];
+    const stepKey = ELEVATOR_RECORD_STEP_VALIDATION_CONFIG[stepId];
 
     if (!stepKey) return true;
 
