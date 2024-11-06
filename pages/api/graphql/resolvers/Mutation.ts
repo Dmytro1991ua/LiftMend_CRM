@@ -3,6 +3,7 @@ import {
   DeleteCalendarAndRepairJobResponse,
   ElevatorRecord,
   MutationResolvers,
+  TechnicianRecord,
 } from '@/graphql/types/server/generated_types';
 
 import { ScheduledEventAndRepairJobResponse } from './../../../../graphql/types/server/generated_types';
@@ -95,6 +96,13 @@ const Mutation: MutationResolvers = {
     return {
       id: deletedElevatorRecord.id,
     };
+  },
+  createTechnicianRecord: async (_, { input }, { prisma }): Promise<TechnicianRecord> => {
+    const technicianRecord = await prisma.technicianRecord.create({
+      data: input,
+    });
+
+    return technicianRecord;
   },
 };
 
