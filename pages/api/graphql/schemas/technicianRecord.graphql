@@ -25,3 +25,12 @@ type TechnicianRecordFormData {
   employmentStatuses: [String!]!
   skills: [String!]!
 }
+
+input CreateTechnicianRecordInput {
+  name: String!
+  contactInformation: String!
+  skills: [String!]!
+  certifications: [String!]
+  availabilityStatus: String
+  employmentStatus: String
+}
