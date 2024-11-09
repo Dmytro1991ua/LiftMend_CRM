@@ -51,10 +51,10 @@ const SkillsAndCertifications = () => {
           hideSelectedOptions={false}
           isMultiSelect={true}
           label='Technician Certificate(s)'
-          name='skillsAndCertifications.certificates'
+          name='skillsAndCertifications.certifications'
           options={certifications}
-          placeholder='Select Technician Certificates'
-          searchInputPlaceholder='Search for Technician Certificate(s)...'
+          placeholder='Select Technician Certifications'
+          searchInputPlaceholder='Search for Technician Certification(s)...'
         />
       ),
     },

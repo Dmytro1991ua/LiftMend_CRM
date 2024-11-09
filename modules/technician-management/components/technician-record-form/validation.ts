@@ -9,7 +9,7 @@ export const INITIAL_TECHNICIAN_RECORD_FORM_VALUES = {
   },
   skillsAndCertifications: {
     skills: [],
-    certificates: [],
+    certifications: [],
   },
 };
 
@@ -30,7 +30,7 @@ export const basicInformationSchema = z.object({
 
 export const skillsAndCertificationsSchema = z.object({
   skills: z.array(z.string()).min(1, 'Technician skills are required').max(5, 'Limit to 5 skills'),
-  certificates: z.array(z.string()).optional(),
+  certifications: z.array(z.string()).optional(),
 });
 
 export const technicianRecordFormSchema = z.object({

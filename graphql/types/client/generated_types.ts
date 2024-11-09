@@ -66,6 +66,15 @@ export type CreateRepairJobInput = {
   technicianSkills: Array<Scalars['String']['input']>;
 };
 
+export type CreateTechnicianRecordInput = {
+  availabilityStatus?: InputMaybe<Scalars['String']['input']>;
+  certifications?: InputMaybe<Array<Scalars['String']['input']>>;
+  contactInformation: Scalars['String']['input'];
+  employmentStatus?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
+  skills: Array<Scalars['String']['input']>;
+};
+
 export type DeleteCalendarAndRepairJobResponse = {
   __typename?: 'DeleteCalendarAndRepairJobResponse';
   deletedEventId: Maybe<Scalars['ID']['output']>;
@@ -147,6 +156,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createElevatorRecord: ElevatorRecord;
   createRepairJobAndEvent: ScheduledEventAndRepairJobResponse;
+  createTechnicianRecord: TechnicianRecord;
   deleteElevatorRecord: DeleteElevatorRecordResponse;
   deleteRepairJobAndEvent: DeleteCalendarAndRepairJobResponse;
   updateElevatorRecord: ElevatorRecord;
@@ -160,6 +170,10 @@ export type MutationCreateElevatorRecordArgs = {
 export type MutationCreateRepairJobAndEventArgs = {
   calendarEventInput: CreateCalendarEventInput;
   repairJobInput: CreateRepairJobInput;
+};
+
+export type MutationCreateTechnicianRecordArgs = {
+  input: CreateTechnicianRecordInput;
 };
 
 export type MutationDeleteElevatorRecordArgs = {
@@ -494,6 +508,24 @@ export type CreateRepairJobAndCalendarEventMutation = {
       allDay: boolean;
       repairJobId: string | null;
     };
+  };
+};
+
+export type CreateTechnicianRecordMutationVariables = Exact<{
+  input: CreateTechnicianRecordInput;
+}>;
+
+export type CreateTechnicianRecordMutation = {
+  __typename?: 'Mutation';
+  createTechnicianRecord: {
+    __typename?: 'TechnicianRecord';
+    id: string;
+    name: string;
+    contactInformation: string;
+    skills: Array<string>;
+    certifications: Array<string>;
+    availabilityStatus: string;
+    employmentStatus: string;
   };
 };
 
