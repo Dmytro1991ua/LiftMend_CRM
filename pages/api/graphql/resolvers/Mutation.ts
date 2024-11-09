@@ -104,6 +104,16 @@ const Mutation: MutationResolvers = {
 
     return technicianRecord;
   },
+  updateTechnicianRecord: async (_, { input }, { prisma }): Promise<TechnicianRecord> => {
+    const { id, ...fieldsToUpdate } = input;
+
+    const updatedTechnician = await prisma.technicianRecord.update({
+      where: { id },
+      data: { ...fieldsToUpdate },
+    });
+
+    return updatedTechnician;
+  },
 };
 
 export default Mutation;
