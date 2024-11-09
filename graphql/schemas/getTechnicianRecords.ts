@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-import { TECHNICIAN_RECORD_FRAGMENT } from '../fragments/technicianRecordFragment';
+import { TECHNICIAN_RECORD_FRAGMENT } from '../fragments';
 
 export const GET_TECHNICIAN_RECORDS = gql`
   query GetTechnicianRecords($paginationOptions: PaginationOptions) {
