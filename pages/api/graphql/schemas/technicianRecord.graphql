@@ -33,10 +33,4 @@ input CreateTechnicianRecordInput {
   certifications: [String!]
   availabilityStatus: String
   employmentStatus: String
-input UpdateTechnicianRecordInput {
-  id: ID!
-  name: String
-  contactInformation: String
-  skills: [String!]
-  certifications: [String!]
 }

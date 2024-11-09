@@ -163,7 +163,6 @@ export type Mutation = {
   deleteRepairJobAndEvent: DeleteCalendarAndRepairJobResponse;
   updateElevatorRecord: ElevatorRecord;
   updateRepairJob: RepairJob;
-  updateTechnicianRecord: TechnicianRecord;
 };
 
 export type MutationCreateElevatorRecordArgs = {
@@ -194,10 +193,6 @@ export type MutationUpdateElevatorRecordArgs = {
 
 export type MutationUpdateRepairJobArgs = {
   input: UpdateRepairJobInput;
-};
-
-export type MutationUpdateTechnicianRecordArgs = {
-  input: UpdateTechnicianRecordInput;
 };
 
 export type Node = {
@@ -397,14 +392,6 @@ export type UpdateRepairJobInput = {
   technicianSkills?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
-export type UpdateTechnicianRecordInput = {
-  certifications?: InputMaybe<Array<Scalars['String']['input']>>;
-  contactInformation?: InputMaybe<Scalars['String']['input']>;
-  id: Scalars['ID']['input'];
-  name?: InputMaybe<Scalars['String']['input']>;
-  skills?: InputMaybe<Array<Scalars['String']['input']>>;
-};
-
 export type User = {
   __typename?: 'User';
   email: Scalars['String']['output'];
@@ -535,7 +522,6 @@ export type ResolversTypes = ResolversObject<{
   TechnicianRecordFormData: ResolverTypeWrapper<TechnicianRecordFormData>;
   UpdateElevatorRecordInput: UpdateElevatorRecordInput;
   UpdateRepairJobInput: UpdateRepairJobInput;
-  UpdateTechnicianRecordInput: UpdateTechnicianRecordInput;
   User: ResolverTypeWrapper<UserModel>;
 }>;
 
@@ -579,7 +565,6 @@ export type ResolversParentTypes = ResolversObject<{
   TechnicianRecordFormData: TechnicianRecordFormData;
   UpdateElevatorRecordInput: UpdateElevatorRecordInput;
   UpdateRepairJobInput: UpdateRepairJobInput;
-  UpdateTechnicianRecordInput: UpdateTechnicianRecordInput;
   User: UserModel;
 }>;
 
@@ -738,12 +723,6 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     RequireFields<MutationUpdateRepairJobArgs, 'input'>
-  >;
-  updateTechnicianRecord?: Resolver<
-    ResolversTypes['TechnicianRecord'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationUpdateTechnicianRecordArgs, 'input'>
   >;
 }>;
 
