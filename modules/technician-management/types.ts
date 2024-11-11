@@ -8,7 +8,9 @@ export type TechnicianRecordFormValues = {
   name: string;
   contactInformation?: string | null;
   skills: string[];
-  certifications: string;
+  certifications: string[];
   availabilityStatus: string | null;
   employmentStatus: string | null;
 };
+
+export type EditTechnicalRecordFormValues = Omit<TechnicianRecordFormValues, 'employmentStatus' | 'availabilityStatus'>;

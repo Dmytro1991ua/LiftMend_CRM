@@ -1,8 +1,6 @@
-import { useMemo } from 'react';
-
 import { useFormContext } from 'react-hook-form';
 
-import { GetRepairJobFromDataQuery, RepairJob } from '@/graphql/types/client/generated_types';
+import { GetRepairJobFromDataQuery } from '@/graphql/types/client/generated_types';
 import FormInput from '@/shared/base-input/form-input';
 import ControlledMultiSelect from '@/shared/base-select/components/controlled-multi-select';
 import ControlledSingleSelect from '@/shared/base-select/components/controlled-single-select/ControlledSingleSelect';
@@ -13,15 +11,13 @@ import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions'
 import { DropdownOptions } from '@/shared/hooks/useFetchDropdownOptions/config';
 import { FormFieldLabel, ItemConfig } from '@/shared/types';
 
-import { convertRepairJobToFormValues } from '../repair-job-details/utils';
-
 import { RepairJobFormValues } from './types';
 
 type EditRepairJobFormProps = {
-  repairJob: RepairJob;
+  repairJobFormValues: RepairJobFormValues;
 };
 
-const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
+const EditRepairJobForm = ({ repairJobFormValues }: EditRepairJobFormProps) => {
   const {
     dropdownOptions: {
       repairJobTypes,
@@ -39,8 +35,6 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
 
   const { clearErrors } = useFormContext<RepairJobFormValues>();
 
-  const currentRepairJob = useMemo(() => convertRepairJobToFormValues(repairJob), [repairJob]);
-
   const {
     jobType,
     jobPriority,
@@ -53,7 +47,7 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
     contactInfo,
     jobDescription,
     status,
-  } = currentRepairJob;
+  } = repairJobFormValues;
 
   const REPAIR_JOB_FORM_FIELD_CONFIG: ItemConfig[] = [
     {
@@ -240,7 +234,7 @@ const EditRepairJobForm = ({ repairJob }: EditRepairJobFormProps) => {
     <EditEntityForm<RepairJobFormValues>
       error={error}
       fieldConfigs={REPAIR_JOB_FORM_FIELD_CONFIG}
-      formValues={currentRepairJob}
+      formValues={repairJobFormValues}
       loading={loading}
     />
   );

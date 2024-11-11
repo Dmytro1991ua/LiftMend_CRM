@@ -161,6 +161,7 @@ export type Mutation = {
   deleteRepairJobAndEvent: DeleteCalendarAndRepairJobResponse;
   updateElevatorRecord: ElevatorRecord;
   updateRepairJob: RepairJob;
+  updateTechnicianRecord: TechnicianRecord;
 };
 
 export type MutationCreateElevatorRecordArgs = {
@@ -191,6 +192,10 @@ export type MutationUpdateElevatorRecordArgs = {
 
 export type MutationUpdateRepairJobArgs = {
   input: UpdateRepairJobInput;
+};
+
+export type MutationUpdateTechnicianRecordArgs = {
+  input: UpdateTechnicianRecordInput;
 };
 
 export type Node = {
@@ -390,6 +395,14 @@ export type UpdateRepairJobInput = {
   status?: InputMaybe<Scalars['String']['input']>;
   technicianName?: InputMaybe<Scalars['String']['input']>;
   technicianSkills?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+export type UpdateTechnicianRecordInput = {
+  certifications?: InputMaybe<Array<Scalars['String']['input']>>;
+  contactInformation?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['ID']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+  skills?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 export type User = {
@@ -814,5 +827,23 @@ export type UpdateRepairJobMutation = {
     startDate: any;
     endDate: any;
     calendarEventId: string | null;
+  };
+};
+
+export type UpdateTechnicianRecordMutationVariables = Exact<{
+  input: UpdateTechnicianRecordInput;
+}>;
+
+export type UpdateTechnicianRecordMutation = {
+  __typename?: 'Mutation';
+  updateTechnicianRecord: {
+    __typename?: 'TechnicianRecord';
+    id: string;
+    name: string;
+    contactInformation: string;
+    skills: Array<string>;
+    certifications: Array<string>;
+    availabilityStatus: string;
+    employmentStatus: string;
   };
 };

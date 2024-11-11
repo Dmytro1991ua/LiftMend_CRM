@@ -15,7 +15,7 @@ export const convertElevatorRecordToFormValues = (elevatorRecord: ElevatorRecord
   nextMaintenanceDate: elevatorRecord ? elevatorRecord.nextMaintenanceDate : undefined,
 });
 
-export const convertFormFieldsToRepairJob = (formFields: ElevatorRecordFormValues): ElevatorRecord => ({
+export const convertFormFieldsToElevatorRecord = (formFields: ElevatorRecordFormValues): ElevatorRecord => ({
   elevatorType: formFields.elevatorType ?? '',
   capacity: formFields.capacity ?? null,
   lastMaintenanceDate: formFields.lastMaintenanceDate ?? new Date(),
