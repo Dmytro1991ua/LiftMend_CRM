@@ -250,6 +250,7 @@ export type QueryGetRepairJobsArgs = {
 };
 
 export type QueryGetTechnicianRecordsArgs = {
+  filterOptions?: InputMaybe<TechnicianRecordFilterOptions>;
   paginationOptions?: InputMaybe<PaginationOptions>;
 };
 
@@ -353,6 +354,10 @@ export type TechnicianRecordEdges = Edge & {
   __typename?: 'TechnicianRecordEdges';
   cursor: Scalars['String']['output'];
   node: TechnicianRecord;
+};
+
+export type TechnicianRecordFilterOptions = {
+  searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type TechnicianRecordFormData = {
@@ -740,6 +745,7 @@ export type GetTechnicianRecordFormDataQuery = {
 
 export type GetTechnicianRecordsQueryVariables = Exact<{
   paginationOptions?: InputMaybe<PaginationOptions>;
+  filterOptions?: InputMaybe<TechnicianRecordFilterOptions>;
 }>;
 
 export type GetTechnicianRecordsQuery = {

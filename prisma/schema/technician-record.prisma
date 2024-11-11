@@ -1,5 +1,5 @@
 model TechnicianRecord {
-  id                 String    @id(map: "technicianrecord_pkey") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id                 String    @id(map: "technicianrecord_pkey") @default(uuid())
   name               String
   contactInformation String
   skills             String[]  @default([])

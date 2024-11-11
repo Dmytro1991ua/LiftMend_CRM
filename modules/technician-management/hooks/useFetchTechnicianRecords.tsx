@@ -1,14 +1,23 @@
-import { useMemo } from 'react';
+import { Dispatch, SetStateAction, useMemo } from 'react';
 
 import { ApolloQueryResult, useQuery } from '@apollo/client';
+import { SortingState } from '@tanstack/react-table';
 
 import { GET_TECHNICIAN_RECORDS } from '@/graphql/schemas/getTechnicianRecords';
 import { GetTechnicianRecordsQuery, QueryGetTechnicianRecordsArgs } from '@/graphql/types/client/generated_types';
-import { DEFAULT_PAGINATION, DEFAULT_PAGINATION_LIMIT, DEFAULT_PAGINATION_OFFSET } from '@/shared/constants';
-import { TechnicianRecord } from '@/shared/types';
+import { TableFilters } from '@/shared/base-table/types';
+import {
+  DEFAULT_PAGINATION,
+  DEFAULT_PAGINATION_LIMIT,
+  DEFAULT_PAGINATION_OFFSET,
+  TABLE_STATE_STORAGE_KEY,
+} from '@/shared/constants';
+import useStoredTableState from '@/shared/storage/hooks';
+import { TableStorageState } from '@/shared/storage/hooks/useStoredState';
+import { StorageTableName, TechnicianRecord } from '@/shared/types';
 import { getItemsFromQuery, removeTypeNamesFromArray } from '@/shared/utils';
 
-type UseFetchTechnicianRecords = {
+type UseFetchTechnicianRecords<T> = {
   technicianRecords: TechnicianRecord[];
   loading: boolean;
   error?: string;
@@ -17,15 +26,30 @@ type UseFetchTechnicianRecords = {
   refetch: (
     variables?: Partial<QueryGetTechnicianRecordsArgs>
   ) => Promise<ApolloQueryResult<GetTechnicianRecordsQuery>>;
+  tableStorageState: TableStorageState<SortingState, TableFilters<T>>;
+  onSetTableStorageState: Dispatch<SetStateAction<TableStorageState<SortingState, TableFilters<T>>>>;
 };
 
-const useFetchTechnicianRecords = (): UseFetchTechnicianRecords => {
+const useFetchTechnicianRecords = <T,>(): UseFetchTechnicianRecords<T> => {
+  const { storedState: tableStorageState, setStoredState: setTableState } = useStoredTableState<
+    SortingState,
+    TableFilters<T>
+  >(TABLE_STATE_STORAGE_KEY, StorageTableName.TechnicianManagementTable, undefined);
+
+  const searchTerm = useMemo(
+    () => tableStorageState.filters?.searchTerm || '',
+    [tableStorageState.filters?.searchTerm]
+  );
+
   const { data, error, loading, fetchMore, refetch } = useQuery<
     GetTechnicianRecordsQuery,
     QueryGetTechnicianRecordsArgs
   >(GET_TECHNICIAN_RECORDS, {
     variables: {
       paginationOptions: DEFAULT_PAGINATION,
+      filterOptions: {
+        searchTerm,
+      },
     },
     notifyOnNetworkStatusChange: true,
     fetchPolicy: 'cache-first',
@@ -49,6 +73,7 @@ const useFetchTechnicianRecords = (): UseFetchTechnicianRecords => {
         await fetchMore({
           variables: {
             paginationOptions: { offset: newOffset, limit: DEFAULT_PAGINATION_LIMIT },
+            filterOptions: { searchTerm },
           },
         });
       }
@@ -62,8 +87,10 @@ const useFetchTechnicianRecords = (): UseFetchTechnicianRecords => {
     hasMore,
     loading,
     error: error?.message,
+    tableStorageState,
     onNext,
     refetch,
+    onSetTableStorageState: setTableState,
   };
 };
 

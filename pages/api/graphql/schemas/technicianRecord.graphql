@@ -34,3 +34,7 @@ input CreateTechnicianRecordInput {
   availabilityStatus: String
   employmentStatus: String
 }
+
+input TechnicianRecordFilterOptions {
+  searchTerm: String
+}

@@ -1,16 +1,40 @@
+import { useMemo } from 'react';
+
 import { GetTechnicianRecordsQuery, QueryGetTechnicianRecordsArgs } from '@/graphql/types/client/generated_types';
-import { DEFAULT_SEARCH_INPUT_PLACEHOLDER } from '@/modules/repair-job-tracking/components/repair-job-table/constants';
 import BaseTable from '@/shared/base-table';
+import useSearchInTable from '@/shared/base-table/hooks/useSearchInTable';
+import { getEmptyTableMessage } from '@/shared/base-table/utils';
 import QueryResponse from '@/shared/query-response';
 import { TableNames, TechnicianRecord } from '@/shared/types';
 
 import useFetchTechnicianRecords from '../../hooks/useFetchTechnicianRecords';
 
 import { TECHNICIAN_RECORD_COLUMNS } from './columns';
-import { DEFAULT_TECHNICIAN_RECORD_TABLE_ROW_TOOLTIP_MESSAGE } from './constants';
+import {
+  DEFAULT_SEARCH_INPUT_PLACEHOLDER,
+  DEFAULT_TECHNICIAN_RECORDS_TABLE_EMPTY_TABLE_MESSAGE,
+  DEFAULT_TECHNICIAN_RECORD_TABLE_ROW_TOOLTIP_MESSAGE,
+} from './constants';
 
 const TechnicianManagementTable = () => {
-  const { technicianRecords, onNext, refetch, hasMore, error, loading } = useFetchTechnicianRecords();
+  const { technicianRecords, onNext, refetch, onSetTableStorageState, tableStorageState, hasMore, error, loading } =
+    useFetchTechnicianRecords<TechnicianRecord>();
+
+  const { searchTerm } = useSearchInTable<TechnicianRecord, QueryGetTechnicianRecordsArgs, GetTechnicianRecordsQuery>({
+    tableStorageState,
+    onSetTableStorageState,
+    refetch,
+  });
+
+  const emptyTableMessage = useMemo(
+    () =>
+      getEmptyTableMessage(
+        searchTerm,
+        !!technicianRecords.length,
+        DEFAULT_TECHNICIAN_RECORDS_TABLE_EMPTY_TABLE_MESSAGE
+      ),
+    [searchTerm, technicianRecords.length]
+  );
 
   return (
     <>
@@ -23,7 +47,7 @@ const TechnicianManagementTable = () => {
         className='h-[48rem]'
         columns={TECHNICIAN_RECORD_COLUMNS}
         data={technicianRecords}
-        emptyTableMessage=''
+        emptyTableMessage={emptyTableMessage}
         errorMessage={error}
         filtersConfig={[]}
         hasMore={hasMore}
@@ -33,9 +57,9 @@ const TechnicianManagementTable = () => {
         rowTooltipMessage={DEFAULT_TECHNICIAN_RECORD_TABLE_ROW_TOOLTIP_MESSAGE}
         searchFieldPlaceholder={DEFAULT_SEARCH_INPUT_PLACEHOLDER}
         tableName={TableNames.TechnicianManagementTable}
-        tableStorageState={{}}
+        tableStorageState={tableStorageState}
         onHandleRowClick={() => {}}
-        onSetTableStorageState={() => {}}
+        onSetTableStorageState={onSetTableStorageState}
       />
     </>
   );

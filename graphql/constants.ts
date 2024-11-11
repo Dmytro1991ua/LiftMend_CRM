@@ -21,4 +21,4 @@ export const ELEVATOR_RECORD_KEY_FIELDS = [
   ['field', 'order'],
 ];
 
-export const TECHNICIAN_RECORD_KEY_FIELDS = [];
+export const TECHNICIAN_RECORD_KEY_FIELDS = ['filterOptions', ['searchTerm']];
