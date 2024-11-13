@@ -20,14 +20,15 @@ const EditEntityForm = <T extends FieldValues>({
   loading,
   error,
 }: EditEntityFormProps<T>) => {
-  const { setValue, clearErrors } = useFormContext<T>();
+  const { setValue, clearErrors, reset } = useFormContext<T>();
 
   useEffect(() => {
     Object.keys(formValues).forEach((key) => {
       setValue(key as Path<T>, formValues[key as keyof T]);
       clearErrors();
+      reset(formValues, { keepDirty: false });
     });
-  }, [formValues, setValue, clearErrors]);
+  }, [formValues, setValue, clearErrors, reset]);
 
   return (
     <Form className='grid grid-cols-6 gap-2'>

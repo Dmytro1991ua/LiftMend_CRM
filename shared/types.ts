@@ -29,6 +29,8 @@ export enum FormFieldLabel {
   NextMaintenanceDate = 'Next Maintenance Date',
   Capacity = 'Capacity',
   Status = 'Status',
+  FullName = 'Technician Full Name',
+  Certifications = 'Certifications',
 }
 
 export type CalendarEventInfoPayload = {

@@ -7,6 +7,8 @@ import Pill from '@/shared/pill';
 import { PillStatus } from '@/shared/pill/config';
 import { TechnicianRecord } from '@/shared/types';
 
+import EditActionCell from '../edit-action-cell';
+
 export const TECHNICIAN_RECORD_COLUMNS: ColumnDef<TechnicianRecord>[] = [
   {
     id: 'select',
@@ -103,5 +105,15 @@ export const TECHNICIAN_RECORD_COLUMNS: ColumnDef<TechnicianRecord>[] = [
     size: 200,
     minSize: 120,
     maxSize: 350,
+  },
+  {
+    accessorKey: 'edit',
+    header: 'Edit',
+    cell: ({ row: { original } }) => <EditActionCell technicianRecord={original} />,
+    enableSorting: false,
+    size: 80,
+    enableResizing: false,
+    minSize: 80,
+    maxSize: 100,
   },
 ];

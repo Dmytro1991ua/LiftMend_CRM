@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 
 import { DefaultValues, FieldValues, Resolver, UseFormReturn, useForm } from 'react-hook-form';
 
@@ -26,10 +26,6 @@ const useFormState = <T extends FieldValues>({
   });
 
   const { reset, clearErrors } = formState;
-
-  useEffect(() => {
-    reset(initialValues, { keepDirty: false });
-  }, [initialValues, reset]);
 
   const onReset = useCallback((): void => {
     reset(initialValues);

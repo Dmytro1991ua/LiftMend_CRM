@@ -77,7 +77,7 @@ const RepairJobDetails = () => {
           onClose={onReset}
           onSubmit={formState.handleSubmit(onEditRepairJob)}
         >
-          <EditRepairJobForm repairJob={repairJob} />
+          <EditRepairJobForm repairJobFormValues={currentRepairJob} />
         </EditModal>
       ),
     },
