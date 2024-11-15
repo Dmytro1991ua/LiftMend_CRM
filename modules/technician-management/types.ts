@@ -14,3 +14,11 @@ export type TechnicianRecordFormValues = {
 };
 
 export type EditTechnicalRecordFormValues = Omit<TechnicianRecordFormValues, 'employmentStatus' | 'availabilityStatus'>;
+export type EmploymentStatus = 'Active' | 'Inactive';
+export type EmploymentStatusConfig = {
+  icon: JSX.Element;
+  newEmploymentStatus: EmploymentStatus;
+  newAvailabilityStatus: string;
+  modalTitle: string;
+  modalMessage: string;
+};

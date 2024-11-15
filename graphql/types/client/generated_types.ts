@@ -160,6 +160,7 @@ export type Mutation = {
   deleteElevatorRecord: DeleteElevatorRecordResponse;
   deleteRepairJobAndEvent: DeleteCalendarAndRepairJobResponse;
   updateElevatorRecord: ElevatorRecord;
+  updateEmploymentStatus: TechnicianRecord;
   updateRepairJob: RepairJob;
   updateTechnicianRecord: TechnicianRecord;
 };
@@ -188,6 +189,12 @@ export type MutationDeleteRepairJobAndEventArgs = {
 
 export type MutationUpdateElevatorRecordArgs = {
   input: UpdateElevatorRecordInput;
+};
+
+export type MutationUpdateEmploymentStatusArgs = {
+  availabilityStatus: Scalars['String']['input'];
+  employmentStatus: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
 };
 
 export type MutationUpdateRepairJobArgs = {

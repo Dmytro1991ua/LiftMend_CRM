@@ -7,7 +7,7 @@ import { TableNames, TechnicianRecord } from '@/shared/types';
 import useFetchTechnicianRecords from '../../hooks/useFetchTechnicianRecords';
 
 import { TECHNICIAN_RECORD_COLUMNS } from './columns';
-import { DEFAULT_TECHNICIAN_RECORD_TABLE_ROW_TOOLTIP_MESSAGE } from './constants';
+import { getRowTooltipMessage, isTechnicianRecordRowDisabled } from './utils';
 
 const TechnicianManagementTable = () => {
   const { technicianRecords, onNext, refetch, hasMore, error, loading } = useFetchTechnicianRecords();
@@ -27,10 +27,11 @@ const TechnicianManagementTable = () => {
         errorMessage={error}
         filtersConfig={[]}
         hasMore={hasMore}
+        isRowDisabled={isTechnicianRecordRowDisabled}
         loadMore={onNext}
         loading={loading}
         refetch={refetch}
-        rowTooltipMessage={DEFAULT_TECHNICIAN_RECORD_TABLE_ROW_TOOLTIP_MESSAGE}
+        rowTooltipMessage={getRowTooltipMessage}
         searchFieldPlaceholder={DEFAULT_SEARCH_INPUT_PLACEHOLDER}
         tableName={TableNames.TechnicianManagementTable}
         tableStorageState={{}}

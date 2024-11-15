@@ -14,7 +14,8 @@ type BaseTableBodyProps<T> = {
   loading?: boolean;
   errorMessage?: string;
   className?: string;
-  rowTooltipMessage?: string;
+  rowTooltipMessage?: string | ((rowOriginal: T) => string);
+  isRowDisabled?: (rowOriginal: T) => boolean;
   onHandleRowClick: (rowData: Row<T>) => void;
 };
 
@@ -26,6 +27,7 @@ const BaseTableBody = <T,>({
   errorMessage,
   className,
   rowTooltipMessage,
+  isRowDisabled,
   onHandleRowClick,
 }: BaseTableBodyProps<T>): React.JSX.Element => {
   const isTableEmpty = tableRows?.length === 0;
@@ -43,13 +45,20 @@ const BaseTableBody = <T,>({
         tableRows.map((row) => (
           <TableRow
             key={row.id}
-            className='cursor-pointer'
+            className={cn(
+              'cursor-pointer',
+              isRowDisabled && isRowDisabled(row.original) && 'opacity-40 cursor-not-allowed'
+            )}
             data-state={row.getIsSelected() && 'selected'}
-            title={rowTooltipMessage}
+            title={
+              typeof rowTooltipMessage === 'string'
+                ? rowTooltipMessage
+                : rowTooltipMessage && rowTooltipMessage(row.original)
+            }
             onClick={(e) => {
               e.stopPropagation();
 
-              onHandleRowClick(row);
+              if (isRowDisabled && !isRowDisabled(row.original)) onHandleRowClick(row);
             }}
             onMouseDown={(e) => e.stopPropagation()}
           >

@@ -31,7 +31,8 @@ type BaseTableProps<T extends object, K, M> = {
   tableStorageState: TableStorageState<SortingState, TableFilters<T>>;
   tableName: TableNames;
   filtersConfig: TableFiltersConfig[];
-  rowTooltipMessage?: string;
+  rowTooltipMessage?: string | ((rowOriginal: T) => string);
+  isRowDisabled?: (rowOriginal: T) => boolean;
   refetch: (variables: Partial<K>) => Promise<ApolloQueryResult<M>>;
   onSetTableStorageState: Dispatch<SetStateAction<TableStorageState<SortingState, TableFilters<T>>>>;
   onHandleRowClick: (rowData: Row<T>) => void;
@@ -51,6 +52,7 @@ const BaseTable = <T extends object, K, M>({
   filtersConfig,
   searchFieldPlaceholder,
   rowTooltipMessage,
+  isRowDisabled,
   refetch,
   onSetTableStorageState,
   onHandleRowClick,
@@ -138,6 +140,7 @@ const BaseTable = <T extends object, K, M>({
                 columnLength={columns.length}
                 emptyTableMessage={emptyTableMessage}
                 errorMessage={errorMessage}
+                isRowDisabled={isRowDisabled}
                 loading={loading}
                 rowTooltipMessage={rowTooltipMessage}
                 tableRows={getRowModel().rows}
