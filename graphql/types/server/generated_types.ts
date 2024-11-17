@@ -369,7 +369,11 @@ export type TechnicianRecordEdges = Edge & {
 };
 
 export type TechnicianRecordFilterOptions = {
+  availabilityStatus?: InputMaybe<Array<Scalars['String']['input']>>;
+  certifications?: InputMaybe<Array<Scalars['String']['input']>>;
+  employmentStatus?: InputMaybe<Array<Scalars['String']['input']>>;
   searchTerm?: InputMaybe<Scalars['String']['input']>;
+  skills?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 export type TechnicianRecordFormData = {

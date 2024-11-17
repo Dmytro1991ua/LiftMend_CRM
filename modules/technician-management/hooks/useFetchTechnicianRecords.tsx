@@ -6,6 +6,7 @@ import { SortingState } from '@tanstack/react-table';
 import { GET_TECHNICIAN_RECORDS } from '@/graphql/schemas/getTechnicianRecords';
 import { GetTechnicianRecordsQuery, QueryGetTechnicianRecordsArgs } from '@/graphql/types/client/generated_types';
 import { TableFilters } from '@/shared/base-table/types';
+import { convertStoredFiltersToQueryFormat } from '@/shared/base-table/utils';
 import {
   DEFAULT_PAGINATION,
   DEFAULT_PAGINATION_LIMIT,
@@ -16,6 +17,8 @@ import useStoredTableState from '@/shared/storage/hooks';
 import { TableStorageState } from '@/shared/storage/hooks/useStoredState';
 import { StorageTableName, TechnicianRecord } from '@/shared/types';
 import { getItemsFromQuery, removeTypeNamesFromArray } from '@/shared/utils';
+
+import { TECHNICIAN_RECORDS_TABLE_FILTER_KEY_MAP } from '../constants';
 
 type UseFetchTechnicianRecords<T> = {
   technicianRecords: TechnicianRecord[];
@@ -41,6 +44,16 @@ const useFetchTechnicianRecords = <T,>(): UseFetchTechnicianRecords<T> => {
     [tableStorageState.filters?.searchTerm]
   );
 
+  const filterValues = useMemo(
+    () => tableStorageState.filters?.filterValues || {},
+    [tableStorageState.filters?.filterValues]
+  );
+
+  const filters = useMemo(
+    () => convertStoredFiltersToQueryFormat(filterValues, TECHNICIAN_RECORDS_TABLE_FILTER_KEY_MAP),
+    [filterValues]
+  );
+
   const { data, error, loading, fetchMore, refetch } = useQuery<
     GetTechnicianRecordsQuery,
     QueryGetTechnicianRecordsArgs
@@ -49,6 +62,7 @@ const useFetchTechnicianRecords = <T,>(): UseFetchTechnicianRecords<T> => {
       paginationOptions: DEFAULT_PAGINATION,
       filterOptions: {
         searchTerm,
+        ...filters,
       },
     },
     notifyOnNetworkStatusChange: true,
@@ -73,7 +87,7 @@ const useFetchTechnicianRecords = <T,>(): UseFetchTechnicianRecords<T> => {
         await fetchMore({
           variables: {
             paginationOptions: { offset: newOffset, limit: DEFAULT_PAGINATION_LIMIT },
-            filterOptions: { searchTerm },
+            filterOptions: { searchTerm, ...filters },
           },
         });
       }

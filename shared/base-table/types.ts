@@ -18,6 +18,10 @@ export enum FilterLabel {
   BuildingName = 'Building Name',
   ElevatorLocation = 'Elevator Location',
   TechnicianName = 'Technician Name',
+  AvailableStatus = 'Available Status',
+  EmploymentStatus = 'Employment Status',
+  TechnicianSkills = 'Technician skills',
+  Certifications = 'Certifications',
 }
 
 export enum FilterKey {
@@ -28,6 +32,10 @@ export enum FilterKey {
   TechnicianNames = 'technicianNames',
   Priorities = 'priorities',
   Statuses = 'statuses',
+  AvailableStatuses = 'availabilityStatuses',
+  EmploymentStatuses = 'employmentStatuses',
+  TechnicianSkills = 'skills',
+  Certifications = 'certifications',
 }
 
 export type Nullable<T> = T | null;
