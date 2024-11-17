@@ -54,6 +54,6 @@ model Certifications {
 }
 
 model EmploymentStatuses {
-  id                 Int      @id @default(autoincrement())
+  id                 Int      @id(map: "EmploymentStatus_pkey") @default(autoincrement())
   employmentStatuses String[]
 }

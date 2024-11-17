@@ -9,6 +9,7 @@ import {
   RepairJobFilterOptions,
   RepairJobSortField,
   RepairJobSortInput,
+  TechnicianRecordFilterOptions,
 } from '@/graphql/types/server/generated_types';
 
 import { Connection, Edge, PageInfo } from '../types';
@@ -133,4 +134,12 @@ export const createElevatorRecordSortOptions = (
   return sortOptions?.field && sortOptions?.order
     ? { [fieldMap[sortOptions.field]]: sortOptions.order.toLowerCase() }
     : {};
+};
+
+export const createTechnicianRecordFilterOptions = (filterOptions: InputMaybe<TechnicianRecordFilterOptions>) => {
+  const { searchTerm } = filterOptions || {};
+
+  return {
+    ...(searchTerm && { id: searchTerm }),
+  };
 };

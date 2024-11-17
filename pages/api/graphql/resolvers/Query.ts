@@ -17,6 +17,7 @@ import {
   createElevatorRecordSortOptions,
   createRepairJobFilterOptions,
   createRepairJobSortOptions,
+  createTechnicianRecordFilterOptions,
   fetchFormDropdownData,
   getSortedFormDropdownData,
   makeConnectionObject,
@@ -87,7 +88,9 @@ const Query: QueryResolvers = {
       orderBy,
     });
 
-    const totalItems = await prisma.repairJob.count();
+    const totalItems = await prisma.repairJob.count({
+      where: filters,
+    });
 
     return makeConnectionObject({
       items: scheduledRepairJobs,
@@ -146,7 +149,9 @@ const Query: QueryResolvers = {
       orderBy,
     });
 
-    const totalItems = await prisma.elevatorRecord.count();
+    const totalItems = await prisma.elevatorRecord.count({
+      where: filters,
+    });
 
     return makeConnectionObject({
       items: elevatorRecords,
@@ -160,13 +165,22 @@ const Query: QueryResolvers = {
 
     return elevatorRecord || null;
   },
-  getTechnicianRecords: async (_, { paginationOptions }, { prisma }): Promise<TechnicianRecordConnection> => {
+  getTechnicianRecords: async (
+    _,
+    { paginationOptions, filterOptions },
+    { prisma }
+  ): Promise<TechnicianRecordConnection> => {
+    const filters = createTechnicianRecordFilterOptions(filterOptions);
+
     const technicianRecords = await prisma.technicianRecord.findMany({
       skip: paginationOptions?.offset,
       take: paginationOptions?.limit,
+      where: filters,
     });
 
-    const totalItems = await prisma.technicianRecord.count();
+    const totalItems = await prisma.technicianRecord.count({
+      where: filters, // Ensure the count is based on the filtered records
+    });
 
     return makeConnectionObject({
       items: technicianRecords,

@@ -263,6 +263,7 @@ export type QueryGetRepairJobsArgs = {
 };
 
 export type QueryGetTechnicianRecordsArgs = {
+  filterOptions?: InputMaybe<TechnicianRecordFilterOptions>;
   paginationOptions?: InputMaybe<PaginationOptions>;
 };
 
@@ -365,6 +366,10 @@ export type TechnicianRecordEdges = Edge & {
   __typename?: 'TechnicianRecordEdges';
   cursor: Scalars['String']['output'];
   node: TechnicianRecord;
+};
+
+export type TechnicianRecordFilterOptions = {
+  searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type TechnicianRecordFormData = {
@@ -539,6 +544,7 @@ export type ResolversTypes = ResolversObject<{
   TechnicianRecord: ResolverTypeWrapper<TechnicianRecord>;
   TechnicianRecordConnection: ResolverTypeWrapper<TechnicianRecordConnection>;
   TechnicianRecordEdges: ResolverTypeWrapper<TechnicianRecordEdges>;
+  TechnicianRecordFilterOptions: TechnicianRecordFilterOptions;
   TechnicianRecordFormData: ResolverTypeWrapper<TechnicianRecordFormData>;
   UpdateElevatorRecordInput: UpdateElevatorRecordInput;
   UpdateRepairJobInput: UpdateRepairJobInput;
@@ -583,6 +589,7 @@ export type ResolversParentTypes = ResolversObject<{
   TechnicianRecord: TechnicianRecord;
   TechnicianRecordConnection: TechnicianRecordConnection;
   TechnicianRecordEdges: TechnicianRecordEdges;
+  TechnicianRecordFilterOptions: TechnicianRecordFilterOptions;
   TechnicianRecordFormData: TechnicianRecordFormData;
   UpdateElevatorRecordInput: UpdateElevatorRecordInput;
   UpdateRepairJobInput: UpdateRepairJobInput;

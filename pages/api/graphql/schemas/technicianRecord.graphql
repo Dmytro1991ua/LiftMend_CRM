@@ -42,3 +42,7 @@ input UpdateTechnicianRecordInput {
   skills: [String!]
   certifications: [String!]
 }
+
+input TechnicianRecordFilterOptions {
+  searchTerm: String
+}
