@@ -1,5 +1,3 @@
-import { useMemo } from 'react';
-
 import { useFormContext } from 'react-hook-form';
 
 import { GetElevatorRecordFormDataQuery } from '@/graphql/types/client/generated_types';
@@ -9,16 +7,15 @@ import ControlledSingleDatePicker from '@/shared/date-picker/components/controll
 import EditEntityForm from '@/shared/edit-entity-form/EditEntityForm';
 import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions';
 import { DropdownOptions } from '@/shared/hooks/useFetchDropdownOptions/config';
-import { ElevatorRecord, FormFieldLabel, ItemConfig } from '@/shared/types';
+import { FormFieldLabel, ItemConfig } from '@/shared/types';
 
 import { ElevatorRecordFormValues } from '../../types';
-import { convertElevatorRecordToFormValues } from '../../utils';
 
 type EditElevatorRecordFormProps = {
-  elevatorRecord: ElevatorRecord;
+  elevatorRecordFormValues: ElevatorRecordFormValues;
 };
 
-const EditElevatorRecordForm = ({ elevatorRecord }: EditElevatorRecordFormProps) => {
+const EditElevatorRecordForm = ({ elevatorRecordFormValues }: EditElevatorRecordFormProps) => {
   const {
     dropdownOptions: { elevatorTypes, elevatorLocations, buildingNames, elevatorStatuses, technicianNames },
     loading,
@@ -26,8 +23,6 @@ const EditElevatorRecordForm = ({ elevatorRecord }: EditElevatorRecordFormProps)
   } = useFetchDropdownOptions<GetElevatorRecordFormDataQuery>(DropdownOptions.ElevatorManagement);
 
   const { clearErrors } = useFormContext<ElevatorRecordFormValues>();
-
-  const currentElevatorRecord = useMemo(() => convertElevatorRecordToFormValues(elevatorRecord), [elevatorRecord]);
 
   const {
     elevatorType,
@@ -39,7 +34,7 @@ const EditElevatorRecordForm = ({ elevatorRecord }: EditElevatorRecordFormProps)
     nextMaintenanceDate,
     capacity,
     contactInformation,
-  } = currentElevatorRecord;
+  } = elevatorRecordFormValues;
 
   const ELEVATOR_RECORD_FORM_FIELD_CONFIG: ItemConfig[] = [
     {
@@ -201,7 +196,7 @@ const EditElevatorRecordForm = ({ elevatorRecord }: EditElevatorRecordFormProps)
     <EditEntityForm<ElevatorRecordFormValues>
       error={error}
       fieldConfigs={ELEVATOR_RECORD_FORM_FIELD_CONFIG}
-      formValues={currentElevatorRecord}
+      formValues={elevatorRecordFormValues}
       loading={loading}
     />
   );

@@ -19,4 +19,6 @@ type Mutation {
   updateElevatorRecord(input: UpdateElevatorRecordInput!): ElevatorRecord!
   deleteElevatorRecord(id: ID!): DeleteElevatorRecordResponse!
   createTechnicianRecord(input: CreateTechnicianRecordInput!): TechnicianRecord!
+  updateTechnicianRecord(input: UpdateTechnicianRecordInput!): TechnicianRecord!
+  updateEmploymentStatus(id: ID!, employmentStatus: String!, availabilityStatus: String!): TechnicianRecord!
 }

@@ -60,7 +60,7 @@ const EditActionCell = ({ repairJob }: EditActionCellProps) => {
           onClose={onCloseModal}
           onSubmit={formState.handleSubmit(onEditRepairJob)}
         >
-          <EditRepairJobForm repairJob={repairJob} />
+          <EditRepairJobForm repairJobFormValues={currentRepairJob} />
         </EditModal>
       </section>
     </FormProvider>

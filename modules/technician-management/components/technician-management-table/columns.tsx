@@ -7,6 +7,10 @@ import Pill from '@/shared/pill';
 import { PillStatus } from '@/shared/pill/config';
 import { TechnicianRecord } from '@/shared/types';
 
+import { EmploymentStatus } from '../../types';
+import EditActionCell from '../edit-action-cell';
+import EmploymentStatusToggleCell from '../employment-status-toggle-cell';
+
 export const TECHNICIAN_RECORD_COLUMNS: ColumnDef<TechnicianRecord>[] = [
   {
     id: 'select',
@@ -98,6 +102,36 @@ export const TECHNICIAN_RECORD_COLUMNS: ColumnDef<TechnicianRecord>[] = [
         original: { employmentStatus },
       },
     }) => <Pill status={employmentStatus as PillStatus} />,
+    enableResizing: true,
+    enableSorting: true,
+    size: 200,
+    minSize: 120,
+    maxSize: 350,
+  },
+  {
+    accessorKey: 'edit',
+    header: 'Edit',
+    cell: ({ row: { original } }) => <EditActionCell technicianRecord={original} />,
+    enableSorting: false,
+    size: 80,
+    enableResizing: false,
+    minSize: 80,
+    maxSize: 100,
+  },
+  {
+    accessorKey: 'visibility',
+    header: 'Technician Visibility',
+    cell: ({
+      row: {
+        original: { employmentStatus, id, availabilityStatus },
+      },
+    }) => (
+      <EmploymentStatusToggleCell
+        availabilityStatus={availabilityStatus}
+        employmentStatus={employmentStatus as EmploymentStatus}
+        technicianId={id}
+      />
+    ),
     enableResizing: true,
     enableSorting: true,
     size: 200,

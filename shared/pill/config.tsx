@@ -3,7 +3,7 @@ import {
   BsFillExclamationOctagonFill,
   BsFillExclamationTriangleFill,
 } from 'react-icons/bs';
-import { FaHourglassStart, FaTools, FaUserCheck, FaUserSlash } from 'react-icons/fa';
+import { FaHourglassStart, FaTools, FaUserCheck, FaUserSlash, FaUserTimes } from 'react-icons/fa';
 import { FaClock, FaPause } from 'react-icons/fa6';
 import { IoIosCheckmarkCircle, IoMdCheckmarkCircleOutline } from 'react-icons/io';
 import { MdCancel, MdOutlineWorkOutline, MdPersonOff, MdWarning } from 'react-icons/md';
@@ -26,6 +26,7 @@ export enum PillStatus {
   Inactive = 'Inactive',
   Active = 'Active',
   Retired = 'Retired',
+  Unavailable = 'Unavailable',
 }
 
 type PillConfig = {
@@ -104,6 +105,11 @@ export const PILL_CONFIG: Record<PillStatus, PillConfig> = {
     icon: <MdPersonOff className='h-6 w-6 text-yellow-500' />,
     label: PillStatus.OnLeave,
     className: 'text-yellow-500',
+  },
+  [PillStatus.Unavailable]: {
+    icon: <FaUserTimes className='h-6 w-6 text-gray-500' />,
+    label: PillStatus.Unavailable,
+    className: 'text-gray-500',
   },
   [PillStatus.Inactive]: {
     icon: <FaUserSlash className='h-6 w-6 text-gray-500' />,

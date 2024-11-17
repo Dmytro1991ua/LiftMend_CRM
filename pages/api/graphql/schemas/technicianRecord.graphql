@@ -35,6 +35,14 @@ input CreateTechnicianRecordInput {
   employmentStatus: String
 }
 
+input UpdateTechnicianRecordInput {
+  id: ID!
+  name: String
+  contactInformation: String
+  skills: [String!]
+  certifications: [String!]
+}
+
 input TechnicianRecordFilterOptions {
   searchTerm: String
 }

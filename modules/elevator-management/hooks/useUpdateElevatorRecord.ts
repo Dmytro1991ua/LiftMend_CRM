@@ -10,7 +10,7 @@ import { ElevatorRecord } from '@/shared/types';
 import { getFieldsToUpdateForMutation } from '@/shared/utils';
 
 import { ElevatorRecordFormValues } from '../types';
-import { convertFormFieldsToRepairJob } from '../utils';
+import { convertFormFieldsToElevatorRecord } from '../utils';
 
 type UseUpdateElevatorRecordProps = {
   onSuccess?: (message: string) => void;
@@ -30,7 +30,7 @@ const useUpdateElevatorRecord = ({ onSuccess, onError }: UseUpdateElevatorRecord
 
   const onUpdateElevatorRecord = async (formFields: ElevatorRecordFormValues, originalRepairJob?: ElevatorRecord) => {
     try {
-      const elevatorRecord = convertFormFieldsToRepairJob(formFields);
+      const elevatorRecord = convertFormFieldsToElevatorRecord(formFields);
       const fieldsToUpdate = getFieldsToUpdateForMutation(elevatorRecord, originalRepairJob);
 
       const result = await updateElevatorRecord({

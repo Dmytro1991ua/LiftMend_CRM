@@ -162,7 +162,9 @@ export type Mutation = {
   deleteElevatorRecord: DeleteElevatorRecordResponse;
   deleteRepairJobAndEvent: DeleteCalendarAndRepairJobResponse;
   updateElevatorRecord: ElevatorRecord;
+  updateEmploymentStatus: TechnicianRecord;
   updateRepairJob: RepairJob;
+  updateTechnicianRecord: TechnicianRecord;
 };
 
 export type MutationCreateElevatorRecordArgs = {
@@ -191,8 +193,18 @@ export type MutationUpdateElevatorRecordArgs = {
   input: UpdateElevatorRecordInput;
 };
 
+export type MutationUpdateEmploymentStatusArgs = {
+  availabilityStatus: Scalars['String']['input'];
+  employmentStatus: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
+};
+
 export type MutationUpdateRepairJobArgs = {
   input: UpdateRepairJobInput;
+};
+
+export type MutationUpdateTechnicianRecordArgs = {
+  input: UpdateTechnicianRecordInput;
 };
 
 export type Node = {
@@ -397,6 +409,14 @@ export type UpdateRepairJobInput = {
   technicianSkills?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
+export type UpdateTechnicianRecordInput = {
+  certifications?: InputMaybe<Array<Scalars['String']['input']>>;
+  contactInformation?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['ID']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+  skills?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
 export type User = {
   __typename?: 'User';
   email: Scalars['String']['output'];
@@ -528,6 +548,7 @@ export type ResolversTypes = ResolversObject<{
   TechnicianRecordFormData: ResolverTypeWrapper<TechnicianRecordFormData>;
   UpdateElevatorRecordInput: UpdateElevatorRecordInput;
   UpdateRepairJobInput: UpdateRepairJobInput;
+  UpdateTechnicianRecordInput: UpdateTechnicianRecordInput;
   User: ResolverTypeWrapper<UserModel>;
 }>;
 
@@ -572,6 +593,7 @@ export type ResolversParentTypes = ResolversObject<{
   TechnicianRecordFormData: TechnicianRecordFormData;
   UpdateElevatorRecordInput: UpdateElevatorRecordInput;
   UpdateRepairJobInput: UpdateRepairJobInput;
+  UpdateTechnicianRecordInput: UpdateTechnicianRecordInput;
   User: UserModel;
 }>;
 
@@ -725,11 +747,23 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationUpdateElevatorRecordArgs, 'input'>
   >;
+  updateEmploymentStatus?: Resolver<
+    ResolversTypes['TechnicianRecord'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateEmploymentStatusArgs, 'availabilityStatus' | 'employmentStatus' | 'id'>
+  >;
   updateRepairJob?: Resolver<
     ResolversTypes['RepairJob'],
     ParentType,
     ContextType,
     RequireFields<MutationUpdateRepairJobArgs, 'input'>
+  >;
+  updateTechnicianRecord?: Resolver<
+    ResolversTypes['TechnicianRecord'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateTechnicianRecordArgs, 'input'>
   >;
 }>;
 

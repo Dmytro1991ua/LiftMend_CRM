@@ -72,7 +72,7 @@ const ElevatorRecordDetails = () => {
           onClose={onReset}
           onSubmit={formState.handleSubmit(onEditElevatorRecord)}
         >
-          <EditElevatorRecordForm elevatorRecord={elevatorRecord} />
+          <EditElevatorRecordForm elevatorRecordFormValues={elevatorRecord} />
         </EditModal>
       ),
     },

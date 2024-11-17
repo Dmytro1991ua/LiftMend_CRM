@@ -17,6 +17,7 @@ import { convertElevatorRecordToFormValues } from '../../utils';
 import EditElevatorRecordForm from '../edit-elevator-record-form';
 import { elevatorRecordEditFormSchema } from '../edit-elevator-record-form/validation';
 import useEditElevatorRecordForm from '../elevator-record-form/hooks/useEditElevatorRecordForm';
+
 type EditActionCellProps = {
   elevatorRecord: ElevatorRecord;
 };
@@ -55,7 +56,7 @@ const EditActionCell = ({ elevatorRecord }: EditActionCellProps) => {
           onClose={onCloseModal}
           onSubmit={formState.handleSubmit(onEditElevatorRecord)}
         >
-          <EditElevatorRecordForm elevatorRecord={elevatorRecord} />
+          <EditElevatorRecordForm elevatorRecordFormValues={currentElevatorRecord} />
         </EditModal>
       </section>
     </FormProvider>
