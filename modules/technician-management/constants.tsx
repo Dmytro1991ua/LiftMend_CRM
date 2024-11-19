@@ -27,3 +27,8 @@ export const EMPLOYMENT_STATUS_TOOLTIP_MESSAGE =
   'Active reflects that the technician is currently employed. This status is predefined and cannot be modified within this form.';
 export const DEFAULT_TECHNICIAN_RECORD_SUCCESS_MESSAGE = 'Successfully created elevator record';
 export const DEFAULT_TECHNICIAN_RECORD_FAIL_MESSAGE = 'Failed to create an elevator record';
+
+export const TECHNICIAN_RECORDS_TABLE_FILTER_KEY_MAP: Record<string, string> = {
+  availabilityStatuses: 'availabilityStatus',
+  employmentStatuses: 'employmentStatus',
+};

@@ -4,12 +4,15 @@ import { GetTechnicianRecordsQuery, QueryGetTechnicianRecordsArgs } from '@/grap
 import BaseTable from '@/shared/base-table';
 import useSearchInTable from '@/shared/base-table/hooks/useSearchInTable';
 import { getEmptyTableMessage } from '@/shared/base-table/utils';
+import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions';
+import { DropdownOptions } from '@/shared/hooks/useFetchDropdownOptions/config';
 import QueryResponse from '@/shared/query-response';
 import { TableNames, TechnicianRecord } from '@/shared/types';
 
 import useFetchTechnicianRecords from '../../hooks/useFetchTechnicianRecords';
 
 import { TECHNICIAN_RECORD_COLUMNS } from './columns';
+import { getTechnicianRecordFilterConfig } from './config';
 import { DEFAULT_SEARCH_INPUT_PLACEHOLDER, DEFAULT_TECHNICIAN_RECORDS_TABLE_EMPTY_TABLE_MESSAGE } from './constants';
 import { getRowTooltipMessage, isTechnicianRecordRowDisabled } from './utils';
 
@@ -22,6 +25,12 @@ const TechnicianManagementTable = () => {
     onSetTableStorageState,
     refetch,
   });
+
+  const { dropdownOptions, error: technicianRecordDataError } = useFetchDropdownOptions<GetTechnicianRecordsQuery>(
+    DropdownOptions.TechnicianManagement
+  );
+
+  const filtersConfig = useMemo(() => getTechnicianRecordFilterConfig(dropdownOptions), [dropdownOptions]);
 
   const emptyTableMessage = useMemo(
     () =>
@@ -36,9 +45,9 @@ const TechnicianManagementTable = () => {
   return (
     <>
       <QueryResponse
-        errorDescription={error}
+        errorDescription={technicianRecordDataError}
         errorMessage='Failed to fetch technician record data'
-        isErrorOccurred={!!error}
+        isErrorOccurred={!!technicianRecordDataError}
       />
       <BaseTable<TechnicianRecord, QueryGetTechnicianRecordsArgs, GetTechnicianRecordsQuery>
         className='h-[48rem]'
@@ -46,7 +55,7 @@ const TechnicianManagementTable = () => {
         data={technicianRecords}
         emptyTableMessage={emptyTableMessage}
         errorMessage={error}
-        filtersConfig={[]}
+        filtersConfig={filtersConfig}
         hasMore={hasMore}
         isRowDisabled={isTechnicianRecordRowDisabled}
         loadMore={onNext}

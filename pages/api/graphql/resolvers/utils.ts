@@ -137,9 +137,13 @@ export const createElevatorRecordSortOptions = (
 };
 
 export const createTechnicianRecordFilterOptions = (filterOptions: InputMaybe<TechnicianRecordFilterOptions>) => {
-  const { searchTerm } = filterOptions || {};
+  const { searchTerm, availabilityStatus, employmentStatus, skills, certifications } = filterOptions || {};
 
   return {
     ...(searchTerm && { id: searchTerm }),
+    ...(availabilityStatus && availabilityStatus.length > 0 && { availabilityStatus: { in: availabilityStatus } }),
+    ...(employmentStatus && employmentStatus.length > 0 && { employmentStatus: { in: employmentStatus } }),
+    ...(skills && skills.length > 0 && { skills: { hasSome: skills } }),
+    ...(certifications && certifications.length > 0 && { certifications: { hasSome: certifications } }),
   };
 };
