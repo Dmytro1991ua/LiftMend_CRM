@@ -10,6 +10,8 @@ import {
   RepairJobSortField,
   RepairJobSortInput,
   TechnicianRecordFilterOptions,
+  TechnicianRecordSortField,
+  TechnicianRecordSortInput,
 } from '@/graphql/types/server/generated_types';
 
 import { Connection, Edge, PageInfo } from '../types';
@@ -146,4 +148,18 @@ export const createTechnicianRecordFilterOptions = (filterOptions: InputMaybe<Te
     ...(skills && skills.length > 0 && { skills: { hasSome: skills } }),
     ...(certifications && certifications.length > 0 && { certifications: { hasSome: certifications } }),
   };
+};
+
+export const createTechnicianRecordSortOptions = (
+  sortOptions: InputMaybe<TechnicianRecordSortInput>
+): Record<string, string> => {
+  const fieldMap: { [key in TechnicianRecordSortField]: string } = {
+    [TechnicianRecordSortField.Name]: 'name',
+    [TechnicianRecordSortField.AvailabilityStatus]: 'availabilityStatus',
+    [TechnicianRecordSortField.EmploymentStatus]: 'employmentStatus',
+  };
+
+  return sortOptions?.field && sortOptions?.order
+    ? { [fieldMap[sortOptions.field]]: sortOptions.order.toLowerCase() }
+    : {};
 };

@@ -18,6 +18,7 @@ import {
   createRepairJobFilterOptions,
   createRepairJobSortOptions,
   createTechnicianRecordFilterOptions,
+  createTechnicianRecordSortOptions,
   fetchFormDropdownData,
   getSortedFormDropdownData,
   makeConnectionObject,
@@ -167,15 +168,17 @@ const Query: QueryResolvers = {
   },
   getTechnicianRecords: async (
     _,
-    { paginationOptions, filterOptions },
+    { paginationOptions, filterOptions, sortOptions },
     { prisma }
   ): Promise<TechnicianRecordConnection> => {
     const filters = createTechnicianRecordFilterOptions(filterOptions);
+    const orderBy = createTechnicianRecordSortOptions(sortOptions);
 
     const technicianRecords = await prisma.technicianRecord.findMany({
       skip: paginationOptions?.offset,
       take: paginationOptions?.limit,
       where: filters,
+      orderBy,
     });
 
     const totalItems = await prisma.technicianRecord.count({
