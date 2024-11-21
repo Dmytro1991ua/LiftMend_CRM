@@ -265,6 +265,7 @@ export type QueryGetRepairJobsArgs = {
 export type QueryGetTechnicianRecordsArgs = {
   filterOptions?: InputMaybe<TechnicianRecordFilterOptions>;
   paginationOptions?: InputMaybe<PaginationOptions>;
+  sortOptions?: InputMaybe<TechnicianRecordSortInput>;
 };
 
 export type RepairJob = Node & {
@@ -382,6 +383,17 @@ export type TechnicianRecordFormData = {
   certifications: Array<Scalars['String']['output']>;
   employmentStatuses: Array<Scalars['String']['output']>;
   skills: Array<Scalars['String']['output']>;
+};
+
+export enum TechnicianRecordSortField {
+  AvailabilityStatus = 'AVAILABILITY_STATUS',
+  EmploymentStatus = 'EMPLOYMENT_STATUS',
+  Name = 'NAME',
+}
+
+export type TechnicianRecordSortInput = {
+  field?: InputMaybe<TechnicianRecordSortField>;
+  order?: InputMaybe<OrderOption>;
 };
 
 export type UpdateElevatorRecordInput = {
@@ -550,6 +562,8 @@ export type ResolversTypes = ResolversObject<{
   TechnicianRecordEdges: ResolverTypeWrapper<TechnicianRecordEdges>;
   TechnicianRecordFilterOptions: TechnicianRecordFilterOptions;
   TechnicianRecordFormData: ResolverTypeWrapper<TechnicianRecordFormData>;
+  TechnicianRecordSortField: TechnicianRecordSortField;
+  TechnicianRecordSortInput: TechnicianRecordSortInput;
   UpdateElevatorRecordInput: UpdateElevatorRecordInput;
   UpdateRepairJobInput: UpdateRepairJobInput;
   UpdateTechnicianRecordInput: UpdateTechnicianRecordInput;
@@ -595,6 +609,7 @@ export type ResolversParentTypes = ResolversObject<{
   TechnicianRecordEdges: TechnicianRecordEdges;
   TechnicianRecordFilterOptions: TechnicianRecordFilterOptions;
   TechnicianRecordFormData: TechnicianRecordFormData;
+  TechnicianRecordSortInput: TechnicianRecordSortInput;
   UpdateElevatorRecordInput: UpdateElevatorRecordInput;
   UpdateRepairJobInput: UpdateRepairJobInput;
   UpdateTechnicianRecordInput: UpdateTechnicianRecordInput;

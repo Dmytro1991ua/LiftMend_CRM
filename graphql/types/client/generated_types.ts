@@ -264,6 +264,7 @@ export type QueryGetRepairJobsArgs = {
 export type QueryGetTechnicianRecordsArgs = {
   filterOptions?: InputMaybe<TechnicianRecordFilterOptions>;
   paginationOptions?: InputMaybe<PaginationOptions>;
+  sortOptions?: InputMaybe<TechnicianRecordSortInput>;
 };
 
 export type RepairJob = Node & {
@@ -382,6 +383,18 @@ export type TechnicianRecordFormData = {
   certifications: Array<Scalars['String']['output']>;
   employmentStatuses: Array<Scalars['String']['output']>;
   skills: Array<Scalars['String']['output']>;
+};
+
+export const TechnicianRecordSortField = {
+  AvailabilityStatus: 'AVAILABILITY_STATUS',
+  EmploymentStatus: 'EMPLOYMENT_STATUS',
+  Name: 'NAME',
+} as const;
+
+export type TechnicianRecordSortField = (typeof TechnicianRecordSortField)[keyof typeof TechnicianRecordSortField];
+export type TechnicianRecordSortInput = {
+  field?: InputMaybe<TechnicianRecordSortField>;
+  order?: InputMaybe<OrderOption>;
 };
 
 export type UpdateElevatorRecordInput = {
@@ -770,6 +783,7 @@ export type GetTechnicianRecordFormDataQuery = {
 export type GetTechnicianRecordsQueryVariables = Exact<{
   paginationOptions?: InputMaybe<PaginationOptions>;
   filterOptions?: InputMaybe<TechnicianRecordFilterOptions>;
+  sortOptions?: InputMaybe<TechnicianRecordSortInput>;
 }>;
 
 export type GetTechnicianRecordsQuery = {
