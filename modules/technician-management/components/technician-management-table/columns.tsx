@@ -8,6 +8,7 @@ import { PillStatus } from '@/shared/pill/config';
 import { TechnicianRecord } from '@/shared/types';
 
 import { EmploymentStatus } from '../../types';
+import DeleteActionCell from '../delete-action-cell';
 import EditActionCell from '../edit-action-cell';
 import EmploymentStatusToggleCell from '../employment-status-toggle-cell';
 
@@ -117,6 +118,16 @@ export const TECHNICIAN_RECORD_COLUMNS: ColumnDef<TechnicianRecord>[] = [
     enableResizing: false,
     minSize: 80,
     maxSize: 100,
+  },
+  {
+    accessorKey: 'delete',
+    header: 'Delete',
+    cell: ({ row: { original } }) => <DeleteActionCell technicianRecord={original} />,
+    size: 80,
+    enableResizing: false,
+    minSize: 80,
+    maxSize: 100,
+    enableSorting: false,
   },
   {
     accessorKey: 'visibility',

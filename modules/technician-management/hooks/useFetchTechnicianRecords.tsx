@@ -76,7 +76,6 @@ const useFetchTechnicianRecords = <T,>(): UseFetchTechnicianRecords<T> => {
       },
     },
     notifyOnNetworkStatusChange: true,
-    fetchPolicy: 'cache-first',
   });
 
   const technicianRecords = useMemo(

@@ -32,6 +32,10 @@ type TechnicianRecordFormData {
   skills: [String!]!
 }
 
+type DeleteTechnicianRecordResponse {
+  id: ID!
+}
+
 input CreateTechnicianRecordInput {
   name: String!
   contactInformation: String!
