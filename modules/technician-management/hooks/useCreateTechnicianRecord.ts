@@ -27,11 +27,6 @@ const useCreateTechnicianRecord = ({
       if (!data) return;
 
       const newTechnicianRecord = data?.createTechnicianRecord;
-
-      const existingData = cache.readQuery<GetTechnicianRecordsQuery>({
-        query: GET_TECHNICIAN_RECORDS,
-      });
-
       const newCacheEdge = {
         __typename: 'TechnicianRecordEdge',
         cursor: newTechnicianRecord.id,
@@ -41,14 +36,16 @@ const useCreateTechnicianRecord = ({
         },
       };
 
-      cache.writeQuery({
-        query: GET_TECHNICIAN_RECORDS,
-        data: {
-          getTechnicianRecords: {
-            edges: [newCacheEdge, ...(existingData?.getTechnicianRecords.edges || [])],
-            pageInfo: existingData?.getTechnicianRecords.pageInfo,
-            total: (existingData?.getTechnicianRecords.total || 0) + 1,
-            __typename: 'TechnicianRecordConnection',
+      cache.modify({
+        fields: {
+          getTechnicianRecords(existingTechnicianRecords = {}) {
+            const updatedEdges = [newCacheEdge, ...(existingTechnicianRecords.edges || [])];
+
+            return {
+              ...existingTechnicianRecords,
+              edges: updatedEdges,
+              total: (existingTechnicianRecords.total || 0) + 1,
+            };
           },
         },
       });

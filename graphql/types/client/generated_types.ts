@@ -86,6 +86,11 @@ export type DeleteElevatorRecordResponse = {
   id: Scalars['ID']['output'];
 };
 
+export type DeleteTechnicianRecordResponse = {
+  __typename?: 'DeleteTechnicianRecordResponse';
+  id: Scalars['ID']['output'];
+};
+
 export type Edge = {
   cursor: Scalars['String']['output'];
   node: Node;
@@ -159,6 +164,7 @@ export type Mutation = {
   createTechnicianRecord: TechnicianRecord;
   deleteElevatorRecord: DeleteElevatorRecordResponse;
   deleteRepairJobAndEvent: DeleteCalendarAndRepairJobResponse;
+  deleteTechnicianRecord: DeleteTechnicianRecordResponse;
   updateElevatorRecord: ElevatorRecord;
   updateEmploymentStatus: TechnicianRecord;
   updateRepairJob: RepairJob;
@@ -185,6 +191,10 @@ export type MutationDeleteElevatorRecordArgs = {
 export type MutationDeleteRepairJobAndEventArgs = {
   calendarEventId: Scalars['ID']['input'];
   repairJobId: Scalars['ID']['input'];
+};
+
+export type MutationDeleteTechnicianRecordArgs = {
+  id: Scalars['ID']['input'];
 };
 
 export type MutationUpdateElevatorRecordArgs = {
@@ -592,6 +602,15 @@ export type DeleteRepairJobAndEventMutation = {
     deletedEventId: string | null;
     deletedRepairJobId: string | null;
   };
+};
+
+export type DeleteTechnicianRecordMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+export type DeleteTechnicianRecordMutation = {
+  __typename?: 'Mutation';
+  deleteTechnicianRecord: { __typename?: 'DeleteTechnicianRecordResponse'; id: string };
 };
 
 export type GetCalendarEventsQueryVariables = Exact<{ [key: string]: never }>;

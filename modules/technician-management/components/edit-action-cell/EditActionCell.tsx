@@ -36,6 +36,8 @@ const EditActionCell = ({ technicianRecord }: EditActionCellProps) => {
 
   const { isUpdateRecordLoading, onEditTechnicianRecord } = useEditTechnicianRecordForm({ onReset, technicianRecord });
 
+  const isDeleteButtonDisabled = technicianRecord.employmentStatus !== 'Active';
+
   const onHandleEditClick = (event: React.MouseEvent) => {
     event.stopPropagation();
 
@@ -45,7 +47,12 @@ const EditActionCell = ({ technicianRecord }: EditActionCellProps) => {
   return (
     <FormProvider {...formState}>
       <section className='flex justify-center items-center'>
-        <Button className='hover:bg-transparent' variant='ghost' onClick={onHandleEditClick}>
+        <Button
+          className='hover:bg-transparent'
+          disabled={isDeleteButtonDisabled}
+          variant='ghost'
+          onClick={onHandleEditClick}
+        >
           <FaEdit className='h-5 w-5 text-primary' />
         </Button>
         <EditModal
