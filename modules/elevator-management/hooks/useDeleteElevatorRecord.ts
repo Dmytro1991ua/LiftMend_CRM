@@ -4,6 +4,7 @@ import { DELETE_ELEVATOR_RECORD } from '@/graphql/schemas/deleteElevatorRecord';
 import {
   DeleteElevatorRecordMutation,
   DeleteElevatorRecordMutationVariables,
+  ElevatorRecord,
 } from '@/graphql/types/client/generated_types';
 import { onHandleMutationErrors } from '@/graphql/utils';
 
@@ -20,10 +21,9 @@ type UseDeleteElevatorRecord = {
 
 type ElevatorCacheEdge = {
   __typename: string;
-  node: {
-    __ref: string;
-  };
+  node: ElevatorRecord;
 };
+
 export const DEFAULT_DELETE_ELEVATOR_RECORD_SUCCESS_MESSAGE = 'Successfully deleted elevation record';
 export const DEFAULT_DELETE_ELEVATOR_RECORD_FAIL_MESSAGE = 'Fail to deleted elevator record';
 
@@ -41,10 +41,14 @@ const useDeleteElevatorRecord = ({ onSuccess, onError }: UseDeleteElevatorRecord
         fields: {
           getElevatorRecords(existingElevatorRecords = []) {
             const updatedElevatorRecords = existingElevatorRecords?.edges.filter(
-              (edge: ElevatorCacheEdge) => edge.node.__ref !== `ElevatorRecord:${elevatorRecordId}`
+              (edge: ElevatorCacheEdge) => edge.node.id !== elevatorRecordId
             );
 
-            return updatedElevatorRecords;
+            return {
+              ...existingElevatorRecords,
+              edges: updatedElevatorRecords,
+              total: (existingElevatorRecords.total || 0) - 1,
+            };
           },
         },
       });

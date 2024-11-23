@@ -1,8 +1,7 @@
 import { ApolloError, useMutation } from '@apollo/client';
 
 import { CREATE_TECHNICIAN_RECORD } from '@/graphql/schemas/createTechnicianRecord';
-import { GET_TECHNICIAN_RECORDS } from '@/graphql/schemas/getTechnicianRecords';
-import { CreateTechnicianRecordMutation, GetTechnicianRecordsQuery } from '@/graphql/types/client/generated_types';
+import { CreateTechnicianRecordMutation } from '@/graphql/types/client/generated_types';
 import { onHandleMutationErrors } from '@/graphql/utils';
 
 import { TechnicianRecordFormFields } from '../components/technician-record-form/validation';
@@ -39,11 +38,11 @@ const useCreateTechnicianRecord = ({
       cache.modify({
         fields: {
           getTechnicianRecords(existingTechnicianRecords = {}) {
-            const updatedEdges = [newCacheEdge, ...(existingTechnicianRecords.edges || [])];
+            const updatedElevatorRecordEdges = [newCacheEdge, ...(existingTechnicianRecords.edges || [])];
 
             return {
               ...existingTechnicianRecords,
-              edges: updatedEdges,
+              edges: updatedElevatorRecordEdges,
               total: (existingTechnicianRecords.total || 0) + 1,
             };
           },

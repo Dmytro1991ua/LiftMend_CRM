@@ -25,6 +25,7 @@ type RepairJobCacheEdge = {
     __ref: string;
   };
 };
+
 export const DEFAULT_DELETE_CALENDAR_EVENT_AND_REPAIR_JOB_SUCCESS_MESSAGE =
   'Successfully deleted the calendar event and associated scheduled repair job';
 export const DEFAULT_DELETE_CALENDAR_EVENT_AND_REPAIR_JOB_FAIL_MESSAGE =
@@ -57,7 +58,11 @@ const useDeleteRepairJobAndCalendarEvent = ({
                 (edge: RepairJobCacheEdge) => edge.node.__ref !== `RepairJob:${repairJobId}`
               );
 
-              return updatedRepairJobs;
+              return {
+                ...existingRepairJobs,
+                edges: updatedRepairJobs,
+                total: (existingRepairJobs.total || 0) + 1,
+              };
             },
           },
         });
