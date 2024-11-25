@@ -23,6 +23,7 @@ type TechnicianCacheEdge = {
   __typename: string;
   node: TechnicianRecord;
 };
+
 export const DEFAULT_DELETE_TECHNICIAN_RECORD_SUCCESS_MESSAGE = 'Successfully deleted technician record';
 export const DEFAULT_DELETE_TECHNICIAN_RECORD_FAIL_MESSAGE = 'Fail to deleted technician record';
 
@@ -42,13 +43,13 @@ const useDeleteTechnicianRecord = ({
       cache.modify({
         fields: {
           getTechnicianRecords(existingTechnicianRecords = []) {
-            const updatedEdges = existingTechnicianRecords?.edges.filter(
+            const updatedElevatorRecordEdges = existingTechnicianRecords?.edges.filter(
               (edge: TechnicianCacheEdge) => edge.node.id !== technicianRecordId
             );
 
             return {
               ...existingTechnicianRecords,
-              edges: updatedEdges,
+              edges: updatedElevatorRecordEdges,
               total: (existingTechnicianRecords.total || 0) - 1,
             };
           },
