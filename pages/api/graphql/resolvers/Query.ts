@@ -217,6 +217,11 @@ const Query: QueryResolvers = {
 
     return technicianRecordFormData as TechnicianRecordFormData;
   },
+  getTechnicianRecordById: async (_, { id }, { prisma }): Promise<TechnicianRecord> => {
+    const technicianRecord = await prisma.technicianRecord.findUnique({ where: { id } });
+
+    return technicianRecord || null;
+  },
 };
 
 export default Query;

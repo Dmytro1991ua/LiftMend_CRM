@@ -6,18 +6,17 @@ import { ItemConfig } from '../types';
 
 import DetailsPageContent from './details-page-content';
 import DetailsPageHeader from './details-page-header';
-import { DetailsPageSectionsConfig } from './types';
+import { DetailsPageActionButtonConfig, DetailsPageSectionsConfig } from './types';
 
 type BaseDetailsPageProps = {
   error?: string;
   loading: boolean;
   errorMessage: string;
   detailsPageSections: DetailsPageSectionsConfig[];
-  onOpenDeleteModal: () => void;
-  onOpenEditModal: () => void;
   title: string;
-  description: string;
+  description?: string;
   modalConfig: ItemConfig[];
+  actionButtonsConfig: DetailsPageActionButtonConfig[];
 };
 
 const BaseDetailsPage = ({
@@ -25,20 +24,18 @@ const BaseDetailsPage = ({
   errorMessage,
   detailsPageSections,
   description,
-  onOpenDeleteModal,
-  onOpenEditModal,
   title,
   loading,
   modalConfig,
+  actionButtonsConfig,
 }: BaseDetailsPageProps) => {
   return (
     <section>
       <DetailsPageHeader
+        actionButtonsConfig={actionButtonsConfig}
         description={description}
         loading={loading}
         title={title}
-        onOpenDeleteModal={onOpenDeleteModal}
-        onOpenEditModal={onOpenEditModal}
       />
       <div className='content-wrapper h-[72vh] overflow-y-auto overflow-x-hidden'>
         <>

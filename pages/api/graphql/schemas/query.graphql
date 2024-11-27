@@ -20,4 +20,5 @@ type Query {
     sortOptions: TechnicianRecordSortInput
   ): TechnicianRecordConnection!
   getTechnicianRecordFormData: TechnicianRecordFormData!
+  getTechnicianRecordById(id: ID!): TechnicianRecord!
 }

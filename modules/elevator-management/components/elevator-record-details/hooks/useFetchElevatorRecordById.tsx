@@ -6,7 +6,7 @@ import { GET_ELEVATOR_RECORD_BY_ID } from '@/graphql/schemas/getElevatorRecordBy
 import {
   ElevatorRecord,
   GetElevatorRecordByIdQuery,
-  GetRepairJobByIdQueryVariables,
+  GetElevatorRecordByIdQueryVariables,
 } from '@/graphql/types/client/generated_types';
 import { removeTypeNamesFromObject } from '@/shared/utils';
 
@@ -17,7 +17,7 @@ type UseFetchFetchElevatorRecordById = {
 };
 
 const useFetchElevatorRecordById = (id: string): UseFetchFetchElevatorRecordById => {
-  const { data, loading, error } = useQuery<GetElevatorRecordByIdQuery, GetRepairJobByIdQueryVariables>(
+  const { data, loading, error } = useQuery<GetElevatorRecordByIdQuery, GetElevatorRecordByIdQueryVariables>(
     GET_ELEVATOR_RECORD_BY_ID,
     {
       variables: { id },

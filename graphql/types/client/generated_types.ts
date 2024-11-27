@@ -247,6 +247,7 @@ export type Query = {
   getRepairJobById: RepairJob;
   getRepairJobScheduleData: RepairJobScheduleData;
   getRepairJobs: RepairJobConnection;
+  getTechnicianRecordById: TechnicianRecord;
   getTechnicianRecordFormData: TechnicianRecordFormData;
   getTechnicianRecords: TechnicianRecordConnection;
 };
@@ -269,6 +270,10 @@ export type QueryGetRepairJobsArgs = {
   filterOptions?: InputMaybe<RepairJobFilterOptions>;
   paginationOptions?: InputMaybe<PaginationOptions>;
   sortOptions?: InputMaybe<RepairJobSortInput>;
+};
+
+export type QueryGetTechnicianRecordByIdArgs = {
+  id: Scalars['ID']['input'];
 };
 
 export type QueryGetTechnicianRecordsArgs = {
@@ -783,6 +788,24 @@ export type GetRepairJobsQuery = {
       startCursor: string | null;
       endCursor: string | null;
     };
+  };
+};
+
+export type GetTechnicianRecordByIdQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+export type GetTechnicianRecordByIdQuery = {
+  __typename?: 'Query';
+  getTechnicianRecordById: {
+    __typename?: 'TechnicianRecord';
+    id: string;
+    name: string;
+    contactInformation: string;
+    skills: Array<string>;
+    certifications: Array<string>;
+    availabilityStatus: string;
+    employmentStatus: string;
   };
 };
 
