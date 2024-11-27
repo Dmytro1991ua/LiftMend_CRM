@@ -55,12 +55,12 @@ const useUpdateTechnicianRecord = ({
 
       if (hasErrors) {
         onHandleMutationErrors({
-          message: `Fail to update ${technicianRecord.name} record`,
+          message: `Fail to update ${technicianRecord.name}'s record`,
           errors: result.errors,
           onFailure: onError,
         });
       } else {
-        onSuccess?.(`Successfully updated ${technicianRecord.name} record`);
+        onSuccess?.(`Successfully updated ${technicianRecord.name}'s record`);
       }
     } catch (e) {
       onHandleMutationErrors({

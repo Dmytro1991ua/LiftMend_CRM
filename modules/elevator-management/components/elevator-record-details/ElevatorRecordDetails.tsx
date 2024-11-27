@@ -42,14 +42,14 @@ const ElevatorRecordDetails = () => {
     onOpenDeleteModal,
   } = useDetailsPageModals();
 
-  const currentRepairJob = useMemo(() => convertElevatorRecordToFormValues(elevatorRecord), [elevatorRecord]);
+  const currentElevatorRecord = useMemo(() => convertElevatorRecordToFormValues(elevatorRecord), [elevatorRecord]);
 
   const elevatorRecordSections = useMemo(() => elevatorRecordSectionsConfig(elevatorRecord), [elevatorRecord]);
 
   const { title, description } = useMemo(() => getElevatorRecordInfo(elevatorRecord), [elevatorRecord]);
 
   const { formState, onReset } = useFormState<ElevatorRecordFormValues>({
-    initialValues: currentRepairJob,
+    initialValues: currentElevatorRecord,
     onCloseModal: onCloseEditModal,
     resolver: zodResolver(elevatorRecordEditFormSchema),
   });

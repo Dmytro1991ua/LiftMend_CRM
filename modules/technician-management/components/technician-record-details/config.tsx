@@ -9,7 +9,7 @@ export const technicianRecordSectionsConfig = (technicianRecord: TechnicianRecor
     id: 1,
     title: 'Basic Information',
     fields: [
-      { id: 3, label: 'Technician Full Name', value: technicianRecord.name },
+      { id: 3, label: 'Full Name', value: technicianRecord.name },
       { id: 4, label: 'Contact Information', value: technicianRecord.contactInformation },
       {
         id: 5,
