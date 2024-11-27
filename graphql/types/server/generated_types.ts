@@ -248,6 +248,7 @@ export type Query = {
   getRepairJobById: RepairJob;
   getRepairJobScheduleData: RepairJobScheduleData;
   getRepairJobs: RepairJobConnection;
+  getTechnicianRecordById: TechnicianRecord;
   getTechnicianRecordFormData: TechnicianRecordFormData;
   getTechnicianRecords: TechnicianRecordConnection;
 };
@@ -270,6 +271,10 @@ export type QueryGetRepairJobsArgs = {
   filterOptions?: InputMaybe<RepairJobFilterOptions>;
   paginationOptions?: InputMaybe<PaginationOptions>;
   sortOptions?: InputMaybe<RepairJobSortInput>;
+};
+
+export type QueryGetTechnicianRecordByIdArgs = {
+  id: Scalars['ID']['input'];
 };
 
 export type QueryGetTechnicianRecordsArgs = {
@@ -861,6 +866,12 @@ export type QueryResolvers<
     ParentType,
     ContextType,
     Partial<QueryGetRepairJobsArgs>
+  >;
+  getTechnicianRecordById?: Resolver<
+    ResolversTypes['TechnicianRecord'],
+    ParentType,
+    ContextType,
+    RequireFields<QueryGetTechnicianRecordByIdArgs, 'id'>
   >;
   getTechnicianRecordFormData?: Resolver<ResolversTypes['TechnicianRecordFormData'], ParentType, ContextType>;
   getTechnicianRecords?: Resolver<
