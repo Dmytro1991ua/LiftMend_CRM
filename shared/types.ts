@@ -86,9 +86,7 @@ export type ElevatorRecord = {
   status: string;
   lastMaintenanceDate: Date;
   nextMaintenanceDate: Date;
-  technicianName: string;
   capacity: number | null;
-  contactInformation: string;
 };
 
 export type TechnicianRecord = {

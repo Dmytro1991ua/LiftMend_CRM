@@ -57,12 +57,4 @@ export const elevatorRecordSectionsConfig = (elevatorRecord: ElevatorRecord): De
       },
     ],
   },
-  {
-    id: 3,
-    title: 'Technician Information',
-    fields: [
-      { id: 10, label: 'Name', value: elevatorRecord.technicianName },
-      { id: 11, label: 'Contact Info', value: elevatorRecord.contactInformation },
-    ],
-  },
 ];

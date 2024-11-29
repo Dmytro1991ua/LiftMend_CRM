@@ -53,7 +53,6 @@ const useCreateElevatorRecord = ({ onSuccess, onError }: UseCreateElevatorRecord
       const {
         elevatorDetails: { elevatorType, elevatorLocation, buildingName, capacity },
         maintenanceInfo: { lastMaintenanceDate, nextMaintenanceDate, status },
-        technicianInfo: { technicianName, contactInformation },
       } = formFields;
 
       const adjustedLastMaintenanceDate = lastMaintenanceDate.toISOString();
@@ -64,8 +63,6 @@ const useCreateElevatorRecord = ({ onSuccess, onError }: UseCreateElevatorRecord
         elevatorLocation,
         elevatorType,
         status,
-        contactInformation,
-        technicianName,
         lastMaintenanceDate: adjustedLastMaintenanceDate,
         nextMaintenanceDate: adjustedNextMaintenanceDate,
         capacity,

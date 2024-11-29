@@ -34,7 +34,7 @@ export const DROPDOWN_OPTIONS_CONFIG: Record<DropdownOptions, DropdownOptionConf
   [DropdownOptions.ElevatorManagement]: {
     schema: GET_ELEVATOR_RECORD_FORM_DATA,
     queryName: 'getElevatorRecordFormData',
-    fields: ['elevatorTypes', 'buildingNames', 'elevatorLocations', 'technicianNames', 'elevatorStatuses'],
+    fields: ['elevatorTypes', 'buildingNames', 'elevatorLocations', 'elevatorStatuses'],
   },
   [DropdownOptions.TechnicianManagement]: {
     schema: GET_TECHNICIAN_RECORD_FORM_DATA,
