@@ -29,6 +29,8 @@ const useCreateElevatorRecord = ({ onSuccess, onError }: UseCreateElevatorRecord
         query: GET_ELEVATOR_RECORDS,
       });
 
+      console.log('Existing Data:', existingData);
+
       const newCacheEdge = {
         __typename: 'ElevatorRecordEdge',
         cursor: newElevatorRecord.id,
@@ -43,8 +45,8 @@ const useCreateElevatorRecord = ({ onSuccess, onError }: UseCreateElevatorRecord
         data: {
           getElevatorRecords: {
             edges: [newCacheEdge, ...(existingData?.getElevatorRecords.edges || [])],
-            pageInfo: existingData?.getElevatorRecords.pageInfo,
-            total: (existingData?.getElevatorRecords.total || 0) + 1,
+            pageInfo: existingData?.getElevatorRecords?.pageInfo,
+            total: (existingData?.getElevatorRecords?.total || 0) + 1,
             __typename: 'ElevatorRecordConnection',
           },
         },
@@ -57,7 +59,6 @@ const useCreateElevatorRecord = ({ onSuccess, onError }: UseCreateElevatorRecord
       const {
         elevatorDetails: { elevatorType, elevatorLocation, buildingName, capacity },
         maintenanceInfo: { lastMaintenanceDate, nextMaintenanceDate, status },
-        technicianInfo: { technicianName, contactInformation },
       } = formFields;
 
       const adjustedLastMaintenanceDate = lastMaintenanceDate.toISOString();
@@ -68,8 +69,6 @@ const useCreateElevatorRecord = ({ onSuccess, onError }: UseCreateElevatorRecord
         elevatorLocation,
         elevatorType,
         status,
-        contactInformation,
-        technicianName,
         lastMaintenanceDate: adjustedLastMaintenanceDate,
         nextMaintenanceDate: adjustedNextMaintenanceDate,
         capacity,

@@ -3,8 +3,6 @@ model ElevatorRecord {
   elevatorType        String
   buildingName        String
   elevatorLocation    String
-  technicianName      String
-  contactInformation  String
   lastMaintenanceDate DateTime
   nextMaintenanceDate DateTime
   capacity            Int

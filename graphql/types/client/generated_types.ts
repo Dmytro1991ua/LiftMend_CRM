@@ -43,13 +43,11 @@ export type CreateCalendarEventInput = {
 export type CreateElevatorRecordInput = {
   buildingName: Scalars['String']['input'];
   capacity: Scalars['Int']['input'];
-  contactInformation: Scalars['String']['input'];
   elevatorLocation: Scalars['String']['input'];
   elevatorType: Scalars['String']['input'];
   lastMaintenanceDate: Scalars['DateTime']['input'];
   nextMaintenanceDate: Scalars['DateTime']['input'];
   status: Scalars['String']['input'];
-  technicianName: Scalars['String']['input'];
 };
 
 export type CreateRepairJobInput = {
@@ -95,14 +93,12 @@ export type ElevatorRecord = Node & {
   __typename?: 'ElevatorRecord';
   buildingName: Scalars['String']['output'];
   capacity: Scalars['Int']['output'];
-  contactInformation: Scalars['String']['output'];
   elevatorLocation: Scalars['String']['output'];
   elevatorType: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   lastMaintenanceDate: Scalars['DateTime']['output'];
   nextMaintenanceDate: Scalars['DateTime']['output'];
   status: Scalars['String']['output'];
-  technicianName: Scalars['String']['output'];
 };
 
 export type ElevatorRecordConnection = Connection & {
@@ -124,7 +120,6 @@ export type ElevatorRecordFilterOptions = {
   elevatorType?: InputMaybe<Array<Scalars['String']['input']>>;
   searchTerm?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Array<Scalars['String']['input']>>;
-  technicianName?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 export type ElevatorRecordFormData = {
@@ -133,7 +128,6 @@ export type ElevatorRecordFormData = {
   elevatorLocations: Array<Scalars['String']['output']>;
   elevatorStatuses: Maybe<Array<Scalars['String']['output']>>;
   elevatorTypes: Array<Scalars['String']['output']>;
-  technicianNames: Array<Scalars['String']['output']>;
 };
 
 export const ElevatorRecordSortField = {
@@ -143,7 +137,6 @@ export const ElevatorRecordSortField = {
   LastMaintenanceDate: 'LAST_MAINTENANCE_DATE',
   NextMaintenanceDate: 'NEXT_MAINTENANCE_DATE',
   Status: 'STATUS',
-  TechnicianName: 'TECHNICIAN_NAME',
 } as const;
 
 export type ElevatorRecordSortField = (typeof ElevatorRecordSortField)[keyof typeof ElevatorRecordSortField];
@@ -387,14 +380,12 @@ export type TechnicianRecordFormData = {
 export type UpdateElevatorRecordInput = {
   buildingName?: InputMaybe<Scalars['String']['input']>;
   capacity?: InputMaybe<Scalars['Int']['input']>;
-  contactInformation?: InputMaybe<Scalars['String']['input']>;
   elevatorLocation?: InputMaybe<Scalars['String']['input']>;
   elevatorType?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['ID']['input'];
   lastMaintenanceDate?: InputMaybe<Scalars['DateTime']['input']>;
   nextMaintenanceDate?: InputMaybe<Scalars['DateTime']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
-  technicianName?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateRepairJobInput = {
@@ -445,8 +436,6 @@ export type ElevatorRecordFieldsFragment = {
   elevatorType: string;
   buildingName: string;
   elevatorLocation: string;
-  technicianName: string;
-  contactInformation: string;
   lastMaintenanceDate: any;
   nextMaintenanceDate: any;
   capacity: number;
@@ -493,8 +482,6 @@ export type CreateElevatorRecordMutation = {
     elevatorType: string;
     buildingName: string;
     elevatorLocation: string;
-    technicianName: string;
-    contactInformation: string;
     lastMaintenanceDate: any;
     nextMaintenanceDate: any;
     capacity: number;
@@ -609,8 +596,6 @@ export type GetElevatorRecordByIdQuery = {
     elevatorType: string;
     buildingName: string;
     elevatorLocation: string;
-    technicianName: string;
-    contactInformation: string;
     lastMaintenanceDate: any;
     nextMaintenanceDate: any;
     capacity: number;
@@ -627,7 +612,6 @@ export type GetElevatorRecordFormDataQuery = {
     elevatorTypes: Array<string>;
     buildingNames: Array<string>;
     elevatorLocations: Array<string>;
-    technicianNames: Array<string>;
     elevatorStatuses: Array<string> | null;
   };
 };
@@ -652,8 +636,6 @@ export type GetElevatorRecordsQuery = {
         elevatorType: string;
         buildingName: string;
         elevatorLocation: string;
-        technicianName: string;
-        contactInformation: string;
         lastMaintenanceDate: any;
         nextMaintenanceDate: any;
         capacity: number;
@@ -813,8 +795,6 @@ export type UpdateElevatorRecordMutation = {
     elevatorType: string;
     buildingName: string;
     elevatorLocation: string;
-    technicianName: string;
-    contactInformation: string;
     lastMaintenanceDate: any;
     nextMaintenanceDate: any;
     capacity: number;

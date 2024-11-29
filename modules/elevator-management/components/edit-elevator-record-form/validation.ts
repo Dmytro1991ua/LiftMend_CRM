@@ -19,16 +19,6 @@ const createDateField = (requiredMessage: string) => {
 };
 
 export const elevatorRecordEditFormSchema = z.object({
-  contactInformation: z
-    .string({
-      required_error: 'Contact Information is required',
-    })
-    .refine((value) => {
-      const phoneRegex = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/;
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-      return phoneRegex.test(value) || emailRegex.test(value);
-    }, 'Contact Information must be a valid phone number or email address'),
   capacity: z.preprocess(
     (value) => Number(value), // Attempt to convert the value to a number before validation
     z
@@ -44,7 +34,6 @@ export const elevatorRecordEditFormSchema = z.object({
   elevatorType: z.string().optional().nullable(),
   buildingName: z.string().optional().nullable(),
   elevatorLocation: z.string().optional().nullable(),
-  technicianName: z.string().optional().nullable(),
   id: z.string().optional(),
   status: z.string().optional().nullable(),
 });

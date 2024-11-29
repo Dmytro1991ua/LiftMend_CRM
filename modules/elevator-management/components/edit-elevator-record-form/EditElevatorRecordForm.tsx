@@ -17,24 +17,15 @@ type EditElevatorRecordFormProps = {
 
 const EditElevatorRecordForm = ({ elevatorRecordFormValues }: EditElevatorRecordFormProps) => {
   const {
-    dropdownOptions: { elevatorTypes, elevatorLocations, buildingNames, elevatorStatuses, technicianNames },
+    dropdownOptions: { elevatorTypes, elevatorLocations, buildingNames, elevatorStatuses },
     loading,
     error,
   } = useFetchDropdownOptions<GetElevatorRecordFormDataQuery>(DropdownOptions.ElevatorManagement);
 
   const { clearErrors } = useFormContext<ElevatorRecordFormValues>();
 
-  const {
-    elevatorType,
-    buildingName,
-    elevatorLocation,
-    technicianName,
-    status,
-    lastMaintenanceDate,
-    nextMaintenanceDate,
-    capacity,
-    contactInformation,
-  } = elevatorRecordFormValues;
+  const { elevatorType, buildingName, elevatorLocation, status, lastMaintenanceDate, nextMaintenanceDate, capacity } =
+    elevatorRecordFormValues;
 
   const ELEVATOR_RECORD_FORM_FIELD_CONFIG: ItemConfig[] = [
     {
@@ -142,25 +133,6 @@ const EditElevatorRecordForm = ({ elevatorRecordFormValues }: EditElevatorRecord
       className: 'row-start-3 row-end-4 col-start-4 col-end-7',
     },
     {
-      id: 7,
-      label: FormFieldLabel.TechnicianName,
-      content: (
-        <ControlledSingleSelect<ElevatorRecordFormValues>
-          captureMenuScroll={false}
-          className='mb-8'
-          clearErrors={clearErrors}
-          defaultValue={technicianName}
-          hasSearchInput={true}
-          isMultiSelect={false}
-          name='technicianName'
-          options={technicianNames}
-          placeholder='Select Technician Name'
-          searchInputPlaceholder='Search for Technician Name...'
-        />
-      ),
-      className: 'row-start-4 row-end-5 col-start-1 col-end-7',
-    },
-    {
       id: 8,
       label: FormFieldLabel.Capacity,
       content: (
@@ -175,20 +147,6 @@ const EditElevatorRecordForm = ({ elevatorRecordFormValues }: EditElevatorRecord
         />
       ),
       className: 'row-start-6 row-end-7 col-start-1 col-end-4',
-    },
-    {
-      id: 9,
-      label: FormFieldLabel.ContactInformation,
-      content: (
-        <FormInput<ElevatorRecordFormValues>
-          defaultValue={contactInformation}
-          id='contactInformation'
-          name='contactInformation'
-          placeholder='Please provide a contact information'
-          onChange={() => clearErrors('contactInformation')}
-        />
-      ),
-      className: 'row-start-6 row-end-7 col-start-4 col-end-7',
     },
   ];
 

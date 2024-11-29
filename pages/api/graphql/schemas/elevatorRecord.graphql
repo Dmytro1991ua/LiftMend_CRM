@@ -3,7 +3,6 @@ enum ElevatorRecordSortField {
   ELEVATOR_TYPE
   BUILDING_NAME
   ELEVATOR_LOCATION
-  TECHNICIAN_NAME
   LAST_MAINTENANCE_DATE
   NEXT_MAINTENANCE_DATE
 }
@@ -13,8 +12,6 @@ type ElevatorRecord implements Node {
   elevatorType: String!
   buildingName: String!
   elevatorLocation: String!
-  technicianName: String!
-  contactInformation: String!
   lastMaintenanceDate: DateTime!
   nextMaintenanceDate: DateTime!
   capacity: Int!
@@ -36,7 +33,6 @@ type ElevatorRecordFormData {
   elevatorTypes: [String!]!
   buildingNames: [String!]!
   elevatorLocations: [String!]!
-  technicianNames: [String!]!
   elevatorStatuses: [String!]
 }
 
@@ -44,8 +40,6 @@ input CreateElevatorRecordInput {
   elevatorType: String!
   buildingName: String!
   elevatorLocation: String!
-  technicianName: String!
-  contactInformation: String!
   lastMaintenanceDate: DateTime!
   nextMaintenanceDate: DateTime!
   capacity: Int!
@@ -57,8 +51,6 @@ input UpdateElevatorRecordInput {
   elevatorType: String
   buildingName: String
   elevatorLocation: String
-  technicianName: String
-  contactInformation: String
   lastMaintenanceDate: DateTime
   nextMaintenanceDate: DateTime
   capacity: Int
@@ -74,7 +66,6 @@ input ElevatorRecordFilterOptions {
   elevatorType: [String!]
   buildingName: [String!]
   elevatorLocation: [String!]
-  technicianName: [String!]
   status: [String!]
 }
 

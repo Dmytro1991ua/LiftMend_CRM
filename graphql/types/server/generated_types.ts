@@ -46,13 +46,11 @@ export type CreateCalendarEventInput = {
 export type CreateElevatorRecordInput = {
   buildingName: Scalars['String']['input'];
   capacity: Scalars['Int']['input'];
-  contactInformation: Scalars['String']['input'];
   elevatorLocation: Scalars['String']['input'];
   elevatorType: Scalars['String']['input'];
   lastMaintenanceDate: Scalars['DateTime']['input'];
   nextMaintenanceDate: Scalars['DateTime']['input'];
   status: Scalars['String']['input'];
-  technicianName: Scalars['String']['input'];
 };
 
 export type CreateRepairJobInput = {
@@ -98,14 +96,12 @@ export type ElevatorRecord = Node & {
   __typename?: 'ElevatorRecord';
   buildingName: Scalars['String']['output'];
   capacity: Scalars['Int']['output'];
-  contactInformation: Scalars['String']['output'];
   elevatorLocation: Scalars['String']['output'];
   elevatorType: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   lastMaintenanceDate: Scalars['DateTime']['output'];
   nextMaintenanceDate: Scalars['DateTime']['output'];
   status: Scalars['String']['output'];
-  technicianName: Scalars['String']['output'];
 };
 
 export type ElevatorRecordConnection = Connection & {
@@ -127,7 +123,6 @@ export type ElevatorRecordFilterOptions = {
   elevatorType?: InputMaybe<Array<Scalars['String']['input']>>;
   searchTerm?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Array<Scalars['String']['input']>>;
-  technicianName?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 export type ElevatorRecordFormData = {
@@ -136,7 +131,6 @@ export type ElevatorRecordFormData = {
   elevatorLocations: Array<Scalars['String']['output']>;
   elevatorStatuses?: Maybe<Array<Scalars['String']['output']>>;
   elevatorTypes: Array<Scalars['String']['output']>;
-  technicianNames: Array<Scalars['String']['output']>;
 };
 
 export enum ElevatorRecordSortField {
@@ -146,7 +140,6 @@ export enum ElevatorRecordSortField {
   LastMaintenanceDate = 'LAST_MAINTENANCE_DATE',
   NextMaintenanceDate = 'NEXT_MAINTENANCE_DATE',
   Status = 'STATUS',
-  TechnicianName = 'TECHNICIAN_NAME',
 }
 
 export type ElevatorRecordSortInput = {
@@ -387,14 +380,12 @@ export type TechnicianRecordFormData = {
 export type UpdateElevatorRecordInput = {
   buildingName?: InputMaybe<Scalars['String']['input']>;
   capacity?: InputMaybe<Scalars['Int']['input']>;
-  contactInformation?: InputMaybe<Scalars['String']['input']>;
   elevatorLocation?: InputMaybe<Scalars['String']['input']>;
   elevatorType?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['ID']['input'];
   lastMaintenanceDate?: InputMaybe<Scalars['DateTime']['input']>;
   nextMaintenanceDate?: InputMaybe<Scalars['DateTime']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
-  technicianName?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateRepairJobInput = {
@@ -669,14 +660,12 @@ export type ElevatorRecordResolvers<
 > = ResolversObject<{
   buildingName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   capacity?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  contactInformation?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   elevatorLocation?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   elevatorType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   lastMaintenanceDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   nextMaintenanceDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  technicianName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -707,7 +696,6 @@ export type ElevatorRecordFormDataResolvers<
   elevatorLocations?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   elevatorStatuses?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
   elevatorTypes?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
-  technicianNames?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

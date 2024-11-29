@@ -122,11 +122,6 @@ const Query: QueryResolvers = {
       'elevator locations'
     );
 
-    elevatorRecordFormData.technicianNames = await fetchFormDropdownData(
-      () => getSortedFormDropdownData(prisma.technicianNames, 'names'),
-      'technician names'
-    );
-
     elevatorRecordFormData.elevatorStatuses = await fetchFormDropdownData(
       () => getSortedFormDropdownData(prisma.elevatorStatuses, 'elevatorStatuses'),
       'elevator record statutes'

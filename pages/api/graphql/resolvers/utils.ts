@@ -106,14 +106,13 @@ export const createRepairJobSortOptions = (sortOptions: InputMaybe<RepairJobSort
 };
 
 export const createElevatorRecordFilterOptions = (filterOptions: InputMaybe<ElevatorRecordFilterOptions>) => {
-  const { searchTerm, elevatorType, elevatorLocation, buildingName, technicianName, status } = filterOptions || {};
+  const { searchTerm, elevatorType, elevatorLocation, buildingName, status } = filterOptions || {};
 
   return {
     ...(searchTerm && { id: searchTerm }),
     ...(elevatorType && elevatorType.length > 0 && { elevatorType: { in: elevatorType } }),
     ...(buildingName && buildingName.length > 0 && { buildingName: { in: buildingName } }),
     ...(elevatorLocation && elevatorLocation.length > 0 && { elevatorLocation: { in: elevatorLocation } }),
-    ...(technicianName && technicianName.length > 0 && { technicianName: { in: technicianName } }),
     ...(status && status.length > 0 && { status: { in: status } }),
   };
 };
@@ -128,7 +127,6 @@ export const createElevatorRecordSortOptions = (
     [ElevatorRecordSortField.ElevatorType]: 'elevatorType',
     [ElevatorRecordSortField.BuildingName]: 'buildingName',
     [ElevatorRecordSortField.ElevatorLocation]: 'elevatorLocation',
-    [ElevatorRecordSortField.TechnicianName]: 'technicianName',
   };
 
   return sortOptions?.field && sortOptions?.order

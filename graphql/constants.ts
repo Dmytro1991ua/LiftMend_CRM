@@ -16,7 +16,7 @@ export const REPAIR_JOB_KEY_FIELDS = [
 
 export const ELEVATOR_RECORD_KEY_FIELDS = [
   'filterOptions',
-  ['searchTerm', 'elevatorType', 'buildingName', 'elevatorLocation', 'technicianName', 'status'],
+  ['searchTerm', 'elevatorType', 'buildingName', 'elevatorLocation', 'status'],
   'sortOptions',
   ['field', 'order'],
 ];

@@ -7,8 +7,6 @@ export const convertElevatorRecordToFormValues = (elevatorRecord: ElevatorRecord
   capacity: elevatorRecord ? elevatorRecord.capacity : null,
   buildingName: elevatorRecord ? elevatorRecord.buildingName : null,
   elevatorLocation: elevatorRecord ? elevatorRecord.elevatorLocation : null,
-  technicianName: elevatorRecord ? elevatorRecord.technicianName : null,
-  contactInformation: elevatorRecord ? elevatorRecord.contactInformation : '',
   id: elevatorRecord ? elevatorRecord.id : '',
   status: elevatorRecord ? elevatorRecord.status : null,
   lastMaintenanceDate: elevatorRecord ? elevatorRecord.lastMaintenanceDate : undefined,
@@ -22,8 +20,6 @@ export const convertFormFieldsToElevatorRecord = (formFields: ElevatorRecordForm
   nextMaintenanceDate: formFields.nextMaintenanceDate ?? new Date(),
   buildingName: formFields.buildingName ?? '',
   elevatorLocation: formFields.elevatorLocation ?? '',
-  technicianName: formFields.technicianName ?? '',
-  contactInformation: formFields.contactInformation ?? '',
   id: formFields.id ?? '',
   status: formFields.status ?? '',
 });
