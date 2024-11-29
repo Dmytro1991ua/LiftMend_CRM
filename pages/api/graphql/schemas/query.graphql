@@ -14,6 +14,11 @@ type Query {
     sortOptions: ElevatorRecordSortInput
   ): ElevatorRecordConnection!
   getElevatorRecordById(id: ID!): ElevatorRecord!
-  getTechnicianRecords(paginationOptions: PaginationOptions, filterOptions: TechnicianRecordFilterOptions): TechnicianRecordConnection!
+  getTechnicianRecords(
+    paginationOptions: PaginationOptions
+    filterOptions: TechnicianRecordFilterOptions
+    sortOptions: TechnicianRecordSortInput
+  ): TechnicianRecordConnection!
   getTechnicianRecordFormData: TechnicianRecordFormData!
+  getTechnicianRecordById(id: ID!): TechnicianRecord!
 }

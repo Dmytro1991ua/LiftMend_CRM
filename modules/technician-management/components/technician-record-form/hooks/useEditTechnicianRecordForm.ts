@@ -27,7 +27,6 @@ const useEditTechnicianRecordForm = ({
   });
 
   const onEditTechnicianRecord: SubmitHandler<TechnicianRecordFormValues> = async (data) => {
-    console.log(data);
     const updateTechnicianRecord = {
       ...data,
       id: technicianRecord?.id ?? '',

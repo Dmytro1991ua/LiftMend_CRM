@@ -1,3 +1,9 @@
+enum TechnicianRecordSortField {
+  NAME
+  AVAILABILITY_STATUS
+  EMPLOYMENT_STATUS
+}
+
 type TechnicianRecord implements Node {
   id: ID!
   name: String!
@@ -26,6 +32,10 @@ type TechnicianRecordFormData {
   skills: [String!]!
 }
 
+type DeleteTechnicianRecordResponse {
+  id: ID!
+}
+
 input CreateTechnicianRecordInput {
   name: String!
   contactInformation: String!
@@ -49,4 +59,9 @@ input TechnicianRecordFilterOptions {
   certifications: [String!]
   availabilityStatus: [String!]
   employmentStatus: [String!]
+}
+
+input TechnicianRecordSortInput {
+  field: TechnicianRecordSortField
+  order: OrderOption
 }

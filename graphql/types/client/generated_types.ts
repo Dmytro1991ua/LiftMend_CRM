@@ -84,6 +84,11 @@ export type DeleteElevatorRecordResponse = {
   id: Scalars['ID']['output'];
 };
 
+export type DeleteTechnicianRecordResponse = {
+  __typename?: 'DeleteTechnicianRecordResponse';
+  id: Scalars['ID']['output'];
+};
+
 export type Edge = {
   cursor: Scalars['String']['output'];
   node: Node;
@@ -152,6 +157,7 @@ export type Mutation = {
   createTechnicianRecord: TechnicianRecord;
   deleteElevatorRecord: DeleteElevatorRecordResponse;
   deleteRepairJobAndEvent: DeleteCalendarAndRepairJobResponse;
+  deleteTechnicianRecord: DeleteTechnicianRecordResponse;
   updateElevatorRecord: ElevatorRecord;
   updateEmploymentStatus: TechnicianRecord;
   updateRepairJob: RepairJob;
@@ -178,6 +184,10 @@ export type MutationDeleteElevatorRecordArgs = {
 export type MutationDeleteRepairJobAndEventArgs = {
   calendarEventId: Scalars['ID']['input'];
   repairJobId: Scalars['ID']['input'];
+};
+
+export type MutationDeleteTechnicianRecordArgs = {
+  id: Scalars['ID']['input'];
 };
 
 export type MutationUpdateElevatorRecordArgs = {
@@ -230,6 +240,7 @@ export type Query = {
   getRepairJobById: RepairJob;
   getRepairJobScheduleData: RepairJobScheduleData;
   getRepairJobs: RepairJobConnection;
+  getTechnicianRecordById: TechnicianRecord;
   getTechnicianRecordFormData: TechnicianRecordFormData;
   getTechnicianRecords: TechnicianRecordConnection;
 };
@@ -254,9 +265,14 @@ export type QueryGetRepairJobsArgs = {
   sortOptions?: InputMaybe<RepairJobSortInput>;
 };
 
+export type QueryGetTechnicianRecordByIdArgs = {
+  id: Scalars['ID']['input'];
+};
+
 export type QueryGetTechnicianRecordsArgs = {
   filterOptions?: InputMaybe<TechnicianRecordFilterOptions>;
   paginationOptions?: InputMaybe<PaginationOptions>;
+  sortOptions?: InputMaybe<TechnicianRecordSortInput>;
 };
 
 export type RepairJob = Node & {
@@ -375,6 +391,18 @@ export type TechnicianRecordFormData = {
   certifications: Array<Scalars['String']['output']>;
   employmentStatuses: Array<Scalars['String']['output']>;
   skills: Array<Scalars['String']['output']>;
+};
+
+export const TechnicianRecordSortField = {
+  AvailabilityStatus: 'AVAILABILITY_STATUS',
+  EmploymentStatus: 'EMPLOYMENT_STATUS',
+  Name: 'NAME',
+} as const;
+
+export type TechnicianRecordSortField = (typeof TechnicianRecordSortField)[keyof typeof TechnicianRecordSortField];
+export type TechnicianRecordSortInput = {
+  field?: InputMaybe<TechnicianRecordSortField>;
+  order?: InputMaybe<OrderOption>;
 };
 
 export type UpdateElevatorRecordInput = {
@@ -568,6 +596,15 @@ export type DeleteRepairJobAndEventMutation = {
   };
 };
 
+export type DeleteTechnicianRecordMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+export type DeleteTechnicianRecordMutation = {
+  __typename?: 'Mutation';
+  deleteTechnicianRecord: { __typename?: 'DeleteTechnicianRecordResponse'; id: string };
+};
+
 export type GetCalendarEventsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetCalendarEventsQuery = {
@@ -736,6 +773,24 @@ export type GetRepairJobsQuery = {
   };
 };
 
+export type GetTechnicianRecordByIdQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+export type GetTechnicianRecordByIdQuery = {
+  __typename?: 'Query';
+  getTechnicianRecordById: {
+    __typename?: 'TechnicianRecord';
+    id: string;
+    name: string;
+    contactInformation: string;
+    skills: Array<string>;
+    certifications: Array<string>;
+    availabilityStatus: string;
+    employmentStatus: string;
+  };
+};
+
 export type GetTechnicianRecordFormDataQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetTechnicianRecordFormDataQuery = {
@@ -752,6 +807,7 @@ export type GetTechnicianRecordFormDataQuery = {
 export type GetTechnicianRecordsQueryVariables = Exact<{
   paginationOptions?: InputMaybe<PaginationOptions>;
   filterOptions?: InputMaybe<TechnicianRecordFilterOptions>;
+  sortOptions?: InputMaybe<TechnicianRecordSortInput>;
 }>;
 
 export type GetTechnicianRecordsQuery = {

@@ -1,6 +1,7 @@
 import { DeleteElevatorRecordResponse, RepairJob } from '@/graphql/types/client/generated_types';
 import {
   DeleteCalendarAndRepairJobResponse,
+  DeleteTechnicianRecordResponse,
   ElevatorRecord,
   MutationResolvers,
   TechnicianRecord,
@@ -125,6 +126,17 @@ const Mutation: MutationResolvers = {
     });
 
     return updatedTechnician;
+  },
+  deleteTechnicianRecord: async (_, { id }, { prisma }): Promise<DeleteTechnicianRecordResponse> => {
+    const deletedTechnicianRecord = await prisma.technicianRecord.delete({
+      where: {
+        id,
+      },
+    });
+
+    return {
+      id: deletedTechnicianRecord.id,
+    };
   },
 };
 

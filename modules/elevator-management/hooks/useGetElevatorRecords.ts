@@ -73,7 +73,6 @@ const useGetElevatorRecords = <T>(): UseGetElevatorRecords<T> => {
         },
       },
       notifyOnNetworkStatusChange: true,
-      fetchPolicy: 'cache-first',
     }
   );
 

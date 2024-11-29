@@ -4,9 +4,13 @@ import { ApolloQueryResult, useQuery } from '@apollo/client';
 import { SortingState } from '@tanstack/react-table';
 
 import { GET_TECHNICIAN_RECORDS } from '@/graphql/schemas/getTechnicianRecords';
-import { GetTechnicianRecordsQuery, QueryGetTechnicianRecordsArgs } from '@/graphql/types/client/generated_types';
+import {
+  GetTechnicianRecordsQuery,
+  QueryGetTechnicianRecordsArgs,
+  TechnicianRecordSortField,
+} from '@/graphql/types/client/generated_types';
 import { TableFilters } from '@/shared/base-table/types';
-import { convertStoredFiltersToQueryFormat } from '@/shared/base-table/utils';
+import { convertStoredFiltersToQueryFormat, formatTableSortingToQueryFormat } from '@/shared/base-table/utils';
 import {
   DEFAULT_PAGINATION,
   DEFAULT_PAGINATION_LIMIT,
@@ -39,6 +43,8 @@ const useFetchTechnicianRecords = <T,>(): UseFetchTechnicianRecords<T> => {
     TableFilters<T>
   >(TABLE_STATE_STORAGE_KEY, StorageTableName.TechnicianManagementTable, undefined);
 
+  const { field, order } = useMemo(() => formatTableSortingToQueryFormat(tableStorageState), [tableStorageState]);
+
   const searchTerm = useMemo(
     () => tableStorageState.filters?.searchTerm || '',
     [tableStorageState.filters?.searchTerm]
@@ -64,9 +70,12 @@ const useFetchTechnicianRecords = <T,>(): UseFetchTechnicianRecords<T> => {
         searchTerm,
         ...filters,
       },
+      sortOptions: {
+        field: field as TechnicianRecordSortField,
+        order,
+      },
     },
     notifyOnNetworkStatusChange: true,
-    fetchPolicy: 'cache-first',
   });
 
   const technicianRecords = useMemo(

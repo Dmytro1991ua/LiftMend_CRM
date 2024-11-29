@@ -1,8 +1,7 @@
 import { ApolloError, useMutation } from '@apollo/client';
 
 import { CREATE_TECHNICIAN_RECORD } from '@/graphql/schemas/createTechnicianRecord';
-import { GET_TECHNICIAN_RECORDS } from '@/graphql/schemas/getTechnicianRecords';
-import { CreateTechnicianRecordMutation, GetTechnicianRecordsQuery } from '@/graphql/types/client/generated_types';
+import { CreateTechnicianRecordMutation } from '@/graphql/types/client/generated_types';
 import { onHandleMutationErrors } from '@/graphql/utils';
 
 import { TechnicianRecordFormFields } from '../components/technician-record-form/validation';
@@ -27,11 +26,6 @@ const useCreateTechnicianRecord = ({
       if (!data) return;
 
       const newTechnicianRecord = data?.createTechnicianRecord;
-
-      const existingData = cache.readQuery<GetTechnicianRecordsQuery>({
-        query: GET_TECHNICIAN_RECORDS,
-      });
-
       const newCacheEdge = {
         __typename: 'TechnicianRecordEdge',
         cursor: newTechnicianRecord.id,
@@ -41,14 +35,16 @@ const useCreateTechnicianRecord = ({
         },
       };
 
-      cache.writeQuery({
-        query: GET_TECHNICIAN_RECORDS,
-        data: {
-          getTechnicianRecords: {
-            edges: [newCacheEdge, ...(existingData?.getTechnicianRecords.edges || [])],
-            pageInfo: existingData?.getTechnicianRecords.pageInfo,
-            total: (existingData?.getTechnicianRecords.total || 0) + 1,
-            __typename: 'TechnicianRecordConnection',
+      cache.modify({
+        fields: {
+          getTechnicianRecords(existingTechnicianRecords = {}) {
+            const updatedElevatorRecordEdges = [newCacheEdge, ...(existingTechnicianRecords.edges || [])];
+
+            return {
+              ...existingTechnicianRecords,
+              edges: updatedElevatorRecordEdges,
+              total: (existingTechnicianRecords.total || 0) + 1,
+            };
           },
         },
       });

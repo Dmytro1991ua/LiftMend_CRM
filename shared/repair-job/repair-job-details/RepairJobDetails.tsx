@@ -6,6 +6,7 @@ import { FormProvider } from 'react-hook-form';
 
 import BaseDetailsPage from '@/shared/base-details-page';
 import useDetailsPageModals from '@/shared/base-details-page/hooks/useDetailsPageModals';
+import { getCommonDetailsPageActionButtonsConfig } from '@/shared/base-details-page/utils';
 import DeleteModal from '@/shared/base-modal/delete-modal';
 import EditModal from '@/shared/base-modal/edit-modal';
 import { getModalTitle } from '@/shared/base-modal/edit-modal/utils';
@@ -97,9 +98,15 @@ const RepairJobDetails = () => {
     },
   ];
 
+  const actionButtonsConfig = useMemo(
+    () => getCommonDetailsPageActionButtonsConfig({ onOpenDeleteModal, onOpenEditModal }),
+    [onOpenDeleteModal, onOpenEditModal]
+  );
+
   return (
     <FormProvider {...formState}>
       <BaseDetailsPage
+        actionButtonsConfig={actionButtonsConfig}
         description={description}
         detailsPageSections={repairJobSections}
         error={error}
@@ -107,8 +114,6 @@ const RepairJobDetails = () => {
         loading={loading}
         modalConfig={REPAIR_JOB_DETAILS_MODALS_CONFIG}
         title={title}
-        onOpenDeleteModal={onOpenDeleteModal}
-        onOpenEditModal={onOpenEditModal}
       />
     </FormProvider>
   );

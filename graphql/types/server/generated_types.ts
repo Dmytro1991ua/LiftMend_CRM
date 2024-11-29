@@ -87,6 +87,11 @@ export type DeleteElevatorRecordResponse = {
   id: Scalars['ID']['output'];
 };
 
+export type DeleteTechnicianRecordResponse = {
+  __typename?: 'DeleteTechnicianRecordResponse';
+  id: Scalars['ID']['output'];
+};
+
 export type Edge = {
   cursor: Scalars['String']['output'];
   node: Node;
@@ -154,6 +159,7 @@ export type Mutation = {
   createTechnicianRecord: TechnicianRecord;
   deleteElevatorRecord: DeleteElevatorRecordResponse;
   deleteRepairJobAndEvent: DeleteCalendarAndRepairJobResponse;
+  deleteTechnicianRecord: DeleteTechnicianRecordResponse;
   updateElevatorRecord: ElevatorRecord;
   updateEmploymentStatus: TechnicianRecord;
   updateRepairJob: RepairJob;
@@ -180,6 +186,10 @@ export type MutationDeleteElevatorRecordArgs = {
 export type MutationDeleteRepairJobAndEventArgs = {
   calendarEventId: Scalars['ID']['input'];
   repairJobId: Scalars['ID']['input'];
+};
+
+export type MutationDeleteTechnicianRecordArgs = {
+  id: Scalars['ID']['input'];
 };
 
 export type MutationUpdateElevatorRecordArgs = {
@@ -231,6 +241,7 @@ export type Query = {
   getRepairJobById: RepairJob;
   getRepairJobScheduleData: RepairJobScheduleData;
   getRepairJobs: RepairJobConnection;
+  getTechnicianRecordById: TechnicianRecord;
   getTechnicianRecordFormData: TechnicianRecordFormData;
   getTechnicianRecords: TechnicianRecordConnection;
 };
@@ -255,9 +266,14 @@ export type QueryGetRepairJobsArgs = {
   sortOptions?: InputMaybe<RepairJobSortInput>;
 };
 
+export type QueryGetTechnicianRecordByIdArgs = {
+  id: Scalars['ID']['input'];
+};
+
 export type QueryGetTechnicianRecordsArgs = {
   filterOptions?: InputMaybe<TechnicianRecordFilterOptions>;
   paginationOptions?: InputMaybe<PaginationOptions>;
+  sortOptions?: InputMaybe<TechnicianRecordSortInput>;
 };
 
 export type RepairJob = Node & {
@@ -375,6 +391,17 @@ export type TechnicianRecordFormData = {
   certifications: Array<Scalars['String']['output']>;
   employmentStatuses: Array<Scalars['String']['output']>;
   skills: Array<Scalars['String']['output']>;
+};
+
+export enum TechnicianRecordSortField {
+  AvailabilityStatus = 'AVAILABILITY_STATUS',
+  EmploymentStatus = 'EMPLOYMENT_STATUS',
+  Name = 'NAME',
+}
+
+export type TechnicianRecordSortInput = {
+  field?: InputMaybe<TechnicianRecordSortField>;
+  order?: InputMaybe<OrderOption>;
 };
 
 export type UpdateElevatorRecordInput = {
@@ -511,6 +538,7 @@ export type ResolversTypes = ResolversObject<{
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   DeleteCalendarAndRepairJobResponse: ResolverTypeWrapper<DeleteCalendarAndRepairJobResponse>;
   DeleteElevatorRecordResponse: ResolverTypeWrapper<DeleteElevatorRecordResponse>;
+  DeleteTechnicianRecordResponse: ResolverTypeWrapper<DeleteTechnicianRecordResponse>;
   Edge: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Edge']>;
   ElevatorRecord: ResolverTypeWrapper<ElevatorRecord>;
   ElevatorRecordConnection: ResolverTypeWrapper<ElevatorRecordConnection>;
@@ -541,6 +569,8 @@ export type ResolversTypes = ResolversObject<{
   TechnicianRecordEdges: ResolverTypeWrapper<TechnicianRecordEdges>;
   TechnicianRecordFilterOptions: TechnicianRecordFilterOptions;
   TechnicianRecordFormData: ResolverTypeWrapper<TechnicianRecordFormData>;
+  TechnicianRecordSortField: TechnicianRecordSortField;
+  TechnicianRecordSortInput: TechnicianRecordSortInput;
   UpdateElevatorRecordInput: UpdateElevatorRecordInput;
   UpdateRepairJobInput: UpdateRepairJobInput;
   UpdateTechnicianRecordInput: UpdateTechnicianRecordInput;
@@ -559,6 +589,7 @@ export type ResolversParentTypes = ResolversObject<{
   DateTime: Scalars['DateTime']['output'];
   DeleteCalendarAndRepairJobResponse: DeleteCalendarAndRepairJobResponse;
   DeleteElevatorRecordResponse: DeleteElevatorRecordResponse;
+  DeleteTechnicianRecordResponse: DeleteTechnicianRecordResponse;
   Edge: ResolversInterfaceTypes<ResolversParentTypes>['Edge'];
   ElevatorRecord: ElevatorRecord;
   ElevatorRecordConnection: ElevatorRecordConnection;
@@ -586,6 +617,7 @@ export type ResolversParentTypes = ResolversObject<{
   TechnicianRecordEdges: TechnicianRecordEdges;
   TechnicianRecordFilterOptions: TechnicianRecordFilterOptions;
   TechnicianRecordFormData: TechnicianRecordFormData;
+  TechnicianRecordSortInput: TechnicianRecordSortInput;
   UpdateElevatorRecordInput: UpdateElevatorRecordInput;
   UpdateRepairJobInput: UpdateRepairJobInput;
   UpdateTechnicianRecordInput: UpdateTechnicianRecordInput;
@@ -636,6 +668,14 @@ export type DeleteCalendarAndRepairJobResponseResolvers<
 export type DeleteElevatorRecordResponseResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['DeleteElevatorRecordResponse'] = ResolversParentTypes['DeleteElevatorRecordResponse']
+> = ResolversObject<{
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type DeleteTechnicianRecordResponseResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['DeleteTechnicianRecordResponse'] = ResolversParentTypes['DeleteTechnicianRecordResponse']
 > = ResolversObject<{
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -733,6 +773,12 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationDeleteRepairJobAndEventArgs, 'calendarEventId' | 'repairJobId'>
   >;
+  deleteTechnicianRecord?: Resolver<
+    ResolversTypes['DeleteTechnicianRecordResponse'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteTechnicianRecordArgs, 'id'>
+  >;
   updateElevatorRecord?: Resolver<
     ResolversTypes['ElevatorRecord'],
     ParentType,
@@ -808,6 +854,12 @@ export type QueryResolvers<
     ParentType,
     ContextType,
     Partial<QueryGetRepairJobsArgs>
+  >;
+  getTechnicianRecordById?: Resolver<
+    ResolversTypes['TechnicianRecord'],
+    ParentType,
+    ContextType,
+    RequireFields<QueryGetTechnicianRecordByIdArgs, 'id'>
   >;
   getTechnicianRecordFormData?: Resolver<ResolversTypes['TechnicianRecordFormData'], ParentType, ContextType>;
   getTechnicianRecords?: Resolver<
@@ -942,6 +994,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   DateTime?: GraphQLScalarType;
   DeleteCalendarAndRepairJobResponse?: DeleteCalendarAndRepairJobResponseResolvers<ContextType>;
   DeleteElevatorRecordResponse?: DeleteElevatorRecordResponseResolvers<ContextType>;
+  DeleteTechnicianRecordResponse?: DeleteTechnicianRecordResponseResolvers<ContextType>;
   Edge?: EdgeResolvers<ContextType>;
   ElevatorRecord?: ElevatorRecordResolvers<ContextType>;
   ElevatorRecordConnection?: ElevatorRecordConnectionResolvers<ContextType>;

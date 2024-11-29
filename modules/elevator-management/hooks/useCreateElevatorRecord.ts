@@ -1,8 +1,7 @@
 import { ApolloError, useMutation } from '@apollo/client';
 
-import { GET_ELEVATOR_RECORDS } from '@/graphql/schemas';
 import { CREATE_ELEVATOR_RECORD } from '@/graphql/schemas/createElevatorRecord';
-import { CreateElevatorRecordMutation, GetElevatorRecordsQuery } from '@/graphql/types/client/generated_types';
+import { CreateElevatorRecordMutation } from '@/graphql/types/client/generated_types';
 import { onHandleMutationErrors } from '@/graphql/utils';
 
 import { ElevatorRecordFormFields } from '../components/elevator-record-form/validation';
@@ -24,13 +23,6 @@ const useCreateElevatorRecord = ({ onSuccess, onError }: UseCreateElevatorRecord
       if (!data) return;
 
       const newElevatorRecord = data?.createElevatorRecord;
-
-      const existingData = cache.readQuery<GetElevatorRecordsQuery>({
-        query: GET_ELEVATOR_RECORDS,
-      });
-
-      console.log('Existing Data:', existingData);
-
       const newCacheEdge = {
         __typename: 'ElevatorRecordEdge',
         cursor: newElevatorRecord.id,
@@ -40,14 +32,16 @@ const useCreateElevatorRecord = ({ onSuccess, onError }: UseCreateElevatorRecord
         },
       };
 
-      cache.writeQuery({
-        query: GET_ELEVATOR_RECORDS,
-        data: {
-          getElevatorRecords: {
-            edges: [newCacheEdge, ...(existingData?.getElevatorRecords.edges || [])],
-            pageInfo: existingData?.getElevatorRecords?.pageInfo,
-            total: (existingData?.getElevatorRecords?.total || 0) + 1,
-            __typename: 'ElevatorRecordConnection',
+      cache.modify({
+        fields: {
+          getElevatorRecords(existingElevatorRecords = {}) {
+            const updatedElevatorRecordEdges = [newCacheEdge, ...(existingElevatorRecords.edges || [])];
+
+            return {
+              ...existingElevatorRecords,
+              edges: updatedElevatorRecordEdges,
+              total: (existingElevatorRecords.total || 0) + 1,
+            };
           },
         },
       });
