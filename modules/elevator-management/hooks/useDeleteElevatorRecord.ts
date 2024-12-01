@@ -21,6 +21,7 @@ type UseDeleteElevatorRecord = {
 
 type ElevatorCacheEdge = {
   __typename: string;
+  cursor: string;
   node: ElevatorRecord;
 };
 

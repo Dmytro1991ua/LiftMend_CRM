@@ -21,6 +21,7 @@ type UseDeleteTechnicianRecord = {
 
 type TechnicianCacheEdge = {
   __typename: string;
+  cursor: string;
   node: TechnicianRecord;
 };
 
