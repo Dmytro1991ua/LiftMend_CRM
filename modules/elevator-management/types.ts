@@ -1,7 +1,6 @@
 export enum ElevatorRecordSteps {
   ElevatorDetails,
   MaintenanceInformation,
-  TechnicianInformation,
 }
 
 export type ElevatorRecordFormValues = {
@@ -12,7 +11,5 @@ export type ElevatorRecordFormValues = {
   status: string | null;
   lastMaintenanceDate?: Date;
   nextMaintenanceDate?: Date;
-  technicianName: string | null;
   capacity: number | null;
-  contactInformation?: string;
 };

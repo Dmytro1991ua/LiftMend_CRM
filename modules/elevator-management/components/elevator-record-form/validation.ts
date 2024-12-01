@@ -13,10 +13,6 @@ export const INITIAL_ELEVATOR_RECORD_FORM_VALUES = {
     nextMaintenanceDate: undefined,
     status: '',
   },
-  technicianInfo: {
-    technicianName: '',
-    contactInformation: '',
-  },
 };
 
 export const elevatorDetailsSchema = z.object({
@@ -62,24 +58,9 @@ export const maintenanceInfoSchema = z
     }
   });
 
-export const technicianInfoSchema = z.object({
-  technicianName: z.string().min(1, 'Technician name is required'),
-  contactInformation: z
-    .string({
-      required_error: 'Contact Information is required',
-    })
-    .refine((value) => {
-      const phoneRegex = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/;
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-      return phoneRegex.test(value) || emailRegex.test(value);
-    }, 'Contact Information must be a valid phone number or email address'),
-});
-
 export const elevatorRecordFormSchema = z.object({
   elevatorDetails: elevatorDetailsSchema,
   maintenanceInfo: maintenanceInfoSchema,
-  technicianInfo: technicianInfoSchema,
 });
 
 export type ElevatorRecordFormFields = z.infer<typeof elevatorRecordFormSchema>;

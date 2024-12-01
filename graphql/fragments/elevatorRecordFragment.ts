@@ -6,8 +6,6 @@ export const ELEVATOR_RECORD_FRAGMENT = gql`
     elevatorType
     buildingName
     elevatorLocation
-    technicianName
-    contactInformation
     lastMaintenanceDate
     nextMaintenanceDate
     capacity

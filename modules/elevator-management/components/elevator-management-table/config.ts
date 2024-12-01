@@ -27,11 +27,5 @@ export const getElevatorRecordFilterConfig = (dropdownOptions: MultiStepDropdown
       filterKey: FilterKey.Statuses,
       options: dropdownOptions.elevatorStatuses,
     },
-    {
-      id: 5,
-      label: FilterLabel.TechnicianName,
-      filterKey: FilterKey.TechnicianNames,
-      options: dropdownOptions.technicianNames,
-    },
   ];
 };

@@ -1,10 +1,8 @@
 model ElevatorRecord {
-  id                  String   @id @default(uuid())
+  id                  String   @id @default(dbgenerated("uuid_generate_v4()"))
   elevatorType        String
   buildingName        String
   elevatorLocation    String
-  technicianName      String
-  contactInformation  String
   lastMaintenanceDate DateTime
   nextMaintenanceDate DateTime
   capacity            Int
