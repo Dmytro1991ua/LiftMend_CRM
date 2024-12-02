@@ -1,15 +1,9 @@
-import { useCallback } from 'react';
-
 import { Button } from '@/components/ui/button';
 import BaseModal from '@/shared/base-modal';
 import ModalFooter from '@/shared/base-modal/modal-footer';
-import { useModal } from '@/shared/hooks';
-import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 
+import useUpdateEmploymentStatus from '../../hooks/useUpdateEmploymentStatus';
 import { EmploymentStatus } from '../../types';
-
-import { EMPLOYMENT_STATUS_UPDATE_CONFIG } from './config';
-import useUpdateTechnicianVisibility from './hooks/useUpdateTechnicianVisibility';
 
 type EmploymentStatusToggleCellProps = {
   employmentStatus: EmploymentStatus;
@@ -18,25 +12,23 @@ type EmploymentStatusToggleCellProps = {
 };
 
 const EmploymentStatusToggleCell = ({ employmentStatus, technicianId }: EmploymentStatusToggleCellProps) => {
-  const { isModalOpen, onCloseModal, onOpenModal } = useModal();
-  const { onError, onSuccess } = useMutationResultToasts();
-
-  const { loading, onUpdateEmploymentStatus } = useUpdateTechnicianVisibility({
-    onError,
-    onSuccess,
-  });
-
-  const config = EMPLOYMENT_STATUS_UPDATE_CONFIG[employmentStatus];
-
-  const onHandleEmploymentStatusChange = useCallback(async () => {
-    await onUpdateEmploymentStatus(technicianId, config.newEmploymentStatus, config.newAvailabilityStatus);
-
-    onCloseModal();
-  }, [config.newEmploymentStatus, config.newAvailabilityStatus, onCloseModal, onUpdateEmploymentStatus, technicianId]);
+  const { loading, config, isModalOpen, onHandleEmploymentStatusChange, onOpenModal, onCloseModal } =
+    useUpdateEmploymentStatus({
+      employmentStatus,
+      technicianId,
+    });
 
   return (
     <section>
-      <Button className='hover:bg-transparent' variant='ghost' onClick={onOpenModal}>
+      <Button
+        className='hover:bg-transparent'
+        variant='ghost'
+        onClick={(e) => {
+          e.stopPropagation();
+
+          onOpenModal();
+        }}
+      >
         {config.icon}
       </Button>
       <BaseModal

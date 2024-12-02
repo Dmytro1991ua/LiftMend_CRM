@@ -1,4 +1,5 @@
 import { AiFillEdit } from 'react-icons/ai';
+import { FaEye } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
 
 import { ActionButtonLabel, DetailsPageActionButtonConfig } from './types';
@@ -34,8 +35,19 @@ export const getCommonDetailsPageActionButtonsConfig = ({
 
 export const getTechnicianDetailsPageActionButtonsConfig = ({
   onOpenEditModal,
+  onOpenUpdateEmploymentStatusModal,
 }: {
   onOpenEditModal: () => void;
+  onOpenUpdateEmploymentStatusModal: () => void;
 }): DetailsPageActionButtonConfig[] => {
-  return [{ ...getEditButtonConfig(onOpenEditModal) }];
+  return [
+    { ...getEditButtonConfig(onOpenEditModal) },
+    {
+      id: 2,
+      variant: 'default',
+      label: ActionButtonLabel.UPDATE_EMPLOYMENT_STATUS,
+      icon: <FaEye />,
+      onClick: () => onOpenUpdateEmploymentStatusModal(),
+    },
+  ];
 };

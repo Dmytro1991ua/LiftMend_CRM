@@ -3,6 +3,7 @@ import { ButtonVariant } from '../types';
 export enum ActionButtonLabel {
   EDIT = 'Edit',
   DELETE = 'Delete',
+  UPDATE_EMPLOYMENT_STATUS = 'Update Employment Status',
 }
 
 type SectionField = { id: number; label: string; value: React.ReactNode | string; fieldClassName?: string };

@@ -1,4 +1,4 @@
-import { ApolloError, useMutation } from '@apollo/client';
+import { ApolloError, FetchResult, useMutation } from '@apollo/client';
 
 import { onHandleMutationErrors } from '@/graphql';
 import { UPDATE_EMPLOYMENT_STATUS } from '@/graphql/schemas';
@@ -12,7 +12,11 @@ type UseUpdateTechnicianVisibilityProps = {
 type UseUpdateTechnicianVisibility = {
   loading: boolean;
   error?: string;
-  onUpdateEmploymentStatus: (id: string, employmentStatus: string, availabilityStatus: string) => Promise<void>;
+  onUpdateEmploymentStatus: (
+    id: string,
+    employmentStatus: string,
+    availabilityStatus: string
+  ) => Promise<FetchResult<MutationUpdateEmploymentStatusArgs> | undefined>;
 };
 
 const useUpdateTechnicianVisibility = ({
@@ -22,7 +26,11 @@ const useUpdateTechnicianVisibility = ({
   const [updateEmploymentStatus, { loading, error }] =
     useMutation<MutationUpdateEmploymentStatusArgs>(UPDATE_EMPLOYMENT_STATUS);
 
-  const onUpdateEmploymentStatus = async (id: string, employmentStatus: string, availabilityStatus: string) => {
+  const onUpdateEmploymentStatus = async (
+    id: string,
+    employmentStatus: string,
+    availabilityStatus: string
+  ): Promise<FetchResult<MutationUpdateEmploymentStatusArgs> | undefined> => {
     try {
       const result = await updateEmploymentStatus({
         variables: { id, employmentStatus, availabilityStatus },
@@ -39,6 +47,8 @@ const useUpdateTechnicianVisibility = ({
       } else {
         onSuccess?.('Successfully updated technician employment  and availability status');
       }
+
+      return result;
     } catch (e) {
       onHandleMutationErrors({
         message: 'Update Employment ans Availability Status Fail',
