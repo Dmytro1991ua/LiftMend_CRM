@@ -7,12 +7,17 @@ import { FormProvider } from 'react-hook-form';
 import BaseDetailsPage from '@/shared/base-details-page';
 import useDetailsPageModals from '@/shared/base-details-page/hooks/useDetailsPageModals';
 import { getTechnicianDetailsPageActionButtonsConfig } from '@/shared/base-details-page/utils';
+import DeleteModal from '@/shared/base-modal/delete-modal';
 import EditModal from '@/shared/base-modal/edit-modal';
 import { getModalTitle } from '@/shared/base-modal/edit-modal/utils';
 import useFormState from '@/shared/hooks/useFormState';
+import { getDeleteModalDescription } from '@/shared/utils';
 
-import { TechnicianRecordFormValues } from '../../types';
+import { DEFAULT_DELETE_TECHNICIAN_MODAL_TITLE } from '../../constants';
+import useUpdateEmploymentStatus from '../../hooks/useUpdateEmploymentStatus';
+import { EmploymentStatus, TechnicianRecordFormValues } from '../../types';
 import { convertTechnicianRecordToFormValues } from '../../utils';
+import useTechnicianRecordDeletion from '../delete-action-cell/hooks/useTechnicianRecordDeletion';
 import EditTechnicianRecordForm from '../edit-technician-record-form';
 import { technicianRecordEditFormSchema } from '../edit-technician-record-form/validation';
 import useEditTechnicianRecordForm from '../technician-record-form/hooks/useEditTechnicianRecordForm';
@@ -23,9 +28,17 @@ import { useFetchTechnicianRecordById } from './hooks';
 const TechnicianRecordDetails = () => {
   const {
     query: { technicianRecordId },
+    back,
   } = useRouter();
 
-  const { isEditModalOpen, onCloseEditModal, onOpenEditModal } = useDetailsPageModals();
+  const {
+    isEditModalOpen,
+    isDeleteModalOpen,
+    onCloseEditModal,
+    onOpenEditModal,
+    onOpenDeleteModal,
+    onCloseDeleteModal,
+  } = useDetailsPageModals();
 
   const { technicianRecord, loading, error } = useFetchTechnicianRecordById(technicianRecordId as string);
 
@@ -44,14 +57,38 @@ const TechnicianRecordDetails = () => {
 
   const { isUpdateRecordLoading, onEditTechnicianRecord } = useEditTechnicianRecordForm({ onReset, technicianRecord });
 
+  const {
+    loading: isEmploymentStatusUpdate,
+    config,
+    isModalOpen,
+    onHandleEmploymentStatusChange,
+    onOpenModal,
+    onCloseModal,
+  } = useUpdateEmploymentStatus({
+    employmentStatus: technicianRecord.employmentStatus as EmploymentStatus,
+    technicianId: technicianRecord.id,
+    onRedirect: () => back(),
+  });
+
+  const { isDeleteTechnicianRecordLoading, onHandleDeleteTechnicianRecord } = useTechnicianRecordDeletion({
+    onCloseModal: onCloseDeleteModal,
+    id: technicianRecord.id,
+    onRedirect: () => back(),
+  });
+
   const technicianRecordDetailsSections = useMemo(
     () => technicianRecordSectionsConfig(technicianRecord),
     [technicianRecord]
   );
 
   const actionButtonsConfig = useMemo(
-    () => getTechnicianDetailsPageActionButtonsConfig({ onOpenEditModal }),
-    [onOpenEditModal]
+    () =>
+      getTechnicianDetailsPageActionButtonsConfig({
+        onOpenEditModal,
+        onOpenUpdateEmploymentStatusModal: onOpenModal,
+        onOpenDeleteModal,
+      }),
+    [onOpenEditModal, onOpenModal, onOpenDeleteModal]
   );
 
   const TECHNICIAN_RECORD_DETAILS_MODALS_CONFIG = [
@@ -66,6 +103,36 @@ const TechnicianRecordDetails = () => {
           onSubmit={formState.handleSubmit(onEditTechnicianRecord)}
         >
           <EditTechnicianRecordForm technicianRecordFormValues={technicianRecord} />
+        </EditModal>
+      ),
+    },
+    {
+      id: 2,
+      content: (
+        <DeleteModal
+          description={getDeleteModalDescription(technicianRecordDetailsTitle)}
+          isDisabled={isDeleteTechnicianRecordLoading}
+          isLoading={isDeleteTechnicianRecordLoading}
+          isOpen={isDeleteModalOpen}
+          title={DEFAULT_DELETE_TECHNICIAN_MODAL_TITLE}
+          onClose={onCloseDeleteModal}
+          onSubmit={onHandleDeleteTechnicianRecord}
+        />
+      ),
+    },
+    {
+      id: 2,
+      content: (
+        <EditModal
+          cancelButtonLabel='No'
+          isDisabled={isEmploymentStatusUpdate}
+          isOpen={isModalOpen}
+          submitButtonLabel='Yes'
+          title={config.modalTitle}
+          onClose={onCloseModal}
+          onSubmit={onHandleEmploymentStatusChange}
+        >
+          {config.modalMessage}
         </EditModal>
       ),
     },

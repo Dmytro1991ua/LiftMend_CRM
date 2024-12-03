@@ -17,8 +17,7 @@ import { RepairJobFormValues } from '@/shared/repair-job/edit-repair-job-form/ty
 import { repairJobEditFormSchema } from '@/shared/repair-job/edit-repair-job-form/validation';
 import useRepairJobDeletion from '@/shared/repair-job/hooks/useRepairJobDeletion';
 import useRepairJobFormHandler from '@/shared/repair-job/hooks/useRepairJobFormHandler';
-import { getDeleteModalDescription } from '@/shared/repair-job/utils';
-import { getCalendarEventInfo } from '@/shared/utils';
+import { getCalendarEventInfo, getDeleteModalDescription } from '@/shared/utils';
 
 import { repairJobSectionsConfig } from './config';
 import useFetchRepairJobById from './hooks/useFetchRepairJobById';
@@ -86,7 +85,7 @@ const RepairJobDetails = () => {
       id: 2,
       content: (
         <DeleteModal
-          description={getDeleteModalDescription(title)}
+          description={getDeleteModalDescription(title, 'record')}
           isDisabled={isDeleteRepairJobLoading}
           isLoading={isDeleteRepairJobLoading}
           isOpen={isDeleteModalOpen}

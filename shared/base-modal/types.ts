@@ -8,6 +8,8 @@ export type BaseModalProps = {
   isLoading?: boolean;
   isDisabled?: boolean;
   modalFooter?: React.JSX.Element;
+  cancelButtonLabel?: string;
+  submitButtonLabel?: string;
   onClose?: () => void;
   onSubmit?: () => void;
 };

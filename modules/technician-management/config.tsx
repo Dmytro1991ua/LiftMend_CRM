@@ -1,12 +1,12 @@
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
-import { EmploymentStatus, EmploymentStatusConfig } from '../../types';
 import {
   DEFAULT_ACTIVATION_MODAL_MESSAGE,
   DEFAULT_ACTIVATION_MODAL_TITLE,
   DEFAULT_DEACTIVATION_MODAL_MESSAGE,
   DEFAULT_DEACTIVATION_MODAL_TITLE,
-} from '../technician-management-table/constants';
+} from './components/technician-management-table/constants';
+import { EmploymentStatus, EmploymentStatusConfig } from './types';
 
 export const EMPLOYMENT_STATUS_UPDATE_CONFIG: Record<EmploymentStatus, EmploymentStatusConfig> = {
   Active: {

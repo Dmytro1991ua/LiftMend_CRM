@@ -33,4 +33,4 @@ export const TECHNICIAN_RECORDS_TABLE_FILTER_KEY_MAP: Record<string, string> = {
   employmentStatuses: 'employmentStatus',
 };
 
-export const DEFAULT_DELETE_TECHNICIAN_MODAL_TITLE = 'Delete elevator record';
+export const DEFAULT_DELETE_TECHNICIAN_MODAL_TITLE = 'Delete technician record';

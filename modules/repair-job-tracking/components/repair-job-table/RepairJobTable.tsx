@@ -76,6 +76,7 @@ const RepairJobTable = () => {
         errorMessage={error}
         filtersConfig={filtersConfig}
         hasMore={hasMore}
+        isRowDisabled={() => false}
         loadMore={onNext}
         loading={loading}
         refetch={refetch}
