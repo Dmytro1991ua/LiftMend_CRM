@@ -4,16 +4,6 @@ import { MdDelete } from 'react-icons/md';
 
 import { ActionButtonLabel, DetailsPageActionButtonConfig } from './types';
 
-const getEditButtonConfig = (onOpenEditModal: () => void): DetailsPageActionButtonConfig => {
-  return {
-    id: 1,
-    variant: 'default',
-    label: ActionButtonLabel.EDIT,
-    icon: <AiFillEdit />,
-    onClick: () => onOpenEditModal(),
-  };
-};
-
 export const getCommonDetailsPageActionButtonsConfig = ({
   onOpenDeleteModal,
   onOpenEditModal,
@@ -22,7 +12,13 @@ export const getCommonDetailsPageActionButtonsConfig = ({
   onOpenDeleteModal: () => void;
 }): DetailsPageActionButtonConfig[] => {
   return [
-    { ...getEditButtonConfig(onOpenEditModal) },
+    {
+      id: 1,
+      variant: 'default',
+      label: ActionButtonLabel.EDIT,
+      icon: <AiFillEdit />,
+      onClick: () => onOpenEditModal(),
+    },
     {
       id: 2,
       variant: 'destructive',
@@ -35,13 +31,15 @@ export const getCommonDetailsPageActionButtonsConfig = ({
 
 export const getTechnicianDetailsPageActionButtonsConfig = ({
   onOpenEditModal,
+  onOpenDeleteModal,
   onOpenUpdateEmploymentStatusModal,
 }: {
   onOpenEditModal: () => void;
+  onOpenDeleteModal: () => void;
   onOpenUpdateEmploymentStatusModal: () => void;
 }): DetailsPageActionButtonConfig[] => {
   return [
-    { ...getEditButtonConfig(onOpenEditModal) },
+    ...getCommonDetailsPageActionButtonsConfig({ onOpenDeleteModal, onOpenEditModal }),
     {
       id: 2,
       variant: 'default',

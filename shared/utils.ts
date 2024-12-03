@@ -77,3 +77,6 @@ export const getElevatorRecordInfo = (elevatorRecord: ElevatorRecord): CalendarE
     title: `${elevatorType} Information`,
   };
 };
+
+export const getDeleteModalDescription = (title: string, description = '') =>
+  `Are you sure you want to delete ${title} ${description}?`;

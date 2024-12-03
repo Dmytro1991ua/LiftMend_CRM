@@ -11,8 +11,7 @@ import DeleteModal from '@/shared/base-modal/delete-modal';
 import EditModal from '@/shared/base-modal/edit-modal';
 import { getModalTitle } from '@/shared/base-modal/edit-modal/utils';
 import useFormState from '@/shared/hooks/useFormState';
-import { getDeleteModalDescription } from '@/shared/repair-job/utils';
-import { getElevatorRecordInfo } from '@/shared/utils';
+import { getDeleteModalDescription, getElevatorRecordInfo } from '@/shared/utils';
 
 import { DEFAULT_DELETE_ELEVATOR_MODAL_TITLE } from '../../constants';
 import { ElevatorRecordFormValues } from '../../types';
@@ -81,7 +80,7 @@ const ElevatorRecordDetails = () => {
       id: 2,
       content: (
         <DeleteModal
-          description={getDeleteModalDescription(title)}
+          description={getDeleteModalDescription(title, 'record')}
           isDisabled={isDeleteElevatorRecordLoading}
           isLoading={isDeleteElevatorRecordLoading}
           isOpen={isDeleteModalOpen}
