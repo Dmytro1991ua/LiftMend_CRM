@@ -9,13 +9,21 @@ type EmploymentStatusToggleCellProps = {
   employmentStatus: EmploymentStatus;
   technicianId: string;
   availabilityStatus: string;
+  lastKnownAvailabilityStatus?: string | null;
 };
 
-const EmploymentStatusToggleCell = ({ employmentStatus, technicianId }: EmploymentStatusToggleCellProps) => {
+const EmploymentStatusToggleCell = ({
+  employmentStatus,
+  availabilityStatus,
+  technicianId,
+  lastKnownAvailabilityStatus,
+}: EmploymentStatusToggleCellProps) => {
   const { loading, config, isModalOpen, onHandleEmploymentStatusChange, onOpenModal, onCloseModal } =
     useUpdateEmploymentStatus({
       employmentStatus,
       technicianId,
+      availabilityStatus,
+      lastKnownAvailabilityStatus,
     });
 
   return (

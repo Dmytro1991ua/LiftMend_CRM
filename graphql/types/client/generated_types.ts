@@ -360,6 +360,7 @@ export type TechnicianRecord = Node & {
   contactInformation: Scalars['String']['output'];
   employmentStatus: Scalars['String']['output'];
   id: Scalars['ID']['output'];
+  lastKnownAvailabilityStatus: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
   skills: Array<Scalars['String']['output']>;
 };
@@ -496,6 +497,7 @@ export type TechnicianRecordFieldsFragment = {
   certifications: Array<string>;
   availabilityStatus: string;
   employmentStatus: string;
+  lastKnownAvailabilityStatus: string | null;
 };
 
 export type CreateElevatorRecordMutationVariables = Exact<{
@@ -570,6 +572,7 @@ export type CreateTechnicianRecordMutation = {
     certifications: Array<string>;
     availabilityStatus: string;
     employmentStatus: string;
+    lastKnownAvailabilityStatus: string | null;
   };
 };
 
@@ -788,6 +791,7 @@ export type GetTechnicianRecordByIdQuery = {
     certifications: Array<string>;
     availabilityStatus: string;
     employmentStatus: string;
+    lastKnownAvailabilityStatus: string | null;
   };
 };
 
@@ -827,6 +831,7 @@ export type GetTechnicianRecordsQuery = {
         certifications: Array<string>;
         availabilityStatus: string;
         employmentStatus: string;
+        lastKnownAvailabilityStatus: string | null;
       };
     }>;
     pageInfo: {
@@ -898,5 +903,6 @@ export type UpdateTechnicianRecordMutation = {
     certifications: Array<string>;
     availabilityStatus: string;
     employmentStatus: string;
+    lastKnownAvailabilityStatus: string | null;
   };
 };

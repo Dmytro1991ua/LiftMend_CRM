@@ -134,12 +134,13 @@ export const TECHNICIAN_RECORD_COLUMNS: ColumnDef<TechnicianRecord>[] = [
     header: 'Technician Visibility',
     cell: ({
       row: {
-        original: { employmentStatus, id, availabilityStatus },
+        original: { employmentStatus, id, availabilityStatus, lastKnownAvailabilityStatus },
       },
     }) => (
       <EmploymentStatusToggleCell
         availabilityStatus={availabilityStatus}
         employmentStatus={employmentStatus as EmploymentStatus}
+        lastKnownAvailabilityStatus={lastKnownAvailabilityStatus}
         technicianId={id}
       />
     ),

@@ -9,5 +9,6 @@ export const TECHNICIAN_RECORD_FRAGMENT = gql`
     certifications
     availabilityStatus
     employmentStatus
+    lastKnownAvailabilityStatus
   }
 `;

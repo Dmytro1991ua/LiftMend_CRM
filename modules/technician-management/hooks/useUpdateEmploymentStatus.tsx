@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { useModal } from '@/shared/hooks';
 import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 
-import { EMPLOYMENT_STATUS_UPDATE_CONFIG } from '../config';
+import { getEmploymentStatusUpdateConfig } from '../config';
 import { EmploymentStatus, EmploymentStatusConfig } from '../types';
 
 import useUpdateTechnicianVisibility from './useUpdateTechnicianVisibility';
@@ -11,6 +11,8 @@ import useUpdateTechnicianVisibility from './useUpdateTechnicianVisibility';
 type UseUpdateEmploymentStatusProps = {
   employmentStatus: EmploymentStatus;
   technicianId: string;
+  availabilityStatus: string;
+  lastKnownAvailabilityStatus?: string | null;
   onRedirect?: () => void;
 };
 
@@ -27,6 +29,8 @@ type UseUpdateEmploymentStatus = {
 const useUpdateEmploymentStatus = ({
   employmentStatus,
   technicianId,
+  availabilityStatus,
+  lastKnownAvailabilityStatus,
   onRedirect,
 }: UseUpdateEmploymentStatusProps): UseUpdateEmploymentStatus => {
   const { isModalOpen, onCloseModal, onOpenModal } = useModal();
@@ -37,14 +41,15 @@ const useUpdateEmploymentStatus = ({
     onSuccess,
   });
 
-  const config = EMPLOYMENT_STATUS_UPDATE_CONFIG[employmentStatus] || {};
+  const config = getEmploymentStatusUpdateConfig(lastKnownAvailabilityStatus ?? '')[employmentStatus] || {};
 
   const onHandleEmploymentStatusChange = useCallback(async () => {
-    const result = await onUpdateEmploymentStatus(
-      technicianId,
-      config.newEmploymentStatus,
-      config.newAvailabilityStatus
-    );
+    const result = await onUpdateEmploymentStatus({
+      id: technicianId,
+      newEmploymentStatus: config.newEmploymentStatus,
+      newAvailabilityStatus: config.newAvailabilityStatus,
+      currentAvailabilityStatus: availabilityStatus,
+    });
 
     onCloseModal();
 
@@ -55,6 +60,7 @@ const useUpdateEmploymentStatus = ({
     onCloseModal,
     onUpdateEmploymentStatus,
     technicianId,
+    availabilityStatus,
     onRedirect,
   ]);
 
