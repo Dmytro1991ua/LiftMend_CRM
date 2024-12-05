@@ -200,6 +200,7 @@ export type MutationUpdateEmploymentStatusArgs = {
   availabilityStatus: Scalars['String']['input'];
   employmentStatus: Scalars['String']['input'];
   id: Scalars['ID']['input'];
+  lastKnownAvailabilityStatus?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationUpdateRepairJobArgs = {
@@ -360,6 +361,7 @@ export type TechnicianRecord = Node & {
   contactInformation: Scalars['String']['output'];
   employmentStatus: Scalars['String']['output'];
   id: Scalars['ID']['output'];
+  lastKnownAvailabilityStatus?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
   skills: Array<Scalars['String']['output']>;
 };
@@ -943,6 +945,7 @@ export type TechnicianRecordResolvers<
   contactInformation?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   employmentStatus?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  lastKnownAvailabilityStatus?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   skills?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

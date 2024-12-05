@@ -67,6 +67,8 @@ const TechnicianRecordDetails = () => {
   } = useUpdateEmploymentStatus({
     employmentStatus: technicianRecord.employmentStatus as EmploymentStatus,
     technicianId: technicianRecord.id,
+    availabilityStatus: technicianRecord.availabilityStatus,
+    lastKnownAvailabilityStatus: technicianRecord.lastKnownAvailabilityStatus,
     onRedirect: () => back(),
   });
 

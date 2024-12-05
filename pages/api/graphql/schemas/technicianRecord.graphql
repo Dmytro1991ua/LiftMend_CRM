@@ -12,6 +12,7 @@ type TechnicianRecord implements Node {
   certifications: [String!]!
   availabilityStatus: String!
   employmentStatus: String!
+  lastKnownAvailabilityStatus: String
 }
 
 type TechnicianRecordEdges implements Edge {

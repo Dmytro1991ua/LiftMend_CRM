@@ -11,4 +11,4 @@ export const DEFAULT_DEACTIVATION_MODAL_MESSAGE =
 
 export const DEFAULT_ACTIVATION_MODAL_TITLE = 'Confirm Activation of Technician';
 export const DEFAULT_ACTIVATION_MODAL_MESSAGE =
-  'Reactivating this technician will make them active and available for scheduling and task assignment. Are you sure you want to proceed?';
+  'Reactivating this technician will make them active and restore their availability status to what it was before deactivation. This may affect their eligibility for scheduling and task assignments depending on their restored status. Are you sure you want to proceed?';

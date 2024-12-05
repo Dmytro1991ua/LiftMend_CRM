@@ -97,6 +97,7 @@ export type TechnicianRecord = {
   employmentStatus: string;
   name: string;
   skills: string[];
+  lastKnownAvailabilityStatus?: string | null;
 };
 
 export type TableModel = RepairJob & ElevatorRecord & TechnicianRecord;

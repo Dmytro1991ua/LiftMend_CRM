@@ -9,14 +9,22 @@ type UseUpdateTechnicianVisibilityProps = {
   onError?: (errorMessage: string, errorDescription: string) => void;
 };
 
+type UpdateEmploymentStatus = {
+  id: string;
+  newEmploymentStatus: string;
+  newAvailabilityStatus: string;
+  currentAvailabilityStatus?: string;
+};
+
 type UseUpdateTechnicianVisibility = {
   loading: boolean;
   error?: string;
-  onUpdateEmploymentStatus: (
-    id: string,
-    employmentStatus: string,
-    availabilityStatus: string
-  ) => Promise<FetchResult<MutationUpdateEmploymentStatusArgs> | undefined>;
+  onUpdateEmploymentStatus: ({
+    id,
+    newAvailabilityStatus,
+    newEmploymentStatus,
+    currentAvailabilityStatus,
+  }: UpdateEmploymentStatus) => Promise<FetchResult<MutationUpdateEmploymentStatusArgs> | undefined>;
 };
 
 const useUpdateTechnicianVisibility = ({
@@ -26,14 +34,20 @@ const useUpdateTechnicianVisibility = ({
   const [updateEmploymentStatus, { loading, error }] =
     useMutation<MutationUpdateEmploymentStatusArgs>(UPDATE_EMPLOYMENT_STATUS);
 
-  const onUpdateEmploymentStatus = async (
-    id: string,
-    employmentStatus: string,
-    availabilityStatus: string
-  ): Promise<FetchResult<MutationUpdateEmploymentStatusArgs> | undefined> => {
+  const onUpdateEmploymentStatus = async ({
+    id,
+    newAvailabilityStatus,
+    newEmploymentStatus,
+    currentAvailabilityStatus,
+  }: UpdateEmploymentStatus): Promise<FetchResult<MutationUpdateEmploymentStatusArgs> | undefined> => {
     try {
       const result = await updateEmploymentStatus({
-        variables: { id, employmentStatus, availabilityStatus },
+        variables: {
+          id,
+          employmentStatus: newEmploymentStatus,
+          availabilityStatus: newAvailabilityStatus,
+          lastKnownAvailabilityStatus: currentAvailabilityStatus,
+        },
       });
 
       const hasErrors = !!result.errors?.length;
