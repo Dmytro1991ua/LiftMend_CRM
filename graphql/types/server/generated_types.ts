@@ -43,16 +43,6 @@ export type CreateCalendarEventInput = {
   title: Scalars['String']['input'];
 };
 
-export type CreateElevatorRecordInput = {
-  buildingName: Scalars['String']['input'];
-  capacity: Scalars['Int']['input'];
-  elevatorLocation: Scalars['String']['input'];
-  elevatorType: Scalars['String']['input'];
-  lastMaintenanceDate: Scalars['DateTime']['input'];
-  nextMaintenanceDate: Scalars['DateTime']['input'];
-  status: Scalars['String']['input'];
-};
-
 export type CreateRepairJobInput = {
   buildingName: Scalars['String']['input'];
   contactInformation: Scalars['String']['input'];
@@ -154,7 +144,6 @@ export type ElevatorRecordSortInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createElevatorRecord: ElevatorRecord;
   createRepairJobAndEvent: ScheduledEventAndRepairJobResponse;
   createTechnicianRecord: TechnicianRecord;
   deleteElevatorRecord: DeleteElevatorRecordResponse;
@@ -164,10 +153,6 @@ export type Mutation = {
   updateEmploymentStatus: TechnicianRecord;
   updateRepairJob: RepairJob;
   updateTechnicianRecord: TechnicianRecord;
-};
-
-export type MutationCreateElevatorRecordArgs = {
-  input: CreateElevatorRecordInput;
 };
 
 export type MutationCreateRepairJobAndEventArgs = {
@@ -534,7 +519,6 @@ export type ResolversTypes = ResolversObject<{
   CalendarEvent: ResolverTypeWrapper<CalendarEvent>;
   Connection: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Connection']>;
   CreateCalendarEventInput: CreateCalendarEventInput;
-  CreateElevatorRecordInput: CreateElevatorRecordInput;
   CreateRepairJobInput: CreateRepairJobInput;
   CreateTechnicianRecordInput: CreateTechnicianRecordInput;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
@@ -585,7 +569,6 @@ export type ResolversParentTypes = ResolversObject<{
   CalendarEvent: CalendarEvent;
   Connection: ResolversInterfaceTypes<ResolversParentTypes>['Connection'];
   CreateCalendarEventInput: CreateCalendarEventInput;
-  CreateElevatorRecordInput: CreateElevatorRecordInput;
   CreateRepairJobInput: CreateRepairJobInput;
   CreateTechnicianRecordInput: CreateTechnicianRecordInput;
   DateTime: Scalars['DateTime']['output'];
@@ -745,12 +728,6 @@ export type MutationResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
 > = ResolversObject<{
-  createElevatorRecord?: Resolver<
-    ResolversTypes['ElevatorRecord'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationCreateElevatorRecordArgs, 'input'>
-  >;
   createRepairJobAndEvent?: Resolver<
     ResolversTypes['ScheduledEventAndRepairJobResponse'],
     ParentType,

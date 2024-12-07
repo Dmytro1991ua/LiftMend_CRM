@@ -15,7 +15,6 @@ type Mutation {
   ): ScheduledEventAndRepairJobResponse!
   deleteRepairJobAndEvent(calendarEventId: ID!, repairJobId: ID!): DeleteCalendarAndRepairJobResponse!
   updateRepairJob(input: UpdateRepairJobInput!): RepairJob!
-  createElevatorRecord(input: CreateElevatorRecordInput!): ElevatorRecord!
   updateElevatorRecord(input: UpdateElevatorRecordInput!): ElevatorRecord!
   deleteElevatorRecord(id: ID!): DeleteElevatorRecordResponse!
   createTechnicianRecord(input: CreateTechnicianRecordInput!): TechnicianRecord!

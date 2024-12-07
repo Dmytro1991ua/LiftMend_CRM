@@ -18,8 +18,8 @@ import { ElevatorRecordFormValues } from '../../types';
 import { convertElevatorRecordToFormValues } from '../../utils';
 import useElevatorRecordDeletion from '../delete-action-cell/hooks/useElevatorRecordDeletion';
 import EditElevatorRecordForm from '../edit-elevator-record-form';
+import useEditElevatorRecordForm from '../edit-elevator-record-form/hooks/useEditElevatorRecordForm';
 import { elevatorRecordEditFormSchema } from '../edit-elevator-record-form/validation';
-import useEditElevatorRecordForm from '../elevator-record-form/hooks/useEditElevatorRecordForm';
 
 import { elevatorRecordSectionsConfig } from './config';
 import useFetchElevatorRecordById from './hooks/useFetchElevatorRecordById';

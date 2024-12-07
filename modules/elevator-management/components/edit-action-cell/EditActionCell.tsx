@@ -15,8 +15,8 @@ import { getElevatorRecordInfo } from '@/shared/utils';
 import { ElevatorRecordFormValues } from '../../types';
 import { convertElevatorRecordToFormValues } from '../../utils';
 import EditElevatorRecordForm from '../edit-elevator-record-form';
+import useEditElevatorRecordForm from '../edit-elevator-record-form/hooks/useEditElevatorRecordForm';
 import { elevatorRecordEditFormSchema } from '../edit-elevator-record-form/validation';
-import useEditElevatorRecordForm from '../elevator-record-form/hooks/useEditElevatorRecordForm';
 
 type EditActionCellProps = {
   elevatorRecord: ElevatorRecord;

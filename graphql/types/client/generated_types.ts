@@ -40,16 +40,6 @@ export type CreateCalendarEventInput = {
   title: Scalars['String']['input'];
 };
 
-export type CreateElevatorRecordInput = {
-  buildingName: Scalars['String']['input'];
-  capacity: Scalars['Int']['input'];
-  elevatorLocation: Scalars['String']['input'];
-  elevatorType: Scalars['String']['input'];
-  lastMaintenanceDate: Scalars['DateTime']['input'];
-  nextMaintenanceDate: Scalars['DateTime']['input'];
-  status: Scalars['String']['input'];
-};
-
 export type CreateRepairJobInput = {
   buildingName: Scalars['String']['input'];
   contactInformation: Scalars['String']['input'];
@@ -152,7 +142,6 @@ export type ElevatorRecordSortInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createElevatorRecord: ElevatorRecord;
   createRepairJobAndEvent: ScheduledEventAndRepairJobResponse;
   createTechnicianRecord: TechnicianRecord;
   deleteElevatorRecord: DeleteElevatorRecordResponse;
@@ -162,10 +151,6 @@ export type Mutation = {
   updateEmploymentStatus: TechnicianRecord;
   updateRepairJob: RepairJob;
   updateTechnicianRecord: TechnicianRecord;
-};
-
-export type MutationCreateElevatorRecordArgs = {
-  input: CreateElevatorRecordInput;
 };
 
 export type MutationCreateRepairJobAndEventArgs = {
@@ -198,6 +183,7 @@ export type MutationUpdateEmploymentStatusArgs = {
   availabilityStatus: Scalars['String']['input'];
   employmentStatus: Scalars['String']['input'];
   id: Scalars['ID']['input'];
+  lastKnownAvailabilityStatus?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationUpdateRepairJobArgs = {
@@ -498,25 +484,6 @@ export type TechnicianRecordFieldsFragment = {
   availabilityStatus: string;
   employmentStatus: string;
   lastKnownAvailabilityStatus: string | null;
-};
-
-export type CreateElevatorRecordMutationVariables = Exact<{
-  input: CreateElevatorRecordInput;
-}>;
-
-export type CreateElevatorRecordMutation = {
-  __typename?: 'Mutation';
-  createElevatorRecord: {
-    __typename?: 'ElevatorRecord';
-    id: string;
-    elevatorType: string;
-    buildingName: string;
-    elevatorLocation: string;
-    lastMaintenanceDate: any;
-    nextMaintenanceDate: any;
-    capacity: number;
-    status: string;
-  };
 };
 
 export type CreateRepairJobAndCalendarEventMutationVariables = Exact<{

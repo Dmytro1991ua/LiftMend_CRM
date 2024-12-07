@@ -107,13 +107,6 @@ const Mutation: MutationResolvers = {
 
     return updatedRepairJob;
   },
-  createElevatorRecord: async (_, { input }, { prisma }): Promise<ElevatorRecord> => {
-    const elevatorRecord: ElevatorRecord = await prisma.elevatorRecord.create({
-      data: input,
-    });
-
-    return elevatorRecord;
-  },
   updateElevatorRecord: async (_, { input }, { prisma }): Promise<ElevatorRecord> => {
     const { id, ...fieldsToUpdate } = input;
 

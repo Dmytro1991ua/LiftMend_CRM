@@ -36,16 +36,6 @@ type ElevatorRecordFormData {
   elevatorStatuses: [String!]
 }
 
-input CreateElevatorRecordInput {
-  elevatorType: String!
-  buildingName: String!
-  elevatorLocation: String!
-  lastMaintenanceDate: DateTime!
-  nextMaintenanceDate: DateTime!
-  capacity: Int!
-  status: String!
-}
-
 input UpdateElevatorRecordInput {
   id: ID!
   elevatorType: String
