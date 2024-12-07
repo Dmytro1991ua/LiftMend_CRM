@@ -11,6 +11,8 @@ interface ControlledDatePickerProps<T extends FieldValues> extends DatePickerPro
   name: Path<T>;
   className?: string;
   defaultValue?: PathValue<T, Path<T>> | undefined;
+  infoTooltip?: JSX.Element;
+  isDisabled?: boolean;
   clearErrors?: UseFormClearErrors<T>;
 }
 
@@ -19,6 +21,8 @@ const ControlledSingleDatePicker = <T extends FieldValues>({
   name,
   className,
   defaultValue,
+  infoTooltip,
+  isDisabled,
   clearErrors,
   ...props
 }: ControlledDatePickerProps<T>) => {
@@ -36,7 +40,10 @@ const ControlledSingleDatePicker = <T extends FieldValues>({
 
   return (
     <div className={cn('relative grid w-full items-center gap-1.5', className)}>
-      {label && <label className={labelErrorStyles}>{label}</label>}
+      <div className='flex items-center gap-2'>
+        {label && <label className={labelErrorStyles}>{label}</label>}
+        {isDisabled && infoTooltip}
+      </div>
       <Controller
         control={control}
         defaultValue={defaultValue}
@@ -45,6 +52,7 @@ const ControlledSingleDatePicker = <T extends FieldValues>({
           <DatePicker
             {...props}
             hasError={hasError}
+            isDisabled={isDisabled}
             singleDate={fieldValue}
             onSingleDateChange={(date) => {
               onChange(date);
