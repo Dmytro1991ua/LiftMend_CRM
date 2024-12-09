@@ -78,7 +78,7 @@ const DatePicker = ({
         <PopoverTrigger asChild>
           <Button
             className={cn(
-              'min-w-[24rem] justify-start bg-white text-left font-normal border-2 border-primary/50 rounded-2xl',
+              'min-w-[24rem] justify-start bg-white text-left font-normal border-2 border-primary/50 rounded-2xl disabled:bg-gray-200  disabled:hover:text-muted-foreground',
               (!dateRangeState ||
                 !singleDate ||
                 configKey === DateRangeConfigKey.WithDateRangeSingleDate ||

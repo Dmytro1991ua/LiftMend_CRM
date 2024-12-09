@@ -16,6 +16,7 @@ export interface FormInputProps<T extends FieldValues> extends InputProps {
   isLastElement?: boolean;
   startIcon?: JSX.Element;
   endIcon?: JSX.Element;
+  infoTooltip?: JSX.Element;
 }
 
 const FormInput = <T extends FieldValues>({
@@ -29,6 +30,7 @@ const FormInput = <T extends FieldValues>({
   isLastElement,
   startIcon,
   endIcon,
+  infoTooltip,
   onChange,
   ...props
 }: FormInputProps<T>) => {
@@ -47,9 +49,13 @@ const FormInput = <T extends FieldValues>({
 
   return (
     <div className={cn('relative grid w-full items-center gap-1.5', !isLastElement && 'mb-8')}>
-      <label className={labelErrorStyles} htmlFor={id}>
-        {label}
-      </label>
+      <div className='flex items-center gap-2'>
+        <label className={labelErrorStyles} htmlFor={id}>
+          {label}
+        </label>
+        {disabled && infoTooltip}
+      </div>
+
       <Input
         error={hasError}
         id={id}
