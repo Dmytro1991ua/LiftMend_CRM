@@ -91,6 +91,7 @@ export type ElevatorRecord = Node & {
   elevatorLocation: Scalars['String']['output'];
   elevatorType: Scalars['String']['output'];
   id: Scalars['ID']['output'];
+  lastKnownStatus: Maybe<Scalars['String']['output']>;
   lastMaintenanceDate: Scalars['DateTime']['output'];
   nextMaintenanceDate: Scalars['DateTime']['output'];
   status: Scalars['String']['output'];
@@ -148,7 +149,6 @@ export type Mutation = {
   deleteRepairJobAndEvent: DeleteCalendarAndRepairJobResponse;
   deleteTechnicianRecord: DeleteTechnicianRecordResponse;
   updateElevatorRecord: ElevatorRecord;
-  updateEmploymentStatus: TechnicianRecord;
   updateRepairJob: RepairJob;
   updateTechnicianRecord: TechnicianRecord;
 };
@@ -177,13 +177,6 @@ export type MutationDeleteTechnicianRecordArgs = {
 
 export type MutationUpdateElevatorRecordArgs = {
   input: UpdateElevatorRecordInput;
-};
-
-export type MutationUpdateEmploymentStatusArgs = {
-  availabilityStatus: Scalars['String']['input'];
-  employmentStatus: Scalars['String']['input'];
-  id: Scalars['ID']['input'];
-  lastKnownAvailabilityStatus?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationUpdateRepairJobArgs = {
@@ -398,6 +391,7 @@ export type UpdateElevatorRecordInput = {
   elevatorLocation?: InputMaybe<Scalars['String']['input']>;
   elevatorType?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['ID']['input'];
+  lastKnownStatus?: InputMaybe<Scalars['String']['input']>;
   lastMaintenanceDate?: InputMaybe<Scalars['DateTime']['input']>;
   nextMaintenanceDate?: InputMaybe<Scalars['DateTime']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
@@ -420,9 +414,12 @@ export type UpdateRepairJobInput = {
 };
 
 export type UpdateTechnicianRecordInput = {
+  availabilityStatus?: InputMaybe<Scalars['String']['input']>;
   certifications?: InputMaybe<Array<Scalars['String']['input']>>;
   contactInformation?: InputMaybe<Scalars['String']['input']>;
+  employmentStatus?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['ID']['input'];
+  lastKnownAvailabilityStatus?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   skills?: InputMaybe<Array<Scalars['String']['input']>>;
 };
@@ -455,6 +452,7 @@ export type ElevatorRecordFieldsFragment = {
   nextMaintenanceDate: any;
   capacity: number;
   status: string;
+  lastKnownStatus: string | null;
 };
 
 export type RepairJobFieldsFragment = {
@@ -607,6 +605,7 @@ export type GetElevatorRecordByIdQuery = {
     nextMaintenanceDate: any;
     capacity: number;
     status: string;
+    lastKnownStatus: string | null;
   };
 };
 
@@ -647,6 +646,7 @@ export type GetElevatorRecordsQuery = {
         nextMaintenanceDate: any;
         capacity: number;
         status: string;
+        lastKnownStatus: string | null;
       };
     }>;
     pageInfo: {
@@ -827,6 +827,7 @@ export type UpdateElevatorRecordMutation = {
     nextMaintenanceDate: any;
     capacity: number;
     status: string;
+    lastKnownStatus: string | null;
   };
 };
 

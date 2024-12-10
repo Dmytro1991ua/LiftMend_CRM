@@ -7,4 +7,5 @@ model ElevatorRecord {
   nextMaintenanceDate DateTime
   capacity            Int
   status              String
+  lastKnownStatus     String?
 }

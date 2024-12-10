@@ -52,6 +52,9 @@ input UpdateTechnicianRecordInput {
   contactInformation: String
   skills: [String!]
   certifications: [String!]
+  availabilityStatus: String
+  employmentStatus: String
+  lastKnownAvailabilityStatus: String
 }
 
 input TechnicianRecordFilterOptions {

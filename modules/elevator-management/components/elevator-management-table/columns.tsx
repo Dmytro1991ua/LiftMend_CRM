@@ -7,8 +7,10 @@ import { PillStatus } from '@/shared/pill/config';
 import { ElevatorRecord } from '@/shared/types';
 
 import Pill from '../../../../shared/pill/Pill';
+import { ElevatorStatus } from '../../types';
 import DeleteActionCell from '../delete-action-cell';
 import EditActionCell from '../edit-action-cell';
+import ElevatorStatusToggleCell from '../elevator-status-toggle-cell';
 
 export const ELEVATOR_MANAGEMENT_COLUMNS: ColumnDef<ElevatorRecord>[] = [
   {
@@ -65,8 +67,9 @@ export const ELEVATOR_MANAGEMENT_COLUMNS: ColumnDef<ElevatorRecord>[] = [
     header: 'Building Name',
     enableResizing: true,
     enableSorting: true,
-    size: 220,
-    maxSize: 180,
+    size: 270,
+    minSize: 220,
+    maxSize: 300,
   },
   {
     accessorKey: 'status',
@@ -145,5 +148,25 @@ export const ELEVATOR_MANAGEMENT_COLUMNS: ColumnDef<ElevatorRecord>[] = [
     minSize: 80,
     maxSize: 100,
     enableSorting: false,
+  },
+  {
+    accessorKey: 'visibility',
+    header: 'Elevator Visibility',
+    cell: ({
+      row: {
+        original: { status, id, lastKnownStatus },
+      },
+    }) => (
+      <ElevatorStatusToggleCell
+        elevatorRecordId={id}
+        lastKnownStatus={lastKnownStatus}
+        status={status as ElevatorStatus}
+      />
+    ),
+    enableResizing: true,
+    enableSorting: true,
+    size: 200,
+    minSize: 120,
+    maxSize: 350,
   },
 ];

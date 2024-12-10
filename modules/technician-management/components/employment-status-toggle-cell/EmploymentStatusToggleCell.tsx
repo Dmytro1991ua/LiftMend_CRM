@@ -1,9 +1,11 @@
 import { Button } from '@/components/ui/button';
 import BaseModal from '@/shared/base-modal';
 import ModalFooter from '@/shared/base-modal/modal-footer';
+import BaseTooltip from '@/shared/base-tooltip';
 
 import useUpdateEmploymentStatus from '../../hooks/useUpdateEmploymentStatus';
 import { EmploymentStatus } from '../../types';
+import { STATUS_ICON_TOOLTIP_MESSAGE } from '../technician-management-table/constants';
 
 type EmploymentStatusToggleCellProps = {
   employmentStatus: EmploymentStatus;
@@ -26,6 +28,8 @@ const EmploymentStatusToggleCell = ({
       lastKnownAvailabilityStatus,
     });
 
+  const isTooltipShown = employmentStatus !== 'Inactive';
+
   return (
     <section>
       <Button
@@ -33,11 +37,18 @@ const EmploymentStatusToggleCell = ({
         variant='ghost'
         onClick={(e) => {
           e.stopPropagation();
-
           onOpenModal();
         }}
       >
-        {config.icon}
+        <BaseTooltip
+          className='w-[30rem] shadow-none'
+          disable={isTooltipShown}
+          id='employment-toggle-status-cell-tooltip'
+          message={STATUS_ICON_TOOLTIP_MESSAGE}
+          place='left'
+        >
+          {config.icon}
+        </BaseTooltip>
       </Button>
       <BaseModal
         isOpen={isModalOpen}

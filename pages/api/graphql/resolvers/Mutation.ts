@@ -110,6 +110,8 @@ const Mutation: MutationResolvers = {
   updateElevatorRecord: async (_, { input }, { prisma }): Promise<ElevatorRecord> => {
     const { id, ...fieldsToUpdate } = input;
 
+    console.log(input);
+
     const updatedElevatorRecord: ElevatorRecord = await prisma.elevatorRecord.update({
       where: { id },
       data: { ...fieldsToUpdate },
@@ -141,18 +143,6 @@ const Mutation: MutationResolvers = {
     const updatedTechnician: TechnicianRecord = await prisma.technicianRecord.update({
       where: { id },
       data: { ...fieldsToUpdate },
-    });
-
-    return updatedTechnician;
-  },
-  updateEmploymentStatus: async (
-    _,
-    { id, employmentStatus, availabilityStatus, lastKnownAvailabilityStatus },
-    { prisma }
-  ): Promise<TechnicianRecord> => {
-    const updatedTechnician: TechnicianRecord = await prisma.technicianRecord.update({
-      where: { id },
-      data: { employmentStatus, availabilityStatus, lastKnownAvailabilityStatus },
     });
 
     return updatedTechnician;

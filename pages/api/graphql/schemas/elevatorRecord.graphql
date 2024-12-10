@@ -16,6 +16,7 @@ type ElevatorRecord implements Node {
   nextMaintenanceDate: DateTime!
   capacity: Int!
   status: String!
+  lastKnownStatus: String
 }
 
 type ElevatorRecordEdge implements Edge {
@@ -45,6 +46,7 @@ input UpdateElevatorRecordInput {
   nextMaintenanceDate: DateTime
   capacity: Int
   status: String
+  lastKnownStatus: String
 }
 
 type DeleteElevatorRecordResponse {
