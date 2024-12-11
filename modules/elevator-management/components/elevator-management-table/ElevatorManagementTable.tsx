@@ -22,6 +22,7 @@ import useGetElevatorRecords from '../../hooks/useGetElevatorRecords';
 
 import { ELEVATOR_MANAGEMENT_COLUMNS } from './columns';
 import { getElevatorRecordFilterConfig } from './config';
+import { isElevatorRecordRowDisabled } from './utils';
 
 const ElevatorManagementTable = () => {
   const router = useRouter();
@@ -73,7 +74,7 @@ const ElevatorManagementTable = () => {
         errorMessage={error}
         filtersConfig={filtersConfig}
         hasMore={hasMore}
-        isRowDisabled={() => false}
+        isRowDisabled={isElevatorRecordRowDisabled}
         loadMore={onNext}
         loading={loading}
         refetch={refetch}

@@ -12,4 +12,3 @@ export * from './getTechnicianRecordFormData';
 export * from './getTechnicianRecords';
 export * from './updateElevatorRecord';
 export * from './updateRepairJob';
-export * from './updateEmploymentStatus';

@@ -22,6 +22,8 @@ const DeleteActionCell = ({ elevatorRecord }: DeleteActionCelProps) => {
     id: elevatorRecord.id,
   });
 
+  const isDeleteButtonDisabled = elevatorRecord.status !== 'Operational';
+
   const onHandleDeleteClick = (event: React.MouseEvent) => {
     event.stopPropagation();
 
@@ -30,7 +32,12 @@ const DeleteActionCell = ({ elevatorRecord }: DeleteActionCelProps) => {
 
   return (
     <section className='flex justify-center items-center'>
-      <Button className='hover:bg-transparent' variant='ghost' onClick={onHandleDeleteClick}>
+      <Button
+        className='hover:bg-transparent'
+        disabled={isDeleteButtonDisabled}
+        variant='ghost'
+        onClick={onHandleDeleteClick}
+      >
         <FaTrashAlt className='h-4 w-4 text-red-500' />
       </Button>
       <DeleteModal

@@ -13,3 +13,11 @@ export type ElevatorRecordFormValues = {
   nextMaintenanceDate?: Date;
   capacity: number | null;
 };
+
+export type ElevatorStatus = 'Operational' | 'Out of Service';
+export type ElevatorStatusConfig = {
+  icon: JSX.Element;
+  newElevatorStatus: ElevatorStatus | string;
+  modalTitle: string;
+  modalMessage: string;
+};

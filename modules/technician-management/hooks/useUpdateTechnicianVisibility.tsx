@@ -1,8 +1,11 @@
 import { ApolloError, FetchResult, useMutation } from '@apollo/client';
 
 import { onHandleMutationErrors } from '@/graphql';
-import { UPDATE_EMPLOYMENT_STATUS } from '@/graphql/schemas';
-import { MutationUpdateEmploymentStatusArgs } from '@/graphql/types/client/generated_types';
+import { UPDATE_TECHNICIAN_RECORD } from '@/graphql/schemas/updateTechnicianRecord';
+import {
+  UpdateTechnicianRecordMutation,
+  UpdateTechnicianRecordMutationVariables,
+} from '@/graphql/types/client/generated_types';
 
 type UseUpdateTechnicianVisibilityProps = {
   onSuccess?: (message: string) => void;
@@ -24,29 +27,33 @@ type UseUpdateTechnicianVisibility = {
     newAvailabilityStatus,
     newEmploymentStatus,
     currentAvailabilityStatus,
-  }: UpdateEmploymentStatus) => Promise<FetchResult<MutationUpdateEmploymentStatusArgs> | undefined>;
+  }: UpdateEmploymentStatus) => Promise<FetchResult<UpdateTechnicianRecordMutation> | undefined>;
 };
 
 const useUpdateTechnicianVisibility = ({
   onError,
   onSuccess,
 }: UseUpdateTechnicianVisibilityProps): UseUpdateTechnicianVisibility => {
-  const [updateEmploymentStatus, { loading, error }] =
-    useMutation<MutationUpdateEmploymentStatusArgs>(UPDATE_EMPLOYMENT_STATUS);
+  const [updateTechnicianRecord, { loading, error }] = useMutation<
+    UpdateTechnicianRecordMutation,
+    UpdateTechnicianRecordMutationVariables
+  >(UPDATE_TECHNICIAN_RECORD);
 
   const onUpdateEmploymentStatus = async ({
     id,
     newAvailabilityStatus,
     newEmploymentStatus,
     currentAvailabilityStatus,
-  }: UpdateEmploymentStatus): Promise<FetchResult<MutationUpdateEmploymentStatusArgs> | undefined> => {
+  }: UpdateEmploymentStatus) => {
     try {
-      const result = await updateEmploymentStatus({
+      const result = await updateTechnicianRecord({
         variables: {
-          id,
-          employmentStatus: newEmploymentStatus,
-          availabilityStatus: newAvailabilityStatus,
-          lastKnownAvailabilityStatus: currentAvailabilityStatus,
+          input: {
+            id,
+            employmentStatus: newEmploymentStatus,
+            availabilityStatus: newAvailabilityStatus,
+            lastKnownAvailabilityStatus: currentAvailabilityStatus,
+          },
         },
       });
 

@@ -10,5 +10,6 @@ export const ELEVATOR_RECORD_FRAGMENT = gql`
     nextMaintenanceDate
     capacity
     status
+    lastKnownStatus
   }
 `;
