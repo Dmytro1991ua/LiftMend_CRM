@@ -1,11 +1,11 @@
 import { ApolloError, FetchResult, useMutation } from '@apollo/client';
 
-import { onHandleMutationErrors } from '@/graphql';
 import { UPDATE_ELEVATOR_RECORD } from '@/graphql/schemas';
 import {
   UpdateElevatorRecordMutation,
   UpdateElevatorRecordMutationVariables,
 } from '@/graphql/types/client/generated_types';
+import { onHandleMutationErrors } from '@/graphql/utils';
 
 type UseUpdateElevatorRecordVisibilityProps = {
   onSuccess?: (message: string) => void;
