@@ -11,5 +11,13 @@ export const REPAIR_JOB_STATUS_TO_TECHNICIAN_AVAILABILITY_STATUS_MAP: Record<str
   Completed: 'Available',
   InProgress: 'Busy',
   OnHold: 'Reserved',
-  Scheduled: 'Busy',
+  Scheduled: 'Reserved',
+};
+
+export const REPAIR_JOB_STATUS_TO_ELEVATOR_RECORD_STATUS_MAP: Record<string, string> = {
+  Scheduled: 'Under Maintenance',
+  InProgress: 'Under Maintenance',
+  Completed: 'Operational',
+  OnHold: 'Paused',
+  Cancelled: 'Operational',
 };
