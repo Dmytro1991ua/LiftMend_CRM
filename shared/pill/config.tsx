@@ -28,6 +28,7 @@ export enum PillStatus {
   Retired = 'Retired',
   Unavailable = 'Unavailable',
   Reserved = 'Reserved',
+  Paused = 'Paused',
 }
 
 type PillConfig = {
@@ -131,5 +132,10 @@ export const PILL_CONFIG: Record<PillStatus, PillConfig> = {
     icon: <FaPause className='h-6 w-6 text-blue-400' />,
     label: PillStatus.Reserved,
     className: 'text-blue-400',
+  },
+  [PillStatus.Paused]: {
+    icon: <FaPause className='h-6 w-6 text-blue-500' />,
+    label: PillStatus.Paused,
+    className: 'text-blue-500',
   },
 };

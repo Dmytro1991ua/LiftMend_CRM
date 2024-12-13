@@ -12,7 +12,10 @@ import {
 } from '@/graphql/types/server/generated_types';
 
 import { ScheduledEventAndRepairJobResponse } from './../../../../graphql/types/server/generated_types';
-import { REPAIR_JOB_STATUS_TO_TECHNICIAN_AVAILABILITY_STATUS_MAP } from './constants';
+import {
+  REPAIR_JOB_STATUS_TO_ELEVATOR_RECORD_STATUS_MAP,
+  REPAIR_JOB_STATUS_TO_TECHNICIAN_AVAILABILITY_STATUS_MAP,
+} from './constants';
 
 const Mutation: MutationResolvers = {
   createRepairJobAndEvent: async (
@@ -48,6 +51,31 @@ const Mutation: MutationResolvers = {
       data: { availabilityStatus: 'Busy' },
     });
 
+    //Find elevator record that has been associated with corresponding deleted repair job
+    const elevatorRecord = await prisma.elevatorRecord.findFirst({
+      where: {
+        buildingName: repairJob.buildingName,
+        elevatorLocation: repairJob.elevatorLocation,
+        elevatorType: repairJob.elevatorType,
+      },
+    });
+
+    if (!elevatorRecord) {
+      throw new Error(
+        `Elevator record with details (Building: ${repairJob.buildingName}, Location: ${repairJob.elevatorLocation}, Type: ${repairJob.elevatorType}) not found.`
+      );
+    }
+
+    // Update the elevatorRecord status to 'Under Maintenance' upon repair job creation
+    await prisma.elevatorRecord.update({
+      where: {
+        id: elevatorRecord.id,
+      },
+      data: {
+        status: 'Under Maintenance',
+      },
+    });
+
     return {
       repairJob: updatedRepairJob,
       calendarEvent,
@@ -58,7 +86,12 @@ const Mutation: MutationResolvers = {
     { calendarEventId, repairJobId },
     { prisma }
   ): Promise<DeleteCalendarAndRepairJobResponse> => {
-    const deletedEvent: CalendarEvent = await prisma.calendarEvent.delete({
+    // Find the repair job to get elevator details
+    const repairJob = await prisma.repairJob.findUnique({
+      where: { id: repairJobId },
+    });
+
+    const deletedEvent = await prisma.calendarEvent.delete({
       where: {
         id: calendarEventId,
       },
@@ -71,13 +104,38 @@ const Mutation: MutationResolvers = {
     });
 
     const technicianRecord: TechnicianRecord = await prisma.technicianRecord.findFirst({
-      where: { name: deletedRepairJob.technicianName },
+      where: { name: repairJob.technicianName },
     });
 
     // Update Technician available status upon repair job deletion
     await prisma.technicianRecord.update({
       where: { id: technicianRecord.id },
       data: { availabilityStatus: 'Available' },
+    });
+
+    //Find elevator record that has been associated with corresponding deleted repair job
+    const elevatorRecord = await prisma.elevatorRecord.findFirst({
+      where: {
+        buildingName: repairJob.buildingName,
+        elevatorLocation: repairJob.elevatorLocation,
+        elevatorType: repairJob.elevatorType,
+      },
+    });
+
+    if (!elevatorRecord) {
+      throw new Error(
+        `Elevator record with details (Building: ${repairJob.buildingName}, Location: ${repairJob.elevatorLocation}, Type: ${repairJob.elevatorType}) not found.`
+      );
+    }
+
+    // Update the elevatorRecord status to 'Operational' upon repair job deletion
+    await prisma.elevatorRecord.update({
+      where: {
+        id: elevatorRecord.id,
+      },
+      data: {
+        status: 'Operational',
+      },
     });
 
     return {
@@ -103,6 +161,26 @@ const Mutation: MutationResolvers = {
     await prisma.technicianRecord.update({
       where: { id: technicianRecord.id },
       data: { availabilityStatus: updatedTechnicianAvailabilityStatus },
+    });
+
+    const elevatorRecord = await prisma.elevatorRecord.findFirst({
+      where: {
+        buildingName: updatedRepairJob.buildingName,
+        elevatorLocation: updatedRepairJob.elevatorLocation,
+        elevatorType: updatedRepairJob.elevatorType,
+      },
+    });
+
+    const updatedElevatorStatus =
+      REPAIR_JOB_STATUS_TO_ELEVATOR_RECORD_STATUS_MAP[_startCase(updatedRepairJob.status).replace(/\s+/g, '')];
+
+    await prisma.elevatorRecord.update({
+      where: {
+        id: elevatorRecord.id,
+      },
+      data: {
+        status: updatedElevatorStatus,
+      },
     });
 
     return updatedRepairJob;
