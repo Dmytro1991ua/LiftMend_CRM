@@ -1,6 +1,7 @@
 import { orderBy as _orderBy } from 'lodash';
 
 import {
+  CreateRepairJobInput,
   ElevatorRecordFilterOptions,
   ElevatorRecordSortField,
   ElevatorRecordSortInput,
@@ -160,4 +161,11 @@ export const createTechnicianRecordSortOptions = (
   return sortOptions?.field && sortOptions?.order
     ? { [fieldMap[sortOptions.field]]: sortOptions.order.toLowerCase() }
     : {};
+};
+
+export const getElevatorStatusErrorMessage = (repairJobInput: CreateRepairJobInput): Record<string, string> => {
+  return {
+    'Under Maintenance': `Elevator (${repairJobInput.elevatorType}) in ${repairJobInput.elevatorLocation}, ${repairJobInput.buildingName} is already Under Maintenance. Repair job cannot be created.`,
+    'Out of Service': `Cannot create repair job. Elevator (${repairJobInput.elevatorType}) in ${repairJobInput.elevatorLocation}, ${repairJobInput.buildingName} is Out of Service and Inactive. Reactivate it in the Elevator Management page before creating a repair job.`,
+  };
 };

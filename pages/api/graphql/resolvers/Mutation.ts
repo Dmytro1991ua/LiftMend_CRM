@@ -16,6 +16,7 @@ import {
   REPAIR_JOB_STATUS_TO_ELEVATOR_RECORD_STATUS_MAP,
   REPAIR_JOB_STATUS_TO_TECHNICIAN_AVAILABILITY_STATUS_MAP,
 } from './constants';
+import { getElevatorStatusErrorMessage } from './utils';
 
 const Mutation: MutationResolvers = {
   createRepairJobAndEvent: async (
@@ -23,6 +24,27 @@ const Mutation: MutationResolvers = {
     { repairJobInput, calendarEventInput },
     { prisma }
   ): Promise<ScheduledEventAndRepairJobResponse> => {
+    //Find elevator record that has been associated with corresponding deleted repair job
+    const elevatorRecord: ElevatorRecord = await prisma.elevatorRecord.findFirst({
+      where: {
+        buildingName: repairJobInput.buildingName,
+        elevatorLocation: repairJobInput.elevatorLocation,
+        elevatorType: repairJobInput.elevatorType,
+      },
+    });
+
+    if (!elevatorRecord) {
+      throw new Error(
+        `Elevator record with details (Building: ${repairJobInput.buildingName}, Location: ${repairJobInput.elevatorLocation}, Type: ${repairJobInput.elevatorType}) not found. Please revisit Elevator Management page to find correct elevator record details`
+      );
+    }
+
+    const elevatorStatusErrorMessage = getElevatorStatusErrorMessage(repairJobInput)[elevatorRecord.status];
+
+    if (elevatorStatusErrorMessage) {
+      throw new Error(elevatorStatusErrorMessage);
+    }
+
     const repairJob = await prisma.repairJob.create({
       data: repairJobInput,
     });
@@ -50,21 +72,6 @@ const Mutation: MutationResolvers = {
       where: { id: technicianRecord.id },
       data: { availabilityStatus: 'Busy' },
     });
-
-    //Find elevator record that has been associated with corresponding deleted repair job
-    const elevatorRecord = await prisma.elevatorRecord.findFirst({
-      where: {
-        buildingName: repairJob.buildingName,
-        elevatorLocation: repairJob.elevatorLocation,
-        elevatorType: repairJob.elevatorType,
-      },
-    });
-
-    if (!elevatorRecord) {
-      throw new Error(
-        `Elevator record with details (Building: ${repairJob.buildingName}, Location: ${repairJob.elevatorLocation}, Type: ${repairJob.elevatorType}) not found.`
-      );
-    }
 
     // Update the elevatorRecord status to 'Under Maintenance' upon repair job creation
     await prisma.elevatorRecord.update({
