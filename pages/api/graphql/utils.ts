@@ -15,9 +15,8 @@ import {
   TechnicianRecordSortInput,
 } from '@/graphql/types/server/generated_types';
 
-import { Connection, Edge, PageInfo } from '../types';
-
 import { DEFAULT_PAGINATION } from './constants';
+import { Connection, Edge, PageInfo } from './types';
 
 export const getSortedFormDropdownData = async <T>(
   model: { findMany: () => Promise<T[]> },

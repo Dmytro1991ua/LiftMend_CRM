@@ -12,210 +12,44 @@ import {
   TechnicianRecordFormData,
 } from '@/graphql/types/server/generated_types';
 
-import {
-  createElevatorRecordFilterOptions,
-  createElevatorRecordSortOptions,
-  createRepairJobFilterOptions,
-  createRepairJobSortOptions,
-  createTechnicianRecordFilterOptions,
-  createTechnicianRecordSortOptions,
-  fetchFormDropdownData,
-  getSortedFormDropdownData,
-  makeConnectionObject,
-} from './utils';
-
 const Query: QueryResolvers = {
-  getRepairJobScheduleData: async (_, __, { prisma }): Promise<RepairJobScheduleData> => {
-    const repairJobScheduleData: Partial<RepairJobScheduleData> = {};
-
-    repairJobScheduleData.repairJobTypes = await fetchFormDropdownData(
-      () => getSortedFormDropdownData(prisma.jobTypes, 'job_types'),
-      'repair job types'
-    );
-
-    repairJobScheduleData.elevatorTypes = await fetchFormDropdownData(
-      () => getSortedFormDropdownData(prisma.elevatorTypes, 'elevator_types'),
-      'elevator types'
-    );
-
-    repairJobScheduleData.buildingNames = await fetchFormDropdownData(
-      () => getSortedFormDropdownData(prisma.buildingNames, 'building_names'),
-      'building names'
-    );
-
-    repairJobScheduleData.elevatorLocations = await fetchFormDropdownData(
-      () => getSortedFormDropdownData(prisma.elevatorLocations, 'locations'),
-      'elevator locations'
-    );
-
-    repairJobScheduleData.technicianNames = await fetchFormDropdownData(
-      () => getSortedFormDropdownData(prisma.technicianNames, 'names'),
-      'technician names'
-    );
-
-    repairJobScheduleData.technicianSkills = await fetchFormDropdownData(
-      () => getSortedFormDropdownData(prisma.technicianSkills, 'skills'),
-      'technician skills'
-    );
-
-    repairJobScheduleData.priorities = await fetchFormDropdownData(
-      () => getSortedFormDropdownData(prisma.priorities, 'priorities'),
-      'repair job priorities'
-    );
-    repairJobScheduleData.statuses = await fetchFormDropdownData(
-      () => getSortedFormDropdownData(prisma.statuses, 'statuses'),
-      'repair job statutes'
-    );
-
-    return repairJobScheduleData as RepairJobScheduleData;
+  getRepairJobScheduleData: async (_, __, { dataSources }): Promise<RepairJobScheduleData> => {
+    return await dataSources.repairJob.getRepairJobScheduleData();
   },
-  getCalendarEvents: async (_, __, { prisma }): Promise<CalendarEvent[]> => {
-    const calendarEvents = await prisma.calendarEvent.findMany();
+  getCalendarEvents: async (_, __, { dataSources }): Promise<CalendarEvent[]> => {
+    const calendarEvents = await dataSources.calendarEvent.getCalendarEvents();
 
     return calendarEvents || [];
   },
-  getRepairJobs: async (
-    _,
-    { paginationOptions, sortOptions, filterOptions },
-    { prisma }
-  ): Promise<RepairJobConnection> => {
-    const filters = createRepairJobFilterOptions(filterOptions);
-    const orderBy = createRepairJobSortOptions(sortOptions);
-
-    const scheduledRepairJobs = await prisma.repairJob.findMany({
-      skip: paginationOptions?.offset,
-      take: paginationOptions?.limit,
-      where: filters,
-      orderBy,
-    });
-
-    const totalItems = await prisma.repairJob.count({
-      where: filters,
-    });
-
-    return makeConnectionObject({
-      items: scheduledRepairJobs,
-      totalItems,
-      paginationOptions,
-      getCursor: (repairJob: RepairJob) => repairJob.id,
-    });
+  getRepairJobs: async (_, args, { dataSources }): Promise<RepairJobConnection> => {
+    return await dataSources.repairJob.getRepairJobs(args);
   },
-  getRepairJobById: async (_, { id }, { prisma }): Promise<RepairJob> => {
-    const repairJob = await prisma.repairJob.findUnique({ where: { id } });
+  getRepairJobById: async (_, { id }, { dataSources }): Promise<RepairJob> => {
+    const repairJob = await dataSources.repairJob.findRepairJobById(id);
 
-    return repairJob || null;
+    return repairJob as RepairJob;
   },
-  getElevatorRecordFormData: async (_, __, { prisma }): Promise<ElevatorRecordFormData> => {
-    const elevatorRecordFormData: Partial<ElevatorRecordFormData> = {};
-
-    elevatorRecordFormData.elevatorTypes = await fetchFormDropdownData(
-      () => getSortedFormDropdownData(prisma.elevatorTypes, 'elevator_types'),
-      'elevator types'
-    );
-
-    elevatorRecordFormData.buildingNames = await fetchFormDropdownData(
-      () => getSortedFormDropdownData(prisma.buildingNames, 'building_names'),
-      'building names'
-    );
-
-    elevatorRecordFormData.elevatorLocations = await fetchFormDropdownData(
-      () => getSortedFormDropdownData(prisma.elevatorLocations, 'locations'),
-      'elevator locations'
-    );
-
-    elevatorRecordFormData.elevatorStatuses = await fetchFormDropdownData(
-      () => getSortedFormDropdownData(prisma.elevatorStatuses, 'elevatorStatuses'),
-      'elevator record statutes'
-    );
-
-    return elevatorRecordFormData as ElevatorRecordFormData;
+  getElevatorRecordFormData: async (_, __, { dataSources }): Promise<ElevatorRecordFormData> => {
+    return await dataSources.elevatorRecord.getElevatorRecordFormData();
   },
-  getElevatorRecords: async (
-    _,
-    { paginationOptions, filterOptions, sortOptions },
-    { prisma }
-  ): Promise<ElevatorRecordConnection> => {
-    const filters = createElevatorRecordFilterOptions(filterOptions);
-    const orderBy = createElevatorRecordSortOptions(sortOptions);
-
-    const elevatorRecords = await prisma.elevatorRecord.findMany({
-      skip: paginationOptions?.offset,
-      take: paginationOptions?.limit,
-      where: filters,
-      orderBy,
-    });
-
-    const totalItems = await prisma.elevatorRecord.count({
-      where: filters,
-    });
-
-    return makeConnectionObject({
-      items: elevatorRecords,
-      totalItems,
-      paginationOptions,
-      getCursor: (elevatorRecord: ElevatorRecord) => elevatorRecord.id,
-    });
+  getElevatorRecords: async (_, args, { dataSources }): Promise<ElevatorRecordConnection> => {
+    return await dataSources.elevatorRecord.getElevatorRecords(args);
   },
-  getElevatorRecordById: async (_, { id }, { prisma }): Promise<ElevatorRecord> => {
-    const elevatorRecord = await prisma.elevatorRecord.findUnique({ where: { id } });
+  getElevatorRecordById: async (_, { id }, { dataSources }): Promise<ElevatorRecord> => {
+    const elevatorRecord = await dataSources.elevatorRecord.findElevatorRecordById(id);
 
-    return elevatorRecord || null;
+    return elevatorRecord as ElevatorRecord;
   },
-  getTechnicianRecords: async (
-    _,
-    { paginationOptions, filterOptions, sortOptions },
-    { prisma }
-  ): Promise<TechnicianRecordConnection> => {
-    const filters = createTechnicianRecordFilterOptions(filterOptions);
-    const orderBy = createTechnicianRecordSortOptions(sortOptions);
-
-    const technicianRecords = await prisma.technicianRecord.findMany({
-      skip: paginationOptions?.offset,
-      take: paginationOptions?.limit,
-      where: filters,
-      orderBy,
-    });
-
-    const totalItems = await prisma.technicianRecord.count({
-      where: filters, // Ensure the count is based on the filtered records
-    });
-
-    return makeConnectionObject({
-      items: technicianRecords,
-      totalItems,
-      paginationOptions,
-      getCursor: (technicianRecord: TechnicianRecord) => technicianRecord.id,
-    });
+  getTechnicianRecords: async (_, args, { dataSources }): Promise<TechnicianRecordConnection> => {
+    return await dataSources.technicianRecord.getTechnicianRecords(args);
   },
-  getTechnicianRecordFormData: async (_, __, { prisma }): Promise<TechnicianRecordFormData> => {
-    const technicianRecordFormData: Partial<TechnicianRecordFormData> = {};
-
-    technicianRecordFormData.availabilityStatuses = await fetchFormDropdownData(
-      () => getSortedFormDropdownData(prisma.availabilityStatuses, 'availabilityStatuses'),
-      'availability statuses'
-    );
-
-    technicianRecordFormData.certifications = await fetchFormDropdownData(
-      () => getSortedFormDropdownData(prisma.certifications, 'certifications'),
-      'certifications'
-    );
-
-    technicianRecordFormData.skills = await fetchFormDropdownData(
-      () => getSortedFormDropdownData(prisma.technicianSkills, 'skills'),
-      'technician skills'
-    );
-
-    technicianRecordFormData.employmentStatuses = await fetchFormDropdownData(
-      () => getSortedFormDropdownData(prisma.employmentStatuses, 'employmentStatuses'),
-      'employment statuses'
-    );
-
-    return technicianRecordFormData as TechnicianRecordFormData;
+  getTechnicianRecordFormData: async (_, __, { dataSources }): Promise<TechnicianRecordFormData> => {
+    return await dataSources.technicianRecord.getTechnicianRecordFormData();
   },
-  getTechnicianRecordById: async (_, { id }, { prisma }): Promise<TechnicianRecord> => {
-    const technicianRecord = await prisma.technicianRecord.findUnique({ where: { id } });
+  getTechnicianRecordById: async (_, { id }, { dataSources }): Promise<TechnicianRecord> => {
+    const technicianRecord = await dataSources.technicianRecord.findTechnicianRecordById(id);
 
-    return technicianRecord || null;
+    return technicianRecord as TechnicianRecord;
   },
 };
 

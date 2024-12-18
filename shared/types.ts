@@ -92,10 +92,10 @@ export type ElevatorRecord = {
 
 export type TechnicianRecord = {
   id: string;
-  availabilityStatus: string;
+  availabilityStatus: string | null;
   certifications: string[];
   contactInformation: string;
-  employmentStatus: string;
+  employmentStatus: string | null;
   name: string;
   skills: string[];
   lastKnownAvailabilityStatus?: string | null;

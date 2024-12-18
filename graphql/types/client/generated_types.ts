@@ -334,10 +334,10 @@ export type ScheduledEventAndRepairJobResponse = {
 
 export type TechnicianRecord = Node & {
   __typename?: 'TechnicianRecord';
-  availabilityStatus: Scalars['String']['output'];
+  availabilityStatus: Maybe<Scalars['String']['output']>;
   certifications: Array<Scalars['String']['output']>;
   contactInformation: Scalars['String']['output'];
-  employmentStatus: Scalars['String']['output'];
+  employmentStatus: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   lastKnownAvailabilityStatus: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
@@ -479,8 +479,8 @@ export type TechnicianRecordFieldsFragment = {
   contactInformation: string;
   skills: Array<string>;
   certifications: Array<string>;
-  availabilityStatus: string;
-  employmentStatus: string;
+  availabilityStatus: string | null;
+  employmentStatus: string | null;
   lastKnownAvailabilityStatus: string | null;
 };
 
@@ -535,8 +535,8 @@ export type CreateTechnicianRecordMutation = {
     contactInformation: string;
     skills: Array<string>;
     certifications: Array<string>;
-    availabilityStatus: string;
-    employmentStatus: string;
+    availabilityStatus: string | null;
+    employmentStatus: string | null;
     lastKnownAvailabilityStatus: string | null;
   };
 };
@@ -756,8 +756,8 @@ export type GetTechnicianRecordByIdQuery = {
     contactInformation: string;
     skills: Array<string>;
     certifications: Array<string>;
-    availabilityStatus: string;
-    employmentStatus: string;
+    availabilityStatus: string | null;
+    employmentStatus: string | null;
     lastKnownAvailabilityStatus: string | null;
   };
 };
@@ -796,8 +796,8 @@ export type GetTechnicianRecordsQuery = {
         contactInformation: string;
         skills: Array<string>;
         certifications: Array<string>;
-        availabilityStatus: string;
-        employmentStatus: string;
+        availabilityStatus: string | null;
+        employmentStatus: string | null;
         lastKnownAvailabilityStatus: string | null;
       };
     }>;
@@ -869,8 +869,8 @@ export type UpdateTechnicianRecordMutation = {
     contactInformation: string;
     skills: Array<string>;
     certifications: Array<string>;
-    availabilityStatus: string;
-    employmentStatus: string;
+    availabilityStatus: string | null;
+    employmentStatus: string | null;
     lastKnownAvailabilityStatus: string | null;
   };
 };

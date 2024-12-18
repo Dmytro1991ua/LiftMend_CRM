@@ -1,7 +1,6 @@
 import { startCase as _startCase } from 'lodash';
 
 import {
-  CalendarEvent,
   DeleteCalendarAndRepairJobResponse,
   DeleteElevatorRecordResponse,
   DeleteTechnicianRecordResponse,
@@ -11,33 +10,22 @@ import {
   TechnicianRecord,
 } from '@/graphql/types/server/generated_types';
 
-import { ScheduledEventAndRepairJobResponse } from './../../../../graphql/types/server/generated_types';
 import {
   REPAIR_JOB_STATUS_TO_ELEVATOR_RECORD_STATUS_MAP,
   REPAIR_JOB_STATUS_TO_TECHNICIAN_AVAILABILITY_STATUS_MAP,
-} from './constants';
-import { getElevatorStatusErrorMessage } from './utils';
+} from '../constants';
+import { getElevatorStatusErrorMessage } from '../utils';
+
+import { ScheduledEventAndRepairJobResponse } from './../../../../graphql/types/server/generated_types';
 
 const Mutation: MutationResolvers = {
   createRepairJobAndEvent: async (
     _,
     { repairJobInput, calendarEventInput },
-    { prisma }
+    { dataSources }
   ): Promise<ScheduledEventAndRepairJobResponse> => {
-    //Find elevator record that has been associated with corresponding deleted repair job
-    const elevatorRecord: ElevatorRecord = await prisma.elevatorRecord.findFirst({
-      where: {
-        buildingName: repairJobInput.buildingName,
-        elevatorLocation: repairJobInput.elevatorLocation,
-        elevatorType: repairJobInput.elevatorType,
-      },
-    });
-
-    if (!elevatorRecord) {
-      throw new Error(
-        `Elevator record with details (Building: ${repairJobInput.buildingName}, Location: ${repairJobInput.elevatorLocation}, Type: ${repairJobInput.elevatorType}) not found. Please revisit Elevator Management page to find correct elevator record details`
-      );
-    }
+    // Validate the elevator record before repair job and calendar event creation
+    const elevatorRecord = await dataSources.elevatorRecord.validateElevator(repairJobInput);
 
     const elevatorStatusErrorMessage = getElevatorStatusErrorMessage(repairJobInput)[elevatorRecord.status];
 
@@ -45,43 +33,21 @@ const Mutation: MutationResolvers = {
       throw new Error(elevatorStatusErrorMessage);
     }
 
-    const repairJob = await prisma.repairJob.create({
-      data: repairJobInput,
-    });
+    // Create repair job and calendar event only when the elevator record passes validation
+    const repairJob = await dataSources.repairJob.createRepairJob(repairJobInput);
+    const calendarEvent = await dataSources.calendarEvent.createCalendarEvent(calendarEventInput, repairJob.id);
 
-    // Create the CalendarEvent with the repairJobId set to the newly created RepairJob's ID
-    const calendarEvent: CalendarEvent = await prisma.calendarEvent.create({
-      data: {
-        ...calendarEventInput,
-        repairJobId: repairJob.id,
-      },
-    });
+    // Update the RepairJob with the CalendarEvent ID
+    const updatedRepairJob = await dataSources.repairJob.updateRepairJobWithCalendarEventId(
+      repairJob.id,
+      calendarEvent?.id
+    );
 
-    // Update the RepairJob to include the CalendarEvent ID
-    const updatedRepairJob: RepairJob = await prisma.repairJob.update({
-      where: { id: repairJob.id },
-      data: { calendarEventId: calendarEvent.id },
-    });
+    // Update the elevator status to 'Under Maintenance' upon successful repair job creation
+    await dataSources.elevatorRecord.updateElevatorStatus(elevatorRecord.id, 'Under Maintenance');
 
-    const technicianRecord: TechnicianRecord = await prisma.technicianRecord.findFirst({
-      where: { name: updatedRepairJob.technicianName },
-    });
-
-    // Update Technician available status upon repair job creation
-    await prisma.technicianRecord.update({
-      where: { id: technicianRecord.id },
-      data: { availabilityStatus: 'Busy' },
-    });
-
-    // Update the elevatorRecord status to 'Under Maintenance' upon repair job creation
-    await prisma.elevatorRecord.update({
-      where: {
-        id: elevatorRecord.id,
-      },
-      data: {
-        status: 'Under Maintenance',
-      },
-    });
+    // Update Technician availability to 'Busy' upon successful repair job creation
+    await dataSources.technicianRecord.updateTechnicianStatus(updatedRepairJob.technicianName, 'Busy');
 
     return {
       repairJob: updatedRepairJob,
@@ -91,153 +57,89 @@ const Mutation: MutationResolvers = {
   deleteRepairJobAndEvent: async (
     _,
     { calendarEventId, repairJobId },
-    { prisma }
+    { dataSources }
   ): Promise<DeleteCalendarAndRepairJobResponse> => {
-    // Find the repair job to get elevator details
-    const repairJob = await prisma.repairJob.findUnique({
-      where: { id: repairJobId },
-    });
+    // Validate the repair job exists
+    const repairJob = await dataSources.repairJob.findRepairJobById(repairJobId);
 
-    const deletedEvent = await prisma.calendarEvent.delete({
-      where: {
-        id: calendarEventId,
-      },
-    });
+    // Delete the calendar event and repair job
+    const deletedEvent = await dataSources.calendarEvent.deleteCalendarEvent(calendarEventId);
+    const deletedRepairJob = await dataSources.repairJob.deleteRepairJob(repairJobId);
 
-    const deletedRepairJob: RepairJob = await prisma.repairJob.delete({
-      where: {
-        id: repairJobId,
-      },
-    });
+    // Update Technician status
+    const technicianRecord = await dataSources.technicianRecord.findTechnicianRecordByName(
+      repairJob?.technicianName ?? ''
+    );
+    await dataSources.technicianRecord.updateTechnicianStatus(technicianRecord?.id ?? '', 'Available');
 
-    const technicianRecord: TechnicianRecord = await prisma.technicianRecord.findFirst({
-      where: { name: repairJob.technicianName },
-    });
-
-    // Update Technician available status upon repair job deletion
-    await prisma.technicianRecord.update({
-      where: { id: technicianRecord.id },
-      data: { availabilityStatus: 'Available' },
-    });
-
-    //Find elevator record that has been associated with corresponding deleted repair job
-    const elevatorRecord = await prisma.elevatorRecord.findFirst({
-      where: {
-        buildingName: repairJob.buildingName,
-        elevatorLocation: repairJob.elevatorLocation,
-        elevatorType: repairJob.elevatorType,
-      },
-    });
-
-    if (!elevatorRecord) {
-      throw new Error(
-        `Elevator record with details (Building: ${repairJob.buildingName}, Location: ${repairJob.elevatorLocation}, Type: ${repairJob.elevatorType}) not found.`
-      );
-    }
-
-    // Update the elevatorRecord status to 'Operational' upon repair job deletion
-    await prisma.elevatorRecord.update({
-      where: {
-        id: elevatorRecord.id,
-      },
-      data: {
-        status: 'Operational',
-      },
-    });
+    // Find the elevator associated with the repair job and update its status to Operational
+    const elevatorRecord = (await dataSources.elevatorRecord.findElevatorRecordByRepairJob(
+      repairJob
+    )) as ElevatorRecord;
+    await dataSources.elevatorRecord.updateElevatorStatus(elevatorRecord.id, 'Operational');
 
     return {
       deletedEventId: deletedEvent.id,
       deletedRepairJobId: deletedRepairJob.id,
     };
   },
-  updateRepairJob: async (_, { input }, { prisma }): Promise<RepairJob> => {
-    const { id, ...fieldsToUpdate } = input;
+  updateRepairJob: async (_, { input }, { dataSources }): Promise<RepairJob> => {
+    // Update the repair job
+    const updatedRepairJob = await dataSources.repairJob.updateRepairJob(input);
 
-    const updatedRepairJob: RepairJob = await prisma.repairJob.update({
-      where: { id },
-      data: { ...fieldsToUpdate },
-    });
-
-    const technicianRecord: TechnicianRecord = await prisma.technicianRecord.findFirst({
-      where: { name: updatedRepairJob.technicianName },
-    });
+    // Update technician's availability based on the repair job status
+    const technicianRecord = await dataSources.technicianRecord.findTechnicianRecordByName(
+      updatedRepairJob.technicianName
+    );
 
     const updatedTechnicianAvailabilityStatus =
       REPAIR_JOB_STATUS_TO_TECHNICIAN_AVAILABILITY_STATUS_MAP[_startCase(updatedRepairJob.status).replace(/\s+/g, '')];
 
-    await prisma.technicianRecord.update({
-      where: { id: technicianRecord.id },
-      data: { availabilityStatus: updatedTechnicianAvailabilityStatus },
-    });
+    await dataSources.technicianRecord.updateTechnicianStatus(
+      technicianRecord?.id ?? '',
+      updatedTechnicianAvailabilityStatus
+    );
 
-    const elevatorRecord = await prisma.elevatorRecord.findFirst({
-      where: {
-        buildingName: updatedRepairJob.buildingName,
-        elevatorLocation: updatedRepairJob.elevatorLocation,
-        elevatorType: updatedRepairJob.elevatorType,
-      },
-    });
+    // Update elevator status based on repair job status
+    const elevatorRecord = (await dataSources.elevatorRecord.findElevatorRecordByRepairJob(
+      updatedRepairJob
+    )) as ElevatorRecord;
 
     const updatedElevatorStatus =
       REPAIR_JOB_STATUS_TO_ELEVATOR_RECORD_STATUS_MAP[_startCase(updatedRepairJob.status).replace(/\s+/g, '')];
 
-    await prisma.elevatorRecord.update({
-      where: {
-        id: elevatorRecord.id,
-      },
-      data: {
-        status: updatedElevatorStatus,
-      },
-    });
+    await dataSources.elevatorRecord.updateElevatorStatus(elevatorRecord.id, updatedElevatorStatus);
 
     return updatedRepairJob;
   },
-  updateElevatorRecord: async (_, { input }, { prisma }): Promise<ElevatorRecord> => {
-    const { id, ...fieldsToUpdate } = input;
-
-    console.log(input);
-
-    const updatedElevatorRecord: ElevatorRecord = await prisma.elevatorRecord.update({
-      where: { id },
-      data: { ...fieldsToUpdate },
-    });
+  updateElevatorRecord: async (_, { input }, { dataSources }): Promise<ElevatorRecord> => {
+    const updatedElevatorRecord = await dataSources.elevatorRecord.updateElevatorRecord(input);
 
     return updatedElevatorRecord;
   },
-  deleteElevatorRecord: async (_, { id }, { prisma }): Promise<DeleteElevatorRecordResponse> => {
-    const deletedElevatorRecord: ElevatorRecord = await prisma.elevatorRecord.delete({
-      where: {
-        id,
-      },
-    });
+
+  deleteElevatorRecord: async (_, { id }, { dataSources }): Promise<DeleteElevatorRecordResponse> => {
+    const deletedElevatorRecord = await dataSources.elevatorRecord.deleteElevatorRecord(id);
 
     return {
       id: deletedElevatorRecord.id,
     };
   },
-  createTechnicianRecord: async (_, { input }, { prisma }): Promise<TechnicianRecord> => {
-    const technicianRecord: TechnicianRecord = await prisma.technicianRecord.create({
-      data: input,
-    });
+
+  createTechnicianRecord: async (_, { input }, { dataSources }): Promise<TechnicianRecord> => {
+    const technicianRecord = await dataSources.technicianRecord.createTechnicianRecord(input);
 
     return technicianRecord;
   },
-  updateTechnicianRecord: async (_, { input }, { prisma }): Promise<TechnicianRecord> => {
-    const { id, ...fieldsToUpdate } = input;
 
-    const updatedTechnician: TechnicianRecord = await prisma.technicianRecord.update({
-      where: { id },
-      data: { ...fieldsToUpdate },
-    });
+  updateTechnicianRecord: async (_, { input }, { dataSources }): Promise<TechnicianRecord> => {
+    const updatedTechnician = await dataSources.technicianRecord.updateTechnicianRecord(input);
 
     return updatedTechnician;
   },
-  deleteTechnicianRecord: async (_, { id }, { prisma }): Promise<DeleteTechnicianRecordResponse> => {
-    const deletedTechnicianRecord = await prisma.technicianRecord.delete({
-      where: {
-        id,
-      },
-    });
+
+  deleteTechnicianRecord: async (_, { id }, { dataSources }): Promise<DeleteTechnicianRecordResponse> => {
+    const deletedTechnicianRecord = await dataSources.technicianRecord.deleteTechnicianRecord(id);
 
     return {
       id: deletedTechnicianRecord.id,

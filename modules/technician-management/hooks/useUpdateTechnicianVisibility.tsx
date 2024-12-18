@@ -16,7 +16,7 @@ type UpdateEmploymentStatus = {
   id: string;
   newEmploymentStatus: string;
   newAvailabilityStatus: string;
-  currentAvailabilityStatus?: string;
+  currentAvailabilityStatus?: string | null;
 };
 
 type UseUpdateTechnicianVisibility = {

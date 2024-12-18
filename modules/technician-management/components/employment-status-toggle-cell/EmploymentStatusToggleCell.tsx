@@ -10,7 +10,7 @@ import { STATUS_ICON_TOOLTIP_MESSAGE } from '../technician-management-table/cons
 type EmploymentStatusToggleCellProps = {
   employmentStatus: EmploymentStatus;
   technicianId: string;
-  availabilityStatus: string;
+  availabilityStatus: string | null;
   lastKnownAvailabilityStatus?: string | null;
 };
 
