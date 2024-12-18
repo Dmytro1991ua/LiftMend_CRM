@@ -1,5 +1,6 @@
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { User as UserModel } from '@prisma/client';
+import { Context } from '@/pages/api/graphql/types';
 export type Maybe<T> = T | undefined | null;
 export type InputMaybe<T> = T | undefined | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -334,10 +335,10 @@ export type ScheduledEventAndRepairJobResponse = {
 
 export type TechnicianRecord = Node & {
   __typename?: 'TechnicianRecord';
-  availabilityStatus: Scalars['String']['output'];
+  availabilityStatus?: Maybe<Scalars['String']['output']>;
   certifications: Array<Scalars['String']['output']>;
   contactInformation: Scalars['String']['output'];
-  employmentStatus: Scalars['String']['output'];
+  employmentStatus?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   lastKnownAvailabilityStatus?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
@@ -607,7 +608,7 @@ export type ResolversParentTypes = ResolversObject<{
 }>;
 
 export type CalendarEventResolvers<
-  ContextType = any,
+  ContextType = Context,
   ParentType extends ResolversParentTypes['CalendarEvent'] = ResolversParentTypes['CalendarEvent']
 > = ResolversObject<{
   allDay?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
@@ -621,7 +622,7 @@ export type CalendarEventResolvers<
 }>;
 
 export type ConnectionResolvers<
-  ContextType = any,
+  ContextType = Context,
   ParentType extends ResolversParentTypes['Connection'] = ResolversParentTypes['Connection']
 > = ResolversObject<{
   __resolveType: TypeResolveFn<
@@ -639,7 +640,7 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
 }
 
 export type DeleteCalendarAndRepairJobResponseResolvers<
-  ContextType = any,
+  ContextType = Context,
   ParentType extends ResolversParentTypes['DeleteCalendarAndRepairJobResponse'] = ResolversParentTypes['DeleteCalendarAndRepairJobResponse']
 > = ResolversObject<{
   deletedEventId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
@@ -648,7 +649,7 @@ export type DeleteCalendarAndRepairJobResponseResolvers<
 }>;
 
 export type DeleteElevatorRecordResponseResolvers<
-  ContextType = any,
+  ContextType = Context,
   ParentType extends ResolversParentTypes['DeleteElevatorRecordResponse'] = ResolversParentTypes['DeleteElevatorRecordResponse']
 > = ResolversObject<{
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -656,7 +657,7 @@ export type DeleteElevatorRecordResponseResolvers<
 }>;
 
 export type DeleteTechnicianRecordResponseResolvers<
-  ContextType = any,
+  ContextType = Context,
   ParentType extends ResolversParentTypes['DeleteTechnicianRecordResponse'] = ResolversParentTypes['DeleteTechnicianRecordResponse']
 > = ResolversObject<{
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -664,7 +665,7 @@ export type DeleteTechnicianRecordResponseResolvers<
 }>;
 
 export type EdgeResolvers<
-  ContextType = any,
+  ContextType = Context,
   ParentType extends ResolversParentTypes['Edge'] = ResolversParentTypes['Edge']
 > = ResolversObject<{
   __resolveType: TypeResolveFn<
@@ -677,7 +678,7 @@ export type EdgeResolvers<
 }>;
 
 export type ElevatorRecordResolvers<
-  ContextType = any,
+  ContextType = Context,
   ParentType extends ResolversParentTypes['ElevatorRecord'] = ResolversParentTypes['ElevatorRecord']
 > = ResolversObject<{
   buildingName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -693,7 +694,7 @@ export type ElevatorRecordResolvers<
 }>;
 
 export type ElevatorRecordConnectionResolvers<
-  ContextType = any,
+  ContextType = Context,
   ParentType extends ResolversParentTypes['ElevatorRecordConnection'] = ResolversParentTypes['ElevatorRecordConnection']
 > = ResolversObject<{
   edges?: Resolver<Array<ResolversTypes['ElevatorRecordEdge']>, ParentType, ContextType>;
@@ -703,7 +704,7 @@ export type ElevatorRecordConnectionResolvers<
 }>;
 
 export type ElevatorRecordEdgeResolvers<
-  ContextType = any,
+  ContextType = Context,
   ParentType extends ResolversParentTypes['ElevatorRecordEdge'] = ResolversParentTypes['ElevatorRecordEdge']
 > = ResolversObject<{
   cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -712,7 +713,7 @@ export type ElevatorRecordEdgeResolvers<
 }>;
 
 export type ElevatorRecordFormDataResolvers<
-  ContextType = any,
+  ContextType = Context,
   ParentType extends ResolversParentTypes['ElevatorRecordFormData'] = ResolversParentTypes['ElevatorRecordFormData']
 > = ResolversObject<{
   buildingNames?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
@@ -723,7 +724,7 @@ export type ElevatorRecordFormDataResolvers<
 }>;
 
 export type MutationResolvers<
-  ContextType = any,
+  ContextType = Context,
   ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
 > = ResolversObject<{
   createRepairJobAndEvent?: Resolver<
@@ -777,7 +778,7 @@ export type MutationResolvers<
 }>;
 
 export type NodeResolvers<
-  ContextType = any,
+  ContextType = Context,
   ParentType extends ResolversParentTypes['Node'] = ResolversParentTypes['Node']
 > = ResolversObject<{
   __resolveType: TypeResolveFn<'ElevatorRecord' | 'RepairJob' | 'TechnicianRecord', ParentType, ContextType>;
@@ -785,7 +786,7 @@ export type NodeResolvers<
 }>;
 
 export type PageInfoResolvers<
-  ContextType = any,
+  ContextType = Context,
   ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']
 > = ResolversObject<{
   endCursor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -796,7 +797,7 @@ export type PageInfoResolvers<
 }>;
 
 export type QueryResolvers<
-  ContextType = any,
+  ContextType = Context,
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = ResolversObject<{
   getCalendarEvents?: Resolver<Array<ResolversTypes['CalendarEvent']>, ParentType, ContextType>;
@@ -842,7 +843,7 @@ export type QueryResolvers<
 }>;
 
 export type RepairJobResolvers<
-  ContextType = any,
+  ContextType = Context,
   ParentType extends ResolversParentTypes['RepairJob'] = ResolversParentTypes['RepairJob']
 > = ResolversObject<{
   buildingName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -863,7 +864,7 @@ export type RepairJobResolvers<
 }>;
 
 export type RepairJobConnectionResolvers<
-  ContextType = any,
+  ContextType = Context,
   ParentType extends ResolversParentTypes['RepairJobConnection'] = ResolversParentTypes['RepairJobConnection']
 > = ResolversObject<{
   edges?: Resolver<Array<ResolversTypes['RepairJobEdge']>, ParentType, ContextType>;
@@ -873,7 +874,7 @@ export type RepairJobConnectionResolvers<
 }>;
 
 export type RepairJobEdgeResolvers<
-  ContextType = any,
+  ContextType = Context,
   ParentType extends ResolversParentTypes['RepairJobEdge'] = ResolversParentTypes['RepairJobEdge']
 > = ResolversObject<{
   cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -882,7 +883,7 @@ export type RepairJobEdgeResolvers<
 }>;
 
 export type RepairJobScheduleDataResolvers<
-  ContextType = any,
+  ContextType = Context,
   ParentType extends ResolversParentTypes['RepairJobScheduleData'] = ResolversParentTypes['RepairJobScheduleData']
 > = ResolversObject<{
   buildingNames?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
@@ -897,7 +898,7 @@ export type RepairJobScheduleDataResolvers<
 }>;
 
 export type ScheduledEventAndRepairJobResponseResolvers<
-  ContextType = any,
+  ContextType = Context,
   ParentType extends ResolversParentTypes['ScheduledEventAndRepairJobResponse'] = ResolversParentTypes['ScheduledEventAndRepairJobResponse']
 > = ResolversObject<{
   calendarEvent?: Resolver<ResolversTypes['CalendarEvent'], ParentType, ContextType>;
@@ -906,13 +907,13 @@ export type ScheduledEventAndRepairJobResponseResolvers<
 }>;
 
 export type TechnicianRecordResolvers<
-  ContextType = any,
+  ContextType = Context,
   ParentType extends ResolversParentTypes['TechnicianRecord'] = ResolversParentTypes['TechnicianRecord']
 > = ResolversObject<{
-  availabilityStatus?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  availabilityStatus?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   certifications?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   contactInformation?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  employmentStatus?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  employmentStatus?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   lastKnownAvailabilityStatus?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -921,7 +922,7 @@ export type TechnicianRecordResolvers<
 }>;
 
 export type TechnicianRecordConnectionResolvers<
-  ContextType = any,
+  ContextType = Context,
   ParentType extends ResolversParentTypes['TechnicianRecordConnection'] = ResolversParentTypes['TechnicianRecordConnection']
 > = ResolversObject<{
   edges?: Resolver<Array<ResolversTypes['TechnicianRecordEdges']>, ParentType, ContextType>;
@@ -931,7 +932,7 @@ export type TechnicianRecordConnectionResolvers<
 }>;
 
 export type TechnicianRecordEdgesResolvers<
-  ContextType = any,
+  ContextType = Context,
   ParentType extends ResolversParentTypes['TechnicianRecordEdges'] = ResolversParentTypes['TechnicianRecordEdges']
 > = ResolversObject<{
   cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -940,7 +941,7 @@ export type TechnicianRecordEdgesResolvers<
 }>;
 
 export type TechnicianRecordFormDataResolvers<
-  ContextType = any,
+  ContextType = Context,
   ParentType extends ResolversParentTypes['TechnicianRecordFormData'] = ResolversParentTypes['TechnicianRecordFormData']
 > = ResolversObject<{
   availabilityStatuses?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
@@ -951,7 +952,7 @@ export type TechnicianRecordFormDataResolvers<
 }>;
 
 export type UserResolvers<
-  ContextType = any,
+  ContextType = Context,
   ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']
 > = ResolversObject<{
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -960,7 +961,7 @@ export type UserResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type Resolvers<ContextType = any> = ResolversObject<{
+export type Resolvers<ContextType = Context> = ResolversObject<{
   CalendarEvent?: CalendarEventResolvers<ContextType>;
   Connection?: ConnectionResolvers<ContextType>;
   DateTime?: GraphQLScalarType;

@@ -1,7 +1,13 @@
 import { PrismaClient } from '@prisma/client';
+import { NextApiRequest, NextApiResponse } from 'next';
+
+import { DataSources } from './dataSources';
 
 export type Context = {
+  req: NextApiRequest;
+  res: NextApiResponse;
   prisma: PrismaClient;
+  dataSources: DataSources;
 };
 
 export type PageInfo = {

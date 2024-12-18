@@ -10,8 +10,8 @@ type TechnicianRecord implements Node {
   contactInformation: String!
   skills: [String!]!
   certifications: [String!]!
-  availabilityStatus: String!
-  employmentStatus: String!
+  availabilityStatus: String
+  employmentStatus: String
   lastKnownAvailabilityStatus: String
 }
 

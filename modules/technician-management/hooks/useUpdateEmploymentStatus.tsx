@@ -11,7 +11,7 @@ import useUpdateTechnicianVisibility from './useUpdateTechnicianVisibility';
 type UseUpdateEmploymentStatusProps = {
   employmentStatus: EmploymentStatus;
   technicianId: string;
-  availabilityStatus: string;
+  availabilityStatus: string | null;
   lastKnownAvailabilityStatus?: string | null;
   onRedirect?: () => void;
 };
