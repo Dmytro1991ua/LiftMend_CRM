@@ -11,6 +11,7 @@ import {
 } from '@/graphql/types/server/generated_types';
 import { DEFAULT_PAGINATION_LIMIT, DEFAULT_PAGINATION_OFFSET } from '@/shared/constants';
 
+import { TECHNICIAN_ASSIGNMENT_BLOCKING_STATUSES } from '../constants';
 import {
   createTechnicianRecordFilterOptions,
   createTechnicianRecordSortOptions,
@@ -122,6 +123,22 @@ class TechnicianService {
     return await this.prisma.technicianRecord.delete({
       where: { id },
     });
+  }
+
+  async validateTechnicianAssignment(name: string): Promise<TechnicianRecord> {
+    const technicianRecord = await this.findTechnicianRecordByName(name);
+
+    if (!technicianRecord) {
+      throw new Error(`Technician record for ${name} was not found`);
+    }
+
+    if (!TECHNICIAN_ASSIGNMENT_BLOCKING_STATUSES.includes(technicianRecord.availabilityStatus ?? '')) {
+      throw new Error(
+        `Technician ${name} is already assigned to another job. Please check the Repair Job Tracking page to see current assignments or choose a different technician.`
+      );
+    }
+
+    return technicianRecord;
   }
 }
 
