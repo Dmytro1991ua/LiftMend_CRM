@@ -24,6 +24,11 @@ const Mutation: MutationResolvers = {
     { repairJobInput, calendarEventInput },
     { dataSources }
   ): Promise<ScheduledEventAndRepairJobResponse> => {
+    // Validate if the technician is available (not assigned to another job) before repair job and calendar event creation
+    const technicianRecord = await dataSources.technicianRecord.validateTechnicianAssignment(
+      repairJobInput.technicianName
+    );
+
     // Validate the elevator record before repair job and calendar event creation
     const elevatorRecord = await dataSources.elevatorRecord.validateElevator(repairJobInput);
 
@@ -47,7 +52,7 @@ const Mutation: MutationResolvers = {
     await dataSources.elevatorRecord.updateElevatorStatus(elevatorRecord.id, 'Under Maintenance');
 
     // Update Technician availability to 'Busy' upon successful repair job creation
-    await dataSources.technicianRecord.updateTechnicianStatus(updatedRepairJob.technicianName, 'Busy');
+    await dataSources.technicianRecord.updateTechnicianStatus(technicianRecord.id, 'Busy');
 
     return {
       repairJob: updatedRepairJob,

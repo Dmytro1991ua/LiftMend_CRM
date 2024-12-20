@@ -21,3 +21,5 @@ export const REPAIR_JOB_STATUS_TO_ELEVATOR_RECORD_STATUS_MAP: Record<string, str
   OnHold: 'Paused',
   Cancelled: 'Operational',
 };
+
+export const TECHNICIAN_ASSIGNMENT_BLOCKING_STATUSES = ['Busy', 'Reserved'];
