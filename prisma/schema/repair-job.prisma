@@ -1,17 +1,16 @@
 model RepairJob {
-  id                 String         @id @default(uuid())
-  jobType            String
-  jobDetails         String
-  elevatorType       String
-  buildingName       String
-  elevatorLocation   String
-  technicianName     String
-  technicianSkills   String[]
-  contactInformation String
-  startDate          DateTime
-  endDate            DateTime
-  calendarEventId    String?        @unique
-  jobPriority        String
-  status             String         @default("Scheduled")
-  calendarEvent      CalendarEvent?
+  id               String         @id @default(uuid())
+  jobType          String
+  jobDetails       String
+  elevatorType     String
+  buildingName     String
+  elevatorLocation String
+  technicianName   String
+  startDate        DateTime
+  endDate          DateTime
+  calendarEventId  String?        @unique
+  jobPriority      String
+  status           String         @default("Scheduled")
+  actualEndDate    DateTime?      @db.Timestamptz(6)
+  calendarEvent    CalendarEvent?
 }

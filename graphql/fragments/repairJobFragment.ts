@@ -10,8 +10,6 @@ export const REPAIR_JOB_FRAGMENT = gql`
     buildingName
     elevatorLocation
     technicianName
-    technicianSkills
-    contactInformation
     startDate
     endDate
     calendarEventId

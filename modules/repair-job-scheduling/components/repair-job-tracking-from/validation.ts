@@ -13,8 +13,6 @@ export const INITIAL_REPAIR_JOB_VALUES = {
   },
   technicianAssignment: {
     technicianName: '',
-    contactInformation: '',
-    technicianSkills: [],
   },
 };
 
@@ -35,20 +33,6 @@ export const elevatorInformationSchema = z.object({
 
 export const technicianAssignmentSchema = z.object({
   technicianName: z.string().min(1, 'Technician name is required'),
-  technicianSkills: z
-    .array(z.string())
-    .min(1, 'At least one skill is required')
-    .nonempty('Technician skills are required'),
-  contactInformation: z
-    .string({
-      required_error: 'Contact Information is required',
-    })
-    .refine((value) => {
-      const phoneRegex = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/;
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-      return phoneRegex.test(value) || emailRegex.test(value);
-    }, 'Contact Information must be a valid phone number or email address'),
 });
 
 export const repairJobFormSchema = z.object({

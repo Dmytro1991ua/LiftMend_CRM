@@ -1,6 +1,6 @@
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
-import { ElevatorStatus, ElevatorStatusConfig } from '../../types';
+import { ElevatorStatusConfig } from '../../types';
 
 import {
   DEFAULT_ACTIVATION_MODAL_MESSAGE,

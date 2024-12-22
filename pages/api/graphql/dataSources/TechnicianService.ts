@@ -132,9 +132,9 @@ class TechnicianService {
       throw new Error(`Technician record for ${name} was not found`);
     }
 
-    if (!TECHNICIAN_ASSIGNMENT_BLOCKING_STATUSES.includes(technicianRecord.availabilityStatus ?? '')) {
+    if (TECHNICIAN_ASSIGNMENT_BLOCKING_STATUSES.includes(technicianRecord.availabilityStatus ?? '')) {
       throw new Error(
-        `Technician ${name} is already assigned to another job. Please check the Repair Job Tracking page to see current assignments or choose a different technician.`
+        `Technician ${name} is already assigned to another job. Please check the Repair Job Tracking page to see current assignments o select a different technician.`
       );
     }
 

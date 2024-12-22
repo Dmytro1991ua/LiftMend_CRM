@@ -1,7 +1,7 @@
-import { RepairJob } from '@prisma/client';
 import { isEqual as _isEqual } from 'lodash';
 
 import { RepairJobFormValues } from '@/shared/repair-job/edit-repair-job-form/types';
+import { RepairJob } from '@/shared/types';
 
 import { OverlappingKeys } from './types';
 
@@ -14,8 +14,6 @@ export const convertRepairJobToFormValues = (repairJob: RepairJob): RepairJobFor
   buildingName: repairJob ? repairJob.buildingName : null,
   elevatorLocation: repairJob ? repairJob.elevatorLocation : null,
   technicianName: repairJob ? repairJob.technicianName : null,
-  technicianSkill: repairJob ? repairJob.technicianSkills : [],
-  contactInfo: repairJob ? repairJob.contactInformation : '',
   id: repairJob ? repairJob.id : '',
   calendarEventId: repairJob ? repairJob.calendarEventId : null,
   status: repairJob ? repairJob.status : null,
@@ -31,8 +29,6 @@ export const convertFormFieldsToRepairJob = (formFields: RepairJobFormValues): R
   buildingName: formFields.buildingName ?? '',
   elevatorLocation: formFields.elevatorLocation ?? '',
   technicianName: formFields.technicianName ?? '',
-  technicianSkills: formFields.technicianSkill ?? [],
-  contactInformation: formFields.contactInfo ?? '',
   id: formFields.id ?? '',
   calendarEventId: formFields.calendarEventId ?? null,
   status: formFields.status ?? '',

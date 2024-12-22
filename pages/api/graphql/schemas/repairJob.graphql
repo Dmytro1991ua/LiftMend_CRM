@@ -30,8 +30,6 @@ type RepairJob implements Node {
   buildingName: String!
   elevatorLocation: String!
   technicianName: String!
-  technicianSkills: [String!]!
-  contactInformation: String!
   startDate: DateTime!
   endDate: DateTime!
   calendarEventId: String
@@ -57,8 +55,6 @@ input CreateRepairJobInput {
   buildingName: String!
   elevatorLocation: String!
   technicianName: String!
-  technicianSkills: [String!]!
-  contactInformation: String!
   startDate: DateTime!
   endDate: DateTime!
 }
@@ -74,8 +70,6 @@ input UpdateRepairJobInput {
   buildingName: String
   elevatorLocation: String
   technicianName: String
-  technicianSkills: [String!]
-  contactInformation: String
   status: String
 }
 

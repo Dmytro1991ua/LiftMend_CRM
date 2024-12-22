@@ -11,7 +11,5 @@ export type RepairJobFormValues = {
   buildingName: string | null;
   elevatorLocation: string | null;
   technicianName: string | null;
-  technicianSkill: string[];
-  contactInfo?: string;
   status: string | null;
 };

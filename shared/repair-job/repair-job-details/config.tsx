@@ -1,5 +1,4 @@
 import { RepairJob } from '@/graphql/types/client/generated_types';
-import Badge from '@/shared/badge';
 import { DetailsPageSectionsConfig } from '@/shared/base-details-page/types';
 import DatePicker from '@/shared/date-picker';
 import Pill from '@/shared/pill';
@@ -50,14 +49,6 @@ export const repairJobSectionsConfig = (repairJob: RepairJob): DetailsPageSectio
   {
     id: 3,
     title: 'Technician Information',
-    fields: [
-      { id: 10, label: 'Name', value: repairJob.technicianName },
-      {
-        id: 11,
-        label: 'Skills',
-        value: <Badge bgColor='bg-teal-600' items={repairJob.technicianSkills ?? []} />,
-      },
-      { id: 12, label: 'Contact Info', value: repairJob.contactInformation },
-    ],
+    fields: [{ id: 10, label: 'Name', value: repairJob.technicianName }],
   },
 ];
