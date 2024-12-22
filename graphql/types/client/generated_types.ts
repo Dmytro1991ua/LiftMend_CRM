@@ -42,7 +42,6 @@ export type CreateCalendarEventInput = {
 
 export type CreateRepairJobInput = {
   buildingName: Scalars['String']['input'];
-  contactInformation: Scalars['String']['input'];
   elevatorLocation: Scalars['String']['input'];
   elevatorType: Scalars['String']['input'];
   endDate: Scalars['DateTime']['input'];
@@ -51,7 +50,6 @@ export type CreateRepairJobInput = {
   jobType: Scalars['String']['input'];
   startDate: Scalars['DateTime']['input'];
   technicianName: Scalars['String']['input'];
-  technicianSkills: Array<Scalars['String']['input']>;
 };
 
 export type CreateTechnicianRecordInput = {
@@ -258,7 +256,6 @@ export type RepairJob = Node & {
   __typename?: 'RepairJob';
   buildingName: Scalars['String']['output'];
   calendarEventId: Maybe<Scalars['String']['output']>;
-  contactInformation: Scalars['String']['output'];
   elevatorLocation: Scalars['String']['output'];
   elevatorType: Scalars['String']['output'];
   endDate: Scalars['DateTime']['output'];
@@ -269,7 +266,6 @@ export type RepairJob = Node & {
   startDate: Scalars['DateTime']['output'];
   status: Scalars['String']['output'];
   technicianName: Scalars['String']['output'];
-  technicianSkills: Array<Scalars['String']['output']>;
 };
 
 export type RepairJobConnection = Connection & {
@@ -399,7 +395,6 @@ export type UpdateElevatorRecordInput = {
 
 export type UpdateRepairJobInput = {
   buildingName?: InputMaybe<Scalars['String']['input']>;
-  contactInformation?: InputMaybe<Scalars['String']['input']>;
   elevatorLocation?: InputMaybe<Scalars['String']['input']>;
   elevatorType?: InputMaybe<Scalars['String']['input']>;
   endDate?: InputMaybe<Scalars['DateTime']['input']>;
@@ -410,7 +405,6 @@ export type UpdateRepairJobInput = {
   startDate?: InputMaybe<Scalars['DateTime']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
   technicianName?: InputMaybe<Scalars['String']['input']>;
-  technicianSkills?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 export type UpdateTechnicianRecordInput = {
@@ -465,8 +459,6 @@ export type RepairJobFieldsFragment = {
   buildingName: string;
   elevatorLocation: string;
   technicianName: string;
-  technicianSkills: Array<string>;
-  contactInformation: string;
   startDate: any;
   endDate: any;
   calendarEventId: string | null;
@@ -503,8 +495,6 @@ export type CreateRepairJobAndCalendarEventMutation = {
       buildingName: string;
       elevatorLocation: string;
       technicianName: string;
-      technicianSkills: Array<string>;
-      contactInformation: string;
       startDate: any;
       endDate: any;
       calendarEventId: string | null;
@@ -676,8 +666,6 @@ export type GetRepairJobByIdQuery = {
     buildingName: string;
     elevatorLocation: string;
     technicianName: string;
-    technicianSkills: Array<string>;
-    contactInformation: string;
     startDate: any;
     endDate: any;
     calendarEventId: string | null;
@@ -726,8 +714,6 @@ export type GetRepairJobsQuery = {
         buildingName: string;
         elevatorLocation: string;
         technicianName: string;
-        technicianSkills: Array<string>;
-        contactInformation: string;
         startDate: any;
         endDate: any;
         calendarEventId: string | null;
@@ -848,8 +834,6 @@ export type UpdateRepairJobMutation = {
     buildingName: string;
     elevatorLocation: string;
     technicianName: string;
-    technicianSkills: Array<string>;
-    contactInformation: string;
     startDate: any;
     endDate: any;
     calendarEventId: string | null;

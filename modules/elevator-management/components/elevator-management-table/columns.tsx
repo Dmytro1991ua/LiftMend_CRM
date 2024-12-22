@@ -63,15 +63,6 @@ export const ELEVATOR_MANAGEMENT_COLUMNS: ColumnDef<ElevatorRecord>[] = [
     maxSize: 360,
   },
   {
-    accessorKey: 'capacity',
-    header: 'Capacity (kg)',
-    enableResizing: false,
-    enableSorting: false,
-    size: 150,
-    minSize: 120,
-    maxSize: 180,
-  },
-  {
     accessorKey: 'status',
     header: 'Status',
     cell: ({
@@ -84,6 +75,15 @@ export const ELEVATOR_MANAGEMENT_COLUMNS: ColumnDef<ElevatorRecord>[] = [
     size: 180,
     minSize: 120,
     maxSize: 350,
+  },
+  {
+    accessorKey: 'capacity',
+    header: 'Capacity (kg)',
+    enableResizing: false,
+    enableSorting: false,
+    size: 150,
+    minSize: 120,
+    maxSize: 180,
   },
   {
     accessorKey: 'lastMaintenanceDate',

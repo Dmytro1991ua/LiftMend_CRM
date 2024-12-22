@@ -7,19 +7,19 @@ import { formatDate } from '../utils';
 const accessors = {
   startDate: (cell: Cell<TableModel, TableValue>): string => formatDate(cell.row.original.startDate),
   endDate: (cell: Cell<TableModel, TableValue>): string => formatDate(cell.row.original.endDate),
-  technicianSkills: (cell: Cell<TableModel, TableValue>): string => cell.row.original.technicianSkills.join(', '),
+  skills: (cell: Cell<TableModel, TableValue>): string => cell.row.original.skills.join(', '),
   lastMaintenanceDate: (cell: Cell<TableModel, TableValue>): string =>
     formatDate(cell.row.original.lastMaintenanceDate),
   nextMaintenanceDate: (cell: Cell<TableModel, TableValue>): string =>
     formatDate(cell.row.original.nextMaintenanceDate),
 };
 
-const { startDate, endDate, technicianSkills, lastMaintenanceDate, nextMaintenanceDate } = accessors;
+const { startDate, endDate, skills, lastMaintenanceDate, nextMaintenanceDate } = accessors;
 
 export const columnsValueAccessors: ColumnsValueAccessors = {
   startDate,
   endDate,
-  technicianSkills,
+  skills,
   lastMaintenanceDate,
   nextMaintenanceDate,
 };

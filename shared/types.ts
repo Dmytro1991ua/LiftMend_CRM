@@ -72,8 +72,6 @@ export type RepairJob = {
   buildingName: string;
   elevatorLocation: string;
   technicianName: string;
-  technicianSkills: string[];
-  contactInformation: string;
   calendarEventId: Maybe<string>;
   status: string;
 };

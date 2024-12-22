@@ -1,16 +1,16 @@
 import { useFormContext } from 'react-hook-form';
 
 import { GetRepairJobFromDataQuery } from '@/graphql/types/client/generated_types';
-import FormInput from '@/shared/base-input/form-input';
-import ControlledMultiSelect from '@/shared/base-select/components/controlled-multi-select';
 import ControlledSingleSelect from '@/shared/base-select/components/controlled-single-select/ControlledSingleSelect';
 import BaseTextarea from '@/shared/base-textarea';
+import InfoTooltip from '@/shared/base-tooltip/info-tooltip/InfoTooltip';
 import ControlledDateRangePicker from '@/shared/date-picker/components/controlled-date-range-picker';
 import EditEntityForm from '@/shared/edit-entity-form/EditEntityForm';
 import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions';
 import { DropdownOptions } from '@/shared/hooks/useFetchDropdownOptions/config';
 import { FormFieldLabel, ItemConfig } from '@/shared/types';
 
+import { ELEVATOR_DETAILS_TOOLTIP, JOB_TYPE_TOOLTIP } from './constants';
 import { RepairJobFormValues } from './types';
 
 type EditRepairJobFormProps = {
@@ -26,7 +26,6 @@ const EditRepairJobForm = ({ repairJobFormValues }: EditRepairJobFormProps) => {
       elevatorTypes,
       buildingNames,
       technicianNames,
-      technicianSkills,
       statuses,
     },
     loading,
@@ -43,8 +42,6 @@ const EditRepairJobForm = ({ repairJobFormValues }: EditRepairJobFormProps) => {
     buildingName,
     elevatorLocation,
     technicianName,
-    technicianSkill,
-    contactInfo,
     jobDescription,
     status,
   } = repairJobFormValues;
@@ -52,14 +49,25 @@ const EditRepairJobForm = ({ repairJobFormValues }: EditRepairJobFormProps) => {
   const REPAIR_JOB_FORM_FIELD_CONFIG: ItemConfig[] = [
     {
       id: 1,
-      label: FormFieldLabel.JobType,
       content: (
         <ControlledSingleSelect<RepairJobFormValues>
+          disabled
           captureMenuScroll={false}
           className='mb-4'
           clearErrors={clearErrors}
           defaultValue={jobType}
+          infoTooltip={
+            <InfoTooltip
+              className='w-[33rem]'
+              iconColor='#2563eb'
+              iconSize='14'
+              id={'job-type-field-id'}
+              message={JOB_TYPE_TOOLTIP}
+              place='right'
+            />
+          }
           isMultiSelect={false}
+          label='Job Type'
           name='jobType'
           options={repairJobTypes}
           placeholder='Select Job Type'
@@ -122,18 +130,29 @@ const EditRepairJobForm = ({ repairJobFormValues }: EditRepairJobFormProps) => {
         <ControlledDateRangePicker clearErrors={clearErrors} defaultValue={scheduledDates} name='scheduledDates' />
       ),
 
-      className: 'row-start-6 row-end-6 col-start-3 col-end-7 mt-1',
+      className: 'row-start-6 row-end-6 col-start-1 col-end-7',
     },
     {
       id: 6,
-      label: FormFieldLabel.ElevatorType,
       content: (
         <ControlledSingleSelect<RepairJobFormValues>
+          disabled
           captureMenuScroll={false}
           className='mb-4'
           clearErrors={clearErrors}
           defaultValue={elevatorType}
+          infoTooltip={
+            <InfoTooltip
+              className='w-[33rem]'
+              iconColor='#2563eb'
+              iconSize='14'
+              id={'elevator-type-field-id'}
+              message={ELEVATOR_DETAILS_TOOLTIP}
+              place='right'
+            />
+          }
           isMultiSelect={false}
+          label='Elevator Type'
           name='elevatorType'
           options={elevatorTypes}
           placeholder='Select Elevator Type'
@@ -143,14 +162,25 @@ const EditRepairJobForm = ({ repairJobFormValues }: EditRepairJobFormProps) => {
     },
     {
       id: 7,
-      label: FormFieldLabel.BuildingName,
       content: (
         <ControlledSingleSelect<RepairJobFormValues>
+          disabled
           captureMenuScroll={false}
           className='mb-4'
           clearErrors={clearErrors}
           defaultValue={buildingName}
+          infoTooltip={
+            <InfoTooltip
+              className='w-[33rem]'
+              iconColor='#2563eb'
+              iconSize='14'
+              id={'building-name-field-id'}
+              message={ELEVATOR_DETAILS_TOOLTIP}
+              place='left'
+            />
+          }
           isMultiSelect={false}
+          label='Building Name'
           name='buildingName'
           options={buildingNames}
           placeholder='Select Building Name'
@@ -160,14 +190,25 @@ const EditRepairJobForm = ({ repairJobFormValues }: EditRepairJobFormProps) => {
     },
     {
       id: 8,
-      label: FormFieldLabel.ElevatorLocation,
       content: (
         <ControlledSingleSelect<RepairJobFormValues>
+          disabled
           captureMenuScroll={false}
           className='mb-4'
           clearErrors={clearErrors}
           defaultValue={elevatorLocation}
+          infoTooltip={
+            <InfoTooltip
+              className='w-[33rem]'
+              iconColor='#2563eb'
+              iconSize='14'
+              id={'elevator-location-field-id'}
+              message={ELEVATOR_DETAILS_TOOLTIP}
+              place='right'
+            />
+          }
           isMultiSelect={false}
+          label='Elevator Location'
           name='elevatorLocation'
           options={elevatorLocations}
           placeholder='Select Elevator Location'
@@ -191,42 +232,6 @@ const EditRepairJobForm = ({ repairJobFormValues }: EditRepairJobFormProps) => {
         />
       ),
       className: 'row-start-4 row-end-5 col-start-4 col-end-7',
-    },
-    {
-      id: 10,
-      label: FormFieldLabel.TechnicianSkill,
-      content: (
-        <ControlledMultiSelect<RepairJobFormValues>
-          captureMenuScroll={false}
-          className='mb-4'
-          clearErrors={clearErrors}
-          closeMenuOnScroll={false}
-          closeMenuOnSelect={false}
-          defaultValue={technicianSkill ?? []}
-          hasSearchInput={true}
-          hideSelectedOptions={false}
-          isMultiSelect={true}
-          name='technicianSkill'
-          options={technicianSkills}
-          placeholder='Select Technician Skills'
-          searchInputPlaceholder='Search for Technician skill(s)...'
-        />
-      ),
-      className: 'row-start-5 row-end-5 col-start-1 col-end-7',
-    },
-    {
-      id: 11,
-      label: FormFieldLabel.ContactInformation,
-      content: (
-        <FormInput<RepairJobFormValues>
-          defaultValue={contactInfo}
-          id='contactInfo'
-          name='contactInfo'
-          placeholder='Please provide contact information'
-          onChange={() => clearErrors('contactInfo')}
-        />
-      ),
-      className: 'row-start-6 row-end-6 col-start-1 col-end-3',
     },
   ];
 

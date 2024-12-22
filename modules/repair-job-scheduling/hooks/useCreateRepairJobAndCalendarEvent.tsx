@@ -60,7 +60,7 @@ const useCreateRepairJobAndCalendarEvent = ({
       const {
         jobDetails: { jobType, jobDescription, priority },
         elevatorInformation: { elevatorLocation, elevatorType, buildingName },
-        technicianAssignment: { technicianName, technicianSkills, contactInformation },
+        technicianAssignment: { technicianName },
       } = formFields;
 
       const { description, title } = getCalendarEventInfo({ elevatorType, elevatorLocation, buildingName, jobType });
@@ -86,8 +86,6 @@ const useCreateRepairJobAndCalendarEvent = ({
         jobType,
         startDate: adjustedStartDate,
         technicianName,
-        technicianSkills,
-        contactInformation,
       };
 
       const calendarEventPayload = {

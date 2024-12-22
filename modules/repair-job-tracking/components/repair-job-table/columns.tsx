@@ -1,7 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table';
 
 import { Checkbox } from '@/components/ui/checkbox';
-import Badge from '@/shared/badge';
 import BaseTableCheckbox from '@/shared/base-table/base-table-checkbox';
 import DatePicker from '@/shared/date-picker';
 import Pill from '@/shared/pill';
@@ -143,29 +142,6 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
     size: 180,
     minSize: 120,
     maxSize: 350,
-  },
-  {
-    accessorKey: 'technicianSkills',
-    header: 'Technician Skills',
-    cell: ({
-      row: {
-        original: { technicianSkills },
-      },
-    }) => <Badge bgColor='bg-teal-600' className='flex flex-col text-center' items={technicianSkills ?? []} />,
-    size: 250,
-    enableResizing: true,
-    enableSorting: false,
-    minSize: 120,
-    maxSize: 400,
-  },
-  {
-    accessorKey: 'contactInformation',
-    header: 'Contact Information',
-    enableResizing: true,
-    enableSorting: false,
-    size: 180,
-    minSize: 120,
-    maxSize: 300,
   },
   {
     accessorKey: 'edit',
