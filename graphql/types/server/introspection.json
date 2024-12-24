@@ -2136,6 +2136,18 @@
         "description": null,
         "fields": [
           {
+            "name": "actualEndDate",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "buildingName",
             "description": null,
             "args": [],

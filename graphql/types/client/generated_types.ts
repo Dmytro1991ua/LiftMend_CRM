@@ -254,6 +254,7 @@ export type QueryGetTechnicianRecordsArgs = {
 
 export type RepairJob = Node & {
   __typename?: 'RepairJob';
+  actualEndDate: Maybe<Scalars['DateTime']['output']>;
   buildingName: Scalars['String']['output'];
   calendarEventId: Maybe<Scalars['String']['output']>;
   elevatorLocation: Scalars['String']['output'];
@@ -462,6 +463,7 @@ export type RepairJobFieldsFragment = {
   startDate: any;
   endDate: any;
   calendarEventId: string | null;
+  actualEndDate: any | null;
 };
 
 export type TechnicianRecordFieldsFragment = {
@@ -498,6 +500,7 @@ export type CreateRepairJobAndCalendarEventMutation = {
       startDate: any;
       endDate: any;
       calendarEventId: string | null;
+      actualEndDate: any | null;
     };
     calendarEvent: {
       __typename?: 'CalendarEvent';
@@ -669,6 +672,7 @@ export type GetRepairJobByIdQuery = {
     startDate: any;
     endDate: any;
     calendarEventId: string | null;
+    actualEndDate: any | null;
   };
 };
 
@@ -717,6 +721,7 @@ export type GetRepairJobsQuery = {
         startDate: any;
         endDate: any;
         calendarEventId: string | null;
+        actualEndDate: any | null;
       };
     }>;
     pageInfo: {
@@ -837,6 +842,7 @@ export type UpdateRepairJobMutation = {
     startDate: any;
     endDate: any;
     calendarEventId: string | null;
+    actualEndDate: any | null;
   };
 };
 

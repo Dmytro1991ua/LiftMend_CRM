@@ -34,6 +34,7 @@ type RepairJob implements Node {
   endDate: DateTime!
   calendarEventId: String
   status: String!
+  actualEndDate: DateTime
 }
 
 type RepairJobEdge implements Edge {

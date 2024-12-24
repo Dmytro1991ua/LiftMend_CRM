@@ -9,4 +9,4 @@ export const ELEVATOR_CAPACITY_TOOLTIP_MESSAGE =
 export const ELEVATOR_STATUS_TOOLTIP_MESSAGE =
   'Elevator status is managed through the activation and deactivation workflows and updates on associated repair job.';
 export const LAST_MAINTENANCE_DATE_TOOLTIP_MESSAGE =
-  'This field is automatically updated after a maintenance or repair job is completed.';
+  'This field is automatically updated after the repair job associated with the currently editing elevator record is completed.';

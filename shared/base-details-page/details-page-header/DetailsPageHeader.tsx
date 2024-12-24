@@ -5,6 +5,7 @@ import { IoMdArrowRoundBack } from 'react-icons/io';
 import { Audio } from 'react-loader-spinner';
 
 import { Button } from '@/components/ui/button';
+import BaseTooltip from '@/shared/base-tooltip/BaseTooltip';
 import SectionHeader from '@/shared/section-header';
 
 import { DetailsPageActionButtonConfig } from '../types';
@@ -31,11 +32,18 @@ const DetailsPageHeader = ({ loading, description, title, actionButtonsConfig }:
 
   const renderActionButtons = (
     <div className='flex gap-2'>
-      {actionButtonsConfig.map(({ id, label, icon, variant, onClick }) => (
-        <Button key={id} variant={variant} onClick={onClick}>
-          {icon}
-          <span className='ml-2'>{label}</span>
-        </Button>
+      {actionButtonsConfig.map(({ id, label, icon, variant, tooltipData, isDisabled, onClick }) => (
+        <BaseTooltip
+          key={id}
+          disable={!tooltipData?.disable}
+          id={tooltipData?.id ?? ''}
+          message={tooltipData?.message ?? ''}
+        >
+          <Button disabled={isDisabled} variant={variant} onClick={onClick}>
+            {icon}
+            <span className='ml-2'>{label}</span>
+          </Button>
+        </BaseTooltip>
       ))}
     </div>
   );

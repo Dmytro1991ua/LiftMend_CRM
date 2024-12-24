@@ -13,5 +13,6 @@ export const REPAIR_JOB_FRAGMENT = gql`
     startDate
     endDate
     calendarEventId
+    actualEndDate
   }
 `;

@@ -22,7 +22,7 @@ const DeleteActionCell = ({ elevatorRecord }: DeleteActionCelProps) => {
     id: elevatorRecord.id,
   });
 
-  const isDeleteButtonDisabled = elevatorRecord.status !== 'Operational';
+  const isDeleteButtonDisabled = elevatorRecord.status === 'Out of Service';
 
   const onHandleDeleteClick = (event: React.MouseEvent) => {
     event.stopPropagation();

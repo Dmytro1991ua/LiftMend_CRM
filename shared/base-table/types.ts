@@ -77,3 +77,8 @@ export type TableFiltersConfig = {
   filterKey: FilterKey;
   options: DropdownOption[];
 };
+
+export type RowHightLightInfo = {
+  isHighlighted: boolean;
+  highlightStyles: string;
+};

@@ -10,8 +10,8 @@ const useMutationResultToasts = (): UseMutationResultToasts => {
   const { baseToast: successBaseToast } = useBaseToast(BaseToastVariant.Success);
   const { baseToast: errorBaseToast } = useBaseToast(BaseToastVariant.Error);
 
-  const onSuccess = (message: string) => {
-    successBaseToast(message, '');
+  const onSuccess = (message: string, description = '') => {
+    successBaseToast(message, description);
   };
 
   const onError = (message: string, description: string) => {

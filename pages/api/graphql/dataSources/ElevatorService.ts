@@ -1,8 +1,10 @@
 import { ElevatorRecord, PrismaClient } from '@prisma/client';
+import { addMonths } from 'date-fns';
 import { isNull as _isNull, omitBy as _omitBy } from 'lodash';
 
 import { ElevatorRecordConnection } from '@/graphql/types/client/generated_types';
 import {
+  CreateRepairJobInput,
   ElevatorRecordFormData,
   QueryGetElevatorRecordsArgs,
   RepairJob,
@@ -107,7 +109,7 @@ class ElevatorService {
     });
   }
 
-  async validateElevator(repairJobInput: any): Promise<ElevatorRecord> {
+  async validateElevator(repairJobInput: CreateRepairJobInput): Promise<ElevatorRecord> {
     const elevatorRecord = await this.prisma.elevatorRecord.findFirst({
       where: {
         buildingName: repairJobInput.buildingName,
@@ -130,6 +132,20 @@ class ElevatorService {
     return this.prisma.elevatorRecord.update({
       where: { id },
       data: { status },
+    });
+  }
+
+  async updateElevatorMaintenanceDates(elevatorId: string): Promise<void> {
+    const currentDate = new Date();
+    // Calculate 6 months from now to determinepElevator nextMaintenanceDate
+    const nextMaintenanceDate = addMonths(currentDate, 6);
+
+    await this.prisma.elevatorRecord.update({
+      where: { id: elevatorId },
+      data: {
+        lastMaintenanceDate: currentDate,
+        nextMaintenanceDate,
+      },
     });
   }
 }
