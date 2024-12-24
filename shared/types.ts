@@ -74,6 +74,7 @@ export type RepairJob = {
   technicianName: string;
   calendarEventId: Maybe<string>;
   status: string;
+  actualEndDate?: Maybe<Date>;
 };
 
 export type ElevatorRecord = {

@@ -42,6 +42,8 @@ const RepairJobDetails = () => {
 
   const currentRepairJob = useMemo(() => convertRepairJobToFormValues(repairJob), [repairJob]);
 
+  const isEditButtonDisabled = currentRepairJob.status === 'Completed';
+
   const { formState, onReset } = useFormState<RepairJobFormValues>({
     initialValues: currentRepairJob,
     onCloseModal: onCloseEditModal,
@@ -98,8 +100,8 @@ const RepairJobDetails = () => {
   ];
 
   const actionButtonsConfig = useMemo(
-    () => getCommonDetailsPageActionButtonsConfig({ onOpenDeleteModal, onOpenEditModal }),
-    [onOpenDeleteModal, onOpenEditModal]
+    () => getCommonDetailsPageActionButtonsConfig({ onOpenDeleteModal, onOpenEditModal, isEditButtonDisabled }),
+    [onOpenDeleteModal, onOpenEditModal, isEditButtonDisabled]
   );
 
   return (

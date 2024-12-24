@@ -15,7 +15,6 @@ type ElevatorStatusToggleCellProps = {
 };
 
 const ElevatorStatusToggleCell = ({ status, elevatorRecordId, lastKnownStatus }: ElevatorStatusToggleCellProps) => {
-  console.log(status, lastKnownStatus);
   const { loading, isModalOpen, config, onCloseModal, onOpenModal, onHandleElevatorRecordStatusChange } =
     useUpdateElevatorRecordStatus({
       elevatorRecordId,

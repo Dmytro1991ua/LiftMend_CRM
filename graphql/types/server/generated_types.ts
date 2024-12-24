@@ -256,6 +256,7 @@ export type QueryGetTechnicianRecordsArgs = {
 
 export type RepairJob = Node & {
   __typename?: 'RepairJob';
+  actualEndDate?: Maybe<Scalars['DateTime']['output']>;
   buildingName: Scalars['String']['output'];
   calendarEventId?: Maybe<Scalars['String']['output']>;
   elevatorLocation: Scalars['String']['output'];
@@ -840,6 +841,7 @@ export type RepairJobResolvers<
   ContextType = Context,
   ParentType extends ResolversParentTypes['RepairJob'] = ResolversParentTypes['RepairJob']
 > = ResolversObject<{
+  actualEndDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   buildingName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   calendarEventId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   elevatorLocation?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

@@ -1,3 +1,4 @@
+import { BaseTooltipProps } from '../base-tooltip/BaseTooltip';
 import { ButtonVariant } from '../types';
 
 export enum ActionButtonLabel {
@@ -19,5 +20,7 @@ export type DetailsPageActionButtonConfig = {
   label: ActionButtonLabel;
   icon: JSX.Element;
   variant: ButtonVariant;
+  tooltipData?: Partial<BaseTooltipProps>;
+  isDisabled?: boolean;
   onClick: () => void;
 };

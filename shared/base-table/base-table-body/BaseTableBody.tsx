@@ -5,6 +5,7 @@ import { Row, flexRender } from '@tanstack/react-table';
 import { TableBody, TableCell, TableRow } from '@/components/ui/table';
 import { cn } from '@/lib/utils';
 
+import { RowHightLightInfo } from '../types';
 import { getTableStatusContent, getTableStatusMod } from '../utils';
 
 type BaseTableBodyProps<T> = {
@@ -17,6 +18,7 @@ type BaseTableBodyProps<T> = {
   rowTooltipMessage?: string | ((rowOriginal: T) => string);
   isRowDisabled?: (rowOriginal: T) => boolean;
   onHandleRowClick: (rowData: Row<T>) => void;
+  getRowHighlightInfo?: (rowOriginal: T) => RowHightLightInfo;
 };
 
 const BaseTableBody = <T,>({
@@ -29,6 +31,7 @@ const BaseTableBody = <T,>({
   rowTooltipMessage,
   isRowDisabled,
   onHandleRowClick,
+  getRowHighlightInfo,
 }: BaseTableBodyProps<T>): React.JSX.Element => {
   const isTableEmpty = tableRows?.length === 0;
 
@@ -47,7 +50,10 @@ const BaseTableBody = <T,>({
             key={row.id}
             className={cn(
               'cursor-pointer',
-              isRowDisabled && isRowDisabled(row.original) && 'opacity-40 cursor-not-allowed'
+              isRowDisabled && isRowDisabled(row.original) && 'opacity-40 cursor-not-allowed',
+              getRowHighlightInfo &&
+                getRowHighlightInfo(row.original).isHighlighted &&
+                getRowHighlightInfo(row.original).highlightStyles
             )}
             data-state={row.getIsSelected() && 'selected'}
             title={

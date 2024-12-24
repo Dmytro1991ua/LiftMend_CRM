@@ -1,8 +1,8 @@
 import { SubmitHandler } from 'react-hook-form';
 
-import { RepairJob } from '@/graphql/types/client/generated_types';
 import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import useUpdateRepairJob from '@/shared/repair-job/hooks/useUpdateRepairJob';
+import { RepairJob } from '@/shared/types';
 
 import { RepairJobFormValues } from '../edit-repair-job-form/types';
 

@@ -5,17 +5,18 @@ import { CALENDAR_EVENT_FRAGMENT } from '@/graphql/fragments';
 import { UPDATE_REPAIR_JOB } from '@/graphql/schemas/updateRepairJob';
 import {
   CalendarEvent,
-  RepairJob,
   UpdateRepairJobMutation,
   UpdateRepairJobMutationVariables,
 } from '@/graphql/types/client/generated_types';
+import { SUCCESSFULLY_COMPLETED_REPAIR_JOB_STATUS_CHANGE } from '@/modules/repair-job-scheduling/constants';
 import { RepairJobFormValues } from '@/shared/repair-job/edit-repair-job-form/types';
+import { RepairJob } from '@/shared/types';
 import { getCalendarEventInfo, getFieldsToUpdateForMutation } from '@/shared/utils';
 
 import { convertFormFieldsToRepairJob } from '../repair-job-details/utils';
 
 type UseUpdateRepairJobProps = {
-  onSuccess?: (message: string) => void;
+  onSuccess?: (message: string, description?: string) => void;
   onError?: (errorMessage: string, errorDescription: string) => void;
 };
 
@@ -68,6 +69,8 @@ const useUpdateRepairJob = ({ onSuccess, onError }: UseUpdateRepairJobProps): Us
       });
 
       const hasErrors = !!result.errors?.length;
+      const successDescription =
+        fieldsToUpdate.status === 'Completed' ? SUCCESSFULLY_COMPLETED_REPAIR_JOB_STATUS_CHANGE : '';
 
       if (hasErrors) {
         onHandleMutationErrors({
@@ -76,7 +79,7 @@ const useUpdateRepairJob = ({ onSuccess, onError }: UseUpdateRepairJobProps): Us
           onFailure: onError,
         });
       } else {
-        onSuccess?.(`Successfully updated scheduled ${repairJob.jobType} repair job`);
+        onSuccess?.(`Successfully updated scheduled ${repairJob.jobType} repair job`, successDescription);
       }
     } catch (e) {
       onHandleMutationErrors({

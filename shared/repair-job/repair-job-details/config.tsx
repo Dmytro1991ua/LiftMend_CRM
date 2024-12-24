@@ -23,7 +23,6 @@ export const repairJobSectionsConfig = (repairJob: RepairJob): DetailsPageSectio
         value: <Pill status={repairJob.jobPriority as PillStatus} />,
         fieldClassName: 'items-center',
       },
-
       {
         id: 7,
         label: 'Scheduled Dates',
@@ -35,6 +34,23 @@ export const repairJobSectionsConfig = (repairJob: RepairJob): DetailsPageSectio
           />
         ),
       },
+      ...(repairJob?.actualEndDate
+        ? [
+            {
+              id: 8,
+              label: 'Actual End Date',
+              value: (
+                <DatePicker
+                  key={repairJob?.actualEndDate}
+                  isDisabled
+                  isDateRangeMode={false}
+                  numberOfMonths={1}
+                  singleDate={repairJob?.actualEndDate}
+                />
+              ),
+            },
+          ]
+        : []),
     ],
   },
   {

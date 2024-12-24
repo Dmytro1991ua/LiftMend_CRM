@@ -37,7 +37,7 @@ const EditActionCell = ({ elevatorRecord }: EditActionCellProps) => {
 
   const { isUpdateRecordLoading, onEditElevatorRecord } = useEditElevatorRecordForm({ onReset, elevatorRecord });
 
-  const isDeleteButtonDisabled = elevatorRecord.status !== 'Operational';
+  const isEditButtonDisabled = elevatorRecord.status === 'Out of Service';
 
   const onHandleEditClick = (event: React.MouseEvent) => {
     event.stopPropagation();
@@ -50,7 +50,7 @@ const EditActionCell = ({ elevatorRecord }: EditActionCellProps) => {
       <section className='flex justify-center items-center'>
         <Button
           className='hover:bg-transparent'
-          disabled={isDeleteButtonDisabled}
+          disabled={isEditButtonDisabled}
           variant='ghost'
           onClick={onHandleEditClick}
         >
@@ -58,6 +58,7 @@ const EditActionCell = ({ elevatorRecord }: EditActionCellProps) => {
         </Button>
         <EditModal
           isDisabled={!formState.formState.isDirty || isUpdateRecordLoading}
+          isLoading={isUpdateRecordLoading}
           isOpen={isModalOpen}
           title={getModalTitle(title, true)}
           onClose={onCloseModal}

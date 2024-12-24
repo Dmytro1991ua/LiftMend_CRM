@@ -16,7 +16,7 @@ import BaseTableHeader from './base-table-header';
 import { INFINITE_SCROLL_OVERFLOW, SCROLL_WRAPPER_ID } from './constants';
 import useTableState from './hooks/useTableState';
 import TableActionBar from './table-action-bar';
-import { TableFilters, TableFiltersConfig } from './types';
+import { RowHightLightInfo, TableFilters, TableFiltersConfig } from './types';
 
 type BaseTableProps<T extends object, K, M> = {
   columns: ColumnDef<T>[];
@@ -33,6 +33,7 @@ type BaseTableProps<T extends object, K, M> = {
   filtersConfig: TableFiltersConfig[];
   rowTooltipMessage?: string | ((rowOriginal: T) => string);
   isRowDisabled?: (rowOriginal: T) => boolean;
+  getRowHighlightInfo?: (rowOriginal: T) => RowHightLightInfo;
   refetch: (variables: Partial<K>) => Promise<ApolloQueryResult<M>>;
   onSetTableStorageState: Dispatch<SetStateAction<TableStorageState<SortingState, TableFilters<T>>>>;
   onHandleRowClick: (rowData: Row<T>) => void;
@@ -56,6 +57,7 @@ const BaseTable = <T extends object, K, M>({
   refetch,
   onSetTableStorageState,
   onHandleRowClick,
+  getRowHighlightInfo,
 }: BaseTableProps<T, K, M>): React.JSX.Element => {
   const {
     searchTerm,
@@ -140,6 +142,7 @@ const BaseTable = <T extends object, K, M>({
                 columnLength={columns.length}
                 emptyTableMessage={emptyTableMessage}
                 errorMessage={errorMessage}
+                getRowHighlightInfo={getRowHighlightInfo}
                 isRowDisabled={isRowDisabled}
                 loading={loading}
                 rowTooltipMessage={rowTooltipMessage}

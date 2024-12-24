@@ -97,7 +97,7 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
   },
   {
     accessorKey: 'endDate',
-    header: 'End Date',
+    header: 'Planned End Date',
     enableResizing: true,
     enableSorting: true,
     cell: ({
@@ -105,6 +105,32 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
         original: { endDate },
       },
     }) => <DatePicker key={`${endDate}`} isDisabled isDateRangeMode={false} numberOfMonths={1} singleDate={endDate} />,
+    size: 300,
+    minSize: 300,
+    maxSize: 500,
+  },
+  {
+    accessorKey: 'endDate',
+    header: 'Actual End Date',
+    enableResizing: true,
+    enableSorting: true,
+    cell: ({
+      row: {
+        original: { actualEndDate },
+      },
+    }) => (
+      <>
+        {actualEndDate && (
+          <DatePicker
+            key={`${actualEndDate}`}
+            isDisabled
+            isDateRangeMode={false}
+            numberOfMonths={1}
+            singleDate={actualEndDate}
+          />
+        )}
+      </>
+    ),
     size: 300,
     minSize: 300,
     maxSize: 500,

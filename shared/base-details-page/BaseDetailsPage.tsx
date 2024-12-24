@@ -37,7 +37,7 @@ const BaseDetailsPage = ({
         loading={loading}
         title={title}
       />
-      <div className='content-wrapper h-[72vh] overflow-y-auto overflow-x-hidden'>
+      <div className='content-wrapper h-[71vh] overflow-y-auto overflow-x-hidden'>
         <>
           <QueryResponse
             errorComponent={<BaseAlert description={error} title={errorMessage} variant='destructive' />}
