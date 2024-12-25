@@ -16,7 +16,7 @@ import BaseTableHeader from './base-table-header';
 import { INFINITE_SCROLL_OVERFLOW, SCROLL_WRAPPER_ID } from './constants';
 import useTableState from './hooks/useTableState';
 import TableActionBar from './table-action-bar';
-import { RowHightLightInfo, TableFilters, TableFiltersConfig } from './types';
+import { RowHighlightInfo, TableFilters, TableFiltersConfig } from './types';
 
 type BaseTableProps<T extends object, K, M> = {
   columns: ColumnDef<T>[];
@@ -33,7 +33,7 @@ type BaseTableProps<T extends object, K, M> = {
   filtersConfig: TableFiltersConfig[];
   rowTooltipMessage?: string | ((rowOriginal: T) => string);
   isRowDisabled?: (rowOriginal: T) => boolean;
-  getRowHighlightInfo?: (rowOriginal: T) => RowHightLightInfo;
+  getRowHighlightInfo?: (rowOriginal: T) => RowHighlightInfo;
   refetch: (variables: Partial<K>) => Promise<ApolloQueryResult<M>>;
   onSetTableStorageState: Dispatch<SetStateAction<TableStorageState<SortingState, TableFilters<T>>>>;
   onHandleRowClick: (rowData: Row<T>) => void;

@@ -10,7 +10,7 @@ import { getModalTitle } from '@/shared/base-modal/edit-modal/utils';
 import BaseTooltip from '@/shared/base-tooltip';
 import { useModal } from '@/shared/hooks';
 import useFormState from '@/shared/hooks/useFormState';
-import { EDIT_BUTTON_TOOLTIP_MESSAGE } from '@/shared/repair-job/constants';
+import { getEditButtonDisabledState } from '@/shared/repair-job/config';
 import EditRepairJobForm from '@/shared/repair-job/edit-repair-job-form';
 import { RepairJobFormValues } from '@/shared/repair-job/edit-repair-job-form/types';
 import { repairJobEditFormSchema } from '@/shared/repair-job/edit-repair-job-form/validation';
@@ -43,7 +43,10 @@ const EditActionCell = ({ repairJob }: EditActionCellProps) => {
 
   const { onEditRepairJob, isEditRepairJobLoading } = useRepairJobFormHandler({ repairJob, onReset });
 
-  const isEditButtonDisabled = repairJob.status === 'Completed';
+  const { isEditButtonDisabled, tooltipMessage } = useMemo(
+    () => getEditButtonDisabledState(repairJob.status)[repairJob.status] || {},
+    [repairJob.status]
+  );
 
   const onHandleEditClick = (event: React.MouseEvent) => {
     event.stopPropagation();
@@ -56,9 +59,10 @@ const EditActionCell = ({ repairJob }: EditActionCellProps) => {
       <section className='flex justify-center items-center'>
         <BaseTooltip
           shouldRenderInPortal
+          className='w-[33rem]'
           disable={!isEditButtonDisabled}
           id='edit-button-tooltip'
-          message={EDIT_BUTTON_TOOLTIP_MESSAGE}
+          message={tooltipMessage}
           place='left'
         >
           <Button

@@ -35,6 +35,7 @@ const DetailsPageHeader = ({ loading, description, title, actionButtonsConfig }:
       {actionButtonsConfig.map(({ id, label, icon, variant, tooltipData, isDisabled, onClick }) => (
         <BaseTooltip
           key={id}
+          className={tooltipData?.className}
           disable={!tooltipData?.disable}
           id={tooltipData?.id ?? ''}
           message={tooltipData?.message ?? ''}

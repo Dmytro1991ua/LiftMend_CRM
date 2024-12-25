@@ -15,7 +15,7 @@ import {
   DEFAULT_EMPTY_TABLE_MESSAGE,
   DEFAULT_TABLE_ERROR_TITLE,
 } from './constants';
-import { FilterValues, Nullable, RowHightLightInfo, TableFilters, TableState, TableStatus } from './types';
+import { FilterValues, Nullable, RowHighlightInfo, TableFilters, TableState, TableStatus } from './types';
 
 export const getTableStatusMod = (empty: boolean, loading?: boolean, errorMessage?: string): TableState => {
   if (loading) return TableStatus.Loading;
@@ -118,7 +118,7 @@ export const getRowHighlightInfo = <T,>(
   rowData: T,
   shouldHighlight: (data: T) => boolean,
   highlightClasses: string
-): RowHightLightInfo => {
+): RowHighlightInfo => {
   const isRowHighlighted = shouldHighlight(rowData);
   const highlightStyles = isRowHighlighted ? highlightClasses : '';
 
