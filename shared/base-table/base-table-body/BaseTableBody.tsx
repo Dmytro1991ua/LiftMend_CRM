@@ -5,7 +5,7 @@ import { Row, flexRender } from '@tanstack/react-table';
 import { TableBody, TableCell, TableRow } from '@/components/ui/table';
 import { cn } from '@/lib/utils';
 
-import { RowHightLightInfo } from '../types';
+import { RowHighlightInfo } from '../types';
 import { getTableStatusContent, getTableStatusMod } from '../utils';
 
 type BaseTableBodyProps<T> = {
@@ -18,7 +18,7 @@ type BaseTableBodyProps<T> = {
   rowTooltipMessage?: string | ((rowOriginal: T) => string);
   isRowDisabled?: (rowOriginal: T) => boolean;
   onHandleRowClick: (rowData: Row<T>) => void;
-  getRowHighlightInfo?: (rowOriginal: T) => RowHightLightInfo;
+  getRowHighlightInfo?: (rowOriginal: T) => RowHighlightInfo;
 };
 
 const BaseTableBody = <T,>({

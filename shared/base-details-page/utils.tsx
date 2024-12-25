@@ -2,19 +2,21 @@ import { AiFillEdit } from 'react-icons/ai';
 import { FaEye } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
 
-import { EDIT_BUTTON_TOOLTIP_MESSAGE } from '../repair-job/constants';
+import { getEditButtonDisabledState } from '../repair-job/config';
 
 import { ActionButtonLabel, DetailsPageActionButtonConfig } from './types';
 
 export const getCommonDetailsPageActionButtonsConfig = ({
   onOpenDeleteModal,
   onOpenEditModal,
-  isEditButtonDisabled,
+  status = '',
 }: {
   onOpenEditModal: () => void;
   onOpenDeleteModal: () => void;
-  isEditButtonDisabled?: boolean;
+  status?: string;
 }): DetailsPageActionButtonConfig[] => {
+  const { isEditButtonDisabled, tooltipMessage } = getEditButtonDisabledState(status)[status] || {};
+
   return [
     {
       id: 1,
@@ -24,8 +26,9 @@ export const getCommonDetailsPageActionButtonsConfig = ({
       onClick: () => onOpenEditModal(),
       tooltipData: {
         id: 'edit-button-tooltip',
-        message: EDIT_BUTTON_TOOLTIP_MESSAGE,
+        message: tooltipMessage,
         disable: isEditButtonDisabled,
+        className: 'w-[33rem]',
       },
       isDisabled: isEditButtonDisabled,
     },

@@ -1,5 +1,7 @@
 import { Audio } from 'react-loader-spinner';
 
+import { cn } from '@/lib/utils';
+
 import BaseAlert from '../base-alert/BaseAlert';
 import QueryResponse from '../query-response';
 import { ItemConfig } from '../types';
@@ -17,6 +19,7 @@ type BaseDetailsPageProps = {
   description?: string;
   modalConfig: ItemConfig[];
   actionButtonsConfig: DetailsPageActionButtonConfig[];
+  alertMessage?: React.JSX.Element;
 };
 
 const BaseDetailsPage = ({
@@ -28,6 +31,7 @@ const BaseDetailsPage = ({
   loading,
   modalConfig,
   actionButtonsConfig,
+  alertMessage,
 }: BaseDetailsPageProps) => {
   return (
     <section>
@@ -37,7 +41,10 @@ const BaseDetailsPage = ({
         loading={loading}
         title={title}
       />
-      <div className='content-wrapper h-[71vh] overflow-y-auto overflow-x-hidden'>
+      <div className='mb-3'>{alertMessage}</div>
+      <div
+        className={cn('content-wrapper ] overflow-y-auto overflow-x-hidden', alertMessage ? 'h-[62vh]' : 'h-[72vh]')}
+      >
         <>
           <QueryResponse
             errorComponent={<BaseAlert description={error} title={errorMessage} variant='destructive' />}

@@ -1,5 +1,7 @@
-import { FilterKey, FilterLabel, TableFiltersConfig } from '@/shared/base-table/types';
+import { FilterKey, FilterLabel, RowHighlightInfo, TableFiltersConfig } from '@/shared/base-table/types';
+import { getRowHighlightInfo } from '@/shared/base-table/utils';
 import { MultiStepDropdownOption } from '@/shared/hooks/useFetchDropdownOptions';
+import { RepairJob } from '@/shared/types';
 
 export const getRepairJobFilterConfig = (dropdownOptions: MultiStepDropdownOption): TableFiltersConfig[] => {
   return [

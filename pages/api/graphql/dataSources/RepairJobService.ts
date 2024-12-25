@@ -118,9 +118,11 @@ class RepairJobService {
   async updateRepairJob(input: UpdateRepairJobInput): Promise<RepairJob> {
     const { id, ...fieldsToUpdate } = input;
 
+    const shouldUpdateActualEndDate = fieldsToUpdate.status === 'Completed' || fieldsToUpdate.status === 'Cancelled';
+
     const updatedRepairJob = {
       ..._omitBy(fieldsToUpdate, _isNull),
-      ...(fieldsToUpdate.status === 'Completed' && { actualEndDate: new Date() }),
+      ...(shouldUpdateActualEndDate && { actualEndDate: new Date() }),
     };
 
     return this.prisma.repairJob.update({

@@ -10,7 +10,7 @@ import {
 } from '@/graphql/types/client/generated_types';
 import BaseTable from '@/shared/base-table';
 import useSearchInTable from '@/shared/base-table/hooks/useSearchInTable';
-import { RowHightLightInfo } from '@/shared/base-table/types';
+import { RowHighlightInfo } from '@/shared/base-table/types';
 import { getEmptyTableMessage, getRowHighlightInfo, onHandleRowClick } from '@/shared/base-table/utils';
 import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions';
 import { DropdownOptions } from '@/shared/hooks/useFetchDropdownOptions/config';
@@ -62,8 +62,14 @@ const RepairJobTable = () => {
     [router]
   );
 
-  const getRepairJobRowHighlightInfo = (rowData: RepairJob): RowHightLightInfo =>
-    getRowHighlightInfo(rowData, (data) => data.status === 'Completed', 'bg-green-50 hover:bg-green-50');
+  const getRepairJobRowHighlightInfo = (rowData: RepairJob): RowHighlightInfo => {
+    const highlightInfoStateMap: Record<string, RowHighlightInfo> = {
+      Completed: getRowHighlightInfo(rowData, (data) => data.status === 'Completed', 'bg-green-50 hover:bg-green-50'),
+      Cancelled: getRowHighlightInfo(rowData, (data) => data.status === 'Cancelled', 'bg-red-50 hover:bg-red-50'),
+    };
+
+    return highlightInfoStateMap[rowData.status] || {};
+  };
 
   return (
     <>

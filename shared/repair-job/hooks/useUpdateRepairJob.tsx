@@ -13,6 +13,7 @@ import { RepairJobFormValues } from '@/shared/repair-job/edit-repair-job-form/ty
 import { RepairJob } from '@/shared/types';
 import { getCalendarEventInfo, getFieldsToUpdateForMutation } from '@/shared/utils';
 
+import { STATUS_CHANGE_MESSAGES } from '../config';
 import { convertFormFieldsToRepairJob } from '../repair-job-details/utils';
 
 type UseUpdateRepairJobProps = {
@@ -69,8 +70,7 @@ const useUpdateRepairJob = ({ onSuccess, onError }: UseUpdateRepairJobProps): Us
       });
 
       const hasErrors = !!result.errors?.length;
-      const successDescription =
-        fieldsToUpdate.status === 'Completed' ? SUCCESSFULLY_COMPLETED_REPAIR_JOB_STATUS_CHANGE : '';
+      const successDescription = STATUS_CHANGE_MESSAGES[formFields.status ?? ''];
 
       if (hasErrors) {
         onHandleMutationErrors({

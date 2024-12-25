@@ -1,7 +1,7 @@
-import { RowHightLightInfo } from '@/shared/base-table/types';
+import { RowHighlightInfo } from '@/shared/base-table/types';
 import { RepairJob } from '@/shared/types';
 
-export const getRepairJobRowHighlightInfo = (rowData: RepairJob): RowHightLightInfo => {
+export const getRepairJobRowHighlightInfo = (rowData: RepairJob): RowHighlightInfo => {
   const isRowHighlighted = rowData.status === 'Completed';
 
   return {
