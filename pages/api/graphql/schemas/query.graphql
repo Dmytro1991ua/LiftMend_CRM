@@ -21,4 +21,5 @@ type Query {
   ): TechnicianRecordConnection!
   getTechnicianRecordFormData: TechnicianRecordFormData!
   getTechnicianRecordById(id: ID!): TechnicianRecord!
+  getAvailableTechniciansForAssignment: [TechnicianRecord!]!
 }

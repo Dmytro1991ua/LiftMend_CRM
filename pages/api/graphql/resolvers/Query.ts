@@ -1,3 +1,5 @@
+import { orderBy as _orderBy } from 'lodash';
+
 import {
   CalendarEvent,
   ElevatorRecord,
@@ -50,6 +52,11 @@ const Query: QueryResolvers = {
     const technicianRecord = await dataSources.technicianRecord.findTechnicianRecordById(id);
 
     return technicianRecord as TechnicianRecord;
+  },
+  getAvailableTechniciansForAssignment: async (_, __, { dataSources }): Promise<TechnicianRecord[]> => {
+    const technicianRecord = await dataSources.technicianRecord.getAvailableTechniciansForAssignment();
+
+    return _orderBy(technicianRecord, ['name'], 'asc');
   },
 };
 
