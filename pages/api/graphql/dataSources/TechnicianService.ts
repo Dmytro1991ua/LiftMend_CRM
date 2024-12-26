@@ -90,6 +90,16 @@ class TechnicianService {
     return technicianRecordFormData as TechnicianRecordFormData;
   }
 
+  async getAvailableTechniciansForAssignment(): Promise<TechnicianRecord[]> {
+    return await this.prisma.technicianRecord.findMany({
+      where: {
+        availabilityStatus: {
+          notIn: TECHNICIAN_ASSIGNMENT_BLOCKING_STATUSES,
+        },
+      },
+    });
+  }
+
   async createTechnicianRecord(input: CreateTechnicianRecordInput): Promise<TechnicianRecord> {
     const { certifications, ...rest } = input;
 
