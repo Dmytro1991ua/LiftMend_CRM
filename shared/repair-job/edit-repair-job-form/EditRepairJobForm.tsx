@@ -19,32 +19,15 @@ type EditRepairJobFormProps = {
 
 const EditRepairJobForm = ({ repairJobFormValues }: EditRepairJobFormProps) => {
   const {
-    dropdownOptions: {
-      repairJobTypes,
-      priorities,
-      elevatorLocations,
-      elevatorTypes,
-      buildingNames,
-      technicianNames,
-      statuses,
-    },
+    dropdownOptions: { repairJobTypes, priorities, elevatorLocations, elevatorTypes, buildingNames, statuses },
     loading,
     error,
   } = useFetchDropdownOptions<GetRepairJobFromDataQuery>(DropdownOptions.RepairJob);
 
   const { clearErrors } = useFormContext<RepairJobFormValues>();
 
-  const {
-    jobType,
-    jobPriority,
-    scheduledDates,
-    elevatorType,
-    buildingName,
-    elevatorLocation,
-    technicianName,
-    jobDescription,
-    status,
-  } = repairJobFormValues;
+  const { jobType, jobPriority, scheduledDates, elevatorType, buildingName, elevatorLocation, jobDescription, status } =
+    repairJobFormValues;
 
   const REPAIR_JOB_FORM_FIELD_CONFIG: ItemConfig[] = [
     {
@@ -214,24 +197,7 @@ const EditRepairJobForm = ({ repairJobFormValues }: EditRepairJobFormProps) => {
           placeholder='Select Elevator Location'
         />
       ),
-      className: 'row-start-4 row-end-5 col-start-1 col-end-4',
-    },
-    {
-      id: 9,
-      label: FormFieldLabel.TechnicianName,
-      content: (
-        <ControlledSingleSelect<RepairJobFormValues>
-          captureMenuScroll={false}
-          className='mb-4'
-          clearErrors={clearErrors}
-          defaultValue={technicianName}
-          isMultiSelect={false}
-          name='technicianName'
-          options={technicianNames}
-          placeholder='Select Technician Name'
-        />
-      ),
-      className: 'row-start-4 row-end-5 col-start-4 col-end-7',
+      className: 'row-start-4 row-end-5 col-start-1 col-end-7',
     },
   ];
 

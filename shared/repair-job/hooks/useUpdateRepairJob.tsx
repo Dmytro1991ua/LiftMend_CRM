@@ -8,7 +8,6 @@ import {
   UpdateRepairJobMutation,
   UpdateRepairJobMutationVariables,
 } from '@/graphql/types/client/generated_types';
-import { SUCCESSFULLY_COMPLETED_REPAIR_JOB_STATUS_CHANGE } from '@/modules/repair-job-scheduling/constants';
 import { RepairJobFormValues } from '@/shared/repair-job/edit-repair-job-form/types';
 import { RepairJob } from '@/shared/types';
 import { getCalendarEventInfo, getFieldsToUpdateForMutation } from '@/shared/utils';
@@ -64,6 +63,7 @@ const useUpdateRepairJob = ({ onSuccess, onError }: UseUpdateRepairJobProps): Us
         variables: {
           input: {
             id: repairJob.id,
+            technicianName: originalRepairJob?.technicianName,
             ...fieldsToUpdate,
           },
         },

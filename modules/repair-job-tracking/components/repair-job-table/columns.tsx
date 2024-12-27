@@ -9,6 +9,7 @@ import { RepairJob } from '@/shared/types';
 
 import DeleteActionCell from '../delete-action-cell';
 import EditActionCell from '../edit-action-cell/EditActionCell';
+import ReassignTechnicianActionCell from '../reassign-technician-action-cell';
 
 export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
   {
@@ -165,6 +166,16 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
     header: 'Technician Name',
     enableResizing: true,
     enableSorting: true,
+    size: 180,
+    minSize: 120,
+    maxSize: 350,
+  },
+  {
+    accessorKey: 'reassignTechnician',
+    header: 'Reassign Technician',
+    cell: ({ row: { original } }) => <ReassignTechnicianActionCell repairJob={original} />,
+    enableSorting: false,
+    enableResizing: false,
     size: 180,
     minSize: 120,
     maxSize: 350,
