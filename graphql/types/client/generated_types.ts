@@ -210,6 +210,7 @@ export type PaginationOptions = {
 
 export type Query = {
   __typename?: 'Query';
+  getAvailableTechniciansForAssignment: Array<TechnicianRecord>;
   getCalendarEvents: Array<CalendarEvent>;
   getElevatorRecordById: ElevatorRecord;
   getElevatorRecordFormData: ElevatorRecordFormData;
@@ -564,6 +565,13 @@ export type DeleteTechnicianRecordMutationVariables = Exact<{
 export type DeleteTechnicianRecordMutation = {
   __typename?: 'Mutation';
   deleteTechnicianRecord: { __typename?: 'DeleteTechnicianRecordResponse'; id: string };
+};
+
+export type GetAvailableTechniciansForAssignmentQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetAvailableTechniciansForAssignmentQuery = {
+  __typename?: 'Query';
+  getAvailableTechniciansForAssignment: Array<{ __typename?: 'TechnicianRecord'; id: string; name: string }>;
 };
 
 export type GetCalendarEventsQueryVariables = Exact<{ [key: string]: never }>;

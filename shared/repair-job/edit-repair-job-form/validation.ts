@@ -19,7 +19,6 @@ export const repairJobEditFormSchema = z.object({
   elevatorType: z.string().optional().nullable(),
   buildingName: z.string().optional().nullable(),
   elevatorLocation: z.string().optional().nullable(),
-  technicianName: z.string().optional().nullable(),
   id: z.string().optional(),
   calendarEventId: z.string().optional(),
   status: z.string().optional().nullable(),

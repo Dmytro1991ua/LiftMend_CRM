@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/router';
 import { FormProvider } from 'react-hook-form';
 
-import BaseAlert from '@/shared/base-alert/BaseAlert';
 import BaseDetailsPage from '@/shared/base-details-page';
 import useDetailsPageModals from '@/shared/base-details-page/hooks/useDetailsPageModals';
 import { getCommonDetailsPageActionButtonsConfig } from '@/shared/base-details-page/utils';
@@ -12,10 +11,7 @@ import DeleteModal from '@/shared/base-modal/delete-modal';
 import EditModal from '@/shared/base-modal/edit-modal';
 import { getModalTitle } from '@/shared/base-modal/edit-modal/utils';
 import useFormState from '@/shared/hooks/useFormState';
-import {
-  DEFAULT_DELETE_MODAL_TITLE,
-  EDIT_BUTTON_CANCELLED_STATUS_TOOLTIP_MESSAGE,
-} from '@/shared/repair-job/constants';
+import { DEFAULT_DELETE_MODAL_TITLE } from '@/shared/repair-job/constants';
 import EditRepairJobForm from '@/shared/repair-job/edit-repair-job-form';
 import { RepairJobFormValues } from '@/shared/repair-job/edit-repair-job-form/types';
 import { repairJobEditFormSchema } from '@/shared/repair-job/edit-repair-job-form/validation';

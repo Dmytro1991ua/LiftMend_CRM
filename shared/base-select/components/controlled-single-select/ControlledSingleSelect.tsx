@@ -33,7 +33,7 @@ const ControlledSingleSelect = <T extends FieldValues>({
     <div className={cn('relative grid w-full items-center gap-1.5', className)}>
       <div className='flex items-center gap-2'>
         {label && <label className={labelErrorStyles}>{label}</label>}
-        {disabled && infoTooltip}
+        {(disabled || infoTooltip) && infoTooltip}
       </div>
       <Controller
         control={control}

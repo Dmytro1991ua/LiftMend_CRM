@@ -25,6 +25,7 @@ const useRepairJobFormHandler = ({ repairJob, onReset }: UseEditRepairJobProps):
     const updatedRepairJob = {
       ...data,
       id: repairJob.id,
+      technicianName: repairJob.technicianName,
       calendarEventId: repairJob.calendarEventId,
     };
 
