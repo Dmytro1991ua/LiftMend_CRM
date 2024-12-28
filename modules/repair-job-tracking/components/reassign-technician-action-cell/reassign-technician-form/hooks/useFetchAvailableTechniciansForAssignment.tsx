@@ -21,7 +21,7 @@ export const useFetchAvailableTechniciansForAssignment = (): UseFetchAvailableTe
     GetAvailableTechniciansForAssignmentQuery,
     GetAvailableTechniciansForAssignmentQueryVariables
   >(GET_AVAILABLE_TECHNICIANS_FOR_ASSIGNMENT, {
-    fetchPolicy: 'cache-first',
+    fetchPolicy: 'cache-and-network',
   });
 
   const availableTechnicians: DropdownOption[] = useMemo(

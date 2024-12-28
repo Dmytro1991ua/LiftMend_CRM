@@ -9,13 +9,14 @@ import EditModal from '@/shared/base-modal/edit-modal';
 import BaseTooltip from '@/shared/base-tooltip';
 import { useModal } from '@/shared/hooks';
 import useFormState from '@/shared/hooks/useFormState';
+import { ReassignTechnicianFormValues } from '@/shared/repair-job/edit-repair-job-form/types';
+import useReassignTechnicianFormHandler from '@/shared/repair-job/hooks/useReassignTechnicianFormHandler';
 import { RepairJob } from '@/shared/types';
 
 import { REASSIGN_TECHNICIAN_BUTTON_TOOLTIP_MESSAGE } from './constants';
 import ReassignTechnicianForm from './reassign-technician-form/ReassignTechnicianForm';
 import {
   INITIAL_REASSIGN_TECHNICIAN_VALUES,
-  TechnicianReassignmentFormFields,
   technicianReassignmentSchema,
 } from './reassign-technician-form/validation';
 
@@ -26,10 +27,15 @@ type ReassignTechnicianActionCellProps = {
 const ReassignTechnicianActionCell = ({ repairJob }: ReassignTechnicianActionCellProps) => {
   const { isModalOpen, onCloseModal, onOpenModal } = useModal();
 
-  const { formState, onReset } = useFormState<TechnicianReassignmentFormFields>({
+  const { formState, onReset } = useFormState<ReassignTechnicianFormValues>({
     initialValues: INITIAL_REASSIGN_TECHNICIAN_VALUES,
     onCloseModal,
     resolver: zodResolver(technicianReassignmentSchema),
+  });
+
+  const { onHandleTechnicianReassignment, isReassignTechnicianLoading } = useReassignTechnicianFormHandler({
+    repairJob,
+    onReset,
   });
 
   const isReassignTechnicianButtonDisabled = repairJob.status === 'Cancelled' || repairJob.status === 'Completed';
@@ -61,11 +67,12 @@ const ReassignTechnicianActionCell = ({ repairJob }: ReassignTechnicianActionCel
           </Button>
         </BaseTooltip>
         <EditModal
-          isDisabled={!formState.formState.isDirty}
+          isDisabled={!formState.formState.isDirty || isReassignTechnicianLoading}
+          isLoading={isReassignTechnicianLoading}
           isOpen={isModalOpen}
           title='Reassign Technician'
           onClose={onCloseModal}
-          onSubmit={formState.handleSubmit(() => null!)}
+          onSubmit={formState.handleSubmit(onHandleTechnicianReassignment)}
         >
           <ReassignTechnicianForm repairJob={repairJob} />
         </EditModal>

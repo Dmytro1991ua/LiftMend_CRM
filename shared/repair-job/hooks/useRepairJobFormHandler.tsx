@@ -6,17 +6,17 @@ import { RepairJob } from '@/shared/types';
 
 import { RepairJobFormValues } from '../edit-repair-job-form/types';
 
-type UseEditRepairJobProps = {
+type UseRepairJobFormHandlerProps = {
   repairJob: RepairJob;
   onReset: () => void;
 };
 
-type UseEditRepairJob = {
+type UseRepairJobFormHandler = {
   isEditRepairJobLoading: boolean;
   onEditRepairJob: SubmitHandler<RepairJobFormValues>;
 };
 
-const useRepairJobFormHandler = ({ repairJob, onReset }: UseEditRepairJobProps): UseEditRepairJob => {
+const useRepairJobFormHandler = ({ repairJob, onReset }: UseRepairJobFormHandlerProps): UseRepairJobFormHandler => {
   const { onError, onSuccess } = useMutationResultToasts();
 
   const { onUpdateRepairJob, isLoading } = useUpdateRepairJob({ onError, onSuccess });
