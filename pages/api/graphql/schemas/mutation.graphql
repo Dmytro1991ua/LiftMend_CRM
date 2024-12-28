@@ -20,4 +20,5 @@ type Mutation {
   createTechnicianRecord(input: CreateTechnicianRecordInput!): TechnicianRecord!
   updateTechnicianRecord(input: UpdateTechnicianRecordInput!): TechnicianRecord!
   deleteTechnicianRecord(id: ID!): DeleteTechnicianRecordResponse!
+  reassignTechnician(input: UpdateRepairJobInput!): RepairJob!
 }

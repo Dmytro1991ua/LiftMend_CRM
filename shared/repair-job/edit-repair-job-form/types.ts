@@ -13,3 +13,7 @@ export type RepairJobFormValues = {
   technicianName: string | null;
   status: string | null;
 };
+
+export type ReassignTechnicianFormValues = {
+  technicianName: string | null;
+};

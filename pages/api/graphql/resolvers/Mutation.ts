@@ -119,6 +119,48 @@ const Mutation: MutationResolvers = {
 
     return updatedRepairJob;
   },
+  reassignTechnician: async (_, { input }, { dataSources }): Promise<RepairJob> => {
+    const { id, technicianName } = input;
+
+    const repairJob = await dataSources.repairJob.findRepairJobById(id);
+
+    if (!repairJob) {
+      throw new Error(`Repair job with ID ${id} not found.`);
+    }
+
+    // Check if the new technician is the same as the current one
+    if (repairJob.technicianName === technicianName) {
+      throw new Error(`Technician ${technicianName} is already assigned to this repair job.`);
+    }
+
+    // Unassign the current technician (if any) and update availability status to Available
+    if (repairJob.technicianName) {
+      const currentTechnicianRecord = await dataSources.technicianRecord.findTechnicianRecordByName(
+        repairJob.technicianName
+      );
+
+      if (currentTechnicianRecord) {
+        await dataSources.technicianRecord.updateTechnicianStatus(currentTechnicianRecord.id, 'Available');
+      }
+    }
+
+    // Assign the new technician and change availability status to Busy
+    const newTechnicianRecord = await dataSources.technicianRecord.findTechnicianRecordByName(technicianName ?? '');
+
+    if (!newTechnicianRecord) {
+      throw new Error(`Technician ${technicianName} not found.`);
+    }
+
+    await dataSources.technicianRecord.updateTechnicianStatus(newTechnicianRecord.id, 'Busy');
+
+    // Update the repair job with the new technician
+    const updatedRepairJob = await dataSources.repairJob.updateRepairJob({
+      ...repairJob,
+      technicianName,
+    });
+
+    return updatedRepairJob;
+  },
   updateElevatorRecord: async (_, { input }, { dataSources }): Promise<ElevatorRecord> => {
     const updatedElevatorRecord = await dataSources.elevatorRecord.updateElevatorRecord(input);
 

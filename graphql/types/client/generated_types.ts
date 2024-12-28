@@ -146,6 +146,7 @@ export type Mutation = {
   deleteElevatorRecord: DeleteElevatorRecordResponse;
   deleteRepairJobAndEvent: DeleteCalendarAndRepairJobResponse;
   deleteTechnicianRecord: DeleteTechnicianRecordResponse;
+  reassignTechnician: RepairJob;
   updateElevatorRecord: ElevatorRecord;
   updateRepairJob: RepairJob;
   updateTechnicianRecord: TechnicianRecord;
@@ -171,6 +172,10 @@ export type MutationDeleteRepairJobAndEventArgs = {
 
 export type MutationDeleteTechnicianRecordArgs = {
   id: Scalars['ID']['input'];
+};
+
+export type MutationReassignTechnicianArgs = {
+  input: UpdateRepairJobInput;
 };
 
 export type MutationUpdateElevatorRecordArgs = {
@@ -807,6 +812,29 @@ export type GetTechnicianRecordsQuery = {
       startCursor: string | null;
       endCursor: string | null;
     };
+  };
+};
+
+export type ReassignTechnicianMutationVariables = Exact<{
+  input: UpdateRepairJobInput;
+}>;
+
+export type ReassignTechnicianMutation = {
+  __typename?: 'Mutation';
+  reassignTechnician: {
+    __typename?: 'RepairJob';
+    id: string;
+    jobType: string;
+    jobDetails: string;
+    jobPriority: string;
+    elevatorType: string;
+    buildingName: string;
+    elevatorLocation: string;
+    technicianName: string;
+    startDate: any;
+    endDate: any;
+    calendarEventId: string | null;
+    actualEndDate: any | null;
   };
 };
 
