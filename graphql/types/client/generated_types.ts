@@ -82,6 +82,12 @@ export type Edge = {
   node: Node;
 };
 
+export type ElevatorDetails = {
+  __typename?: 'ElevatorDetails';
+  elevatorLocations: Array<Scalars['String']['output']>;
+  elevatorTypes: Array<Scalars['String']['output']>;
+};
+
 export type ElevatorRecord = Node & {
   __typename?: 'ElevatorRecord';
   buildingName: Scalars['String']['output'];
@@ -217,6 +223,7 @@ export type Query = {
   __typename?: 'Query';
   getAvailableTechniciansForAssignment: Array<TechnicianRecord>;
   getCalendarEvents: Array<CalendarEvent>;
+  getElevatorDetailsByBuildingName: ElevatorDetails;
   getElevatorRecordById: ElevatorRecord;
   getElevatorRecordFormData: ElevatorRecordFormData;
   getElevatorRecords: ElevatorRecordConnection;
@@ -226,6 +233,10 @@ export type Query = {
   getTechnicianRecordById: TechnicianRecord;
   getTechnicianRecordFormData: TechnicianRecordFormData;
   getTechnicianRecords: TechnicianRecordConnection;
+};
+
+export type QueryGetElevatorDetailsByBuildingNameArgs = {
+  buildingName: Scalars['String']['input'];
 };
 
 export type QueryGetElevatorRecordByIdArgs = {
@@ -593,6 +604,19 @@ export type GetCalendarEventsQuery = {
     description: string | null;
     repairJobId: string | null;
   }>;
+};
+
+export type GetElevatorDetailsByBuildingNameQueryVariables = Exact<{
+  buildingName: Scalars['String']['input'];
+}>;
+
+export type GetElevatorDetailsByBuildingNameQuery = {
+  __typename?: 'Query';
+  getElevatorDetailsByBuildingName: {
+    __typename?: 'ElevatorDetails';
+    elevatorTypes: Array<string>;
+    elevatorLocations: Array<string>;
+  };
 };
 
 export type GetElevatorRecordByIdQueryVariables = Exact<{

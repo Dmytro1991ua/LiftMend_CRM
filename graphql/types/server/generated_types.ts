@@ -86,6 +86,12 @@ export type Edge = {
   node: Node;
 };
 
+export type ElevatorDetails = {
+  __typename?: 'ElevatorDetails';
+  elevatorLocations: Array<Scalars['String']['output']>;
+  elevatorTypes: Array<Scalars['String']['output']>;
+};
+
 export type ElevatorRecord = Node & {
   __typename?: 'ElevatorRecord';
   buildingName: Scalars['String']['output'];
@@ -219,6 +225,7 @@ export type Query = {
   __typename?: 'Query';
   getAvailableTechniciansForAssignment: Array<TechnicianRecord>;
   getCalendarEvents: Array<CalendarEvent>;
+  getElevatorDetailsByBuildingName: ElevatorDetails;
   getElevatorRecordById: ElevatorRecord;
   getElevatorRecordFormData: ElevatorRecordFormData;
   getElevatorRecords: ElevatorRecordConnection;
@@ -228,6 +235,10 @@ export type Query = {
   getTechnicianRecordById: TechnicianRecord;
   getTechnicianRecordFormData: TechnicianRecordFormData;
   getTechnicianRecords: TechnicianRecordConnection;
+};
+
+export type QueryGetElevatorDetailsByBuildingNameArgs = {
+  buildingName: Scalars['String']['input'];
 };
 
 export type QueryGetElevatorRecordByIdArgs = {
@@ -525,6 +536,7 @@ export type ResolversTypes = ResolversObject<{
   DeleteElevatorRecordResponse: ResolverTypeWrapper<DeleteElevatorRecordResponse>;
   DeleteTechnicianRecordResponse: ResolverTypeWrapper<DeleteTechnicianRecordResponse>;
   Edge: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Edge']>;
+  ElevatorDetails: ResolverTypeWrapper<ElevatorDetails>;
   ElevatorRecord: ResolverTypeWrapper<ElevatorRecord>;
   ElevatorRecordConnection: ResolverTypeWrapper<ElevatorRecordConnection>;
   ElevatorRecordEdge: ResolverTypeWrapper<ElevatorRecordEdge>;
@@ -575,6 +587,7 @@ export type ResolversParentTypes = ResolversObject<{
   DeleteElevatorRecordResponse: DeleteElevatorRecordResponse;
   DeleteTechnicianRecordResponse: DeleteTechnicianRecordResponse;
   Edge: ResolversInterfaceTypes<ResolversParentTypes>['Edge'];
+  ElevatorDetails: ElevatorDetails;
   ElevatorRecord: ElevatorRecord;
   ElevatorRecordConnection: ElevatorRecordConnection;
   ElevatorRecordEdge: ElevatorRecordEdge;
@@ -676,6 +689,15 @@ export type EdgeResolvers<
   >;
   cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   node?: Resolver<ResolversTypes['Node'], ParentType, ContextType>;
+}>;
+
+export type ElevatorDetailsResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['ElevatorDetails'] = ResolversParentTypes['ElevatorDetails']
+> = ResolversObject<{
+  elevatorLocations?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  elevatorTypes?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type ElevatorRecordResolvers<
@@ -809,6 +831,12 @@ export type QueryResolvers<
 > = ResolversObject<{
   getAvailableTechniciansForAssignment?: Resolver<Array<ResolversTypes['TechnicianRecord']>, ParentType, ContextType>;
   getCalendarEvents?: Resolver<Array<ResolversTypes['CalendarEvent']>, ParentType, ContextType>;
+  getElevatorDetailsByBuildingName?: Resolver<
+    ResolversTypes['ElevatorDetails'],
+    ParentType,
+    ContextType,
+    RequireFields<QueryGetElevatorDetailsByBuildingNameArgs, 'buildingName'>
+  >;
   getElevatorRecordById?: Resolver<
     ResolversTypes['ElevatorRecord'],
     ParentType,
@@ -976,6 +1004,7 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   DeleteElevatorRecordResponse?: DeleteElevatorRecordResponseResolvers<ContextType>;
   DeleteTechnicianRecordResponse?: DeleteTechnicianRecordResponseResolvers<ContextType>;
   Edge?: EdgeResolvers<ContextType>;
+  ElevatorDetails?: ElevatorDetailsResolvers<ContextType>;
   ElevatorRecord?: ElevatorRecordResolvers<ContextType>;
   ElevatorRecordConnection?: ElevatorRecordConnectionResolvers<ContextType>;
   ElevatorRecordEdge?: ElevatorRecordEdgeResolvers<ContextType>;

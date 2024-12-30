@@ -3,6 +3,7 @@ import { isNull as _isNull, omitBy as _omitBy } from 'lodash';
 
 import {
   CreateRepairJobInput,
+  ElevatorDetails,
   QueryGetRepairJobsArgs,
   RepairJob,
   RepairJobConnection,
@@ -100,6 +101,35 @@ class RepairJobService {
     );
 
     return repairJobScheduleData as RepairJobScheduleData;
+  }
+
+  async getElevatorDetailsByBuildingName(buildingName: string): Promise<ElevatorDetails> {
+    const elevatorRecords = await this.prisma.elevatorRecord.findMany({
+      where: { buildingName },
+      select: { elevatorType: true, elevatorLocation: true },
+    });
+
+    const { elevatorTypes, elevatorLocations } = elevatorRecords.reduce(
+      (acc, record) => {
+        if (record.elevatorType) {
+          acc.elevatorTypes.push(record.elevatorType);
+        }
+
+        if (record.elevatorLocation) {
+          acc.elevatorLocations.push(record.elevatorLocation);
+        }
+        return acc;
+      },
+      {
+        elevatorTypes: [] as string[],
+        elevatorLocations: [] as string[],
+      }
+    );
+
+    return {
+      elevatorTypes,
+      elevatorLocations,
+    };
   }
 
   async createRepairJob(repairJobInput: CreateRepairJobInput): Promise<RepairJob> {

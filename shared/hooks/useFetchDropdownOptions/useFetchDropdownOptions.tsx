@@ -17,10 +17,20 @@ type UseFetchDropdownOptions = {
   error?: string;
 };
 
-export const useFetchDropdownOptions = <T,>(configKey: DropdownOptions): UseFetchDropdownOptions => {
-  const { schema, queryName, fields } = DROPDOWN_OPTIONS_CONFIG[configKey] || {};
+export const useFetchDropdownOptions = <T,>(
+  configKey: DropdownOptions,
+  skip?: boolean,
+  variables?: Record<string, string>
+): UseFetchDropdownOptions => {
+  const { schema, queryName, fields, requiresVariable } = DROPDOWN_OPTIONS_CONFIG[configKey] || {};
 
-  const { data, error, loading } = useQuery<T>(schema, { fetchPolicy: 'cache-first' });
+  const requiredQueryVariables = requiresVariable && variables ? variables : undefined;
+
+  const { data, error, loading } = useQuery<T>(schema, {
+    variables: requiredQueryVariables,
+    fetchPolicy: 'cache-first',
+    skip,
+  });
 
   const dropdownOptions: MultiStepDropdownOption = useMemo(() => {
     const queryNameData = _get(data, queryName, []) as Record<string, string[]>;

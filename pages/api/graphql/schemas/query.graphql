@@ -22,4 +22,5 @@ type Query {
   getTechnicianRecordFormData: TechnicianRecordFormData!
   getTechnicianRecordById(id: ID!): TechnicianRecord!
   getAvailableTechniciansForAssignment: [TechnicianRecord!]!
+  getElevatorDetailsByBuildingName(buildingName: String!): ElevatorDetails!
 }
