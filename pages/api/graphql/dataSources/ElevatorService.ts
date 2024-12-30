@@ -58,7 +58,9 @@ class ElevatorService {
     });
   }
 
-  async findElevatorRecordByRepairJob(repairJob: RepairJob | null): Promise<ElevatorRecord | null> {
+  async findElevatorRecordByRepairJob(
+    repairJob: RepairJob | CreateRepairJobInput | null
+  ): Promise<ElevatorRecord | null> {
     return await this.prisma.elevatorRecord.findFirst({
       where: {
         buildingName: repairJob?.buildingName,
@@ -107,25 +109,6 @@ class ElevatorService {
     return await this.prisma.elevatorRecord.delete({
       where: { id },
     });
-  }
-
-  async validateElevator(repairJobInput: CreateRepairJobInput): Promise<ElevatorRecord> {
-    const elevatorRecord = await this.prisma.elevatorRecord.findFirst({
-      where: {
-        buildingName: repairJobInput.buildingName,
-        elevatorLocation: repairJobInput.elevatorLocation,
-        elevatorType: repairJobInput.elevatorType,
-      },
-    });
-
-    // If no elevator record is found, throw an error
-    if (!elevatorRecord) {
-      throw new Error(
-        `Elevator record with the combination of ${repairJobInput.buildingName}, ${repairJobInput.elevatorType} and ${repairJobInput.elevatorLocation} not found for the given details. Please revisit Elevator Management page for more information about available elevator records`
-      );
-    }
-
-    return elevatorRecord;
   }
 
   async updateElevatorStatus(id: string, status?: string): Promise<ElevatorRecord> {

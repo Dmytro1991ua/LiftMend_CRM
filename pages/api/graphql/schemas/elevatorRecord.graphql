@@ -53,6 +53,11 @@ type DeleteElevatorRecordResponse {
   id: ID!
 }
 
+type ElevatorDetails {
+  elevatorTypes: [String!]!
+  elevatorLocations: [String!]!
+}
+
 input ElevatorRecordFilterOptions {
   searchTerm: String
   elevatorType: [String!]

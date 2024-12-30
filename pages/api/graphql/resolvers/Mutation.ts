@@ -30,9 +30,9 @@ const Mutation: MutationResolvers = {
     );
 
     // Validate the elevator record before repair job and calendar event creation
-    const elevatorRecord = await dataSources.elevatorRecord.validateElevator(repairJobInput);
+    const elevatorRecord = await dataSources.elevatorRecord.findElevatorRecordByRepairJob(repairJobInput);
 
-    const elevatorStatusErrorMessage = getElevatorStatusErrorMessage(repairJobInput)[elevatorRecord.status];
+    const elevatorStatusErrorMessage = getElevatorStatusErrorMessage(repairJobInput)[elevatorRecord?.status ?? ''];
 
     if (elevatorStatusErrorMessage) {
       throw new Error(elevatorStatusErrorMessage);
@@ -49,7 +49,7 @@ const Mutation: MutationResolvers = {
     );
 
     // Update the elevator status to 'Under Maintenance' upon successful repair job creation
-    await dataSources.elevatorRecord.updateElevatorStatus(elevatorRecord.id, 'Under Maintenance');
+    await dataSources.elevatorRecord.updateElevatorStatus(elevatorRecord?.id ?? '', 'Under Maintenance');
 
     // Update Technician availability to 'Busy' upon successful repair job creation
     await dataSources.technicianRecord.updateTechnicianStatus(technicianRecord.id, 'Busy');
