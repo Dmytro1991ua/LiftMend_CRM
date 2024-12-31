@@ -168,3 +168,9 @@ export const getElevatorStatusErrorMessage = (repairJobInput: CreateRepairJobInp
     'Out of Service': `Cannot create repair job. Elevator (${repairJobInput.elevatorType}) in ${repairJobInput.elevatorLocation}, ${repairJobInput.buildingName} is Out of Service and Inactive. Reactivate it in the Elevator Management page before creating a repair job.`,
   };
 };
+
+export function isRepairJobOverdue(plannedEndDate: Date, status: string): boolean {
+  const isPlannedEndDatePast = new Date(plannedEndDate) < new Date();
+
+  return isPlannedEndDatePast && status !== 'Completed' && status !== 'Cancelled';
+}

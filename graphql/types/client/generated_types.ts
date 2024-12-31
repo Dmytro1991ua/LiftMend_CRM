@@ -278,6 +278,7 @@ export type RepairJob = Node & {
   elevatorType: Scalars['String']['output'];
   endDate: Scalars['DateTime']['output'];
   id: Scalars['ID']['output'];
+  isOverdue: Maybe<Scalars['Boolean']['output']>;
   jobDetails: Scalars['String']['output'];
   jobPriority: Scalars['String']['output'];
   jobType: Scalars['String']['output'];
@@ -481,6 +482,7 @@ export type RepairJobFieldsFragment = {
   endDate: any;
   calendarEventId: string | null;
   actualEndDate: any | null;
+  isOverdue: boolean | null;
 };
 
 export type TechnicianRecordFieldsFragment = {
@@ -518,6 +520,7 @@ export type CreateRepairJobAndCalendarEventMutation = {
       endDate: any;
       calendarEventId: string | null;
       actualEndDate: any | null;
+      isOverdue: boolean | null;
     };
     calendarEvent: {
       __typename?: 'CalendarEvent';
@@ -710,6 +713,7 @@ export type GetRepairJobByIdQuery = {
     endDate: any;
     calendarEventId: string | null;
     actualEndDate: any | null;
+    isOverdue: boolean | null;
   };
 };
 
@@ -759,6 +763,7 @@ export type GetRepairJobsQuery = {
         endDate: any;
         calendarEventId: string | null;
         actualEndDate: any | null;
+        isOverdue: boolean | null;
       };
     }>;
     pageInfo: {
@@ -859,6 +864,7 @@ export type ReassignTechnicianMutation = {
     endDate: any;
     calendarEventId: string | null;
     actualEndDate: any | null;
+    isOverdue: boolean | null;
   };
 };
 
@@ -903,6 +909,7 @@ export type UpdateRepairJobMutation = {
     endDate: any;
     calendarEventId: string | null;
     actualEndDate: any | null;
+    isOverdue: boolean | null;
   };
 };
 

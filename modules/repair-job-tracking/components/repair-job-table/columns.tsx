@@ -5,6 +5,7 @@ import BaseTableCheckbox from '@/shared/base-table/base-table-checkbox';
 import DatePicker from '@/shared/date-picker';
 import Pill from '@/shared/pill';
 import { PillStatus } from '@/shared/pill/config';
+import OverdueRepairJob from '@/shared/repair-job/overdue-repair-job';
 import { RepairJob } from '@/shared/types';
 
 import DeleteActionCell from '../delete-action-cell';
@@ -111,7 +112,7 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
     maxSize: 500,
   },
   {
-    accessorKey: 'endDate',
+    accessorKey: 'actualEndDate',
     header: 'Actual End Date',
     enableResizing: true,
     enableSorting: true,
@@ -135,6 +136,20 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
     size: 300,
     minSize: 300,
     maxSize: 500,
+  },
+  {
+    accessorKey: 'isOverdue',
+    header: 'Is Overdue?',
+    cell: ({
+      row: {
+        original: { isOverdue },
+      },
+    }) => <OverdueRepairJob isOverdue={isOverdue} />,
+    enableSorting: false,
+    size: 150,
+    enableResizing: false,
+    minSize: 150,
+    maxSize: 300,
   },
   {
     accessorKey: 'elevatorType',

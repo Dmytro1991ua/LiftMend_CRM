@@ -17,6 +17,7 @@ import {
   createRepairJobSortOptions,
   fetchFormDropdownData,
   getSortedFormDropdownData,
+  isRepairJobOverdue,
   makeConnectionObject,
 } from '../utils';
 
@@ -43,6 +44,8 @@ class RepairJobService {
     const totalItems = await this.prisma.repairJob.count({
       where: filters,
     });
+
+    await this.recalculateOverdueStatus(scheduledRepairJobs);
 
     return makeConnectionObject({
       items: scheduledRepairJobs,
@@ -133,8 +136,10 @@ class RepairJobService {
   }
 
   async createRepairJob(repairJobInput: CreateRepairJobInput): Promise<RepairJob> {
+    const isOverdue = isRepairJobOverdue(repairJobInput.endDate, 'Scheduled');
+
     return this.prisma.repairJob.create({
-      data: repairJobInput,
+      data: { ...repairJobInput, isOverdue },
     });
   }
 
@@ -148,17 +153,45 @@ class RepairJobService {
   async updateRepairJob(input: UpdateRepairJobInput): Promise<RepairJob> {
     const { id, ...fieldsToUpdate } = input;
 
+    const existingJob = await this.prisma.repairJob.findUnique({ where: { id } });
+
+    const newPlannedEndDate = fieldsToUpdate.endDate || existingJob?.endDate;
+    const newStatus = fieldsToUpdate.status || existingJob?.status;
+
     const shouldUpdateActualEndDate = fieldsToUpdate.status === 'Completed' || fieldsToUpdate.status === 'Cancelled';
+    const isOverdue = isRepairJobOverdue(newPlannedEndDate, newStatus ?? '');
 
     const updatedRepairJob = {
       ..._omitBy(fieldsToUpdate, _isNull),
       ...(shouldUpdateActualEndDate && { actualEndDate: new Date() }),
+      isOverdue,
     };
 
     return this.prisma.repairJob.update({
       where: { id },
       data: updatedRepairJob,
     });
+  }
+
+  async recalculateOverdueStatus(repairJobs: RepairJob[]): Promise<void> {
+    // Compute and filter jobs that need overdue status updating
+    const updatedRepairJobs = repairJobs.reduce((acc, cur) => {
+      const isOverdue = isRepairJobOverdue(cur.endDate, cur.status);
+
+      // Only add jobs that need their overdue status updated
+      if (cur.isOverdue !== isOverdue) {
+        acc.push(
+          this.prisma.repairJob.update({
+            where: { id: cur.id },
+            data: { isOverdue },
+          })
+        );
+      }
+
+      return acc;
+    }, [] as Promise<RepairJob>[]);
+
+    await Promise.all(updatedRepairJobs);
   }
 
   async deleteRepairJob(id: string): Promise<RepairJob> {

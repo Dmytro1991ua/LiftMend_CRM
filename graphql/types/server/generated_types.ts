@@ -280,6 +280,7 @@ export type RepairJob = Node & {
   elevatorType: Scalars['String']['output'];
   endDate: Scalars['DateTime']['output'];
   id: Scalars['ID']['output'];
+  isOverdue?: Maybe<Scalars['Boolean']['output']>;
   jobDetails: Scalars['String']['output'];
   jobPriority: Scalars['String']['output'];
   jobType: Scalars['String']['output'];
@@ -889,6 +890,7 @@ export type RepairJobResolvers<
   elevatorType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   endDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  isOverdue?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   jobDetails?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   jobPriority?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   jobType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

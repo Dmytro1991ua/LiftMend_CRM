@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/router';
 import { FormProvider } from 'react-hook-form';
 
+import BaseAlert from '@/shared/base-alert/BaseAlert';
 import BaseDetailsPage from '@/shared/base-details-page';
 import useDetailsPageModals from '@/shared/base-details-page/hooks/useDetailsPageModals';
 import { getCommonDetailsPageActionButtonsConfig } from '@/shared/base-details-page/utils';
@@ -11,7 +12,7 @@ import DeleteModal from '@/shared/base-modal/delete-modal';
 import EditModal from '@/shared/base-modal/edit-modal';
 import { getModalTitle } from '@/shared/base-modal/edit-modal/utils';
 import useFormState from '@/shared/hooks/useFormState';
-import { DEFAULT_DELETE_MODAL_TITLE } from '@/shared/repair-job/constants';
+import { DEFAULT_DELETE_MODAL_TITLE, OVERDUE_JOB_WARNING_MESSAGE } from '@/shared/repair-job/constants';
 import EditRepairJobForm from '@/shared/repair-job/edit-repair-job-form';
 import { RepairJobFormValues } from '@/shared/repair-job/edit-repair-job-form/types';
 import { repairJobEditFormSchema } from '@/shared/repair-job/edit-repair-job-form/validation';
@@ -73,7 +74,13 @@ const RepairJobDetails = () => {
     [onOpenDeleteModal, onOpenEditModal, repairJob.status]
   );
 
-  const alertMessage = useMemo(() => DETAILS_PAGE_ALERT_MESSAGE[repairJob.status], [repairJob.status]);
+  const alertMessage = useMemo(() => {
+    if (repairJob.isOverdue) {
+      return <BaseAlert description={OVERDUE_JOB_WARNING_MESSAGE} variant='warning' />;
+    }
+
+    return DETAILS_PAGE_ALERT_MESSAGE[repairJob.status];
+  }, [repairJob.status, repairJob.isOverdue]);
 
   const REPAIR_JOB_DETAILS_MODALS_CONFIG = [
     {
