@@ -68,6 +68,10 @@ const RepairJobTable = () => {
       Cancelled: getRowHighlightInfo(rowData, (data) => data.status === 'Cancelled', 'bg-red-50 hover:bg-red-50'),
     };
 
+    if (rowData.isOverdue) {
+      return getRowHighlightInfo(rowData, (data) => data.isOverdue === true, 'bg-yellow-50 hover:bg-yellow-50');
+    }
+
     return highlightInfoStateMap[rowData.status] || {};
   };
 

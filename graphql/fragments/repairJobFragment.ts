@@ -14,5 +14,6 @@ export const REPAIR_JOB_FRAGMENT = gql`
     endDate
     calendarEventId
     actualEndDate
+    isOverdue
   }
 `;

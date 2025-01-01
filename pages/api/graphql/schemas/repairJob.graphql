@@ -35,6 +35,7 @@ type RepairJob implements Node {
   calendarEventId: String
   status: String!
   actualEndDate: DateTime
+  isOverdue: Boolean
 }
 
 type RepairJobEdge implements Edge {

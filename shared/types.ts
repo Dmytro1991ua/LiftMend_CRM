@@ -75,6 +75,7 @@ export type RepairJob = {
   calendarEventId: Maybe<string>;
   status: string;
   actualEndDate?: Maybe<Date>;
+  isOverdue?: Maybe<boolean>;
 };
 
 export type ElevatorRecord = {

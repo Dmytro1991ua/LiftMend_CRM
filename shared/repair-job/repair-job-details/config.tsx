@@ -4,6 +4,8 @@ import DatePicker from '@/shared/date-picker';
 import Pill from '@/shared/pill';
 import { PillStatus } from '@/shared/pill/config';
 
+import OverdueRepairJob from '../overdue-repair-job';
+
 export const repairJobSectionsConfig = (repairJob: RepairJob): DetailsPageSectionsConfig[] => [
   {
     id: 1,
@@ -13,6 +15,12 @@ export const repairJobSectionsConfig = (repairJob: RepairJob): DetailsPageSectio
         id: 3,
         label: 'Status',
         value: <Pill status={repairJob.status as PillStatus} />,
+        fieldClassName: 'items-center',
+      },
+      {
+        id: 3,
+        label: 'Is Overdue?',
+        value: <OverdueRepairJob isOverdue={repairJob.isOverdue} />,
         fieldClassName: 'items-center',
       },
       { id: 4, label: 'Type', value: repairJob.jobType },
