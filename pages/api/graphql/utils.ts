@@ -14,6 +14,7 @@ import {
   TechnicianRecordSortField,
   TechnicianRecordSortInput,
 } from '@/graphql/types/server/generated_types';
+import { Nullable } from '@/shared/base-table/types';
 
 import { DEFAULT_PAGINATION } from './constants';
 import { Connection, Edge, PageInfo } from './types';
@@ -73,9 +74,22 @@ export const makeConnectionObject = <T>({
   };
 };
 
+export const stringToBool = (value: string): boolean => (value === 'Yes' ? true : false);
+
+export const boolToStringArray = (value: Nullable<boolean>): string[] => (value ? ['Yes'] : ['No']);
+
 export const createRepairJobFilterOptions = (filterOptions: InputMaybe<RepairJobFilterOptions>) => {
-  const { searchTerm, jobType, jobPriority, buildingName, elevatorLocation, elevatorType, technicianName, status } =
-    filterOptions || {};
+  const {
+    searchTerm,
+    jobType,
+    jobPriority,
+    buildingName,
+    elevatorLocation,
+    elevatorType,
+    technicianName,
+    status,
+    isOverdue,
+  } = filterOptions || {};
 
   return {
     ...(searchTerm && { id: searchTerm }),
@@ -86,6 +100,7 @@ export const createRepairJobFilterOptions = (filterOptions: InputMaybe<RepairJob
     ...(elevatorLocation && elevatorLocation.length > 0 && { elevatorLocation: { in: elevatorLocation } }),
     ...(technicianName && technicianName.length > 0 && { technicianName: { in: technicianName } }),
     ...(status && status.length > 0 && { status: { in: status } }),
+    ...(isOverdue && { isOverdue: isOverdue.length ? stringToBool(isOverdue[0]) : undefined }),
   };
 };
 
@@ -100,6 +115,8 @@ export const createRepairJobSortOptions = (sortOptions: InputMaybe<RepairJobSort
     [RepairJobSortField.BuildingName]: 'buildingName',
     [RepairJobSortField.ElevatorLocation]: 'elevatorLocation',
     [RepairJobSortField.TechnicianName]: 'technicianName',
+    [RepairJobSortField.ActualEndDate]: 'actualEndDate',
+    [RepairJobSortField.IsOverdue]: 'isOverdue',
   };
 
   return sortOptions?.field && sortOptions?.order

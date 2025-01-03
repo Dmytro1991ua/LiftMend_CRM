@@ -8,6 +8,8 @@ enum RepairJobSortField {
   BUILDING_NAME
   ELEVATOR_LOCATION
   TECHNICIAN_NAME
+  ACTUAL_END_DATE
+  IS_OVERDUE
 }
 
 type RepairJobScheduleData {
@@ -89,4 +91,5 @@ input RepairJobFilterOptions {
   elevatorLocation: [String!]
   technicianName: [String!]
   status: [String!]
+  isOverdue: [String!]
 }

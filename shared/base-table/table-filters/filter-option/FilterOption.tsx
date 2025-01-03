@@ -1,17 +1,64 @@
+import { useCallback, useMemo } from 'react';
+
 import { Checkbox } from '@/components/ui/checkbox';
 import { DropdownOption } from '@/shared/base-select/types';
 
+import { FilterKey, FilterType } from '../../types';
+
 type FilterOptionProps = {
+  filterKey: FilterKey;
   option: DropdownOption;
   isSelected: boolean;
-  onFilterChange: () => void;
+  filterType: FilterType;
+  onFilterChange: (filterKey: FilterKey, option: DropdownOption, filterType?: FilterType) => void;
 };
 
-const FilterOption = ({ option, isSelected, onFilterChange }: FilterOptionProps) => (
-  <div key={option.value} className='flex gap-2 p-2 border-b-[0.5px]'>
-    <Checkbox checked={isSelected} id={option.value} onCheckedChange={onFilterChange} />
-    <label className='text-sm font-semibold'>{option.label}</label>
-  </div>
-);
+const FilterOption = ({ option, isSelected, filterKey, filterType, onFilterChange }: FilterOptionProps) => {
+  const onHandleCheckboxChange = useCallback(() => {
+    onFilterChange(filterKey, option, 'checkbox');
+  }, [onFilterChange, filterKey, option]);
+
+  const onHandleRadioButtonChange = useCallback(() => {
+    onFilterChange(filterKey, option, 'radio');
+  }, [onFilterChange, filterKey, option]);
+
+  const filterOptionConfig = useMemo(
+    () => ({
+      checkbox: (
+        <>
+          <Checkbox
+            checked={isSelected}
+            id={`checkbox-${filterKey}_${option.value}`}
+            onCheckedChange={onHandleCheckboxChange}
+          />
+          <label className='text-sm font-semibold' htmlFor={`checkbox-${filterKey}_${option.value}`}>
+            {option.label}
+          </label>
+        </>
+      ),
+      radio: (
+        <>
+          <input
+            checked={isSelected}
+            className='form-radio h-4 w-4 text-blue-600'
+            id={`radio-${filterKey}_${option.value}`}
+            type='radio'
+            onChange={onHandleRadioButtonChange}
+          />
+          <label className='text-sm font-semibold' htmlFor={`radio-${filterKey}_${option.value}`}>
+            {option.label}
+          </label>
+        </>
+      ),
+    }),
+    [isSelected, filterKey, option, onHandleCheckboxChange, onHandleRadioButtonChange]
+  );
+
+  return (
+    <div key={option.value} className='flex gap-2 p-2 border-b-[0.5px]'>
+      {filterOptionConfig[filterType] || null}
+    </div>
+  );
+};
 
 export default FilterOption;
