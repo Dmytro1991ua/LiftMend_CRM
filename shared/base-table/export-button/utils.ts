@@ -1,12 +1,13 @@
 import { Cell, Column, RowModel } from '@tanstack/react-table';
 import { format } from 'date-fns';
+import { Maybe } from 'graphql/jsutils/Maybe';
 import { upperFirst } from 'lodash';
 
 import { TableNames } from '@/shared/types';
 
 import { columnsValueAccessors } from './config';
 
-const headerColumnsToIgnore = ['edit', 'delete'];
+const headerColumnsToIgnore = ['edit', 'delete', 'reassignTechnician', 'visibility'];
 const rowCellsToIgnore = [...headerColumnsToIgnore, 'select'];
 
 const convertCurrentDateToExportFileNameDate = (date: Date): string => {
@@ -84,3 +85,5 @@ export const getDataToExport = <T>(
 
   return [headerColumns, ...rowsValues];
 };
+
+export const boolToString = (value: Maybe<boolean>): string => (value ? 'Yes' : 'No');

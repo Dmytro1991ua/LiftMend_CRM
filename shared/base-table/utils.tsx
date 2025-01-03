@@ -70,7 +70,7 @@ export const formatTableSortingToQueryFormat = <T,>(
   };
 };
 
-export const formatDate = (value: Nullable<Date>, shortYearFormat = false): string => {
+export const formatDate = (value: Nullable<Date | undefined>, shortYearFormat = false): string => {
   if (!value) return '';
 
   return format(value, `MM/dd/yy${shortYearFormat ? '' : 'yy'}`);
