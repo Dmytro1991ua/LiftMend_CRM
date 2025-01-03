@@ -22,6 +22,7 @@ export enum FilterLabel {
   EmploymentStatus = 'Employment Status',
   TechnicianSkills = 'Technician skills',
   Certifications = 'Certifications',
+  IsOverdue = 'Is Overdue?',
 }
 
 export enum FilterKey {
@@ -36,7 +37,10 @@ export enum FilterKey {
   EmploymentStatuses = 'employmentStatuses',
   TechnicianSkills = 'skills',
   Certifications = 'certifications',
+  IsOverdue = 'isOverdue',
 }
+
+export type FilterType = 'checkbox' | 'radio';
 
 export type Nullable<T> = T | null;
 
@@ -75,6 +79,7 @@ export type TableFiltersConfig = {
   id: number;
   label: FilterLabel;
   filterKey: FilterKey;
+  filterType?: FilterType;
   options: DropdownOption[];
 };
 

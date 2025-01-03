@@ -1,21 +1,25 @@
 import { AccordionContent, AccordionTrigger } from '@/components/ui/accordion';
 import { DropdownOption } from '@/shared/base-select/types';
-import { FilterKey, FilterLabel, TableFilters } from '@/shared/base-table/types';
+import { FilterKey, FilterLabel, FilterType, TableFilters } from '@/shared/base-table/types';
 
 import FilterHeader from '../filter-header';
 import FilterOption from '../filter-option';
 
+import { getIsFilterSelected } from './utils';
+
 type FilterItemProps<T> = {
   filterKey: FilterKey;
+  filterType?: FilterType;
   label: FilterLabel;
   options: DropdownOption[];
   storedFilters: TableFilters<T>;
   onClearFilter: (filterKey: FilterKey) => void;
-  onFilterChange: (filterKey: FilterKey, option: DropdownOption) => void;
+  onFilterChange: (filterKey: FilterKey, option: DropdownOption, filterType?: FilterType) => void;
 };
 
 const FilterItem = <T,>({
   filterKey,
+  filterType,
   label,
   options,
   storedFilters,
@@ -35,15 +39,20 @@ const FilterItem = <T,>({
       </AccordionTrigger>
       <AccordionContent>
         {options.map((option, i) => {
-          const isSelected =
-            storedFilters.filterValues?.[filterKey]?.some((opt) => opt.value === option.value) || false;
+          const isFilterSelected = getIsFilterSelected({
+            filterOption: option,
+            filterType: filterType as FilterType,
+            filters: storedFilters.filterValues?.[filterKey] ?? [],
+          });
 
           return (
             <FilterOption
               key={`${option.value}_${i}`}
-              isSelected={isSelected}
+              filterKey={filterKey}
+              filterType={filterType as FilterType}
+              isSelected={isFilterSelected}
               option={option}
-              onFilterChange={() => onFilterChange(filterKey, option)}
+              onFilterChange={onFilterChange}
             />
           );
         })}

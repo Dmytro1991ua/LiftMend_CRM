@@ -9,6 +9,7 @@ export const REPAIR_JOB_KEY_FIELDS = [
     'elevatorLocation',
     'technicianName',
     'status',
+    'isOverdue',
   ],
   'sortOptions',
   ['field', 'order'],

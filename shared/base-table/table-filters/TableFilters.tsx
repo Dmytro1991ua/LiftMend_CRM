@@ -52,11 +52,12 @@ const TableFilters = <T,>({ storedFilters, filtersConfig, onFilterChange, onClea
           type='single'
           onValueChange={handleAccordionChange}
         >
-          {filtersConfig.map(({ filterKey, label, id, options }) => (
+          {filtersConfig.map(({ filterKey, filterType, label, id, options }) => (
             <AccordionItem key={id} className='px-2 ' value={filterKey}>
               <FilterItem<T>
                 key={id}
                 filterKey={filterKey}
+                filterType={filterType}
                 label={label}
                 options={options}
                 storedFilters={storedFilters}

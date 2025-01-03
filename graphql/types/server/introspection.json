@@ -2697,6 +2697,26 @@
             "deprecationReason": null
           },
           {
+            "name": "isOverdue",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "jobPriority",
             "description": null,
             "type": {
@@ -3001,6 +3021,12 @@
         "interfaces": null,
         "enumValues": [
           {
+            "name": "ACTUAL_END_DATE",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "BUILDING_NAME",
             "description": null,
             "isDeprecated": false,
@@ -3020,6 +3046,12 @@
           },
           {
             "name": "END_DATE",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "IS_OVERDUE",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null

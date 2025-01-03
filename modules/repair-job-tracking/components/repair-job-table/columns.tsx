@@ -145,7 +145,7 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
         original: { isOverdue },
       },
     }) => <OverdueRepairJob isOverdue={isOverdue} />,
-    enableSorting: false,
+    enableSorting: true,
     size: 150,
     enableResizing: false,
     minSize: 150,

@@ -306,6 +306,7 @@ export type RepairJobFilterOptions = {
   buildingName?: InputMaybe<Array<Scalars['String']['input']>>;
   elevatorLocation?: InputMaybe<Array<Scalars['String']['input']>>;
   elevatorType?: InputMaybe<Array<Scalars['String']['input']>>;
+  isOverdue?: InputMaybe<Array<Scalars['String']['input']>>;
   jobPriority?: InputMaybe<Array<Scalars['String']['input']>>;
   jobType?: InputMaybe<Array<Scalars['String']['input']>>;
   searchTerm?: InputMaybe<Scalars['String']['input']>;
@@ -326,10 +327,12 @@ export type RepairJobScheduleData = {
 };
 
 export enum RepairJobSortField {
+  ActualEndDate = 'ACTUAL_END_DATE',
   BuildingName = 'BUILDING_NAME',
   ElevatorLocation = 'ELEVATOR_LOCATION',
   ElevatorType = 'ELEVATOR_TYPE',
   EndDate = 'END_DATE',
+  IsOverdue = 'IS_OVERDUE',
   JobPriority = 'JOB_PRIORITY',
   JobType = 'JOB_TYPE',
   StartDate = 'START_DATE',

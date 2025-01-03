@@ -2,7 +2,7 @@ import { useCallback, useMemo } from 'react';
 
 import { DropdownOption } from '@/shared/base-select/types';
 
-import { FilterKey, TableFilters } from '../types';
+import { FilterKey, FilterType, TableFilters } from '../types';
 
 import { BaseHookProps, UseFilterInTable } from './types';
 
@@ -10,16 +10,22 @@ const useFilterInTable = <T,>({ tableStorageState, onSetTableStorageState }: Bas
   const filters = useMemo(() => tableStorageState.filters || {}, [tableStorageState.filters]);
 
   const onFilterChange = useCallback(
-    (key: FilterKey, selectedOption: DropdownOption) => {
+    (key: FilterKey, selectedOption: DropdownOption, filterType?: FilterType) => {
       onSetTableStorageState((prevTableState) => {
         const storedFiltersValue = filters.filterValues?.[key] || [];
-        const isFilterValueExistInStorage = filters.filterValues?.[key]?.some(
-          (option) => option.value === selectedOption.value
-        );
+        const isFilterValueExistInStorage = storedFiltersValue.some((option) => option.value === selectedOption.value);
 
-        const updatedFilterValues = isFilterValueExistInStorage
-          ? storedFiltersValue.filter((option) => option.value !== selectedOption.value)
-          : [...storedFiltersValue, selectedOption];
+        let updatedFilterValues;
+
+        if (filterType === 'radio') {
+          // For radio buttons, replace existing values with the single, selected value
+          updatedFilterValues = [selectedOption];
+        } else {
+          // For checkboxes, toggle the selected value(s)
+          updatedFilterValues = isFilterValueExistInStorage
+            ? storedFiltersValue.filter((option) => option.value !== selectedOption.value)
+            : [...storedFiltersValue, selectedOption];
+        }
 
         const updatedFilters: TableFilters<T> = {
           ...prevTableState.filters,
