@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 import { isNull as _isNull, omitBy as _omitBy } from 'lodash';
 
 import {
@@ -6,10 +6,11 @@ import {
   QueryGetTechnicianRecordsArgs,
   TechnicianRecord,
   TechnicianRecordConnection,
+  TechnicianRecordEdges,
   TechnicianRecordFormData,
+  TechnicianRecordsMetrics,
   UpdateTechnicianRecordInput,
 } from '@/graphql/types/server/generated_types';
-import { DEFAULT_PAGINATION_LIMIT, DEFAULT_PAGINATION_OFFSET } from '@/shared/constants';
 
 import { TECHNICIAN_ASSIGNMENT_BLOCKING_STATUSES } from '../constants';
 import {
@@ -33,12 +34,17 @@ class TechnicianService {
     const filters = createTechnicianRecordFilterOptions(filterOptions);
     const orderBy = createTechnicianRecordSortOptions(sortOptions);
 
-    const technicianRecords = await this.prisma.technicianRecord.findMany({
-      skip: paginationOptions?.offset ?? DEFAULT_PAGINATION_OFFSET,
-      take: paginationOptions?.limit ?? DEFAULT_PAGINATION_LIMIT,
+    const queryOptions: Prisma.TechnicianRecordFindManyArgs = {
       where: filters,
       orderBy,
-    });
+    };
+
+    if (paginationOptions) {
+      queryOptions.skip = paginationOptions.offset ?? undefined;
+      queryOptions.take = paginationOptions.limit ?? undefined;
+    }
+
+    const technicianRecords = await this.prisma.technicianRecord.findMany();
 
     const totalItems = await this.prisma.technicianRecord.count({
       where: filters,
@@ -98,6 +104,24 @@ class TechnicianService {
         },
       },
     });
+  }
+
+  async getTechnicianRecordsMetrics(): Promise<TechnicianRecordsMetrics> {
+    const technicianRecords = await this.getTechnicianRecords({});
+
+    const { availableTechnicians } = technicianRecords.edges.reduce(
+      (metrics, technician: TechnicianRecordEdges) => {
+        if (technician.node.availabilityStatus === 'Available') metrics.availableTechnicians++;
+
+        return metrics;
+      },
+      { availableTechnicians: 0 }
+    );
+
+    return {
+      totalTechnicianRecords: technicianRecords.edges.length,
+      availableTechnicians,
+    };
   }
 
   async createTechnicianRecord(input: CreateTechnicianRecordInput): Promise<TechnicianRecord> {
