@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 import { isNull as _isNull, omitBy as _omitBy } from 'lodash';
 
 import {
@@ -7,10 +7,11 @@ import {
   QueryGetRepairJobsArgs,
   RepairJob,
   RepairJobConnection,
+  RepairJobEdge,
+  RepairJobsMetrics,
   RepairJobScheduleData,
   UpdateRepairJobInput,
 } from '@/graphql/types/server/generated_types';
-import { DEFAULT_PAGINATION_LIMIT, DEFAULT_PAGINATION_OFFSET } from '@/shared/constants';
 
 import {
   createRepairJobFilterOptions,
@@ -18,6 +19,7 @@ import {
   fetchFormDropdownData,
   getSortedFormDropdownData,
   isRepairJobOverdue,
+  isToday,
   makeConnectionObject,
 } from '../utils';
 
@@ -34,12 +36,17 @@ class RepairJobService {
     const filters = createRepairJobFilterOptions(filterOptions);
     const orderBy = createRepairJobSortOptions(sortOptions);
 
-    const scheduledRepairJobs = await this.prisma.repairJob.findMany({
-      skip: paginationOptions?.offset ?? DEFAULT_PAGINATION_OFFSET,
-      take: paginationOptions?.limit ?? DEFAULT_PAGINATION_LIMIT,
+    const queryOptions: Prisma.RepairJobFindManyArgs = {
       where: filters,
       orderBy,
-    });
+    };
+
+    if (paginationOptions) {
+      queryOptions.skip = paginationOptions.offset ?? undefined;
+      queryOptions.take = paginationOptions.limit ?? undefined;
+    }
+
+    const scheduledRepairJobs = await this.prisma.repairJob.findMany();
 
     const totalItems = await this.prisma.repairJob.count({
       where: filters,
@@ -132,6 +139,26 @@ class RepairJobService {
     return {
       elevatorTypes,
       elevatorLocations,
+    };
+  }
+  async getRepairJobsMetrics(): Promise<RepairJobsMetrics> {
+    const repairJobs = await this.getRepairJobs({});
+
+    const metrics = repairJobs.edges.reduce(
+      (acc, repairJob: RepairJobEdge) => {
+        if (repairJob.node.status === 'In Progress') acc.ongoingRepairJobs++;
+        if (repairJob.node.isOverdue) acc.overdueRepairJobs++;
+        if (repairJob.node.status === 'Completed' && isToday(new Date(repairJob.node.actualEndDate)))
+          acc.completedRepairJobsToday++;
+
+        return acc;
+      },
+      { ongoingRepairJobs: 0, overdueRepairJobs: 0, completedRepairJobsToday: 0 }
+    );
+
+    return {
+      totalRepairJobs: repairJobs.edges.length,
+      ...metrics,
     };
   }
 

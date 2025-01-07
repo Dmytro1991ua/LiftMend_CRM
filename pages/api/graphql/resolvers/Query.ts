@@ -2,6 +2,7 @@ import { orderBy as _orderBy } from 'lodash';
 
 import {
   CalendarEvent,
+  DashboardMetrics,
   ElevatorRecord,
   ElevatorRecordConnection,
   ElevatorRecordFormData,
@@ -60,6 +61,19 @@ const Query: QueryResolvers = {
     const technicianRecord = await dataSources.technicianRecord.getAvailableTechniciansForAssignment();
 
     return _orderBy(technicianRecord, ['name'], 'asc');
+  },
+  getDashboardMetrics: async (_, __, { dataSources }): Promise<DashboardMetrics> => {
+    const [repairJobsMetrics, elevatorRecordsMetrics, technicianRecordsMetrics] = await Promise.all([
+      dataSources.repairJob.getRepairJobsMetrics(),
+      dataSources.elevatorRecord.getElevatorRecordsMetrics(),
+      dataSources.technicianRecord.getTechnicianRecordsMetrics(),
+    ]);
+
+    return {
+      repairJobsMetrics,
+      elevatorRecordsMetrics,
+      technicianRecordsMetrics,
+    };
   },
 };
 

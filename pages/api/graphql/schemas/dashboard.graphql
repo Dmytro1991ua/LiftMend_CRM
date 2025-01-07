@@ -1,0 +1,21 @@
+type RepairJobsMetrics {
+  totalRepairJobs: Int!
+  ongoingRepairJobs: Int!
+  completedRepairJobsToday: Int!
+  overdueRepairJobs: Int!
+}
+
+type ElevatorRecordsMetrics {
+  totalElevatorRecords: Int!
+}
+
+type TechnicianRecordsMetrics {
+  totalTechnicianRecords: Int!
+  availableTechnicians: Int!
+}
+
+type DashboardMetrics {
+  repairJobsMetrics: RepairJobsMetrics!
+  elevatorRecordsMetrics: ElevatorRecordsMetrics!
+  technicianRecordsMetrics: TechnicianRecordsMetrics!
+}

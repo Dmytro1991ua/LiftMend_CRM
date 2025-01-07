@@ -1,4 +1,4 @@
-import { ElevatorRecord, PrismaClient } from '@prisma/client';
+import { ElevatorRecord, Prisma, PrismaClient } from '@prisma/client';
 import { addMonths } from 'date-fns';
 import { isNull as _isNull, omitBy as _omitBy } from 'lodash';
 
@@ -6,11 +6,11 @@ import { ElevatorRecordConnection } from '@/graphql/types/client/generated_types
 import {
   CreateRepairJobInput,
   ElevatorRecordFormData,
+  ElevatorRecordsMetrics,
   QueryGetElevatorRecordsArgs,
   RepairJob,
   UpdateElevatorRecordInput,
 } from '@/graphql/types/server/generated_types';
-import { DEFAULT_PAGINATION_LIMIT, DEFAULT_PAGINATION_OFFSET } from '@/shared/constants';
 
 import {
   createElevatorRecordFilterOptions,
@@ -33,12 +33,17 @@ class ElevatorService {
     const filters = createElevatorRecordFilterOptions(filterOptions);
     const orderBy = createElevatorRecordSortOptions(sortOptions);
 
-    const elevatorRecords = await this.prisma.elevatorRecord.findMany({
-      skip: paginationOptions?.offset ?? DEFAULT_PAGINATION_OFFSET,
-      take: paginationOptions?.limit ?? DEFAULT_PAGINATION_LIMIT,
+    const queryOptions: Prisma.ElevatorRecordFindManyArgs = {
       where: filters,
       orderBy,
-    });
+    };
+
+    if (paginationOptions) {
+      queryOptions.skip = paginationOptions.offset ?? undefined;
+      queryOptions.take = paginationOptions.limit ?? undefined;
+    }
+
+    const elevatorRecords = await this.prisma.elevatorRecord.findMany(queryOptions);
 
     const totalItems = await this.prisma.elevatorRecord.count({
       where: filters,
@@ -94,6 +99,14 @@ class ElevatorService {
     );
 
     return elevatorRecordFormData as ElevatorRecordFormData;
+  }
+
+  async getElevatorRecordsMetrics(): Promise<ElevatorRecordsMetrics> {
+    const elevatorRecords = await this.getElevatorRecords({});
+
+    return {
+      totalElevatorRecords: elevatorRecords.edges.length,
+    };
   }
 
   async updateElevatorRecord(input: UpdateElevatorRecordInput): Promise<ElevatorRecord> {
