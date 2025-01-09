@@ -8,8 +8,8 @@ import {
   RepairJob,
   RepairJobConnection,
   RepairJobEdge,
-  RepairJobsMetrics,
   RepairJobScheduleData,
+  RepairJobsMetrics,
   UpdateRepairJobInput,
 } from '@/graphql/types/server/generated_types';
 
@@ -141,6 +141,7 @@ class RepairJobService {
       elevatorLocations,
     };
   }
+
   async getRepairJobsMetrics(): Promise<RepairJobsMetrics> {
     const repairJobs = await this.getRepairJobs({});
 
