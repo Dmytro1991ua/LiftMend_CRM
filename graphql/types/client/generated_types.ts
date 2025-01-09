@@ -61,6 +61,13 @@ export type CreateTechnicianRecordInput = {
   skills: Array<Scalars['String']['input']>;
 };
 
+export type DashboardMetrics = {
+  __typename?: 'DashboardMetrics';
+  elevatorRecordsMetrics: ElevatorRecordsMetrics;
+  repairJobsMetrics: RepairJobsMetrics;
+  technicianRecordsMetrics: TechnicianRecordsMetrics;
+};
+
 export type DeleteCalendarAndRepairJobResponse = {
   __typename?: 'DeleteCalendarAndRepairJobResponse';
   deletedEventId: Maybe<Scalars['ID']['output']>;
@@ -145,6 +152,11 @@ export type ElevatorRecordSortInput = {
   order?: InputMaybe<OrderOption>;
 };
 
+export type ElevatorRecordsMetrics = {
+  __typename?: 'ElevatorRecordsMetrics';
+  totalElevatorRecords: Scalars['Int']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createRepairJobAndEvent: ScheduledEventAndRepairJobResponse;
@@ -223,6 +235,7 @@ export type Query = {
   __typename?: 'Query';
   getAvailableTechniciansForAssignment: Array<TechnicianRecord>;
   getCalendarEvents: Array<CalendarEvent>;
+  getDashboardMetrics: DashboardMetrics;
   getElevatorDetailsByBuildingName: ElevatorDetails;
   getElevatorRecordById: ElevatorRecord;
   getElevatorRecordFormData: ElevatorRecordFormData;
@@ -344,6 +357,14 @@ export type RepairJobSortInput = {
   order?: InputMaybe<OrderOption>;
 };
 
+export type RepairJobsMetrics = {
+  __typename?: 'RepairJobsMetrics';
+  completedRepairJobsToday: Scalars['Int']['output'];
+  ongoingRepairJobs: Scalars['Int']['output'];
+  overdueRepairJobs: Scalars['Int']['output'];
+  totalRepairJobs: Scalars['Int']['output'];
+};
+
 export type ScheduledEventAndRepairJobResponse = {
   __typename?: 'ScheduledEventAndRepairJobResponse';
   calendarEvent: CalendarEvent;
@@ -401,6 +422,12 @@ export type TechnicianRecordSortField = (typeof TechnicianRecordSortField)[keyof
 export type TechnicianRecordSortInput = {
   field?: InputMaybe<TechnicianRecordSortField>;
   order?: InputMaybe<OrderOption>;
+};
+
+export type TechnicianRecordsMetrics = {
+  __typename?: 'TechnicianRecordsMetrics';
+  availableTechnicians: Scalars['Int']['output'];
+  totalTechnicianRecords: Scalars['Int']['output'];
 };
 
 export type UpdateElevatorRecordInput = {
@@ -691,6 +718,28 @@ export type GetElevatorRecordsQuery = {
       hasPreviousPage: boolean;
       startCursor: string | null;
       endCursor: string | null;
+    };
+  };
+};
+
+export type GetDashboardMetricsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetDashboardMetricsQuery = {
+  __typename?: 'Query';
+  getDashboardMetrics: {
+    __typename?: 'DashboardMetrics';
+    repairJobsMetrics: {
+      __typename?: 'RepairJobsMetrics';
+      totalRepairJobs: number;
+      overdueRepairJobs: number;
+      ongoingRepairJobs: number;
+      completedRepairJobsToday: number;
+    };
+    elevatorRecordsMetrics: { __typename?: 'ElevatorRecordsMetrics'; totalElevatorRecords: number };
+    technicianRecordsMetrics: {
+      __typename?: 'TechnicianRecordsMetrics';
+      totalTechnicianRecords: number;
+      availableTechnicians: number;
     };
   };
 };
