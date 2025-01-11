@@ -145,22 +145,25 @@ class RepairJobService {
   async getRepairJobsMetrics(): Promise<RepairJobsMetrics> {
     const repairJobs = await this.getRepairJobs({});
 
-    const metrics = repairJobs.edges.reduce(
-      (acc, repairJob: RepairJobEdge) => {
-        if (repairJob.node.status === 'In Progress') acc.ongoingRepairJobs++;
-        if (repairJob.node.isOverdue) acc.overdueRepairJobs++;
-        if (repairJob.node.status === 'Completed' && isToday(new Date(repairJob.node.actualEndDate)))
-          acc.completedRepairJobsToday++;
-
-        return acc;
-      },
-      { ongoingRepairJobs: 0, overdueRepairJobs: 0, completedRepairJobsToday: 0 }
-    );
-
-    return {
-      totalRepairJobs: repairJobs.edges.length,
-      ...metrics,
+    const initialRepairJobsMetrics: RepairJobsMetrics = {
+      ongoingRepairJobs: 0,
+      overdueRepairJobs: 0,
+      completedRepairJobsToday: 0,
+      totalRepairJobs: 0,
     };
+
+    const metrics = repairJobs.edges.reduce((acc, repairJob: RepairJobEdge) => {
+      if (repairJob.node.status === 'In Progress') acc.ongoingRepairJobs++;
+      if (repairJob.node.isOverdue) acc.overdueRepairJobs++;
+      if (repairJob.node.status === 'Completed' && isToday(new Date(repairJob.node.actualEndDate)))
+        acc.completedRepairJobsToday++;
+
+      acc.totalRepairJobs++;
+
+      return acc;
+    }, initialRepairJobsMetrics);
+
+    return metrics;
   }
 
   async createRepairJob(repairJobInput: CreateRepairJobInput): Promise<RepairJob> {

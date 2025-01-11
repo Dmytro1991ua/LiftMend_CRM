@@ -12,6 +12,11 @@ type ElevatorRecordsMetrics {
 type TechnicianRecordsMetrics {
   totalTechnicianRecords: Int!
   availableTechnicians: Int!
+  busyTechnicians: Int!
+  onLeaveTechnicians: Int!
+  inactiveTechnicians: Int!
+  unavailableTechnicians: Int!
+  reservedTechnicians: Int!
 }
 
 type DashboardMetrics {
