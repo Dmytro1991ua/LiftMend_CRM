@@ -443,7 +443,12 @@ export type TechnicianRecordSortInput = {
 export type TechnicianRecordsMetrics = {
   __typename?: 'TechnicianRecordsMetrics';
   availableTechnicians: Scalars['Int']['output'];
+  busyTechnicians: Scalars['Int']['output'];
+  inactiveTechnicians: Scalars['Int']['output'];
+  onLeaveTechnicians: Scalars['Int']['output'];
+  reservedTechnicians: Scalars['Int']['output'];
   totalTechnicianRecords: Scalars['Int']['output'];
+  unavailableTechnicians: Scalars['Int']['output'];
 };
 
 export type UpdateElevatorRecordInput = {
@@ -901,7 +906,12 @@ export type TechnicianRecordFormDataResolvers<ContextType = Context, ParentType 
 
 export type TechnicianRecordsMetricsResolvers<ContextType = Context, ParentType extends ResolversParentTypes['TechnicianRecordsMetrics'] = ResolversParentTypes['TechnicianRecordsMetrics']> = ResolversObject<{
   availableTechnicians?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  busyTechnicians?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  inactiveTechnicians?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  onLeaveTechnicians?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  reservedTechnicians?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   totalTechnicianRecords?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  unavailableTechnicians?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

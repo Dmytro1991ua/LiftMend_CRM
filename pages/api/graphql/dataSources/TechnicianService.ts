@@ -109,19 +109,38 @@ class TechnicianService {
   async getTechnicianRecordsMetrics(): Promise<TechnicianRecordsMetrics> {
     const technicianRecords = await this.getTechnicianRecords({});
 
-    const { availableTechnicians } = technicianRecords.edges.reduce(
-      (metrics, technician: TechnicianRecordEdges) => {
-        if (technician.node.availabilityStatus === 'Available') metrics.availableTechnicians++;
-
-        return metrics;
-      },
-      { availableTechnicians: 0 }
-    );
-
-    return {
-      totalTechnicianRecords: technicianRecords.edges.length,
-      availableTechnicians,
+    const availabilityStatusMap: Record<string, keyof TechnicianRecordsMetrics> = {
+      Available: 'availableTechnicians',
+      Busy: 'busyTechnicians',
+      'On Leave': 'onLeaveTechnicians',
+      Inactive: 'inactiveTechnicians',
+      Reserved: 'reservedTechnicians',
+      Unavailable: 'unavailableTechnicians',
     };
+
+    const initialTechnicianRecordsMetrics: TechnicianRecordsMetrics = {
+      availableTechnicians: 0,
+      busyTechnicians: 0,
+      onLeaveTechnicians: 0,
+      inactiveTechnicians: 0,
+      reservedTechnicians: 0,
+      unavailableTechnicians: 0,
+      totalTechnicianRecords: 0,
+    };
+
+    const metrics = technicianRecords.edges.reduce((acc, technician: TechnicianRecordEdges) => {
+      const statusKey = availabilityStatusMap[technician.node.availabilityStatus ?? ''];
+
+      if (statusKey) {
+        acc[statusKey as keyof TechnicianRecordsMetrics]++;
+      }
+
+      acc.totalTechnicianRecords++;
+
+      return acc;
+    }, initialTechnicianRecordsMetrics);
+
+    return metrics;
   }
 
   async createTechnicianRecord(input: CreateTechnicianRecordInput): Promise<TechnicianRecord> {

@@ -2,7 +2,7 @@ import { ElevatorRecord, Prisma, PrismaClient } from '@prisma/client';
 import { addMonths } from 'date-fns';
 import { isNull as _isNull, omitBy as _omitBy } from 'lodash';
 
-import { ElevatorRecordConnection } from '@/graphql/types/client/generated_types';
+import { ElevatorRecordConnection, ElevatorRecordEdge } from '@/graphql/types/client/generated_types';
 import {
   CreateRepairJobInput,
   ElevatorRecordFormData,
@@ -104,9 +104,17 @@ class ElevatorService {
   async getElevatorRecordsMetrics(): Promise<ElevatorRecordsMetrics> {
     const elevatorRecords = await this.getElevatorRecords({});
 
-    return {
-      totalElevatorRecords: elevatorRecords.edges.length,
+    const initialElevatorRecordsMetrics: ElevatorRecordsMetrics = {
+      totalElevatorRecords: 0,
     };
+
+    const metrics = elevatorRecords.edges.reduce((acc, elevatorRecord: ElevatorRecordEdge) => {
+      acc.totalElevatorRecords++;
+
+      return acc;
+    }, initialElevatorRecordsMetrics);
+
+    return metrics;
   }
 
   async updateElevatorRecord(input: UpdateElevatorRecordInput): Promise<ElevatorRecord> {
