@@ -9,6 +9,7 @@ type BaseCardProps = {
   cardHeaderClassName?: string;
   cardContentClassName?: string;
   cardTittleClassName?: string;
+  cardDescriptionClassName?: string;
   description?: string;
   children?: ReactNode;
   footerContent?: React.JSX.Element | null;
@@ -26,6 +27,7 @@ const BaseCard = ({
   cardHeaderClassName,
   cardContentClassName,
   cardTittleClassName,
+  cardDescriptionClassName,
   icon,
 }: BaseCardProps) => {
   return (
@@ -38,7 +40,7 @@ const BaseCard = ({
       >
         {icon && <div className='flex-0 flex-shrink-0 basis-8'>{icon}</div>}
         <CardTitle className={cardTittleClassName}>{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
+        <CardDescription className={cardDescriptionClassName}>{description}</CardDescription>
       </CardHeader>
       <CardContent className={cardContentClassName}>{children}</CardContent>
       {footerContent ? (

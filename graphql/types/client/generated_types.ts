@@ -427,7 +427,12 @@ export type TechnicianRecordSortInput = {
 export type TechnicianRecordsMetrics = {
   __typename?: 'TechnicianRecordsMetrics';
   availableTechnicians: Scalars['Int']['output'];
+  busyTechnicians: Scalars['Int']['output'];
+  inactiveTechnicians: Scalars['Int']['output'];
+  onLeaveTechnicians: Scalars['Int']['output'];
+  reservedTechnicians: Scalars['Int']['output'];
   totalTechnicianRecords: Scalars['Int']['output'];
+  unavailableTechnicians: Scalars['Int']['output'];
 };
 
 export type UpdateElevatorRecordInput = {
@@ -639,6 +644,33 @@ export type GetCalendarEventsQuery = {
   }>;
 };
 
+export type GetDashboardMetricsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetDashboardMetricsQuery = {
+  __typename?: 'Query';
+  getDashboardMetrics: {
+    __typename?: 'DashboardMetrics';
+    repairJobsMetrics: {
+      __typename?: 'RepairJobsMetrics';
+      totalRepairJobs: number;
+      overdueRepairJobs: number;
+      ongoingRepairJobs: number;
+      completedRepairJobsToday: number;
+    };
+    elevatorRecordsMetrics: { __typename?: 'ElevatorRecordsMetrics'; totalElevatorRecords: number };
+    technicianRecordsMetrics: {
+      __typename?: 'TechnicianRecordsMetrics';
+      totalTechnicianRecords: number;
+      availableTechnicians: number;
+      busyTechnicians: number;
+      onLeaveTechnicians: number;
+      inactiveTechnicians: number;
+      unavailableTechnicians: number;
+      reservedTechnicians: number;
+    };
+  };
+};
+
 export type GetElevatorDetailsByBuildingNameQueryVariables = Exact<{
   buildingName: Scalars['String']['input'];
 }>;
@@ -718,28 +750,6 @@ export type GetElevatorRecordsQuery = {
       hasPreviousPage: boolean;
       startCursor: string | null;
       endCursor: string | null;
-    };
-  };
-};
-
-export type GetDashboardMetricsQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GetDashboardMetricsQuery = {
-  __typename?: 'Query';
-  getDashboardMetrics: {
-    __typename?: 'DashboardMetrics';
-    repairJobsMetrics: {
-      __typename?: 'RepairJobsMetrics';
-      totalRepairJobs: number;
-      overdueRepairJobs: number;
-      ongoingRepairJobs: number;
-      completedRepairJobsToday: number;
-    };
-    elevatorRecordsMetrics: { __typename?: 'ElevatorRecordsMetrics'; totalElevatorRecords: number };
-    technicianRecordsMetrics: {
-      __typename?: 'TechnicianRecordsMetrics';
-      totalTechnicianRecords: number;
-      availableTechnicians: number;
     };
   };
 };

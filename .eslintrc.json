@@ -67,7 +67,7 @@
     "linebreak-style": 0,
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
-    "quotes": ["error", "single"],
+    "quotes": ["warn", "single"],
     "import/order": [
       "error",
       {

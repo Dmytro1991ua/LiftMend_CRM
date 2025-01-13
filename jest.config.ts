@@ -28,7 +28,11 @@ const config: Config = {
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   preset: 'ts-jest',
-  transformIgnorePatterns: ['/node_modules', '/node_modules/(?!@fullcalendar/*).+\\.[t|j]sx?$'],
+  transformIgnorePatterns: [
+    '/node_modules',
+    '/node_modules/(?!@fullcalendar/*).+\\.[t|j]sx?$',
+    '/node_modules/(?!uuid|short-uuid)/',
+  ],
   testEnvironmentOptions: {
     customExportConditions: [],
   },

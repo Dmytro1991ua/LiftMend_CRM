@@ -15,6 +15,11 @@ export const GET_DASHBOARD_METRICS = gql`
       technicianRecordsMetrics {
         totalTechnicianRecords
         availableTechnicians
+        busyTechnicians
+        onLeaveTechnicians
+        inactiveTechnicians
+        unavailableTechnicians
+        reservedTechnicians
       }
     }
   }

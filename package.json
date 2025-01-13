@@ -71,6 +71,8 @@
     "react-select": "^5.8.0",
     "react-tooltip": "4.2.10",
     "react-use": "^17.5.0",
+    "recharts": "^2.15.0",
+    "short-uuid": "^5.2.0",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.23.8"

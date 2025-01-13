@@ -7,7 +7,7 @@ type SectionWrapperProps = {
 
 const SectionWrapper = ({ title, children }: SectionWrapperProps) => {
   return (
-    <section className='flex flex-col py-4 px-6 bg-background rounded-[2rem]'>
+    <section className='flex flex-col py-4 px-6 bg-background rounded-[2rem] mb-4 last:mb-0'>
       <h2 className='font-bold text-xl mb-2'>{title}</h2>
       <>{children}</>
     </section>

@@ -4,6 +4,10 @@ import { MockProviderHook } from '@/mocks/testMocks';
 import Dashboard from '@/modules/dashboard';
 import { SectionHeaderTitle } from '@/types/enums';
 
+jest.mock('short-uuid', () => ({
+  v4: jest.fn().mockReturnValue('mock-uuid'),
+}));
+
 describe('Dashboard', () => {
   const DashboardComponent = () => (
     <MockProviderHook mocks={[]}>

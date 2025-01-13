@@ -20,7 +20,7 @@ export const useFetchDashboardMetrics = (): UseFetchDashboardMetrics => {
   const { data, loading, error } = useQuery<GetDashboardMetricsQuery, GetDashboardMetricsQueryVariables>(
     GET_DASHBOARD_METRICS,
     {
-      fetchPolicy: 'cache-first',
+      fetchPolicy: 'cache-and-network',
       notifyOnNetworkStatusChange: true,
     }
   );
