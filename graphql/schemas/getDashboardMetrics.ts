@@ -13,6 +13,9 @@ export const GET_DASHBOARD_METRICS = gql`
         cancelledRepairJobs
         onHoldRepairJobs
         completedRepairJobs
+        lowPriorityRepairJobs
+        mediumPriorityRepairJobs
+        highPriorityRepairJobs
       }
       elevatorRecordsMetrics {
         totalElevatorRecords

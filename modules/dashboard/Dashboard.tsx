@@ -7,6 +7,7 @@ import KeyAppMetrics from './components/key-app-metrics';
 import RepairJobStatusMetrics from './components/repair-job-status-metrics';
 import TechnicianVisibilityMetrics from './components/technician-visibility-metrics';
 import { useFetchDashboardMetrics } from './hooks';
+import RepairJobPriorityMetrics from './components/repair-job-priority-metrics';
 
 const Dashboard = () => {
   const { dashboardMetrics, loading, error } = useFetchDashboardMetrics();
@@ -20,6 +21,10 @@ const Dashboard = () => {
           <TechnicianVisibilityMetrics dashboardMetrics={dashboardMetrics} error={error} loading={loading} />
           <ElevatorStatusMetrics dashboardMetrics={dashboardMetrics} error={error} loading={loading} />
           <RepairJobStatusMetrics dashboardMetrics={dashboardMetrics} error={error} loading={loading} />
+          <TechnicianVisibilityMetrics dashboardMetrics={dashboardMetrics} loading={loading} error={error} />
+          <ElevatorStatusMetrics dashboardMetrics={dashboardMetrics} loading={loading} error={error} />
+          <RepairJobStatusMetrics dashboardMetrics={dashboardMetrics} loading={loading} error={error} />
+          <RepairJobPriorityMetrics dashboardMetrics={dashboardMetrics} loading={loading} error={error} />
         </div>
       </section>
     </section>

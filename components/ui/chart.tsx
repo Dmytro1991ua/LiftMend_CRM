@@ -204,8 +204,9 @@ const ChartTooltipContent = React.forwardRef<
                       )}>
                       <div className='grid gap-1.5'>
                         {nestLabel ? tooltipLabel : null}
-                        {/* TODO: Uncomment if needed */}
-                        {/* <span className='text-muted-foreground'>{itemConfig?.label || item.name}</span> */}
+                        {itemConfig?.label && (
+                          <span className='text-muted-foreground'>{itemConfig?.label || item.name}</span>
+                        )}
                       </div>
                       {item.value && (
                         <span className='font-mono font-bold tabular-nums text-foreground'>

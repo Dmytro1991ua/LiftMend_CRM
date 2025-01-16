@@ -29,11 +29,11 @@ const RepairJobStatusMetrics = ({ className, dashboardMetrics, loading, error }:
       }}
       chartConfig={REPAIR_JOB_STATUS_CHART_CONFIG}
       chartData={chartData}
+      sectionTitle={SectionTitle.RepairJobStatusMetrics}
+      loading={loading}
+      error={error}
       chartType={ChartType.Bar}
       className={className}
-      error={error}
-      loading={loading}
-      sectionTitle={SectionTitle.RepairJobMetrics}
     />
   );
 };
