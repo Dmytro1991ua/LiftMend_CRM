@@ -11,6 +11,10 @@ export const GET_DASHBOARD_METRICS = gql`
       }
       elevatorRecordsMetrics {
         totalElevatorRecords
+        operationalElevators
+        underMaintenanceElevators
+        outOfServiceElevators
+        pausedElevators
       }
       technicianRecordsMetrics {
         totalTechnicianRecords
