@@ -145,32 +145,15 @@ class RepairJobService {
   async getRepairJobsMetrics(): Promise<RepairJobsMetrics> {
     const repairJobs = await this.getRepairJobs({});
 
-    const repairJobStatusMap: Record<string, keyof RepairJobsMetrics> = {
-      Completed: 'completedRepairJobs',
-      'In Progress': 'inProgressRepairJobs',
-      Scheduled: 'scheduledRepairJobs',
-      Cancelled: 'cancelledRepairJobs',
-    };
-
     const initialRepairJobsMetrics: RepairJobsMetrics = {
       ongoingRepairJobs: 0,
       overdueRepairJobs: 0,
       completedRepairJobsToday: 0,
       totalRepairJobs: 0,
-      cancelledRepairJobs: 0,
-      completedRepairJobs: 0,
-      inProgressRepairJobs: 0,
-      onHoldRepairJobs: 0,
-      scheduledRepairJobs: 0,
     };
 
     const metrics = repairJobs.edges.reduce((acc, repairJob: RepairJobEdge) => {
-      const statusKey = repairJobStatusMap[repairJob.node.status ?? ''];
-
-      if (statusKey) {
-        acc[statusKey as keyof RepairJobsMetrics]++;
-      }
-
+      if (repairJob.node.status === 'In Progress') acc.ongoingRepairJobs++;
       if (repairJob.node.isOverdue) acc.overdueRepairJobs++;
       if (repairJob.node.status === 'Completed' && isToday(new Date(repairJob.node.actualEndDate)))
         acc.completedRepairJobsToday++;

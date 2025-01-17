@@ -3,11 +3,6 @@ type RepairJobsMetrics {
   ongoingRepairJobs: Int!
   completedRepairJobsToday: Int!
   overdueRepairJobs: Int!
-  scheduledRepairJobs: Int!
-  inProgressRepairJobs: Int!
-  cancelledRepairJobs: Int!
-  onHoldRepairJobs: Int!
-  completedRepairJobs: Int!
 }
 
 type ElevatorRecordsMetrics {
