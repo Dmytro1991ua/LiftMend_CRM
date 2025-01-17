@@ -7,6 +7,10 @@ type RepairJobsMetrics {
 
 type ElevatorRecordsMetrics {
   totalElevatorRecords: Int!
+  operationalElevators: Int!
+  underMaintenanceElevators: Int!
+  outOfServiceElevators: Int!
+  pausedElevators: Int!
 }
 
 type TechnicianRecordsMetrics {

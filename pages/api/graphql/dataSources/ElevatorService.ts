@@ -104,11 +104,28 @@ class ElevatorService {
   async getElevatorRecordsMetrics(): Promise<ElevatorRecordsMetrics> {
     const elevatorRecords = await this.getElevatorRecords({});
 
+    const elevatorStatusMap: Record<string, keyof ElevatorRecordsMetrics> = {
+      Operational: 'operationalElevators',
+      'Out of Service': 'outOfServiceElevators',
+      'Under Maintenance': 'underMaintenanceElevators',
+      Paused: 'pausedElevators',
+    };
+
     const initialElevatorRecordsMetrics: ElevatorRecordsMetrics = {
       totalElevatorRecords: 0,
+      operationalElevators: 0,
+      outOfServiceElevators: 0,
+      pausedElevators: 0,
+      underMaintenanceElevators: 0,
     };
 
     const metrics = elevatorRecords.edges.reduce((acc, elevatorRecord: ElevatorRecordEdge) => {
+      const statusKey = elevatorStatusMap[elevatorRecord.node.status ?? ''];
+
+      if (statusKey) {
+        acc[statusKey as keyof ElevatorRecordsMetrics]++;
+      }
+
       acc.totalElevatorRecords++;
 
       return acc;
