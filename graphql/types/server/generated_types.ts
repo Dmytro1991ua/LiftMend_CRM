@@ -380,9 +380,14 @@ export type RepairJobSortInput = {
 
 export type RepairJobsMetrics = {
   __typename?: 'RepairJobsMetrics';
+  cancelledRepairJobs: Scalars['Int']['output'];
+  completedRepairJobs: Scalars['Int']['output'];
   completedRepairJobsToday: Scalars['Int']['output'];
+  inProgressRepairJobs: Scalars['Int']['output'];
+  onHoldRepairJobs: Scalars['Int']['output'];
   ongoingRepairJobs: Scalars['Int']['output'];
   overdueRepairJobs: Scalars['Int']['output'];
+  scheduledRepairJobs: Scalars['Int']['output'];
   totalRepairJobs: Scalars['Int']['output'];
 };
 
@@ -866,9 +871,14 @@ export type RepairJobScheduleDataResolvers<ContextType = Context, ParentType ext
 }>;
 
 export type RepairJobsMetricsResolvers<ContextType = Context, ParentType extends ResolversParentTypes['RepairJobsMetrics'] = ResolversParentTypes['RepairJobsMetrics']> = ResolversObject<{
+  cancelledRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  completedRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   completedRepairJobsToday?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  inProgressRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  onHoldRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   ongoingRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   overdueRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  scheduledRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   totalRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
