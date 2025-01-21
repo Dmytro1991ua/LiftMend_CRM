@@ -43,8 +43,7 @@ const BaseDetailsPage = ({
       />
       <div className='mb-3'>{alertMessage}</div>
       <div
-        className={cn('content-wrapper ] overflow-y-auto overflow-x-hidden', alertMessage ? 'h-[62vh]' : 'h-[72vh]')}
-      >
+        className={cn('content-wrapper ] overflow-y-auto overflow-x-hidden', alertMessage ? 'h-[62vh]' : 'h-[72vh]')}>
         <>
           <QueryResponse
             errorComponent={<BaseAlert description={error} title={errorMessage} variant='destructive' />}

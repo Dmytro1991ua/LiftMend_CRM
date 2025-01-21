@@ -77,8 +77,7 @@ const BaseTooltip = ({
           data-for={id}
           data-place={place || 'bottom'}
           data-tip={message}
-          data-tip-disable={disable || false}
-        >
+          data-tip-disable={disable || false}>
           {children}
         </div>
       </div>

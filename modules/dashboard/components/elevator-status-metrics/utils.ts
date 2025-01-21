@@ -18,9 +18,9 @@ export const getAdditionalChartConfigFields = (totalElevators: number): Addition
 
 export const getElevatorStatusChartDataConfig = (technicianRecordMetrics: ElevatorRecordsMetrics): ChartData[] => {
   return [
-    { name: 'Operational', value: technicianRecordMetrics?.operationalElevators, fill: '#166534' },
-    { name: 'Out of Service', value: technicianRecordMetrics?.outOfServiceElevators, fill: '#b91c1c' },
-    { name: 'Under Mentainance', value: technicianRecordMetrics?.underMaintenanceElevators, fill: '#a16207' },
-    { name: 'Paused', value: technicianRecordMetrics?.pausedElevators, fill: '#1d4ed8' },
+    { name: 'Operational', value: technicianRecordMetrics?.operationalElevators, fill: '#22c55e' },
+    { name: 'Out of Service', value: technicianRecordMetrics?.outOfServiceElevators, fill: '#ef4444' },
+    { name: 'Under Mentainance', value: technicianRecordMetrics?.underMaintenanceElevators, fill: '#f97316' },
+    { name: 'Paused', value: technicianRecordMetrics?.pausedElevators, fill: '#3b82f6' },
   ];
 };

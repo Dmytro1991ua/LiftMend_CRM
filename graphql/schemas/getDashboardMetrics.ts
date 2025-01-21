@@ -8,6 +8,11 @@ export const GET_DASHBOARD_METRICS = gql`
         overdueRepairJobs
         ongoingRepairJobs
         completedRepairJobsToday
+        scheduledRepairJobs
+        inProgressRepairJobs
+        cancelledRepairJobs
+        onHoldRepairJobs
+        completedRepairJobs
       }
       elevatorRecordsMetrics {
         totalElevatorRecords

@@ -70,8 +70,7 @@ const ElevatorRecordDetails = () => {
           isOpen={isEditModalOpen}
           title={getModalTitle(title, true)}
           onClose={onReset}
-          onSubmit={formState.handleSubmit(onEditElevatorRecord)}
-        >
+          onSubmit={formState.handleSubmit(onEditElevatorRecord)}>
           <EditElevatorRecordForm elevatorRecordFormValues={elevatorRecord} />
         </EditModal>
       ),

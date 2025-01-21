@@ -1,11 +1,12 @@
+import { Bars } from 'react-loader-spinner';
+
+import BaseCard from '@/shared/base-card';
+import BaseChart from '@/shared/base-charts';
 import { AdditionalChatConfigFields, ChartConfig, ChartData, ChartType } from '@/shared/base-charts/types';
 import QueryResponse from '@/shared/query-response';
-import { useMemo } from 'react';
-import SectionWrapper from '../section-wrapper';
-import BaseCard from '@/shared/base-card';
-import { Bars } from 'react-loader-spinner';
+
 import { SectionTitle } from '../../types';
-import BaseChart from '@/shared/base-charts';
+import SectionWrapper from '../section-wrapper';
 
 type CardDetails = {
   title: string;
@@ -43,11 +44,11 @@ const ChartMetrics = <T,>({
       <section className={className}>
         <SectionWrapper title={sectionTitle}>
           <BaseCard
-            cardClassName={'bg-blue-100'}
-            cardHeaderClassName='bg-primary text-white text-lg items-center'
+            cardClassName='bg-blue-100'
             cardDescriptionClassName='text-white'
-            title={title}
-            description={description}>
+            cardHeaderClassName='bg-primary text-white text-lg items-center'
+            description={description}
+            title={title}>
             {loading ? (
               <Bars
                 ariaLabel='bars-loading'
@@ -59,11 +60,11 @@ const ChartMetrics = <T,>({
               />
             ) : (
               <BaseChart
-                data={chartData}
-                config={chartConfig}
-                chartType={chartType}
                 additionalChartConfigFields={additionalChartConfigFields}
+                chartType={chartType}
                 className='w-full h-auto'
+                config={chartConfig}
+                data={chartData}
               />
             )}
           </BaseCard>

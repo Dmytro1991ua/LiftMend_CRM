@@ -88,8 +88,7 @@ const DatePicker = ({
             )}
             disabled={isDisabled}
             id='date'
-            variant={'outline'}
-          >
+            variant={'outline'}>
             <CalendarIcon className='mr-3 h-4 w-4' />
             {datePickerConfig[configKey]}
           </Button>

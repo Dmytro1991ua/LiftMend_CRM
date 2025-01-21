@@ -16,8 +16,7 @@ const Checkbox = React.forwardRef<
       className
     )}
     onClick={(event) => event.stopPropagation()}
-    {...props}
-  >
+    {...props}>
     <CheckboxPrimitive.Indicator className={cn('flex items-center justify-center text-current')}>
       <Check className='h-4 w-4 hidden group-data-[state=checked]:block' />
       <Minus className='h-4 w-4 hidden group-data-[state=indeterminate]:block' />

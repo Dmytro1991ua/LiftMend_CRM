@@ -34,8 +34,7 @@ const FilterHeader = ({ label, selectedFiltersCount, onClear }: FilterHeaderProp
         className='ml-auto hover:bg-transparent'
         disabled={isButtonDisabled}
         variant='ghost'
-        onClick={onClearFilter}
-      >
+        onClick={onClearFilter}>
         <span className='text-xs text-primary uppercase font-bold'>Clear</span>
       </Button>
     </>

@@ -379,9 +379,14 @@ export type RepairJobSortInput = {
 
 export type RepairJobsMetrics = {
   __typename?: 'RepairJobsMetrics';
+  cancelledRepairJobs: Scalars['Int']['output'];
+  completedRepairJobs: Scalars['Int']['output'];
   completedRepairJobsToday: Scalars['Int']['output'];
+  inProgressRepairJobs: Scalars['Int']['output'];
+  onHoldRepairJobs: Scalars['Int']['output'];
   ongoingRepairJobs: Scalars['Int']['output'];
   overdueRepairJobs: Scalars['Int']['output'];
+  scheduledRepairJobs: Scalars['Int']['output'];
   totalRepairJobs: Scalars['Int']['output'];
 };
 
@@ -557,7 +562,7 @@ export type GetCalendarEventsQuery = { __typename?: 'Query', getCalendarEvents: 
 export type GetDashboardMetricsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetDashboardMetricsQuery = { __typename?: 'Query', getDashboardMetrics: { __typename?: 'DashboardMetrics', repairJobsMetrics: { __typename?: 'RepairJobsMetrics', totalRepairJobs: number, overdueRepairJobs: number, ongoingRepairJobs: number, completedRepairJobsToday: number }, elevatorRecordsMetrics: { __typename?: 'ElevatorRecordsMetrics', totalElevatorRecords: number, operationalElevators: number, underMaintenanceElevators: number, outOfServiceElevators: number, pausedElevators: number }, technicianRecordsMetrics: { __typename?: 'TechnicianRecordsMetrics', totalTechnicianRecords: number, availableTechnicians: number, busyTechnicians: number, onLeaveTechnicians: number, inactiveTechnicians: number, unavailableTechnicians: number, reservedTechnicians: number } } };
+export type GetDashboardMetricsQuery = { __typename?: 'Query', getDashboardMetrics: { __typename?: 'DashboardMetrics', repairJobsMetrics: { __typename?: 'RepairJobsMetrics', totalRepairJobs: number, overdueRepairJobs: number, ongoingRepairJobs: number, completedRepairJobsToday: number, scheduledRepairJobs: number, inProgressRepairJobs: number, cancelledRepairJobs: number, onHoldRepairJobs: number, completedRepairJobs: number }, elevatorRecordsMetrics: { __typename?: 'ElevatorRecordsMetrics', totalElevatorRecords: number, operationalElevators: number, underMaintenanceElevators: number, outOfServiceElevators: number, pausedElevators: number }, technicianRecordsMetrics: { __typename?: 'TechnicianRecordsMetrics', totalTechnicianRecords: number, availableTechnicians: number, busyTechnicians: number, onLeaveTechnicians: number, inactiveTechnicians: number, unavailableTechnicians: number, reservedTechnicians: number } } };
 
 export type GetElevatorDetailsByBuildingNameQueryVariables = Exact<{
   buildingName: Scalars['String']['input'];

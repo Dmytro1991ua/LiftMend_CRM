@@ -40,8 +40,7 @@ const BaseTableHeader = <T,>({ headerGroups, columnVisibility }: BaseTableHeader
               style={{
                 width: header.column.getSize(),
               }}
-              onClick={header.column.getToggleSortingHandler()}
-            >
+              onClick={header.column.getToggleSortingHandler()}>
               <div className='flex items-center'>
                 {flexRender(header.column.columnDef.header, header.getContext())}
                 {header.column.getCanSort() && <SortArrow isSorted={header.column.getIsSorted()} />}

@@ -51,8 +51,7 @@ const EditActionCell = ({ technicianRecord }: EditActionCellProps) => {
           className='hover:bg-transparent'
           disabled={isDeleteButtonDisabled}
           variant='ghost'
-          onClick={onHandleEditClick}
-        >
+          onClick={onHandleEditClick}>
           <FaEdit className='h-5 w-5 text-primary' />
         </Button>
         <EditModal
@@ -60,8 +59,7 @@ const EditActionCell = ({ technicianRecord }: EditActionCellProps) => {
           isOpen={isModalOpen}
           title={`${technicianRecord.name} record`}
           onClose={onCloseModal}
-          onSubmit={formState.handleSubmit(onEditTechnicianRecord)}
-        >
+          onSubmit={formState.handleSubmit(onEditTechnicianRecord)}>
           <EditTechnicianRecordForm technicianRecordFormValues={currentTechnicianRecord} />
         </EditModal>
       </section>

@@ -1,15 +1,17 @@
-import { DashboardSectionProps, SectionTitle } from '../../types';
+import { useMemo } from 'react';
 
-import { getAdditionalChartConfigFields, getTechnicianAssignmentChartDataConfig } from './utils';
+import { TechnicianRecordsMetrics } from '@/graphql/types/client/generated_types';
+import { ChartType } from '@/shared/base-charts/types';
+
+import { DashboardSectionProps, SectionTitle } from '../../types';
+import ChartMetrics from '../chart-metrics';
+
 import {
   TECHNICIAN_ASSIGNMENT_CHART_CONFIG,
   TECHNICIAN_AVAILABILITY_CHART_DESCRIPTION,
   TECHNICIAN_AVAILABILITY_CHART_TITLE,
 } from './constants';
-import ChartMetrics from '../chart-metrics';
-import { TechnicianRecordsMetrics } from '@/graphql/types/client/generated_types';
-import { ChartType } from '@/shared/base-charts/types';
-import { useMemo } from 'react';
+import { getAdditionalChartConfigFields, getTechnicianAssignmentChartDataConfig } from './utils';
 
 const TechnicianVisibilityMetrics = ({ className, error, loading, dashboardMetrics }: DashboardSectionProps) => {
   const chartData = useMemo(
@@ -24,18 +26,18 @@ const TechnicianVisibilityMetrics = ({ className, error, loading, dashboardMetri
 
   return (
     <ChartMetrics<TechnicianRecordsMetrics>
-      className={className}
+      additionalChartConfigFields={additionalChartConfigFields}
       cardDetails={{
         title: TECHNICIAN_AVAILABILITY_CHART_TITLE,
         description: TECHNICIAN_AVAILABILITY_CHART_DESCRIPTION,
       }}
-      chartData={chartData}
-      additionalChartConfigFields={additionalChartConfigFields}
       chartConfig={TECHNICIAN_ASSIGNMENT_CHART_CONFIG}
-      sectionTitle={SectionTitle.TechnicianAvailabilityMetrics}
-      loading={loading}
-      error={error}
+      chartData={chartData}
       chartType={ChartType.Pie}
+      className={className}
+      error={error}
+      loading={loading}
+      sectionTitle={SectionTitle.TechnicianAvailabilityMetrics}
     />
   );
 };

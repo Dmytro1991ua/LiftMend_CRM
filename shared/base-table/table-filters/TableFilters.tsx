@@ -50,8 +50,7 @@ const TableFilters = <T,>({ storedFilters, filtersConfig, onFilterChange, onClea
             currentOpenedFilter ? 'h-[50rem] overflow-y-auto' : 'h-auto'
           )}
           type='single'
-          onValueChange={handleAccordionChange}
-        >
+          onValueChange={handleAccordionChange}>
           {filtersConfig.map(({ filterKey, filterType, label, id, options }) => (
             <AccordionItem key={id} className='px-2 ' value={filterKey}>
               <FilterItem<T>
