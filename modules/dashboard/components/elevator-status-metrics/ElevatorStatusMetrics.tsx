@@ -1,14 +1,17 @@
-import { getAdditionalChartConfigFields, getElevatorStatusChartDataConfig } from './utils';
+import { useMemo } from 'react';
+
+import { ElevatorRecordsMetrics } from '@/graphql/types/client/generated_types';
+import { ChartType } from '@/shared/base-charts/types';
+
+import { DashboardSectionProps, SectionTitle } from '../../types';
+import ChartMetrics from '../chart-metrics';
+
 import {
   ELEVATOR_STATUS_CHART_CONFIG,
   ELEVATOR_STATUS_CHART_DESCRIPTION,
   ELEVATOR_STATUS_CHART_TITLE,
 } from './constants';
-import { DashboardSectionProps, SectionTitle } from '../../types';
-import { ElevatorRecordsMetrics } from '@/graphql/types/client/generated_types';
-import { ChartType } from '@/shared/base-charts/types';
-import ChartMetrics from '../chart-metrics';
-import { useMemo } from 'react';
+import { getAdditionalChartConfigFields, getElevatorStatusChartDataConfig } from './utils';
 
 const ElevatorStatusMetrics = ({ className, dashboardMetrics, loading, error }: DashboardSectionProps) => {
   const chartData = useMemo(
@@ -22,18 +25,18 @@ const ElevatorStatusMetrics = ({ className, dashboardMetrics, loading, error }: 
   );
   return (
     <ChartMetrics<ElevatorRecordsMetrics>
-      className={className}
+      additionalChartConfigFields={additionalChartConfigFields}
       cardDetails={{
         title: ELEVATOR_STATUS_CHART_TITLE,
         description: ELEVATOR_STATUS_CHART_DESCRIPTION,
       }}
-      chartData={chartData}
-      additionalChartConfigFields={additionalChartConfigFields}
       chartConfig={ELEVATOR_STATUS_CHART_CONFIG}
-      sectionTitle={SectionTitle.ElevatorStatusMetrics}
-      loading={loading}
-      error={error}
+      chartData={chartData}
       chartType={ChartType.Pie}
+      className={className}
+      error={error}
+      loading={loading}
+      sectionTitle={SectionTitle.ElevatorStatusMetrics}
     />
   );
 };

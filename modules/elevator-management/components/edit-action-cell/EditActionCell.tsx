@@ -52,8 +52,7 @@ const EditActionCell = ({ elevatorRecord }: EditActionCellProps) => {
           className='hover:bg-transparent'
           disabled={isEditButtonDisabled}
           variant='ghost'
-          onClick={onHandleEditClick}
-        >
+          onClick={onHandleEditClick}>
           <FaEdit className='h-5 w-5 text-primary' />
         </Button>
         <EditModal
@@ -62,8 +61,7 @@ const EditActionCell = ({ elevatorRecord }: EditActionCellProps) => {
           isOpen={isModalOpen}
           title={getModalTitle(title, true)}
           onClose={onCloseModal}
-          onSubmit={formState.handleSubmit(onEditElevatorRecord)}
-        >
+          onSubmit={formState.handleSubmit(onEditElevatorRecord)}>
           <EditElevatorRecordForm elevatorRecordFormValues={currentElevatorRecord} />
         </EditModal>
       </section>

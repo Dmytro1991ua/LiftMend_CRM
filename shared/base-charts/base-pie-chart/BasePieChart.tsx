@@ -55,8 +55,7 @@ const BasePieChart = ({ data, config, className, additionalChartConfigFields }: 
           label={hasLayerLabel}
           nameKey={nameKey}
           outerRadius={outerRadius}
-          strokeWidth={strokeWidth}
-        >
+          strokeWidth={strokeWidth}>
           {renderChartLabel}
         </Pie>
       </PieChart>

@@ -27,8 +27,7 @@ const EditModal = ({
         />
       }
       title={title}
-      onClose={onClose}
-    >
+      onClose={onClose}>
       {children}
     </BaseModal>
   );

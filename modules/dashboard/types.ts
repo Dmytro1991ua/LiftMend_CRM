@@ -3,6 +3,7 @@ export enum SectionTitle {
   KeyAppMetrics = 'Key App Metrics',
   TechnicianAvailabilityMetrics = 'Technician Availability Metrics',
   ElevatorStatusMetrics = 'Elevator Status Metrics',
+  RepairJobMetrics = 'Repair Job Metrics',
 }
 
 export type DashboardSectionProps = {

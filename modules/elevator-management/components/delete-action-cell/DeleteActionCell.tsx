@@ -36,8 +36,7 @@ const DeleteActionCell = ({ elevatorRecord }: DeleteActionCelProps) => {
         className='hover:bg-transparent'
         disabled={isDeleteButtonDisabled}
         variant='ghost'
-        onClick={onHandleDeleteClick}
-      >
+        onClick={onHandleDeleteClick}>
         <FaTrashAlt className='h-4 w-4 text-red-500' />
       </Button>
       <DeleteModal

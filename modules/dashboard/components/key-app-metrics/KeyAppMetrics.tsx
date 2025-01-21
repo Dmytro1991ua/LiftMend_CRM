@@ -40,8 +40,7 @@ const KeyAppMetrics = () => {
                 cardHeaderClassName={cardHeaderClassName}
                 cardTittleClassName={cardTittleClassName}
                 icon={icon}
-                title={title}
-              >
+                title={title}>
                 {loading ? (
                   <Bars
                     ariaLabel='bars-loading'

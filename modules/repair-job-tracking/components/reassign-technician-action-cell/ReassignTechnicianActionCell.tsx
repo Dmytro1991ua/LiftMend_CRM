@@ -55,14 +55,12 @@ const ReassignTechnicianActionCell = ({ repairJob }: ReassignTechnicianActionCel
           disable={!isReassignTechnicianButtonDisabled}
           id='reassign-technician'
           message={REASSIGN_TECHNICIAN_BUTTON_TOOLTIP_MESSAGE}
-          place='left'
-        >
+          place='left'>
           <Button
             className='hover:bg-transparent'
             disabled={isReassignTechnicianButtonDisabled}
             variant='ghost'
-            onClick={onHandleReassignTechnicianClick}
-          >
+            onClick={onHandleReassignTechnicianClick}>
             <MdAssignmentAdd className='h-5 w-5 text-primary' />
           </Button>
         </BaseTooltip>
@@ -72,8 +70,7 @@ const ReassignTechnicianActionCell = ({ repairJob }: ReassignTechnicianActionCel
           isOpen={isModalOpen}
           title='Reassign Technician'
           onClose={onCloseModal}
-          onSubmit={formState.handleSubmit(onHandleTechnicianReassignment)}
-        >
+          onSubmit={formState.handleSubmit(onHandleTechnicianReassignment)}>
           <ReassignTechnicianForm repairJob={repairJob} />
         </EditModal>
       </section>

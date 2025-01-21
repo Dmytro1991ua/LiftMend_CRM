@@ -23,8 +23,7 @@ const DetailsPageContent = ({ loading, error, detailsPageSections }: DetailsPage
                 className={cn(
                   'flex items-baseline gap-2 pb-2 border-b-2 border-gray-100 last:border-b-0',
                   fieldClassName
-                )}
-              >
+                )}>
                 <span className='text-lg font-bold'>{label}:</span>
                 <span className='text-gray-500'>{value}</span>
               </p>

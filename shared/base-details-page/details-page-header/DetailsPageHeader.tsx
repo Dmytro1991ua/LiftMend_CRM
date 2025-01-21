@@ -38,8 +38,7 @@ const DetailsPageHeader = ({ loading, description, title, actionButtonsConfig }:
           className={tooltipData?.className}
           disable={!tooltipData?.disable}
           id={tooltipData?.id ?? ''}
-          message={tooltipData?.message ?? ''}
-        >
+          message={tooltipData?.message ?? ''}>
           <Button disabled={isDisabled} variant={variant} onClick={onClick}>
             {icon}
             <span className='ml-2'>{label}</span>

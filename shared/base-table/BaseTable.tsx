@@ -132,8 +132,7 @@ const BaseTable = <T extends object, K, M>({
           next={loadMore}
           scrollThreshold={0.99}
           scrollableTarget={SCROLL_WRAPPER_ID}
-          style={{ overflow: INFINITE_SCROLL_OVERFLOW }}
-        >
+          style={{ overflow: INFINITE_SCROLL_OVERFLOW }}>
           <div className={cn('relative w-fit rounded-[2rem] border')}>
             <Table className='w-full table-fixed' data-testid='base-table' style={{ width: getTotalSize() }}>
               <BaseTableHeader columnVisibility={columnVisibility} headerGroups={getHeaderGroups()} />

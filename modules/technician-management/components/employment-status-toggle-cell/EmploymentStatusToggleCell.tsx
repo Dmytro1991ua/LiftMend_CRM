@@ -38,15 +38,13 @@ const EmploymentStatusToggleCell = ({
         onClick={(e) => {
           e.stopPropagation();
           onOpenModal();
-        }}
-      >
+        }}>
         <BaseTooltip
           className='w-[30rem] shadow-none'
           disable={isTooltipShown}
           id='employment-toggle-status-cell-tooltip'
           message={STATUS_ICON_TOOLTIP_MESSAGE}
-          place='left'
-        >
+          place='left'>
           {config.icon}
         </BaseTooltip>
       </Button>
@@ -63,8 +61,7 @@ const EmploymentStatusToggleCell = ({
           />
         }
         title={config.modalTitle}
-        onClose={onCloseModal}
-      >
+        onClose={onCloseModal}>
         {config.modalMessage}
       </BaseModal>
     </section>

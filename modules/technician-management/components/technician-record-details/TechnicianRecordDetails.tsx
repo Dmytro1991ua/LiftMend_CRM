@@ -102,8 +102,7 @@ const TechnicianRecordDetails = () => {
           isOpen={isEditModalOpen}
           title={getModalTitle(technicianRecordDetailsTitle, true)}
           onClose={onReset}
-          onSubmit={formState.handleSubmit(onEditTechnicianRecord)}
-        >
+          onSubmit={formState.handleSubmit(onEditTechnicianRecord)}>
           <EditTechnicianRecordForm technicianRecordFormValues={technicianRecord} />
         </EditModal>
       ),
@@ -132,8 +131,7 @@ const TechnicianRecordDetails = () => {
           submitButtonLabel='Yes'
           title={config.modalTitle}
           onClose={onCloseModal}
-          onSubmit={onHandleEmploymentStatusChange}
-        >
+          onSubmit={onHandleEmploymentStatusChange}>
           {config.modalMessage}
         </EditModal>
       ),

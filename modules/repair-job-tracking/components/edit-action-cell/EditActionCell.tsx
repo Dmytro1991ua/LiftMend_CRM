@@ -63,14 +63,12 @@ const EditActionCell = ({ repairJob }: EditActionCellProps) => {
           disable={!isEditButtonDisabled}
           id='edit-button-tooltip'
           message={tooltipMessage}
-          place='left'
-        >
+          place='left'>
           <Button
             className='hover:bg-transparent'
             disabled={isEditButtonDisabled}
             variant='ghost'
-            onClick={onHandleEditClick}
-          >
+            onClick={onHandleEditClick}>
             <FaEdit className='h-5 w-5 text-primary' />
           </Button>
         </BaseTooltip>
@@ -80,8 +78,7 @@ const EditActionCell = ({ repairJob }: EditActionCellProps) => {
           isOpen={isModalOpen}
           title={getModalTitle(title, true)}
           onClose={onCloseModal}
-          onSubmit={formState.handleSubmit(onEditRepairJob)}
-        >
+          onSubmit={formState.handleSubmit(onEditRepairJob)}>
           <EditRepairJobForm repairJobFormValues={currentRepairJob} />
         </EditModal>
       </section>

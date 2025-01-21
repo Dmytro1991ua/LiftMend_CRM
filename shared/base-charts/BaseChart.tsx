@@ -1,3 +1,4 @@
+import BaseBarChart from './base-bar-chart';
 import BasePieChart from './base-pie-chart';
 import { BaseChartProps, ChartType } from './types';
 
@@ -5,6 +6,14 @@ const BaseChart = ({ data, className, config, chartType, additionalChartConfigFi
   const CHARTS_CONFIG: Record<ChartType, React.JSX.Element> = {
     [ChartType.Pie]: (
       <BasePieChart
+        additionalChartConfigFields={additionalChartConfigFields?.[chartType]}
+        className={className}
+        config={config}
+        data={data}
+      />
+    ),
+    [ChartType.Bar]: (
+      <BaseBarChart
         additionalChartConfigFields={additionalChartConfigFields?.[chartType]}
         className={className}
         config={config}

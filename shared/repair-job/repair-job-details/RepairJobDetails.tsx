@@ -91,8 +91,7 @@ const RepairJobDetails = () => {
           isOpen={isEditModalOpen}
           title={getModalTitle(title, true)}
           onClose={onReset}
-          onSubmit={formState.handleSubmit(onEditRepairJob)}
-        >
+          onSubmit={formState.handleSubmit(onEditRepairJob)}>
           <EditRepairJobForm repairJobFormValues={currentRepairJob} />
         </EditModal>
       ),

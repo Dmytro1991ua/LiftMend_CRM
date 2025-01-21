@@ -1,10 +1,10 @@
 import { ChartConfig } from '@/shared/base-charts/types';
 
 export const ELEVATOR_STATUS_CHART_CONFIG: ChartConfig = {
-  Operational: { label: 'Operational', color: '#166534' },
-  UnderMentainance: { label: 'Under Mentainance', color: '#a16207' },
-  OutOfService: { label: 'Out of Service', color: '#b91c1c' },
-  Paused: { label: 'Paused', color: '#1d4ed8' },
+  Operational: { label: 'Operational', color: '#22c55e' },
+  UnderMentainance: { label: 'Under Mentainance', color: '#f97316' },
+  OutOfService: { label: 'Out of Service', color: '#ef4444' },
+  Paused: { label: 'Paused', color: '#3b82f6' },
 };
 
 export const DEFAULT_ERROR_RESPONSE_MESSAGE = 'Failed to fetch elevator status metrics';
