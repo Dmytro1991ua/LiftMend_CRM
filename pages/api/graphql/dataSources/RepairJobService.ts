@@ -145,12 +145,18 @@ class RepairJobService {
   async getRepairJobsMetrics(): Promise<RepairJobsMetrics> {
     const repairJobs = await this.getRepairJobs({});
 
-    const repairJobStatusMap: Record<string, keyof RepairJobsMetrics> = {
-      Completed: 'completedRepairJobs',
-      'In Progress': 'inProgressRepairJobs',
-      Scheduled: 'scheduledRepairJobs',
-      Cancelled: 'cancelledRepairJobs',
-    };
+    const repairJobStatusMap = new Map<string, keyof RepairJobsMetrics>([
+      ['Completed', 'completedRepairJobs'],
+      ['In Progress', 'inProgressRepairJobs'],
+      ['Scheduled', 'scheduledRepairJobs'],
+      ['Cancelled', 'cancelledRepairJobs'],
+    ]);
+
+    const repairJobPriorityMap = new Map<string, keyof RepairJobsMetrics>([
+      ['High', 'highPriorityRepairJobs'],
+      ['Medium', 'mediumPriorityRepairJobs'],
+      ['Low', 'lowPriorityRepairJobs'],
+    ]);
 
     const initialRepairJobsMetrics: RepairJobsMetrics = {
       ongoingRepairJobs: 0,
@@ -162,13 +168,21 @@ class RepairJobService {
       inProgressRepairJobs: 0,
       onHoldRepairJobs: 0,
       scheduledRepairJobs: 0,
+      highPriorityRepairJobs: 0,
+      lowPriorityRepairJobs: 0,
+      mediumPriorityRepairJobs: 0,
     };
 
     const metrics = repairJobs.edges.reduce((acc, repairJob: RepairJobEdge) => {
-      const statusKey = repairJobStatusMap[repairJob.node.status ?? ''];
+      const statusKey = repairJobStatusMap.get(repairJob.node.status ?? '') || '';
+      const priorityKey = repairJobPriorityMap.get(repairJob.node.jobPriority ?? '') || '';
 
       if (statusKey) {
         acc[statusKey as keyof RepairJobsMetrics]++;
+      }
+
+      if (priorityKey) {
+        acc[priorityKey as keyof RepairJobsMetrics]++;
       }
 
       if (repairJob.node.isOverdue) acc.overdueRepairJobs++;
