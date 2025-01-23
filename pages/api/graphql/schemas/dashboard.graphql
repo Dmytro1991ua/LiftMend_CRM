@@ -8,6 +8,9 @@ type RepairJobsMetrics {
   cancelledRepairJobs: Int!
   onHoldRepairJobs: Int!
   completedRepairJobs: Int!
+  lowPriorityRepairJobs: Int!
+  mediumPriorityRepairJobs: Int!
+  highPriorityRepairJobs: Int!
 }
 
 type ElevatorRecordsMetrics {

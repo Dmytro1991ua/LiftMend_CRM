@@ -383,7 +383,10 @@ export type RepairJobsMetrics = {
   cancelledRepairJobs: Scalars['Int']['output'];
   completedRepairJobs: Scalars['Int']['output'];
   completedRepairJobsToday: Scalars['Int']['output'];
+  highPriorityRepairJobs: Scalars['Int']['output'];
   inProgressRepairJobs: Scalars['Int']['output'];
+  lowPriorityRepairJobs: Scalars['Int']['output'];
+  mediumPriorityRepairJobs: Scalars['Int']['output'];
   onHoldRepairJobs: Scalars['Int']['output'];
   ongoingRepairJobs: Scalars['Int']['output'];
   overdueRepairJobs: Scalars['Int']['output'];
@@ -874,7 +877,10 @@ export type RepairJobsMetricsResolvers<ContextType = Context, ParentType extends
   cancelledRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   completedRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   completedRepairJobsToday?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  highPriorityRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   inProgressRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  lowPriorityRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  mediumPriorityRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   onHoldRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   ongoingRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   overdueRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;

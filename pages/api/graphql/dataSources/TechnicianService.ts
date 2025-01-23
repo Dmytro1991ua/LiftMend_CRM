@@ -109,14 +109,14 @@ class TechnicianService {
   async getTechnicianRecordsMetrics(): Promise<TechnicianRecordsMetrics> {
     const technicianRecords = await this.getTechnicianRecords({});
 
-    const availabilityStatusMap: Record<string, keyof TechnicianRecordsMetrics> = {
-      Available: 'availableTechnicians',
-      Busy: 'busyTechnicians',
-      'On Leave': 'onLeaveTechnicians',
-      Inactive: 'inactiveTechnicians',
-      Reserved: 'reservedTechnicians',
-      Unavailable: 'unavailableTechnicians',
-    };
+    const availabilityStatusMap = new Map<string, keyof TechnicianRecordsMetrics>([
+      ['Available', 'availableTechnicians'],
+      ['Busy', 'busyTechnicians'],
+      ['On Leave', 'onLeaveTechnicians'],
+      ['Inactive', 'inactiveTechnicians'],
+      ['Reserved', 'reservedTechnicians'],
+      ['Unavailable', 'unavailableTechnicians'],
+    ]);
 
     const initialTechnicianRecordsMetrics: TechnicianRecordsMetrics = {
       availableTechnicians: 0,
@@ -129,7 +129,7 @@ class TechnicianService {
     };
 
     const metrics = technicianRecords.edges.reduce((acc, technician: TechnicianRecordEdges) => {
-      const statusKey = availabilityStatusMap[technician.node.availabilityStatus ?? ''];
+      const statusKey = availabilityStatusMap.get(technician.node.availabilityStatus ?? '');
 
       if (statusKey) {
         acc[statusKey as keyof TechnicianRecordsMetrics]++;
