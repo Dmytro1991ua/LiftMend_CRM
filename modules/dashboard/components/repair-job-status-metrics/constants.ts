@@ -20,7 +20,7 @@ export const ADDITIONAL_CHART_CONFIG_FIELDS: AdditionalChatConfigFields = {
       bottom: 30,
     },
     barSettings: {
-      barCategoryGap: '15%',
+      barCategoryGap: '20%',
     },
     primaryLabelColor: '#6b7280',
     secondaryLabelClassName: 'font-bold',
@@ -30,4 +30,4 @@ export const ADDITIONAL_CHART_CONFIG_FIELDS: AdditionalChatConfigFields = {
 export const DEFAULT_ERROR_RESPONSE_MESSAGE = 'Failed to fetch repair job status metrics';
 export const REPAIR_JOB_STATUS_CHART_TITLE = 'Repair Job Status Overview';
 export const REPAIR_JOB_STATUS_CHART_DESCRIPTION =
-  'This chart displays the current statuses of repair jobs, providing a quick overview of their progress.';
+  'This chart highlights repair job statuses, offering a quick overview of their progress through different stages.';

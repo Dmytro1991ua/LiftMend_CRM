@@ -86,7 +86,7 @@ export const PILL_CONFIG: Record<PillStatus, PillConfig> = {
   [PillStatus.Medium]: {
     icon: <BsFillExclamationCircleFill className='h-6 w-6 text-yellow-400' />,
     label: PillStatus.Medium,
-    className: 'text-yellow-400',
+    className: 'text-yellow-500',
   },
   [PillStatus.Low]: {
     icon: <BsFillExclamationOctagonFill className='h-6 w-6 text-green-500' />,
