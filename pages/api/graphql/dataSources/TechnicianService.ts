@@ -20,6 +20,7 @@ import {
   getSortedFormDropdownData,
   makeConnectionObject,
 } from '../utils';
+import { TECHNICIAN_AVAILABILITY_STATUS_MAP } from './constants';
 
 class TechnicianService {
   private prisma;
@@ -109,15 +110,6 @@ class TechnicianService {
   async getTechnicianRecordsMetrics(): Promise<TechnicianRecordsMetrics> {
     const technicianRecords = await this.getTechnicianRecords({});
 
-    const availabilityStatusMap = new Map<string, keyof TechnicianRecordsMetrics>([
-      ['Available', 'availableTechnicians'],
-      ['Busy', 'busyTechnicians'],
-      ['On Leave', 'onLeaveTechnicians'],
-      ['Inactive', 'inactiveTechnicians'],
-      ['Reserved', 'reservedTechnicians'],
-      ['Unavailable', 'unavailableTechnicians'],
-    ]);
-
     const initialTechnicianRecordsMetrics: TechnicianRecordsMetrics = {
       availableTechnicians: 0,
       busyTechnicians: 0,
@@ -129,7 +121,7 @@ class TechnicianService {
     };
 
     const metrics = technicianRecords.edges.reduce((acc, technician: TechnicianRecordEdges) => {
-      const statusKey = availabilityStatusMap.get(technician.node.availabilityStatus ?? '');
+      const statusKey = TECHNICIAN_AVAILABILITY_STATUS_MAP.get(technician.node.availabilityStatus ?? '');
 
       if (statusKey) {
         acc[statusKey as keyof TechnicianRecordsMetrics]++;

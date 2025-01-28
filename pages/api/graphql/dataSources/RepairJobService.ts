@@ -22,6 +22,7 @@ import {
   isToday,
   makeConnectionObject,
 } from '../utils';
+import { REPAIR_JOB_PRIORITY_MAP, REPAIR_JOB_STATUS_MAP, REPAIR_JOB_TYPE_MAP } from './constants';
 
 class RepairJobService {
   private prisma;
@@ -145,19 +146,6 @@ class RepairJobService {
   async getRepairJobsMetrics(): Promise<RepairJobsMetrics> {
     const repairJobs = await this.getRepairJobs({});
 
-    const repairJobStatusMap = new Map<string, keyof RepairJobsMetrics>([
-      ['Completed', 'completedRepairJobs'],
-      ['In Progress', 'inProgressRepairJobs'],
-      ['Scheduled', 'scheduledRepairJobs'],
-      ['Cancelled', 'cancelledRepairJobs'],
-    ]);
-
-    const repairJobPriorityMap = new Map<string, keyof RepairJobsMetrics>([
-      ['High', 'highPriorityRepairJobs'],
-      ['Medium', 'mediumPriorityRepairJobs'],
-      ['Low', 'lowPriorityRepairJobs'],
-    ]);
-
     const initialRepairJobsMetrics: RepairJobsMetrics = {
       ongoingRepairJobs: 0,
       overdueRepairJobs: 0,
@@ -171,11 +159,22 @@ class RepairJobService {
       highPriorityRepairJobs: 0,
       lowPriorityRepairJobs: 0,
       mediumPriorityRepairJobs: 0,
+      routineJobs: 0,
+      emergencyJobs: 0,
+      inspectionJobs: 0,
+      installationJobs: 0,
+      complianceJobs: 0,
+      modernizationJobs: 0,
+      upgradeJobs: 0,
+      consultationJobs: 0,
+      mentainanceJobs: 0,
+      repairJobs: 0,
     };
 
     const metrics = repairJobs.edges.reduce((acc, repairJob: RepairJobEdge) => {
-      const statusKey = repairJobStatusMap.get(repairJob.node.status ?? '') || '';
-      const priorityKey = repairJobPriorityMap.get(repairJob.node.jobPriority ?? '') || '';
+      const statusKey = REPAIR_JOB_STATUS_MAP.get(repairJob.node.status ?? '') || '';
+      const priorityKey = REPAIR_JOB_PRIORITY_MAP.get(repairJob.node.jobPriority ?? '') || '';
+      const typeKey = REPAIR_JOB_TYPE_MAP.get(repairJob.node.jobType ?? '') || '';
 
       if (statusKey) {
         acc[statusKey as keyof RepairJobsMetrics]++;
@@ -183,6 +182,10 @@ class RepairJobService {
 
       if (priorityKey) {
         acc[priorityKey as keyof RepairJobsMetrics]++;
+      }
+
+      if (typeKey) {
+        acc[typeKey as keyof RepairJobsMetrics]++;
       }
 
       if (repairJob.node.isOverdue) acc.overdueRepairJobs++;
