@@ -383,15 +383,25 @@ export type RepairJobsMetrics = {
   cancelledRepairJobs: Scalars['Int']['output'];
   completedRepairJobs: Scalars['Int']['output'];
   completedRepairJobsToday: Scalars['Int']['output'];
+  complianceJobs: Scalars['Int']['output'];
+  consultationJobs: Scalars['Int']['output'];
+  emergencyJobs: Scalars['Int']['output'];
   highPriorityRepairJobs: Scalars['Int']['output'];
   inProgressRepairJobs: Scalars['Int']['output'];
+  inspectionJobs: Scalars['Int']['output'];
+  installationJobs: Scalars['Int']['output'];
   lowPriorityRepairJobs: Scalars['Int']['output'];
   mediumPriorityRepairJobs: Scalars['Int']['output'];
+  mentainanceJobs: Scalars['Int']['output'];
+  modernizationJobs: Scalars['Int']['output'];
   onHoldRepairJobs: Scalars['Int']['output'];
   ongoingRepairJobs: Scalars['Int']['output'];
   overdueRepairJobs: Scalars['Int']['output'];
+  repairJobs: Scalars['Int']['output'];
+  routineJobs: Scalars['Int']['output'];
   scheduledRepairJobs: Scalars['Int']['output'];
   totalRepairJobs: Scalars['Int']['output'];
+  upgradeJobs: Scalars['Int']['output'];
 };
 
 export type ScheduledEventAndRepairJobResponse = {
@@ -877,15 +887,25 @@ export type RepairJobsMetricsResolvers<ContextType = Context, ParentType extends
   cancelledRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   completedRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   completedRepairJobsToday?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  complianceJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  consultationJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  emergencyJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   highPriorityRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   inProgressRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  inspectionJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  installationJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   lowPriorityRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   mediumPriorityRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  mentainanceJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  modernizationJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   onHoldRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   ongoingRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   overdueRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  repairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  routineJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   scheduledRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   totalRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  upgradeJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

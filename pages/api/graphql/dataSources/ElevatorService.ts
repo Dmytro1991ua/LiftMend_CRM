@@ -19,6 +19,7 @@ import {
   getSortedFormDropdownData,
   makeConnectionObject,
 } from '../utils';
+import { ELEVATOR_STATUS_MAP } from './constants';
 
 class ElevatorService {
   private prisma;
@@ -104,13 +105,6 @@ class ElevatorService {
   async getElevatorRecordsMetrics(): Promise<ElevatorRecordsMetrics> {
     const elevatorRecords = await this.getElevatorRecords({});
 
-    const elevatorStatusMap = new Map<string, keyof ElevatorRecordsMetrics>([
-      ['Operational', 'operationalElevators'],
-      ['Out of Service', 'outOfServiceElevators'],
-      ['Under Maintenance', 'underMaintenanceElevators'],
-      ['Paused', 'pausedElevators'],
-    ]);
-
     const initialElevatorRecordsMetrics: ElevatorRecordsMetrics = {
       totalElevatorRecords: 0,
       operationalElevators: 0,
@@ -120,7 +114,7 @@ class ElevatorService {
     };
 
     const metrics = elevatorRecords.edges.reduce((acc, elevatorRecord: ElevatorRecordEdge) => {
-      const statusKey = elevatorStatusMap.get(elevatorRecord.node.status ?? '');
+      const statusKey = ELEVATOR_STATUS_MAP.get(elevatorRecord.node.status ?? '');
 
       if (statusKey) {
         acc[statusKey as keyof ElevatorRecordsMetrics]++;

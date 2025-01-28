@@ -11,6 +11,16 @@ type RepairJobsMetrics {
   lowPriorityRepairJobs: Int!
   mediumPriorityRepairJobs: Int!
   highPriorityRepairJobs: Int!
+  repairJobs: Int!
+  mentainanceJobs: Int!
+  installationJobs: Int!
+  inspectionJobs: Int!
+  upgradeJobs: Int!
+  emergencyJobs: Int!
+  routineJobs: Int!
+  consultationJobs: Int!
+  modernizationJobs: Int!
+  complianceJobs: Int!
 }
 
 type ElevatorRecordsMetrics {
