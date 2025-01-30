@@ -19,7 +19,7 @@ export const ADDITIONAL_CHART_CONFIG_FIELDS: AdditionalChatConfigFields = {
       right: 25,
     },
     barSettings: {
-      barCategoryGap: '23%',
+      barCategoryGap: '20%',
     },
     layout: 'vertical',
     secondaryLabelColor: '#6b7280',

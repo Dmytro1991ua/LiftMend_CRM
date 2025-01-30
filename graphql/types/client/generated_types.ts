@@ -382,15 +382,25 @@ export type RepairJobsMetrics = {
   cancelledRepairJobs: Scalars['Int']['output'];
   completedRepairJobs: Scalars['Int']['output'];
   completedRepairJobsToday: Scalars['Int']['output'];
+  complianceJobs: Scalars['Int']['output'];
+  consultationJobs: Scalars['Int']['output'];
+  emergencyJobs: Scalars['Int']['output'];
   highPriorityRepairJobs: Scalars['Int']['output'];
   inProgressRepairJobs: Scalars['Int']['output'];
+  inspectionJobs: Scalars['Int']['output'];
+  installationJobs: Scalars['Int']['output'];
   lowPriorityRepairJobs: Scalars['Int']['output'];
   mediumPriorityRepairJobs: Scalars['Int']['output'];
+  mentainanceJobs: Scalars['Int']['output'];
+  modernizationJobs: Scalars['Int']['output'];
   onHoldRepairJobs: Scalars['Int']['output'];
   ongoingRepairJobs: Scalars['Int']['output'];
   overdueRepairJobs: Scalars['Int']['output'];
+  repairJobs: Scalars['Int']['output'];
+  routineJobs: Scalars['Int']['output'];
   scheduledRepairJobs: Scalars['Int']['output'];
   totalRepairJobs: Scalars['Int']['output'];
+  upgradeJobs: Scalars['Int']['output'];
 };
 
 export type ScheduledEventAndRepairJobResponse = {
@@ -565,7 +575,7 @@ export type GetCalendarEventsQuery = { __typename?: 'Query', getCalendarEvents: 
 export type GetDashboardMetricsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetDashboardMetricsQuery = { __typename?: 'Query', getDashboardMetrics: { __typename?: 'DashboardMetrics', repairJobsMetrics: { __typename?: 'RepairJobsMetrics', totalRepairJobs: number, overdueRepairJobs: number, ongoingRepairJobs: number, completedRepairJobsToday: number, scheduledRepairJobs: number, inProgressRepairJobs: number, cancelledRepairJobs: number, onHoldRepairJobs: number, completedRepairJobs: number, lowPriorityRepairJobs: number, mediumPriorityRepairJobs: number, highPriorityRepairJobs: number }, elevatorRecordsMetrics: { __typename?: 'ElevatorRecordsMetrics', totalElevatorRecords: number, operationalElevators: number, underMaintenanceElevators: number, outOfServiceElevators: number, pausedElevators: number }, technicianRecordsMetrics: { __typename?: 'TechnicianRecordsMetrics', totalTechnicianRecords: number, availableTechnicians: number, busyTechnicians: number, onLeaveTechnicians: number, inactiveTechnicians: number, unavailableTechnicians: number, reservedTechnicians: number } } };
+export type GetDashboardMetricsQuery = { __typename?: 'Query', getDashboardMetrics: { __typename?: 'DashboardMetrics', repairJobsMetrics: { __typename?: 'RepairJobsMetrics', totalRepairJobs: number, overdueRepairJobs: number, ongoingRepairJobs: number, completedRepairJobsToday: number, scheduledRepairJobs: number, inProgressRepairJobs: number, cancelledRepairJobs: number, onHoldRepairJobs: number, completedRepairJobs: number, lowPriorityRepairJobs: number, mediumPriorityRepairJobs: number, highPriorityRepairJobs: number, repairJobs: number, mentainanceJobs: number, installationJobs: number, inspectionJobs: number, upgradeJobs: number, emergencyJobs: number, routineJobs: number, consultationJobs: number, modernizationJobs: number, complianceJobs: number }, elevatorRecordsMetrics: { __typename?: 'ElevatorRecordsMetrics', totalElevatorRecords: number, operationalElevators: number, underMaintenanceElevators: number, outOfServiceElevators: number, pausedElevators: number }, technicianRecordsMetrics: { __typename?: 'TechnicianRecordsMetrics', totalTechnicianRecords: number, availableTechnicians: number, busyTechnicians: number, onLeaveTechnicians: number, inactiveTechnicians: number, unavailableTechnicians: number, reservedTechnicians: number } } };
 
 export type GetElevatorDetailsByBuildingNameQueryVariables = Exact<{
   buildingName: Scalars['String']['input'];
