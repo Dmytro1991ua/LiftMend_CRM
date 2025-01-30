@@ -5,6 +5,7 @@ export enum SectionTitle {
   ElevatorStatusMetrics = 'Elevator Status Metrics',
   RepairJobStatusMetrics = 'Repair Job Status Metrics',
   RepairJobSPriorityMetrics = 'Repair Job Priority Metrics',
+  RepairJobTypeMetrics = 'Repair Job Type Metrics',
 }
 
 export type DashboardSectionProps = {
