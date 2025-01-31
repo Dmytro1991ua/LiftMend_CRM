@@ -36,6 +36,9 @@ const nextConfig = {
           presets: ['next/babel'],
           plugins: ['@babel/plugin-transform-flow-strip-types'],
         },
+        env: {
+          NEXT_PUBLIC_GRAPHQL_API_URL: process.env.NEXT_PUBLIC_GRAPHQL_API_URL,
+        },
       },
     });
 
