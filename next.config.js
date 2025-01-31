@@ -16,6 +16,9 @@ const nextConfig = {
   experimental: {
     scrollRestoration: true,
   },
+  env: {
+    NEXT_PUBLIC_GRAPHQL_API_URL: process.env.NEXT_PUBLIC_GRAPHQL_API_URL,
+  },
   async redirects() {
     return [
       {
@@ -35,9 +38,6 @@ const nextConfig = {
         options: {
           presets: ['next/babel'],
           plugins: ['@babel/plugin-transform-flow-strip-types'],
-        },
-        env: {
-          NEXT_PUBLIC_GRAPHQL_API_URL: process.env.NEXT_PUBLIC_GRAPHQL_API_URL,
         },
       },
     });
