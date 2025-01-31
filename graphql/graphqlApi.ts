@@ -10,8 +10,10 @@ if (process.env.NODE_ENV === 'production') {
   console.log('GraphQL API URL in dev:', process.env.NEXT_PUBLIC_GRAPHQL_API_URL);
 }
 
-const uri = `${process.env.NEXT_PUBLIC_GRAPHQL_API_URL}graphql`;
+const uri = process.env.NEXT_PUBLIC_GRAPHQL_API_URL;
 const httpLink = new HttpLink({ uri });
+
+console.log('uri', uri, 'httpLink', httpLink);
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
@@ -32,9 +34,8 @@ const cache = new InMemoryCache({
 });
 
 export const client = new ApolloClient({
-  uri,
-  credentials: 'same-origin',
   link: from(links),
+  credentials: 'same-origin',
   cache,
   defaultOptions: {
     watchQuery: {
