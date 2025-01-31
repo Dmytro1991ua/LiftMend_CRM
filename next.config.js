@@ -15,6 +15,7 @@ const nextConfig = {
   },
   experimental: {
     scrollRestoration: true,
+    outputStandalone: true,
   },
   env: {
     NEXT_PUBLIC_GRAPHQL_API_URL: process.env.NEXT_PUBLIC_GRAPHQL_API_URL,
