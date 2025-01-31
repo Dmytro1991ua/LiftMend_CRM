@@ -4,7 +4,7 @@ import { onError } from '@apollo/client/link/error';
 import { typePolicies } from './typePolicies';
 import { handleGraphQLErrors } from './utils';
 
-const uri = process.env.NEXT_PUBLIC_GRAPHQL_API_URL;
+const uri = `${process.env.NEXT_PUBLIC_GRAPHQL_API_URL}/api/graphql`;
 const httpLink = new HttpLink({ uri });
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
