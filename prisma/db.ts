@@ -5,6 +5,12 @@ declare global {
   var prismaGlobal: PrismaClient | undefined;
 }
 
+if (process.env.NODE_ENV === 'production') {
+  console.log('Prisma API URL in prod:', process.env.DATABASE_URL);
+} else {
+  console.log('Prisma API URL in dev:', process.env.DATABASE_URL);
+}
+
 let prisma: PrismaClient;
 
 if (process.env.NODE_ENV === 'production') {
