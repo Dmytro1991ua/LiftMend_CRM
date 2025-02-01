@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npx prisma generate && next build",
     "start": "next start",
     "lint": "next lint --dir .",
     "lint-fix": "npm run lint -- --fix",
@@ -24,7 +24,8 @@
     "prisma-migrate": "npx prisma migrate dev --name init",
     "prisma-push": "npx prisma db push",
     "prisma-pull": "npx prisma db pull",
-    "prisma-redeploy": "npx prisma migrate deploy"
+    "prisma-redeploy": "npx prisma migrate deploy",
+    "postinstall": "npx prisma generate"
   },
   "dependencies": {
     "@apollo/client": "^3.8.8",
