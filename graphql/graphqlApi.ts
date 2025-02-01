@@ -4,7 +4,7 @@ import { onError } from '@apollo/client/link/error';
 import { typePolicies } from './typePolicies';
 import { handleGraphQLErrors } from './utils';
 
-const uri = 'http://localhost:3000/api/graphql';
+const uri = process.env.NEXT_PUBLIC_GRAPHQL_API_URL;
 const httpLink = new HttpLink({ uri });
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
@@ -26,9 +26,8 @@ const cache = new InMemoryCache({
 });
 
 export const client = new ApolloClient({
-  uri,
-  credentials: 'same-origin',
   link: from(links),
+  credentials: 'same-origin',
   cache,
   defaultOptions: {
     watchQuery: {
