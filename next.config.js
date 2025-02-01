@@ -16,6 +16,12 @@ const nextConfig = {
   experimental: {
     scrollRestoration: true,
   },
+  env: {
+    NEXT_PUBLIC_GRAPHQL_API_URL: process.env.NEXT_PUBLIC_GRAPHQL_API_URL,
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    DATABASE_URL: process.env.DATABASE_URL,
+  },
   async redirects() {
     return [
       {
@@ -45,6 +51,7 @@ const nextConfig = {
   },
 };
 
-console.log('✅ NEXT CONFIG - GRAPHQL_API_URL:', process.env.GRAPHQL_API_URL);
+console.log('✅ NEXT CONFIG - GRAPHQL_API_URL:', process.env.NEXT_PUBLIC_GRAPHQL_API_URL);
+console.log('✅ NEXT CONFIG - DATABASE_URL', process.env.DATABASE_URL);
 
 module.exports = withTM(nextConfig);
