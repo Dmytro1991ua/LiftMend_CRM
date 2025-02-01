@@ -17,7 +17,9 @@ const nextConfig = {
     scrollRestoration: true,
   },
   env: {
-    NEXT_PUBLIC_GRAPHQL_API_URL: process.env.NEXT_PUBLIC_GRAPHQL_API_URL,
+    GRAPHQL_API_URL: process.env.GRAPHQL_API_URL,
+    SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY,
+    SUPABASE_URL: process.env.SUPABASE_URL,
   },
   async redirects() {
     return [
