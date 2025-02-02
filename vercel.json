@@ -1,7 +1,14 @@
 {
+  "builds": [
+    {
+      "src": "pages/api/graphql/schemas/**/*",
+      "use": "@vercel/static",
+      "dest": "/schemas"
+    }
+  ],
   "functions": {
-    "pages/api/graphql/index.ts": {
-      "includeFiles": "pages/api/graphql/schemas/**/*.graphql"
+    "pages/api/graphql/**/*.ts": {
+      "includeFiles": ["pages/api/graphql/schemas/**/*"]
     }
   }
 }
