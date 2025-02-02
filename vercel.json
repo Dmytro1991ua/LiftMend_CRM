@@ -1,7 +1,7 @@
 {
   "functions": {
     "pages/api/graphql/**/*.ts": {
-      "includeFiles": "pages/api/graphql/schemas/**/*"
+      "includeFiles": "pages/api/graphql/schemas/**/*.graphql"
     }
   }
 }
