@@ -41,6 +41,14 @@ const nextConfig = {
 
     config.resolve.extensions.push('.js', '.jsx');
 
+    config.module.rules.push({
+      test: /\.graphql$/,
+      exclude: /node_modules/,
+      use: {
+        loader: 'graphql-tag/loader',
+      },
+    });
+
     return config;
   },
 };
