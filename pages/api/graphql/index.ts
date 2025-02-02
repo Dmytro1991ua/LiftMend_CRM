@@ -6,7 +6,7 @@ import prisma from '@/prisma/db';
 
 import { createDataSources } from './dataSources';
 import resolvers from './resolvers';
-import typeDefs from './schemas';
+import { typeDefs } from './schemas';
 import { Context } from './types';
 
 const schema = makeExecutableSchema<Context>({
