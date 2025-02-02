@@ -18,13 +18,16 @@ const readSchemaFile = (filePath: string): string | null => {
 };
 
 const generateMergedTypeDefs = () => {
+  // Resolve the correct path using process.cwd() for reliability
+  const folderPath = path.join(process.cwd(), SCHEMAS_FOLDER_PATH);
+
   // Combine priority schemas and other GraphQL files from the folder
-  const allSchemas = [...PRIORITY_SCHEMAS, ...fs.readdirSync(SCHEMAS_FOLDER_PATH)];
+  const allSchemas = [...PRIORITY_SCHEMAS, ...fs.readdirSync(folderPath)];
 
   const schemaFiles = allSchemas.reduce((acc, file) => {
     // Only process files that match .graphql extension or are in PRIORITY_SCHEMAS
     if (FILE_EXTENSION.test(file) || PRIORITY_SCHEMAS.includes(file)) {
-      const content = readSchemaFile(path.join(SCHEMAS_FOLDER_PATH, file));
+      const content = readSchemaFile(path.join(folderPath, file));
 
       if (content) acc.add(content);
     }
