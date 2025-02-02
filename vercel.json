@@ -1,6 +1,6 @@
 {
   "functions": {
-    "api/graphql/index.ts": {
+    "pages/api/graphql/index.ts": {
       "includeFiles": "pages/api/graphql/schemas/**/*.graphql"
     }
   }
