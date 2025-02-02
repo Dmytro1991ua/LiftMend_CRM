@@ -2,8 +2,7 @@
   "builds": [
     {
       "src": "pages/api/graphql/schemas/**/*",
-      "use": "@vercel/static",
-      "dest": "/schemas"
+      "use": "@vercel/static"
     }
   ],
   "functions": {
