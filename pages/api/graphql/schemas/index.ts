@@ -1,27 +1,17 @@
+import path from 'path';
+
+import { loadFilesSync } from '@graphql-tools/load-files';
 import { mergeTypeDefs } from '@graphql-tools/merge';
 
-import calendarEventSchema from './calendarEvent.graphql';
-import dashboardSchema from './dashboard.graphql';
-import elevatorRecordSchema from './elevatorRecord.graphql';
-import mutationSchema from './mutation.graphql';
-import paginationSchema from './pagination.graphql';
-import querySchema from './query.graphql';
-import repairJobSchema from './repairJob.graphql';
-import scalarSchema from './scalar.graphql';
-import technicianRecordSchema from './technicianRecord.graphql';
-import userSchema from './user.graphql';
+const SCHEMAS_FOLDER_PATH = 'pages/api/graphql/schemas';
+const FILE_EXTENSION = '**/*.graphql';
 
-const schemas = [
-  calendarEventSchema,
-  elevatorRecordSchema,
-  paginationSchema,
-  querySchema,
-  repairJobSchema,
-  scalarSchema,
-  technicianRecordSchema,
-  userSchema,
-  mutationSchema,
-  dashboardSchema,
-];
+const generateMergedTypeDefs = () => {
+  const folderPath = path.join(process.cwd(), SCHEMAS_FOLDER_PATH);
 
-export const typeDefs = mergeTypeDefs(schemas);
+  const schemaFiles = loadFilesSync(path.join(folderPath, FILE_EXTENSION));
+
+  return mergeTypeDefs(schemaFiles);
+};
+
+export default generateMergedTypeDefs();
