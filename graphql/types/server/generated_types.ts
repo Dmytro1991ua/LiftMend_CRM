@@ -157,11 +157,18 @@ export type ElevatorRecordSortInput = {
 
 export type ElevatorRecordsMetrics = {
   __typename?: 'ElevatorRecordsMetrics';
+  freightElevators: Scalars['Int']['output'];
+  homeElevators: Scalars['Int']['output'];
+  luxuryHighSpeedElevators: Scalars['Int']['output'];
   operationalElevators: Scalars['Int']['output'];
   outOfServiceElevators: Scalars['Int']['output'];
+  passengerElevators: Scalars['Int']['output'];
   pausedElevators: Scalars['Int']['output'];
+  serviceElevators: Scalars['Int']['output'];
+  specialtyElevators: Scalars['Int']['output'];
   totalElevatorRecords: Scalars['Int']['output'];
   underMaintenanceElevators: Scalars['Int']['output'];
+  vehicleParkingElevators: Scalars['Int']['output'];
 };
 
 export type Mutation = {
@@ -791,11 +798,18 @@ export type ElevatorRecordFormDataResolvers<ContextType = Context, ParentType ex
 }>;
 
 export type ElevatorRecordsMetricsResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ElevatorRecordsMetrics'] = ResolversParentTypes['ElevatorRecordsMetrics']> = ResolversObject<{
+  freightElevators?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  homeElevators?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  luxuryHighSpeedElevators?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   operationalElevators?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   outOfServiceElevators?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  passengerElevators?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   pausedElevators?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  serviceElevators?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  specialtyElevators?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   totalElevatorRecords?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   underMaintenanceElevators?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  vehicleParkingElevators?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

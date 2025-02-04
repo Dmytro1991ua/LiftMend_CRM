@@ -19,7 +19,7 @@ import {
   getSortedFormDropdownData,
   makeConnectionObject,
 } from '../utils';
-import { ELEVATOR_STATUS_MAP } from './constants';
+import { ELEVATOR_STATUS_MAP, ELEVATOR_TYPE_MAP } from './constants';
 
 class ElevatorService {
   private prisma;
@@ -111,13 +111,25 @@ class ElevatorService {
       outOfServiceElevators: 0,
       pausedElevators: 0,
       underMaintenanceElevators: 0,
+      passengerElevators: 0,
+      freightElevators: 0,
+      serviceElevators: 0,
+      homeElevators: 0,
+      luxuryHighSpeedElevators: 0,
+      vehicleParkingElevators: 0,
+      specialtyElevators: 0,
     };
 
     const metrics = elevatorRecords.edges.reduce((acc, elevatorRecord: ElevatorRecordEdge) => {
       const statusKey = ELEVATOR_STATUS_MAP.get(elevatorRecord.node.status ?? '');
+      const typeKey = ELEVATOR_TYPE_MAP.get(elevatorRecord.node.elevatorType);
 
       if (statusKey) {
         acc[statusKey as keyof ElevatorRecordsMetrics]++;
+      }
+
+      if (typeKey) {
+        acc[typeKey as keyof ElevatorRecordsMetrics]++;
       }
 
       acc.totalElevatorRecords++;
