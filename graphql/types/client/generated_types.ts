@@ -154,11 +154,18 @@ export type ElevatorRecordSortInput = {
 
 export type ElevatorRecordsMetrics = {
   __typename?: 'ElevatorRecordsMetrics';
+  freightElevators: Scalars['Int']['output'];
+  homeElevators: Scalars['Int']['output'];
+  luxuryHighSpeedElevators: Scalars['Int']['output'];
   operationalElevators: Scalars['Int']['output'];
   outOfServiceElevators: Scalars['Int']['output'];
+  passengerElevators: Scalars['Int']['output'];
   pausedElevators: Scalars['Int']['output'];
+  serviceElevators: Scalars['Int']['output'];
+  specialtyElevators: Scalars['Int']['output'];
   totalElevatorRecords: Scalars['Int']['output'];
   underMaintenanceElevators: Scalars['Int']['output'];
+  vehicleParkingElevators: Scalars['Int']['output'];
 };
 
 export type Mutation = {

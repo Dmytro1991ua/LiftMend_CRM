@@ -29,6 +29,13 @@ type ElevatorRecordsMetrics {
   underMaintenanceElevators: Int!
   outOfServiceElevators: Int!
   pausedElevators: Int!
+  passengerElevators: Int!
+  freightElevators: Int!
+  serviceElevators: Int!
+  homeElevators: Int!
+  luxuryHighSpeedElevators: Int!
+  vehicleParkingElevators: Int!
+  specialtyElevators: Int!
 }
 
 type TechnicianRecordsMetrics {

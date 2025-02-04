@@ -4,11 +4,11 @@ import { SectionHeaderTitle } from '@/types/enums';
 
 import ElevatorStatusMetrics from './components/elevator-status-metrics';
 import KeyAppMetrics from './components/key-app-metrics';
+import RepairJobPriorityMetrics from './components/repair-job-priority-metrics';
 import RepairJobStatusMetrics from './components/repair-job-status-metrics';
+import RepairJobTypeMetrics from './components/repair-job-type-metrics';
 import TechnicianVisibilityMetrics from './components/technician-visibility-metrics';
 import { useFetchDashboardMetrics } from './hooks';
-import RepairJobPriorityMetrics from './components/repair-job-priority-metrics';
-import RepairJobTypeMetrics from './components/repair-job-type-metrics';
 
 const Dashboard = () => {
   const { dashboardMetrics, loading, error } = useFetchDashboardMetrics();
@@ -22,11 +22,11 @@ const Dashboard = () => {
           <TechnicianVisibilityMetrics dashboardMetrics={dashboardMetrics} error={error} loading={loading} />
           <ElevatorStatusMetrics dashboardMetrics={dashboardMetrics} error={error} loading={loading} />
           <RepairJobStatusMetrics dashboardMetrics={dashboardMetrics} error={error} loading={loading} />
-          <TechnicianVisibilityMetrics dashboardMetrics={dashboardMetrics} loading={loading} error={error} />
-          <ElevatorStatusMetrics dashboardMetrics={dashboardMetrics} loading={loading} error={error} />
-          <RepairJobStatusMetrics dashboardMetrics={dashboardMetrics} loading={loading} error={error} />
-          <RepairJobPriorityMetrics dashboardMetrics={dashboardMetrics} loading={loading} error={error} />
-          <RepairJobTypeMetrics dashboardMetrics={dashboardMetrics} loading={loading} error={error} />
+          <TechnicianVisibilityMetrics dashboardMetrics={dashboardMetrics} error={error} loading={loading} />
+          <ElevatorStatusMetrics dashboardMetrics={dashboardMetrics} error={error} loading={loading} />
+          <RepairJobStatusMetrics dashboardMetrics={dashboardMetrics} error={error} loading={loading} />
+          <RepairJobPriorityMetrics dashboardMetrics={dashboardMetrics} error={error} loading={loading} />
+          <RepairJobTypeMetrics dashboardMetrics={dashboardMetrics} error={error} loading={loading} />
         </div>
       </section>
     </section>
