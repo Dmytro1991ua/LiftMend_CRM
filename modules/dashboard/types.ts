@@ -3,6 +3,7 @@ export enum SectionTitle {
   KeyAppMetrics = 'Key App Metrics',
   TechnicianAvailabilityMetrics = 'Technician Availability Metrics',
   ElevatorStatusMetrics = 'Elevator Status Metrics',
+  ElevatorTypeMetrics = 'Elevator Type Metrics',
   RepairJobStatusMetrics = 'Repair Job Status Metrics',
   RepairJobSPriorityMetrics = 'Repair Job Priority Metrics',
   RepairJobTypeMetrics = 'Repair Job Type Metrics',

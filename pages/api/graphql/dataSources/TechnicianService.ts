@@ -20,6 +20,7 @@ import {
   getSortedFormDropdownData,
   makeConnectionObject,
 } from '../utils';
+
 import { TECHNICIAN_AVAILABILITY_STATUS_MAP } from './constants';
 
 class TechnicianService {

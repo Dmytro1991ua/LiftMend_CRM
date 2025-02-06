@@ -82,9 +82,10 @@ export const ELEVATOR_TYPE_MAP = new Map<string, keyof ElevatorRecordsMetrics>([
 
 export const REPAIR_JOB_STATUS_MAP = new Map<string, keyof RepairJobsMetrics>([
   ['Completed', 'completedRepairJobs'],
-  ['In Progress', 'inProgressRepairJobs'],
+  ['In Progress', 'ongoingRepairJobs'],
   ['Scheduled', 'scheduledRepairJobs'],
   ['Cancelled', 'cancelledRepairJobs'],
+  ['On Hold', 'onHoldRepairJobs'],
 ]);
 
 export const REPAIR_JOB_PRIORITY_MAP = new Map<string, keyof RepairJobsMetrics>([

@@ -12,15 +12,17 @@ export const getAdditionalChartConfigFields = (totalElevators: number): Addition
       chartTitle: 'Total Elevators',
       chartTotalValue: totalElevators,
       shouldShowLabel: true,
+      shouldShowChartLegend: true,
+      chartLegendClassName: 'hidden lg:flex translate-y-1 flex-wrap gap-2 [&>*]:basis-1/3 [&>*]:justify-center',
     },
   };
 };
 
-export const getElevatorStatusChartDataConfig = (technicianRecordMetrics: ElevatorRecordsMetrics): ChartData[] => {
+export const getElevatorStatusChartDataConfig = (elevatorRecordMetrics: ElevatorRecordsMetrics): ChartData[] => {
   return [
-    { name: 'Operational', value: technicianRecordMetrics?.operationalElevators, fill: '#22c55e' },
-    { name: 'Out of Service', value: technicianRecordMetrics?.outOfServiceElevators, fill: '#ef4444' },
-    { name: 'Under Mentainance', value: technicianRecordMetrics?.underMaintenanceElevators, fill: '#f97316' },
-    { name: 'Paused', value: technicianRecordMetrics?.pausedElevators, fill: '#3b82f6' },
+    { name: 'Operational', value: elevatorRecordMetrics?.operationalElevators, fill: '#22c55e' },
+    { name: 'Out of Service', value: elevatorRecordMetrics?.outOfServiceElevators, fill: '#ef4444' },
+    { name: 'Under Mentainance', value: elevatorRecordMetrics?.underMaintenanceElevators, fill: '#f97316' },
+    { name: 'Paused', value: elevatorRecordMetrics?.pausedElevators, fill: '#3b82f6' },
   ];
 };

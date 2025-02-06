@@ -13,7 +13,7 @@ type CardDetails = {
   description: string;
 };
 
-type ChartMetricsProps<T> = {
+type ChartMetricsProps = {
   className?: string;
   sectionTitle: SectionTitle;
   cardDetails: CardDetails;
@@ -25,7 +25,7 @@ type ChartMetricsProps<T> = {
   additionalChartConfigFields: AdditionalChatConfigFields;
 };
 
-const ChartMetrics = <T,>({
+const ChartMetrics = ({
   className,
   sectionTitle,
   chartConfig,
@@ -35,7 +35,7 @@ const ChartMetrics = <T,>({
   chartType,
   chartData,
   additionalChartConfigFields,
-}: ChartMetricsProps<T>) => {
+}: ChartMetricsProps) => {
   const { title, description } = cardDetails;
 
   return (
@@ -48,7 +48,8 @@ const ChartMetrics = <T,>({
             cardDescriptionClassName='text-white'
             cardHeaderClassName='bg-primary text-white text-lg items-center'
             description={description}
-            title={title}>
+            title={title}
+          >
             {loading ? (
               <Bars
                 ariaLabel='bars-loading'

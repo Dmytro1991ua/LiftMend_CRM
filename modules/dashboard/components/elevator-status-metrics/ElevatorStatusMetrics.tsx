@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 
-import { ElevatorRecordsMetrics } from '@/graphql/types/client/generated_types';
 import { ChartType } from '@/shared/base-charts/types';
 
 import { DashboardSectionProps, SectionTitle } from '../../types';
@@ -24,7 +23,7 @@ const ElevatorStatusMetrics = ({ className, dashboardMetrics, loading, error }: 
     [dashboardMetrics.elevatorRecordsMetrics?.totalElevatorRecords]
   );
   return (
-    <ChartMetrics<ElevatorRecordsMetrics>
+    <ChartMetrics
       additionalChartConfigFields={additionalChartConfigFields}
       cardDetails={{
         title: ELEVATOR_STATUS_CHART_TITLE,
