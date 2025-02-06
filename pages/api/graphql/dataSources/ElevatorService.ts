@@ -19,6 +19,7 @@ import {
   getSortedFormDropdownData,
   makeConnectionObject,
 } from '../utils';
+
 import { ELEVATOR_STATUS_MAP, ELEVATOR_TYPE_MAP } from './constants';
 
 class ElevatorService {

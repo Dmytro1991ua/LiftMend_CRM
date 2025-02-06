@@ -1,6 +1,12 @@
 import { Label, Pie, PieChart } from 'recharts';
 
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import {
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent,
+} from '@/components/ui/chart';
 
 import { AdditionalChatConfigFields, BaseChartProps, ChartType } from '../types';
 
@@ -17,6 +23,8 @@ const BasePieChart = ({ data, config, className, additionalChartConfigFields }: 
     chartTitle,
     chartTotalValue,
     shouldShowLabel = false,
+    shouldShowChartLegend = false,
+    chartLegendClassName = '',
     nameKey = '',
     dataKey = '',
   } = additionalChartConfigFields || {};
@@ -44,6 +52,14 @@ const BasePieChart = ({ data, config, className, additionalChartConfigFields }: 
     </>
   );
 
+  const renderChartLegend = (
+    <>
+      {shouldShowChartLegend ? (
+        <ChartLegend className={chartLegendClassName} content={<ChartLegendContent nameKey='name' />} />
+      ) : null}
+    </>
+  );
+
   return (
     <ChartContainer className={className} config={config}>
       <PieChart>
@@ -55,9 +71,11 @@ const BasePieChart = ({ data, config, className, additionalChartConfigFields }: 
           label={hasLayerLabel}
           nameKey={nameKey}
           outerRadius={outerRadius}
-          strokeWidth={strokeWidth}>
+          strokeWidth={strokeWidth}
+        >
           {renderChartLabel}
         </Pie>
+        {renderChartLegend}
       </PieChart>
     </ChartContainer>
   );

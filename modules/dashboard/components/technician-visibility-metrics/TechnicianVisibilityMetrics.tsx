@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 
-import { TechnicianRecordsMetrics } from '@/graphql/types/client/generated_types';
 import { ChartType } from '@/shared/base-charts/types';
 
 import { DashboardSectionProps, SectionTitle } from '../../types';
@@ -25,7 +24,7 @@ const TechnicianVisibilityMetrics = ({ className, error, loading, dashboardMetri
   );
 
   return (
-    <ChartMetrics<TechnicianRecordsMetrics>
+    <ChartMetrics
       additionalChartConfigFields={additionalChartConfigFields}
       cardDetails={{
         title: TECHNICIAN_AVAILABILITY_CHART_TITLE,

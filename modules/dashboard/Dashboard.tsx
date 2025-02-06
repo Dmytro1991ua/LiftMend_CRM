@@ -3,6 +3,7 @@ import SectionHeader from '@/shared/section-header';
 import { SectionHeaderTitle } from '@/types/enums';
 
 import ElevatorStatusMetrics from './components/elevator-status-metrics';
+import ElevatorTypeMetrics from './components/elevator-type-metrics';
 import KeyAppMetrics from './components/key-app-metrics';
 import RepairJobPriorityMetrics from './components/repair-job-priority-metrics';
 import RepairJobStatusMetrics from './components/repair-job-status-metrics';
@@ -22,11 +23,14 @@ const Dashboard = () => {
           <TechnicianVisibilityMetrics dashboardMetrics={dashboardMetrics} error={error} loading={loading} />
           <ElevatorStatusMetrics dashboardMetrics={dashboardMetrics} error={error} loading={loading} />
           <RepairJobStatusMetrics dashboardMetrics={dashboardMetrics} error={error} loading={loading} />
-          <TechnicianVisibilityMetrics dashboardMetrics={dashboardMetrics} error={error} loading={loading} />
-          <ElevatorStatusMetrics dashboardMetrics={dashboardMetrics} error={error} loading={loading} />
-          <RepairJobStatusMetrics dashboardMetrics={dashboardMetrics} error={error} loading={loading} />
           <RepairJobPriorityMetrics dashboardMetrics={dashboardMetrics} error={error} loading={loading} />
           <RepairJobTypeMetrics dashboardMetrics={dashboardMetrics} error={error} loading={loading} />
+          <ElevatorTypeMetrics
+            className='[&_.recharts-pie-label-text]:fill-foreground [&_.recharts-pie-label-line]:stroke-foreground'
+            dashboardMetrics={dashboardMetrics}
+            error={error}
+            loading={loading}
+          />
         </div>
       </section>
     </section>

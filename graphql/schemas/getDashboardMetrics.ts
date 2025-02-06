@@ -33,6 +33,13 @@ export const GET_DASHBOARD_METRICS = gql`
         underMaintenanceElevators
         outOfServiceElevators
         pausedElevators
+        passengerElevators
+        freightElevators
+        serviceElevators
+        homeElevators
+        luxuryHighSpeedElevators
+        vehicleParkingElevators
+        specialtyElevators
       }
       technicianRecordsMetrics {
         totalTechnicianRecords

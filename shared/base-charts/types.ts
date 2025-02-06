@@ -29,6 +29,8 @@ export type PieChartConfig = {
   chartTitle?: string;
   chartTotalValue?: number;
   shouldShowLabel?: boolean;
+  shouldShowChartLegend?: boolean;
+  chartLegendClassName?: string;
 };
 
 export type BarChartConfig = {

@@ -12,6 +12,8 @@ export const getAdditionalChartConfigFields = (totalTechnicianRecords: number): 
       chartTitle: 'Total Technicians',
       chartTotalValue: totalTechnicianRecords,
       shouldShowLabel: true,
+      shouldShowChartLegend: true,
+      chartLegendClassName: 'hidden lg:flex translate-y-1 flex-wrap gap-2 [&>*]:basis-1/4 [&>*]:justify-center',
     },
   };
 };

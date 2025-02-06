@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 
-import { RepairJobsMetrics } from '@/graphql/types/client/generated_types';
 import { ChartType } from '@/shared/base-charts/types';
 
 import { DashboardSectionProps, SectionTitle } from '../../types';
@@ -21,7 +20,7 @@ const RepairJobStatusMetrics = ({ className, dashboardMetrics, loading, error }:
   );
 
   return (
-    <ChartMetrics<RepairJobsMetrics>
+    <ChartMetrics
       additionalChartConfigFields={ADDITIONAL_CHART_CONFIG_FIELDS}
       cardDetails={{
         title: REPAIR_JOB_STATUS_CHART_TITLE,
@@ -29,11 +28,11 @@ const RepairJobStatusMetrics = ({ className, dashboardMetrics, loading, error }:
       }}
       chartConfig={REPAIR_JOB_STATUS_CHART_CONFIG}
       chartData={chartData}
-      sectionTitle={SectionTitle.RepairJobStatusMetrics}
-      loading={loading}
-      error={error}
       chartType={ChartType.Bar}
       className={className}
+      error={error}
+      loading={loading}
+      sectionTitle={SectionTitle.RepairJobStatusMetrics}
     />
   );
 };
