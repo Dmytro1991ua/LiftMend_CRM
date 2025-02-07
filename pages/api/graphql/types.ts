@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { SupabaseClient, User } from '@supabase/supabase-js';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { DataSources } from './dataSources';
@@ -8,6 +9,8 @@ export type Context = {
   res: NextApiResponse;
   prisma: PrismaClient;
   dataSources: DataSources;
+  user: User | null;
+  supabase: SupabaseClient;
 };
 
 export type PageInfo = {
