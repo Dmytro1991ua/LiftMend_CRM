@@ -9,9 +9,26 @@ export enum SectionTitle {
   RepairJobTypeMetrics = 'Repair Job Type Metrics',
 }
 
+export enum DateRangeErrorVariant {
+  InvalidDateRange = 'InvalidDateRange',
+  MissingEndDate = 'MissingEndDate',
+  InvalidDateOrder = 'InvalidDateOrder',
+  DateRangeTooLarge = 'DateRangeTooLarge',
+}
+
 export type DashboardSectionProps = {
   dashboardMetrics: DashboardMetrics;
   loading: boolean;
   error?: string;
   className?: string;
+};
+
+export type DashboardDateFilter = {
+  from: Date;
+  to: Date;
+};
+
+export type DateRangeValidationResult = {
+  title: string;
+  message: string;
 };

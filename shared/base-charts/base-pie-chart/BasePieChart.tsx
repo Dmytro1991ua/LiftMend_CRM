@@ -8,6 +8,7 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart';
 
+import { DEFAULT_FALLBACK_MESSAGE } from '../constants';
 import { AdditionalChatConfigFields, BaseChartProps, ChartType } from '../types';
 
 interface BasePieChartProps extends Omit<BaseChartProps, 'additionalChartConfigFields' | 'chartType'> {
@@ -28,6 +29,8 @@ const BasePieChart = ({ data, config, className, additionalChartConfigFields }: 
     nameKey = '',
     dataKey = '',
   } = additionalChartConfigFields || {};
+
+  const isFallbackMessageShown = data.every(({ value }) => value === 0);
 
   const renderChartLabel = (
     <>
@@ -59,6 +62,10 @@ const BasePieChart = ({ data, config, className, additionalChartConfigFields }: 
       ) : null}
     </>
   );
+
+  if (isFallbackMessageShown) {
+    return <p className='flex h-96 flex-col items-center justify-center font-bold'>{DEFAULT_FALLBACK_MESSAGE}</p>;
+  }
 
   return (
     <ChartContainer className={className} config={config}>

@@ -7,3 +7,4 @@ export const DEFAULT_PAGINATION = {
 
 export const TABLE_STATE_STORAGE_KEY = 'tableState';
 export const DEFAULT_DEBOUNCE_TIMEOUT = 500;
+export const DASHBOARD_STATE_STORAGE_KEY = 'dashboardState';

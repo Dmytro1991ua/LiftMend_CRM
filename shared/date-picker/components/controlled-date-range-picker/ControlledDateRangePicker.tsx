@@ -11,6 +11,8 @@ interface ControlledDateRangePickerProps<T extends FieldValues> extends DatePick
   name: Path<T>;
   className?: string;
   defaultValue?: PathValue<T, Path<T>> | undefined;
+  infoTooltip?: JSX.Element;
+  isDisabled?: boolean;
   clearErrors?: UseFormClearErrors<T>;
 }
 
@@ -19,6 +21,8 @@ const ControlledDateRangePicker = <T extends FieldValues>({
   name,
   className,
   defaultValue,
+  infoTooltip,
+  isDisabled,
   clearErrors,
   ...props
 }: ControlledDateRangePickerProps<T>) => {
@@ -35,6 +39,7 @@ const ControlledDateRangePicker = <T extends FieldValues>({
   return (
     <div className={cn('relative grid w-full items-center gap-1.5', className)}>
       {label && <label className={labelErrorStyles}>{label}</label>}
+      {(isDisabled || infoTooltip) && infoTooltip}
       <Controller
         control={control}
         defaultValue={defaultValue}

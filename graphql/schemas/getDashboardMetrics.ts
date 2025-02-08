@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export const GET_DASHBOARD_METRICS = gql`
-  query GetDashboardMetrics {
-    getDashboardMetrics {
+  query GetDashboardMetrics($startDate: String!, $endDate: String!) {
+    getDashboardMetrics(startDate: $startDate, endDate: $endDate) {
       repairJobsMetrics {
         totalRepairJobs
         overdueRepairJobs

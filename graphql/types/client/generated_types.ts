@@ -259,6 +259,11 @@ export type Query = {
   getTechnicianRecords: TechnicianRecordConnection;
 };
 
+export type QueryGetDashboardMetricsArgs = {
+  endDate: Scalars['String']['input'];
+  startDate: Scalars['String']['input'];
+};
+
 export type QueryGetElevatorDetailsByBuildingNameArgs = {
   buildingName: Scalars['String']['input'];
 };
@@ -328,10 +333,12 @@ export type RepairJobFilterOptions = {
   buildingName?: InputMaybe<Array<Scalars['String']['input']>>;
   elevatorLocation?: InputMaybe<Array<Scalars['String']['input']>>;
   elevatorType?: InputMaybe<Array<Scalars['String']['input']>>;
+  endDate?: InputMaybe<Scalars['String']['input']>;
   isOverdue?: InputMaybe<Array<Scalars['String']['input']>>;
   jobPriority?: InputMaybe<Array<Scalars['String']['input']>>;
   jobType?: InputMaybe<Array<Scalars['String']['input']>>;
   searchTerm?: InputMaybe<Scalars['String']['input']>;
+  startDate?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Array<Scalars['String']['input']>>;
   technicianName?: InputMaybe<Array<Scalars['String']['input']>>;
 };
@@ -673,7 +680,10 @@ export type GetCalendarEventsQuery = {
   }>;
 };
 
-export type GetDashboardMetricsQueryVariables = Exact<{ [key: string]: never }>;
+export type GetDashboardMetricsQueryVariables = Exact<{
+  startDate: Scalars['String']['input'];
+  endDate: Scalars['String']['input'];
+}>;
 
 export type GetDashboardMetricsQuery = {
   __typename?: 'Query';
