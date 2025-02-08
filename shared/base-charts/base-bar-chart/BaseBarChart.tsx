@@ -2,11 +2,13 @@ import { Bar, BarChart, CartesianGrid, LabelList, XAxis, YAxis } from 'recharts'
 
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 
+import { DEFAULT_FALLBACK_MESSAGE } from '../constants';
 import { AdditionalChatConfigFields, BaseChartProps, ChartType } from '../types';
 
 interface BaseBarChartProps extends Omit<BaseChartProps, 'additionalChartConfigFields' | 'chartType'> {
   additionalChartConfigFields?: AdditionalChatConfigFields[ChartType.Bar];
 }
+
 const BaseBarChart = ({ config, className, additionalChartConfigFields, data }: BaseBarChartProps) => {
   const {
     axisLine = false,
@@ -32,6 +34,7 @@ const BaseBarChart = ({ config, className, additionalChartConfigFields, data }: 
   } = additionalChartConfigFields || {};
 
   const filteredChartData = data.filter(({ value }) => value !== 0);
+  const isFallbackMessageShown = data.every(({ value }) => value === 0);
 
   const isVertical = layout === 'vertical';
   const xAxisType = isVertical ? 'number' : 'category';
@@ -41,6 +44,10 @@ const BaseBarChart = ({ config, className, additionalChartConfigFields, data }: 
   const primaryLabelPosition = isVertical ? 'insideLeft' : 'top';
   const secondaryLabelPosition = isVertical ? 'right' : 'bottom';
   const labelOffset = isVertical ? 8 : 16;
+
+  if (isFallbackMessageShown) {
+    return <p className='flex h-96 flex-col items-center justify-center font-bold'>{DEFAULT_FALLBACK_MESSAGE}</p>;
+  }
 
   return (
     <ChartContainer className={className} config={config}>
@@ -53,7 +60,8 @@ const BaseBarChart = ({ config, className, additionalChartConfigFields, data }: 
           bottom: barChartMargin?.bottom,
           left: barChartMargin?.left,
         }}
-        {...barSettings}>
+        {...barSettings}
+      >
         <CartesianGrid vertical={isGridVertical} />
         <XAxis
           axisLine={axisLine}

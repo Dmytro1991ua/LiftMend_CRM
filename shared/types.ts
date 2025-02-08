@@ -6,6 +6,7 @@ export enum StorageTableName {
   RepairJobTable = 'repairJobTable',
   ElevatorManagementTable = 'elevatorManagementTable',
   TechnicianManagementTable = 'technicianManagementTable',
+  DashboardPage = 'dashboardPage',
 }
 
 export enum TableNames {

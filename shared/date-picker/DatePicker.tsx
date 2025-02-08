@@ -25,6 +25,8 @@ export interface DatePickerProps {
   allowPastDates?: boolean;
   onChange?: (range?: DateRange) => void;
   onSingleDateChange?: (singleDate?: Date) => void;
+  onHandlePopoverChange?: (open: boolean, range?: DateRange) => void;
+  isCalendarOpen?: boolean;
 }
 
 const DatePicker = ({
@@ -36,6 +38,8 @@ const DatePicker = ({
   isDateRangeMode = true,
   hasError,
   allowPastDates = false,
+  isCalendarOpen,
+  onHandlePopoverChange,
   onChange,
   onSingleDateChange,
 }: DatePickerProps) => {
@@ -74,7 +78,10 @@ const DatePicker = ({
 
   return (
     <div className={cn('grid gap-2', className)}>
-      <Popover>
+      <Popover
+        open={isCalendarOpen}
+        onOpenChange={(open) => onHandlePopoverChange && onHandlePopoverChange(open, dateRangeState)}
+      >
         <PopoverTrigger asChild>
           <Button
             className={cn(
@@ -88,7 +95,8 @@ const DatePicker = ({
             )}
             disabled={isDisabled}
             id='date'
-            variant={'outline'}>
+            variant={'outline'}
+          >
             <CalendarIcon className='mr-3 h-4 w-4' />
             {datePickerConfig[configKey]}
           </Button>

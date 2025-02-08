@@ -38,7 +38,8 @@ type UseGetElevatorRecords<T> = {
 const useGetElevatorRecords = <T>(): UseGetElevatorRecords<T> => {
   const { storedState: tableStorageState, setStoredState: setTableState } = useStoredTableState<
     SortingState,
-    TableFilters<T>
+    TableFilters<T>,
+    undefined
   >(TABLE_STATE_STORAGE_KEY, StorageTableName.ElevatorManagementTable, undefined);
 
   const { field, order } = useMemo(() => formatTableSortingToQueryFormat(tableStorageState), [tableStorageState]);

@@ -5,16 +5,13 @@ import { Bars } from 'react-loader-spinner';
 import BaseCard from '@/shared/base-card';
 import QueryResponse from '@/shared/query-response';
 
-import { useFetchDashboardMetrics } from '../../hooks';
-import { SectionTitle } from '../../types';
+import { DashboardSectionProps, SectionTitle } from '../../types';
 import SectionWrapper from '../section-wrapper/SectionWrapper';
 
 import { DEFAULT_ERROR_RESPONSE_MESSAGE } from './constants';
 import { getKeyMetricsConfig } from './utils';
 
-const KeyAppMetrics = () => {
-  const { dashboardMetrics, loading, error } = useFetchDashboardMetrics();
-
+const KeyAppMetrics = ({ error, loading, dashboardMetrics }: DashboardSectionProps) => {
   const dashboardMetricsConfig = useMemo(() => getKeyMetricsConfig(dashboardMetrics), [dashboardMetrics]);
 
   return (
@@ -40,7 +37,8 @@ const KeyAppMetrics = () => {
                 cardHeaderClassName={cardHeaderClassName}
                 cardTittleClassName={cardTittleClassName}
                 icon={icon}
-                title={title}>
+                title={title}
+              >
                 {loading ? (
                   <Bars
                     ariaLabel='bars-loading'

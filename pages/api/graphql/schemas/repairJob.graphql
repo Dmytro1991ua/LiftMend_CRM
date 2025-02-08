@@ -92,4 +92,6 @@ input RepairJobFilterOptions {
   technicianName: [String!]
   status: [String!]
   isOverdue: [String!]
+  startDate: String
+  endDate: String
 }

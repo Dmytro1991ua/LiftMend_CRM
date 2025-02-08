@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { DefaultValues, FieldValues, Resolver, UseFormReturn, useForm } from 'react-hook-form';
 
 type UseFormStateProps<T extends FieldValues> = {
-  onCloseModal: () => void;
+  onCloseModal?: () => void;
   initialValues: DefaultValues<T>;
   resolver?: Resolver<T>;
 };
@@ -30,7 +30,7 @@ const useFormState = <T extends FieldValues>({
   const onReset = useCallback((): void => {
     reset(initialValues);
     clearErrors();
-    onCloseModal();
+    onCloseModal?.();
   }, [reset, clearErrors, onCloseModal, initialValues]);
 
   return {

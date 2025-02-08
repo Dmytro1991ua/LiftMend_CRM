@@ -34,7 +34,8 @@ type UseFetchRepairJobs<T> = {
 const useFetchRepairJobs = <T,>(): UseFetchRepairJobs<T> => {
   const { storedState: tableStorageState, setStoredState: setTableState } = useStoredTableState<
     SortingState,
-    TableFilters<T>
+    TableFilters<T>,
+    undefined
   >(TABLE_STATE_STORAGE_KEY, StorageTableName.RepairJobTable, undefined);
 
   const { field, order } = useMemo(() => formatTableSortingToQueryFormat(tableStorageState), [tableStorageState]);

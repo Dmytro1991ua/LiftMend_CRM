@@ -39,7 +39,21 @@ class RepairJobService {
     const orderBy = createRepairJobSortOptions(sortOptions);
 
     const queryOptions: Prisma.RepairJobFindManyArgs = {
-      where: filters,
+      where: {
+        ...filters,
+        ...(filterOptions?.startDate || filterOptions?.endDate
+          ? {
+              createdAt: {
+                ...(filterOptions?.startDate && {
+                  gte: new Date(filterOptions.startDate),
+                }),
+                ...(filterOptions?.endDate && {
+                  lte: new Date(filterOptions.endDate),
+                }),
+              },
+            }
+          : {}),
+      },
       orderBy,
     };
 
@@ -48,7 +62,7 @@ class RepairJobService {
       queryOptions.take = paginationOptions.limit ?? undefined;
     }
 
-    const scheduledRepairJobs = await this.prisma.repairJob.findMany();
+    const scheduledRepairJobs = await this.prisma.repairJob.findMany(queryOptions);
 
     const totalItems = await this.prisma.repairJob.count({
       where: filters,
@@ -144,8 +158,8 @@ class RepairJobService {
     };
   }
 
-  async getRepairJobsMetrics(): Promise<RepairJobsMetrics> {
-    const repairJobs = await this.getRepairJobs({});
+  async getRepairJobsMetrics(startDate: string, endDate: string): Promise<RepairJobsMetrics> {
+    const repairJobs = await this.getRepairJobs({ filterOptions: { startDate, endDate } });
 
     const initialRepairJobsMetrics: RepairJobsMetrics = {
       ongoingRepairJobs: 0,

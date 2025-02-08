@@ -62,9 +62,9 @@ const Query: QueryResolvers = {
 
     return _orderBy(technicianRecord, ['name'], 'asc');
   },
-  getDashboardMetrics: async (_, __, { dataSources }): Promise<DashboardMetrics> => {
+  getDashboardMetrics: async (_, { startDate, endDate }, { dataSources }): Promise<DashboardMetrics> => {
     const [repairJobsMetrics, elevatorRecordsMetrics, technicianRecordsMetrics] = await Promise.all([
-      dataSources.repairJob.getRepairJobsMetrics(),
+      dataSources.repairJob.getRepairJobsMetrics(startDate, endDate),
       dataSources.elevatorRecord.getElevatorRecordsMetrics(),
       dataSources.technicianRecord.getTechnicianRecordsMetrics(),
     ]);
