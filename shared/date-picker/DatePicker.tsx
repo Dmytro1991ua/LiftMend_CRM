@@ -27,6 +27,7 @@ export interface DatePickerProps {
   onSingleDateChange?: (singleDate?: Date) => void;
   onHandlePopoverChange?: (open: boolean, range?: DateRange) => void;
   isCalendarOpen?: boolean;
+  customContent?: React.ReactNode;
 }
 
 const DatePicker = ({
@@ -39,6 +40,7 @@ const DatePicker = ({
   hasError,
   allowPastDates = false,
   isCalendarOpen,
+  customContent,
   onHandlePopoverChange,
   onChange,
   onSingleDateChange,
@@ -102,15 +104,20 @@ const DatePicker = ({
           </Button>
         </PopoverTrigger>
         <PopoverContent align='start' className='w-auto p-0'>
-          <Calendar initialFocus fromDate={new Date()} numberOfMonths={numberOfMonths} {...calendarProps} />
-          {dateRangeState || singleDateState ? (
-            <TimePickerSection
-              dateRange={dateRangeState}
-              isDisabled={isDisabled}
-              singleDate={singleDateState}
-              onHandleTimeChange={onHandleTimeChange}
-            />
-          ) : null}
+          <div className='flex gap-2'>
+            {customContent}
+            <div className='flex flex-col'>
+              <Calendar initialFocus fromDate={new Date()} numberOfMonths={numberOfMonths} {...calendarProps} />
+              {dateRangeState || singleDateState ? (
+                <TimePickerSection
+                  dateRange={dateRangeState}
+                  isDisabled={isDisabled}
+                  singleDate={singleDateState}
+                  onHandleTimeChange={onHandleTimeChange}
+                />
+              ) : null}
+            </div>
+          </div>
         </PopoverContent>
       </Popover>
     </div>
