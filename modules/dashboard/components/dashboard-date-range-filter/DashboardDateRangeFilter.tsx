@@ -1,15 +1,10 @@
 import { memo } from 'react';
 
-import { DateRange } from 'react-day-picker';
-
 import InfoTooltip from '@/shared/base-tooltip/info-tooltip/InfoTooltip';
 import DatePicker from '@/shared/date-picker';
 
-type DashboardDateRangeFilterProps = {
-  sanitizedDateRange: DateRange;
-  isCalendarOpen: boolean;
-  onHandleCalendarPopoverClose: (open: boolean, range?: DateRange) => void;
-};
+import CustomDateRangeActions from './custom-date-range-actions';
+import { DashboardDateRangeFilterProps } from './types';
 
 const DEFAULT_INFO_TOOLTIP_MESSAGE =
   'The selected date range highlights repair job metrics. Elevator and Technician data remain mostly unchanged, as they are tied to repair jobs.';
@@ -30,7 +25,14 @@ const DashboardDateRangeFilter = ({
         place='left'
       />
       <DatePicker
+        key={`${sanitizedDateRange?.from?.toString()}-${sanitizedDateRange?.to?.toString()}`}
         allowPastDates={true}
+        customContent={
+          <CustomDateRangeActions
+            sanitizedDateRange={sanitizedDateRange}
+            onHandleCalendarPopoverClose={onHandleCalendarPopoverClose}
+          />
+        }
         dateRange={sanitizedDateRange}
         isCalendarOpen={isCalendarOpen}
         isDateRangeMode={true}
