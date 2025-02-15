@@ -1,10 +1,37 @@
+import { setContext } from '@apollo/client/link/context';
 import { ApolloClient, ApolloQueryResult, FetchResult, HttpLink, InMemoryCache, from } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
 
 import { typePolicies } from './typePolicies';
 import { handleGraphQLErrors } from './utils';
+import { supabaseClient } from '@/lib/supabase-client';
 
 const uri = process.env.NEXT_PUBLIC_GRAPHQL_API_URL;
+
+// Attach Authorization token to each request
+const authLink = setContext(async (_, { headers }) => {
+  try {
+    const { data, error } = await supabaseClient.auth.refreshSession();
+
+    if (error) {
+      console.error('Supabase Auth Error:', error.message);
+      return { headers }; // Proceed without modifying headers
+    }
+
+    const session = data?.session;
+
+    return {
+      headers: {
+        ...headers,
+        Authorization: session?.access_token ? `Bearer ${session.access_token}` : '',
+      },
+    };
+  } catch (err) {
+    console.error('Unexpected Auth Error:', err);
+    return { headers };
+  }
+});
+
 const httpLink = new HttpLink({ uri });
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
@@ -19,7 +46,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   }
 });
 
-const links = [errorLink, httpLink];
+const links = [errorLink, httpLink, authLink];
 
 const cache = new InMemoryCache({
   typePolicies,
