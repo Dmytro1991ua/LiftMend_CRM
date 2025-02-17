@@ -13,7 +13,7 @@ model RepairJob {
   status           String         @default("Scheduled")
   actualEndDate    DateTime?      @db.Timestamptz(6)
   isOverdue        Boolean?
-  calendarEvent    CalendarEvent?
   createdAt        DateTime?      @default(now()) @db.Timestamp(6)
-  updatedAt        DateTime?      @default(now()) @updatedAt @db.Timestamp(6)
+  updatedAt        DateTime?      @default(now()) @db.Timestamp(6)
+  calendarEvent    CalendarEvent?
 }

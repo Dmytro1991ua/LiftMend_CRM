@@ -1,5 +1,19 @@
-type User {
+type AppUser {
   id: ID!
   email: String!
-  name: String
+  firstName: String!
+  lastName: String!
+  phone: String
+  createdAt: String
+  lastSignInAt: String
+  avatarUrl: String
+}
+
+input CreateUserInput {
+  email: String!
+  password: String!
+  firstName: String!
+  lastName: String!
+  phone: String!
+  redirectTo: String!
 }
