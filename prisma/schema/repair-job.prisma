@@ -16,6 +16,4 @@ model RepairJob {
   createdAt        DateTime?      @default(now()) @db.Timestamp(6)
   updatedAt        DateTime?      @default(now()) @db.Timestamp(6)
   calendarEvent    CalendarEvent?
-  createdAt        DateTime?      @default(now()) @db.Timestamp(6)
-  updatedAt        DateTime?      @default(now()) @updatedAt @db.Timestamp(6)
 }
