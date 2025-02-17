@@ -8,6 +8,10 @@ type DeleteCalendarAndRepairJobResponse {
   deletedRepairJobId: ID
 }
 
+type SignUpResponse {
+  id: ID!
+}
+
 type Mutation {
   createRepairJobAndEvent(
     repairJobInput: CreateRepairJobInput!
@@ -21,4 +25,5 @@ type Mutation {
   updateTechnicianRecord(input: UpdateTechnicianRecordInput!): TechnicianRecord!
   deleteTechnicianRecord(id: ID!): DeleteTechnicianRecordResponse!
   reassignTechnician(input: UpdateRepairJobInput!): RepairJob!
+  signUp(input: CreateUserInput!): SignUpResponse!
 }

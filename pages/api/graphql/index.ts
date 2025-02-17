@@ -47,7 +47,7 @@ export default startServerAndCreateNextHandler(server, {
       req,
       res,
       prisma,
-      dataSources: createDataSources(prisma),
+      dataSources: createDataSources(prisma, supabase),
       user,
       supabase,
     };
