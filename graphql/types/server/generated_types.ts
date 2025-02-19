@@ -17,6 +17,7 @@ export type Scalars = {
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
   DateTime: { input: any; output: any; }
+  Void: { input: any; output: any; }
 };
 
 export type AppUser = {
@@ -29,6 +30,11 @@ export type AppUser = {
   lastName: Scalars['String']['output'];
   lastSignInAt?: Maybe<Scalars['String']['output']>;
   phone?: Maybe<Scalars['String']['output']>;
+};
+
+export type AuthResponse = {
+  __typename?: 'AuthResponse';
+  id: Scalars['ID']['output'];
 };
 
 export type CalendarEvent = {
@@ -200,7 +206,8 @@ export type Mutation = {
   deleteRepairJobAndEvent: DeleteCalendarAndRepairJobResponse;
   deleteTechnicianRecord: DeleteTechnicianRecordResponse;
   reassignTechnician: RepairJob;
-  signUp: SignUpResponse;
+  signIn: AuthResponse;
+  signUp: AuthResponse;
   updateElevatorRecord: ElevatorRecord;
   updateRepairJob: RepairJob;
   updateTechnicianRecord: TechnicianRecord;
@@ -236,6 +243,11 @@ export type MutationDeleteTechnicianRecordArgs = {
 
 export type MutationReassignTechnicianArgs = {
   input: UpdateRepairJobInput;
+};
+
+
+export type MutationSignInArgs = {
+  input: SignInUserInput;
 };
 
 
@@ -452,9 +464,9 @@ export type ScheduledEventAndRepairJobResponse = {
   repairJob: RepairJob;
 };
 
-export type SignUpResponse = {
-  __typename?: 'SignUpResponse';
-  id: Scalars['ID']['output'];
+export type SignInUserInput = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 export type TechnicianRecord = Node & {
@@ -636,6 +648,7 @@ export type ResolversInterfaceTypes<RefType extends Record<string, unknown>> = R
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
   AppUser: ResolverTypeWrapper<AppUser>;
+  AuthResponse: ResolverTypeWrapper<AuthResponse>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   CalendarEvent: ResolverTypeWrapper<CalendarEvent>;
   Connection: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Connection']>;
@@ -675,7 +688,7 @@ export type ResolversTypes = ResolversObject<{
   RepairJobSortInput: RepairJobSortInput;
   RepairJobsMetrics: ResolverTypeWrapper<RepairJobsMetrics>;
   ScheduledEventAndRepairJobResponse: ResolverTypeWrapper<ScheduledEventAndRepairJobResponse>;
-  SignUpResponse: ResolverTypeWrapper<SignUpResponse>;
+  SignInUserInput: SignInUserInput;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   TechnicianRecord: ResolverTypeWrapper<TechnicianRecord>;
   TechnicianRecordConnection: ResolverTypeWrapper<TechnicianRecordConnection>;
@@ -688,11 +701,13 @@ export type ResolversTypes = ResolversObject<{
   UpdateElevatorRecordInput: UpdateElevatorRecordInput;
   UpdateRepairJobInput: UpdateRepairJobInput;
   UpdateTechnicianRecordInput: UpdateTechnicianRecordInput;
+  Void: ResolverTypeWrapper<Scalars['Void']['output']>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
   AppUser: AppUser;
+  AuthResponse: AuthResponse;
   Boolean: Scalars['Boolean']['output'];
   CalendarEvent: CalendarEvent;
   Connection: ResolversInterfaceTypes<ResolversParentTypes>['Connection'];
@@ -729,7 +744,7 @@ export type ResolversParentTypes = ResolversObject<{
   RepairJobSortInput: RepairJobSortInput;
   RepairJobsMetrics: RepairJobsMetrics;
   ScheduledEventAndRepairJobResponse: ScheduledEventAndRepairJobResponse;
-  SignUpResponse: SignUpResponse;
+  SignInUserInput: SignInUserInput;
   String: Scalars['String']['output'];
   TechnicianRecord: TechnicianRecord;
   TechnicianRecordConnection: TechnicianRecordConnection;
@@ -741,6 +756,7 @@ export type ResolversParentTypes = ResolversObject<{
   UpdateElevatorRecordInput: UpdateElevatorRecordInput;
   UpdateRepairJobInput: UpdateRepairJobInput;
   UpdateTechnicianRecordInput: UpdateTechnicianRecordInput;
+  Void: Scalars['Void']['output'];
 }>;
 
 export type AppUserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['AppUser'] = ResolversParentTypes['AppUser']> = ResolversObject<{
@@ -752,6 +768,11 @@ export type AppUserResolvers<ContextType = Context, ParentType extends Resolvers
   lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   lastSignInAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   phone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type AuthResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['AuthResponse'] = ResolversParentTypes['AuthResponse']> = ResolversObject<{
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -869,7 +890,8 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   deleteRepairJobAndEvent?: Resolver<ResolversTypes['DeleteCalendarAndRepairJobResponse'], ParentType, ContextType, RequireFields<MutationDeleteRepairJobAndEventArgs, 'calendarEventId' | 'repairJobId'>>;
   deleteTechnicianRecord?: Resolver<ResolversTypes['DeleteTechnicianRecordResponse'], ParentType, ContextType, RequireFields<MutationDeleteTechnicianRecordArgs, 'id'>>;
   reassignTechnician?: Resolver<ResolversTypes['RepairJob'], ParentType, ContextType, RequireFields<MutationReassignTechnicianArgs, 'input'>>;
-  signUp?: Resolver<ResolversTypes['SignUpResponse'], ParentType, ContextType, RequireFields<MutationSignUpArgs, 'input'>>;
+  signIn?: Resolver<ResolversTypes['AuthResponse'], ParentType, ContextType, RequireFields<MutationSignInArgs, 'input'>>;
+  signUp?: Resolver<ResolversTypes['AuthResponse'], ParentType, ContextType, RequireFields<MutationSignUpArgs, 'input'>>;
   updateElevatorRecord?: Resolver<ResolversTypes['ElevatorRecord'], ParentType, ContextType, RequireFields<MutationUpdateElevatorRecordArgs, 'input'>>;
   updateRepairJob?: Resolver<ResolversTypes['RepairJob'], ParentType, ContextType, RequireFields<MutationUpdateRepairJobArgs, 'input'>>;
   updateTechnicianRecord?: Resolver<ResolversTypes['TechnicianRecord'], ParentType, ContextType, RequireFields<MutationUpdateTechnicianRecordArgs, 'input'>>;
@@ -979,11 +1001,6 @@ export type ScheduledEventAndRepairJobResponseResolvers<ContextType = Context, P
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type SignUpResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['SignUpResponse'] = ResolversParentTypes['SignUpResponse']> = ResolversObject<{
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
 export type TechnicianRecordResolvers<ContextType = Context, ParentType extends ResolversParentTypes['TechnicianRecord'] = ResolversParentTypes['TechnicianRecord']> = ResolversObject<{
   availabilityStatus?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   certifications?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
@@ -1028,8 +1045,13 @@ export type TechnicianRecordsMetricsResolvers<ContextType = Context, ParentType 
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export interface VoidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Void'], any> {
+  name: 'Void';
+}
+
 export type Resolvers<ContextType = Context> = ResolversObject<{
   AppUser?: AppUserResolvers<ContextType>;
+  AuthResponse?: AuthResponseResolvers<ContextType>;
   CalendarEvent?: CalendarEventResolvers<ContextType>;
   Connection?: ConnectionResolvers<ContextType>;
   DashboardMetrics?: DashboardMetricsResolvers<ContextType>;
@@ -1054,11 +1076,11 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   RepairJobScheduleData?: RepairJobScheduleDataResolvers<ContextType>;
   RepairJobsMetrics?: RepairJobsMetricsResolvers<ContextType>;
   ScheduledEventAndRepairJobResponse?: ScheduledEventAndRepairJobResponseResolvers<ContextType>;
-  SignUpResponse?: SignUpResponseResolvers<ContextType>;
   TechnicianRecord?: TechnicianRecordResolvers<ContextType>;
   TechnicianRecordConnection?: TechnicianRecordConnectionResolvers<ContextType>;
   TechnicianRecordEdges?: TechnicianRecordEdgesResolvers<ContextType>;
   TechnicianRecordFormData?: TechnicianRecordFormDataResolvers<ContextType>;
   TechnicianRecordsMetrics?: TechnicianRecordsMetricsResolvers<ContextType>;
+  Void?: GraphQLScalarType;
 }>;
 

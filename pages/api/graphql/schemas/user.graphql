@@ -17,3 +17,8 @@ input CreateUserInput {
   phone: String!
   redirectTo: String!
 }
+
+input SignInUserInput {
+  email: String!
+  password: String!
+}
