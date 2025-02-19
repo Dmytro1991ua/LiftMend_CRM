@@ -1,14 +1,13 @@
 import { startCase as _startCase } from 'lodash';
 
 import {
-  AppUser,
+  AuthResponse,
   DeleteCalendarAndRepairJobResponse,
   DeleteElevatorRecordResponse,
   DeleteTechnicianRecordResponse,
   ElevatorRecord,
   MutationResolvers,
   RepairJob,
-  SignUpResponse,
   TechnicianRecord,
 } from '@/graphql/types/server/generated_types';
 
@@ -196,8 +195,15 @@ const Mutation: MutationResolvers = {
       id: deletedTechnicianRecord.id,
     };
   },
-  signUp: async (_, { input }, { dataSources }): Promise<SignUpResponse> => {
+  signUp: async (_, { input }, { dataSources }): Promise<AuthResponse> => {
     const user = await dataSources.auth.signUp(input);
+
+    return {
+      id: user.id,
+    };
+  },
+  signIn: async (_, { input }, { dataSources }): Promise<AuthResponse> => {
+    const user = await dataSources.auth.signIn(input);
 
     return {
       id: user.id,

@@ -115,3 +115,6 @@ export const TECHNICIAN_AVAILABILITY_STATUS_MAP = new Map<string, keyof Technici
   ['Reserved', 'reservedTechnicians'],
   ['Unavailable', 'unavailableTechnicians'],
 ]);
+
+export const DEFAULT_SIGN_UP_MESSAGE = 'User signup failed';
+export const DEFAULT_SIGN_IN_MESSAGE = 'Invalid email or password';

@@ -2,7 +2,9 @@ import { PrismaClient } from '@prisma/client';
 import { SupabaseClient, User } from '@supabase/supabase-js';
 import { GraphQLError } from 'graphql';
 
-import {  CreateUserInput } from '@/graphql/types/server/generated_types';
+import { CreateUserInput, SignInUserInput } from '@/graphql/types/server/generated_types';
+
+import { DEFAULT_SIGN_IN_MESSAGE, DEFAULT_SIGN_UP_MESSAGE } from './constants';
 
 class AuthService {
   private prisma;
@@ -28,7 +30,7 @@ class AuthService {
 
     const user = response?.data?.user;
 
-    if (!user) throw new GraphQLError('User signup failed');
+    if (!user) throw new GraphQLError(DEFAULT_SIGN_UP_MESSAGE);
 
     await this.prisma.user.create({
       data: {
@@ -42,6 +44,23 @@ class AuthService {
     });
 
     return user;
+  }
+
+  async signIn(input: SignInUserInput): Promise<User> {
+    const { email, password } = input;
+
+    const response = await this.supabase?.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (response?.error) throw new GraphQLError(response.error.message);
+
+    const user = response?.data?.user;
+
+    if (!user) throw new GraphQLError(DEFAULT_SIGN_IN_MESSAGE);
+
+    return response?.data?.user;
   }
 }
 
