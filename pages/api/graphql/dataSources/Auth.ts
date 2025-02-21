@@ -62,6 +62,14 @@ class AuthService {
 
     return response?.data?.user;
   }
+
+  async signOut(): Promise<boolean> {
+    const response = await this.supabase?.auth.signOut();
+
+    if (response?.error) throw new GraphQLError(response.error.message);
+
+    return true;
+  }
 }
 
 export default AuthService;
