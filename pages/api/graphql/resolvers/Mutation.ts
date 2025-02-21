@@ -209,6 +209,9 @@ const Mutation: MutationResolvers = {
       id: user.id,
     };
   },
+  signOut: async (_, __, { dataSources }): Promise<boolean> => {
+    return await dataSources.auth.signOut();
+  },
 };
 
 export default Mutation;

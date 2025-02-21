@@ -207,6 +207,7 @@ export type Mutation = {
   deleteTechnicianRecord: DeleteTechnicianRecordResponse;
   reassignTechnician: RepairJob;
   signIn: AuthResponse;
+  signOut: Scalars['Boolean']['output'];
   signUp: AuthResponse;
   updateElevatorRecord: ElevatorRecord;
   updateRepairJob: RepairJob;
@@ -891,6 +892,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   deleteTechnicianRecord?: Resolver<ResolversTypes['DeleteTechnicianRecordResponse'], ParentType, ContextType, RequireFields<MutationDeleteTechnicianRecordArgs, 'id'>>;
   reassignTechnician?: Resolver<ResolversTypes['RepairJob'], ParentType, ContextType, RequireFields<MutationReassignTechnicianArgs, 'input'>>;
   signIn?: Resolver<ResolversTypes['AuthResponse'], ParentType, ContextType, RequireFields<MutationSignInArgs, 'input'>>;
+  signOut?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   signUp?: Resolver<ResolversTypes['AuthResponse'], ParentType, ContextType, RequireFields<MutationSignUpArgs, 'input'>>;
   updateElevatorRecord?: Resolver<ResolversTypes['ElevatorRecord'], ParentType, ContextType, RequireFields<MutationUpdateElevatorRecordArgs, 'input'>>;
   updateRepairJob?: Resolver<ResolversTypes['RepairJob'], ParentType, ContextType, RequireFields<MutationUpdateRepairJobArgs, 'input'>>;

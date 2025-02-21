@@ -27,4 +27,5 @@ type Mutation {
   reassignTechnician(input: UpdateRepairJobInput!): RepairJob!
   signUp(input: CreateUserInput!): AuthResponse!
   signIn(input: SignInUserInput!): AuthResponse!
+  signOut: Boolean!
 }
