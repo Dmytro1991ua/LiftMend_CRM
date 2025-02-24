@@ -2,12 +2,12 @@ import Link from 'next/link';
 import { BiLogOut, BiSolidUser } from 'react-icons/bi';
 import { BsTools } from 'react-icons/bs';
 import { FaCalendarAlt } from 'react-icons/fa';
-import { FaElevator } from 'react-icons/fa6';
 import { GrUserWorker } from 'react-icons/gr';
 import { MdElevator } from 'react-icons/md';
 import { RiDashboardFill } from 'react-icons/ri';
 
 import NavigationLink from '@/modules/sidebar/navigation-link';
+import Logo from '@/shared/logo';
 import UserAvatar from '@/shared/user-avatar';
 import { AppRoutes } from '@/types/enums';
 import { NavigationLinkConfig } from '@/types/type';
@@ -58,12 +58,7 @@ const Sidebar = () => {
 
   return (
     <aside className='sidebar'>
-      <div className='flex items-center justify-center group pb-4 mb-5 border-b-2 border-slate'>
-        <div className='flex justify-center items-center p-3 bg-primary text-white rounded-full mr-2 group'>
-          <FaElevator />
-        </div>
-        <h3 className='text-lg font-bold'>LiftMend</h3>
-      </div>
+      <Logo />
       {NAVIGATION_CONFIG.map(({ id, url, icon, label }) => (
         <NavigationLink key={id} icon={icon} label={label} url={url} />
       ))}
