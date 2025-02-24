@@ -1,4 +1,5 @@
 import { Cell } from '@tanstack/react-table';
+import { NextPage } from 'next';
 
 import { Maybe } from '@/graphql/types/client/generated_types';
 
@@ -107,4 +108,8 @@ export type TableValue = string | Date | string[] | Maybe<string> | unknown;
 
 export type ColumnsValueAccessors = {
   [key: string]: (cell: Cell<TableModel, TableValue>) => string;
+};
+
+export type NextPageWithLayout = NextPage & {
+  getLayout?: (page: React.ReactElement) => React.ReactNode;
 };

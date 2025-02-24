@@ -1,6 +1,6 @@
-import { Loader2 } from 'lucide-react';
+import { useMemo } from 'react';
 
-import { Button } from '@/components/ui/button';
+import BaseButton from '@/shared/base-button';
 
 type ModalFooterProps = {
   submitButtonLabel: string;
@@ -11,6 +11,17 @@ type ModalFooterProps = {
   onSubmit?: () => Promise<void> | void;
 };
 
+type ActionConfig = {
+  id: number;
+  label: string;
+  onClick?: () => Promise<void> | void;
+  variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link' | null;
+  className?: string;
+  size?: 'default' | 'sm' | 'lg' | 'icon' | null;
+  isLoading?: boolean;
+  isDisabled?: boolean;
+};
+
 const ModalFooter = ({
   submitButtonLabel,
   cancelButtonLabel,
@@ -19,15 +30,43 @@ const ModalFooter = ({
   onCancel,
   onSubmit,
 }: ModalFooterProps): React.JSX.Element => {
+  const actionsConfig: ActionConfig[] = useMemo(() => {
+    return [
+      {
+        id: 1,
+        label: cancelButtonLabel,
+        onClick: onCancel,
+        variant: 'secondary',
+        className: 'text-primary bg-transparent hover:bg-transparent',
+        isLoading,
+        isDisabled: false,
+      },
+      {
+        id: 2,
+        label: submitButtonLabel,
+        onClick: onSubmit,
+        className: 'rounded-2xl',
+        size: 'lg',
+        isLoading,
+        isDisabled,
+      },
+    ];
+  }, [onCancel, submitButtonLabel, cancelButtonLabel, isLoading, isDisabled, onSubmit]);
+
   return (
     <div className='flex gap-2'>
-      <Button className='text-primary bg-transparent' variant='secondary' onClick={onCancel}>
-        {cancelButtonLabel}
-      </Button>
-      <Button className='rounded-2xl' disabled={isDisabled || isLoading} size='lg' onClick={onSubmit}>
-        {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' data-testid='button-loader' />}
-        {submitButtonLabel}
-      </Button>
+      {actionsConfig.map(({ isDisabled, isLoading, label, onClick, className, size, variant, id }) => (
+        <BaseButton
+          key={id}
+          className={className}
+          isDisabled={isDisabled}
+          isLoading={isLoading}
+          label={label}
+          size={size}
+          variant={variant}
+          onClick={onClick}
+        />
+      ))}
     </div>
   );
 };
