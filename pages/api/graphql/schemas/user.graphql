@@ -14,7 +14,7 @@ input CreateUserInput {
   password: String!
   firstName: String!
   lastName: String!
-  phone: String!
+  phone: String
   redirectTo: String!
 }
 

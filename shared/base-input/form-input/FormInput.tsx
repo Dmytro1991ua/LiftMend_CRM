@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { getNestedError } from '@/modules/repair-job-scheduling/utils';
 import { getCommonFormLabelErrorStyles } from '@/shared/utils';
 
+export type InputType = 'text' | 'password' | 'number' | 'email';
 export interface FormInputProps<T extends FieldValues> extends InputProps {
   name: Path<T>;
   id?: string;
@@ -17,6 +18,7 @@ export interface FormInputProps<T extends FieldValues> extends InputProps {
   startIcon?: JSX.Element;
   endIcon?: JSX.Element;
   infoTooltip?: JSX.Element;
+  errorClassName?: string;
 }
 
 const FormInput = <T extends FieldValues>({
@@ -31,6 +33,7 @@ const FormInput = <T extends FieldValues>({
   startIcon,
   endIcon,
   infoTooltip,
+  errorClassName,
   onChange,
   ...props
 }: FormInputProps<T>) => {
@@ -48,7 +51,7 @@ const FormInput = <T extends FieldValues>({
   const labelErrorStyles = getCommonFormLabelErrorStyles(hasError);
 
   return (
-    <div className={cn('relative grid w-full items-center gap-1.5', !isLastElement && 'mb-8')}>
+    <div className={cn('relative grid w-full items-center gap-1.5', !isLastElement && 'mb-5')}>
       <div className='flex items-center gap-2'>
         <label className={labelErrorStyles} htmlFor={id}>
           {label}
@@ -73,7 +76,7 @@ const FormInput = <T extends FieldValues>({
         }}
         {...props}
       />
-      {hasError && <span className='text-red-500'>{errorKey?.message}</span>}
+      {hasError && <span className={cn('text-red-500', errorClassName)}>{errorKey?.message}</span>}
     </div>
   );
 };

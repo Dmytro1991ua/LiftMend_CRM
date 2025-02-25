@@ -88,7 +88,7 @@ export type CreateUserInput = {
   firstName: Scalars['String']['input'];
   lastName: Scalars['String']['input'];
   password: Scalars['String']['input'];
-  phone: Scalars['String']['input'];
+  phone?: InputMaybe<Scalars['String']['input']>;
   redirectTo: Scalars['String']['input'];
 };
 
