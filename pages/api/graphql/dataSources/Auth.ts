@@ -16,13 +16,13 @@ class AuthService {
   }
 
   async signUp(input: CreateUserInput): Promise<User> {
-    const { email, password, firstName, phone, lastName, redirectTo } = input;
+    const { email, password, firstName, phone, lastName, emailRedirectTo } = input;
 
     const response = await this.supabase?.auth.signUp({
       email,
       password,
       options: {
-        emailRedirectTo: redirectTo,
+        emailRedirectTo: emailRedirectTo ?? '',
       },
     });
 
