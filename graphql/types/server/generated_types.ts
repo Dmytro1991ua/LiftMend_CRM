@@ -85,11 +85,11 @@ export type CreateTechnicianRecordInput = {
 
 export type CreateUserInput = {
   email: Scalars['String']['input'];
+  emailRedirectTo?: InputMaybe<Scalars['String']['input']>;
   firstName: Scalars['String']['input'];
   lastName: Scalars['String']['input'];
   password: Scalars['String']['input'];
   phone?: InputMaybe<Scalars['String']['input']>;
-  redirectTo: Scalars['String']['input'];
 };
 
 export type DashboardMetrics = {
