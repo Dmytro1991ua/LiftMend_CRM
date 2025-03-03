@@ -9,7 +9,7 @@ export enum AppRoutes {
   TechnicianManagement = '/technician-management',
   Profile = '/profile',
   SignIn = '/sign-in',
-  SignUp = '/sign-in',
+  SignUp = '/sign-up',
   ForgotPassword = '/forgot-password',
   ResetPassword = '/reset-password',
 }

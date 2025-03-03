@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/router';
 import { FormProvider, SubmitHandler } from 'react-hook-form';
@@ -10,12 +12,12 @@ import AuthForm from '../auth-form';
 import AuthFormWrapper from '../auth-form-wrapper';
 import { useAuthMutation } from '../hooks';
 import { AuthButtonLabel, AuthFormType } from '../types';
-import { INITIAL_SIGN_UP_FORM_VALUES, SignUpFormFields, signUpSchema } from '../validation';
+import { INITIAL_SIGN_IN_FORM_VALUES, SignInFormFields, signInSchema } from '../validation';
 
-const SignUpForm = () => {
-  const { formState, onReset } = useFormState<SignUpFormFields>({
-    initialValues: INITIAL_SIGN_UP_FORM_VALUES,
-    resolver: zodResolver(signUpSchema),
+const SignInForm = () => {
+  const { formState, onReset } = useFormState<SignInFormFields>({
+    initialValues: INITIAL_SIGN_IN_FORM_VALUES,
+    resolver: zodResolver(signInSchema),
   });
 
   const router = useRouter();
@@ -23,20 +25,17 @@ const SignUpForm = () => {
   const { onError, onSuccess } = useMutationResultToasts();
 
   const { onAuthMutation, isLoading } = useAuthMutation({
-    action: 'SIGN_UP',
+    action: 'LOGIN',
     onError,
     onSuccess,
-    onRedirect: () => router.push(AppRoutes.SignIn),
+    onRedirect: () => router.push(AppRoutes.Dashboard),
   });
 
-  const onSubmit: SubmitHandler<SignUpFormFields> = async (data) => {
+  const onSubmit: SubmitHandler<SignInFormFields> = async (data) => {
     await onAuthMutation({
       input: {
         email: data.email,
         password: data.password,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        phone: data.phoneNumber,
       },
     });
 
@@ -47,8 +46,8 @@ const SignUpForm = () => {
     <AuthFormWrapper>
       <FormProvider {...formState}>
         <AuthForm
-          buttonLabel={AuthButtonLabel.SIGN_UP}
-          formType={AuthFormType.SIGN_UP}
+          buttonLabel={AuthButtonLabel.LOGIN}
+          formType={AuthFormType.SIGN_IN}
           isLoading={isLoading}
           onSubmit={formState.handleSubmit(onSubmit)}
         />
@@ -57,4 +56,4 @@ const SignUpForm = () => {
   );
 };
 
-export default SignUpForm;
+export default SignInForm;
