@@ -81,11 +81,11 @@ export type CreateTechnicianRecordInput = {
 
 export type CreateUserInput = {
   email: Scalars['String']['input'];
+  emailRedirectTo?: InputMaybe<Scalars['String']['input']>;
   firstName: Scalars['String']['input'];
   lastName: Scalars['String']['input'];
   password: Scalars['String']['input'];
   phone?: InputMaybe<Scalars['String']['input']>;
-  redirectTo: Scalars['String']['input'];
 };
 
 export type DashboardMetrics = {
@@ -709,6 +709,13 @@ export type GetTechnicianRecordsQueryVariables = Exact<{
 
 
 export type GetTechnicianRecordsQuery = { __typename?: 'Query', getTechnicianRecords: { __typename?: 'TechnicianRecordConnection', total: number, edges: Array<{ __typename?: 'TechnicianRecordEdges', cursor: string, node: { __typename?: 'TechnicianRecord', id: string, name: string, contactInformation: string, skills: Array<string>, certifications: Array<string>, availabilityStatus: string | null, employmentStatus: string | null, lastKnownAvailabilityStatus: string | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor: string | null, endCursor: string | null } } };
+
+export type LoginUserMutationVariables = Exact<{
+  input: SignInUserInput;
+}>;
+
+
+export type LoginUserMutation = { __typename?: 'Mutation', signIn: { __typename?: 'AuthResponse', id: string } };
 
 export type ReassignTechnicianMutationVariables = Exact<{
   input: UpdateRepairJobInput;

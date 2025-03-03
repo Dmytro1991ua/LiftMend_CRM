@@ -65,6 +65,7 @@ export const FORM_FIELDS_CONFIG: FormFieldsConfig = {
       name: 'email',
       label: FieldLabel.EMAIL,
       className: 'row-start-1 row-end-2 col-start-1 col-end-7',
+      placeholder: FormFieldPlaceholder.EMAIL,
     },
     {
       id: 8,
@@ -72,6 +73,8 @@ export const FORM_FIELDS_CONFIG: FormFieldsConfig = {
       label: FieldLabel.PASSWORD,
       className: 'row-start-2 row-end-3 col-start-1 col-end-7',
       isLastElement: true,
+      placeholder: FormFieldPlaceholder.PASSWORD,
+      type: 'password',
     },
     {
       id: 9,

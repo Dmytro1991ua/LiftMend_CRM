@@ -1,4 +1,5 @@
 import { Form } from 'react-hook-form';
+import { Hourglass } from 'react-loader-spinner';
 
 import BaseButton from '@/shared/base-button';
 import Logo from '@/shared/logo';
@@ -22,9 +23,21 @@ const AuthForm = ({ formType, buttonLabel, isLoading, onSubmit }: AuthFormProps)
     <Form className='w-[95%] sm:!w-[65rem] md:!w-[75rem] p-8 my-5 mx-5 rounded-2xl bg-white shadow-xl'>
       <Logo wrapperClassName='border-b-0 mb-2 md:mb-4' />
       <FormHeader formHeaders={FORM_TITLES_CONFIG[formType]} />
-      <div className='grid grid-cols-6 gap-2'>
-        <FormFields formFields={FORM_FIELDS_CONFIG[formType]} />
-      </div>
+      {isLoading ? (
+        <div className={isLoading ? 'flex justify-center h-35' : ''}>
+          <Hourglass
+            ariaLabel='hourglass-loading'
+            colors={['#306cce', '#72a1ed']}
+            height='80'
+            visible={true}
+            width='80'
+          />
+        </div>
+      ) : (
+        <div className='grid grid-cols-6 gap-2'>
+          <FormFields formFields={FORM_FIELDS_CONFIG[formType]} />
+        </div>
+      )}
       <BaseButton
         className='w-full shadow-md shadow-blue-800'
         isDisabled={isLoading}

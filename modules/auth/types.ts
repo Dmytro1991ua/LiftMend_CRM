@@ -46,7 +46,7 @@ export enum AuthFormHeader {
   SIGN_UP_DESCRIPTION = 'Sign up to manage and track elevator repairs effortlessly.',
 
   SIGN_IN_TITLE = 'Login',
-  SIGN_IN_DESCRIPTION = 'Sign in to manage elevator repairs.',
+  SIGN_IN_DESCRIPTION = 'Sign In to manage elevator repairs.',
 
   FORGOT_PASSWORD_TITLE = 'Forgot Password',
   FORGOT_PASSWORD_DESCRIPTION = 'Enter your email to receive a password reset link.',
@@ -81,3 +81,13 @@ export type AuthFormHeadersConfig = {
 export type FormFieldsConfig = Record<AuthFormType, FormField[]>;
 export type FormRedirectionLinkConfig = Record<AuthFormType, FormRedirectionLink>;
 export type FormHeadersConfig = Record<AuthFormType, AuthFormHeadersConfig>;
+
+export type AuthHookProps = {
+  action: AuthAction;
+  onSuccess?: (message: string) => void;
+  onError?: (errorMessage: string, errorDescription: string) => void;
+  onRedirect?: () => void;
+};
+
+// TODO: Extend with | 'FORGOT_PASSWORD' | 'RESET_PASSWORD'; when it is ready
+export type AuthAction = 'SIGN_UP' | 'LOGIN';
