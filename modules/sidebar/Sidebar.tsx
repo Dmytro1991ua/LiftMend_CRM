@@ -7,6 +7,7 @@ import { MdElevator } from 'react-icons/md';
 import { RiDashboardFill } from 'react-icons/ri';
 
 import NavigationLink from '@/modules/sidebar/navigation-link';
+import { useSignOut } from '@/shared/auth/hooks';
 import Logo from '@/shared/logo';
 import UserAvatar from '@/shared/user-avatar';
 import { AppRoutes } from '@/types/enums';
@@ -15,6 +16,8 @@ import { NavigationLinkConfig } from '@/types/type';
 import { NavigationLinkLabel } from './types';
 
 const Sidebar = () => {
+  const { onSignOut } = useSignOut();
+
   const commonIconClasses = 'mr-2 h-6 w-6';
 
   const NAVIGATION_CONFIG: NavigationLinkConfig[] = [
@@ -63,7 +66,7 @@ const Sidebar = () => {
         <NavigationLink key={id} icon={icon} label={label} url={url} />
       ))}
       <Link passHref href={AppRoutes.SignIn}>
-        <a className='flex items-center mt-auto py-4 px-2 text-link group border-t-2 border-slate'>
+        <a className='flex items-center mt-auto py-4 px-2 text-link group border-t-2 border-slate' onClick={onSignOut}>
           <UserAvatar className='border-2 border-primary' imageSrc='/nexst.svg' />
           <h3 className='ml-2 text-lg'>John Doe</h3>
           <BiLogOut className='h-8 w-8 ml-auto' />

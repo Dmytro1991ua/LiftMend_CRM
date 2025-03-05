@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useState } from 'react';
 
 import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache, from } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
@@ -69,8 +69,11 @@ const createApolloClient = (session?: Session | null) => {
 
 export const ApolloProviderWithSession = ({ children }: ApolloProviderWithSessionProps) => {
   const session = useSession();
+  const [client, setClient] = useState(() => createApolloClient(session));
 
-  const client = useMemo(() => createApolloClient(session), [session]);
+  useEffect(() => {
+    setClient(createApolloClient(session));
+  }, [session]);
 
   return <ApolloProvider client={client}>{children}</ApolloProvider>;
 };

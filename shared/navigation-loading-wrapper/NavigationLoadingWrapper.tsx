@@ -4,11 +4,11 @@ import { ThreeCircles } from 'react-loader-spinner';
 
 import { useNavigationLoading } from '@/shared/hooks';
 
-type AuthFormWrapperProps = {
+type NavigationLoadingWrapperProps = {
   children: React.ReactNode;
 };
 
-const AuthFormWrapper = ({ children }: AuthFormWrapperProps) => {
+const NavigationLoadingWrapper = ({ children }: NavigationLoadingWrapperProps) => {
   const isRedirecting = useNavigationLoading();
 
   if (isRedirecting) {
@@ -22,4 +22,4 @@ const AuthFormWrapper = ({ children }: AuthFormWrapperProps) => {
   return <section>{children}</section>;
 };
 
-export default AuthFormWrapper;
+export default NavigationLoadingWrapper;

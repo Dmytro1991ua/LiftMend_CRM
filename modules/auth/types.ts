@@ -81,13 +81,3 @@ export type AuthFormHeadersConfig = {
 export type FormFieldsConfig = Record<AuthFormType, FormField[]>;
 export type FormRedirectionLinkConfig = Record<AuthFormType, FormRedirectionLink>;
 export type FormHeadersConfig = Record<AuthFormType, AuthFormHeadersConfig>;
-
-export type AuthHookProps = {
-  action: AuthAction;
-  onSuccess?: (message: string) => void;
-  onError?: (errorMessage: string, errorDescription: string) => void;
-  onRedirect?: () => void;
-};
-
-// TODO: Extend with | 'FORGOT_PASSWORD' | 'RESET_PASSWORD'; when it is ready
-export type AuthAction = 'SIGN_UP' | 'LOGIN';

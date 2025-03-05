@@ -130,7 +130,7 @@ export const onHandleMutationErrors = ({
   onFailure?: (errorMessage: string, errorDescription: string) => void;
 }): void => {
   const gqlErrorMessage = getErrorMessageFromGraphQlErrors(errors);
-  const networkErrorMessage = getGraphQLErrorExtensionsMessage(error);
+  const networkErrorMessage = getGraphQLErrorExtensionsMessage(error) || error.message;
 
   const errorMessage = gqlErrorMessage || networkErrorMessage;
 
