@@ -15,7 +15,7 @@ const KeyAppMetrics = ({ error, loading, dashboardMetrics }: DashboardSectionPro
   const dashboardMetricsConfig = useMemo(() => getKeyMetricsConfig(dashboardMetrics), [dashboardMetrics]);
 
   return (
-    <div data-testid='key-app-metrics'>
+    <div className='mb-6' data-testid='key-app-metrics'>
       <QueryResponse errorDescription={error} errorMessage={DEFAULT_ERROR_RESPONSE_MESSAGE} isErrorOccurred={!!error} />
       <SectionWrapper title={SectionTitle.KeyAppMetrics}>
         <div className='flex gap-2 overflow-x-auto'>

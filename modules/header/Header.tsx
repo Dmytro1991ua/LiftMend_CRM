@@ -4,6 +4,7 @@ import { BiLogOut, BiSolidUser } from 'react-icons/bi';
 
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { useSignOut } from '@/shared/auth/hooks';
 import UserAvatar from '@/shared/user-avatar';
 import { AppRoutes } from '@/types/enums';
 
@@ -13,6 +14,8 @@ import { NavigationLinkLabel } from '../sidebar/types';
 import { DropdownConfig } from './types';
 
 const Header = () => {
+  const { onSignOut } = useSignOut();
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const commonIconClasses = 'mr-2 h-4 w-4';
@@ -25,6 +28,12 @@ const Header = () => {
     setIsDropdownOpen(false);
   }, []);
 
+  const onHandleSignOut = useCallback(async (): Promise<void> => {
+    await onSignOut();
+
+    onDropdownClose();
+  }, [onSignOut, onDropdownClose]);
+
   const DROPDOWN_CONFIG: DropdownConfig[] = [
     {
       id: 1,
@@ -32,6 +41,7 @@ const Header = () => {
       label: NavigationLinkLabel.Profile,
       url: AppRoutes.Profile,
       className: 'mb-2',
+      onClick: onDropdownClose,
     },
     {
       id: 2,
@@ -39,6 +49,7 @@ const Header = () => {
       label: NavigationLinkLabel.Logout,
       url: AppRoutes.SignIn,
       className: 'mb-0',
+      onClick: onHandleSignOut,
     },
   ];
 
@@ -58,14 +69,14 @@ const Header = () => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className='w-[18rem]'>
-          {DROPDOWN_CONFIG.map(({ id, label, icon, url, className }) => (
+          {DROPDOWN_CONFIG.map(({ id, label, icon, url, className, onClick }) => (
             <NavigationLink
               key={id}
               className={`!p-[1rem] !rounded-2xl text-sm ${className}`}
               icon={icon}
               label={label}
               url={url}
-              onClose={onDropdownClose}
+              onClose={onClick}
             />
           ))}
         </DropdownMenuContent>

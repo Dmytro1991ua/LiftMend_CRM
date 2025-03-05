@@ -1,20 +1,27 @@
+import { ApolloError, useMutation } from '@apollo/client';
+
+import { onHandleMutationErrors } from '@/graphql';
 import { CREATE_USER } from '@/graphql/schemas/createUser';
 import { LOGIN_USER } from '@/graphql/schemas/loginUser';
+import { SIGN_OUT_USER } from '@/graphql/schemas/signOutUser';
 import {
   CreateUserMutation,
   CreateUserMutationVariables,
   LoginUserMutation,
   LoginUserMutationVariables,
+  SignOutUserMutationVariables,
 } from '@/graphql/types/client/generated_types';
+
+import { SignOutUserMutation } from '../../../graphql/types/client/generated_types';
 import {
   DEFAULT_USER_CREATION_FAIL_MESSAGE,
   DEFAULT_USER_CREATION_SUCCESS_MESSAGE,
   DEFAULT_USER_LOGIN_FAIL_MESSAGE,
   DEFAULT_USER_LOGIN_SUCCESS_MESSAGE,
+  DEFAULT_USER_LOGOUT_FAIL_MESSAGE,
+  DEFAULT_USER_LOGOUT_SUCCESS_MESSAGE,
 } from '../constants';
 import { AuthHookProps } from '../types';
-import { ApolloError, useMutation } from '@apollo/client';
-import { onHandleMutationErrors } from '@/graphql';
 
 // TODO: Extend with | 'FORGOT_PASSWORD' | 'RESET_PASSWORD'; when it is ready
 /**
@@ -45,6 +52,13 @@ type AuthMutations = {
     schema: typeof LOGIN_USER;
     response: LoginUserMutation;
     variables: LoginUserMutationVariables;
+    successMessage: string;
+    failureMessage: string;
+  };
+  SIGN_OUT: {
+    schema: typeof SIGN_OUT_USER;
+    response: SignOutUserMutation;
+    variables: SignOutUserMutationVariables;
     successMessage: string;
     failureMessage: string;
   };
@@ -81,6 +95,13 @@ const authMutations: AuthMutations = {
     response: {} as LoginUserMutation,
     successMessage: DEFAULT_USER_LOGIN_SUCCESS_MESSAGE,
     failureMessage: DEFAULT_USER_LOGIN_FAIL_MESSAGE,
+  },
+  SIGN_OUT: {
+    schema: SIGN_OUT_USER,
+    variables: {} as SignOutUserMutationVariables,
+    response: {} as SignOutUserMutation,
+    successMessage: DEFAULT_USER_LOGOUT_SUCCESS_MESSAGE,
+    failureMessage: DEFAULT_USER_LOGOUT_FAIL_MESSAGE,
   },
 };
 
