@@ -205,6 +205,7 @@ export type Mutation = {
   deleteElevatorRecord: DeleteElevatorRecordResponse;
   deleteRepairJobAndEvent: DeleteCalendarAndRepairJobResponse;
   deleteTechnicianRecord: DeleteTechnicianRecordResponse;
+  forgotPassword: Scalars['Boolean']['output'];
   reassignTechnician: RepairJob;
   signIn: AuthResponse;
   signOut: Scalars['Boolean']['output'];
@@ -239,6 +240,12 @@ export type MutationDeleteRepairJobAndEventArgs = {
 
 export type MutationDeleteTechnicianRecordArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+export type MutationForgotPasswordArgs = {
+  email: Scalars['String']['input'];
+  redirectTo: Scalars['String']['input'];
 };
 
 
@@ -890,6 +897,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   deleteElevatorRecord?: Resolver<ResolversTypes['DeleteElevatorRecordResponse'], ParentType, ContextType, RequireFields<MutationDeleteElevatorRecordArgs, 'id'>>;
   deleteRepairJobAndEvent?: Resolver<ResolversTypes['DeleteCalendarAndRepairJobResponse'], ParentType, ContextType, RequireFields<MutationDeleteRepairJobAndEventArgs, 'calendarEventId' | 'repairJobId'>>;
   deleteTechnicianRecord?: Resolver<ResolversTypes['DeleteTechnicianRecordResponse'], ParentType, ContextType, RequireFields<MutationDeleteTechnicianRecordArgs, 'id'>>;
+  forgotPassword?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationForgotPasswordArgs, 'email' | 'redirectTo'>>;
   reassignTechnician?: Resolver<ResolversTypes['RepairJob'], ParentType, ContextType, RequireFields<MutationReassignTechnicianArgs, 'input'>>;
   signIn?: Resolver<ResolversTypes['AuthResponse'], ParentType, ContextType, RequireFields<MutationSignInArgs, 'input'>>;
   signOut?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;

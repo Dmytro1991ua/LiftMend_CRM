@@ -70,6 +70,16 @@ class AuthService {
 
     return true;
   }
+
+  async forgotPassword(email: string, redirectTo: string): Promise<boolean> {
+    const response = await this.supabase?.auth.resetPasswordForEmail(email, {
+      redirectTo,
+    });
+
+    if (response?.error) throw new GraphQLError(response.error.message);
+
+    return true;
+  }
 }
 
 export default AuthService;
