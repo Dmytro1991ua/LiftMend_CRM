@@ -1,4 +1,5 @@
 import { memo } from 'react';
+
 import { AuthFormHeadersConfig } from '../types';
 
 type FormHeaderProps = {

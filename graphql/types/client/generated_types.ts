@@ -195,6 +195,11 @@ export type ElevatorRecordsMetrics = {
   vehicleParkingElevators: Scalars['Int']['output'];
 };
 
+export type ForgotPasswordInput = {
+  email: Scalars['String']['input'];
+  redirectTo: Scalars['String']['input'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createRepairJobAndEvent: ScheduledEventAndRepairJobResponse;
@@ -202,7 +207,9 @@ export type Mutation = {
   deleteElevatorRecord: DeleteElevatorRecordResponse;
   deleteRepairJobAndEvent: DeleteCalendarAndRepairJobResponse;
   deleteTechnicianRecord: DeleteTechnicianRecordResponse;
+  forgotPassword: Scalars['Boolean']['output'];
   reassignTechnician: RepairJob;
+  resetPassword: AuthResponse;
   signIn: AuthResponse;
   signOut: Scalars['Boolean']['output'];
   signUp: AuthResponse;
@@ -239,8 +246,18 @@ export type MutationDeleteTechnicianRecordArgs = {
 };
 
 
+export type MutationForgotPasswordArgs = {
+  input: ForgotPasswordInput;
+};
+
+
 export type MutationReassignTechnicianArgs = {
   input: UpdateRepairJobInput;
+};
+
+
+export type MutationResetPasswordArgs = {
+  input: ResetPasswordInput;
 };
 
 
@@ -458,6 +475,10 @@ export type RepairJobsMetrics = {
   upgradeJobs: Scalars['Int']['output'];
 };
 
+export type ResetPasswordInput = {
+  password: Scalars['String']['input'];
+};
+
 export type ScheduledEventAndRepairJobResponse = {
   __typename?: 'ScheduledEventAndRepairJobResponse';
   calendarEvent: CalendarEvent;
@@ -621,6 +642,13 @@ export type DeleteTechnicianRecordMutationVariables = Exact<{
 
 
 export type DeleteTechnicianRecordMutation = { __typename?: 'Mutation', deleteTechnicianRecord: { __typename?: 'DeleteTechnicianRecordResponse', id: string } };
+
+export type ForgotPasswordMutationVariables = Exact<{
+  input: ForgotPasswordInput;
+}>;
+
+
+export type ForgotPasswordMutation = { __typename?: 'Mutation', forgotPassword: boolean };
 
 export type GetAvailableTechniciansForAssignmentQueryVariables = Exact<{ [key: string]: never; }>;
 

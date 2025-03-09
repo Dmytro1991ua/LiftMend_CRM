@@ -28,5 +28,6 @@ type Mutation {
   signUp(input: CreateUserInput!): AuthResponse!
   signIn(input: SignInUserInput!): AuthResponse!
   signOut: Boolean!
-  forgotPassword(email: String!, redirectTo: String!): Boolean!
+  forgotPassword(input: ForgotPasswordInput!): Boolean!
+  resetPassword(input: ResetPasswordInput!): AuthResponse!
 }

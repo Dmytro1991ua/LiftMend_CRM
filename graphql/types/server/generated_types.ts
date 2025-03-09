@@ -198,6 +198,11 @@ export type ElevatorRecordsMetrics = {
   vehicleParkingElevators: Scalars['Int']['output'];
 };
 
+export type ForgotPasswordInput = {
+  email: Scalars['String']['input'];
+  redirectTo: Scalars['String']['input'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createRepairJobAndEvent: ScheduledEventAndRepairJobResponse;
@@ -207,6 +212,7 @@ export type Mutation = {
   deleteTechnicianRecord: DeleteTechnicianRecordResponse;
   forgotPassword: Scalars['Boolean']['output'];
   reassignTechnician: RepairJob;
+  resetPassword: AuthResponse;
   signIn: AuthResponse;
   signOut: Scalars['Boolean']['output'];
   signUp: AuthResponse;
@@ -244,13 +250,17 @@ export type MutationDeleteTechnicianRecordArgs = {
 
 
 export type MutationForgotPasswordArgs = {
-  email: Scalars['String']['input'];
-  redirectTo: Scalars['String']['input'];
+  input: ForgotPasswordInput;
 };
 
 
 export type MutationReassignTechnicianArgs = {
   input: UpdateRepairJobInput;
+};
+
+
+export type MutationResetPasswordArgs = {
+  input: ResetPasswordInput;
 };
 
 
@@ -466,6 +476,10 @@ export type RepairJobsMetrics = {
   upgradeJobs: Scalars['Int']['output'];
 };
 
+export type ResetPasswordInput = {
+  password: Scalars['String']['input'];
+};
+
 export type ScheduledEventAndRepairJobResponse = {
   __typename?: 'ScheduledEventAndRepairJobResponse';
   calendarEvent: CalendarEvent;
@@ -679,6 +693,7 @@ export type ResolversTypes = ResolversObject<{
   ElevatorRecordSortField: ElevatorRecordSortField;
   ElevatorRecordSortInput: ElevatorRecordSortInput;
   ElevatorRecordsMetrics: ResolverTypeWrapper<ElevatorRecordsMetrics>;
+  ForgotPasswordInput: ForgotPasswordInput;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
@@ -695,6 +710,7 @@ export type ResolversTypes = ResolversObject<{
   RepairJobSortField: RepairJobSortField;
   RepairJobSortInput: RepairJobSortInput;
   RepairJobsMetrics: ResolverTypeWrapper<RepairJobsMetrics>;
+  ResetPasswordInput: ResetPasswordInput;
   ScheduledEventAndRepairJobResponse: ResolverTypeWrapper<ScheduledEventAndRepairJobResponse>;
   SignInUserInput: SignInUserInput;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
@@ -737,6 +753,7 @@ export type ResolversParentTypes = ResolversObject<{
   ElevatorRecordFormData: ElevatorRecordFormData;
   ElevatorRecordSortInput: ElevatorRecordSortInput;
   ElevatorRecordsMetrics: ElevatorRecordsMetrics;
+  ForgotPasswordInput: ForgotPasswordInput;
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
   Mutation: {};
@@ -751,6 +768,7 @@ export type ResolversParentTypes = ResolversObject<{
   RepairJobScheduleData: RepairJobScheduleData;
   RepairJobSortInput: RepairJobSortInput;
   RepairJobsMetrics: RepairJobsMetrics;
+  ResetPasswordInput: ResetPasswordInput;
   ScheduledEventAndRepairJobResponse: ScheduledEventAndRepairJobResponse;
   SignInUserInput: SignInUserInput;
   String: Scalars['String']['output'];
@@ -897,8 +915,9 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   deleteElevatorRecord?: Resolver<ResolversTypes['DeleteElevatorRecordResponse'], ParentType, ContextType, RequireFields<MutationDeleteElevatorRecordArgs, 'id'>>;
   deleteRepairJobAndEvent?: Resolver<ResolversTypes['DeleteCalendarAndRepairJobResponse'], ParentType, ContextType, RequireFields<MutationDeleteRepairJobAndEventArgs, 'calendarEventId' | 'repairJobId'>>;
   deleteTechnicianRecord?: Resolver<ResolversTypes['DeleteTechnicianRecordResponse'], ParentType, ContextType, RequireFields<MutationDeleteTechnicianRecordArgs, 'id'>>;
-  forgotPassword?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationForgotPasswordArgs, 'email' | 'redirectTo'>>;
+  forgotPassword?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationForgotPasswordArgs, 'input'>>;
   reassignTechnician?: Resolver<ResolversTypes['RepairJob'], ParentType, ContextType, RequireFields<MutationReassignTechnicianArgs, 'input'>>;
+  resetPassword?: Resolver<ResolversTypes['AuthResponse'], ParentType, ContextType, RequireFields<MutationResetPasswordArgs, 'input'>>;
   signIn?: Resolver<ResolversTypes['AuthResponse'], ParentType, ContextType, RequireFields<MutationSignInArgs, 'input'>>;
   signOut?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   signUp?: Resolver<ResolversTypes['AuthResponse'], ParentType, ContextType, RequireFields<MutationSignUpArgs, 'input'>>;

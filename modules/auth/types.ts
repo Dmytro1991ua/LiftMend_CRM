@@ -63,7 +63,7 @@ export type FormField = {
   label: FieldLabel;
   placeholder?: FormFieldPlaceholder;
   type?: InputType | LinkType;
-  route?: string;
+  route?: AppRoutes;
   className?: string;
   isLastElement?: boolean;
 };
