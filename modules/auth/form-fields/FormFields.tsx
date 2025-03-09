@@ -1,7 +1,9 @@
-import FormInput from '@/shared/base-input/form-input';
-import { FormField } from '../types';
-import FormRedirectLink from '../form-redirect-link';
 import { memo } from 'react';
+
+import FormInput from '@/shared/base-input/form-input';
+
+import FormRedirectLink from '../form-redirect-link';
+import { FormField } from '../types';
 
 type FormFieldsProps = {
   formFields: FormField[];
@@ -12,22 +14,22 @@ const FormFields = ({ formFields }: FormFieldsProps) => {
       {formFields.map(({ id, name, placeholder, label, type, route, className, isLastElement }) => {
         if (type === 'link') {
           return (
-            <div className={className}>
+            <div key={route} className={className}>
               <FormRedirectLink route={route ?? ''} title={label} />
             </div>
           );
         }
 
         return (
-          <div className={className}>
+          <div key={id} className={className}>
             <FormInput
               key={id}
-              name={name}
-              placeholder={placeholder}
-              label={label}
-              type={type}
               errorClassName='text-sm'
               isLastElement={isLastElement}
+              label={label}
+              name={name}
+              placeholder={placeholder}
+              type={type}
             />
           </div>
         );

@@ -32,7 +32,15 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL(AppRoutes.Dashboard, req.url));
   }
 
-  if (!token && !(reqUrl.includes(AppRoutes.SignIn) || reqUrl.includes(AppRoutes.SignUp))) {
+  if (
+    !token &&
+    !(
+      reqUrl.includes(AppRoutes.SignIn) ||
+      reqUrl.includes(AppRoutes.SignUp) ||
+      reqUrl.includes(AppRoutes.ResetPassword) ||
+      reqUrl.includes(AppRoutes.ForgotPassword)
+    )
+  ) {
     return NextResponse.redirect(new URL(AppRoutes.SignIn, req.url));
   }
 

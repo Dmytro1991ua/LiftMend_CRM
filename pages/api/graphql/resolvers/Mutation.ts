@@ -212,8 +212,15 @@ const Mutation: MutationResolvers = {
   signOut: async (_, __, { dataSources }): Promise<boolean> => {
     return await dataSources.auth.signOut();
   },
-  forgotPassword: async (_, { email, redirectTo }, { dataSources }): Promise<boolean> => {
+  forgotPassword: async (_, { input }, { dataSources }): Promise<boolean> => {
+    const { email, redirectTo } = input;
+
     return await dataSources.auth.forgotPassword(email, redirectTo);
+  },
+  resetPassword: async (_, { input }, { dataSources }): Promise<AuthResponse> => {
+    const { password } = input;
+
+    return await dataSources.auth.resetPassword(password);
   },
 };
 

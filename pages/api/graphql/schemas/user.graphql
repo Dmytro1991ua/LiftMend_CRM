@@ -22,3 +22,12 @@ input SignInUserInput {
   email: String!
   password: String!
 }
+
+input ForgotPasswordInput {
+  email: String!
+  redirectTo: String!
+}
+
+input ResetPasswordInput {
+  password: String!
+}

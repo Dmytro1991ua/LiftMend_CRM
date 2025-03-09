@@ -81,7 +81,7 @@ export const FORM_FIELDS_CONFIG: FormFieldsConfig = {
       name: 'forgotPassword',
       type: 'link',
       label: FieldLabel.FORGOT_PASSWORD,
-      route: '/forgot-password',
+      route: AppRoutes.ForgotPassword,
       className:
         'row-start-3 row-end-4 col-start-1 col-end-7 text-center mb-8 sm:col-start-4 sm:col-end-7 sm:text-right',
     },
