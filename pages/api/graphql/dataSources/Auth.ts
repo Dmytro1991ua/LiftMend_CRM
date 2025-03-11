@@ -4,7 +4,7 @@ import { GraphQLError } from 'graphql';
 
 import { CreateUserInput, SignInUserInput } from '@/graphql/types/server/generated_types';
 
-import { DEFAULT_SIGN_IN_MESSAGE, DEFAULT_SIGN_UP_MESSAGE } from './constants';
+import { DEFAULT_RESET_PASSWORD_MESSAGE, DEFAULT_SIGN_IN_MESSAGE, DEFAULT_SIGN_UP_MESSAGE } from './constants';
 
 class AuthService {
   private prisma;
@@ -79,6 +79,20 @@ class AuthService {
     if (response?.error) throw new GraphQLError(response.error.message);
 
     return true;
+  }
+
+  async resetPassword(password: string): Promise<User> {
+    const response = await this.supabase?.auth.updateUser({
+      password,
+    });
+
+    if (response?.error) throw new GraphQLError(response.error.message);
+
+    const user = response?.data?.user;
+
+    if (!user) throw new GraphQLError(DEFAULT_RESET_PASSWORD_MESSAGE);
+
+    return user;
   }
 }
 
