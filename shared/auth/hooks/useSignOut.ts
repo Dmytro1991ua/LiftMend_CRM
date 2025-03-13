@@ -25,6 +25,7 @@ export const useSignOut = (): UseSignOut => {
   const onSignOut = useCallback(async (): Promise<void> => {
     await onAuthMutation({});
 
+    // Reload to clear Supabase's stale in-memory session (which doesn't update immediately on sign-out).
     window.location.reload();
   }, [onAuthMutation]);
 

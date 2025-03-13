@@ -752,6 +752,13 @@ export type ReassignTechnicianMutationVariables = Exact<{
 
 export type ReassignTechnicianMutation = { __typename?: 'Mutation', reassignTechnician: { __typename?: 'RepairJob', id: string, jobType: string, jobDetails: string, jobPriority: string, elevatorType: string, buildingName: string, elevatorLocation: string, technicianName: string, startDate: any, endDate: any, calendarEventId: string | null, actualEndDate: any | null, isOverdue: boolean | null } };
 
+export type ResetPasswordMutationVariables = Exact<{
+  input: ResetPasswordInput;
+}>;
+
+
+export type ResetPasswordMutation = { __typename?: 'Mutation', resetPassword: { __typename?: 'AuthResponse', id: string } };
+
 export type SignOutUserMutationVariables = Exact<{ [key: string]: never; }>;
 
 

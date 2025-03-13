@@ -12,6 +12,8 @@ import {
   ForgotPasswordMutationVariables,
   LoginUserMutation,
   LoginUserMutationVariables,
+  ResetPasswordMutation,
+  ResetPasswordMutationVariables,
   SignOutUserMutationVariables,
 } from '@/graphql/types/client/generated_types';
 
@@ -19,6 +21,8 @@ import { SignOutUserMutation } from '../../../graphql/types/client/generated_typ
 import {
   DEFAULT_FORGOT_PASSWORD_FAIL_MESSAGE,
   DEFAULT_FORGOT_PASSWORD_SUCCESS_MESSAGE,
+  DEFAULT_RESET_PASSWORD_FAIL_MESSAGE,
+  DEFAULT_RESET_PASSWORD_SUCCESS_MESSAGE,
   DEFAULT_USER_CREATION_FAIL_MESSAGE,
   DEFAULT_USER_CREATION_SUCCESS_MESSAGE,
   DEFAULT_USER_LOGIN_FAIL_MESSAGE,
@@ -27,24 +31,8 @@ import {
   DEFAULT_USER_LOGOUT_SUCCESS_MESSAGE,
 } from '../constants';
 import { AuthHookProps } from '../types';
+import { RESET_PASSWORD } from '@/graphql/schemas/resetPassword';
 
-// TODO: Extend with | 'FORGOT_PASSWORD' | 'RESET_PASSWORD'; when it is ready
-/**
- *   FORGOT_PASSWORD: {
-    schema: typeof FORGOT_PASSWORD;
-    variables: ForgotPasswordMutationVariables;
-    response: ForgotPasswordMutation;
-    successMessage: string;
-    failureMessage: string;
-  };
-  RESET_PASSWORD: {
-    schema: typeof RESET_PASSWORD;
-    variables: ResetPasswordMutationVariables;
-    response: ResetPasswordMutation;
-    successMessage: string;
-    failureMessage: string;
-  };
- */
 type AuthMutations = {
   SIGN_UP: {
     schema: typeof CREATE_USER;
@@ -74,25 +62,15 @@ type AuthMutations = {
     successMessage: string;
     failureMessage: string;
   };
+  RESET_PASSWORD: {
+    schema: typeof RESET_PASSWORD;
+    variables: ResetPasswordMutationVariables;
+    response: ResetPasswordMutation;
+    successMessage: string;
+    failureMessage: string;
+  };
 };
 
-// TODO: Extend with | 'FORGOT_PASSWORD' | 'RESET_PASSWORD'; when it is ready
-/**
- *  FORGOT_PASSWORD: {
-    schema: FORGOT_PASSWORD,
-    variables: {} as ForgotPasswordMutationVariables,
-    response: {} as ForgotPasswordMutation,
-    successMessage: DEFAULT_FORGOT_PASSWORD_SUCCESS_MESSAGE,
-    failureMessage: DEFAULT_FORGOT_PASSWORD_FAIL_MESSAGE,
-  },
-  RESET_PASSWORD: {
-    schema: RESET_PASSWORD,
-    variables: {} as ResetPasswordMutationVariables,
-    response: {} as ResetPasswordMutation,
-    successMessage: DEFAULT_RESET_PASSWORD_SUCCESS_MESSAGE,
-    failureMessage: DEFAULT_RESET_PASSWORD_FAIL_MESSAGE,
-  },
- */
 const authMutations: AuthMutations = {
   SIGN_UP: {
     schema: CREATE_USER,
@@ -122,6 +100,13 @@ const authMutations: AuthMutations = {
     successMessage: DEFAULT_FORGOT_PASSWORD_SUCCESS_MESSAGE,
     failureMessage: DEFAULT_FORGOT_PASSWORD_FAIL_MESSAGE,
   },
+  RESET_PASSWORD: {
+    schema: RESET_PASSWORD,
+    variables: {} as ResetPasswordMutationVariables,
+    response: {} as ResetPasswordMutation,
+    successMessage: DEFAULT_RESET_PASSWORD_SUCCESS_MESSAGE,
+    failureMessage: DEFAULT_RESET_PASSWORD_FAIL_MESSAGE,
+  },
 };
 
 type UseAuthMutation<T extends keyof AuthMutations> = {
@@ -134,6 +119,7 @@ export const useAuthMutation = <T extends keyof AuthMutations>({
   onError,
   onSuccess,
   onRedirect,
+  onReset,
 }: AuthHookProps): UseAuthMutation<T> => {
   const { schema, successMessage, failureMessage } = authMutations[action];
 
@@ -154,6 +140,7 @@ export const useAuthMutation = <T extends keyof AuthMutations>({
       } else {
         onSuccess?.(successMessage);
         onRedirect?.();
+        onReset?.();
       }
     } catch (e) {
       onHandleMutationErrors({
