@@ -28,6 +28,7 @@ const SignInForm = () => {
     onError,
     onSuccess,
     onRedirect: () => router.push(AppRoutes.Dashboard),
+    onReset,
   });
 
   const onSubmit: SubmitHandler<SignInFormFields> = async (data) => {
@@ -37,8 +38,6 @@ const SignInForm = () => {
         password: data.password,
       },
     });
-
-    onReset();
   };
 
   return (

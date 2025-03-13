@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache, from } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
-import { useSession } from '@supabase/auth-helpers-react';
+import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Session } from '@supabase/supabase-js';
 
 import { typePolicies } from '@/graphql/typePolicies';
@@ -17,7 +17,7 @@ const createAuthLink = (session?: Session | null) => {
     return {
       headers: {
         ...headers,
-        Authorization: session?.access_token ? `Bearer ${session.access_token}` : '',
+        ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
       },
     };
   });
@@ -69,6 +69,7 @@ const createApolloClient = (session?: Session | null) => {
 
 export const ApolloProviderWithSession = ({ children }: ApolloProviderWithSessionProps) => {
   const session = useSession();
+  const supabase = useSupabaseClient();
   const [client, setClient] = useState(() => createApolloClient(session));
 
   useEffect(() => {

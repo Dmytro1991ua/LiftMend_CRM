@@ -5,5 +5,8 @@ export const DEFAULT_USER_LOGIN_FAIL_MESSAGE = 'Failed to login to the account';
 export const DEFAULT_USER_LOGOUT_SUCCESS_MESSAGE = 'Successfully signed out.';
 export const DEFAULT_USER_LOGOUT_FAIL_MESSAGE = 'Failed to sign out.';
 export const DEFAULT_FORGOT_PASSWORD_SUCCESS_MESSAGE =
-  'A password reset email has been sent. It may take some time to arrive. If the email has not arrived, please try again.';
+  'A password reset email has been sent. It may take some time to arrive. If you do not receive the email, please try again. The reset process will open in a new tab, and you may close this one once the email arrives.';
 export const DEFAULT_FORGOT_PASSWORD_FAIL_MESSAGE = 'Failed to send password reset email.';
+export const DEFAULT_RESET_PASSWORD_SUCCESS_MESSAGE =
+  'Your password has been reset successfully. You are now signed in.';
+export const DEFAULT_RESET_PASSWORD_FAIL_MESSAGE = 'Failed to reset password.';

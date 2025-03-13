@@ -26,6 +26,7 @@ const SignUpForm = () => {
     onError,
     onSuccess,
     onRedirect: () => router.push(AppRoutes.SignIn),
+    onReset,
   });
 
   const onSubmit: SubmitHandler<SignUpFormFields> = async (data) => {
@@ -38,8 +39,6 @@ const SignUpForm = () => {
         phone: data.phoneNumber,
       },
     });
-
-    onReset();
   };
 
   return (

@@ -25,7 +25,7 @@ const ForgotPasswordForm = () => {
     action: 'FORGOT_PASSWORD',
     onError,
     onSuccess,
-    onRedirect: () => router.push(AppRoutes.SignIn),
+    onReset,
   });
 
   const onSubmit: SubmitHandler<ForgotPasswordFormFields> = async (data) => {
@@ -35,8 +35,6 @@ const ForgotPasswordForm = () => {
         redirectTo: `${window.location.origin}${AppRoutes.ResetPassword}`,
       },
     });
-
-    onReset();
   };
 
   return (

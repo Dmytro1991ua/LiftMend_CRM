@@ -102,6 +102,7 @@ export const FORM_FIELDS_CONFIG: FormFieldsConfig = {
       label: FieldLabel.PASSWORD,
       className: 'row-start-1 row-end-2 col-start-1 col-end-7',
       placeholder: FormFieldPlaceholder.PASSWORD,
+      type: 'password',
     },
     {
       id: 12,
@@ -109,6 +110,7 @@ export const FORM_FIELDS_CONFIG: FormFieldsConfig = {
       label: FieldLabel.CONFIRM_PASSWORD,
       placeholder: FormFieldPlaceholder.CONFIRM_PASSWORD,
       className: 'row-start-2 row-end-3 col-start-1 col-end-7',
+      type: 'password',
     },
   ],
 };
