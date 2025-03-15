@@ -1,3 +1,28 @@
+enum OAuthProvider {
+  APPLE
+  AZURE
+  BITBUCKET
+  DISCORD
+  FACEBOOK
+  FIGMA
+  GITHUB
+  GITLAB
+  GOOGLE
+  KAKAO
+  KEYCLOAK
+  LINKEDIN
+  LINKEDIN_OIDC
+  NOTION
+  SLACK
+  SLACK_OIDC
+  SPOTIFY
+  TWITCH
+  TWITTER
+  WORKOS
+  ZOOM
+  FLY
+}
+
 type AppUser {
   id: ID!
   email: String!
@@ -30,4 +55,8 @@ input ForgotPasswordInput {
 
 input ResetPasswordInput {
   password: String!
+}
+
+input SignInWithOAuthInput {
+  provider: OAuthProvider!
 }

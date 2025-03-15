@@ -214,6 +214,7 @@ export type Mutation = {
   reassignTechnician: RepairJob;
   resetPassword: AuthResponse;
   signIn: AuthResponse;
+  signInWithOAuth: Scalars['String']['output'];
   signOut: Scalars['Boolean']['output'];
   signUp: AuthResponse;
   updateElevatorRecord: ElevatorRecord;
@@ -269,6 +270,11 @@ export type MutationSignInArgs = {
 };
 
 
+export type MutationSignInWithOAuthArgs = {
+  input: SignInWithOAuthInput;
+};
+
+
 export type MutationSignUpArgs = {
   input: CreateUserInput;
 };
@@ -291,6 +297,31 @@ export type MutationUpdateTechnicianRecordArgs = {
 export type Node = {
   id: Scalars['ID']['output'];
 };
+
+export enum OAuthProvider {
+  Apple = 'APPLE',
+  Azure = 'AZURE',
+  Bitbucket = 'BITBUCKET',
+  Discord = 'DISCORD',
+  Facebook = 'FACEBOOK',
+  Figma = 'FIGMA',
+  Fly = 'FLY',
+  Github = 'GITHUB',
+  Gitlab = 'GITLAB',
+  Google = 'GOOGLE',
+  Kakao = 'KAKAO',
+  Keycloak = 'KEYCLOAK',
+  Linkedin = 'LINKEDIN',
+  LinkedinOidc = 'LINKEDIN_OIDC',
+  Notion = 'NOTION',
+  Slack = 'SLACK',
+  SlackOidc = 'SLACK_OIDC',
+  Spotify = 'SPOTIFY',
+  Twitch = 'TWITCH',
+  Twitter = 'TWITTER',
+  Workos = 'WORKOS',
+  Zoom = 'ZOOM'
+}
 
 export enum OrderOption {
   Asc = 'ASC',
@@ -489,6 +520,10 @@ export type ScheduledEventAndRepairJobResponse = {
 export type SignInUserInput = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
+};
+
+export type SignInWithOAuthInput = {
+  provider: OAuthProvider;
 };
 
 export type TechnicianRecord = Node & {
@@ -698,6 +733,7 @@ export type ResolversTypes = ResolversObject<{
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   Node: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Node']>;
+  OAuthProvider: OAuthProvider;
   OrderOption: OrderOption;
   PageInfo: ResolverTypeWrapper<PageInfo>;
   PaginationOptions: PaginationOptions;
@@ -713,6 +749,7 @@ export type ResolversTypes = ResolversObject<{
   ResetPasswordInput: ResetPasswordInput;
   ScheduledEventAndRepairJobResponse: ResolverTypeWrapper<ScheduledEventAndRepairJobResponse>;
   SignInUserInput: SignInUserInput;
+  SignInWithOAuthInput: SignInWithOAuthInput;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   TechnicianRecord: ResolverTypeWrapper<TechnicianRecord>;
   TechnicianRecordConnection: ResolverTypeWrapper<TechnicianRecordConnection>;
@@ -771,6 +808,7 @@ export type ResolversParentTypes = ResolversObject<{
   ResetPasswordInput: ResetPasswordInput;
   ScheduledEventAndRepairJobResponse: ScheduledEventAndRepairJobResponse;
   SignInUserInput: SignInUserInput;
+  SignInWithOAuthInput: SignInWithOAuthInput;
   String: Scalars['String']['output'];
   TechnicianRecord: TechnicianRecord;
   TechnicianRecordConnection: TechnicianRecordConnection;
@@ -919,6 +957,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   reassignTechnician?: Resolver<ResolversTypes['RepairJob'], ParentType, ContextType, RequireFields<MutationReassignTechnicianArgs, 'input'>>;
   resetPassword?: Resolver<ResolversTypes['AuthResponse'], ParentType, ContextType, RequireFields<MutationResetPasswordArgs, 'input'>>;
   signIn?: Resolver<ResolversTypes['AuthResponse'], ParentType, ContextType, RequireFields<MutationSignInArgs, 'input'>>;
+  signInWithOAuth?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationSignInWithOAuthArgs, 'input'>>;
   signOut?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   signUp?: Resolver<ResolversTypes['AuthResponse'], ParentType, ContextType, RequireFields<MutationSignUpArgs, 'input'>>;
   updateElevatorRecord?: Resolver<ResolversTypes['ElevatorRecord'], ParentType, ContextType, RequireFields<MutationUpdateElevatorRecordArgs, 'input'>>;

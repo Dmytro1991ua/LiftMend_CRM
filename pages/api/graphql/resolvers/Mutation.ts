@@ -209,6 +209,11 @@ const Mutation: MutationResolvers = {
       id: user.id,
     };
   },
+  signInWithOAuth: async (_, { input }, { dataSources }) => {
+    const { provider } = input;
+
+    return await dataSources.auth.signInWithOAuth(provider);
+  },
   signOut: async (_, __, { dataSources }): Promise<boolean> => {
     return await dataSources.auth.signOut();
   },

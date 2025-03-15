@@ -1,8 +1,8 @@
 import { PrismaClient } from '@prisma/client';
-import { SupabaseClient, User } from '@supabase/supabase-js';
+import { Provider, SupabaseClient, User } from '@supabase/supabase-js';
 import { GraphQLError } from 'graphql';
 
-import { CreateUserInput, SignInUserInput } from '@/graphql/types/server/generated_types';
+import { CreateUserInput, OAuthProvider, SignInUserInput } from '@/graphql/types/server/generated_types';
 
 import { DEFAULT_RESET_PASSWORD_MESSAGE, DEFAULT_SIGN_IN_MESSAGE, DEFAULT_SIGN_UP_MESSAGE } from './constants';
 
@@ -61,6 +61,19 @@ class AuthService {
     if (!user) throw new GraphQLError(DEFAULT_SIGN_IN_MESSAGE);
 
     return response?.data?.user;
+  }
+
+  async signInWithOAuth(provider: OAuthProvider): Promise<string> {
+    const response = await this.supabase?.auth.signInWithOAuth({
+      provider: provider.toLowerCase() as Provider,
+      options: {
+        redirectTo: process.env.NEXT_PUBLIC_SUPABASE_REDIRECT_URL,
+      },
+    });
+
+    if (response?.error) throw new GraphQLError(response.error.message);
+
+    return response?.data?.url ?? '';
   }
 
   async signOut(): Promise<boolean> {
