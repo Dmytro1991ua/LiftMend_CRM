@@ -30,4 +30,5 @@ type Mutation {
   signOut: Boolean!
   forgotPassword(input: ForgotPasswordInput!): Boolean!
   resetPassword(input: ResetPasswordInput!): AuthResponse!
+  signInWithOAuth(input: SignInWithOAuthInput!): String!
 }

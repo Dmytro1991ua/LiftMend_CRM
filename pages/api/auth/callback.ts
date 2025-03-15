@@ -1,17 +1,21 @@
 import { createPagesServerClient } from '@supabase/auth-helpers-nextjs';
 import { NextApiHandler } from 'next';
 
-import { AppRoutes } from '@/types/enums';
-
 const handler: NextApiHandler = async (req, res) => {
   const { code } = req.query;
 
-  if (code) {
-    const supabase = createPagesServerClient({ req, res });
-    await supabase.auth.exchangeCodeForSession(String(code));
+  if (!code) {
+    return res.status(400).json({ error: 'Authorization code is missing' });
   }
 
-  res.redirect(AppRoutes.Dashboard);
+  const supabase = createPagesServerClient({ req, res });
+  const { error } = await supabase.auth.exchangeCodeForSession(String(code));
+
+  if (error) {
+    return res.status(500).json({ error: error.message });
+  }
+
+  res.redirect(302, '/auth/callback');
 };
 
 export default handler;
