@@ -10,3 +10,4 @@ export const DEFAULT_FORGOT_PASSWORD_FAIL_MESSAGE = 'Failed to send password res
 export const DEFAULT_RESET_PASSWORD_SUCCESS_MESSAGE =
   'Your password has been reset successfully. You are now signed in.';
 export const DEFAULT_RESET_PASSWORD_FAIL_MESSAGE = 'Failed to reset password.';
+export const OAUTH_CALLBACK_REDIRECT_DELAY = 2000;
