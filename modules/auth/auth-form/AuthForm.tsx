@@ -1,6 +1,7 @@
 import { Form } from 'react-hook-form';
 import { Hourglass } from 'react-loader-spinner';
 
+import ThirdPartyAuthButton from '@/shared/auth/third-party-auth-button';
 import BaseButton from '@/shared/base-button';
 import Logo from '@/shared/logo';
 
@@ -16,12 +17,14 @@ type AuthFormProps = {
   onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void>;
   buttonLabel: AuthButtonLabel;
   isLoading?: boolean;
+  oAuthButtons?: JSX.Element;
+  authFormSeparator?: JSX.Element;
 };
 
-const AuthForm = ({ formType, buttonLabel, isLoading, onSubmit }: AuthFormProps) => {
+const AuthForm = ({ formType, buttonLabel, isLoading, authFormSeparator, oAuthButtons, onSubmit }: AuthFormProps) => {
   return (
     <Form className='w-[95%] sm:!w-[65rem] md:!w-[75rem] p-8 my-5 mx-5 rounded-2xl bg-white shadow-xl'>
-      <Logo wrapperClassName='border-b-0 mb-2 md:mb-4' />
+      <Logo wrapperClassName='border-b-0 mb-1' />
       <FormHeader formHeaders={FORM_TITLES_CONFIG[formType]} />
       {isLoading ? (
         <div className={isLoading ? 'flex justify-center h-35' : ''}>
@@ -46,6 +49,8 @@ const AuthForm = ({ formType, buttonLabel, isLoading, onSubmit }: AuthFormProps)
         type='submit'
         onClick={onSubmit}
       />
+      {authFormSeparator}
+      {oAuthButtons}
       <div className='text-center mt-4'>
         <FormRedirectLink
           route={FORM_REDIRECTION_LINKS_CONFIG[formType].route}

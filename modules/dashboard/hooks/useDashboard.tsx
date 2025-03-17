@@ -20,6 +20,7 @@ type UseDashboard = {
   error?: string;
   sanitizedDateRange: DateRange;
   isCalendarOpen: boolean;
+  welcomeMessage: string;
   onHandleCalendarPopoverClose: (open: boolean, range?: DateRange) => void;
 };
 
@@ -38,7 +39,7 @@ export const useDashBoard = (): UseDashboard => {
 
   const sanitizedDateRange = useMemo(() => getSanitizeDateRange(storedState.dateFilter), [storedState.dateFilter]);
 
-  const { dashboardMetrics, loading, error } = useFetchDashboardMetrics({
+  const { dashboardMetrics, loading, welcomeMessage, error } = useFetchDashboardMetrics({
     dateRange: sanitizedDateRange,
   });
 
@@ -68,6 +69,7 @@ export const useDashBoard = (): UseDashboard => {
     error,
     sanitizedDateRange,
     isCalendarOpen,
+    welcomeMessage,
     onHandleCalendarPopoverClose,
   };
 };

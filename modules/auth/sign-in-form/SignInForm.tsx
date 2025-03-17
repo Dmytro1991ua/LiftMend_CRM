@@ -4,7 +4,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/router';
 import { FormProvider, SubmitHandler } from 'react-hook-form';
 
+import AuthFormSeparator from '@/shared/auth/auth-form-separator';
 import { useAuthMutation } from '@/shared/auth/hooks';
+import ThirdPartyAuthButton from '@/shared/auth/third-party-auth-button';
 import useFormState from '@/shared/hooks/useFormState';
 import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import { AppRoutes } from '@/types/enums';
@@ -43,9 +45,11 @@ const SignInForm = () => {
   return (
     <FormProvider {...formState}>
       <AuthForm
+        authFormSeparator={<AuthFormSeparator />}
         buttonLabel={AuthButtonLabel.LOGIN}
         formType={AuthFormType.SIGN_IN}
         isLoading={isLoading}
+        oAuthButtons={<ThirdPartyAuthButton />}
         onSubmit={formState.handleSubmit(onSubmit)}
       />
     </FormProvider>

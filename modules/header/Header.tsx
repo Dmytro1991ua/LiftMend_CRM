@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 
+import { useSessionContext } from '@supabase/auth-helpers-react';
 import { BiLogOut, BiSolidUser } from 'react-icons/bi';
 
 import { Button } from '@/components/ui/button';
@@ -14,6 +15,8 @@ import { NavigationLinkLabel } from '../sidebar/types';
 import { DropdownConfig } from './types';
 
 const Header = () => {
+  const { session } = useSessionContext();
+
   const { onSignOut } = useSignOut();
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -62,9 +65,13 @@ const Header = () => {
             data-testid='dropdown-button'
             variant='ghost'
             onClick={onDropdownOpen}>
-            <div className='relative flex-1 space-x-2 flex items-center py-1 px-3 border-2 border-background rounded-2xl hover:bg-primary/10 ease-in-out'>
-              <UserAvatar className='h-10 w-10 border-2 border-primary' imageSrc='/vsercel.svg' />
-              <h3 className='text-link'>John Doe</h3>
+            <div className='relative flex-1 space-x-2 flex items-center py-1 px-3 bg-white border-2 border-primary/50 rounded-2xl'>
+              <UserAvatar
+                className='h-10 w-10 border-2 border-primary'
+                fallbackAvatar={session?.user.user_metadata.full_name.slice(0, 2)}
+                imageSrc={session?.user.user_metadata.avatar_url}
+              />
+              <h3 className='text-link'>{session?.user.user_metadata.full_name}</h3>
             </div>
           </Button>
         </DropdownMenuTrigger>

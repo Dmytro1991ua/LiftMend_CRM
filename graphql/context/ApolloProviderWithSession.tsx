@@ -69,7 +69,7 @@ const createApolloClient = (session?: Session | null) => {
 
 export const ApolloProviderWithSession = ({ children }: ApolloProviderWithSessionProps) => {
   const session = useSession();
-  const supabase = useSupabaseClient();
+
   const [client, setClient] = useState(() => createApolloClient(session));
 
   useEffect(() => {

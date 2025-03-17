@@ -122,7 +122,7 @@ body {
   }
 
   .header {
-    @apply sticky top-0 z-50 flex w-full bg-white mb-12 drop-shadow-lg rounded-[2rem] p-4;
+    @apply sticky top-0 z-50 flex w-full mb-12 rounded-[2rem] p-4;
   }
 
   .section-wrapper {

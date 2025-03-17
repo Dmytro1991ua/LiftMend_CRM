@@ -1,9 +1,11 @@
-import { ApolloError, useMutation } from '@apollo/client';
+import { ApolloError, FetchResult, useMutation } from '@apollo/client';
 
 import { onHandleMutationErrors } from '@/graphql';
 import { CREATE_USER } from '@/graphql/schemas/createUser';
 import { FORGOT_PASSWORD } from '@/graphql/schemas/forgotPassword';
 import { LOGIN_USER } from '@/graphql/schemas/loginUser';
+import { RESET_PASSWORD } from '@/graphql/schemas/resetPassword';
+import { SIGN_IN_WITH_OAUTH } from '@/graphql/schemas/signInWithOAuth';
 import { SIGN_OUT_USER } from '@/graphql/schemas/signOutUser';
 import {
   CreateUserMutation,
@@ -14,6 +16,7 @@ import {
   LoginUserMutationVariables,
   ResetPasswordMutation,
   ResetPasswordMutationVariables,
+  SignInWithOAuthMutation,
   SignOutUserMutationVariables,
 } from '@/graphql/types/client/generated_types';
 
@@ -31,7 +34,8 @@ import {
   DEFAULT_USER_LOGOUT_SUCCESS_MESSAGE,
 } from '../constants';
 import { AuthHookProps } from '../types';
-import { RESET_PASSWORD } from '@/graphql/schemas/resetPassword';
+
+import { SignInWithOAuthMutationVariables } from './../../../graphql/types/client/generated_types';
 
 type AuthMutations = {
   SIGN_UP: {
@@ -45,6 +49,13 @@ type AuthMutations = {
     schema: typeof LOGIN_USER;
     response: LoginUserMutation;
     variables: LoginUserMutationVariables;
+    successMessage: string;
+    failureMessage: string;
+  };
+  SIGN_IN_WITH_OAUTH: {
+    schema: typeof SIGN_IN_WITH_OAUTH;
+    variables: SignInWithOAuthMutationVariables;
+    response: SignInWithOAuthMutation;
     successMessage: string;
     failureMessage: string;
   };
@@ -86,6 +97,13 @@ const authMutations: AuthMutations = {
     successMessage: DEFAULT_USER_LOGIN_SUCCESS_MESSAGE,
     failureMessage: DEFAULT_USER_LOGIN_FAIL_MESSAGE,
   },
+  SIGN_IN_WITH_OAUTH: {
+    schema: SIGN_IN_WITH_OAUTH,
+    variables: {} as SignInWithOAuthMutationVariables,
+    response: {} as SignInWithOAuthMutation,
+    successMessage: DEFAULT_USER_LOGIN_SUCCESS_MESSAGE,
+    failureMessage: DEFAULT_USER_LOGIN_FAIL_MESSAGE,
+  },
   SIGN_OUT: {
     schema: SIGN_OUT_USER,
     variables: {} as SignOutUserMutationVariables,
@@ -111,7 +129,9 @@ const authMutations: AuthMutations = {
 
 type UseAuthMutation<T extends keyof AuthMutations> = {
   isLoading: boolean;
-  onAuthMutation: (variables: AuthMutations[T]['variables']) => Promise<void>;
+  onAuthMutation: (
+    variables: AuthMutations[T]['variables']
+  ) => Promise<FetchResult<AuthMutations[T]['response']> | undefined>;
 };
 
 export const useAuthMutation = <T extends keyof AuthMutations>({
@@ -142,6 +162,8 @@ export const useAuthMutation = <T extends keyof AuthMutations>({
         onRedirect?.();
         onReset?.();
       }
+
+      return result;
     } catch (e) {
       onHandleMutationErrors({
         message: failureMessage,
