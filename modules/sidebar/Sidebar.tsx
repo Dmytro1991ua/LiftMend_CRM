@@ -1,3 +1,4 @@
+import { useSessionContext } from '@supabase/auth-helpers-react';
 import Link from 'next/link';
 import { BiLogOut, BiSolidUser } from 'react-icons/bi';
 import { BsTools } from 'react-icons/bs';
@@ -16,6 +17,8 @@ import { NavigationLinkConfig } from '@/types/type';
 import { NavigationLinkLabel } from './types';
 
 const Sidebar = () => {
+  const { session } = useSessionContext();
+
   const { onSignOut } = useSignOut();
 
   const commonIconClasses = 'mr-2 h-6 w-6';
@@ -67,8 +70,12 @@ const Sidebar = () => {
       ))}
       <Link passHref href={AppRoutes.SignIn}>
         <a className='flex items-center mt-auto py-4 px-2 text-link group border-t-2 border-slate' onClick={onSignOut}>
-          <UserAvatar className='border-2 border-primary' imageSrc='/nexst.svg' />
-          <h3 className='ml-2 text-lg'>John Doe</h3>
+          <UserAvatar
+            className='border-2 border-primary'
+            fallbackAvatar={session?.user.user_metadata.full_name.slice(0, 2)}
+            imageSrc={session?.user.user_metadata.avatar_url}
+          />
+          <h3 className='ml-2 text-lg'>{session?.user.user_metadata.full_name}</h3>
           <BiLogOut className='h-8 w-8 ml-auto' />
         </a>
       </Link>

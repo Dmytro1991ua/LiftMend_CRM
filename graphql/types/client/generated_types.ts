@@ -211,6 +211,7 @@ export type Mutation = {
   reassignTechnician: RepairJob;
   resetPassword: AuthResponse;
   signIn: AuthResponse;
+  signInWithOAuth: Scalars['String']['output'];
   signOut: Scalars['Boolean']['output'];
   signUp: AuthResponse;
   updateElevatorRecord: ElevatorRecord;
@@ -266,6 +267,11 @@ export type MutationSignInArgs = {
 };
 
 
+export type MutationSignInWithOAuthArgs = {
+  input: SignInWithOAuthInput;
+};
+
+
 export type MutationSignUpArgs = {
   input: CreateUserInput;
 };
@@ -289,6 +295,32 @@ export type Node = {
   id: Scalars['ID']['output'];
 };
 
+export const OAuthProvider = {
+  Apple: 'APPLE',
+  Azure: 'AZURE',
+  Bitbucket: 'BITBUCKET',
+  Discord: 'DISCORD',
+  Facebook: 'FACEBOOK',
+  Figma: 'FIGMA',
+  Fly: 'FLY',
+  Github: 'GITHUB',
+  Gitlab: 'GITLAB',
+  Google: 'GOOGLE',
+  Kakao: 'KAKAO',
+  Keycloak: 'KEYCLOAK',
+  Linkedin: 'LINKEDIN',
+  LinkedinOidc: 'LINKEDIN_OIDC',
+  Notion: 'NOTION',
+  Slack: 'SLACK',
+  SlackOidc: 'SLACK_OIDC',
+  Spotify: 'SPOTIFY',
+  Twitch: 'TWITCH',
+  Twitter: 'TWITTER',
+  Workos: 'WORKOS',
+  Zoom: 'ZOOM'
+} as const;
+
+export type OAuthProvider = typeof OAuthProvider[keyof typeof OAuthProvider];
 export const OrderOption = {
   Asc: 'ASC',
   Desc: 'DESC'
@@ -488,6 +520,10 @@ export type ScheduledEventAndRepairJobResponse = {
 export type SignInUserInput = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
+};
+
+export type SignInWithOAuthInput = {
+  provider: OAuthProvider;
 };
 
 export type TechnicianRecord = Node & {
@@ -758,6 +794,13 @@ export type ResetPasswordMutationVariables = Exact<{
 
 
 export type ResetPasswordMutation = { __typename?: 'Mutation', resetPassword: { __typename?: 'AuthResponse', id: string } };
+
+export type SignInWithOAuthMutationVariables = Exact<{
+  input: SignInWithOAuthInput;
+}>;
+
+
+export type SignInWithOAuthMutation = { __typename?: 'Mutation', signInWithOAuth: string };
 
 export type SignOutUserMutationVariables = Exact<{ [key: string]: never; }>;
 

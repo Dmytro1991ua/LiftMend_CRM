@@ -12,8 +12,15 @@ import TechnicianVisibilityMetrics from './components/technician-visibility-metr
 import { useDashBoard } from './hooks';
 
 const Dashboard = () => {
-  const { dashboardMetrics, isCalendarOpen, error, loading, sanitizedDateRange, onHandleCalendarPopoverClose } =
-    useDashBoard();
+  const {
+    dashboardMetrics,
+    isCalendarOpen,
+    error,
+    welcomeMessage,
+    loading,
+    sanitizedDateRange,
+    onHandleCalendarPopoverClose,
+  } = useDashBoard();
 
   return (
     <section className='flex flex-col h-[80vh]'>
@@ -25,6 +32,7 @@ const Dashboard = () => {
             onHandleCalendarPopoverClose={onHandleCalendarPopoverClose}
           />
         }
+        subtitle={welcomeMessage}
         title={SectionHeaderTitle.Dashboard}
       />
       <section className='content-wrapper flex-grow overflow-y-auto'>
