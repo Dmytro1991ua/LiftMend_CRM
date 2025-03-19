@@ -31,4 +31,5 @@ type Mutation {
   forgotPassword(input: ForgotPasswordInput!): Boolean!
   resetPassword(input: ResetPasswordInput!): AuthResponse!
   signInWithOAuth(input: SignInWithOAuthInput!): String!
+  uploadProfilePicture(file: Upload!): String!
 }

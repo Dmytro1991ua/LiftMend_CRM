@@ -1,9 +1,10 @@
-import { Resolvers } from '@apollo/client';
+import GraphQLUpload from 'graphql-upload/GraphQLUpload.mjs';
 
 import Mutation from './Mutation';
 import Query from './Query';
 
-const resolvers: Resolvers = {
+const resolvers = {
+  Upload: GraphQLUpload,
   Query,
   Mutation,
 };
