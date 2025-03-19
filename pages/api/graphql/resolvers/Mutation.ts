@@ -227,6 +227,9 @@ const Mutation: MutationResolvers = {
 
     return await dataSources.auth.resetPassword(password);
   },
+  uploadProfilePicture: async (_, { file }, { dataSources }): Promise<string> => {
+    return await dataSources.auth.uploadProfilePicture(file);
+  },
 };
 
 export default Mutation;

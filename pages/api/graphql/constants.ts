@@ -23,3 +23,6 @@ export const REPAIR_JOB_STATUS_TO_ELEVATOR_RECORD_STATUS_MAP: Record<string, str
 };
 
 export const TECHNICIAN_ASSIGNMENT_BLOCKING_STATUSES = ['Busy', 'Reserved'];
+
+export const MAX_FILE_SIZE = 10000000;
+export const MAX_FILES = 10;
