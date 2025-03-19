@@ -4,7 +4,8 @@ type AppUser {
   firstName: String!
   lastName: String!
   phone: String
-  createdAt: String
+  createdAt: DateTime
+  updatedAt: DateTime
   lastSignInAt: String
   avatarUrl: String
 }

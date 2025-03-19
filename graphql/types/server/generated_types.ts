@@ -17,19 +17,21 @@ export type Scalars = {
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
   DateTime: { input: any; output: any; }
+  Upload: { input: any; output: any; }
   Void: { input: any; output: any; }
 };
 
 export type AppUser = {
   __typename?: 'AppUser';
   avatarUrl?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
   email: Scalars['String']['output'];
   firstName: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   lastName: Scalars['String']['output'];
   lastSignInAt?: Maybe<Scalars['String']['output']>;
   phone?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
 export type AuthResponse = {
@@ -212,6 +214,7 @@ export type Mutation = {
   updateElevatorRecord: ElevatorRecord;
   updateRepairJob: RepairJob;
   updateTechnicianRecord: TechnicianRecord;
+  uploadProfilePicture: Scalars['String']['output'];
 };
 
 
@@ -271,6 +274,11 @@ export type MutationUpdateTechnicianRecordArgs = {
   input: UpdateTechnicianRecordInput;
 };
 
+
+export type MutationUploadProfilePictureArgs = {
+  file: Scalars['Upload']['input'];
+};
+
 export type Node = {
   id: Scalars['ID']['output'];
 };
@@ -308,6 +316,7 @@ export type Query = {
   getTechnicianRecordById: TechnicianRecord;
   getTechnicianRecordFormData: TechnicianRecordFormData;
   getTechnicianRecords: TechnicianRecordConnection;
+  getUser: AppUser;
 };
 
 
@@ -355,6 +364,11 @@ export type QueryGetTechnicianRecordsArgs = {
   filterOptions?: InputMaybe<TechnicianRecordFilterOptions>;
   paginationOptions?: InputMaybe<PaginationOptions>;
   sortOptions?: InputMaybe<TechnicianRecordSortInput>;
+};
+
+
+export type QueryGetUserArgs = {
+  id: Scalars['ID']['input'];
 };
 
 export type RepairJob = Node & {
@@ -702,6 +716,7 @@ export type ResolversTypes = ResolversObject<{
   UpdateElevatorRecordInput: UpdateElevatorRecordInput;
   UpdateRepairJobInput: UpdateRepairJobInput;
   UpdateTechnicianRecordInput: UpdateTechnicianRecordInput;
+  Upload: ResolverTypeWrapper<Scalars['Upload']['output']>;
   Void: ResolverTypeWrapper<Scalars['Void']['output']>;
 }>;
 
@@ -757,18 +772,20 @@ export type ResolversParentTypes = ResolversObject<{
   UpdateElevatorRecordInput: UpdateElevatorRecordInput;
   UpdateRepairJobInput: UpdateRepairJobInput;
   UpdateTechnicianRecordInput: UpdateTechnicianRecordInput;
+  Upload: Scalars['Upload']['output'];
   Void: Scalars['Void']['output'];
 }>;
 
 export type AppUserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['AppUser'] = ResolversParentTypes['AppUser']> = ResolversObject<{
   avatarUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   lastSignInAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   phone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -897,6 +914,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   updateElevatorRecord?: Resolver<ResolversTypes['ElevatorRecord'], ParentType, ContextType, RequireFields<MutationUpdateElevatorRecordArgs, 'input'>>;
   updateRepairJob?: Resolver<ResolversTypes['RepairJob'], ParentType, ContextType, RequireFields<MutationUpdateRepairJobArgs, 'input'>>;
   updateTechnicianRecord?: Resolver<ResolversTypes['TechnicianRecord'], ParentType, ContextType, RequireFields<MutationUpdateTechnicianRecordArgs, 'input'>>;
+  uploadProfilePicture?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationUploadProfilePictureArgs, 'file'>>;
 }>;
 
 export type NodeResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Node'] = ResolversParentTypes['Node']> = ResolversObject<{
@@ -926,6 +944,7 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   getTechnicianRecordById?: Resolver<ResolversTypes['TechnicianRecord'], ParentType, ContextType, RequireFields<QueryGetTechnicianRecordByIdArgs, 'id'>>;
   getTechnicianRecordFormData?: Resolver<ResolversTypes['TechnicianRecordFormData'], ParentType, ContextType>;
   getTechnicianRecords?: Resolver<ResolversTypes['TechnicianRecordConnection'], ParentType, ContextType, Partial<QueryGetTechnicianRecordsArgs>>;
+  getUser?: Resolver<ResolversTypes['AppUser'], ParentType, ContextType, RequireFields<QueryGetUserArgs, 'id'>>;
 }>;
 
 export type RepairJobResolvers<ContextType = Context, ParentType extends ResolversParentTypes['RepairJob'] = ResolversParentTypes['RepairJob']> = ResolversObject<{
@@ -1047,6 +1066,10 @@ export type TechnicianRecordsMetricsResolvers<ContextType = Context, ParentType 
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Upload'], any> {
+  name: 'Upload';
+}
+
 export interface VoidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Void'], any> {
   name: 'Void';
 }
@@ -1083,6 +1106,7 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   TechnicianRecordEdges?: TechnicianRecordEdgesResolvers<ContextType>;
   TechnicianRecordFormData?: TechnicianRecordFormDataResolvers<ContextType>;
   TechnicianRecordsMetrics?: TechnicianRecordsMetricsResolvers<ContextType>;
+  Upload?: GraphQLScalarType;
   Void?: GraphQLScalarType;
 }>;
 

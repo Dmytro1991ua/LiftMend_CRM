@@ -118,3 +118,7 @@ export const TECHNICIAN_AVAILABILITY_STATUS_MAP = new Map<string, keyof Technici
 
 export const DEFAULT_SIGN_UP_MESSAGE = 'User signup failed';
 export const DEFAULT_SIGN_IN_MESSAGE = 'Invalid email or password';
+export const DEFAULT_USER_NOT_FOUND_MESSAGE = 'User not found';
+export const DEFAULT_USER_NOT_AUTHENTICATED_MESSAGE = 'User is not authenticated';
+export const DEFAULT_SUPABASE_NOT_INITIALIZED_MESSAGE = 'Supabase client is not initialized';
+export const DEFAULT_IMAGE_PUBLIC_URL_FAILED_MESSAGE = 'Error fetching signed URL';

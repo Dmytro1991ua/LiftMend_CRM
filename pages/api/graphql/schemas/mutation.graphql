@@ -28,4 +28,5 @@ type Mutation {
   signUp(input: CreateUserInput!): AuthResponse!
   signIn(input: SignInUserInput!): AuthResponse!
   signOut: Boolean!
+  uploadProfilePicture(file: Upload!): String!
 }

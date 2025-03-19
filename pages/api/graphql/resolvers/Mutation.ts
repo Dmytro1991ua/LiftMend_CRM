@@ -212,6 +212,10 @@ const Mutation: MutationResolvers = {
   signOut: async (_, __, { dataSources }): Promise<boolean> => {
     return await dataSources.auth.signOut();
   },
+
+  uploadProfilePicture: async (_, { file }, { dataSources }): Promise<string> => {
+    return await dataSources.auth.uploadProfilePicture(file);
+  },
 };
 
 export default Mutation;

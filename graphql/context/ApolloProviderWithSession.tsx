@@ -5,6 +5,7 @@ import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
 import { useSession } from '@supabase/auth-helpers-react';
 import { Session } from '@supabase/supabase-js';
+import createUploadLink from 'apollo-upload-client/createUploadLink.mjs';
 
 import { typePolicies } from '@/graphql/typePolicies';
 
@@ -18,6 +19,7 @@ const createAuthLink = (session?: Session | null) => {
       headers: {
         ...headers,
         Authorization: session?.access_token ? `Bearer ${session.access_token}` : '',
+        'apollo-require-preflight': 'true',
       },
     };
   });
@@ -41,8 +43,15 @@ const createApolloClient = (session?: Session | null) => {
   });
 
   const authLink = createAuthLink(session);
+  const uploadLink = createUploadLink({
+    uri,
+    credentials: 'include',
+    headers: {
+      'apollo-require-preflight': 'true',
+    },
+  });
 
-  const links = [errorLink, authLink, httpLink];
+  const links = [errorLink, authLink, uploadLink, httpLink];
 
   const cache = new InMemoryCache({
     typePolicies,

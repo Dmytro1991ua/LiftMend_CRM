@@ -1,6 +1,7 @@
 import { orderBy as _orderBy } from 'lodash';
 
 import {
+  AppUser,
   CalendarEvent,
   DashboardMetrics,
   ElevatorRecord,
@@ -74,6 +75,9 @@ const Query: QueryResolvers = {
       elevatorRecordsMetrics,
       technicianRecordsMetrics,
     };
+  },
+  getUser: async (_, { id }, { dataSources }): Promise<AppUser> => {
+    return await dataSources.auth.user(id);
   },
 };
 
