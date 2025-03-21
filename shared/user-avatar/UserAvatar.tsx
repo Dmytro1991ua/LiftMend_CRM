@@ -6,34 +6,32 @@ import { BLURRED_IMAGE } from '../constants';
 
 type UserAvatarProps = {
   imageSrc: string;
-  fallbackAvatar?: boolean;
+  previewImage?: string | null;
   className?: string;
   imageHeight?: number;
   imageWidth?: number;
+  isLoading?: boolean;
 };
-
-const DEFAULT_AVATAR_SRC = '/user.png';
 
 const UserAvatar = ({
   className,
   imageSrc,
-  fallbackAvatar,
+  previewImage,
   imageHeight = 50,
   imageWidth = 50,
+  isLoading,
 }: UserAvatarProps): React.JSX.Element => {
+  const displayedImage = isLoading ? BLURRED_IMAGE : previewImage ?? imageSrc;
+  const fallbackImage = (!previewImage || !imageSrc) && !isLoading ? '/user.png' : BLURRED_IMAGE;
+
   return (
     <Avatar className={className} data-testid='user-avatar'>
       <AvatarImage asChild src={imageSrc}>
-        <Image
-          alt='avatar'
-          blurDataURL={BLURRED_IMAGE}
-          height={imageHeight}
-          objectFit='cover'
-          src={imageSrc}
-          width={imageWidth}
-        />
+        <Image alt='avatar' height={imageHeight} objectFit='cover' src={displayedImage} width={imageWidth} />
       </AvatarImage>
-      <AvatarFallback>{fallbackAvatar}</AvatarFallback>
+      <AvatarFallback>
+        <Image alt='avatar' height={imageHeight} objectFit='cover' src={fallbackImage} width={imageWidth} />
+      </AvatarFallback>
     </Avatar>
   );
 };

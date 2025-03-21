@@ -13,19 +13,21 @@ export type Scalars = {
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
   DateTime: { input: any; output: any; }
+  Upload: { input: any; output: any; }
   Void: { input: any; output: any; }
 };
 
 export type AppUser = {
   __typename?: 'AppUser';
   avatarUrl: Maybe<Scalars['String']['output']>;
-  createdAt: Maybe<Scalars['String']['output']>;
+  createdAt: Maybe<Scalars['DateTime']['output']>;
   email: Scalars['String']['output'];
   firstName: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   lastName: Scalars['String']['output'];
   lastSignInAt: Maybe<Scalars['String']['output']>;
   phone: Maybe<Scalars['String']['output']>;
+  updatedAt: Maybe<Scalars['DateTime']['output']>;
 };
 
 export type AuthResponse = {
@@ -217,6 +219,7 @@ export type Mutation = {
   updateElevatorRecord: ElevatorRecord;
   updateRepairJob: RepairJob;
   updateTechnicianRecord: TechnicianRecord;
+  uploadProfilePicture: Scalars['String']['output'];
 };
 
 
@@ -291,6 +294,11 @@ export type MutationUpdateTechnicianRecordArgs = {
   input: UpdateTechnicianRecordInput;
 };
 
+
+export type MutationUploadProfilePictureArgs = {
+  file: Scalars['Upload']['input'];
+};
+
 export type Node = {
   id: Scalars['ID']['output'];
 };
@@ -355,6 +363,7 @@ export type Query = {
   getTechnicianRecordById: TechnicianRecord;
   getTechnicianRecordFormData: TechnicianRecordFormData;
   getTechnicianRecords: TechnicianRecordConnection;
+  getUser: AppUser;
 };
 
 
@@ -402,6 +411,11 @@ export type QueryGetTechnicianRecordsArgs = {
   filterOptions?: InputMaybe<TechnicianRecordFilterOptions>;
   paginationOptions?: InputMaybe<PaginationOptions>;
   sortOptions?: InputMaybe<TechnicianRecordSortInput>;
+};
+
+
+export type QueryGetUserArgs = {
+  id: Scalars['ID']['input'];
 };
 
 export type RepairJob = Node & {
@@ -774,6 +788,13 @@ export type GetTechnicianRecordsQueryVariables = Exact<{
 
 export type GetTechnicianRecordsQuery = { __typename?: 'Query', getTechnicianRecords: { __typename?: 'TechnicianRecordConnection', total: number, edges: Array<{ __typename?: 'TechnicianRecordEdges', cursor: string, node: { __typename?: 'TechnicianRecord', id: string, name: string, contactInformation: string, skills: Array<string>, certifications: Array<string>, availabilityStatus: string | null, employmentStatus: string | null, lastKnownAvailabilityStatus: string | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor: string | null, endCursor: string | null } } };
 
+export type GetUserQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type GetUserQuery = { __typename?: 'Query', getUser: { __typename?: 'AppUser', id: string, email: string, firstName: string, lastName: string, phone: string | null, createdAt: any | null, updatedAt: any | null, lastSignInAt: string | null, avatarUrl: string | null } };
+
 export type LoginUserMutationVariables = Exact<{
   input: SignInUserInput;
 }>;
@@ -827,3 +848,10 @@ export type UpdateTechnicianRecordMutationVariables = Exact<{
 
 
 export type UpdateTechnicianRecordMutation = { __typename?: 'Mutation', updateTechnicianRecord: { __typename?: 'TechnicianRecord', id: string, name: string, contactInformation: string, skills: Array<string>, certifications: Array<string>, availabilityStatus: string | null, employmentStatus: string | null, lastKnownAvailabilityStatus: string | null } };
+
+export type UploadProfilePictureMutationVariables = Exact<{
+  file: Scalars['Upload']['input'];
+}>;
+
+
+export type UploadProfilePictureMutation = { __typename?: 'Mutation', uploadProfilePicture: string };
