@@ -6,6 +6,8 @@ import { BaseToastVariant } from '@/shared/hooks/useBaseToast/types';
 import SectionHeader from '@/shared/section-header';
 import { SectionHeaderTitle } from '@/types/enums';
 
+import ProfileAccountSettings from './profile-account-settings';
+
 const Profile = (): React.JSX.Element => {
   const { baseToast } = useBaseToast(BaseToastVariant.Info);
 
@@ -21,7 +23,7 @@ const Profile = (): React.JSX.Element => {
     <section>
       <SectionHeader actionComponent={sectionHeaderButton} title={SectionHeaderTitle.Profile} />
       <div className='content-wrapper'>
-        <h1>Profile Page</h1>
+        <ProfileAccountSettings />
       </div>
     </section>
   );
