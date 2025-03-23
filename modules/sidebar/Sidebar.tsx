@@ -70,11 +70,7 @@ const Sidebar = () => {
       ))}
       <Link passHref href={AppRoutes.SignIn}>
         <a className='flex items-center mt-auto py-4 px-2 text-link group border-t-2 border-slate' onClick={onSignOut}>
-          <UserAvatar
-            className='border-2 border-primary'
-            fallbackAvatar={session?.user.user_metadata.full_name.slice(0, 2)}
-            imageSrc={session?.user.user_metadata.avatar_url}
-          />
+          <UserAvatar className='border-2 border-primary' imageSrc={session?.user.user_metadata.avatar_url} />
           <h3 className='ml-2 text-lg'>{session?.user.user_metadata.full_name}</h3>
           <BiLogOut className='h-8 w-8 ml-auto' />
         </a>

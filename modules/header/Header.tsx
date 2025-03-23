@@ -68,7 +68,6 @@ const Header = () => {
             <div className='relative flex-1 space-x-2 flex items-center py-1 px-3 bg-white border-2 border-primary/50 rounded-2xl'>
               <UserAvatar
                 className='h-10 w-10 border-2 border-primary'
-                fallbackAvatar={session?.user.user_metadata.full_name.slice(0, 2)}
                 imageSrc={session?.user.user_metadata.avatar_url}
               />
               <h3 className='text-link'>{session?.user.user_metadata.full_name}</h3>
