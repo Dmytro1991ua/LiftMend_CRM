@@ -1,3 +1,12 @@
+export enum ProfileContentTitle {
+  AccountSettings = 'Account Settings',
+}
+
+export enum ProfileContentSubtitle {
+  UserInformation = 'User Information',
+  PasswordManagement = 'Password Management',
+}
+
 export type Dimensions = {
   width: number;
   height: number;

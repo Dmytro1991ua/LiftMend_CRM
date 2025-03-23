@@ -20,10 +20,10 @@ const ProfileAccountSettings = () => {
   });
 
   return (
-    <div>
+    <div className='flex flex-col items-center justify-center gap-2 lg:flex-row'>
       <ProfileDropzone getInputProps={getInputProps} getRootProps={getRootProps}>
         <UserAvatar
-          className='h-60 w-60'
+          className='h-22 w-22 md:h-60 md:w-60'
           imageHeight={150}
           imageSrc={user?.avatarUrl ?? ''}
           imageWidth={150}

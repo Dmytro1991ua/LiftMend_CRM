@@ -7,6 +7,8 @@ import SectionHeader from '@/shared/section-header';
 import { SectionHeaderTitle } from '@/types/enums';
 
 import ProfileAccountSettings from './profile-account-settings';
+import ProfileContentWrapper from './profile-account-settings/profile-content-wrapper';
+import { ProfileContentSubtitle, ProfileContentTitle } from './types';
 
 const Profile = (): React.JSX.Element => {
   const { baseToast } = useBaseToast(BaseToastVariant.Info);
@@ -22,8 +24,12 @@ const Profile = (): React.JSX.Element => {
   return (
     <section>
       <SectionHeader actionComponent={sectionHeaderButton} title={SectionHeaderTitle.Profile} />
-      <div className='content-wrapper'>
-        <ProfileAccountSettings />
+      <div className='content-wrapper flex justify-center'>
+        <ProfileContentWrapper
+          title={ProfileContentTitle.AccountSettings}
+          subtitle={ProfileContentSubtitle.UserInformation}>
+          <ProfileAccountSettings />
+        </ProfileContentWrapper>
       </div>
     </section>
   );
