@@ -2,7 +2,7 @@ import { SectionHeaderTitle } from '@/types/enums';
 
 type SectionHeaderProps = {
   title: SectionHeaderTitle | string;
-  subtitle?: string;
+  subtitle?: string | JSX.Element;
   actionComponent?: React.JSX.Element;
   goBackButton?: React.JSX.Element;
 };

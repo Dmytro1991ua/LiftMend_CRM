@@ -60,8 +60,7 @@ const BaseBarChart = ({ config, className, additionalChartConfigFields, data }: 
           bottom: barChartMargin?.bottom,
           left: barChartMargin?.left,
         }}
-        {...barSettings}
-      >
+        {...barSettings}>
         <CartesianGrid vertical={isGridVertical} />
         <XAxis
           axisLine={axisLine}

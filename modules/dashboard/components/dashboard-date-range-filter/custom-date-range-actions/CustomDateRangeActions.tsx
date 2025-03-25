@@ -69,8 +69,7 @@ const CustomDateRangeActions = ({
               ? 'bg-blue-400 hover:bg-blue-400'
               : ' bg-primary hover:bg-blue-500'
           )}
-          onClick={() => onHandleCalendarPopoverClose(false, range)}
-        >
+          onClick={() => onHandleCalendarPopoverClose(false, range)}>
           {label}
         </button>
       ))}

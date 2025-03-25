@@ -3,7 +3,9 @@ import { useMemo, useState } from 'react';
 import { DateRange } from 'react-day-picker';
 
 import { DashboardMetrics } from '@/graphql/types/client/generated_types';
+import { getUserName } from '@/shared/auth/utils';
 import { DASHBOARD_STATE_STORAGE_KEY } from '@/shared/constants';
+import { useUser } from '@/shared/contexts/UserContext';
 import { useBaseToast } from '@/shared/hooks';
 import { BaseToastVariant } from '@/shared/hooks/useBaseToast/types';
 import useStoredTableState from '@/shared/storage/hooks';
@@ -20,11 +22,13 @@ type UseDashboard = {
   error?: string;
   sanitizedDateRange: DateRange;
   isCalendarOpen: boolean;
-  welcomeMessage: string;
+  welcomeMessage: string | JSX.Element;
   onHandleCalendarPopoverClose: (open: boolean, range?: DateRange) => void;
 };
 
 export const useDashBoard = (): UseDashboard => {
+  const { user, loading: userLoading } = useUser();
+
   const { storedState, setStoredState } = useStoredTableState<undefined, undefined, DateRange>(
     DASHBOARD_STATE_STORAGE_KEY,
     StorageTableName.DashboardPage,
@@ -39,9 +43,19 @@ export const useDashBoard = (): UseDashboard => {
 
   const sanitizedDateRange = useMemo(() => getSanitizeDateRange(storedState.dateFilter), [storedState.dateFilter]);
 
-  const { dashboardMetrics, loading, welcomeMessage, error } = useFetchDashboardMetrics({
+  const { dashboardMetrics, loading, error } = useFetchDashboardMetrics({
     dateRange: sanitizedDateRange,
   });
+
+  const welcomeMessage = useMemo(
+    () =>
+      getUserName({
+        user,
+        isLoading: userLoading,
+        className: 'h-5 w-30 ml-1',
+      }),
+    [user, userLoading]
+  );
 
   const onHandleCalendarPopoverClose = (open: boolean, range?: DateRange) => {
     const validationError = validateDateRange(range);

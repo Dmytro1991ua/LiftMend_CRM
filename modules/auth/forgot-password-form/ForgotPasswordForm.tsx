@@ -17,8 +17,6 @@ const ForgotPasswordForm = () => {
     resolver: zodResolver(forgotPasswordSchema),
   });
 
-  const router = useRouter();
-
   const { onError, onSuccess } = useMutationResultToasts();
 
   const { onAuthMutation, isLoading } = useAuthMutation({

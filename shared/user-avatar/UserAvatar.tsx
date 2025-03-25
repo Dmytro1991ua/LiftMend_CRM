@@ -1,8 +1,10 @@
+import { useMemo } from 'react';
+
 import Image from 'next/image';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-import { BLURRED_IMAGE } from '../constants';
+import { getAvatarImages } from './utils';
 
 type UserAvatarProps = {
   imageSrc: string;
@@ -21,8 +23,15 @@ const UserAvatar = ({
   imageWidth = 50,
   isLoading,
 }: UserAvatarProps): React.JSX.Element => {
-  const displayedImage = isLoading ? BLURRED_IMAGE : previewImage ?? imageSrc;
-  const fallbackImage = (!previewImage || !imageSrc) && !isLoading ? '/user.png' : BLURRED_IMAGE;
+  const { displayedImage, fallbackImage } = useMemo(
+    () =>
+      getAvatarImages({
+        isLoading,
+        previewImage,
+        imageSrc,
+      }),
+    [isLoading, previewImage, imageSrc]
+  );
 
   return (
     <Avatar className={className} data-testid='user-avatar'>

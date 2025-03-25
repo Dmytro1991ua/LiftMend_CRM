@@ -26,8 +26,8 @@ const Profile = (): React.JSX.Element => {
       <SectionHeader actionComponent={sectionHeaderButton} title={SectionHeaderTitle.Profile} />
       <div className='content-wrapper flex justify-center'>
         <ProfileContentWrapper
-          title={ProfileContentTitle.AccountSettings}
-          subtitle={ProfileContentSubtitle.UserInformation}>
+          subtitle={ProfileContentSubtitle.UserInformation}
+          title={ProfileContentTitle.AccountSettings}>
           <ProfileAccountSettings />
         </ProfileContentWrapper>
       </div>

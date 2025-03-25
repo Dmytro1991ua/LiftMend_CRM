@@ -1,6 +1,6 @@
+import MainLayout from '@/modules/layout/MainLayout';
 import RepairJobScheduling from '@/modules/repair-job-scheduling';
 import { NextPageWithLayout } from '@/shared/types';
-import MainLayout from '@/modules/layout/MainLayout';
 
 const RepairJobSchedulingPage: NextPageWithLayout = () => {
   return <RepairJobScheduling />;
