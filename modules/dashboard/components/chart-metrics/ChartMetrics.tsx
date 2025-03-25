@@ -48,8 +48,7 @@ const ChartMetrics = ({
             cardDescriptionClassName='text-white'
             cardHeaderClassName='bg-primary text-white text-lg items-center'
             description={description}
-            title={title}
-          >
+            title={title}>
             {loading ? (
               <Bars
                 ariaLabel='bars-loading'

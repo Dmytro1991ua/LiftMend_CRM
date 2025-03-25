@@ -1,7 +1,6 @@
 import { Form } from 'react-hook-form';
 import { Hourglass } from 'react-loader-spinner';
 
-import ThirdPartyAuthButton from '@/shared/auth/third-party-auth-button';
 import BaseButton from '@/shared/base-button';
 import Logo from '@/shared/logo';
 

@@ -1,6 +1,6 @@
 import { useDropzone } from 'react-dropzone';
 
-import { useGetUser } from '@/shared/hooks/useGetUser';
+import { useUser } from '@/shared/contexts/UserContext';
 import UserAvatar from '@/shared/user-avatar';
 
 import { ACCEPTABLE_FILE_IMAGE_TYPES } from '../constants';
@@ -9,7 +9,7 @@ import { useProfileAvatarState } from '../hooks';
 import ProfileDropzone from './profile-dropzone';
 
 const ProfileAccountSettings = () => {
-  const { user, loading: userLoading, refetch } = useGetUser();
+  const { user, loading: userLoading, refetch } = useUser();
 
   const { loading: uploadFileLoading, previewImage, onImageUpload } = useProfileAvatarState({ refetch });
 

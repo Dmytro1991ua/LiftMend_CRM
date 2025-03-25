@@ -12,6 +12,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { ApolloProviderWithSession } from '@/graphql/context/ApolloProviderWithSession';
 import BaseErrorBoundary from '@/shared/base-error-boundary';
+import { UserProvider } from '@/shared/contexts/UserContext';
 import { logError } from '@/shared/utils';
 
 type NextPageWithLayout = AppProps<{
@@ -30,10 +31,12 @@ const App = ({ Component, pageProps }: NextPageWithLayout) => {
   return (
     <SessionContextProvider initialSession={pageProps.initialSession} supabaseClient={supabaseClient}>
       <ApolloProviderWithSession>
-        <ErrorBoundary FallbackComponent={BaseErrorBoundary} onError={logError}>
-          {getLayout(<Component {...pageProps} />)}
-        </ErrorBoundary>
-        <Toaster />
+        <UserProvider>
+          <ErrorBoundary FallbackComponent={BaseErrorBoundary} onError={logError}>
+            {getLayout(<Component {...pageProps} />)}
+          </ErrorBoundary>
+          <Toaster />
+        </UserProvider>
       </ApolloProviderWithSession>
     </SessionContextProvider>
   );

@@ -1,6 +1,6 @@
+import MainLayout from '@/modules/layout/MainLayout';
 import RepairJobTracking from '@/modules/repair-job-tracking';
 import { NextPageWithLayout } from '@/shared/types';
-import MainLayout from '@/modules/layout/MainLayout';
 
 const RepairJobTrackingPage: NextPageWithLayout = () => {
   return <RepairJobTracking />;

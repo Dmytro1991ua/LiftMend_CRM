@@ -1,11 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { INITIAL_RESET_PASSWORD_FORM_VALUES, ResetPasswordFormFields, resetPasswordSchema } from '../validation';
-import useFormState from '@/shared/hooks/useFormState';
 import { FormProvider, SubmitHandler } from 'react-hook-form';
+
+import { useAuthMutation } from '@/shared/auth/hooks';
+import useFormState from '@/shared/hooks/useFormState';
+import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
+
 import AuthForm from '../auth-form';
 import { AuthButtonLabel, AuthFormType } from '../types';
-import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
-import { useAuthMutation } from '@/shared/auth/hooks';
+import { INITIAL_RESET_PASSWORD_FORM_VALUES, ResetPasswordFormFields, resetPasswordSchema } from '../validation';
 
 const ResetPasswordForm = () => {
   const { formState, onReset } = useFormState<ResetPasswordFormFields>({

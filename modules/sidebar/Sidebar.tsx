@@ -1,4 +1,3 @@
-import { useSessionContext } from '@supabase/auth-helpers-react';
 import Link from 'next/link';
 import { BiLogOut, BiSolidUser } from 'react-icons/bi';
 import { BsTools } from 'react-icons/bs';
@@ -9,15 +8,17 @@ import { RiDashboardFill } from 'react-icons/ri';
 
 import NavigationLink from '@/modules/sidebar/navigation-link';
 import { useSignOut } from '@/shared/auth/hooks';
+import { useUser } from '@/shared/contexts/UserContext';
 import Logo from '@/shared/logo';
 import UserAvatar from '@/shared/user-avatar';
+import UserName from '@/shared/user-avatar/user-name/UserName';
 import { AppRoutes } from '@/types/enums';
 import { NavigationLinkConfig } from '@/types/type';
 
 import { NavigationLinkLabel } from './types';
 
 const Sidebar = () => {
-  const { session } = useSessionContext();
+  const { user, loading: userLoading } = useUser();
 
   const { onSignOut } = useSignOut();
 
@@ -70,8 +71,13 @@ const Sidebar = () => {
       ))}
       <Link passHref href={AppRoutes.SignIn}>
         <a className='flex items-center mt-auto py-4 px-2 text-link group border-t-2 border-slate' onClick={onSignOut}>
-          <UserAvatar className='border-2 border-primary' imageSrc={session?.user.user_metadata.avatar_url} />
-          <h3 className='ml-2 text-lg'>{session?.user.user_metadata.full_name}</h3>
+          <UserAvatar className='border-2 border-primary' imageSrc={user?.avatarUrl ?? ''} isLoading={userLoading} />
+          <UserName
+            className='h-6 w-72 mx-1'
+            firstName={user?.firstName}
+            isLoading={userLoading}
+            lastName={user?.lastName}
+          />
           <BiLogOut className='h-8 w-8 ml-auto' />
         </a>
       </Link>

@@ -1,4 +1,4 @@
-import { orderBy as _orderBy } from 'lodash';
+import { first as _first, last as _last, orderBy as _orderBy, words as _words } from 'lodash';
 
 import {
   CreateRepairJobInput,
@@ -200,4 +200,13 @@ export const isToday = (date: Date): boolean => {
     date.getMonth() === today.getMonth() &&
     date.getFullYear() === today.getFullYear()
   );
+};
+
+export const parseOAuthFullName = (fullName: string) => {
+  const wordsList = _words(fullName);
+
+  return {
+    firstName: _first(wordsList) || '',
+    lastName: _last(wordsList) || '',
+  };
 };

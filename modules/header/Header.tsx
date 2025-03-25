@@ -1,12 +1,13 @@
 import { useCallback, useState } from 'react';
 
-import { useSessionContext } from '@supabase/auth-helpers-react';
 import { BiLogOut, BiSolidUser } from 'react-icons/bi';
 
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { useSignOut } from '@/shared/auth/hooks';
+import { useUser } from '@/shared/contexts/UserContext';
 import UserAvatar from '@/shared/user-avatar';
+import UserName from '@/shared/user-avatar/user-name/UserName';
 import { AppRoutes } from '@/types/enums';
 
 import NavigationLink from '../sidebar/navigation-link';
@@ -15,7 +16,7 @@ import { NavigationLinkLabel } from '../sidebar/types';
 import { DropdownConfig } from './types';
 
 const Header = () => {
-  const { session } = useSessionContext();
+  const { user, loading: userLoading } = useUser();
 
   const { onSignOut } = useSignOut();
 
@@ -68,9 +69,15 @@ const Header = () => {
             <div className='relative flex-1 space-x-2 flex items-center py-1 px-3 bg-white border-2 border-primary/50 rounded-2xl'>
               <UserAvatar
                 className='h-10 w-10 border-2 border-primary'
-                imageSrc={session?.user.user_metadata.avatar_url}
+                imageSrc={user?.avatarUrl ?? ''}
+                isLoading={userLoading}
               />
-              <h3 className='text-link'>{session?.user.user_metadata.full_name}</h3>
+              <UserName
+                className='h-6 w-40 rounded-xl'
+                firstName={user?.firstName}
+                isLoading={userLoading}
+                lastName={user?.lastName}
+              />
             </div>
           </Button>
         </DropdownMenuTrigger>

@@ -1,6 +1,6 @@
 import ElevatorManagement from '@/modules/elevator-management';
-import { NextPageWithLayout } from '@/shared/types';
 import MainLayout from '@/modules/layout/MainLayout';
+import { NextPageWithLayout } from '@/shared/types';
 
 const ElevatorManagementPage: NextPageWithLayout = (): React.JSX.Element => {
   return <ElevatorManagement />;
