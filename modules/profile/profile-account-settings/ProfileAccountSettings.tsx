@@ -3,8 +3,9 @@ import { useDropzone } from 'react-dropzone';
 import { useUser } from '@/shared/contexts/UserContext';
 import UserAvatar from '@/shared/user-avatar';
 
-import { ACCEPTABLE_FILE_IMAGE_TYPES } from '../constants';
+import { ACCEPTABLE_FILE_IMAGE_TYPES, PROFILE_ACCOUNT_SETTINGS_FORM_CONFIG } from '../constants';
 import { useProfileAvatarState } from '../hooks';
+import ProfileFormFields from '../profile-form-fields';
 
 import ProfileDropzone from './profile-dropzone';
 
@@ -20,7 +21,7 @@ const ProfileAccountSettings = () => {
   });
 
   return (
-    <div className='flex flex-col items-center justify-center gap-2 lg:flex-row'>
+    <div className='flex flex-col items-center justify-center gap-2 xl:gap-6 lg:flex-row'>
       <ProfileDropzone getInputProps={getInputProps} getRootProps={getRootProps}>
         <UserAvatar
           className='h-22 w-22 md:h-60 md:w-60'
@@ -31,6 +32,7 @@ const ProfileAccountSettings = () => {
           previewImage={previewImage}
         />
       </ProfileDropzone>
+      <ProfileFormFields config={PROFILE_ACCOUNT_SETTINGS_FORM_CONFIG} />
     </div>
   );
 };

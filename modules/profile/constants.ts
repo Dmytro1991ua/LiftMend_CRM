@@ -1,4 +1,4 @@
-import { Dimensions } from './types';
+import { Dimensions, FromInputConfig } from './types';
 
 export const DEFAULT_MAX_FILE_SIZE = 200 * 1024;
 export const DEFAULT_MAX_IMAGE_DIMENSION: Dimensions = {
@@ -20,3 +20,35 @@ export const UPLOAD_FILE_ERROR = 'Uploaded file error';
 export const UPLOAD_PROFILE_PICTURE_SUCCESS_MESSAGE = 'Successfully uploaded profile picture';
 export const UPLOAD_PROFILE_PICTURE_FAILED_GQL_MESSAGE = 'Fail to uploaded profile picture';
 export const UPLOAD_PROFILE_PICTURE_FAILED_APOLLO_MESSAGE = 'Upload Profile Picture Failed';
+
+export const PROFILE_DROPZONE_TOOLTIP_MESSAGE = 'Change your avatar';
+
+export const PROFILE_ACCOUNT_SETTINGS_FORM_CONFIG: FromInputConfig[] = [
+  {
+    id: 1,
+    name: 'email',
+    placeholder: 'Enter your email',
+    type: 'email',
+    fullWidth: true,
+    disabled: true,
+  },
+  {
+    id: 2,
+    name: 'firstName',
+    placeholder: 'Enter your name',
+    fullWidth: true,
+  },
+  {
+    id: 3,
+    name: 'lastName',
+    placeholder: 'Enter your surname',
+    fullWidth: true,
+  },
+  {
+    id: 4,
+    name: 'phoneNumber',
+    placeholder: 'Enter your phone number',
+    fullWidth: true,
+    isLastElement: true,
+  },
+];

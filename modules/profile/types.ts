@@ -1,3 +1,5 @@
+import { InputType } from '@/shared/base-input/form-input/FormInput';
+
 export enum ProfileContentTitle {
   AccountSettings = 'Account Settings',
 }
@@ -20,3 +22,14 @@ export type ResizeImageParams = {
   maxWidth?: number;
   maxHeight?: number;
 };
+
+export interface FromInputConfig {
+  fullWidth?: boolean;
+  id: number;
+  name: string;
+  placeholder: string;
+  type?: InputType;
+  label?: string;
+  disabled?: boolean;
+  isLastElement?: boolean;
+}
