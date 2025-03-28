@@ -1,7 +1,12 @@
+import { Path } from 'react-hook-form';
+
 import { InputType } from '@/shared/base-input/form-input/FormInput';
+
+import { ProfileContentFormFields } from './validation';
 
 export enum ProfileContentTitle {
   AccountSettings = 'Account Settings',
+  ChangePassword = 'Change Password',
 }
 
 export enum ProfileContentSubtitle {
@@ -24,12 +29,12 @@ export type ResizeImageParams = {
 };
 
 export interface FromInputConfig {
-  fullWidth?: boolean;
   id: number;
-  name: string;
+  name: Path<ProfileContentFormFields>;
   placeholder: string;
   type?: InputType;
   label?: string;
   disabled?: boolean;
   isLastElement?: boolean;
+  defaultValue?: string;
 }

@@ -1,5 +1,7 @@
 import Resizer from 'react-image-file-resizer';
 
+import { GetUserQuery } from '@/graphql/types/client/generated_types';
+
 import {
   ALLOWED_IMAGE_FORMATS,
   DEFAULT_MAX_FILE_SIZE,
@@ -117,3 +119,12 @@ export const handleImageDrop = async ({
     onError(UPLOAD_FILE_ERROR, (error as Error).message);
   }
 };
+
+export const convertProfileDataToFormValues = (user: GetUserQuery['getUser'] | null) => ({
+  id: user ? user.id : '',
+  email: user ? user.email : '',
+  firstName: user ? user.firstName : '',
+  lastName: user ? user.lastName : '',
+  phone: user ? user.phone : '',
+  avatarUrl: user ? user.avatarUrl : null,
+});
