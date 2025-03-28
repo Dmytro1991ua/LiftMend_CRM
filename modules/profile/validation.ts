@@ -1,27 +1,23 @@
 import { z } from 'zod';
 
-export const INITIAL_PROFILE_FORM_VALUES = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  phoneNumber: '',
-  password: '',
-  confirmPassword: '',
-};
-
 const passwordMatchValidation = <T extends z.ZodRawShape>(schema: z.ZodObject<T>) =>
-  schema.refine(
-    (data) => {
-      if (data.password && data.confirmPassword) {
-        return data.password === data.confirmPassword;
-      }
-      return true;
-    },
-    {
-      path: ['confirmPassword'],
-      message: 'Passwords do not match',
+  schema.superRefine((data, ctx) => {
+    if (data.newPassword && data.confirmPassword && data.newPassword !== data.confirmedPassword) {
+      ctx.addIssue({
+        path: ['confirmPassword'],
+        message: 'Passwords do not match',
+        code: z.ZodIssueCode.custom,
+      });
     }
-  );
+
+    if (data.newPassword && !data.currentPassword) {
+      ctx.addIssue({
+        path: ['currentPassword'],
+        message: 'Current password is required when setting a new password',
+        code: z.ZodIssueCode.custom,
+      });
+    }
+  });
 
 export const profileFormSchema = passwordMatchValidation(
   z.object({
@@ -33,7 +29,8 @@ export const profileFormSchema = passwordMatchValidation(
       .refine((email) => !email || /\S+@\S+\.\S+/.test(email), {
         message: 'Invalid email address',
       }),
-    password: z
+    currentPassword: z.string().optional(),
+    newPassword: z
       .string()
       .optional()
       .refine((password) => !password || password.length >= 8, {
@@ -57,7 +54,7 @@ export const profileFormSchema = passwordMatchValidation(
       .refine((password) => !password || !password.includes(' '), {
         message: 'Password cannot contain spaces',
       }),
-    confirmPassword: z.string().optional(),
+    confirmedPassword: z.string().optional(),
     phoneNumber: z
       .string()
       .optional()
@@ -67,4 +64,4 @@ export const profileFormSchema = passwordMatchValidation(
   })
 );
 
-export type ProfileFormFields = z.infer<typeof profileFormSchema>;
+export type ProfileContentFormFields = z.infer<typeof profileFormSchema>;

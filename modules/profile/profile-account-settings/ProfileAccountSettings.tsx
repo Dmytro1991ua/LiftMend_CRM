@@ -1,17 +1,23 @@
+import { ApolloQueryResult } from '@apollo/client';
 import { useDropzone } from 'react-dropzone';
 
-import { useUser } from '@/shared/contexts/UserContext';
+import { GetUserQuery, GetUserQueryVariables } from '@/graphql/types/client/generated_types';
 import UserAvatar from '@/shared/user-avatar';
 
-import { ACCEPTABLE_FILE_IMAGE_TYPES, PROFILE_ACCOUNT_SETTINGS_FORM_CONFIG } from '../constants';
+import { PROFILE_ACCOUNT_SETTINGS_CONFIG } from '../configs';
+import { ACCEPTABLE_FILE_IMAGE_TYPES } from '../constants';
 import { useProfileAvatarState } from '../hooks';
 import ProfileFormFields from '../profile-form-fields';
 
 import ProfileDropzone from './profile-dropzone';
 
-const ProfileAccountSettings = () => {
-  const { user, loading: userLoading, refetch } = useUser();
+type ProfileAccountSettingsProps = {
+  user: GetUserQuery['getUser'] | null;
+  refetch: (variables?: Partial<GetUserQueryVariables>) => Promise<ApolloQueryResult<GetUserQuery>>;
+  isLoading: boolean;
+};
 
+const ProfileAccountSettings = ({ user, isLoading, refetch }: ProfileAccountSettingsProps) => {
   const { loading: uploadFileLoading, previewImage, onImageUpload } = useProfileAvatarState({ refetch });
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -28,11 +34,11 @@ const ProfileAccountSettings = () => {
           imageHeight={150}
           imageSrc={user?.avatarUrl ?? ''}
           imageWidth={150}
-          isLoading={userLoading || uploadFileLoading}
+          isLoading={isLoading || uploadFileLoading}
           previewImage={previewImage}
         />
       </ProfileDropzone>
-      <ProfileFormFields config={PROFILE_ACCOUNT_SETTINGS_FORM_CONFIG} />
+      <ProfileFormFields config={PROFILE_ACCOUNT_SETTINGS_CONFIG} />
     </div>
   );
 };
