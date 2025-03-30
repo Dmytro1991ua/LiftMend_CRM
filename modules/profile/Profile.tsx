@@ -1,12 +1,8 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormProvider, SubmitHandler } from 'react-hook-form';
-import { HiPlus } from 'react-icons/hi';
 
-import { Button } from '@/components/ui/button';
-import { useBaseToast } from '@/shared/hooks';
-import { BaseToastVariant } from '@/shared/hooks/useBaseToast/types';
 import useFormState from '@/shared/hooks/useFormState';
 import { useGetUser } from '@/shared/hooks/useGetUser';
 import SectionHeader from '@/shared/section-header';
@@ -15,11 +11,11 @@ import { SectionHeaderTitle } from '@/types/enums';
 import { PROFILE_CHANGE_PASSWORD_SETTINGS_CONFIG } from './configs';
 import ProfileAccountSettings from './profile-account-settings';
 import ProfileContentWrapper from './profile-account-settings/profile-content-wrapper';
-import ProfileFormFields from './profile-form-fields';
-import { ProfileContentSubtitle, ProfileContentTitle } from './types';
-import { profileFormSchema } from './validation';
 import { convertProfileDataToFormValues } from './utils';
-import { ProfileContentFormFields } from './validation';
+import { ProfileContentFormFields, profileFormSchema } from './validation';
+import { ProfileContentConfig, ProfileContentSubtitle, ProfileContentTitle } from './types';
+import ProfileFormFields from './profile-form-fields';
+import ProfileActionButtons from './profile-action-buttons/ProfileActionButtons';
 
 const Profile = (): React.JSX.Element => {
   const { user, loading, refetch } = useGetUser();
@@ -29,43 +25,53 @@ const Profile = (): React.JSX.Element => {
   const { formState, onReset } = useFormState<ProfileContentFormFields>({
     initialValues: currentUserData,
     resolver: zodResolver(profileFormSchema),
+    shouldFocusError: false,
   });
 
-  const { baseToast } = useBaseToast(BaseToastVariant.Info);
+  const onDiscardChanges = useCallback(() => {
+    onReset();
+  }, [onReset]);
 
   const onSubmit: SubmitHandler<ProfileContentFormFields> = async (data) => {
-    console.log(data);
-    onReset();
+    console.log('Final Submitted Data:', data);
+
+    onDiscardChanges();
   };
 
-  //TODO: Example on how to use actionComponent for SectionHeader
-  const sectionHeaderButton = (
-    <Button
-      type='submit'
-      onClick={() => {
-        formState.handleSubmit(onSubmit)();
-        baseToast('Error Occurred', '');
-      }}>
-      <HiPlus />
-      <span className='ml-2'>Add Task</span>
-    </Button>
-  );
+  const PROFILE_CONTENT_CONFIG: ProfileContentConfig[] = [
+    {
+      id: 1,
+      title: ProfileContentTitle.AccountSettings,
+      subtitle: ProfileContentSubtitle.UserInformation,
+      component: <ProfileAccountSettings isLoading={loading} refetch={refetch} user={user} />,
+    },
+    {
+      id: 2,
+      title: ProfileContentTitle.ChangePassword,
+      subtitle: ProfileContentSubtitle.PasswordManagement,
+      component: <ProfileFormFields config={PROFILE_CHANGE_PASSWORD_SETTINGS_CONFIG} />,
+    },
+  ];
 
   return (
     <FormProvider {...formState}>
       <Form>
-        <SectionHeader actionComponent={sectionHeaderButton} title={SectionHeaderTitle.Profile} />
+        <SectionHeader
+          actionComponent={
+            <ProfileActionButtons
+              isDisabled={!formState.formState.isDirty}
+              onReset={onDiscardChanges}
+              onSubmit={formState.handleSubmit(onSubmit)}
+            />
+          }
+          title={SectionHeaderTitle.Profile}
+        />
         <div className='content-wrapper flex flex-col gap-2 items-center overflow-y-auto overflow-x-hidden h-[72vh]'>
-          <ProfileContentWrapper
-            subtitle={ProfileContentSubtitle.UserInformation}
-            title={ProfileContentTitle.AccountSettings}>
-            <ProfileAccountSettings isLoading={loading} refetch={refetch} user={user} />
-          </ProfileContentWrapper>
-          <ProfileContentWrapper
-            subtitle={ProfileContentSubtitle.PasswordManagement}
-            title={ProfileContentTitle.ChangePassword}>
-            <ProfileFormFields config={PROFILE_CHANGE_PASSWORD_SETTINGS_CONFIG} />
-          </ProfileContentWrapper>
+          {PROFILE_CONTENT_CONFIG.map(({ id, component, title, subtitle }) => (
+            <ProfileContentWrapper key={id} subtitle={subtitle} title={title}>
+              {component}
+            </ProfileContentWrapper>
+          ))}
         </div>
       </Form>
     </FormProvider>
