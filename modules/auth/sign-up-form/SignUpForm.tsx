@@ -12,6 +12,8 @@ import { AppRoutes } from '@/types/enums';
 import AuthForm from '../auth-form';
 import { AuthButtonLabel, AuthFormType } from '../types';
 import { INITIAL_SIGN_UP_FORM_VALUES, SignUpFormFields, signUpSchema } from '../validation';
+import { formatPhoneNumber } from '@/shared/utils';
+import { usePhoneCountry } from '@/shared/base-input/phone-number-input/hooks';
 
 const SignUpForm = () => {
   const { formState, onReset } = useFormState<SignUpFormFields>({
@@ -31,6 +33,8 @@ const SignUpForm = () => {
     onReset,
   });
 
+  const { selectedCountry, onSelectCountry, onResetPhoneInputCountry } = usePhoneCountry();
+
   const onSubmit: SubmitHandler<SignUpFormFields> = async (data) => {
     await onAuthMutation({
       input: {
@@ -38,7 +42,7 @@ const SignUpForm = () => {
         password: data.password,
         firstName: data.firstName,
         lastName: data.lastName,
-        phone: data.phoneNumber,
+        phone: formatPhoneNumber(data.phoneNumber),
       },
     });
   };
@@ -52,6 +56,8 @@ const SignUpForm = () => {
         isLoading={isLoading}
         oAuthButtons={<ThirdPartyAuthButton />}
         onSubmit={formState.handleSubmit(onSubmit)}
+        selectedCountry={selectedCountry}
+        onSelectCountry={onSelectCountry}
       />
     </FormProvider>
   );

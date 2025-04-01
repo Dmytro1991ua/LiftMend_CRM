@@ -34,7 +34,7 @@ const DeleteActionCell = ({ elevatorRecord }: DeleteActionCelProps) => {
     <section className='flex justify-center items-center'>
       <Button
         className='hover:bg-transparent'
-        disabled={isDeleteButtonDisabled}
+        disabled={true} /* TODO => Temporary disable*/
         variant='ghost'
         onClick={onHandleDeleteClick}>
         <FaTrashAlt className='h-4 w-4 text-red-500' />

@@ -77,6 +77,7 @@
     "react-image-file-resizer": "^0.4.8",
     "react-infinite-scroll-component": "^6.1.0",
     "react-loader-spinner": "^6.1.6",
+    "react-phone-input-2": "^2.15.1",
     "react-select": "^5.8.0",
     "react-tooltip": "4.2.10",
     "react-use": "^17.5.0",

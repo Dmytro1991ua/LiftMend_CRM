@@ -18,9 +18,20 @@ type AuthFormProps = {
   isLoading?: boolean;
   oAuthButtons?: JSX.Element;
   authFormSeparator?: JSX.Element;
+  selectedCountry?: string;
+  onSelectCountry?: (country: string) => void;
 };
 
-const AuthForm = ({ formType, buttonLabel, isLoading, authFormSeparator, oAuthButtons, onSubmit }: AuthFormProps) => {
+const AuthForm = ({
+  formType,
+  buttonLabel,
+  isLoading,
+  authFormSeparator,
+  oAuthButtons,
+  selectedCountry,
+  onSelectCountry,
+  onSubmit,
+}: AuthFormProps) => {
   return (
     <Form className='w-[95%] sm:!w-[65rem] md:!w-[75rem] p-8 my-5 mx-5 rounded-2xl bg-white shadow-xl'>
       <Logo wrapperClassName='border-b-0 mb-1' />
@@ -37,7 +48,11 @@ const AuthForm = ({ formType, buttonLabel, isLoading, authFormSeparator, oAuthBu
         </div>
       ) : (
         <div className='grid grid-cols-6 gap-2'>
-          <FormFields formFields={FORM_FIELDS_CONFIG[formType]} />
+          <FormFields
+            formFields={FORM_FIELDS_CONFIG[formType]}
+            selectedCountry={selectedCountry}
+            onSelectCountry={onSelectCountry}
+          />
         </div>
       )}
       <BaseButton
