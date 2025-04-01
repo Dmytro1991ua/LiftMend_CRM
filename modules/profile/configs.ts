@@ -27,6 +27,7 @@ export const PROFILE_ACCOUNT_SETTINGS_CONFIG: FromInputConfig[] = [
     label: 'Phone Number',
     placeholder: 'Enter your phone number',
     isLastElement: true,
+    type: 'phone',
   },
 ];
 
@@ -47,7 +48,7 @@ export const PROFILE_CHANGE_PASSWORD_SETTINGS_CONFIG: FromInputConfig[] = [
   },
   {
     id: 3,
-    name: 'confirmedPassword',
+    name: 'confirmPassword',
     label: 'Confirm Password',
     placeholder: 'Confirm the password',
     type: 'password',

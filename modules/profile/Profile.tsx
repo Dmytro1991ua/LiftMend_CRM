@@ -1,8 +1,9 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormProvider, SubmitHandler } from 'react-hook-form';
 
+import { usePhoneCountry } from '@/shared/base-input/phone-number-input/hooks/usePhoneCountry';
 import useFormState from '@/shared/hooks/useFormState';
 import { useGetUser } from '@/shared/hooks/useGetUser';
 import SectionHeader from '@/shared/section-header';
@@ -16,6 +17,7 @@ import { ProfileContentFormFields, profileFormSchema } from './validation';
 import { ProfileContentConfig, ProfileContentSubtitle, ProfileContentTitle } from './types';
 import ProfileFormFields from './profile-form-fields';
 import ProfileActionButtons from './profile-action-buttons/ProfileActionButtons';
+import { formatPhoneNumber } from '@/shared/utils';
 
 const Profile = (): React.JSX.Element => {
   const { user, loading, refetch } = useGetUser();
@@ -28,12 +30,28 @@ const Profile = (): React.JSX.Element => {
     shouldFocusError: false,
   });
 
+  const { selectedCountry, onSelectCountry, onResetPhoneInputCountry } = usePhoneCountry();
+
+  //  React Hook Form only sets initial values on mount.
+  // When user data loads asynchronously, this effect resets the form with updated values.
+  useEffect(() => {
+    if (user) {
+      formState.reset(currentUserData);
+    }
+  }, [user, currentUserData, formState]);
+
   const onDiscardChanges = useCallback(() => {
     onReset();
-  }, [onReset]);
+    onResetPhoneInputCountry();
+  }, [onReset, onResetPhoneInputCountry]);
 
   const onSubmit: SubmitHandler<ProfileContentFormFields> = async (data) => {
-    console.log('Final Submitted Data:', data);
+    const finalData = {
+      ...data,
+      phoneNumber: formatPhoneNumber(data.phoneNumber),
+    };
+
+    console.log('Final Submitted Data:', finalData);
 
     onDiscardChanges();
   };
@@ -43,7 +61,15 @@ const Profile = (): React.JSX.Element => {
       id: 1,
       title: ProfileContentTitle.AccountSettings,
       subtitle: ProfileContentSubtitle.UserInformation,
-      component: <ProfileAccountSettings isLoading={loading} refetch={refetch} user={user} />,
+      component: (
+        <ProfileAccountSettings
+          isLoading={loading}
+          refetch={refetch}
+          user={user}
+          selectedCountry={selectedCountry}
+          onSelectCountry={onSelectCountry}
+        />
+      ),
     },
     {
       id: 2,

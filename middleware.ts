@@ -1,6 +1,7 @@
 import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs';
 import { NextRequest, NextResponse } from 'next/server';
 
+import { ALLOWED_UNAUTHENTICATED_ROUTES } from './types/constants';
 import { AppRoutes } from './types/enums';
 
 export async function middleware(req: NextRequest) {
@@ -8,40 +9,38 @@ export async function middleware(req: NextRequest) {
 
   const supabase = createMiddlewareClient({ req, res });
 
-  await supabase.auth.getSession();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
   const reqUrl = req.nextUrl.pathname;
 
-  const token = req ? req.cookies?.get('sb-qgaqvfqcyjcewjnntzci-auth-token') : null;
+  // Allow Next.js internal requests
+  if (reqUrl.startsWith('/_next')) return res;
 
-  if (reqUrl.startsWith('/_next')) return NextResponse.next();
+  // Check if the current route is allowed without a session
+  const isAllowedUnauthenticated = ALLOWED_UNAUTHENTICATED_ROUTES.some((route) => reqUrl.startsWith(route));
 
-  if (token && reqUrl === AppRoutes.Default) {
-    const clonedUrl = req.nextUrl.clone();
+  // When no session exists:
+  if (!session) {
+    // Allow access to sign-in/up/forgot/reset pages
+    if (isAllowedUnauthenticated) {
+      return res;
+    }
 
-    clonedUrl.pathname = AppRoutes.Dashboard;
-
-    return NextResponse.redirect(clonedUrl);
+    // For all other pages, redirect to the sign in page
+    return NextResponse.redirect(new URL(AppRoutes.SignIn, req.url));
   }
 
-  if (!token && (reqUrl.startsWith(AppRoutes.SignIn) || reqUrl.startsWith(AppRoutes.SignUp))) {
-    return NextResponse.next();
-  }
-
-  if ((reqUrl.includes(AppRoutes.SignIn) || reqUrl.includes(AppRoutes.SignUp)) && token) {
+  // When a session exists:
+  // Redirect away from auth pages (sign in/up/forgot/reset) to the dashboard
+  if (isAllowedUnauthenticated) {
     return NextResponse.redirect(new URL(AppRoutes.Dashboard, req.url));
   }
 
-  if (
-    !token &&
-    !(
-      reqUrl.includes(AppRoutes.SignIn) ||
-      reqUrl.includes(AppRoutes.SignUp) ||
-      reqUrl.includes(AppRoutes.ResetPassword) ||
-      reqUrl.includes(AppRoutes.ForgotPassword)
-    )
-  ) {
-    return NextResponse.redirect(new URL(AppRoutes.SignIn, req.url));
+  // Optionally, if the user is on the default route and authenticated, redirect to dashboard
+  if (reqUrl === AppRoutes.Default) {
+    return NextResponse.redirect(new URL(AppRoutes.Dashboard, req.url));
   }
 
   return res;

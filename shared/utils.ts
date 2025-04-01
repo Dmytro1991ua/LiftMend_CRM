@@ -80,3 +80,9 @@ export const getElevatorRecordInfo = (elevatorRecord: ElevatorRecord): CalendarE
 
 export const getDeleteModalDescription = (title: string, description = '') =>
   `Are you sure you want to delete ${title} ${description}?`;
+
+export const formatPhoneNumber = (phone?: string | null): string | null => {
+  if (!phone) return null;
+
+  return phone.startsWith('+') ? phone : `+${phone}`;
+};

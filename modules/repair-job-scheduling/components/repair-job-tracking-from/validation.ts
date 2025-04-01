@@ -1,3 +1,4 @@
+import { baseJobDescriptionSchema } from '@/shared/validation';
 import { z } from 'zod';
 
 export const INITIAL_REPAIR_JOB_VALUES = {
@@ -18,10 +19,7 @@ export const INITIAL_REPAIR_JOB_VALUES = {
 
 export const jobDetailsSchema = z.object({
   jobType: z.string().min(1, 'Job Type is required'),
-  jobDescription: z
-    .string()
-    .min(10, 'Job description must be at least 10 characters long')
-    .max(300, 'Job description cannot exceed 300 characters'),
+  jobDescription: baseJobDescriptionSchema,
   priority: z.string().min(1, 'Priority is required'),
 });
 
