@@ -61,3 +61,11 @@ input ResetPasswordInput {
 input SignInWithOAuthInput {
   provider: OAuthProvider!
 }
+
+input UserProfileInput {
+  id: ID!
+  firstName: String
+  lastName: String
+  phone: String
+  password: String
+}
