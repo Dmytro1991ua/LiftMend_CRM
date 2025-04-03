@@ -1,6 +1,7 @@
 import { startCase as _startCase } from 'lodash';
 
 import {
+  AppUser,
   AuthResponse,
   DeleteCalendarAndRepairJobResponse,
   DeleteElevatorRecordResponse,
@@ -228,7 +229,10 @@ const Mutation: MutationResolvers = {
     return await dataSources.auth.resetPassword(password);
   },
   uploadProfilePicture: async (_, { file }, { dataSources }): Promise<string> => {
-    return await dataSources.auth.uploadProfilePicture(file);
+    return await dataSources.user.uploadProfilePicture(file);
+  },
+  updateUserProfile: async (_, { input }, { dataSources }): Promise<AppUser> => {
+    return await dataSources.user.updateUserProfile(input);
   },
 };
 

@@ -77,7 +77,7 @@ const Query: QueryResolvers = {
     };
   },
   getUser: async (_, { id }, { dataSources }): Promise<AppUser> => {
-    return await dataSources.auth.user(id);
+    return await dataSources.user.user(id);
   },
 };
 

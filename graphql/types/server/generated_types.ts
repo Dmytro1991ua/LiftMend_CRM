@@ -222,6 +222,7 @@ export type Mutation = {
   updateElevatorRecord: ElevatorRecord;
   updateRepairJob: RepairJob;
   updateTechnicianRecord: TechnicianRecord;
+  updateUserProfile: AppUser;
   uploadProfilePicture: Scalars['String']['output'];
 };
 
@@ -295,6 +296,11 @@ export type MutationUpdateRepairJobArgs = {
 
 export type MutationUpdateTechnicianRecordArgs = {
   input: UpdateTechnicianRecordInput;
+};
+
+
+export type MutationUpdateUserProfileArgs = {
+  input: UserProfileInput;
 };
 
 
@@ -640,6 +646,14 @@ export type UpdateTechnicianRecordInput = {
   skills?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
+export type UserProfileInput = {
+  firstName?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['ID']['input'];
+  lastName?: InputMaybe<Scalars['String']['input']>;
+  password?: InputMaybe<Scalars['String']['input']>;
+  phone?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type WithIndex<TObject> = TObject & Record<string, any>;
 export type ResolversObject<TObject> = WithIndex<TObject>;
 
@@ -777,6 +791,7 @@ export type ResolversTypes = ResolversObject<{
   UpdateRepairJobInput: UpdateRepairJobInput;
   UpdateTechnicianRecordInput: UpdateTechnicianRecordInput;
   Upload: ResolverTypeWrapper<Scalars['Upload']['output']>;
+  UserProfileInput: UserProfileInput;
   Void: ResolverTypeWrapper<Scalars['Void']['output']>;
 }>;
 
@@ -836,6 +851,7 @@ export type ResolversParentTypes = ResolversObject<{
   UpdateRepairJobInput: UpdateRepairJobInput;
   UpdateTechnicianRecordInput: UpdateTechnicianRecordInput;
   Upload: Scalars['Upload']['output'];
+  UserProfileInput: UserProfileInput;
   Void: Scalars['Void']['output'];
 }>;
 
@@ -980,6 +996,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   updateElevatorRecord?: Resolver<ResolversTypes['ElevatorRecord'], ParentType, ContextType, RequireFields<MutationUpdateElevatorRecordArgs, 'input'>>;
   updateRepairJob?: Resolver<ResolversTypes['RepairJob'], ParentType, ContextType, RequireFields<MutationUpdateRepairJobArgs, 'input'>>;
   updateTechnicianRecord?: Resolver<ResolversTypes['TechnicianRecord'], ParentType, ContextType, RequireFields<MutationUpdateTechnicianRecordArgs, 'input'>>;
+  updateUserProfile?: Resolver<ResolversTypes['AppUser'], ParentType, ContextType, RequireFields<MutationUpdateUserProfileArgs, 'input'>>;
   uploadProfilePicture?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationUploadProfilePictureArgs, 'file'>>;
 }>;
 
