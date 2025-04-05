@@ -1,5 +1,6 @@
-import { baseJobDescriptionSchema } from '@/shared/validation';
 import { z } from 'zod';
+
+import { baseJobDescriptionSchema } from '@/shared/validation';
 
 export const repairJobEditFormSchema = z.object({
   jobDescription: baseJobDescriptionSchema,

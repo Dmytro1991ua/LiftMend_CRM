@@ -1,5 +1,6 @@
-import { baseContactInfoSchema } from '@/shared/validation';
 import { z } from 'zod';
+
+import { baseContactInfoSchema } from '@/shared/validation';
 
 export const INITIAL_TECHNICIAN_RECORD_FORM_VALUES = {
   basicInformation: {

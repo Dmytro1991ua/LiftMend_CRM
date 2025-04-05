@@ -5,15 +5,15 @@ import { FormProvider, SubmitHandler } from 'react-hook-form';
 import AuthFormSeparator from '@/shared/auth/auth-form-separator';
 import { useAuthMutation } from '@/shared/auth/hooks';
 import ThirdPartyAuthButton from '@/shared/auth/third-party-auth-button';
+import { usePhoneCountry } from '@/shared/base-input/phone-number-input/hooks';
 import useFormState from '@/shared/hooks/useFormState';
 import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
+import { formatPhoneNumber } from '@/shared/utils';
 import { AppRoutes } from '@/types/enums';
 
 import AuthForm from '../auth-form';
 import { AuthButtonLabel, AuthFormType } from '../types';
 import { INITIAL_SIGN_UP_FORM_VALUES, SignUpFormFields, signUpSchema } from '../validation';
-import { formatPhoneNumber } from '@/shared/utils';
-import { usePhoneCountry } from '@/shared/base-input/phone-number-input/hooks';
 
 const SignUpForm = () => {
   const { formState, onReset } = useFormState<SignUpFormFields>({
@@ -33,7 +33,7 @@ const SignUpForm = () => {
     onReset,
   });
 
-  const { selectedCountry, onSelectCountry, onResetPhoneInputCountry } = usePhoneCountry();
+  const { selectedCountry, onSelectCountry } = usePhoneCountry();
 
   const onSubmit: SubmitHandler<SignUpFormFields> = async (data) => {
     await onAuthMutation({
@@ -55,9 +55,9 @@ const SignUpForm = () => {
         formType={AuthFormType.SIGN_UP}
         isLoading={isLoading}
         oAuthButtons={<ThirdPartyAuthButton />}
-        onSubmit={formState.handleSubmit(onSubmit)}
         selectedCountry={selectedCountry}
         onSelectCountry={onSelectCountry}
+        onSubmit={formState.handleSubmit(onSubmit)}
       />
     </FormProvider>
   );

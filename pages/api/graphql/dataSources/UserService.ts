@@ -3,15 +3,16 @@ import { SupabaseClient } from '@supabase/supabase-js';
 import { GraphQLError } from 'graphql';
 import { isNull as _isNull, omitBy as _omitBy } from 'lodash';
 
+import { AppUser, UserProfileInput } from '@/graphql/types/server/generated_types';
+
+import { convertStreamToBuffer } from '../utils';
+
 import {
   DEFAULT_IMAGE_PUBLIC_URL_FAILED_MESSAGE,
   DEFAULT_SUPABASE_NOT_INITIALIZED_MESSAGE,
   DEFAULT_USER_NOT_AUTHENTICATED_MESSAGE,
   DEFAULT_USER_NOT_FOUND_MESSAGE,
 } from './constants';
-
-import { AppUser, UserProfileInput } from '@/graphql/types/server/generated_types';
-import { convertStreamToBuffer } from '../utils';
 
 type GraphQLUploadFile = {
   createReadStream: () => NodeJS.ReadableStream;

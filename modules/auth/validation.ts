@@ -1,5 +1,6 @@
-import { basePasswordSchema, passwordMatchValidation, basePhoneNumberSchema } from '@/shared/validation';
 import { z } from 'zod';
+
+import { basePasswordSchema, basePhoneNumberSchema, passwordMatchValidation } from '@/shared/validation';
 
 export const INITIAL_SIGN_UP_FORM_VALUES = {
   firstName: '',

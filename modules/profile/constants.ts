@@ -1,4 +1,4 @@
-import { Dimensions, FromInputConfig } from './types';
+import { Dimensions } from './types';
 
 export const DEFAULT_MAX_FILE_SIZE = 200 * 1024;
 export const DEFAULT_MAX_IMAGE_DIMENSION: Dimensions = {

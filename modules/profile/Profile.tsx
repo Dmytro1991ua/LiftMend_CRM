@@ -7,17 +7,17 @@ import { usePhoneCountry } from '@/shared/base-input/phone-number-input/hooks/us
 import useFormState from '@/shared/hooks/useFormState';
 import { useGetUser } from '@/shared/hooks/useGetUser';
 import SectionHeader from '@/shared/section-header';
+import { formatPhoneNumber } from '@/shared/utils';
 import { SectionHeaderTitle } from '@/types/enums';
 
 import { PROFILE_CHANGE_PASSWORD_SETTINGS_CONFIG } from './configs';
 import ProfileAccountSettings from './profile-account-settings';
 import ProfileContentWrapper from './profile-account-settings/profile-content-wrapper';
+import ProfileActionButtons from './profile-action-buttons/ProfileActionButtons';
+import ProfileFormFields from './profile-form-fields';
+import { ProfileContentConfig, ProfileContentSubtitle, ProfileContentTitle } from './types';
 import { convertProfileDataToFormValues } from './utils';
 import { ProfileContentFormFields, profileFormSchema } from './validation';
-import { ProfileContentConfig, ProfileContentSubtitle, ProfileContentTitle } from './types';
-import ProfileFormFields from './profile-form-fields';
-import ProfileActionButtons from './profile-action-buttons/ProfileActionButtons';
-import { formatPhoneNumber } from '@/shared/utils';
 
 const Profile = (): React.JSX.Element => {
   const { user, loading, refetch } = useGetUser();
@@ -65,8 +65,8 @@ const Profile = (): React.JSX.Element => {
         <ProfileAccountSettings
           isLoading={loading}
           refetch={refetch}
-          user={user}
           selectedCountry={selectedCountry}
+          user={user}
           onSelectCountry={onSelectCountry}
         />
       ),

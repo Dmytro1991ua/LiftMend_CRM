@@ -1,5 +1,6 @@
-import { baseJobDescriptionSchema } from '@/shared/validation';
 import { z } from 'zod';
+
+import { baseJobDescriptionSchema } from '@/shared/validation';
 
 export const INITIAL_REPAIR_JOB_VALUES = {
   jobDetails: {

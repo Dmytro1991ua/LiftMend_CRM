@@ -39,19 +39,19 @@ const PhoneNumberInput = <T extends FieldValues>({
         <div className='w-full'>
           <PhoneInput
             {...field}
+            disableSearchIcon
+            autoFormat={true}
             buttonClass={cn('default-country-button-styles', { '!border-red-500': hasError })}
             containerClass='w-full'
             country={selectedCountry}
             disabled={disabled}
-            autoFormat={true}
-            searchPlaceholder={SEARCH_INPUT_PLACEHOLDER}
+            dropdownClass='!mt-0'
             enableSearch={true}
             inputClass={cn('!w-full border !py-[2rem] rounded focus:ring-2 focus:ring-blue-500', inputClassName, {
               '!border-red-500 !bg-red-100': hasError,
             })}
-            disableSearchIcon
             searchClass='!w-full !border !rounded-md !px-3 !ml-0 !py-2 focus:!ring-2 focus:!ring-blue-500'
-            dropdownClass='!mt-0'
+            searchPlaceholder={SEARCH_INPUT_PLACEHOLDER}
             onChange={(value, countryData) => {
               field.onChange(value);
               onSelectCountry && onSelectCountry((countryData as CountryData).countryCode);

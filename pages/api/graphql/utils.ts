@@ -13,7 +13,6 @@ import {
   TechnicianRecordFilterOptions,
   TechnicianRecordSortField,
   TechnicianRecordSortInput,
-  UserProfileInput,
 } from '@/graphql/types/server/generated_types';
 import { Nullable } from '@/shared/base-table/types';
 
