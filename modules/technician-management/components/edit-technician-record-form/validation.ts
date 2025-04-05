@@ -1,5 +1,6 @@
-import { baseContactInfoSchema } from '@/shared/validation';
 import { z } from 'zod';
+
+import { baseContactInfoSchema } from '@/shared/validation';
 
 export const technicianRecordEditFormSchema = z.object({
   name: z.string().min(1, 'Technician full name is required'),

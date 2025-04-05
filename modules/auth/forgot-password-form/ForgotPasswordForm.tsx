@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/router';
 import { FormProvider, SubmitHandler } from 'react-hook-form';
 
 import { useAuthMutation } from '@/shared/auth/hooks';

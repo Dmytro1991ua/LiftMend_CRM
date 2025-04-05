@@ -27,13 +27,15 @@ describe('ModalFooter', () => {
   it('should show a loader spinner when isLoading is true', () => {
     render(<ModalFooter {...defaultProps} isLoading={true} />);
 
+    screen.debug();
+
     expect(screen.getByTestId('button-loader')).toBeInTheDocument();
   });
 
   it('should disabled submit button when isDisabled is true', () => {
     render(<ModalFooter {...defaultProps} isLoading={true} />);
 
-    const submitButton = screen.getByText(mockSubmitButtonLabel);
+    const submitButton = screen.getAllByRole('button')[0];
 
     expect(submitButton).toHaveClass('disabled:pointer-events-all disabled:cursor-not-allowed disabled:opacity-50');
   });

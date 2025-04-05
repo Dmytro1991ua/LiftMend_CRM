@@ -219,6 +219,7 @@ export type Mutation = {
   updateElevatorRecord: ElevatorRecord;
   updateRepairJob: RepairJob;
   updateTechnicianRecord: TechnicianRecord;
+  updateUserProfile: AppUser;
   uploadProfilePicture: Scalars['String']['output'];
 };
 
@@ -292,6 +293,11 @@ export type MutationUpdateRepairJobArgs = {
 
 export type MutationUpdateTechnicianRecordArgs = {
   input: UpdateTechnicianRecordInput;
+};
+
+
+export type MutationUpdateUserProfileArgs = {
+  input: UserProfileInput;
 };
 
 
@@ -639,6 +645,14 @@ export type UpdateTechnicianRecordInput = {
   lastKnownAvailabilityStatus?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   skills?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+export type UserProfileInput = {
+  firstName?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['ID']['input'];
+  lastName?: InputMaybe<Scalars['String']['input']>;
+  password?: InputMaybe<Scalars['String']['input']>;
+  phone?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CalendarEventFieldsFragment = { __typename?: 'CalendarEvent', id: string, title: string, start: any, end: any, description: string | null, allDay: boolean, repairJobId: string | null };

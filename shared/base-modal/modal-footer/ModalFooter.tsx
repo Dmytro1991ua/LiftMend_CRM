@@ -38,8 +38,6 @@ const ModalFooter = ({
         onClick: onCancel,
         variant: 'secondary',
         className: 'text-primary bg-transparent hover:bg-transparent',
-        isLoading,
-        isDisabled: false,
       },
       {
         id: 2,

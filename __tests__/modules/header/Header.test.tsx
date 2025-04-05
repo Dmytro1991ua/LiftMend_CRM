@@ -1,12 +1,12 @@
 import { fireEvent, screen } from '@testing-library/react';
 
-import { withRouterProvider } from '@/mocks/testMocks';
+import { withRouterAndApolloProvider } from '@/mocks/testMocks';
 import Header from '@/modules/header';
 import { NavigationLinkLabel } from '@/modules/sidebar/types';
 import { AppRoutes } from '@/types/enums';
 
 describe('Header', () => {
-  const headerComponent = () => withRouterProvider(<Header />, AppRoutes.Dashboard);
+  const headerComponent = () => withRouterAndApolloProvider(<Header />, AppRoutes.Dashboard);
 
   it('should render component without crashing', () => {
     headerComponent();

@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import { useFormContext } from 'react-hook-form';
 
 import FormInput from '@/shared/base-input/form-input';
@@ -5,7 +7,6 @@ import PhoneNumberInput from '@/shared/base-input/phone-number-input';
 
 import { FromInputConfig } from '../types';
 import { ProfileContentFormFields } from '../validation';
-import { memo } from 'react';
 
 type ProfileFormFieldsProps = {
   config: FromInputConfig[];

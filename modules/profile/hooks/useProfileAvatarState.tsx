@@ -2,14 +2,14 @@ import { useState } from 'react';
 
 import { ApolloError, ApolloQueryResult, useMutation } from '@apollo/client';
 
-import { onHandleMutationErrors } from '@/graphql';
-import { UPLOAD_PROFILE_PICTURE } from '@/graphql/schemas/uploadProfilePicture';
+import { UPLOAD_PROFILE_PICTURE } from '@/graphql/schemas';
 import {
   GetUserQuery,
   GetUserQueryVariables,
   UploadProfilePictureMutation,
   UploadProfilePictureMutationVariables,
 } from '@/graphql/types/client/generated_types';
+import { onHandleMutationErrors } from '@/graphql/utils';
 import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 
 import {

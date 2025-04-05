@@ -1,0 +1,788 @@
+info  - Loaded env from /Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/.env.test
+info  - Loaded env from /Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/.env
+  console.error
+    Error: Uncaught [Error: Something went wrong]
+        at reportException (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jsdom/lib/jsdom/living/helpers/runtime-script-errors.js:66:24)
+        at innerInvokeEventListeners (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:353:9)
+        at invokeEventListeners (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+        at HTMLUnknownElementImpl._dispatch (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+        at HTMLUnknownElementImpl.dispatchEvent (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:104:17)
+        at HTMLUnknownElement.dispatchEvent (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jsdom/lib/jsdom/living/generated/EventTarget.js:241:34)
+        at Object.invokeGuardedCallbackDev (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-dom/cjs/react-dom.development.js:3994:16)
+        at invokeGuardedCallback (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-dom/cjs/react-dom.development.js:4056:31)
+        at flushPassiveEffectsImpl (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-dom/cjs/react-dom.development.js:23574:9)
+        at unstable_runWithPriority (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/scheduler/cjs/scheduler.development.js:468:12)
+        at runWithPriority$1 (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-dom/cjs/react-dom.development.js:11276:10)
+        at flushPassiveEffects (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-dom/cjs/react-dom.development.js:23447:14)
+        at Object.<anonymous>.flushWork (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-dom/cjs/react-dom-test-utils.development.js:992:10)
+        at act (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-dom/cjs/react-dom-test-utils.development.js:1107:9)
+        at render (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@testing-library/react/dist/pure.js:97:26)
+        at Object.<anonymous> (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/__tests__/shared/base-error-boundary/BaseErrorBoundary.test.tsx:25:11)
+        at Promise.then.completed (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jest-circus/build/utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jest-circus/build/utils.js:231:10)
+        at _callCircusTest (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jest-circus/build/run.js:316:40)
+        at processTicksAndRejections (node:internal/process/task_queues:95:5)
+        at _runTest (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jest-circus/build/run.js:252:3)
+        at _runTestsForDescribeBlock (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jest-circus/build/run.js:126:9)
+        at _runTestsForDescribeBlock (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jest-circus/build/run.js:121:9)
+        at run (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jest-circus/build/run.js:71:3)
+        at runAndTransformResultsToJestFormat (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+        at jestAdapter (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+        at runTestInternal (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jest-runner/build/runTest.js:367:16)
+        at runTest (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jest-runner/build/runTest.js:444:34)
+        at Object.worker (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jest-runner/build/testWorker.js:106:12) {
+      detail: Error: Something went wrong
+          at /Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/__tests__/shared/base-error-boundary/BaseErrorBoundary.test.tsx:12:11
+          at invokePassiveEffectCreate (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-dom/cjs/react-dom.development.js:23487:20)
+          at HTMLUnknownElement.callCallback (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-dom/cjs/react-dom.development.js:3945:14)
+          at HTMLUnknownElement.callTheUserObjectsOperation (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+          at innerInvokeEventListeners (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:350:25)
+          at invokeEventListeners (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+          at HTMLUnknownElementImpl._dispatch (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+          at HTMLUnknownElementImpl.dispatchEvent (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:104:17)
+          at HTMLUnknownElement.dispatchEvent (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jsdom/lib/jsdom/living/generated/EventTarget.js:241:34)
+          at Object.invokeGuardedCallbackDev (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-dom/cjs/react-dom.development.js:3994:16)
+          at invokeGuardedCallback (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-dom/cjs/react-dom.development.js:4056:31)
+          at flushPassiveEffectsImpl (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-dom/cjs/react-dom.development.js:23574:9)
+          at unstable_runWithPriority (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/scheduler/cjs/scheduler.development.js:468:12)
+          at runWithPriority$1 (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-dom/cjs/react-dom.development.js:11276:10)
+          at flushPassiveEffects (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-dom/cjs/react-dom.development.js:23447:14)
+          at Object.<anonymous>.flushWork (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-dom/cjs/react-dom-test-utils.development.js:992:10)
+          at act (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-dom/cjs/react-dom-test-utils.development.js:1107:9)
+          at render (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@testing-library/react/dist/pure.js:97:26)
+          at Object.<anonymous> (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/__tests__/shared/base-error-boundary/BaseErrorBoundary.test.tsx:25:11)
+          at Promise.then.completed (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jest-circus/build/utils.js:298:28)
+          at new Promise (<anonymous>)
+          at callAsyncCircusFn (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jest-circus/build/utils.js:231:10)
+          at _callCircusTest (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jest-circus/build/run.js:316:40)
+          at processTicksAndRejections (node:internal/process/task_queues:95:5)
+          at _runTest (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jest-circus/build/run.js:252:3)
+       console.error
+    Warning: validateDOMNesting(...): <tbody> cannot appear as a child of <div>.
+        at tbody
+        at className (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/components/ui/table.tsx:18:6)
+        at tableRows (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/shared/base-table/base-table-body/BaseTableBody.tsx:25:3)
+
+      16 |
+      17 |   it('should render component without crashing', () => {
+    > 18 |     render(<BaseTableBody {...mockDefaultProps} />);
+         |           ^
+      19 |
+      20 |     expect(screen.getByTestId('base-table-body')).toBeInTheDocument();
+      21 |   });
+
+      at printWarning (node_modules/react-dom/cjs/react-dom.development.js:67:30)
+      at error (node_modules/react-dom/cjs/react-dom.development.js:43:5)
+      at validateDOMNesting (node_modules/react-dom/cjs/react-dom.development.js:10081:7)
+      at createInstance (node_modules/react-dom/cjs/react-dom.development.js:10181:5)
+      at completeWork (node_modules/react-dom/cjs/react-dom.development.js:19464:28)
+      at completeUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:22812:16)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:22787:5)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom.development.js:22707:5)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom.development.js:22670:7)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:22293:18)
+      at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom.development.js:21881:7)
+      at updateContainer (node_modules/react-dom/cjs/react-dom.development.js:25482:3)
+      at node_modules/react-dom/cjs/react-dom.development.js:26021:7
+      at unbatchedUpdates (node_modules/react-dom/cjs/react-dom.development.js:22431:12)
+      at legacyRenderSubtreeIntoContainer (node_modules/react-dom/cjs/react-dom.development.js:26020:5)
+      at Object.render (node_modules/react-dom/cjs/react-dom.development.js:26103:10)
+      at node_modules/@testing-library/react/dist/pure.js:101:25
+      at batchedUpdates$1 (node_modules/react-dom/cjs/react-dom.development.js:22380:12)
+      at act (node_modules/react-dom/cjs/react-dom-test-utils.development.js:1042:14)
+      at render (node_modules/@testing-library/react/dist/pure.js:97:26)
+      at Object.<anonymous> (__tests__/shared/base-table/base-table-body/BaseTableBody.test.tsx:18:11)
+
+     at _runTestsForDescribeBlock (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jest-circus/build/run.js:126:9)
+          at _runTestsForDescribeBlock (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jest-circus/build/run.js:121:9)
+          at run (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jest-circus/build/run.js:71:3)
+          at runAndTransformResultsToJestFormat (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+          at jestAdapter (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+          at runTestInternal (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jest-runner/build/runTest.js:367:16)
+          at runTest (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jest-runner/build/runTest.js:444:34)
+          at Object.worker (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jest-runner/build/testWorker.js:106:12),
+      type: 'unhandled exception'
+    }
+
+      23 |     const mockError = jest.fn();
+      24 |
+    > 25 |     render(
+         |           ^
+      26 |       <MockedProvider addTypename={false} mocks={[]}>
+      27 |         <ErrorBoundary FallbackComponent={BaseErrorBoundary} onError={mockError}>
+      28 |           <ComponentWithError />
+
+      at VirtualConsole.<anonymous> (node_modules/jest-environment-jsdom/build/index.js:63:23)
+      at reportException (node_modules/jsdom/lib/jsdom/living/helpers/runtime-script-errors.js:70:28)
+      at innerInvokeEventListeners (node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:353:9)
+      at invokeEventListeners (node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+      at HTMLUnknownElementImpl._dispatch (node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+      at HTMLUnknownElementImpl.dispatchEvent (node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:104:17)
+      at HTMLUnknownElement.dispatchEvent (node_modules/jsdom/lib/jsdom/living/generated/EventTarget.js:241:34)
+      at Object.invokeGuardedCallbackDev (node_modules/react-dom/cjs/react-dom.development.js:3994:16)
+      at invokeGuardedCallback (node_modules/react-dom/cjs/react-dom.development.js:4056:31)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:23574:9)
+      at unstable_runWithPriority (node_modules/scheduler/cjs/scheduler.development.js:468:12)
+      at runWithPriority$1 (node_modules/react-dom/cjs/react-dom.development.js:11276:10)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:23447:14)
+      at Object.<anonymous>.flushWork (node_modules/react-dom/cjs/react-dom-test-utils.development.js:992:10)
+      at act (node_modules/react-dom/cjs/react-dom-test-utils.development.js:1107:9)
+      at render (node_modules/@testing-library/react/dist/pure.js:97:26)
+      at Object.<anonymous> (__tests__/shared/base-error-boundary/BaseErrorBoundary.test.tsx:25:11)
+
+  console.error
+    The above error occurred in the <ComponentWithError> component:
+    
+        at ComponentWithError (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/__tests__/shared/base-error-boundary/BaseErrorBoundary.test.tsx:11:12)
+        at ErrorBoundary (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-error-boundary/dist/react-error-boundary.cjs.js:16:5)
+        at ApolloProvider (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@apollo/client/react/context/ApolloProvider.js:6:21)
+        at MockedProvider (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@apollo/client/testing/react/MockedProvider.js:10:28)
+    
+    React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+
+      23 |     const mockError = jest.fn();
+      24 |
+    > 25 |     render(
+         |           ^
+      26 |       <MockedProvider addTypename={false} mocks={[]}>
+      27 |         <ErrorBoundary FallbackComponent={BaseErrorBoundary} onError={mockError}>
+      28 |           <ComponentWithError />
+
+      at logCapturedError (node_modules/react-dom/cjs/react-dom.development.js:20085:23)
+      at ErrorBoundary.update.payload (node_modules/react-dom/cjs/react-dom.development.js:20133:7)
+      at getStateFromUpdate (node_modules/react-dom/cjs/react-dom.development.js:12102:35)
+      at processUpdateQueue (node_modules/react-dom/cjs/react-dom.development.js:12250:20)
+      at updateClassInstance (node_modules/react-dom/cjs/react-dom.development.js:13013:3)
+      at updateClassComponent (node_modules/react-dom/cjs/react-dom.development.js:17432:20)
+      at beginWork (node_modules/react-dom/cjs/react-dom.development.js:19073:16)
+      at beginWork$1 (node_modules/react-dom/cjs/react-dom.development.js:23940:14)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:22779:12)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom.development.js:22707:5)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom.development.js:22670:7)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:22293:18)
+      at node_modules/react-dom/cjs/react-dom.development.js:11327:26
+      at unstable_runWithPriority (node_modules/scheduler/cjs/scheduler.development.js:468:12)
+      at runWithPriority$1 (node_modules/react-dom/cjs/react-dom.development.js:11276:10)
+      at flushSyncCallbackQueueImpl (node_modules/react-dom/cjs/react-dom.development.js:11322:9)
+      at flushSyncCallbackQueue (node_modules/react-dom/cjs/react-dom.development.js:11309:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:23620:3)
+      at unstable_runWithPriority (node_modules/scheduler/cjs/scheduler.development.js:468:12)
+      at runWithPriority$1 (node_modules/react-dom/cjs/react-dom.development.js:11276:10)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:23447:14)
+      at Object.<anonymous>.flushWork (node_modules/react-dom/cjs/react-dom-test-utils.development.js:992:10)
+      at act (node_modules/react-dom/cjs/react-dom-test-utils.development.js:1107:9)
+      at render (node_modules/@testing-library/react/dist/pure.js:97:26)
+      at Object.<anonymous> (__tests__/shared/base-error-boundary/BaseErrorBoundary.test.tsx:25:11)
+
+  console.error
+    Error: Uncaught [Error: Something went wrong]
+        at reportException (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jsdom/lib/jsdom/living/helpers/runtime-script-errors.js:66:24)
+        at innerInvokeEventListeners (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:353:9)
+        at invokeEventListeners (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+        at HTMLUnknownElementImpl._dispatch (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+        at HTMLUnknownElementImpl.dispatchEvent (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:104:17)
+        at HTMLUnknownElement.dispatchEvent (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jsdom/lib/jsdom/living/generated/EventTarget.js:241:34)
+        at Object.invokeGuardedCallbackDev (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-dom/cjs/react-dom.development.js:3994:16)
+        at invokeGuardedCallback (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-dom/cjs/react-dom.development.js:4056:31)
+        at flushPassiveEffectsImpl (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-dom/cjs/react-dom.development.js:23574:9)
+        at unstable_runWithPriority (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/scheduler/cjs/scheduler.development.js:468:12)
+        at runWithPriority$1 (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-dom/cjs/react-dom.development.js:11276:10)
+        at flushPassiveEffects (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-dom/cjs/react-dom.development.js:23447:14)
+        at /Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-dom/cjs/react-dom.development.js:23324:11
+        at workLoop (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/scheduler/cjs/scheduler.development.js:417:34)
+        at flushWork (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/scheduler/cjs/scheduler.development.js:390:14)
+        at _flushCallback (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/scheduler/cjs/scheduler.development.js:55:9)
+        at Timeout.task [as _onTimeout] (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jsdom/lib/jsdom/browser/Window.js:520:19)
+        at listOnTimeout (node:internal/timers:573:17)
+        at processTimers (node:internal/timers:514:7) {
+      detail: Error: Something went wrong
+          at /Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/__tests__/shared/base-error-boundary/BaseErrorBoundary.test.tsx:12:11
+          at invokePassiveEffectCreate (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-dom/cjs/react-dom.development.js:23487:20)
+          at HTMLUnknownElement.callCallback (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-dom/cjs/react-dom.development.js:3945:14)
+          at HTMLUnknownElement.callTheUserObjectsOperation (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+          at innerInvokeEventListeners (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:350:25)
+          at invokeEventListeners (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+          at HTMLUnknownElementImpl._dispatch (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+          at HTMLUnknownElementImpl.dispatchEvent (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:104:17)
+          at HTMLUnknownElement.dispatchEvent (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jsdom/lib/jsdom/living/generated/EventTarget.js:241:34)
+          at Object.invokeGuardedCallbackDev (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-dom/cjs/react-dom.development.js:3994:16)
+          at invokeGuardedCallback (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-dom/cjs/react-dom.development.js:4056:31)
+          at flushPassiveEffectsImpl (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-dom/cjs/react-dom.development.js:23574:9)
+          at unstable_runWithPriority (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/scheduler/cjs/scheduler.development.js:468:12)
+          at runWithPriority$1 (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-dom/cjs/react-dom.development.js:11276:10)
+          at flushPassiveEffects (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-dom/cjs/react-dom.development.js:23447:14)
+          at /Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-dom/cjs/react-dom.development.js:23324:11
+          at workLoop (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/scheduler/cjs/scheduler.development.js:417:34)
+          at flushWork (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/scheduler/cjs/scheduler.development.js:390:14)
+          at _flushCallback (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/scheduler/cjs/scheduler.development.js:55:9)
+          at Timeout.task [as _onTimeout] (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/jsdom/lib/jsdom/browser/Window.js:520:19)
+          at listOnTimeout (node:internal/timers:573:17)
+          at processTimers (node:internal/timers:514:7),
+      type: 'unhandled exception'
+    }
+
+      at VirtualConsole.<anonymous> (node_modules/jest-environment-jsdom/build/index.js:63:23)
+      at reportException (node_modules/jsdom/lib/jsdom/living/helpers/runtime-script-errors.js:70:28)
+      at innerInvokeEventListeners (node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:353:9)
+      at invokeEventListeners (node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+      at HTMLUnknownElementImpl._dispatch (node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+      at HTMLUnknownElementImpl.dispatchEvent (node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:104:17)
+      at HTMLUnknownElement.dispatchEvent (node_modules/jsdom/lib/jsdom/living/generated/EventTarget.js:241:34)
+      at Object.invokeGuardedCallbackDev (node_modules/react-dom/cjs/react-dom.development.js:3994:16)
+      at invokeGuardedCallback (node_modules/react-dom/cjs/react-dom.development.js:4056:31)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:23574:9)
+      at unstable_runWithPriority (node_modules/scheduler/cjs/scheduler.development.js:468:12)
+      at runWithPriority$1 (node_modules/react-dom/cjs/react-dom.development.js:11276:10)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:23447:14)
+      at node_modules/react-dom/cjs/react-dom.development.js:23324:11
+      at workLoop (node_modules/scheduler/cjs/scheduler.development.js:417:34)
+      at flushWork (node_modules/scheduler/cjs/scheduler.development.js:390:14)
+      at _flushCallback (node_modules/scheduler/cjs/scheduler.development.js:55:9)
+      at Timeout.task [as _onTimeout] (node_modules/jsdom/lib/jsdom/browser/Window.js:520:19)
+
+  console.error
+    The above error occurred in the <ComponentWithError> component:
+    
+        at ComponentWithError (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/__tests__/shared/base-error-boundary/BaseErrorBoundary.test.tsx:11:12)
+        at ErrorBoundary (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/react-error-boundary/dist/react-error-boundary.cjs.js:16:5)
+        at ApolloProvider (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@apollo/client/react/context/ApolloProvider.js:6:21)
+        at MockedProvider (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@apollo/client/testing/react/MockedProvider.js:10:28)
+    
+    React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+
+      at logCapturedError (node_modules/react-dom/cjs/react-dom.development.js:20085:23)
+      at ErrorBoundary.update.payload (node_modules/react-dom/cjs/react-dom.development.js:20133:7)
+      at getStateFromUpdate (node_modules/react-dom/cjs/react-dom.development.js:12102:35)
+      at processUpdateQueue (node_modules/react-dom/cjs/react-dom.development.js:12250:20)
+      at updateClassInstance (node_modules/react-dom/cjs/react-dom.development.js:13013:3)
+      at updateClassComponent (node_modules/react-dom/cjs/react-dom.development.js:17432:20)
+      at beginWork (node_modules/react-dom/cjs/react-dom.development.js:19073:16)
+      at beginWork$1 (node_modules/react-dom/cjs/react-dom.development.js:23940:14)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:22779:12)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom.development.js:22707:5)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom.development.js:22670:7)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:22293:18)
+      at node_modules/react-dom/cjs/react-dom.development.js:11327:26
+      at unstable_runWithPriority (node_modules/scheduler/cjs/scheduler.development.js:468:12)
+      at runWithPriority$1 (node_modules/react-dom/cjs/react-dom.development.js:11276:10)
+      at flushSyncCallbackQueueImpl (node_modules/react-dom/cjs/react-dom.development.js:11322:9)
+      at flushSyncCallbackQueue (node_modules/react-dom/cjs/react-dom.development.js:11309:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:23620:3)
+      at unstable_runWithPriority (node_modules/scheduler/cjs/scheduler.development.js:468:12)
+      at runWithPriority$1 (node_modules/react-dom/cjs/react-dom.development.js:11276:10)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:23447:14)
+      at node_modules/react-dom/cjs/react-dom.development.js:23324:11
+      at workLoop (node_modules/scheduler/cjs/scheduler.development.js:417:34)
+      at flushWork (node_modules/scheduler/cjs/scheduler.development.js:390:14)
+      at _flushCallback (node_modules/scheduler/cjs/scheduler.development.js:55:9)
+      at Timeout.task [as _onTimeout] (node_modules/jsdom/lib/jsdom/browser/Window.js:520:19)
+
+  console.log
+    [36m<body>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex gap-2"[39m
+        [36m>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-all disabled:cursor-not-allowed disabled:opacity-50 h-10 px-4 py-2 text-primary bg-transparent hover:bg-transparent"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"ml-1"[39m
+            [36m>[39m
+              [0mTest Cancel Button[0m
+            [36m</span>[39m
+          [36m</button>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-all disabled:cursor-not-allowed disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-11 px-8 rounded-2xl"[39m
+            [33mdisabled[39m=[32m""[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33mclass[39m=[32m"lucide lucide-loader-circle mr-2 h-4 w-4 animate-spin"[39m
+              [33mdata-testid[39m=[32m"button-loader"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"24"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"24"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M21 12a9 9 0 1 1-6.219-8.56"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"ml-1"[39m
+            [36m>[39m
+              [0mTest Submit Button[0m
+            [36m</span>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</body>[39m
+    
+    /Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/__tests__/shared/base-modal/modal-footer/ModalFooter.test.tsx:30:12
+      28 |     render(<ModalFooter {...defaultProps} isLoading={true} />);
+      29 |
+    > 30 |     screen.debug();
+         |            ^
+
+      at logDOM (node_modules/@testing-library/react/node_modules/@testing-library/dom/dist/pretty-dom.js:85:13)
+
+  console.warn
+    Skipped "image" because it is not a valid MIME type. Check https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types for a list of valid MIME types.
+
+      31 |   const { loading: uploadFileLoading, previewImage, onImageUpload } = useProfileAvatarState({ refetch });
+      32 |
+    > 33 |   const { getRootProps, getInputProps } = useDropzone({
+         |                                                      ^
+      34 |     onDrop: onImageUpload,
+      35 |     multiple: false,
+      36 |     accept: ACCEPTABLE_FILE_IMAGE_TYPES,
+
+      at mimeType (node_modules/react-dropzone/src/utils/index.js:219:25)
+          at Array.filter (<anonymous>)
+      at mimeType (node_modules/react-dropzone/src/utils/index.js:219:25)
+      at node_modules/react-dropzone/src/index.js:464:5
+      at mountMemo (node_modules/react-dom/cjs/react-dom.development.js:15846:19)
+      at Object.useMemo (node_modules/react-dom/cjs/react-dom.development.js:16219:16)
+      at Object.useMemo (node_modules/react/cjs/react.development.js:1532:21)
+      at onFileDialogCancelCb (node_modules/react-dropzone/src/index.js:463:9)
+      at ProfileAccountSettings (modules/profile/profile-account-settings/ProfileAccountSettings.tsx:33:54)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom.development.js:14985:18)
+      at mountIndeterminateComponent (node_modules/react-dom/cjs/react-dom.development.js:17811:13)
+      at beginWork (node_modules/react-dom/cjs/react-dom.development.js:19049:16)
+      at beginWork$1 (node_modules/react-dom/cjs/react-dom.development.js:23940:14)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:22779:12)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom.development.js:22707:5)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom.development.js:22670:7)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:22293:18)
+      at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom.development.js:21881:7)
+      at updateContainer (node_modules/react-dom/cjs/react-dom.development.js:25482:3)
+      at node_modules/react-dom/cjs/react-dom.development.js:26021:7
+      at unbatchedUpdates (node_modules/react-dom/cjs/react-dom.development.js:22431:12)
+      at legacyRenderSubtreeIntoContainer (node_modules/react-dom/cjs/react-dom.development.js:26020:5)
+      at Object.render (node_modules/react-dom/cjs/react-dom.development.js:26103:10)
+      at node_modules/@testing-library/react/dist/pure.js:101:25
+      at batchedUpdates$1 (node_modules/react-dom/cjs/react-dom.development.js:22380:12)
+      at act (node_modules/react-dom/cjs/react-dom-test-utils.development.js:1042:14)
+      at render (node_modules/@testing-library/react/dist/pure.js:97:26)
+      at withRouterAndApolloProvider (mocks/testMocks.tsx:17:16)
+      at Object.<anonymous> (__tests__/modules/profile/Profile.test.tsx:10:32)
+
+  console.error
+    Warning: validateDOMNesting(...): <button> cannot appear as a descendant of <button>.
+        at button
+        at className (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/components/ui/button.tsx:41:6)
+        at button
+        at asChild (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@radix-ui/react-primitive/dist/packages/react/primitive/src/Primitive.tsx:46:13)
+        at children (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@radix-ui/react-slot/dist/packages/react/slot/src/Slot.tsx:61:11)
+        at children (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@radix-ui/react-slot/dist/packages/react/slot/src/Slot.tsx:13:11)
+        at asChild (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@radix-ui/react-primitive/dist/packages/react/primitive/src/Primitive.tsx:46:13)
+        at __scopePopper (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@radix-ui/react-popper/dist/packages/react/popper/src/Popper.tsx:76:13)
+        at __scopeMenu (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@radix-ui/react-menu/dist/packages/react/menu/src/Menu.tsx:150:13)
+        at __scopeDropdownMenu (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@radix-ui/react-dropdown-menu/dist/packages/react/dropdown-menu/src/DropdownMenu.tsx:101:13)
+        at scope (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@radix-ui/react-context/dist/packages/react/context/src/createContext.tsx:58:15)
+        at scope (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@radix-ui/react-context/dist/packages/react/context/src/createContext.tsx:58:15)
+        at scope (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@radix-ui/react-context/dist/packages/react/context/src/createContext.tsx:58:15)
+        at __scopePopper (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@radix-ui/react-popper/dist/packages/react/popper/src/Popper.tsx:51:11)
+        at __scopeMenu (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@radix-ui/react-menu/dist/packages/react/menu/src/Menu.tsx:89:11)
+        at scope (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@radix-ui/react-context/dist/packages/react/context/src/createContext.tsx:58:15)
+        at __scopeDropdownMenu (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@radix-ui/react-dropdown-menu/dist/packages/react/dropdown-menu/src/DropdownMenu.tsx:53:5)
+        at header
+        at Header (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/modules/header/Header.tsx:19:49)
+        at ApolloProvider (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@apollo/client/react/context/ApolloProvider.js:6:21)
+        at MockedProvider (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@apollo/client/testing/react/MockedProvider.js:10:28)
+
+      15 |
+      16 | export const withRouterAndApolloProvider = (component: JSX.Element, path: AppRoutes, mocks: MockedResponse[] = []) => {
+    > 17 |   return render(
+         |                ^
+      18 |     <RouterContext.Provider value={createMockRouter({ pathname: path })}>
+      19 |       <MockedProvider mocks={mocks} addTypename={false}>
+      20 |         {component}
+
+      at printWarning (node_modules/react-dom/cjs/react-dom.development.js:67:30)
+      at error (node_modules/react-dom/cjs/react-dom.development.js:43:5)
+      at validateDOMNesting (node_modules/react-dom/cjs/react-dom.development.js:10083:7)
+      at createInstance (node_modules/react-dom/cjs/react-dom.development.js:10181:5)
+      at completeWork (node_modules/react-dom/cjs/react-dom.development.js:19464:28)
+      at completeUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:22812:16)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:22787:5)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom.development.js:22707:5)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom.development.js:22670:7)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:22293:18)
+      at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom.development.js:21881:7)
+      at updateContainer (node_modules/react-dom/cjs/react-dom.development.js:25482:3)
+      at node_modules/react-dom/cjs/react-dom.development.js:26021:7
+      at unbatchedUpdates (node_modules/react-dom/cjs/react-dom.development.js:22431:12)
+      at legacyRenderSubtreeIntoContainer (node_modules/react-dom/cjs/react-dom.development.js:26020:5)
+      at Object.render (node_modules/react-dom/cjs/react-dom.development.js:26103:10)
+      at node_modules/@testing-library/react/dist/pure.js:101:25
+      at batchedUpdates$1 (node_modules/react-dom/cjs/react-dom.development.js:22380:12)
+      at act (node_modules/react-dom/cjs/react-dom-test-utils.development.js:1042:14)
+      at render (node_modules/@testing-library/react/dist/pure.js:97:26)
+      at withRouterAndApolloProvider (mocks/testMocks.tsx:17:16)
+      at headerComponent (__tests__/modules/header/Header.test.tsx:9:60)
+      at Object.headerComponent (__tests__/modules/header/Header.test.tsx:12:5)
+
+  console.error
+    Error: Error: some error
+
+      40 |
+      41 | export const logError = (error: Error, info: { componentStack: string }): void => {
+    > 42 |   console.error(`Error: ${error}`);
+         |           ^
+      43 |   console.error(`Error message: ${error.message}`);
+      44 |   console.error(`Error caused by: ${info.componentStack}`);
+      45 | };
+
+      at console.<anonymous> (node_modules/jest-mock/build/index.js:794:25)
+      at error (shared/utils.ts:42:11)
+      at Object.<anonymous> (__tests__/shared/util.test.ts:7:13)
+
+  console.error
+    Error message: some error
+
+      41 | export const logError = (error: Error, info: { componentStack: string }): void => {
+      42 |   console.error(`Error: ${error}`);
+    > 43 |   console.error(`Error message: ${error.message}`);
+         |           ^
+      44 |   console.error(`Error caused by: ${info.componentStack}`);
+      45 | };
+      46 |
+
+      at console.<anonymous> (node_modules/jest-mock/build/index.js:794:25)
+      at error (shared/utils.ts:43:11)
+      at Object.<anonymous> (__tests__/shared/util.test.ts:7:13)
+
+  console.error
+    Error caused by: stack
+
+      42 |   console.error(`Error: ${error}`);
+      43 |   console.error(`Error message: ${error.message}`);
+    > 44 |   console.error(`Error caused by: ${info.componentStack}`);
+         |           ^
+      45 | };
+      46 |
+      47 | export const getItemsFromQuery = <T>(data?: { edges?: { node: T }[] }): T[] => {
+
+      at console.<anonymous> (node_modules/jest-mock/build/index.js:794:25)
+      at error (shared/utils.ts:44:11)
+      at Object.<anonymous> (__tests__/shared/util.test.ts:7:13)
+
+  console.error
+    Warning: validateDOMNesting(...): <button> cannot appear as a descendant of <button>.
+        at button
+        at className (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/components/ui/button.tsx:41:6)
+        at button
+        at asChild (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@radix-ui/react-primitive/dist/packages/react/primitive/src/Primitive.tsx:46:13)
+        at children (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@radix-ui/react-slot/dist/packages/react/slot/src/Slot.tsx:61:11)
+        at children (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@radix-ui/react-slot/dist/packages/react/slot/src/Slot.tsx:13:11)
+        at asChild (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@radix-ui/react-primitive/dist/packages/react/primitive/src/Primitive.tsx:46:13)
+        at __scopePopper (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@radix-ui/react-popper/dist/packages/react/popper/src/Popper.tsx:76:13)
+        at __scopeMenu (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@radix-ui/react-menu/dist/packages/react/menu/src/Menu.tsx:150:13)
+        at __scopeDropdownMenu (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@radix-ui/react-dropdown-menu/dist/packages/react/dropdown-menu/src/DropdownMenu.tsx:101:13)
+        at scope (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@radix-ui/react-context/dist/packages/react/context/src/createContext.tsx:58:15)
+        at scope (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@radix-ui/react-context/dist/packages/react/context/src/createContext.tsx:58:15)
+        at scope (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@radix-ui/react-context/dist/packages/react/context/src/createContext.tsx:58:15)
+        at __scopePopper (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@radix-ui/react-popper/dist/packages/react/popper/src/Popper.tsx:51:11)
+        at __scopeMenu (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@radix-ui/react-menu/dist/packages/react/menu/src/Menu.tsx:89:11)
+        at scope (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@radix-ui/react-context/dist/packages/react/context/src/createContext.tsx:58:15)
+        at __scopeDropdownMenu (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@radix-ui/react-dropdown-menu/dist/packages/react/dropdown-menu/src/DropdownMenu.tsx:53:5)
+        at header
+        at Header (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/modules/header/Header.tsx:19:49)
+        at div
+        at section
+        at children (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/modules/layout/MainLayout/MainLayout.tsx:11:23)
+        at ApolloProvider (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@apollo/client/react/context/ApolloProvider.js:6:21)
+        at MockedProvider (/Users/dmytro_kurchenko/Desktop/pet_projects/LiftMend_CRM/node_modules/@apollo/client/testing/react/MockedProvider.js:10:28)
+
+      15 |
+      16 | export const withRouterAndApolloProvider = (component: JSX.Element, path: AppRoutes, mocks: MockedResponse[] = []) => {
+    > 17 |   return render(
+         |                ^
+      18 |     <RouterContext.Provider value={createMockRouter({ pathname: path })}>
+      19 |       <MockedProvider mocks={mocks} addTypename={false}>
+      20 |         {component}
+
+      at printWarning (node_modules/react-dom/cjs/react-dom.development.js:67:30)
+      at error (node_modules/react-dom/cjs/react-dom.development.js:43:5)
+      at validateDOMNesting (node_modules/react-dom/cjs/react-dom.development.js:10083:7)
+      at createInstance (node_modules/react-dom/cjs/react-dom.development.js:10181:5)
+      at completeWork (node_modules/react-dom/cjs/react-dom.development.js:19464:28)
+      at completeUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:22812:16)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:22787:5)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom.development.js:22707:5)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom.development.js:22670:7)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:22293:18)
+      at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom.development.js:21881:7)
+      at updateContainer (node_modules/react-dom/cjs/react-dom.development.js:25482:3)
+      at node_modules/react-dom/cjs/react-dom.development.js:26021:7
+      at unbatchedUpdates (node_modules/react-dom/cjs/react-dom.development.js:22431:12)
+      at legacyRenderSubtreeIntoContainer (node_modules/react-dom/cjs/react-dom.development.js:26020:5)
+      at Object.render (node_modules/react-dom/cjs/react-dom.development.js:26103:10)
+      at node_modules/@testing-library/react/dist/pure.js:101:25
+      at batchedUpdates$1 (node_modules/react-dom/cjs/react-dom.development.js:22380:12)
+      at act (node_modules/react-dom/cjs/react-dom-test-utils.development.js:1042:14)
+      at render (node_modules/@testing-library/react/dist/pure.js:97:26)
+      at withRouterAndApolloProvider (mocks/testMocks.tsx:17:16)
+      at Object.<anonymous> (__tests__/modules/layout/MainLayout/MainLayout.test.tsx:10:32)
+
+  console.warn
+    No more mocked responses for the query: query GetElevatorRecords($paginationOptions: PaginationOptions, $filterOptions: ElevatorRecordFilterOptions, $sortOptions: ElevatorRecordSortInput) {
+      getElevatorRecords(
+        paginationOptions: $paginationOptions
+        filterOptions: $filterOptions
+        sortOptions: $sortOptions
+      ) {
+        edges {
+          cursor
+          node {
+            ...ElevatorRecordFields
+          }
+        }
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+          startCursor
+          endCursor
+        }
+        total
+      }
+    }
+    
+    fragment ElevatorRecordFields on ElevatorRecord {
+      id
+      elevatorType
+      buildingName
+      elevatorLocation
+      lastMaintenanceDate
+      nextMaintenanceDate
+      capacity
+      status
+      lastKnownStatus
+    }
+    Expected variables: {"paginationOptions":{"limit":20,"offset":0},"sortOptions":{"field":null,"order":null},"filterOptions":{"searchTerm":""}}
+    
+    This typically indicates a configuration error in your mocks setup, usually due to a typo or mismatched variable.
+
+      13 |
+      14 |   it('should render component without crashing', () => {
+    > 15 |     render(<ElevatorManagementComponent />);
+         |           ^
+      16 |
+      17 |     expect(screen.getByText(SectionHeaderTitle.ElevatorManagement)).toBeInTheDocument();
+      18 |     expect(screen.getByTestId('base-table')).toBeInTheDocument();
+
+      at MockLink.Object.<anonymous>.MockLink.request (node_modules/@apollo/client/testing/core/mocking/mockLink.js:65:25)
+      at Object.<anonymous>.ApolloLink.execute (node_modules/@apollo/client/link/core/ApolloLink.js:45:22)
+      at QueryManager.execute [as getObservableFromLink] (node_modules/@apollo/client/core/QueryManager.js:705:25)
+      at QueryManager.Object.<anonymous>.QueryManager.getResultsFromLink (node_modules/@apollo/client/core/QueryManager.js:743:30)
+      at resultsFromLink (node_modules/@apollo/client/core/QueryManager.js:1036:26)
+      at QueryManager.Object.<anonymous>.QueryManager.fetchQueryByPolicy (node_modules/@apollo/client/core/QueryManager.js:1064:52)
+      at fromVariables (node_modules/@apollo/client/core/QueryManager.js:806:41)
+      at QueryManager.Object.<anonymous>.QueryManager.fetchConcastWithInfo (node_modules/@apollo/client/core/QueryManager.js:848:35)
+      at ObservableQuery.Object.<anonymous>.ObservableQuery.fetch (node_modules/@apollo/client/core/ObservableQuery.js:509:57)
+      at ObservableQuery.Object.<anonymous>.ObservableQuery.reobserveAsConcast (node_modules/@apollo/client/core/ObservableQuery.js:625:23)
+      at ObservableQuery.Object.<anonymous>.ObservableQuery.reobserve (node_modules/@apollo/client/core/ObservableQuery.js:649:21)
+      at node_modules/@apollo/client/core/ObservableQuery.js:39:23
+      at new Subscription (node_modules/zen-observable/lib/Observable.js:197:34)
+      at ObservableQuery.subscribe (node_modules/zen-observable/lib/Observable.js:279:14)
+      at node_modules/@apollo/client/react/hooks/useQuery.js:168:41
+      at node_modules/@apollo/client/react/hooks/useSyncExternalStore.js:79:20
+      at invokePassiveEffectCreate (node_modules/react-dom/cjs/react-dom.development.js:23487:20)
+      at HTMLUnknownElement.callCallback (node_modules/react-dom/cjs/react-dom.development.js:3945:14)
+      at HTMLUnknownElement.callTheUserObjectsOperation (node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+      at innerInvokeEventListeners (node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:350:25)
+      at invokeEventListeners (node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+      at HTMLUnknownElementImpl._dispatch (node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+      at HTMLUnknownElementImpl.dispatchEvent (node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:104:17)
+      at HTMLUnknownElement.dispatchEvent (node_modules/jsdom/lib/jsdom/living/generated/EventTarget.js:241:34)
+      at Object.invokeGuardedCallbackDev (node_modules/react-dom/cjs/react-dom.development.js:3994:16)
+      at invokeGuardedCallback (node_modules/react-dom/cjs/react-dom.development.js:4056:31)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:23574:9)
+      at unstable_runWithPriority (node_modules/scheduler/cjs/scheduler.development.js:468:12)
+      at runWithPriority$1 (node_modules/react-dom/cjs/react-dom.development.js:11276:10)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:23447:14)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:22269:3)
+      at node_modules/react-dom/cjs/react-dom.development.js:11327:26
+      at unstable_runWithPriority (node_modules/scheduler/cjs/scheduler.development.js:468:12)
+      at runWithPriority$1 (node_modules/react-dom/cjs/react-dom.development.js:11276:10)
+      at flushSyncCallbackQueueImpl (node_modules/react-dom/cjs/react-dom.development.js:11322:9)
+      at flushSyncCallbackQueue (node_modules/react-dom/cjs/react-dom.development.js:11309:3)
+      at batchedUpdates$1 (node_modules/react-dom/cjs/react-dom.development.js:22387:7)
+      at act (node_modules/react-dom/cjs/react-dom-test-utils.development.js:1042:14)
+      at render (node_modules/@testing-library/react/dist/pure.js:97:26)
+      at Object.<anonymous> (__tests__/modules/elevator-management/ElevatorManagement.test.tsx:15:11)
+
+  console.warn
+    No more mocked responses for the query: query GetElevatorRecordFormData {
+      getElevatorRecordFormData {
+        elevatorTypes
+        buildingNames
+        elevatorLocations
+        elevatorStatuses
+      }
+    }
+    Expected variables: {}
+    
+    This typically indicates a configuration error in your mocks setup, usually due to a typo or mismatched variable.
+
+      13 |
+      14 |   it('should render component without crashing', () => {
+    > 15 |     render(<ElevatorManagementComponent />);
+         |           ^
+      16 |
+      17 |     expect(screen.getByText(SectionHeaderTitle.ElevatorManagement)).toBeInTheDocument();
+      18 |     expect(screen.getByTestId('base-table')).toBeInTheDocument();
+
+      at MockLink.Object.<anonymous>.MockLink.request (node_modules/@apollo/client/testing/core/mocking/mockLink.js:65:25)
+      at Object.<anonymous>.ApolloLink.execute (node_modules/@apollo/client/link/core/ApolloLink.js:45:22)
+      at QueryManager.execute [as getObservableFromLink] (node_modules/@apollo/client/core/QueryManager.js:705:25)
+      at QueryManager.Object.<anonymous>.QueryManager.getResultsFromLink (node_modules/@apollo/client/core/QueryManager.js:743:30)
+      at resultsFromLink (node_modules/@apollo/client/core/QueryManager.js:1036:26)
+      at QueryManager.Object.<anonymous>.QueryManager.fetchQueryByPolicy (node_modules/@apollo/client/core/QueryManager.js:1064:52)
+      at fromVariables (node_modules/@apollo/client/core/QueryManager.js:806:41)
+      at QueryManager.Object.<anonymous>.QueryManager.fetchConcastWithInfo (node_modules/@apollo/client/core/QueryManager.js:848:35)
+      at ObservableQuery.Object.<anonymous>.ObservableQuery.fetch (node_modules/@apollo/client/core/ObservableQuery.js:509:57)
+      at ObservableQuery.Object.<anonymous>.ObservableQuery.reobserveAsConcast (node_modules/@apollo/client/core/ObservableQuery.js:625:23)
+      at ObservableQuery.Object.<anonymous>.ObservableQuery.reobserve (node_modules/@apollo/client/core/ObservableQuery.js:649:21)
+      at node_modules/@apollo/client/core/ObservableQuery.js:39:23
+      at new Subscription (node_modules/zen-observable/lib/Observable.js:197:34)
+      at ObservableQuery.subscribe (node_modules/zen-observable/lib/Observable.js:279:14)
+      at node_modules/@apollo/client/react/hooks/useQuery.js:168:41
+      at node_modules/@apollo/client/react/hooks/useSyncExternalStore.js:79:20
+      at invokePassiveEffectCreate (node_modules/react-dom/cjs/react-dom.development.js:23487:20)
+      at HTMLUnknownElement.callCallback (node_modules/react-dom/cjs/react-dom.development.js:3945:14)
+      at HTMLUnknownElement.callTheUserObjectsOperation (node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+      at innerInvokeEventListeners (node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:350:25)
+      at invokeEventListeners (node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+      at HTMLUnknownElementImpl._dispatch (node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+      at HTMLUnknownElementImpl.dispatchEvent (node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:104:17)
+      at HTMLUnknownElement.dispatchEvent (node_modules/jsdom/lib/jsdom/living/generated/EventTarget.js:241:34)
+      at Object.invokeGuardedCallbackDev (node_modules/react-dom/cjs/react-dom.development.js:3994:16)
+      at invokeGuardedCallback (node_modules/react-dom/cjs/react-dom.development.js:4056:31)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:23574:9)
+      at unstable_runWithPriority (node_modules/scheduler/cjs/scheduler.development.js:468:12)
+      at runWithPriority$1 (node_modules/react-dom/cjs/react-dom.development.js:11276:10)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:23447:14)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:22269:3)
+      at node_modules/react-dom/cjs/react-dom.development.js:11327:26
+      at unstable_runWithPriority (node_modules/scheduler/cjs/scheduler.development.js:468:12)
+      at runWithPriority$1 (node_modules/react-dom/cjs/react-dom.development.js:11276:10)
+      at flushSyncCallbackQueueImpl (node_modules/react-dom/cjs/react-dom.development.js:11322:9)
+      at flushSyncCallbackQueue (node_modules/react-dom/cjs/react-dom.development.js:11309:3)
+      at batchedUpdates$1 (node_modules/react-dom/cjs/react-dom.development.js:22387:7)
+      at act (node_modules/react-dom/cjs/react-dom-test-utils.development.js:1042:14)
+      at render (node_modules/@testing-library/react/dist/pure.js:97:26)
+      at Object.<anonymous> (__tests__/modules/elevator-management/ElevatorManagement.test.tsx:15:11)
+
+  console.warn
+    No more mocked responses for the query: query GetDashboardMetrics($startDate: String!, $endDate: String!) {
+      getDashboardMetrics(startDate: $startDate, endDate: $endDate) {
+        repairJobsMetrics {
+          totalRepairJobs
+          overdueRepairJobs
+          ongoingRepairJobs
+          completedRepairJobsToday
+          scheduledRepairJobs
+          inProgressRepairJobs
+          cancelledRepairJobs
+          onHoldRepairJobs
+          completedRepairJobs
+          lowPriorityRepairJobs
+          mediumPriorityRepairJobs
+          highPriorityRepairJobs
+          repairJobs
+          mentainanceJobs
+          installationJobs
+          inspectionJobs
+          upgradeJobs
+          emergencyJobs
+          routineJobs
+          consultationJobs
+          modernizationJobs
+          complianceJobs
+        }
+        elevatorRecordsMetrics {
+          totalElevatorRecords
+          operationalElevators
+          underMaintenanceElevators
+          outOfServiceElevators
+          pausedElevators
+          passengerElevators
+          freightElevators
+          serviceElevators
+          homeElevators
+          luxuryHighSpeedElevators
+          vehicleParkingElevators
+          specialtyElevators
+        }
+        technicianRecordsMetrics {
+          totalTechnicianRecords
+          availableTechnicians
+          busyTechnicians
+          onLeaveTechnicians
+          inactiveTechnicians
+          unavailableTechnicians
+          reservedTechnicians
+        }
+      }
+    }
+    Expected variables: {"startDate":"2025-03-31T21:00:00.000Z","endDate":"2025-04-30T20:59:59.999Z"}
+    
+    This typically indicates a configuration error in your mocks setup, usually due to a typo or mismatched variable.
+
+      17 |
+      18 |   it('should render component without crashing', () => {
+    > 19 |     render(<DashboardComponent />);
+         |           ^
+      20 |     expect(screen.getByText(SectionHeaderTitle.Dashboard)).toBeInTheDocument();
+      21 |     expect(screen.getByTestId('key-app-metrics')).toBeInTheDocument();
+      22 |   });
+
+      at MockLink.Object.<anonymous>.MockLink.request (node_modules/@apollo/client/testing/core/mocking/mockLink.js:65:25)
+      at Object.<anonymous>.ApolloLink.execute (node_modules/@apollo/client/link/core/ApolloLink.js:45:22)
+      at QueryManager.execute [as getObservableFromLink] (node_modules/@apollo/client/core/QueryManager.js:705:25)
+      at QueryManager.Object.<anonymous>.QueryManager.getResultsFromLink (node_modules/@apollo/client/core/QueryManager.js:743:30)
+      at resultsFromLink (node_modules/@apollo/client/core/QueryManager.js:1036:26)
+      at QueryManager.Object.<anonymous>.QueryManager.fetchQueryByPolicy (node_modules/@apollo/client/core/QueryManager.js:1074:52)
+      at fromVariables (node_modules/@apollo/client/core/QueryManager.js:806:41)
+      at QueryManager.Object.<anonymous>.QueryManager.fetchConcastWithInfo (node_modules/@apollo/client/core/QueryManager.js:848:35)
+      at ObservableQuery.Object.<anonymous>.ObservableQuery.fetch (node_modules/@apollo/client/core/ObservableQuery.js:509:57)
+      at ObservableQuery.Object.<anonymous>.ObservableQuery.reobserveAsConcast (node_modules/@apollo/client/core/ObservableQuery.js:625:23)
+      at ObservableQuery.Object.<anonymous>.ObservableQuery.reobserve (node_modules/@apollo/client/core/ObservableQuery.js:649:21)
+      at node_modules/@apollo/client/core/ObservableQuery.js:39:23
+      at new Subscription (node_modules/zen-observable/lib/Observable.js:197:34)
+      at ObservableQuery.subscribe (node_modules/zen-observable/lib/Observable.js:279:14)
+      at node_modules/@apollo/client/react/hooks/useQuery.js:168:41
+      at node_modules/@apollo/client/react/hooks/useSyncExternalStore.js:79:20
+      at invokePassiveEffectCreate (node_modules/react-dom/cjs/react-dom.development.js:23487:20)
+      at HTMLUnknownElement.callCallback (node_modules/react-dom/cjs/react-dom.development.js:3945:14)
+      at HTMLUnknownElement.callTheUserObjectsOperation (node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+      at innerInvokeEventListeners (node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:350:25)
+      at invokeEventListeners (node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+      at HTMLUnknownElementImpl._dispatch (node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+      at HTMLUnknownElementImpl.dispatchEvent (node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:104:17)
+      at HTMLUnknownElement.dispatchEvent (node_modules/jsdom/lib/jsdom/living/generated/EventTarget.js:241:34)
+      at Object.invokeGuardedCallbackDev (node_modules/react-dom/cjs/react-dom.development.js:3994:16)
+      at invokeGuardedCallback (node_modules/react-dom/cjs/react-dom.development.js:4056:31)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:23574:9)
+      at unstable_runWithPriority (node_modules/scheduler/cjs/scheduler.development.js:468:12)
+      at runWithPriority$1 (node_modules/react-dom/cjs/react-dom.development.js:11276:10)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:23447:14)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:22269:3)
+      at node_modules/react-dom/cjs/react-dom.development.js:11327:26
+      at unstable_runWithPriority (node_modules/scheduler/cjs/scheduler.development.js:468:12)
+      at runWithPriority$1 (node_modules/react-dom/cjs/react-dom.development.js:11276:10)
+      at flushSyncCallbackQueueImpl (node_modules/react-dom/cjs/react-dom.development.js:11322:9)
+      at flushSyncCallbackQueue (node_modules/react-dom/cjs/react-dom.development.js:11309:3)
+      at batchedUpdates$1 (node_modules/react-dom/cjs/react-dom.development.js:22387:7)
+      at act (node_modules/react-dom/cjs/react-dom-test-utils.development.js:1042:14)
+      at render (node_modules/@testing-library/react/dist/pure.js:97:26)
+      at Object.<anonymous> (__tests__/modules/dashboard/Dashboard.test.tsx:19:11)
+

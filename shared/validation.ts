@@ -1,4 +1,5 @@
 import { z } from 'zod';
+
 import { formatPhoneNumber } from './utils';
 
 export const passwordMatchValidation = <T extends z.ZodRawShape>(schema: z.ZodObject<T>) =>
