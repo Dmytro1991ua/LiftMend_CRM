@@ -23,6 +23,10 @@ class AuthService {
       password,
       options: {
         emailRedirectTo: emailRedirectTo ?? '',
+        data: {
+          name: `${firstName} ${lastName}`,
+          email,
+        },
       },
     });
 

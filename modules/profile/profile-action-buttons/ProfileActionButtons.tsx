@@ -20,7 +20,6 @@ const ProfileActionButtons = ({ isDisabled, isLoading, onReset, onSubmit }: Prof
       label: ProfileFormButtonLabel.DiscardChanges,
       onClick: onReset,
       isDisabled,
-      isLoading,
       variant: 'ghost',
       type: 'button',
       className: 'text-primary hover:text-primary hover:bg-transparent',

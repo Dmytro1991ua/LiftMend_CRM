@@ -16,8 +16,7 @@ interface BaseButton extends ButtonProps {
 const BaseButton = ({ isDisabled, isLoading, label, icon, className, onClick, ...rest }: BaseButton) => {
   return (
     <Button className={className} disabled={isDisabled || isLoading} size='lg' onClick={onClick} {...rest}>
-      {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' data-testid='button-loader' />}
-      {icon}
+      {isLoading ? <Loader2 className='h-4 w-4 animate-spin' data-testid='button-loader' /> : icon}
       <span className='ml-1'>{label}</span>
     </Button>
   );

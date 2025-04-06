@@ -12,6 +12,11 @@ type AuthResponse {
   id: ID!
 }
 
+type UploadProfilePicturePayload {
+  id: ID!
+  avatarUrl: String!
+}
+
 type Mutation {
   createRepairJobAndEvent(
     repairJobInput: CreateRepairJobInput!
@@ -31,6 +36,6 @@ type Mutation {
   forgotPassword(input: ForgotPasswordInput!): Boolean!
   resetPassword(input: ResetPasswordInput!): AuthResponse!
   signInWithOAuth(input: SignInWithOAuthInput!): String!
-  uploadProfilePicture(file: Upload!): String!
+  uploadProfilePicture(file: Upload!): UploadProfilePicturePayload!
   updateUserProfile(input: UserProfileInput!): AppUser!
 }

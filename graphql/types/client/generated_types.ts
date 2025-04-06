@@ -220,7 +220,7 @@ export type Mutation = {
   updateRepairJob: RepairJob;
   updateTechnicianRecord: TechnicianRecord;
   updateUserProfile: AppUser;
-  uploadProfilePicture: Scalars['String']['output'];
+  uploadProfilePicture: UploadProfilePicturePayload;
 };
 
 
@@ -647,6 +647,12 @@ export type UpdateTechnicianRecordInput = {
   skills?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
+export type UploadProfilePicturePayload = {
+  __typename?: 'UploadProfilePicturePayload';
+  avatarUrl: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+};
+
 export type UserProfileInput = {
   firstName?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['ID']['input'];
@@ -849,6 +855,13 @@ export type UpdateElevatorRecordMutationVariables = Exact<{
 
 export type UpdateElevatorRecordMutation = { __typename?: 'Mutation', updateElevatorRecord: { __typename?: 'ElevatorRecord', id: string, elevatorType: string, buildingName: string, elevatorLocation: string, lastMaintenanceDate: any, nextMaintenanceDate: any, capacity: number, status: string, lastKnownStatus: string | null } };
 
+export type UpdateProfileMutationVariables = Exact<{
+  input: UserProfileInput;
+}>;
+
+
+export type UpdateProfileMutation = { __typename?: 'Mutation', updateUserProfile: { __typename?: 'AppUser', id: string, firstName: string, lastName: string, phone: string | null } };
+
 export type UpdateRepairJobMutationVariables = Exact<{
   input: UpdateRepairJobInput;
 }>;
@@ -868,4 +881,4 @@ export type UploadProfilePictureMutationVariables = Exact<{
 }>;
 
 
-export type UploadProfilePictureMutation = { __typename?: 'Mutation', uploadProfilePicture: string };
+export type UploadProfilePictureMutation = { __typename?: 'Mutation', uploadProfilePicture: { __typename?: 'UploadProfilePicturePayload', id: string, avatarUrl: string } };
