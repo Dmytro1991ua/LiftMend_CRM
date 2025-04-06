@@ -1,5 +1,6 @@
 import { ApolloError, FieldPolicy } from '@apollo/client';
 import { SafeReadonly } from '@apollo/client/cache/core/types/common';
+import Cookies from 'js-cookie';
 
 import { ClientErrors, GQLErrorDetail, KeyArgs } from './types';
 
@@ -157,3 +158,19 @@ export const concatPaginationWithEdges = <T extends { edges: unknown[] }>(
     };
   },
 });
+
+export const getSupabaseToken = (): string | undefined => {
+  const rawToken = Cookies.get('sb-qgaqvfqcyjcewjnntzci-auth-token');
+
+  if (!rawToken) return;
+
+  try {
+    // Parse the cookie value as JSON.
+    // Supabase stores the token as a JSON-encoded array (e.g., ["access_token", ...])
+    const tokenArray = JSON.parse(rawToken);
+
+    return Array.isArray(tokenArray) && tokenArray.length > 0 ? tokenArray[0] : rawToken;
+  } catch (error) {
+    return rawToken;
+  }
+};

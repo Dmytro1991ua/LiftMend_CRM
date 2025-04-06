@@ -22,3 +22,5 @@ export const UPLOAD_PROFILE_PICTURE_FAILED_GQL_MESSAGE = 'Fail to uploaded profi
 export const UPLOAD_PROFILE_PICTURE_FAILED_APOLLO_MESSAGE = 'Upload Profile Picture Failed';
 
 export const PROFILE_DROPZONE_TOOLTIP_MESSAGE = 'Change your avatar';
+export const DEFAULT_UPDATE_PROFILE_SUCCESS_MESSAGE = 'Profile updated successfully!';
+export const DEFAULT_UPDATE_PROFILE_FAIL_MESSAGE = 'Failed to update profile';

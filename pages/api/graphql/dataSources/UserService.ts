@@ -3,7 +3,7 @@ import { SupabaseClient } from '@supabase/supabase-js';
 import { GraphQLError } from 'graphql';
 import { isNull as _isNull, omitBy as _omitBy } from 'lodash';
 
-import { AppUser, UserProfileInput } from '@/graphql/types/server/generated_types';
+import { AppUser, UploadProfilePicturePayload, UserProfileInput } from '@/graphql/types/server/generated_types';
 
 import { convertStreamToBuffer } from '../utils';
 
@@ -30,7 +30,7 @@ class UserService {
     this.supabase = supabase;
   }
 
-  async uploadProfilePicture(file: GraphQLUploadFile): Promise<string> {
+  async uploadProfilePicture(file: GraphQLUploadFile): Promise<UploadProfilePicturePayload> {
     const { createReadStream } = await file;
 
     const userId = await this.getAuthenticatedUserId();
@@ -44,7 +44,7 @@ class UserService {
 
     await this.updateUserAvatar(userId ?? '', newImageUrl);
 
-    return newImageUrl;
+    return { id: userId ?? '', avatarUrl: newImageUrl };
   }
 
   async updateUserProfile(input: UserProfileInput): Promise<AppUser> {

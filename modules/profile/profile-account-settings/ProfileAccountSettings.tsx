@@ -1,8 +1,7 @@
-import { ApolloQueryResult } from '@apollo/client';
 import { useDropzone } from 'react-dropzone';
 import { Bars } from 'react-loader-spinner';
 
-import { GetUserQuery, GetUserQueryVariables } from '@/graphql/types/client/generated_types';
+import { GetUserQuery } from '@/graphql/types/client/generated_types';
 import { cn } from '@/lib/utils';
 import UserAvatar from '@/shared/user-avatar';
 
@@ -15,20 +14,13 @@ import ProfileDropzone from './profile-dropzone';
 
 type ProfileAccountSettingsProps = {
   user: GetUserQuery['getUser'] | null;
-  refetch: (variables?: Partial<GetUserQueryVariables>) => Promise<ApolloQueryResult<GetUserQuery>>;
   isLoading: boolean;
   selectedCountry?: string;
   onSelectCountry?: (country: string) => void;
 };
 
-const ProfileAccountSettings = ({
-  user,
-  isLoading,
-  refetch,
-  selectedCountry,
-  onSelectCountry,
-}: ProfileAccountSettingsProps) => {
-  const { loading: uploadFileLoading, previewImage, onImageUpload } = useProfileAvatarState({ refetch });
+const ProfileAccountSettings = ({ user, isLoading, selectedCountry, onSelectCountry }: ProfileAccountSettingsProps) => {
+  const { loading: uploadFileLoading, previewImage, onImageUpload } = useProfileAvatarState();
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: onImageUpload,

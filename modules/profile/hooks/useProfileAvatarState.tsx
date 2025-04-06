@@ -1,11 +1,9 @@
 import { useState } from 'react';
 
-import { ApolloError, ApolloQueryResult, useMutation } from '@apollo/client';
+import { ApolloError, useMutation } from '@apollo/client';
 
 import { UPLOAD_PROFILE_PICTURE } from '@/graphql/schemas';
 import {
-  GetUserQuery,
-  GetUserQueryVariables,
   UploadProfilePictureMutation,
   UploadProfilePictureMutationVariables,
 } from '@/graphql/types/client/generated_types';
@@ -19,23 +17,32 @@ import {
 } from '../constants';
 import { handleImageDrop } from '../utils';
 
-type UseProfileAvatarStateProps = {
-  refetch: (variables?: Partial<GetUserQueryVariables>) => Promise<ApolloQueryResult<GetUserQuery>>;
-};
-
 type UseProfileAvatarState = {
   previewImage: string | null;
   onImageUpload: (files: File[]) => Promise<void>;
   loading: boolean;
 };
 
-export const useProfileAvatarState = ({ refetch }: UseProfileAvatarStateProps): UseProfileAvatarState => {
+export const useProfileAvatarState = (): UseProfileAvatarState => {
   const { onError, onSuccess } = useMutationResultToasts();
 
   const [uploadProfilePicture, { loading }] = useMutation<
     UploadProfilePictureMutation,
     UploadProfilePictureMutationVariables
-  >(UPLOAD_PROFILE_PICTURE);
+  >(UPLOAD_PROFILE_PICTURE, {
+    update(cache, { data }) {
+      if (!data) return;
+
+      const { id, avatarUrl } = data.uploadProfilePicture;
+
+      cache.modify({
+        id: cache.identify({ __typename: 'AppUser', id }),
+        fields: {
+          avatarUrl: () => avatarUrl,
+        },
+      });
+    },
+  });
 
   const [previewImage, setPreviewImage] = useState<string | null>(null);
 
@@ -46,8 +53,6 @@ export const useProfileAvatarState = ({ refetch }: UseProfileAvatarStateProps): 
       if (!file) return;
 
       const result = await uploadProfilePicture({ variables: { file } });
-
-      await refetch();
 
       const hasErrors = !!result.errors?.length;
 
