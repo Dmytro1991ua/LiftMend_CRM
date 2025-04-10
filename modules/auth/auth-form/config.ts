@@ -55,8 +55,8 @@ export const FORM_FIELDS_CONFIG: FormFieldsConfig = {
       name: 'phoneNumber',
       label: FieldLabel.PHONE_NUMBER,
       placeholder: FormFieldPlaceholder.PHONE_NUMBER,
-      className: 'row-start-6 row-end-7 col-start-1 col-end-7 sm:row-start-4 sm:row-end-5',
-      type: 'number',
+      className: 'row-start-6 row-end-7 col-start-1 col-end-7 sm:row-start-4 sm:row-end-5 mb-8',
+      type: 'phone',
     },
   ],
   [AuthFormType.SIGN_IN]: [

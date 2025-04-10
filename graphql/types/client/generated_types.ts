@@ -219,7 +219,8 @@ export type Mutation = {
   updateElevatorRecord: ElevatorRecord;
   updateRepairJob: RepairJob;
   updateTechnicianRecord: TechnicianRecord;
-  uploadProfilePicture: Scalars['String']['output'];
+  updateUserProfile: AppUser;
+  uploadProfilePicture: UploadProfilePicturePayload;
 };
 
 
@@ -292,6 +293,11 @@ export type MutationUpdateRepairJobArgs = {
 
 export type MutationUpdateTechnicianRecordArgs = {
   input: UpdateTechnicianRecordInput;
+};
+
+
+export type MutationUpdateUserProfileArgs = {
+  input: UserProfileInput;
 };
 
 
@@ -641,6 +647,20 @@ export type UpdateTechnicianRecordInput = {
   skills?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
+export type UploadProfilePicturePayload = {
+  __typename?: 'UploadProfilePicturePayload';
+  avatarUrl: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+};
+
+export type UserProfileInput = {
+  firstName?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['ID']['input'];
+  lastName?: InputMaybe<Scalars['String']['input']>;
+  password?: InputMaybe<Scalars['String']['input']>;
+  phone?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type CalendarEventFieldsFragment = { __typename?: 'CalendarEvent', id: string, title: string, start: any, end: any, description: string | null, allDay: boolean, repairJobId: string | null };
 
 export type ElevatorRecordFieldsFragment = { __typename?: 'ElevatorRecord', id: string, elevatorType: string, buildingName: string, elevatorLocation: string, lastMaintenanceDate: any, nextMaintenanceDate: any, capacity: number, status: string, lastKnownStatus: string | null };
@@ -835,6 +855,13 @@ export type UpdateElevatorRecordMutationVariables = Exact<{
 
 export type UpdateElevatorRecordMutation = { __typename?: 'Mutation', updateElevatorRecord: { __typename?: 'ElevatorRecord', id: string, elevatorType: string, buildingName: string, elevatorLocation: string, lastMaintenanceDate: any, nextMaintenanceDate: any, capacity: number, status: string, lastKnownStatus: string | null } };
 
+export type UpdateProfileMutationVariables = Exact<{
+  input: UserProfileInput;
+}>;
+
+
+export type UpdateProfileMutation = { __typename?: 'Mutation', updateUserProfile: { __typename?: 'AppUser', id: string, firstName: string, lastName: string, phone: string | null } };
+
 export type UpdateRepairJobMutationVariables = Exact<{
   input: UpdateRepairJobInput;
 }>;
@@ -854,4 +881,4 @@ export type UploadProfilePictureMutationVariables = Exact<{
 }>;
 
 
-export type UploadProfilePictureMutation = { __typename?: 'Mutation', uploadProfilePicture: string };
+export type UploadProfilePictureMutation = { __typename?: 'Mutation', uploadProfilePicture: { __typename?: 'UploadProfilePicturePayload', id: string, avatarUrl: string } };

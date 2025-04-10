@@ -222,7 +222,8 @@ export type Mutation = {
   updateElevatorRecord: ElevatorRecord;
   updateRepairJob: RepairJob;
   updateTechnicianRecord: TechnicianRecord;
-  uploadProfilePicture: Scalars['String']['output'];
+  updateUserProfile: AppUser;
+  uploadProfilePicture: UploadProfilePicturePayload;
 };
 
 
@@ -295,6 +296,11 @@ export type MutationUpdateRepairJobArgs = {
 
 export type MutationUpdateTechnicianRecordArgs = {
   input: UpdateTechnicianRecordInput;
+};
+
+
+export type MutationUpdateUserProfileArgs = {
+  input: UserProfileInput;
 };
 
 
@@ -640,6 +646,20 @@ export type UpdateTechnicianRecordInput = {
   skills?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
+export type UploadProfilePicturePayload = {
+  __typename?: 'UploadProfilePicturePayload';
+  avatarUrl: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+};
+
+export type UserProfileInput = {
+  firstName?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['ID']['input'];
+  lastName?: InputMaybe<Scalars['String']['input']>;
+  password?: InputMaybe<Scalars['String']['input']>;
+  phone?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type WithIndex<TObject> = TObject & Record<string, any>;
 export type ResolversObject<TObject> = WithIndex<TObject>;
 
@@ -777,6 +797,8 @@ export type ResolversTypes = ResolversObject<{
   UpdateRepairJobInput: UpdateRepairJobInput;
   UpdateTechnicianRecordInput: UpdateTechnicianRecordInput;
   Upload: ResolverTypeWrapper<Scalars['Upload']['output']>;
+  UploadProfilePicturePayload: ResolverTypeWrapper<UploadProfilePicturePayload>;
+  UserProfileInput: UserProfileInput;
   Void: ResolverTypeWrapper<Scalars['Void']['output']>;
 }>;
 
@@ -836,6 +858,8 @@ export type ResolversParentTypes = ResolversObject<{
   UpdateRepairJobInput: UpdateRepairJobInput;
   UpdateTechnicianRecordInput: UpdateTechnicianRecordInput;
   Upload: Scalars['Upload']['output'];
+  UploadProfilePicturePayload: UploadProfilePicturePayload;
+  UserProfileInput: UserProfileInput;
   Void: Scalars['Void']['output'];
 }>;
 
@@ -980,7 +1004,8 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   updateElevatorRecord?: Resolver<ResolversTypes['ElevatorRecord'], ParentType, ContextType, RequireFields<MutationUpdateElevatorRecordArgs, 'input'>>;
   updateRepairJob?: Resolver<ResolversTypes['RepairJob'], ParentType, ContextType, RequireFields<MutationUpdateRepairJobArgs, 'input'>>;
   updateTechnicianRecord?: Resolver<ResolversTypes['TechnicianRecord'], ParentType, ContextType, RequireFields<MutationUpdateTechnicianRecordArgs, 'input'>>;
-  uploadProfilePicture?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationUploadProfilePictureArgs, 'file'>>;
+  updateUserProfile?: Resolver<ResolversTypes['AppUser'], ParentType, ContextType, RequireFields<MutationUpdateUserProfileArgs, 'input'>>;
+  uploadProfilePicture?: Resolver<ResolversTypes['UploadProfilePicturePayload'], ParentType, ContextType, RequireFields<MutationUploadProfilePictureArgs, 'file'>>;
 }>;
 
 export type NodeResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Node'] = ResolversParentTypes['Node']> = ResolversObject<{
@@ -1136,6 +1161,12 @@ export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTyp
   name: 'Upload';
 }
 
+export type UploadProfilePicturePayloadResolvers<ContextType = Context, ParentType extends ResolversParentTypes['UploadProfilePicturePayload'] = ResolversParentTypes['UploadProfilePicturePayload']> = ResolversObject<{
+  avatarUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export interface VoidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Void'], any> {
   name: 'Void';
 }
@@ -1173,6 +1204,7 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   TechnicianRecordFormData?: TechnicianRecordFormDataResolvers<ContextType>;
   TechnicianRecordsMetrics?: TechnicianRecordsMetricsResolvers<ContextType>;
   Upload?: GraphQLScalarType;
+  UploadProfilePicturePayload?: UploadProfilePicturePayloadResolvers<ContextType>;
   Void?: GraphQLScalarType;
 }>;
 

@@ -6,6 +6,7 @@ type UseFormStateProps<T extends FieldValues> = {
   onCloseModal?: () => void;
   initialValues: DefaultValues<T>;
   resolver?: Resolver<T>;
+  shouldFocusError?: boolean;
 };
 
 type UseFormState<T extends FieldValues> = {
@@ -17,12 +18,14 @@ const useFormState = <T extends FieldValues>({
   onCloseModal,
   initialValues,
   resolver,
+  shouldFocusError,
 }: UseFormStateProps<T>): UseFormState<T> => {
   const formState = useForm<T>({
     shouldUnregister: false,
     mode: 'onSubmit',
     defaultValues: initialValues,
     resolver,
+    shouldFocusError,
   });
 
   const { reset, clearErrors } = formState;

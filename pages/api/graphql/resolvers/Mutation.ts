@@ -1,6 +1,7 @@
 import { startCase as _startCase } from 'lodash';
 
 import {
+  AppUser,
   AuthResponse,
   DeleteCalendarAndRepairJobResponse,
   DeleteElevatorRecordResponse,
@@ -9,6 +10,7 @@ import {
   MutationResolvers,
   RepairJob,
   TechnicianRecord,
+  UploadProfilePicturePayload,
 } from '@/graphql/types/server/generated_types';
 
 import {
@@ -227,8 +229,11 @@ const Mutation: MutationResolvers = {
 
     return await dataSources.auth.resetPassword(password);
   },
-  uploadProfilePicture: async (_, { file }, { dataSources }): Promise<string> => {
-    return await dataSources.auth.uploadProfilePicture(file);
+  uploadProfilePicture: async (_, { file }, { dataSources }): Promise<UploadProfilePicturePayload> => {
+    return await dataSources.user.uploadProfilePicture(file);
+  },
+  updateUserProfile: async (_, { input }, { dataSources }): Promise<AppUser> => {
+    return await dataSources.user.updateUserProfile(input);
   },
 };
 

@@ -13,6 +13,16 @@ export const withRouterProvider = (component: JSX.Element, path: AppRoutes) => {
   );
 };
 
+export const withRouterAndApolloProvider = (component: JSX.Element, path: AppRoutes, mocks: MockedResponse[] = []) => {
+  return render(
+    <RouterContext.Provider value={createMockRouter({ pathname: path })}>
+      <MockedProvider addTypename={false} mocks={mocks}>
+        {component}
+      </MockedProvider>
+    </RouterContext.Provider>
+  );
+};
+
 const defaultCache = new InMemoryCache({
   addTypename: false,
 });

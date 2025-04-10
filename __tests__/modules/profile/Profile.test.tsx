@@ -1,18 +1,14 @@
-import { MockedProvider } from '@apollo/client/testing';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 
+import { withRouterAndApolloProvider } from '@/mocks/testMocks';
 import Profile from '@/modules/profile';
-import { SectionHeaderTitle } from '@/types/enums';
+import { AppRoutes, SectionHeaderTitle } from '@/types/enums';
 
 describe('Profile', () => {
   it('should render component without crashing', () => {
-    render(
-      <MockedProvider mocks={[]}>
-        <Profile />
-      </MockedProvider>
-    );
+    withRouterAndApolloProvider(<Profile />, AppRoutes.Profile);
 
     expect(screen.getByText(SectionHeaderTitle.Profile)).toBeInTheDocument();
-    expect(screen.getByText('Profile Page')).toBeInTheDocument();
+    expect(screen.getByText('Profile')).toBeInTheDocument();
   });
 });

@@ -1,26 +1,11 @@
 import { ApolloError, FetchResult, useMutation } from '@apollo/client';
 
-import { onHandleMutationErrors } from '@/graphql';
-import { CREATE_USER } from '@/graphql/schemas/createUser';
 import { FORGOT_PASSWORD } from '@/graphql/schemas/forgotPassword';
-import { LOGIN_USER } from '@/graphql/schemas/loginUser';
 import { RESET_PASSWORD } from '@/graphql/schemas/resetPassword';
 import { SIGN_IN_WITH_OAUTH } from '@/graphql/schemas/signInWithOAuth';
 import { SIGN_OUT_USER } from '@/graphql/schemas/signOutUser';
-import {
-  CreateUserMutation,
-  CreateUserMutationVariables,
-  ForgotPasswordMutation,
-  ForgotPasswordMutationVariables,
-  LoginUserMutation,
-  LoginUserMutationVariables,
-  ResetPasswordMutation,
-  ResetPasswordMutationVariables,
-  SignInWithOAuthMutation,
-  SignOutUserMutationVariables,
-} from '@/graphql/types/client/generated_types';
 
-import { SignOutUserMutation } from '../../../graphql/types/client/generated_types';
+import { onHandleMutationErrors } from '../../../graphql/utils';
 import {
   DEFAULT_FORGOT_PASSWORD_FAIL_MESSAGE,
   DEFAULT_FORGOT_PASSWORD_SUCCESS_MESSAGE,
@@ -35,7 +20,22 @@ import {
 } from '../constants';
 import { AuthHookProps } from '../types';
 
-import { SignInWithOAuthMutationVariables } from './../../../graphql/types/client/generated_types';
+import { CREATE_USER } from './../../../graphql/schemas/createUser';
+import { LOGIN_USER } from './../../../graphql/schemas/loginUser';
+import {
+  CreateUserMutation,
+  CreateUserMutationVariables,
+  ForgotPasswordMutation,
+  ForgotPasswordMutationVariables,
+  LoginUserMutation,
+  LoginUserMutationVariables,
+  ResetPasswordMutation,
+  ResetPasswordMutationVariables,
+  SignInWithOAuthMutation,
+  SignInWithOAuthMutationVariables,
+  SignOutUserMutation,
+  SignOutUserMutationVariables,
+} from './../../../graphql/types/client/generated_types';
 
 type AuthMutations = {
   SIGN_UP: {

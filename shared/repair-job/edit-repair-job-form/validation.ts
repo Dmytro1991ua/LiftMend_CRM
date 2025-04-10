@@ -1,10 +1,9 @@
 import { z } from 'zod';
 
+import { baseJobDescriptionSchema } from '@/shared/validation';
+
 export const repairJobEditFormSchema = z.object({
-  jobDescription: z
-    .string()
-    .min(10, 'Job description must be at least 10 characters long')
-    .max(300, 'Job description cannot exceed 300 characters'),
+  jobDescription: baseJobDescriptionSchema,
   jobType: z.string().optional().nullable(),
   jobPriority: z.string().optional().nullable(),
   scheduledDates: z

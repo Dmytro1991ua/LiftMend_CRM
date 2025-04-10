@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { getNestedError } from '@/modules/repair-job-scheduling/utils';
 import { getCommonFormLabelErrorStyles } from '@/shared/utils';
 
-export type InputType = 'text' | 'password' | 'number' | 'email';
+export type InputType = 'text' | 'password' | 'number' | 'email' | 'phone';
 export interface FormInputProps<T extends FieldValues> extends InputProps {
   name: Path<T>;
   id?: string;

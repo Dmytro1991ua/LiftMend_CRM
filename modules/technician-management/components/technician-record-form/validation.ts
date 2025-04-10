@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { baseContactInfoSchema } from '@/shared/validation';
+
 export const INITIAL_TECHNICIAN_RECORD_FORM_VALUES = {
   basicInformation: {
     fullName: '',
@@ -15,15 +17,7 @@ export const INITIAL_TECHNICIAN_RECORD_FORM_VALUES = {
 
 export const basicInformationSchema = z.object({
   fullName: z.string().min(1, 'Technician full name is required'),
-  contactInformation: z
-    .string({
-      required_error: 'Contact information is required',
-    })
-    .refine((value) => {
-      const phoneRegex = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/;
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return phoneRegex.test(value) || emailRegex.test(value);
-    }, 'Contact information must be a valid phone number or email address'),
+  contactInformation: baseContactInfoSchema,
   availabilityStatus: z.preprocess(() => 'Available', z.literal('Available')),
   employmentStatus: z.preprocess(() => 'Active', z.literal('Active')),
 });
