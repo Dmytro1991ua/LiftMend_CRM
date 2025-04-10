@@ -12,10 +12,18 @@ interface NavigationLinkProps {
   icon: React.JSX.Element;
   label: string;
   className?: string;
+  labelClassName?: string;
   onClose?: () => void;
 }
 
-const NavigationLink = ({ url, icon, label, className, onClose }: NavigationLinkProps): React.JSX.Element => {
+const NavigationLink = ({
+  url,
+  icon,
+  label,
+  className,
+  labelClassName,
+  onClose,
+}: NavigationLinkProps): React.JSX.Element => {
   const router = useRouter();
 
   const isNavigationRouteActive = useMemo(
@@ -27,14 +35,14 @@ const NavigationLink = ({ url, icon, label, className, onClose }: NavigationLink
     <Link passHref href={url}>
       <a
         className={clsx(
-          'relative flex items-center justify-left z-10 p-3 mb-2 group hover:bg-background hover:text-primary transition rounded-3xl',
+          'relative flex items-center z-10 p-3 mb-2 group hover:bg-background hover:text-primary transition rounded-3xl',
           [isNavigationRouteActive ? 'text-primary bg-background' : 'text-link'],
           className
         )}
         data-testid='nav-link'
         onClick={onClose}>
         {icon}
-        <h3 className='navigation-link'>{label}</h3>
+        <h3 className={clsx('navigation-link', labelClassName)}>{label}</h3>
       </a>
     </Link>
   );

@@ -1,23 +1,28 @@
 import React, { memo } from 'react';
 
 import { Skeleton } from '@/components/ui/skeleton';
+import { cn } from '@/lib/utils';
 
 type UserNameProps = {
   firstName?: string;
   lastName?: string;
-  className?: string;
+  skeletonClassName?: string;
+  nameClassName?: string;
   isLoading?: boolean;
+  isExpanded?: boolean;
 };
 
-const UserName = ({ firstName, lastName, className, isLoading }: UserNameProps) => {
+const UserName = ({ firstName, lastName, skeletonClassName, nameClassName, isLoading, isExpanded }: UserNameProps) => {
   if (isLoading) {
-    return <Skeleton className={className} />;
+    return <Skeleton className={skeletonClassName} />;
   }
 
   return (
     <div className='flex text-lg'>
       <h3 className='ml-2'>
-        {firstName} {lastName}
+        <span className={nameClassName}>
+          {firstName} {lastName}
+        </span>
       </h3>
     </div>
   );

@@ -118,7 +118,7 @@ body {
   }
 
   .sidebar {
-    @apply hidden md:flex flex-col w-[30rem] shrink-0 h-screen sticky top-0 overflow-hidden bg-white rounded-[2rem] drop-shadow-lg p-3 py-4;
+    @apply flex flex-col w-[30rem] shrink-0 h-screen sticky top-0 bg-white rounded-[2rem] drop-shadow-lg p-3 py-4;
   }
 
   .header {

@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 
 import Header from '@/modules/header';
 import Sidebar from '@/modules/sidebar/Sidebar';
+import { useMobileNavigation } from '@/shared/hooks/useMobileNavigation';
 import NavigationLoadingWrapper from '@/shared/navigation-loading-wrapper';
 
 type MainLayoutProps = {
@@ -9,13 +10,15 @@ type MainLayoutProps = {
 };
 
 const MainLayout = ({ children }: MainLayoutProps) => {
+  const { isMobileNavOpen, onCloseMobileNav, onOpenMobileNav } = useMobileNavigation();
+
   return (
     <section className='layout'>
-      <Sidebar />
+      <Sidebar isMobileNavOpen={isMobileNavOpen} onCloseMobileNav={onCloseMobileNav} />
       <div className='section-wrapper'>
-        <Header />
+        <Header onBurgerIconClick={onOpenMobileNav} />
         <NavigationLoadingWrapper>
-          <main className='max-w-screen-2xl'>{children}</main>
+          <main>{children}</main>
         </NavigationLoadingWrapper>
       </div>
     </section>
