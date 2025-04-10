@@ -8,7 +8,6 @@ type FormRedirectLinkProps = {
 };
 
 const FormRedirectLink = ({ route, title }: FormRedirectLinkProps) => {
-  console.log(route, title);
   return (
     <Link href={route}>
       <a className='text-sm text-primary hover:text-blue-800 text-center underline cursor-pointer'>{title}</a>

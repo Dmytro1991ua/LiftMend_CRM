@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 
 import { BiLogOut, BiSolidUser } from 'react-icons/bi';
+import { FaBars } from 'react-icons/fa6';
 
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -15,7 +16,11 @@ import { NavigationLinkLabel } from '../sidebar/types';
 
 import { DropdownConfig } from './types';
 
-const Header = () => {
+type HeaderProps = {
+  onBurgerClick: () => void;
+};
+
+const Header = ({ onBurgerClick }: HeaderProps) => {
   const { user, loading: userLoading } = useUser();
 
   const { onSignOut } = useSignOut();
@@ -59,6 +64,9 @@ const Header = () => {
 
   return (
     <header className='header' data-testid='header'>
+      <button className='md:hidden p-2' onClick={onBurgerClick}>
+        <FaBars className='w-6 h-6 text-gray-700' />
+      </button>
       <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
         <DropdownMenuTrigger className='ml-auto'>
           <Button
@@ -73,10 +81,10 @@ const Header = () => {
                 isLoading={userLoading}
               />
               <UserName
-                className='h-6 w-40 rounded-xl'
                 firstName={user?.firstName}
                 isLoading={userLoading}
                 lastName={user?.lastName}
+                skeletonClassName='h-6 w-40 rounded-xl'
               />
             </div>
           </Button>
