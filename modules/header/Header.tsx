@@ -17,10 +17,10 @@ import { NavigationLinkLabel } from '../sidebar/types';
 import { DropdownConfig } from './types';
 
 type HeaderProps = {
-  onBurgerClick: () => void;
+  onBurgerIconClick: () => void;
 };
 
-const Header = ({ onBurgerClick }: HeaderProps) => {
+const Header = ({ onBurgerIconClick }: HeaderProps) => {
   const { user, loading: userLoading } = useUser();
 
   const { onSignOut } = useSignOut();
@@ -64,7 +64,7 @@ const Header = ({ onBurgerClick }: HeaderProps) => {
 
   return (
     <header className='header' data-testid='header'>
-      <button className='md:hidden p-2' onClick={onBurgerClick}>
+      <button className='md:hidden p-2' onClick={onBurgerIconClick}>
         <FaBars className='w-6 h-6 text-gray-700' />
       </button>
       <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>

@@ -16,7 +16,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
     <section className='layout'>
       <Sidebar isMobileNavOpen={isMobileNavOpen} onCloseMobileNav={onCloseMobileNav} />
       <div className='section-wrapper'>
-        <Header onBurgerClick={onOpenMobileNav} />
+        <Header onBurgerIconClick={onOpenMobileNav} />
         <NavigationLoadingWrapper>
           <main>{children}</main>
         </NavigationLoadingWrapper>
