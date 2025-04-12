@@ -1,6 +1,6 @@
 import { ApolloError, useMutation } from '@apollo/client';
 
-import { onHandleMutationErrors } from '@/graphql';
+import { onHandleMutationErrors } from '@/shared/utils';
 import { DELETE_TECHNICIAN_RECORD } from '@/graphql/schemas/deleteTechnicianRecord';
 import {
   DeleteTechnicianRecordMutation,

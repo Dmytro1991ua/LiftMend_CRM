@@ -134,3 +134,71 @@ export const nullableResponse: ApolloError = {
     },
   ] as unknown as GraphQLError[],
 };
+
+export const multipleBodyDetailsError: ApolloError = {
+  ...apolloDefaultError,
+  graphQLErrors: [
+    {
+      ...apolloDefaultError.graphQLErrors[0],
+      extensions: {
+        response: {
+          url: 'https://',
+          status: 426,
+          statusText: 'Unprocessable Entity',
+          body: [
+            {
+              error: {
+                id: '2de83cd2-ef5a-4977-8fae-3b97099e12b0',
+                status: '426 UNPROCESSABLE_ENTITY',
+                name: 'INVALID_VALUE',
+                message: null,
+                details: [{ code: 'test code', issue: 'Some details error here' }],
+              },
+            },
+            {
+              error: {
+                id: '2de83cd2-ef5a-4977-8fae-3b97099e12b0',
+                status: '426 UNPROCESSABLE_ENTITY',
+                name: 'INVALID_VALUE',
+                message: 'Error message!',
+              },
+            },
+          ],
+        },
+      },
+    },
+  ] as unknown as GraphQLError[],
+};
+
+export const updateRepairJobGraphQLErrorMock = {
+  message: 'Prisma: Record to update not found.',
+  locations: [
+    {
+      line: 2,
+      column: 3,
+    },
+  ],
+  path: ['updateRepairJob'],
+  extensions: {
+    code: 'INTERNAL_SERVER_ERROR',
+    response: {
+      url: 'https://',
+      status: 404,
+      statusText: 'Unprocessable Entity',
+      body: {
+        error: {
+          id: '2de83cd2-ef5a-4977-8fae-3b97099e12b0',
+          status: '404 NOT FOUND',
+          name: 'INVALID_VALUE',
+          message:
+            'An operation failed because it depends on one or more records that were required but not found. Record to update not found.',
+          details: null,
+        },
+      },
+    },
+    exception: {
+      stacktrace: [],
+    },
+  },
+  data: null,
+};

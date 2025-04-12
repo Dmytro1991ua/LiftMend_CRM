@@ -7,7 +7,6 @@ import {
   UploadProfilePictureMutation,
   UploadProfilePictureMutationVariables,
 } from '@/graphql/types/client/generated_types';
-import { onHandleMutationErrors } from '@/graphql/utils';
 import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 
 import {
@@ -16,6 +15,7 @@ import {
   UPLOAD_PROFILE_PICTURE_SUCCESS_MESSAGE,
 } from '../constants';
 import { handleImageDrop } from '../utils';
+import { onHandleMutationErrors } from '@/shared/utils';
 
 type UseProfileAvatarState = {
   previewImage: string | null;

@@ -1,6 +1,6 @@
 import { ApolloError, useMutation } from '@apollo/client';
 
-import { onHandleMutationErrors } from '@/graphql';
+import { onHandleMutationErrors } from '@/shared/utils';
 import { CALENDAR_EVENT_FRAGMENT } from '@/graphql/fragments';
 import { UPDATE_REPAIR_JOB } from '@/graphql/schemas/updateRepairJob';
 import {

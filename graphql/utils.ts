@@ -119,37 +119,16 @@ export const getGraphQLErrorExtensionsMessage = (error: ApolloError): string | u
   return result;
 };
 
-export const onHandleMutationErrors = ({
-  message,
-  errors = [],
-  error = {} as ApolloError,
-  onFailure,
-}: {
-  message: string;
-  errors?: ReadonlyArray<GraphQLError>;
-  error?: ApolloError;
-  onFailure?: (errorMessage: string, errorDescription: string) => void;
-}): void => {
-  const gqlErrorMessage = getErrorMessageFromGraphQlErrors(errors);
-  const networkErrorMessage = getGraphQLErrorExtensionsMessage(error) || error.message;
-
-  const errorMessage = gqlErrorMessage || networkErrorMessage;
-
-  if (errorMessage) {
-    onFailure?.(message, errorMessage);
-  }
-};
-
 export const concatPaginationWithEdges = <T extends { edges: unknown[] }>(
   keyArgs: KeyArgs = false
 ): FieldPolicy<T> => ({
   keyArgs,
   merge(existing, incoming, { args }): SafeReadonly<T> & { edges: unknown[] } {
     const offset = args?.paginationOptions?.offset || 0;
-    const mergedEdges = existing?.edges?.slice() || []; // Start with existing edges
+    const mergedEdges = existing && offset ? existing.edges.slice(0) : [];
 
     for (let i = 0; i < incoming.edges.length; ++i) {
-      mergedEdges[offset + i] = incoming.edges[i]; // Append incoming edges
+      mergedEdges[offset + i] = incoming.edges[i];
     }
 
     return {

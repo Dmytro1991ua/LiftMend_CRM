@@ -5,7 +5,7 @@ import {
   UpdateElevatorRecordMutation,
   UpdateElevatorRecordMutationVariables,
 } from '@/graphql/types/client/generated_types';
-import { onHandleMutationErrors } from '@/graphql/utils';
+import { onHandleMutationErrors } from '@/shared/utils';
 
 type UseUpdateElevatorRecordVisibilityProps = {
   onSuccess?: (message: string) => void;

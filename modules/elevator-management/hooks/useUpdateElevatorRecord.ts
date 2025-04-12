@@ -5,9 +5,8 @@ import {
   UpdateElevatorRecordMutation,
   UpdateElevatorRecordMutationVariables,
 } from '@/graphql/types/client/generated_types';
-import { onHandleMutationErrors } from '@/graphql/utils';
 import { ElevatorRecord } from '@/shared/types';
-import { getFieldsToUpdateForMutation } from '@/shared/utils';
+import { getFieldsToUpdateForMutation, onHandleMutationErrors } from '@/shared/utils';
 
 import { ElevatorRecordFormValues } from '../types';
 import { convertFormFieldsToElevatorRecord } from '../utils';
