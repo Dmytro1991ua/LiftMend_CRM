@@ -5,7 +5,6 @@ import { RESET_PASSWORD } from '@/graphql/schemas/resetPassword';
 import { SIGN_IN_WITH_OAUTH } from '@/graphql/schemas/signInWithOAuth';
 import { SIGN_OUT_USER } from '@/graphql/schemas/signOutUser';
 
-import { onHandleMutationErrors } from '../../../graphql/utils';
 import {
   DEFAULT_FORGOT_PASSWORD_FAIL_MESSAGE,
   DEFAULT_FORGOT_PASSWORD_SUCCESS_MESSAGE,
@@ -36,6 +35,7 @@ import {
   SignOutUserMutation,
   SignOutUserMutationVariables,
 } from './../../../graphql/types/client/generated_types';
+import { onHandleMutationErrors } from '@/shared/utils';
 
 type AuthMutations = {
   SIGN_UP: {

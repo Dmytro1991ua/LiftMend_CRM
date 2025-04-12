@@ -2,7 +2,7 @@ import { ApolloError, useMutation } from '@apollo/client';
 
 import { DELETE_REPAIR_JOB_AND_EVENT } from '@/graphql/schemas/deleteRepairJobAndCalendarEvent';
 import { DeleteRepairJobAndEventMutation } from '@/graphql/types/client/generated_types';
-import { onHandleMutationErrors } from '@/graphql/utils';
+import { onHandleMutationErrors } from '../utils';
 
 type UseDeleteRepairJobAndCalendarEventProps = {
   onSuccess?: (message: string) => void;

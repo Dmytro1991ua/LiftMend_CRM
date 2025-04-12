@@ -1,5 +1,8 @@
+import { ApolloError } from '@apollo/client';
+import { GraphQLError } from 'graphql';
 import { isEqual as _isEqual } from 'lodash';
 
+import { getErrorMessageFromGraphQlErrors, getGraphQLErrorExtensionsMessage } from '@/graphql/utils';
 import { ActiveRoute } from '@/types/type';
 
 import { CalendarEventInfo, CalendarEventInfoPayload, ElevatorRecord } from './types';
@@ -85,4 +88,25 @@ export const formatPhoneNumber = (phone?: string | null): string | null => {
   if (!phone) return null;
 
   return phone.startsWith('+') ? phone : `+${phone}`;
+};
+
+export const onHandleMutationErrors = ({
+  message,
+  errors = [],
+  error = {} as ApolloError,
+  onFailure,
+}: {
+  message: string;
+  errors?: ReadonlyArray<GraphQLError>;
+  error?: ApolloError;
+  onFailure?: (errorMessage: string, errorDescription: string) => void;
+}): void => {
+  const gqlErrorMessage = getErrorMessageFromGraphQlErrors(errors);
+  const networkErrorMessage = getGraphQLErrorExtensionsMessage(error) || error.message;
+
+  const errorMessage = gqlErrorMessage || networkErrorMessage;
+
+  if (errorMessage) {
+    onFailure?.(message, errorMessage);
+  }
 };

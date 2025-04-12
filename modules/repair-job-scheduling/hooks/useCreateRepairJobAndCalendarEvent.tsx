@@ -1,7 +1,7 @@
 import { ApolloError, useMutation } from '@apollo/client';
 import { DateSelectArg } from '@fullcalendar/core';
 
-import { onHandleMutationErrors } from '@/graphql';
+import { onHandleMutationErrors } from '@/shared/utils';
 import { CREATE_REPAIR_JOB_AND_CALENDAR_EVENT, GET_CALENDAR_EVENTS } from '@/graphql/schemas';
 import {
   CreateRepairJobAndCalendarEventMutation,

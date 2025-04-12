@@ -6,7 +6,7 @@ import {
   DeleteElevatorRecordMutationVariables,
   ElevatorRecord,
 } from '@/graphql/types/client/generated_types';
-import { onHandleMutationErrors } from '@/graphql/utils';
+import { onHandleMutationErrors } from '@/shared/utils';
 
 type UseDeleteElevatorRecordProps = {
   onSuccess?: (message: string) => void;

@@ -248,7 +248,7 @@ class RepairJobService {
     };
 
     return this.prisma.repairJob.update({
-      where: { id },
+      where: { id: 'id' },
       data: updatedRepairJob,
     });
   }

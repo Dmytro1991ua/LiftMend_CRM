@@ -1,6 +1,6 @@
 import { ApolloError, useMutation } from '@apollo/client';
 
-import { onHandleMutationErrors } from '@/graphql';
+import { onHandleMutationErrors } from '@/shared/utils';
 import { REASSIGN_TECHNICIAN } from '@/graphql/schemas/reassignTechnician';
 import {
   ReassignTechnicianMutation,

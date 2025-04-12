@@ -1,6 +1,6 @@
 import { ApolloError, FetchResult, useMutation } from '@apollo/client';
 
-import { onHandleMutationErrors } from '@/graphql';
+import { onHandleMutationErrors } from '@/shared/utils';
 import { UPDATE_TECHNICIAN_RECORD } from '@/graphql/schemas/updateTechnicianRecord';
 import {
   UpdateTechnicianRecordMutation,

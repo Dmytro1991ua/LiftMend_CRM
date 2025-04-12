@@ -5,9 +5,8 @@ import {
   UpdateTechnicianRecordMutation,
   UpdateTechnicianRecordMutationVariables,
 } from '@/graphql/types/client/generated_types';
-import { onHandleMutationErrors } from '@/graphql/utils';
 import { TechnicianRecord } from '@/shared/types';
-import { getFieldsToUpdateForMutation } from '@/shared/utils';
+import { getFieldsToUpdateForMutation, onHandleMutationErrors } from '@/shared/utils';
 
 import { TechnicianRecordFormValues } from '../types';
 import { convertFormFieldsToTechnicianRecord } from '../utils';
