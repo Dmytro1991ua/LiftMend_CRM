@@ -27,8 +27,6 @@ describe('ModalFooter', () => {
   it('should show a loader spinner when isLoading is true', () => {
     render(<ModalFooter {...defaultProps} isLoading={true} />);
 
-    screen.debug();
-
     expect(screen.getByTestId('button-loader')).toBeInTheDocument();
   });
 

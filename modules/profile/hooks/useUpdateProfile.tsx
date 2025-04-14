@@ -1,12 +1,12 @@
 import { ApolloError, useMutation } from '@apollo/client';
 
-import { onHandleMutationErrors } from '@/graphql';
-import { UPDATE_PROFILE } from '@/graphql/schemas/updateProfile';
-import { UpdateProfileMutation, UpdateProfileMutationVariables } from '@/graphql/types/client/generated_types';
+import { onHandleMutationErrors } from '../../../graphql/utils';
 import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 
 import { DEFAULT_UPDATE_PROFILE_FAIL_MESSAGE, DEFAULT_UPDATE_PROFILE_SUCCESS_MESSAGE } from '../constants';
 import { ProfileContentFormFields } from '../validation';
+import { UpdateProfileMutation, UpdateProfileMutationVariables } from '../../../graphql/types/client/generated_types';
+import { UPDATE_PROFILE } from '../../../graphql/schemas/updateProfile';
 
 type UseUpdateProfileResult = {
   isLoading: boolean;
