@@ -55,7 +55,7 @@ export enum AuthFormHeader {
   RESET_PASSWORD_DESCRIPTION = 'Set a new password to regain access to your account.',
 }
 
-type LinkType = 'link';
+export type LinkType = 'link';
 
 export type FormField = {
   id: number;

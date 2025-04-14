@@ -11,7 +11,7 @@ import { AuthButtonLabel, AuthFormType } from '../types';
 
 import { FORM_FIELDS_CONFIG, FORM_REDIRECTION_LINKS_CONFIG, FORM_TITLES_CONFIG } from './config';
 
-type AuthFormProps = {
+export type AuthFormProps = {
   formType: AuthFormType;
   onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void>;
   buttonLabel: AuthButtonLabel;

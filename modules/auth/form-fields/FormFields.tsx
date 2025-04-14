@@ -6,7 +6,7 @@ import PhoneNumberInput from '@/shared/base-input/phone-number-input';
 import FormRedirectLink from '../form-redirect-link';
 import { FormField } from '../types';
 
-type FormFieldsProps = {
+export type FormFieldsProps = {
   formFields: FormField[];
   selectedCountry?: string;
   onSelectCountry?: (country: string) => void;
@@ -26,7 +26,12 @@ const FormFields = ({ formFields, selectedCountry, onSelectCountry }: FormFields
         if (type === 'phone') {
           return (
             <div key={id} className={className}>
-              <PhoneNumberInput name={name} selectedCountry={selectedCountry} onSelectCountry={onSelectCountry} />
+              <PhoneNumberInput
+                label={label}
+                name={name}
+                selectedCountry={selectedCountry}
+                onSelectCountry={onSelectCountry}
+              />
             </div>
           );
         }
