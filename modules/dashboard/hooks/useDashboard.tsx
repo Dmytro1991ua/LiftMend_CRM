@@ -16,7 +16,7 @@ import { getSanitizeDateRange, validateDateRange } from '../utils';
 
 import { useFetchDashboardMetrics } from './useFetchDashboardMetrics';
 
-type UseDashboard = {
+export type UseDashboard = {
   dashboardMetrics: DashboardMetrics;
   loading: boolean;
   error?: string;

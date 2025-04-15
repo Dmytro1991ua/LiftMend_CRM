@@ -1,9 +1,9 @@
 import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { useAuthMutation } from '@/shared/auth/hooks';
 import { withApolloAndFormProvider } from '@/mocks/testMocks';
 import ResetPasswordForm from '@/modules/auth/reset-password-form/ResetPasswordForm';
+import { useAuthMutation } from '@/shared/auth/hooks';
 
 jest.mock('@/shared/auth/hooks', () => ({
   ...jest.requireActual('@/shared/auth/hooks'),

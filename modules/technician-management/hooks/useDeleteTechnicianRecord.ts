@@ -1,12 +1,12 @@
 import { ApolloError, useMutation } from '@apollo/client';
 
-import { onHandleMutationErrors } from '@/shared/utils';
 import { DELETE_TECHNICIAN_RECORD } from '@/graphql/schemas/deleteTechnicianRecord';
 import {
   DeleteTechnicianRecordMutation,
   DeleteTechnicianRecordMutationVariables,
   TechnicianRecord,
 } from '@/graphql/types/client/generated_types';
+import { onHandleMutationErrors } from '@/shared/utils';
 
 type UseDeleteTechnicianRecordProps = {
   onSuccess?: (message: string) => void;

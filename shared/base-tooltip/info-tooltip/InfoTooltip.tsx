@@ -14,7 +14,7 @@ interface InfoTooltip extends Omit<BaseTooltipProps, 'children'> {
 const InfoTooltip = ({ id, iconColor, iconSize, className, isDisabled, message, ...rest }: InfoTooltip) => {
   return (
     <BaseTooltip {...rest} className={className} disable={isDisabled} id={id} message={message}>
-      <FaCircleInfo className='cursor-pointer' color={iconColor} fontSize={iconSize} />
+      <FaCircleInfo className='cursor-pointer' color={iconColor} data-testid='info-icon' fontSize={iconSize} />
     </BaseTooltip>
   );
 };

@@ -2,10 +2,10 @@ import { ApolloError, useMutation } from '@apollo/client';
 
 import { CREATE_TECHNICIAN_RECORD } from '@/graphql/schemas/createTechnicianRecord';
 import { CreateTechnicianRecordMutation } from '@/graphql/types/client/generated_types';
+import { onHandleMutationErrors } from '@/shared/utils';
 
 import { TechnicianRecordFormFields } from '../components/technician-record-form/validation';
 import { DEFAULT_TECHNICIAN_RECORD_FAIL_MESSAGE, DEFAULT_TECHNICIAN_RECORD_SUCCESS_MESSAGE } from '../constants';
-import { onHandleMutationErrors } from '@/shared/utils';
 
 type UseCreateTechnicianRecordProps = {
   onSuccess?: (message: string) => void;

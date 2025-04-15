@@ -22,6 +22,7 @@ const ElevatorStatusMetrics = ({ className, dashboardMetrics, loading, error }: 
     () => getAdditionalChartConfigFields(dashboardMetrics.elevatorRecordsMetrics?.totalElevatorRecords),
     [dashboardMetrics.elevatorRecordsMetrics?.totalElevatorRecords]
   );
+
   return (
     <ChartMetrics
       additionalChartConfigFields={additionalChartConfigFields}

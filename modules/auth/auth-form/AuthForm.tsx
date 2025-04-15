@@ -34,7 +34,7 @@ const AuthForm = ({
 }: AuthFormProps) => {
   return (
     <Form className='w-[95%] sm:!w-[65rem] md:!w-[75rem] p-8 my-5 mx-5 rounded-2xl bg-white shadow-xl'>
-      <Logo wrapperClassName='border-b-0 mb-1' labelClassName='ml-2' />
+      <Logo labelClassName='ml-2' wrapperClassName='border-b-0 mb-1' />
       <FormHeader formHeaders={FORM_TITLES_CONFIG[formType]} />
       {isLoading ? (
         <div className={isLoading ? 'flex justify-center h-35' : ''}>

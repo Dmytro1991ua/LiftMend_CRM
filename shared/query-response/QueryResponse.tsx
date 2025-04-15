@@ -42,24 +42,6 @@ const QueryResponse = ({
   }
 
   return null;
-
-  // // Show loading component while data is being fetched
-  // if (loading) {
-  //   return <>{loadingComponent}</>;
-  // }
-
-  // // If error component is provided, render it and prevent showing the toast
-  // if (errorComponent) {
-  //   return <>{errorComponent}</>;
-  // }
-
-  // // If there's an error message and no custom error component, show toast
-  // if (errorMessage && !hasShownError.current) {
-  //   baseToast(errorMessage, errorDescription);
-  //   hasShownError.current = true; // Mark the error as shown to prevent multiple toasts
-  // }
-
-  return null; // No loading or error, return null
 };
 
 export default QueryResponse;
