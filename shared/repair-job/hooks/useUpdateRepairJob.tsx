@@ -1,6 +1,5 @@
 import { ApolloError, useMutation } from '@apollo/client';
 
-import { onHandleMutationErrors } from '@/shared/utils';
 import { CALENDAR_EVENT_FRAGMENT } from '@/graphql/fragments';
 import { UPDATE_REPAIR_JOB } from '@/graphql/schemas/updateRepairJob';
 import {
@@ -10,7 +9,7 @@ import {
 } from '@/graphql/types/client/generated_types';
 import { RepairJobFormValues } from '@/shared/repair-job/edit-repair-job-form/types';
 import { RepairJob } from '@/shared/types';
-import { getCalendarEventInfo, getFieldsToUpdateForMutation } from '@/shared/utils';
+import { getCalendarEventInfo, getFieldsToUpdateForMutation, onHandleMutationErrors } from '@/shared/utils';
 
 import { STATUS_CHANGE_MESSAGES } from '../config';
 import { convertFormFieldsToRepairJob } from '../repair-job-details/utils';

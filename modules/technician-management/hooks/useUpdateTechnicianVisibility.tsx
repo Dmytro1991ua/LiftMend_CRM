@@ -1,11 +1,11 @@
 import { ApolloError, FetchResult, useMutation } from '@apollo/client';
 
-import { onHandleMutationErrors } from '@/shared/utils';
 import { UPDATE_TECHNICIAN_RECORD } from '@/graphql/schemas/updateTechnicianRecord';
 import {
   UpdateTechnicianRecordMutation,
   UpdateTechnicianRecordMutationVariables,
 } from '@/graphql/types/client/generated_types';
+import { onHandleMutationErrors } from '@/shared/utils';
 
 type UseUpdateTechnicianVisibilityProps = {
   onSuccess?: (message: string) => void;

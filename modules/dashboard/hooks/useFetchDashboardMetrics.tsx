@@ -16,7 +16,7 @@ type UseFetchDashboardMetricsProps = {
   dateRange: DashboardDateFilter;
 };
 
-type UseFetchDashboardMetrics = {
+export type UseFetchDashboardMetrics = {
   dashboardMetrics: DashboardMetrics;
   loading: boolean;
   error?: string;

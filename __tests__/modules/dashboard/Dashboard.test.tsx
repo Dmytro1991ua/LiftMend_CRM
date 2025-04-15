@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
-import { MockProviderHook } from '@/mocks/testMocks';
+import { withApolloProvider } from '@/mocks/testMocks';
 import Dashboard from '@/modules/dashboard';
 import { SectionHeaderTitle } from '@/types/enums';
 
@@ -9,14 +9,10 @@ jest.mock('short-uuid', () => ({
 }));
 
 describe('Dashboard', () => {
-  const DashboardComponent = () => (
-    <MockProviderHook mocks={[]}>
-      <Dashboard />
-    </MockProviderHook>
-  );
+  const DashboardComponent = () => withApolloProvider(<Dashboard />);
 
   it('should render component without crashing', () => {
-    render(<DashboardComponent />);
+    render(DashboardComponent());
     expect(screen.getByText(SectionHeaderTitle.Dashboard)).toBeInTheDocument();
     expect(screen.getByTestId('key-app-metrics')).toBeInTheDocument();
   });

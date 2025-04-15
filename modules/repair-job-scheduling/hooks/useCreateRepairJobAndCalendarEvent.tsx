@@ -1,13 +1,12 @@
 import { ApolloError, useMutation } from '@apollo/client';
 import { DateSelectArg } from '@fullcalendar/core';
 
-import { onHandleMutationErrors } from '@/shared/utils';
 import { CREATE_REPAIR_JOB_AND_CALENDAR_EVENT, GET_CALENDAR_EVENTS } from '@/graphql/schemas';
 import {
   CreateRepairJobAndCalendarEventMutation,
   GetCalendarEventsQuery,
 } from '@/graphql/types/client/generated_types';
-import { getCalendarEventInfo } from '@/shared/utils';
+import { getCalendarEventInfo, onHandleMutationErrors } from '@/shared/utils';
 
 import { RepairJobFromFields } from '../components/repair-job-tracking-from/validation';
 import { DEFAULT_SCHEDULE_REPAIR_JOB_FAIL_MESSAGE, DEFAULT_SCHEDULE_REPAIR_JOB_SUCCESS_MESSAGE } from '../constants';

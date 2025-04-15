@@ -1,7 +1,6 @@
 import React, { memo } from 'react';
 
 import { Skeleton } from '@/components/ui/skeleton';
-import { cn } from '@/lib/utils';
 
 type UserNameProps = {
   firstName?: string;
@@ -12,7 +11,7 @@ type UserNameProps = {
   isExpanded?: boolean;
 };
 
-const UserName = ({ firstName, lastName, skeletonClassName, nameClassName, isLoading, isExpanded }: UserNameProps) => {
+const UserName = ({ firstName, lastName, skeletonClassName, nameClassName, isLoading }: UserNameProps) => {
   if (isLoading) {
     return <Skeleton className={skeletonClassName} />;
   }

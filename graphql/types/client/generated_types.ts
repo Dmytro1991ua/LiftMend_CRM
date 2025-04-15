@@ -7,14 +7,14 @@ export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> =
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
-  DateTime: { input: any; output: any; }
-  Upload: { input: any; output: any; }
-  Void: { input: any; output: any; }
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
+  DateTime: { input: any; output: any };
+  Upload: { input: any; output: any };
+  Void: { input: any; output: any };
 };
 
 export type AppUser = {
@@ -172,10 +172,10 @@ export const ElevatorRecordSortField = {
   ElevatorType: 'ELEVATOR_TYPE',
   LastMaintenanceDate: 'LAST_MAINTENANCE_DATE',
   NextMaintenanceDate: 'NEXT_MAINTENANCE_DATE',
-  Status: 'STATUS'
+  Status: 'STATUS',
 } as const;
 
-export type ElevatorRecordSortField = typeof ElevatorRecordSortField[keyof typeof ElevatorRecordSortField];
+export type ElevatorRecordSortField = (typeof ElevatorRecordSortField)[keyof typeof ElevatorRecordSortField];
 export type ElevatorRecordSortInput = {
   field?: InputMaybe<ElevatorRecordSortField>;
   order?: InputMaybe<OrderOption>;
@@ -223,83 +223,67 @@ export type Mutation = {
   uploadProfilePicture: UploadProfilePicturePayload;
 };
 
-
 export type MutationCreateRepairJobAndEventArgs = {
   calendarEventInput: CreateCalendarEventInput;
   repairJobInput: CreateRepairJobInput;
 };
 
-
 export type MutationCreateTechnicianRecordArgs = {
   input: CreateTechnicianRecordInput;
 };
 
-
 export type MutationDeleteElevatorRecordArgs = {
   id: Scalars['ID']['input'];
 };
-
 
 export type MutationDeleteRepairJobAndEventArgs = {
   calendarEventId: Scalars['ID']['input'];
   repairJobId: Scalars['ID']['input'];
 };
 
-
 export type MutationDeleteTechnicianRecordArgs = {
   id: Scalars['ID']['input'];
 };
-
 
 export type MutationForgotPasswordArgs = {
   input: ForgotPasswordInput;
 };
 
-
 export type MutationReassignTechnicianArgs = {
   input: UpdateRepairJobInput;
 };
-
 
 export type MutationResetPasswordArgs = {
   input: ResetPasswordInput;
 };
 
-
 export type MutationSignInArgs = {
   input: SignInUserInput;
 };
-
 
 export type MutationSignInWithOAuthArgs = {
   input: SignInWithOAuthInput;
 };
 
-
 export type MutationSignUpArgs = {
   input: CreateUserInput;
 };
-
 
 export type MutationUpdateElevatorRecordArgs = {
   input: UpdateElevatorRecordInput;
 };
 
-
 export type MutationUpdateRepairJobArgs = {
   input: UpdateRepairJobInput;
 };
-
 
 export type MutationUpdateTechnicianRecordArgs = {
   input: UpdateTechnicianRecordInput;
 };
 
-
 export type MutationUpdateUserProfileArgs = {
   input: UserProfileInput;
 };
-
 
 export type MutationUploadProfilePictureArgs = {
   file: Scalars['Upload']['input'];
@@ -331,16 +315,16 @@ export const OAuthProvider = {
   Twitch: 'TWITCH',
   Twitter: 'TWITTER',
   Workos: 'WORKOS',
-  Zoom: 'ZOOM'
+  Zoom: 'ZOOM',
 } as const;
 
-export type OAuthProvider = typeof OAuthProvider[keyof typeof OAuthProvider];
+export type OAuthProvider = (typeof OAuthProvider)[keyof typeof OAuthProvider];
 export const OrderOption = {
   Asc: 'ASC',
-  Desc: 'DESC'
+  Desc: 'DESC',
 } as const;
 
-export type OrderOption = typeof OrderOption[keyof typeof OrderOption];
+export type OrderOption = (typeof OrderOption)[keyof typeof OrderOption];
 export type PageInfo = {
   __typename?: 'PageInfo';
   endCursor: Maybe<Scalars['String']['output']>;
@@ -372,22 +356,18 @@ export type Query = {
   getUser: AppUser;
 };
 
-
 export type QueryGetDashboardMetricsArgs = {
   endDate: Scalars['String']['input'];
   startDate: Scalars['String']['input'];
 };
 
-
 export type QueryGetElevatorDetailsByBuildingNameArgs = {
   buildingName: Scalars['String']['input'];
 };
 
-
 export type QueryGetElevatorRecordByIdArgs = {
   id: Scalars['ID']['input'];
 };
-
 
 export type QueryGetElevatorRecordsArgs = {
   filterOptions?: InputMaybe<ElevatorRecordFilterOptions>;
@@ -395,11 +375,9 @@ export type QueryGetElevatorRecordsArgs = {
   sortOptions?: InputMaybe<ElevatorRecordSortInput>;
 };
 
-
 export type QueryGetRepairJobByIdArgs = {
   id: Scalars['ID']['input'];
 };
-
 
 export type QueryGetRepairJobsArgs = {
   filterOptions?: InputMaybe<RepairJobFilterOptions>;
@@ -407,18 +385,15 @@ export type QueryGetRepairJobsArgs = {
   sortOptions?: InputMaybe<RepairJobSortInput>;
 };
 
-
 export type QueryGetTechnicianRecordByIdArgs = {
   id: Scalars['ID']['input'];
 };
-
 
 export type QueryGetTechnicianRecordsArgs = {
   filterOptions?: InputMaybe<TechnicianRecordFilterOptions>;
   paginationOptions?: InputMaybe<PaginationOptions>;
   sortOptions?: InputMaybe<TechnicianRecordSortInput>;
 };
-
 
 export type QueryGetUserArgs = {
   id: Scalars['ID']['input'];
@@ -492,10 +467,10 @@ export const RepairJobSortField = {
   JobType: 'JOB_TYPE',
   StartDate: 'START_DATE',
   Status: 'STATUS',
-  TechnicianName: 'TECHNICIAN_NAME'
+  TechnicianName: 'TECHNICIAN_NAME',
 } as const;
 
-export type RepairJobSortField = typeof RepairJobSortField[keyof typeof RepairJobSortField];
+export type RepairJobSortField = (typeof RepairJobSortField)[keyof typeof RepairJobSortField];
 export type RepairJobSortInput = {
   field?: InputMaybe<RepairJobSortField>;
   order?: InputMaybe<OrderOption>;
@@ -590,10 +565,10 @@ export type TechnicianRecordFormData = {
 export const TechnicianRecordSortField = {
   AvailabilityStatus: 'AVAILABILITY_STATUS',
   EmploymentStatus: 'EMPLOYMENT_STATUS',
-  Name: 'NAME'
+  Name: 'NAME',
 } as const;
 
-export type TechnicianRecordSortField = typeof TechnicianRecordSortField[keyof typeof TechnicianRecordSortField];
+export type TechnicianRecordSortField = (typeof TechnicianRecordSortField)[keyof typeof TechnicianRecordSortField];
 export type TechnicianRecordSortInput = {
   field?: InputMaybe<TechnicianRecordSortField>;
   order?: InputMaybe<OrderOption>;
@@ -661,101 +636,290 @@ export type UserProfileInput = {
   phone?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type CalendarEventFieldsFragment = { __typename?: 'CalendarEvent', id: string, title: string, start: any, end: any, description: string | null, allDay: boolean, repairJobId: string | null };
+export type CalendarEventFieldsFragment = {
+  __typename?: 'CalendarEvent';
+  id: string;
+  title: string;
+  start: any;
+  end: any;
+  description: string | null;
+  allDay: boolean;
+  repairJobId: string | null;
+};
 
-export type ElevatorRecordFieldsFragment = { __typename?: 'ElevatorRecord', id: string, elevatorType: string, buildingName: string, elevatorLocation: string, lastMaintenanceDate: any, nextMaintenanceDate: any, capacity: number, status: string, lastKnownStatus: string | null };
+export type ElevatorRecordFieldsFragment = {
+  __typename?: 'ElevatorRecord';
+  id: string;
+  elevatorType: string;
+  buildingName: string;
+  elevatorLocation: string;
+  lastMaintenanceDate: any;
+  nextMaintenanceDate: any;
+  capacity: number;
+  status: string;
+  lastKnownStatus: string | null;
+};
 
-export type RepairJobFieldsFragment = { __typename?: 'RepairJob', id: string, jobType: string, jobDetails: string, jobPriority: string, elevatorType: string, buildingName: string, elevatorLocation: string, technicianName: string, startDate: any, endDate: any, calendarEventId: string | null, actualEndDate: any | null, isOverdue: boolean | null };
+export type RepairJobFieldsFragment = {
+  __typename?: 'RepairJob';
+  id: string;
+  jobType: string;
+  jobDetails: string;
+  jobPriority: string;
+  elevatorType: string;
+  buildingName: string;
+  elevatorLocation: string;
+  technicianName: string;
+  startDate: any;
+  endDate: any;
+  calendarEventId: string | null;
+  actualEndDate: any | null;
+  isOverdue: boolean | null;
+};
 
-export type TechnicianRecordFieldsFragment = { __typename?: 'TechnicianRecord', id: string, name: string, contactInformation: string, skills: Array<string>, certifications: Array<string>, availabilityStatus: string | null, employmentStatus: string | null, lastKnownAvailabilityStatus: string | null };
+export type TechnicianRecordFieldsFragment = {
+  __typename?: 'TechnicianRecord';
+  id: string;
+  name: string;
+  contactInformation: string;
+  skills: Array<string>;
+  certifications: Array<string>;
+  availabilityStatus: string | null;
+  employmentStatus: string | null;
+  lastKnownAvailabilityStatus: string | null;
+};
 
 export type CreateRepairJobAndCalendarEventMutationVariables = Exact<{
   repairJobInput: CreateRepairJobInput;
   calendarEventInput: CreateCalendarEventInput;
 }>;
 
-
-export type CreateRepairJobAndCalendarEventMutation = { __typename?: 'Mutation', createRepairJobAndEvent: { __typename?: 'ScheduledEventAndRepairJobResponse', repairJob: { __typename?: 'RepairJob', id: string, jobType: string, jobDetails: string, jobPriority: string, elevatorType: string, buildingName: string, elevatorLocation: string, technicianName: string, startDate: any, endDate: any, calendarEventId: string | null, actualEndDate: any | null, isOverdue: boolean | null }, calendarEvent: { __typename?: 'CalendarEvent', id: string, title: string, start: any, end: any, description: string | null, allDay: boolean, repairJobId: string | null } } };
+export type CreateRepairJobAndCalendarEventMutation = {
+  __typename?: 'Mutation';
+  createRepairJobAndEvent: {
+    __typename?: 'ScheduledEventAndRepairJobResponse';
+    repairJob: {
+      __typename?: 'RepairJob';
+      id: string;
+      jobType: string;
+      jobDetails: string;
+      jobPriority: string;
+      elevatorType: string;
+      buildingName: string;
+      elevatorLocation: string;
+      technicianName: string;
+      startDate: any;
+      endDate: any;
+      calendarEventId: string | null;
+      actualEndDate: any | null;
+      isOverdue: boolean | null;
+    };
+    calendarEvent: {
+      __typename?: 'CalendarEvent';
+      id: string;
+      title: string;
+      start: any;
+      end: any;
+      description: string | null;
+      allDay: boolean;
+      repairJobId: string | null;
+    };
+  };
+};
 
 export type CreateTechnicianRecordMutationVariables = Exact<{
   input: CreateTechnicianRecordInput;
 }>;
 
-
-export type CreateTechnicianRecordMutation = { __typename?: 'Mutation', createTechnicianRecord: { __typename?: 'TechnicianRecord', id: string, name: string, contactInformation: string, skills: Array<string>, certifications: Array<string>, availabilityStatus: string | null, employmentStatus: string | null, lastKnownAvailabilityStatus: string | null } };
+export type CreateTechnicianRecordMutation = {
+  __typename?: 'Mutation';
+  createTechnicianRecord: {
+    __typename?: 'TechnicianRecord';
+    id: string;
+    name: string;
+    contactInformation: string;
+    skills: Array<string>;
+    certifications: Array<string>;
+    availabilityStatus: string | null;
+    employmentStatus: string | null;
+    lastKnownAvailabilityStatus: string | null;
+  };
+};
 
 export type CreateUserMutationVariables = Exact<{
   input: CreateUserInput;
 }>;
 
-
-export type CreateUserMutation = { __typename?: 'Mutation', signUp: { __typename?: 'AuthResponse', id: string } };
+export type CreateUserMutation = { __typename?: 'Mutation'; signUp: { __typename?: 'AuthResponse'; id: string } };
 
 export type DeleteElevatorRecordMutationVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
-
-export type DeleteElevatorRecordMutation = { __typename?: 'Mutation', deleteElevatorRecord: { __typename?: 'DeleteElevatorRecordResponse', id: string } };
+export type DeleteElevatorRecordMutation = {
+  __typename?: 'Mutation';
+  deleteElevatorRecord: { __typename?: 'DeleteElevatorRecordResponse'; id: string };
+};
 
 export type DeleteRepairJobAndEventMutationVariables = Exact<{
   calendarEventId: Scalars['ID']['input'];
   repairJobId: Scalars['ID']['input'];
 }>;
 
-
-export type DeleteRepairJobAndEventMutation = { __typename?: 'Mutation', deleteRepairJobAndEvent: { __typename?: 'DeleteCalendarAndRepairJobResponse', deletedEventId: string | null, deletedRepairJobId: string | null } };
+export type DeleteRepairJobAndEventMutation = {
+  __typename?: 'Mutation';
+  deleteRepairJobAndEvent: {
+    __typename?: 'DeleteCalendarAndRepairJobResponse';
+    deletedEventId: string | null;
+    deletedRepairJobId: string | null;
+  };
+};
 
 export type DeleteTechnicianRecordMutationVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
-
-export type DeleteTechnicianRecordMutation = { __typename?: 'Mutation', deleteTechnicianRecord: { __typename?: 'DeleteTechnicianRecordResponse', id: string } };
+export type DeleteTechnicianRecordMutation = {
+  __typename?: 'Mutation';
+  deleteTechnicianRecord: { __typename?: 'DeleteTechnicianRecordResponse'; id: string };
+};
 
 export type ForgotPasswordMutationVariables = Exact<{
   input: ForgotPasswordInput;
 }>;
 
+export type ForgotPasswordMutation = { __typename?: 'Mutation'; forgotPassword: boolean };
 
-export type ForgotPasswordMutation = { __typename?: 'Mutation', forgotPassword: boolean };
+export type GetAvailableTechniciansForAssignmentQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetAvailableTechniciansForAssignmentQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetAvailableTechniciansForAssignmentQuery = {
+  __typename?: 'Query';
+  getAvailableTechniciansForAssignment: Array<{ __typename?: 'TechnicianRecord'; id: string; name: string }>;
+};
 
+export type GetCalendarEventsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetAvailableTechniciansForAssignmentQuery = { __typename?: 'Query', getAvailableTechniciansForAssignment: Array<{ __typename?: 'TechnicianRecord', id: string, name: string }> };
-
-export type GetCalendarEventsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetCalendarEventsQuery = { __typename?: 'Query', getCalendarEvents: Array<{ __typename?: 'CalendarEvent', allDay: boolean, end: any, id: string, start: any, title: string, description: string | null, repairJobId: string | null }> };
+export type GetCalendarEventsQuery = {
+  __typename?: 'Query';
+  getCalendarEvents: Array<{
+    __typename?: 'CalendarEvent';
+    allDay: boolean;
+    end: any;
+    id: string;
+    start: any;
+    title: string;
+    description: string | null;
+    repairJobId: string | null;
+  }>;
+};
 
 export type GetDashboardMetricsQueryVariables = Exact<{
   startDate: Scalars['String']['input'];
   endDate: Scalars['String']['input'];
 }>;
 
-
-export type GetDashboardMetricsQuery = { __typename?: 'Query', getDashboardMetrics: { __typename?: 'DashboardMetrics', repairJobsMetrics: { __typename?: 'RepairJobsMetrics', totalRepairJobs: number, overdueRepairJobs: number, ongoingRepairJobs: number, completedRepairJobsToday: number, scheduledRepairJobs: number, inProgressRepairJobs: number, cancelledRepairJobs: number, onHoldRepairJobs: number, completedRepairJobs: number, lowPriorityRepairJobs: number, mediumPriorityRepairJobs: number, highPriorityRepairJobs: number, repairJobs: number, mentainanceJobs: number, installationJobs: number, inspectionJobs: number, upgradeJobs: number, emergencyJobs: number, routineJobs: number, consultationJobs: number, modernizationJobs: number, complianceJobs: number }, elevatorRecordsMetrics: { __typename?: 'ElevatorRecordsMetrics', totalElevatorRecords: number, operationalElevators: number, underMaintenanceElevators: number, outOfServiceElevators: number, pausedElevators: number, passengerElevators: number, freightElevators: number, serviceElevators: number, homeElevators: number, luxuryHighSpeedElevators: number, vehicleParkingElevators: number, specialtyElevators: number }, technicianRecordsMetrics: { __typename?: 'TechnicianRecordsMetrics', totalTechnicianRecords: number, availableTechnicians: number, busyTechnicians: number, onLeaveTechnicians: number, inactiveTechnicians: number, unavailableTechnicians: number, reservedTechnicians: number } } };
+export type GetDashboardMetricsQuery = {
+  __typename?: 'Query';
+  getDashboardMetrics: {
+    __typename?: 'DashboardMetrics';
+    repairJobsMetrics: {
+      __typename?: 'RepairJobsMetrics';
+      totalRepairJobs: number;
+      overdueRepairJobs: number;
+      ongoingRepairJobs: number;
+      completedRepairJobsToday: number;
+      scheduledRepairJobs: number;
+      inProgressRepairJobs: number;
+      cancelledRepairJobs: number;
+      onHoldRepairJobs: number;
+      completedRepairJobs: number;
+      lowPriorityRepairJobs: number;
+      mediumPriorityRepairJobs: number;
+      highPriorityRepairJobs: number;
+      repairJobs: number;
+      mentainanceJobs: number;
+      installationJobs: number;
+      inspectionJobs: number;
+      upgradeJobs: number;
+      emergencyJobs: number;
+      routineJobs: number;
+      consultationJobs: number;
+      modernizationJobs: number;
+      complianceJobs: number;
+    };
+    elevatorRecordsMetrics: {
+      __typename?: 'ElevatorRecordsMetrics';
+      totalElevatorRecords: number;
+      operationalElevators: number;
+      underMaintenanceElevators: number;
+      outOfServiceElevators: number;
+      pausedElevators: number;
+      passengerElevators: number;
+      freightElevators: number;
+      serviceElevators: number;
+      homeElevators: number;
+      luxuryHighSpeedElevators: number;
+      vehicleParkingElevators: number;
+      specialtyElevators: number;
+    };
+    technicianRecordsMetrics: {
+      __typename?: 'TechnicianRecordsMetrics';
+      totalTechnicianRecords: number;
+      availableTechnicians: number;
+      busyTechnicians: number;
+      onLeaveTechnicians: number;
+      inactiveTechnicians: number;
+      unavailableTechnicians: number;
+      reservedTechnicians: number;
+    };
+  };
+};
 
 export type GetElevatorDetailsByBuildingNameQueryVariables = Exact<{
   buildingName: Scalars['String']['input'];
 }>;
 
-
-export type GetElevatorDetailsByBuildingNameQuery = { __typename?: 'Query', getElevatorDetailsByBuildingName: { __typename?: 'ElevatorDetails', elevatorTypes: Array<string>, elevatorLocations: Array<string> } };
+export type GetElevatorDetailsByBuildingNameQuery = {
+  __typename?: 'Query';
+  getElevatorDetailsByBuildingName: {
+    __typename?: 'ElevatorDetails';
+    elevatorTypes: Array<string>;
+    elevatorLocations: Array<string>;
+  };
+};
 
 export type GetElevatorRecordByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
+export type GetElevatorRecordByIdQuery = {
+  __typename?: 'Query';
+  getElevatorRecordById: {
+    __typename?: 'ElevatorRecord';
+    id: string;
+    elevatorType: string;
+    buildingName: string;
+    elevatorLocation: string;
+    lastMaintenanceDate: any;
+    nextMaintenanceDate: any;
+    capacity: number;
+    status: string;
+    lastKnownStatus: string | null;
+  };
+};
 
-export type GetElevatorRecordByIdQuery = { __typename?: 'Query', getElevatorRecordById: { __typename?: 'ElevatorRecord', id: string, elevatorType: string, buildingName: string, elevatorLocation: string, lastMaintenanceDate: any, nextMaintenanceDate: any, capacity: number, status: string, lastKnownStatus: string | null } };
+export type GetElevatorRecordFormDataQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetElevatorRecordFormDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetElevatorRecordFormDataQuery = { __typename?: 'Query', getElevatorRecordFormData: { __typename?: 'ElevatorRecordFormData', elevatorTypes: Array<string>, buildingNames: Array<string>, elevatorLocations: Array<string>, elevatorStatuses: Array<string> | null } };
+export type GetElevatorRecordFormDataQuery = {
+  __typename?: 'Query';
+  getElevatorRecordFormData: {
+    __typename?: 'ElevatorRecordFormData';
+    elevatorTypes: Array<string>;
+    buildingNames: Array<string>;
+    elevatorLocations: Array<string>;
+    elevatorStatuses: Array<string> | null;
+  };
+};
 
 export type GetElevatorRecordsQueryVariables = Exact<{
   paginationOptions?: InputMaybe<PaginationOptions>;
@@ -763,20 +927,78 @@ export type GetElevatorRecordsQueryVariables = Exact<{
   sortOptions?: InputMaybe<ElevatorRecordSortInput>;
 }>;
 
-
-export type GetElevatorRecordsQuery = { __typename?: 'Query', getElevatorRecords: { __typename?: 'ElevatorRecordConnection', total: number, edges: Array<{ __typename?: 'ElevatorRecordEdge', cursor: string, node: { __typename?: 'ElevatorRecord', id: string, elevatorType: string, buildingName: string, elevatorLocation: string, lastMaintenanceDate: any, nextMaintenanceDate: any, capacity: number, status: string, lastKnownStatus: string | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor: string | null, endCursor: string | null } } };
+export type GetElevatorRecordsQuery = {
+  __typename?: 'Query';
+  getElevatorRecords: {
+    __typename?: 'ElevatorRecordConnection';
+    total: number;
+    edges: Array<{
+      __typename?: 'ElevatorRecordEdge';
+      cursor: string;
+      node: {
+        __typename?: 'ElevatorRecord';
+        id: string;
+        elevatorType: string;
+        buildingName: string;
+        elevatorLocation: string;
+        lastMaintenanceDate: any;
+        nextMaintenanceDate: any;
+        capacity: number;
+        status: string;
+        lastKnownStatus: string | null;
+      };
+    }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor: string | null;
+      endCursor: string | null;
+    };
+  };
+};
 
 export type GetRepairJobByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
+export type GetRepairJobByIdQuery = {
+  __typename?: 'Query';
+  getRepairJobById: {
+    __typename?: 'RepairJob';
+    status: string;
+    id: string;
+    jobType: string;
+    jobDetails: string;
+    jobPriority: string;
+    elevatorType: string;
+    buildingName: string;
+    elevatorLocation: string;
+    technicianName: string;
+    startDate: any;
+    endDate: any;
+    calendarEventId: string | null;
+    actualEndDate: any | null;
+    isOverdue: boolean | null;
+  };
+};
 
-export type GetRepairJobByIdQuery = { __typename?: 'Query', getRepairJobById: { __typename?: 'RepairJob', status: string, id: string, jobType: string, jobDetails: string, jobPriority: string, elevatorType: string, buildingName: string, elevatorLocation: string, technicianName: string, startDate: any, endDate: any, calendarEventId: string | null, actualEndDate: any | null, isOverdue: boolean | null } };
+export type GetRepairJobFromDataQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetRepairJobFromDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetRepairJobFromDataQuery = { __typename?: 'Query', getRepairJobScheduleData: { __typename?: 'RepairJobScheduleData', repairJobTypes: Array<string>, elevatorTypes: Array<string>, buildingNames: Array<string>, elevatorLocations: Array<string>, technicianNames: Array<string>, technicianSkills: Array<string>, priorities: Array<string>, statuses: Array<string> | null } };
+export type GetRepairJobFromDataQuery = {
+  __typename?: 'Query';
+  getRepairJobScheduleData: {
+    __typename?: 'RepairJobScheduleData';
+    repairJobTypes: Array<string>;
+    elevatorTypes: Array<string>;
+    buildingNames: Array<string>;
+    elevatorLocations: Array<string>;
+    technicianNames: Array<string>;
+    technicianSkills: Array<string>;
+    priorities: Array<string>;
+    statuses: Array<string> | null;
+  };
+};
 
 export type GetRepairJobsQueryVariables = Exact<{
   paginationOptions?: InputMaybe<PaginationOptions>;
@@ -784,20 +1006,73 @@ export type GetRepairJobsQueryVariables = Exact<{
   filterOptions?: InputMaybe<RepairJobFilterOptions>;
 }>;
 
-
-export type GetRepairJobsQuery = { __typename?: 'Query', getRepairJobs: { __typename?: 'RepairJobConnection', total: number, edges: Array<{ __typename?: 'RepairJobEdge', cursor: string, node: { __typename?: 'RepairJob', status: string, id: string, jobType: string, jobDetails: string, jobPriority: string, elevatorType: string, buildingName: string, elevatorLocation: string, technicianName: string, startDate: any, endDate: any, calendarEventId: string | null, actualEndDate: any | null, isOverdue: boolean | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor: string | null, endCursor: string | null } } };
+export type GetRepairJobsQuery = {
+  __typename?: 'Query';
+  getRepairJobs: {
+    __typename?: 'RepairJobConnection';
+    total: number;
+    edges: Array<{
+      __typename?: 'RepairJobEdge';
+      cursor: string;
+      node: {
+        __typename?: 'RepairJob';
+        status: string;
+        id: string;
+        jobType: string;
+        jobDetails: string;
+        jobPriority: string;
+        elevatorType: string;
+        buildingName: string;
+        elevatorLocation: string;
+        technicianName: string;
+        startDate: any;
+        endDate: any;
+        calendarEventId: string | null;
+        actualEndDate: any | null;
+        isOverdue: boolean | null;
+      };
+    }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor: string | null;
+      endCursor: string | null;
+    };
+  };
+};
 
 export type GetTechnicianRecordByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
+export type GetTechnicianRecordByIdQuery = {
+  __typename?: 'Query';
+  getTechnicianRecordById: {
+    __typename?: 'TechnicianRecord';
+    id: string;
+    name: string;
+    contactInformation: string;
+    skills: Array<string>;
+    certifications: Array<string>;
+    availabilityStatus: string | null;
+    employmentStatus: string | null;
+    lastKnownAvailabilityStatus: string | null;
+  };
+};
 
-export type GetTechnicianRecordByIdQuery = { __typename?: 'Query', getTechnicianRecordById: { __typename?: 'TechnicianRecord', id: string, name: string, contactInformation: string, skills: Array<string>, certifications: Array<string>, availabilityStatus: string | null, employmentStatus: string | null, lastKnownAvailabilityStatus: string | null } };
+export type GetTechnicianRecordFormDataQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetTechnicianRecordFormDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetTechnicianRecordFormDataQuery = { __typename?: 'Query', getTechnicianRecordFormData: { __typename?: 'TechnicianRecordFormData', availabilityStatuses: Array<string>, certifications: Array<string>, employmentStatuses: Array<string>, skills: Array<string> } };
+export type GetTechnicianRecordFormDataQuery = {
+  __typename?: 'Query';
+  getTechnicianRecordFormData: {
+    __typename?: 'TechnicianRecordFormData';
+    availabilityStatuses: Array<string>;
+    certifications: Array<string>;
+    employmentStatuses: Array<string>;
+    skills: Array<string>;
+  };
+};
 
 export type GetTechnicianRecordsQueryVariables = Exact<{
   paginationOptions?: InputMaybe<PaginationOptions>;
@@ -805,80 +1080,183 @@ export type GetTechnicianRecordsQueryVariables = Exact<{
   sortOptions?: InputMaybe<TechnicianRecordSortInput>;
 }>;
 
-
-export type GetTechnicianRecordsQuery = { __typename?: 'Query', getTechnicianRecords: { __typename?: 'TechnicianRecordConnection', total: number, edges: Array<{ __typename?: 'TechnicianRecordEdges', cursor: string, node: { __typename?: 'TechnicianRecord', id: string, name: string, contactInformation: string, skills: Array<string>, certifications: Array<string>, availabilityStatus: string | null, employmentStatus: string | null, lastKnownAvailabilityStatus: string | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor: string | null, endCursor: string | null } } };
+export type GetTechnicianRecordsQuery = {
+  __typename?: 'Query';
+  getTechnicianRecords: {
+    __typename?: 'TechnicianRecordConnection';
+    total: number;
+    edges: Array<{
+      __typename?: 'TechnicianRecordEdges';
+      cursor: string;
+      node: {
+        __typename?: 'TechnicianRecord';
+        id: string;
+        name: string;
+        contactInformation: string;
+        skills: Array<string>;
+        certifications: Array<string>;
+        availabilityStatus: string | null;
+        employmentStatus: string | null;
+        lastKnownAvailabilityStatus: string | null;
+      };
+    }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor: string | null;
+      endCursor: string | null;
+    };
+  };
+};
 
 export type GetUserQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
-
-export type GetUserQuery = { __typename?: 'Query', getUser: { __typename?: 'AppUser', id: string, email: string, firstName: string, lastName: string, phone: string | null, createdAt: any | null, updatedAt: any | null, lastSignInAt: string | null, avatarUrl: string | null } };
+export type GetUserQuery = {
+  __typename?: 'Query';
+  getUser: {
+    __typename?: 'AppUser';
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    phone: string | null;
+    createdAt: any | null;
+    updatedAt: any | null;
+    lastSignInAt: string | null;
+    avatarUrl: string | null;
+  };
+};
 
 export type LoginUserMutationVariables = Exact<{
   input: SignInUserInput;
 }>;
 
-
-export type LoginUserMutation = { __typename?: 'Mutation', signIn: { __typename?: 'AuthResponse', id: string } };
+export type LoginUserMutation = { __typename?: 'Mutation'; signIn: { __typename?: 'AuthResponse'; id: string } };
 
 export type ReassignTechnicianMutationVariables = Exact<{
   input: UpdateRepairJobInput;
 }>;
 
-
-export type ReassignTechnicianMutation = { __typename?: 'Mutation', reassignTechnician: { __typename?: 'RepairJob', id: string, jobType: string, jobDetails: string, jobPriority: string, elevatorType: string, buildingName: string, elevatorLocation: string, technicianName: string, startDate: any, endDate: any, calendarEventId: string | null, actualEndDate: any | null, isOverdue: boolean | null } };
+export type ReassignTechnicianMutation = {
+  __typename?: 'Mutation';
+  reassignTechnician: {
+    __typename?: 'RepairJob';
+    id: string;
+    jobType: string;
+    jobDetails: string;
+    jobPriority: string;
+    elevatorType: string;
+    buildingName: string;
+    elevatorLocation: string;
+    technicianName: string;
+    startDate: any;
+    endDate: any;
+    calendarEventId: string | null;
+    actualEndDate: any | null;
+    isOverdue: boolean | null;
+  };
+};
 
 export type ResetPasswordMutationVariables = Exact<{
   input: ResetPasswordInput;
 }>;
 
-
-export type ResetPasswordMutation = { __typename?: 'Mutation', resetPassword: { __typename?: 'AuthResponse', id: string } };
+export type ResetPasswordMutation = {
+  __typename?: 'Mutation';
+  resetPassword: { __typename?: 'AuthResponse'; id: string };
+};
 
 export type SignInWithOAuthMutationVariables = Exact<{
   input: SignInWithOAuthInput;
 }>;
 
+export type SignInWithOAuthMutation = { __typename?: 'Mutation'; signInWithOAuth: string };
 
-export type SignInWithOAuthMutation = { __typename?: 'Mutation', signInWithOAuth: string };
+export type SignOutUserMutationVariables = Exact<{ [key: string]: never }>;
 
-export type SignOutUserMutationVariables = Exact<{ [key: string]: never; }>;
-
-
-export type SignOutUserMutation = { __typename?: 'Mutation', signOut: boolean };
+export type SignOutUserMutation = { __typename?: 'Mutation'; signOut: boolean };
 
 export type UpdateElevatorRecordMutationVariables = Exact<{
   input: UpdateElevatorRecordInput;
 }>;
 
-
-export type UpdateElevatorRecordMutation = { __typename?: 'Mutation', updateElevatorRecord: { __typename?: 'ElevatorRecord', id: string, elevatorType: string, buildingName: string, elevatorLocation: string, lastMaintenanceDate: any, nextMaintenanceDate: any, capacity: number, status: string, lastKnownStatus: string | null } };
+export type UpdateElevatorRecordMutation = {
+  __typename?: 'Mutation';
+  updateElevatorRecord: {
+    __typename?: 'ElevatorRecord';
+    id: string;
+    elevatorType: string;
+    buildingName: string;
+    elevatorLocation: string;
+    lastMaintenanceDate: any;
+    nextMaintenanceDate: any;
+    capacity: number;
+    status: string;
+    lastKnownStatus: string | null;
+  };
+};
 
 export type UpdateProfileMutationVariables = Exact<{
   input: UserProfileInput;
 }>;
 
-
-export type UpdateProfileMutation = { __typename?: 'Mutation', updateUserProfile: { __typename?: 'AppUser', id: string, firstName: string, lastName: string, phone: string | null } };
+export type UpdateProfileMutation = {
+  __typename?: 'Mutation';
+  updateUserProfile: { __typename?: 'AppUser'; id: string; firstName: string; lastName: string; phone: string | null };
+};
 
 export type UpdateRepairJobMutationVariables = Exact<{
   input: UpdateRepairJobInput;
 }>;
 
-
-export type UpdateRepairJobMutation = { __typename?: 'Mutation', updateRepairJob: { __typename?: 'RepairJob', id: string, status: string, jobType: string, jobDetails: string, jobPriority: string, elevatorType: string, buildingName: string, elevatorLocation: string, technicianName: string, startDate: any, endDate: any, calendarEventId: string | null, actualEndDate: any | null, isOverdue: boolean | null } };
+export type UpdateRepairJobMutation = {
+  __typename?: 'Mutation';
+  updateRepairJob: {
+    __typename?: 'RepairJob';
+    id: string;
+    status: string;
+    jobType: string;
+    jobDetails: string;
+    jobPriority: string;
+    elevatorType: string;
+    buildingName: string;
+    elevatorLocation: string;
+    technicianName: string;
+    startDate: any;
+    endDate: any;
+    calendarEventId: string | null;
+    actualEndDate: any | null;
+    isOverdue: boolean | null;
+  };
+};
 
 export type UpdateTechnicianRecordMutationVariables = Exact<{
   input: UpdateTechnicianRecordInput;
 }>;
 
-
-export type UpdateTechnicianRecordMutation = { __typename?: 'Mutation', updateTechnicianRecord: { __typename?: 'TechnicianRecord', id: string, name: string, contactInformation: string, skills: Array<string>, certifications: Array<string>, availabilityStatus: string | null, employmentStatus: string | null, lastKnownAvailabilityStatus: string | null } };
+export type UpdateTechnicianRecordMutation = {
+  __typename?: 'Mutation';
+  updateTechnicianRecord: {
+    __typename?: 'TechnicianRecord';
+    id: string;
+    name: string;
+    contactInformation: string;
+    skills: Array<string>;
+    certifications: Array<string>;
+    availabilityStatus: string | null;
+    employmentStatus: string | null;
+    lastKnownAvailabilityStatus: string | null;
+  };
+};
 
 export type UploadProfilePictureMutationVariables = Exact<{
   file: Scalars['Upload']['input'];
 }>;
 
-
-export type UploadProfilePictureMutation = { __typename?: 'Mutation', uploadProfilePicture: { __typename?: 'UploadProfilePicturePayload', id: string, avatarUrl: string } };
+export type UploadProfilePictureMutation = {
+  __typename?: 'Mutation';
+  uploadProfilePicture: { __typename?: 'UploadProfilePicturePayload'; id: string; avatarUrl: string };
+};

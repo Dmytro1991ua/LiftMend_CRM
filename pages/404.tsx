@@ -1,10 +1,12 @@
+import { useCallback } from 'react';
+
+import { useRouter } from 'next/router';
+import { BiError } from 'react-icons/bi';
+
 import { Button } from '@/components/ui/button';
 import Logo from '@/shared/logo';
 import NavigationLoadingWrapper from '@/shared/navigation-loading-wrapper';
 import { AppRoutes } from '@/types/enums';
-import { useRouter } from 'next/router';
-import { useCallback } from 'react';
-import { BiError } from 'react-icons/bi';
 
 const PageNotFound = () => {
   const router = useRouter();

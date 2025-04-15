@@ -1,6 +1,5 @@
 import { ApolloError, useMutation } from '@apollo/client';
 
-import { onHandleMutationErrors } from '@/shared/utils';
 import { REASSIGN_TECHNICIAN } from '@/graphql/schemas/reassignTechnician';
 import {
   ReassignTechnicianMutation,
@@ -8,6 +7,7 @@ import {
 } from '@/graphql/types/client/generated_types';
 import { ReassignTechnicianFormValues } from '@/shared/repair-job/edit-repair-job-form/types';
 import { RepairJob } from '@/shared/types';
+import { onHandleMutationErrors } from '@/shared/utils';
 
 type UseReassignTechnicianProps = {
   onSuccess?: (message: string, description?: string) => void;

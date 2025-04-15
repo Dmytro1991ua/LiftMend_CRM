@@ -13,7 +13,7 @@ type CardDetails = {
   description: string;
 };
 
-type ChartMetricsProps = {
+export type ChartMetricsProps = {
   className?: string;
   sectionTitle: SectionTitle;
   cardDetails: CardDetails;

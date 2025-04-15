@@ -6,7 +6,7 @@ import DatePicker from '@/shared/date-picker';
 import CustomDateRangeActions from './custom-date-range-actions';
 import { DashboardDateRangeFilterProps } from './types';
 
-const DEFAULT_INFO_TOOLTIP_MESSAGE =
+export const DEFAULT_INFO_TOOLTIP_MESSAGE =
   'The selected date range highlights repair job metrics. Elevator and Technician data remain mostly unchanged, as they are tied to repair jobs.';
 
 const DashboardDateRangeFilter = ({

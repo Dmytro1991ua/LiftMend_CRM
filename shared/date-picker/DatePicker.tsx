@@ -101,7 +101,7 @@ const DatePicker = ({
             {datePickerConfig[configKey]}
           </Button>
         </PopoverTrigger>
-        <PopoverContent align='start' className='w-auto p-0'>
+        <PopoverContent align='start' className='w-auto p-0' data-testid='popover-content'>
           <div className='flex gap-2'>
             {customContent}
             <div className='flex flex-col'>

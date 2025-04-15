@@ -1,8 +1,9 @@
-import { getErrorMessageFromGraphQlErrors, getGraphQLErrorExtensionsMessage } from '@/graphql/utils';
-import { logError, onHandleMutationErrors } from '@/shared/utils';
 import { ApolloError } from '@apollo/client';
 import { act } from '@testing-library/react';
 import { GraphQLError } from 'graphql';
+
+import { getErrorMessageFromGraphQlErrors, getGraphQLErrorExtensionsMessage } from '@/graphql/utils';
+import { logError, onHandleMutationErrors } from '@/shared/utils';
 
 jest.mock('@/graphql/utils');
 
