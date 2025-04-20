@@ -1,4 +1,4 @@
-import { fireEvent, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import { withRouterAndApolloProvider } from '@/mocks/testMocks';
 import Header from '@/modules/header';
@@ -9,13 +9,13 @@ describe('Header', () => {
   const headerComponent = () => withRouterAndApolloProvider(<Header />, AppRoutes.Dashboard);
 
   it('should render component without crashing', () => {
-    headerComponent();
+    render(headerComponent());
 
     expect(screen.getByTestId('header')).toBeInTheDocument();
   });
 
   it('should open dropdown on dropdown button click', async () => {
-    headerComponent();
+    render(headerComponent());
 
     const dropdownButton = screen.getByTestId('dropdown-button');
 
@@ -26,7 +26,7 @@ describe('Header', () => {
   });
 
   it('should navigate to correct routes on dropdown link click', () => {
-    headerComponent();
+    render(headerComponent());
 
     const dropdownButton = screen.getByTestId('dropdown-button');
 

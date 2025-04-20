@@ -8,7 +8,7 @@ import { ElevatorStatus } from '../../types';
 import { STATUS_ICON_TOOLTIP_MESSAGE } from './constants';
 import useUpdateElevatorRecordStatus from './hooks/useUpdateElevatorRecordStatus';
 
-type ElevatorStatusToggleCellProps = {
+export type ElevatorStatusToggleCellProps = {
   status: ElevatorStatus;
   lastKnownStatus?: string | null;
   elevatorRecordId: string;
@@ -27,6 +27,7 @@ const ElevatorStatusToggleCell = ({ status, elevatorRecordId, lastKnownStatus }:
   return (
     <section>
       <Button
+        data-testid='status-toggle-btn'
         className='relative hover:bg-transparent'
         variant='ghost'
         onClick={(e) => {
@@ -40,7 +41,7 @@ const ElevatorStatusToggleCell = ({ status, elevatorRecordId, lastKnownStatus }:
           id='elevator-toggle-status-cell-tooltip'
           message={STATUS_ICON_TOOLTIP_MESSAGE}
           place='left'>
-          {config.icon}
+          <div data-testid={config.dataTestId}>{config.icon}</div>
         </BaseTooltip>
       </Button>
 

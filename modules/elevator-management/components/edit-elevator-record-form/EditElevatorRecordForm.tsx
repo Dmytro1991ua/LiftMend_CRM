@@ -21,7 +21,7 @@ import {
   LAST_MAINTENANCE_DATE_TOOLTIP_MESSAGE,
 } from './constants';
 
-type EditElevatorRecordFormProps = {
+export type EditElevatorRecordFormProps = {
   elevatorRecordFormValues: ElevatorRecordFormValues;
 };
 
@@ -234,6 +234,7 @@ const EditElevatorRecordForm = ({ elevatorRecordFormValues }: EditElevatorRecord
       fieldConfigs={ELEVATOR_RECORD_FORM_FIELD_CONFIG}
       formValues={elevatorRecordFormValues}
       loading={loading}
+      dataTestId='edit-elevator-record-form'
     />
   );
 };

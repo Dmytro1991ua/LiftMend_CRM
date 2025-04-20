@@ -7,13 +7,13 @@ import { FormProvider, SubmitHandler } from 'react-hook-form';
 import AuthFormSeparator from '@/shared/auth/auth-form-separator';
 import { useAuthMutation } from '@/shared/auth/hooks';
 import ThirdPartyAuthButton from '@/shared/auth/third-party-auth-button';
-import useFormState from '@/shared/hooks/useFormState';
 import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import { AppRoutes } from '@/types/enums';
 
 import AuthForm from '../auth-form';
 import { AuthButtonLabel, AuthFormType } from '../types';
 import { INITIAL_SIGN_IN_FORM_VALUES, SignInFormFields, signInSchema } from '../validation';
+import { useFormState } from '@/shared/hooks';
 
 const SignInForm = () => {
   const { formState, onReset } = useFormState<SignInFormFields>({

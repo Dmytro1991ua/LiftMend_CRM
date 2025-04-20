@@ -3,7 +3,7 @@ import useColumnResizing from './useColumnResizing';
 import useColumnsVisibility from './useColumnsVisibility';
 import useFilterInTable from './useFilterInTable';
 import useRowSelectionInTable from './useRowSelectionInTable';
-import useSearchInTable from './useSearchInTable';
+import { useSearchInTable } from './useSearchInTable';
 import useSortingInTable from './useSortingInTable';
 
 const useTableState = <T, K, M>({

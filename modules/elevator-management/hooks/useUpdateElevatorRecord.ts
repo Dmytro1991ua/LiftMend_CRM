@@ -21,7 +21,10 @@ type UseUpdateElevatorRecord = {
   onUpdateElevatorRecord: (formFields: ElevatorRecordFormValues, originalRepairJob?: ElevatorRecord) => Promise<void>;
 };
 
-const useUpdateElevatorRecord = ({ onSuccess, onError }: UseUpdateElevatorRecordProps): UseUpdateElevatorRecord => {
+export const useUpdateElevatorRecord = ({
+  onSuccess,
+  onError,
+}: UseUpdateElevatorRecordProps): UseUpdateElevatorRecord => {
   const [updateElevatorRecord, { loading }] = useMutation<
     UpdateElevatorRecordMutation,
     UpdateElevatorRecordMutationVariables
@@ -66,5 +69,3 @@ const useUpdateElevatorRecord = ({ onSuccess, onError }: UseUpdateElevatorRecord
     onUpdateElevatorRecord,
   };
 };
-
-export default useUpdateElevatorRecord;

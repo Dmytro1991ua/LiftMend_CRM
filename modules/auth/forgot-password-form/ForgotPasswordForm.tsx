@@ -2,13 +2,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, SubmitHandler } from 'react-hook-form';
 
 import { useAuthMutation } from '@/shared/auth/hooks';
-import useFormState from '@/shared/hooks/useFormState';
 import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import { AppRoutes } from '@/types/enums';
 
 import AuthForm from '../auth-form';
 import { AuthButtonLabel, AuthFormType } from '../types';
 import { ForgotPasswordFormFields, INITIAL_FORGOT_PASSWORD_FORM_VALUES, forgotPasswordSchema } from '../validation';
+import { useFormState } from '@/shared/hooks';
 
 const ForgotPasswordForm = () => {
   const { formState, onReset } = useFormState<ForgotPasswordFormFields>({

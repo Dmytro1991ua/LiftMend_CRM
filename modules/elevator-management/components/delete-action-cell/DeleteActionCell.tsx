@@ -8,7 +8,7 @@ import { ElevatorRecord } from '@/shared/types';
 
 import { DEFAULT_DELETE_ELEVATOR_MODAL_TITLE } from '../../constants';
 
-import useElevatorRecordDeletion from './hooks/useElevatorRecordDeletion';
+import { useElevatorRecordDeletion } from './hooks';
 
 type DeleteActionCelProps = {
   elevatorRecord: ElevatorRecord;
@@ -37,7 +37,7 @@ const DeleteActionCell = ({ elevatorRecord }: DeleteActionCelProps) => {
         disabled={true} /* TODO => Temporary disable*/
         variant='ghost'
         onClick={onHandleDeleteClick}>
-        <FaTrashAlt className='h-4 w-4 text-red-500' />
+        <FaTrashAlt className='h-4 w-4 text-red-500' data-testid='trash-icon' />
       </Button>
       <DeleteModal
         description={getModalDescription(elevatorRecord.elevatorType, 'elevator record')}

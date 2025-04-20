@@ -1,2 +1,2 @@
 export * from './useUpdateElevatorRecordVisibility';
-export * from './useUpdateElevatorRecordStatus';
+export { default as useUpdateElevatorRecordStatus } from './useUpdateElevatorRecordStatus';

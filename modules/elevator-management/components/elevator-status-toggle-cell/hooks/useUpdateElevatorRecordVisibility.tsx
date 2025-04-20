@@ -5,12 +5,8 @@ import {
   UpdateElevatorRecordMutation,
   UpdateElevatorRecordMutationVariables,
 } from '@/graphql/types/client/generated_types';
+import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import { onHandleMutationErrors } from '@/shared/utils';
-
-type UseUpdateElevatorRecordVisibilityProps = {
-  onSuccess?: (message: string) => void;
-  onError?: (errorMessage: string, errorDescription: string) => void;
-};
 
 type UpdateElevatorStatus = {
   id: string;
@@ -18,7 +14,7 @@ type UpdateElevatorStatus = {
   currentStatus: string;
 };
 
-type UseUpdateElevatorRecordVisibility = {
+export type UseUpdateElevatorRecordVisibility = {
   loading: boolean;
   error?: string;
   onUpdateElevatorRecordStatus: ({
@@ -28,10 +24,9 @@ type UseUpdateElevatorRecordVisibility = {
   }: UpdateElevatorStatus) => Promise<FetchResult<UpdateElevatorRecordMutation> | undefined>;
 };
 
-const useUpdateElevatorRecordVisibility = ({
-  onError,
-  onSuccess,
-}: UseUpdateElevatorRecordVisibilityProps): UseUpdateElevatorRecordVisibility => {
+export const useUpdateElevatorRecordVisibility = (): UseUpdateElevatorRecordVisibility => {
+  const { onError, onSuccess } = useMutationResultToasts();
+
   const [updateElevatorRecord, { loading, error }] = useMutation<
     UpdateElevatorRecordMutation,
     UpdateElevatorRecordMutationVariables
@@ -77,5 +72,3 @@ const useUpdateElevatorRecordVisibility = ({
     onUpdateElevatorRecordStatus,
   };
 };
-
-export default useUpdateElevatorRecordVisibility;

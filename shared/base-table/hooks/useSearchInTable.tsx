@@ -6,7 +6,7 @@ import { DEFAULT_DEBOUNCE_TIMEOUT, DEFAULT_PAGINATION } from '@/shared/constants
 
 import { UseSearchInTable, UseSearchInTableProps } from './types';
 
-const useSearchInTable = <T, TVariables, TData>({
+export const useSearchInTable = <T, TVariables, TData>({
   tableStorageState,
   onSetTableStorageState,
   refetch,
@@ -74,5 +74,3 @@ const useSearchInTable = <T, TVariables, TData>({
     onClearSearch,
   };
 };
-
-export default useSearchInTable;

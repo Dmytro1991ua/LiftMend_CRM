@@ -9,7 +9,6 @@ import {
   QueryGetRepairJobsArgs,
 } from '@/graphql/types/client/generated_types';
 import BaseTable from '@/shared/base-table';
-import useSearchInTable from '@/shared/base-table/hooks/useSearchInTable';
 import { RowHighlightInfo } from '@/shared/base-table/types';
 import { getEmptyTableMessage, getRowHighlightInfo, onHandleRowClick } from '@/shared/base-table/utils';
 import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions';
@@ -27,6 +26,7 @@ import {
   DEFAULT_REPAIR_JOB_TABLE_ROW_TOOLTIP_MESSAGE,
   DEFAULT_SEARCH_INPUT_PLACEHOLDER,
 } from './constants';
+import { useSearchInTable } from '@/shared/base-table/hooks';
 
 const RepairJobTable = () => {
   const router = useRouter();

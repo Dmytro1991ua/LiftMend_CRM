@@ -10,17 +10,17 @@ import {
 } from '@/graphql/types/client/generated_types';
 import { removeTypeNamesFromObject } from '@/shared/utils';
 
-type UseFetchFetchElevatorRecordById = {
+export type UseFetchFetchElevatorRecordById = {
   elevatorRecord: ElevatorRecord;
   loading: boolean;
   error?: string;
 };
 
-const useFetchElevatorRecordById = (id: string): UseFetchFetchElevatorRecordById => {
+const useFetchElevatorRecordById = (id: string | null): UseFetchFetchElevatorRecordById => {
   const { data, loading, error } = useQuery<GetElevatorRecordByIdQuery, GetElevatorRecordByIdQueryVariables>(
     GET_ELEVATOR_RECORD_BY_ID,
     {
-      variables: { id },
+      variables: { id: id! },
       skip: !id,
       fetchPolicy: 'cache-first',
     }

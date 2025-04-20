@@ -28,7 +28,10 @@ type ElevatorCacheEdge = {
 export const DEFAULT_DELETE_ELEVATOR_RECORD_SUCCESS_MESSAGE = 'Successfully deleted elevation record';
 export const DEFAULT_DELETE_ELEVATOR_RECORD_FAIL_MESSAGE = 'Fail to deleted elevator record';
 
-const useDeleteElevatorRecord = ({ onSuccess, onError }: UseDeleteElevatorRecordProps): UseDeleteElevatorRecord => {
+export const useDeleteElevatorRecord = ({
+  onSuccess,
+  onError,
+}: UseDeleteElevatorRecordProps): UseDeleteElevatorRecord => {
   const [deleteElevatorRecord, { loading, error }] = useMutation<
     DeleteElevatorRecordMutation,
     DeleteElevatorRecordMutationVariables
@@ -84,4 +87,3 @@ const useDeleteElevatorRecord = ({ onSuccess, onError }: UseDeleteElevatorRecord
 
   return { onDeleteElevatorRecord, isLoading: loading, error: error?.message };
 };
-export default useDeleteElevatorRecord;

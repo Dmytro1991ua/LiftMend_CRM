@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import { withRouterAndApolloProvider } from '@/mocks/testMocks';
 import MainLayout from '@/modules/layout/MainLayout';
@@ -7,7 +7,7 @@ import { AppRoutes } from '@/types/enums';
 
 describe('MainLayout', () => {
   it('should render component without crashing', () => {
-    withRouterAndApolloProvider(<MainLayout />, AppRoutes.Dashboard);
+    render(withRouterAndApolloProvider(<MainLayout />, AppRoutes.Dashboard));
 
     expect(screen.getByText(NavigationLinkLabel.Dashboard)).toBeInTheDocument();
     expect(screen.getByText(NavigationLinkLabel.ElevatorManagement)).toBeInTheDocument();
