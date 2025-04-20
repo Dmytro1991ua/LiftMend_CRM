@@ -7,7 +7,7 @@ import { FaEdit } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
 import EditModal from '@/shared/base-modal/edit-modal';
 import { useModal } from '@/shared/hooks';
-import useFormState from '@/shared/hooks/useFormState';
+import { useFormState } from '@/shared/hooks';
 import { TechnicianRecord } from '@/shared/types';
 
 import { TechnicianRecordFormValues } from '../../types';

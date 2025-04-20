@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import { withRouterAndApolloProvider } from '@/mocks/testMocks';
 import Profile from '@/modules/profile';
@@ -6,7 +6,7 @@ import { AppRoutes, SectionHeaderTitle } from '@/types/enums';
 
 describe('Profile', () => {
   it('should render component without crashing', () => {
-    withRouterAndApolloProvider(<Profile />, AppRoutes.Profile);
+    render(withRouterAndApolloProvider(<Profile />, AppRoutes.Profile));
 
     expect(screen.getByText(SectionHeaderTitle.Profile)).toBeInTheDocument();
     expect(screen.getByText('Profile')).toBeInTheDocument();

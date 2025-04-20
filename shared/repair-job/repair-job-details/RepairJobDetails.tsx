@@ -11,7 +11,7 @@ import { getCommonDetailsPageActionButtonsConfig } from '@/shared/base-details-p
 import DeleteModal from '@/shared/base-modal/delete-modal';
 import EditModal from '@/shared/base-modal/edit-modal';
 import { getModalTitle } from '@/shared/base-modal/edit-modal/utils';
-import useFormState from '@/shared/hooks/useFormState';
+import { useFormState } from '@/shared/hooks';
 import { DEFAULT_DELETE_MODAL_TITLE, OVERDUE_JOB_WARNING_MESSAGE } from '@/shared/repair-job/constants';
 import EditRepairJobForm from '@/shared/repair-job/edit-repair-job-form';
 import { RepairJobFormValues } from '@/shared/repair-job/edit-repair-job-form/types';

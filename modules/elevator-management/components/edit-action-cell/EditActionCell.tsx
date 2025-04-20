@@ -7,8 +7,7 @@ import { FaEdit } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
 import EditModal from '@/shared/base-modal/edit-modal';
 import { getModalTitle } from '@/shared/base-modal/edit-modal/utils';
-import { useModal } from '@/shared/hooks';
-import useFormState from '@/shared/hooks/useFormState';
+import { useFormState, useModal } from '@/shared/hooks';
 import { ElevatorRecord } from '@/shared/types';
 import { getElevatorRecordInfo } from '@/shared/utils';
 
@@ -18,7 +17,7 @@ import EditElevatorRecordForm from '../edit-elevator-record-form';
 import useEditElevatorRecordForm from '../edit-elevator-record-form/hooks/useEditElevatorRecordForm';
 import { elevatorRecordEditFormSchema } from '../edit-elevator-record-form/validation';
 
-type EditActionCellProps = {
+export type EditActionCellProps = {
   elevatorRecord: ElevatorRecord;
 };
 
@@ -53,7 +52,7 @@ const EditActionCell = ({ elevatorRecord }: EditActionCellProps) => {
           disabled={isEditButtonDisabled}
           variant='ghost'
           onClick={onHandleEditClick}>
-          <FaEdit className='h-5 w-5 text-primary' />
+          <FaEdit className='h-5 w-5 text-primary' data-testid='edit-icon' />
         </Button>
         <EditModal
           isDisabled={!formState.formState.isDirty || isUpdateRecordLoading}

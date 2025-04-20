@@ -10,7 +10,7 @@ import { getTechnicianDetailsPageActionButtonsConfig } from '@/shared/base-detai
 import DeleteModal from '@/shared/base-modal/delete-modal';
 import EditModal from '@/shared/base-modal/edit-modal';
 import { getModalTitle } from '@/shared/base-modal/edit-modal/utils';
-import useFormState from '@/shared/hooks/useFormState';
+import { useFormState } from '@/shared/hooks';
 import { getDeleteModalDescription } from '@/shared/utils';
 
 import { DEFAULT_DELETE_TECHNICIAN_MODAL_TITLE } from '../../constants';

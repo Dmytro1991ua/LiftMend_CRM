@@ -3,13 +3,13 @@ import { useRouter } from 'next/router';
 import { FormProvider, SubmitHandler } from 'react-hook-form';
 
 import { useAuthMutation } from '@/shared/auth/hooks';
-import useFormState from '@/shared/hooks/useFormState';
 import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import { AppRoutes } from '@/types/enums';
 
 import AuthForm from '../auth-form';
 import { AuthButtonLabel, AuthFormType } from '../types';
 import { INITIAL_RESET_PASSWORD_FORM_VALUES, ResetPasswordFormFields, resetPasswordSchema } from '../validation';
+import { useFormState } from '@/shared/hooks';
 
 const ResetPasswordForm = () => {
   const router = useRouter();

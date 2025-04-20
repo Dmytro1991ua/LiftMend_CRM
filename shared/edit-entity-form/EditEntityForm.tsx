@@ -12,6 +12,7 @@ type EditEntityFormProps<T> = {
   fieldConfigs: ItemConfig[];
   loading: boolean;
   error?: string;
+  dataTestId?: string;
 };
 
 const EditEntityForm = <T extends FieldValues>({
@@ -19,6 +20,7 @@ const EditEntityForm = <T extends FieldValues>({
   fieldConfigs,
   loading,
   error,
+  dataTestId,
 }: EditEntityFormProps<T>) => {
   const { setValue, clearErrors, reset } = useFormContext<T>();
 
@@ -31,7 +33,7 @@ const EditEntityForm = <T extends FieldValues>({
   }, [formValues, setValue, clearErrors, reset]);
 
   return (
-    <Form className='grid grid-cols-6 gap-2'>
+    <Form className='grid grid-cols-6 gap-2' data-testid={dataTestId}>
       <QueryResponse
         errorComponent={<BaseAlert description={error || ''} title='Failed to fetch form data' variant='destructive' />}
         isErrorOccurred={!!error}

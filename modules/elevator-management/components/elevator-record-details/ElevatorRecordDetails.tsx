@@ -10,19 +10,19 @@ import { getCommonDetailsPageActionButtonsConfig } from '@/shared/base-details-p
 import DeleteModal from '@/shared/base-modal/delete-modal';
 import EditModal from '@/shared/base-modal/edit-modal';
 import { getModalTitle } from '@/shared/base-modal/edit-modal/utils';
-import useFormState from '@/shared/hooks/useFormState';
 import { getDeleteModalDescription, getElevatorRecordInfo } from '@/shared/utils';
 
 import { DEFAULT_DELETE_ELEVATOR_MODAL_TITLE } from '../../constants';
 import { ElevatorRecordFormValues } from '../../types';
 import { convertElevatorRecordToFormValues } from '../../utils';
-import useElevatorRecordDeletion from '../delete-action-cell/hooks/useElevatorRecordDeletion';
+import { useElevatorRecordDeletion } from '../delete-action-cell/hooks';
 import EditElevatorRecordForm from '../edit-elevator-record-form';
 import useEditElevatorRecordForm from '../edit-elevator-record-form/hooks/useEditElevatorRecordForm';
 import { elevatorRecordEditFormSchema } from '../edit-elevator-record-form/validation';
 
 import { elevatorRecordSectionsConfig } from './config';
 import useFetchElevatorRecordById from './hooks/useFetchElevatorRecordById';
+import { useFormState } from '@/shared/hooks';
 
 const ElevatorRecordDetails = () => {
   const {
@@ -95,6 +95,8 @@ const ElevatorRecordDetails = () => {
     () => getCommonDetailsPageActionButtonsConfig({ onOpenDeleteModal, onOpenEditModal }),
     [onOpenDeleteModal, onOpenEditModal]
   );
+
+  console.log(error);
 
   return (
     <FormProvider {...formState}>

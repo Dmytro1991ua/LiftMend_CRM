@@ -1,4 +1,4 @@
-import { fireEvent, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import { withRouterProvider } from '@/mocks/testMocks';
 import NavigationLink from '@/modules/sidebar/navigation-link';
@@ -16,7 +16,7 @@ describe('NavigationLink', () => {
   };
 
   it('should render component without crashing', () => {
-    withRouterProvider(<NavigationLink {...defaultProps} />, AppRoutes.Dashboard);
+    render(withRouterProvider(<NavigationLink {...defaultProps} />, AppRoutes.Dashboard));
 
     expect(screen.getByText('Test Icon')).toBeInTheDocument();
     expect(screen.getByText('Test Label')).toBeInTheDocument();
@@ -25,7 +25,7 @@ describe('NavigationLink', () => {
   it('should apply specific styles to active navigation links', () => {
     (isRouteActive as jest.Mock).mockReturnValue(true);
 
-    withRouterProvider(<NavigationLink {...defaultProps} />, AppRoutes.Dashboard);
+    render(withRouterProvider(<NavigationLink {...defaultProps} />, AppRoutes.Dashboard));
 
     const navLink = screen.getByTestId('nav-link');
 
@@ -35,7 +35,7 @@ describe('NavigationLink', () => {
   it('should trigger onClose handler when it is provided', () => {
     const mockOnClose = jest.fn();
 
-    withRouterProvider(<NavigationLink {...defaultProps} onClose={mockOnClose} />, AppRoutes.Dashboard);
+    render(withRouterProvider(<NavigationLink {...defaultProps} onClose={mockOnClose} />, AppRoutes.Dashboard));
 
     const navLink = screen.getByTestId('nav-link');
 

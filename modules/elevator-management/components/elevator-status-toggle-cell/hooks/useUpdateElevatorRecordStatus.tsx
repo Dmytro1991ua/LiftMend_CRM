@@ -5,17 +5,16 @@ import { useModal } from '@/shared/hooks';
 import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 
 import { getElevatorStatusUpdateConfig } from '../config';
+import { useUpdateElevatorRecordVisibility } from './useUpdateElevatorRecordVisibility';
 
-import useUpdateElevatorRecordVisibility from './useUpdateElevatorRecordVisibility';
-
-type UseUpdateEmploymentStatusProps = {
+export type UseUpdateEmploymentStatusProps = {
   status: ElevatorStatus;
   elevatorRecordId: string;
   lastKnownStatus?: string | null;
   onRedirect?: () => void;
 };
 
-type UseUpdateEmploymentStatus = {
+export type UseUpdateEmploymentStatus = {
   config: ElevatorStatusConfig;
   isModalOpen: boolean;
   onOpenModal: () => void;
@@ -24,19 +23,15 @@ type UseUpdateEmploymentStatus = {
   loading: boolean;
 };
 
-const useUpdateElevatorRecordStatus = ({
+export default function useUpdateElevatorRecordStatus({
   status,
   elevatorRecordId,
   lastKnownStatus,
   onRedirect,
-}: UseUpdateEmploymentStatusProps): UseUpdateEmploymentStatus => {
+}: UseUpdateEmploymentStatusProps): UseUpdateEmploymentStatus {
   const { isModalOpen, onCloseModal, onOpenModal } = useModal();
-  const { onError, onSuccess } = useMutationResultToasts();
 
-  const { loading, onUpdateElevatorRecordStatus } = useUpdateElevatorRecordVisibility({
-    onError,
-    onSuccess,
-  });
+  const { loading, onUpdateElevatorRecordStatus } = useUpdateElevatorRecordVisibility();
 
   const config = getElevatorStatusUpdateConfig(status, lastKnownStatus ?? '') || {};
 
@@ -60,6 +55,4 @@ const useUpdateElevatorRecordStatus = ({
     onHandleElevatorRecordStatusChange,
     loading,
   };
-};
-
-export default useUpdateElevatorRecordStatus;
+}

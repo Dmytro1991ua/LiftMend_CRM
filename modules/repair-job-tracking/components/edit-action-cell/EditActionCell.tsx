@@ -9,7 +9,7 @@ import EditModal from '@/shared/base-modal/edit-modal/EditModal';
 import { getModalTitle } from '@/shared/base-modal/edit-modal/utils';
 import BaseTooltip from '@/shared/base-tooltip';
 import { useModal } from '@/shared/hooks';
-import useFormState from '@/shared/hooks/useFormState';
+import { useFormState } from '@/shared/hooks';
 import { getEditButtonDisabledState } from '@/shared/repair-job/config';
 import EditRepairJobForm from '@/shared/repair-job/edit-repair-job-form';
 import { RepairJobFormValues } from '@/shared/repair-job/edit-repair-job-form/types';

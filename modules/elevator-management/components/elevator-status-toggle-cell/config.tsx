@@ -16,6 +16,7 @@ export const getElevatorStatusUpdateConfig = (currentStatus: string, lastKnownSt
       newElevatorStatus: lastKnownStatus,
       modalTitle: DEFAULT_ACTIVATION_MODAL_TITLE,
       modalMessage: DEFAULT_ACTIVATION_MODAL_MESSAGE,
+      dataTestId: 'elevator-status-icon-hidden',
     };
   }
 
@@ -24,5 +25,6 @@ export const getElevatorStatusUpdateConfig = (currentStatus: string, lastKnownSt
     newElevatorStatus: 'Out of Service',
     modalTitle: DEFAULT_DEACTIVATION_MODAL_TITLE,
     modalMessage: DEFAULT_DEACTIVATION_MODAL_MESSAGE,
+    dataTestId: 'elevator-status-icon-visible',
   };
 };

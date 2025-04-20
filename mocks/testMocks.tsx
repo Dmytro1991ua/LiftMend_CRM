@@ -1,6 +1,5 @@
 import { InMemoryCache } from '@apollo/client';
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
-import { render } from '@testing-library/react';
 import { RouterContext } from 'next/dist/shared/lib/router-context';
 import { FieldValues, FormProvider, UseFormProps, useForm } from 'react-hook-form';
 
@@ -16,9 +15,7 @@ interface CombinedWrapperProps<T extends FieldValues> {
 }
 
 export const withRouterProvider = (component: JSX.Element, path: AppRoutes) => {
-  return render(
-    <RouterContext.Provider value={createMockRouter({ pathname: path })}>{component}</RouterContext.Provider>
-  );
+  return <RouterContext.Provider value={createMockRouter({ pathname: path })}>{component}</RouterContext.Provider>;
 };
 
 export const withApolloProvider = (component: JSX.Element, mocks: MockedResponse[] = [], cache?: InMemoryCache) => {
@@ -34,7 +31,7 @@ export const withApolloProvider = (component: JSX.Element, mocks: MockedResponse
 };
 
 export const withRouterAndApolloProvider = (component: JSX.Element, path: AppRoutes, mocks: MockedResponse[] = []) => {
-  return render(
+  return (
     <RouterContext.Provider value={createMockRouter({ pathname: path })}>
       <MockedProvider addTypename={false} mocks={mocks}>
         {component}

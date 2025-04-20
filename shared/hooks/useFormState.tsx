@@ -14,7 +14,7 @@ type UseFormState<T extends FieldValues> = {
   formState: UseFormReturn<T>;
 };
 
-const useFormState = <T extends FieldValues>({
+export const useFormState = <T extends FieldValues>({
   onCloseModal,
   initialValues,
   resolver,
@@ -41,5 +41,3 @@ const useFormState = <T extends FieldValues>({
     onReset,
   };
 };
-
-export default useFormState;

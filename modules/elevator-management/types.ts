@@ -20,4 +20,5 @@ export type ElevatorStatusConfig = {
   newElevatorStatus: ElevatorStatus | string;
   modalTitle: string;
   modalMessage: string;
+  dataTestId?: string;
 };

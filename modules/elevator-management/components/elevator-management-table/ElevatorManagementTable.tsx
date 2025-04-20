@@ -6,7 +6,6 @@ import { useRouter } from 'next/router';
 import { GetElevatorRecordsQuery, QueryGetElevatorRecordsArgs } from '@/graphql/types/client/generated_types';
 import { DEFAULT_ELEVATOR_RECORD_TABLE_ROW_TOOLTIP_MESSAGE } from '@/modules/repair-job-scheduling/constants';
 import BaseTable from '@/shared/base-table/BaseTable';
-import useSearchInTable from '@/shared/base-table/hooks/useSearchInTable';
 import { getEmptyTableMessage, onHandleRowClick } from '@/shared/base-table/utils';
 import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions';
 import { DropdownOptions } from '@/shared/hooks/useFetchDropdownOptions/config';
@@ -23,6 +22,7 @@ import useGetElevatorRecords from '../../hooks/useGetElevatorRecords';
 import { ELEVATOR_MANAGEMENT_COLUMNS } from './columns';
 import { getElevatorRecordFilterConfig } from './config';
 import { isElevatorRecordRowDisabled } from './utils';
+import { useSearchInTable } from '@/shared/base-table/hooks';
 
 const ElevatorManagementTable = () => {
   const router = useRouter();
