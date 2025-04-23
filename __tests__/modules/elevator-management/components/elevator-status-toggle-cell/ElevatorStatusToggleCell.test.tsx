@@ -1,3 +1,7 @@
+import { MockedResponse } from '@apollo/client/testing';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+
 import { mockUpdateElevatorRecord } from '@/mocks/elevatorManagementMocks';
 import { withApolloProvider } from '@/mocks/testMocks';
 import ElevatorStatusToggleCell, {
@@ -5,9 +9,6 @@ import ElevatorStatusToggleCell, {
 } from '@/modules/elevator-management/components/elevator-status-toggle-cell/ElevatorStatusToggleCell';
 import * as useUpdateElevatorRecordStatus from '@/modules/elevator-management/components/elevator-status-toggle-cell/hooks/useUpdateElevatorRecordStatus';
 import { ElevatorStatus } from '@/modules/elevator-management/types';
-import { MockedResponse } from '@apollo/client/testing';
-import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 
 describe('ElevatorStatusToggleCell', () => {
   const useUpdateElevatorRecordStatusModule = { ...useUpdateElevatorRecordStatus };
@@ -57,18 +58,16 @@ describe('ElevatorStatusToggleCell', () => {
 
     const button = screen.getByTestId('status-toggle-btn');
 
-    userEvent.click(button);
+    await userEvent.click(button);
 
-    await waitFor(() => {
-      expect(screen.getByText('Confirm Deactivation of Elevator Record')).toBeInTheDocument();
-      expect(
-        screen.getByText(
-          'Deactivating this elevator record will mark it as out of service, making it unavailable for use. Are you sure you want to proceed?'
-        )
-      ).toBeInTheDocument();
-      expect(screen.getByText('Yes')).toBeInTheDocument();
-      expect(screen.getByText('No')).toBeInTheDocument();
-    });
+    expect(screen.getByText('Confirm Deactivation of Elevator Record')).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        'Deactivating this elevator record will mark it as out of service, making it unavailable for use. Are you sure you want to proceed?'
+      )
+    ).toBeInTheDocument();
+    expect(screen.getByText('Yes')).toBeInTheDocument();
+    expect(screen.getByText('No')).toBeInTheDocument();
   });
 
   it('should close modal when No button is clicked', async () => {
@@ -76,7 +75,7 @@ describe('ElevatorStatusToggleCell', () => {
 
     const button = screen.getByTestId('status-toggle-btn');
 
-    userEvent.click(button);
+    await userEvent.click(button);
 
     await waitFor(() => {
       expect(screen.getByText('No')).toBeInTheDocument();
@@ -84,11 +83,9 @@ describe('ElevatorStatusToggleCell', () => {
 
     const modalNoBtn = screen.getByText('No');
 
-    userEvent.click(modalNoBtn);
+    await userEvent.click(modalNoBtn);
 
-    await waitFor(() => {
-      expect(screen.queryByText('No')).not.toBeInTheDocument();
-    });
+    expect(screen.queryByText('No')).not.toBeInTheDocument();
   });
 
   it('should call status change handler on Yes button click and change icon accordingly', async () => {
@@ -107,7 +104,7 @@ describe('ElevatorStatusToggleCell', () => {
 
     const button = screen.getByTestId('status-toggle-btn');
 
-    userEvent.click(button);
+    await userEvent.click(button);
 
     await waitFor(() => {
       expect(screen.getByText('Yes')).toBeInTheDocument();
@@ -115,7 +112,7 @@ describe('ElevatorStatusToggleCell', () => {
 
     const modalYesBtn = screen.getByText('Yes');
 
-    userEvent.click(modalYesBtn);
+    await userEvent.click(modalYesBtn);
 
     await waitFor(() => {
       expect(screen.queryByText('Yes')).not.toBeInTheDocument();

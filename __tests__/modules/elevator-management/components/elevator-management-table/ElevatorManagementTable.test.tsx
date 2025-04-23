@@ -1,12 +1,12 @@
 import * as apollo from '@apollo/client';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { useRouter } from 'next/router';
 
+import { mockGlassElevatorElevatorRecord, mockServiceElevatorElevatorRecord } from '@/mocks/elevatorManagementMocks';
 import { withRouterAndApolloProvider } from '@/mocks/testMocks';
 import ElevatorManagementTable from '@/modules/elevator-management/components/elevator-management-table';
 import { AppRoutes } from '@/types/enums';
-import { render, screen, waitFor } from '@testing-library/react';
-import { mockGlassElevatorElevatorRecord, mockServiceElevatorElevatorRecord } from '@/mocks/elevatorManagementMocks';
-import userEvent from '@testing-library/user-event';
-import { useRouter } from 'next/router';
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn(),
@@ -34,22 +34,20 @@ describe('ElevatorManagementTable', () => {
 
     const columnHeaders = screen.getAllByRole('columnheader');
 
-    await waitFor(() => {
-      expect(columnHeaders).toHaveLength(12);
+    expect(columnHeaders).toHaveLength(12);
 
-      expect(columnHeaders[0]).toHaveTextContent('');
-      expect(columnHeaders[1]).toHaveTextContent('Elevator Type');
-      expect(columnHeaders[2]).toHaveTextContent('Building Name');
-      expect(columnHeaders[3]).toHaveTextContent('Elevator Location');
-      expect(columnHeaders[4]).toHaveTextContent('Record Id');
-      expect(columnHeaders[5]).toHaveTextContent('Status');
-      expect(columnHeaders[6]).toHaveTextContent('Capacity (kg)');
-      expect(columnHeaders[7]).toHaveTextContent('Last Maintenance Date');
-      expect(columnHeaders[8]).toHaveTextContent('Next Maintenance Date');
-      expect(columnHeaders[9]).toHaveTextContent('Edit');
-      expect(columnHeaders[10]).toHaveTextContent('Delete');
-      expect(columnHeaders[11]).toHaveTextContent('Elevator Visibility');
-    });
+    expect(columnHeaders[0]).toHaveTextContent('');
+    expect(columnHeaders[1]).toHaveTextContent('Elevator Type');
+    expect(columnHeaders[2]).toHaveTextContent('Building Name');
+    expect(columnHeaders[3]).toHaveTextContent('Elevator Location');
+    expect(columnHeaders[4]).toHaveTextContent('Record Id');
+    expect(columnHeaders[5]).toHaveTextContent('Status');
+    expect(columnHeaders[6]).toHaveTextContent('Capacity (kg)');
+    expect(columnHeaders[7]).toHaveTextContent('Last Maintenance Date');
+    expect(columnHeaders[8]).toHaveTextContent('Next Maintenance Date');
+    expect(columnHeaders[9]).toHaveTextContent('Edit');
+    expect(columnHeaders[10]).toHaveTextContent('Delete');
+    expect(columnHeaders[11]).toHaveTextContent('Elevator Visibility');
   });
 
   it('should render correct table cells', async () => {
@@ -66,38 +64,37 @@ describe('ElevatorManagementTable', () => {
     render(ElevatorManagementTableComponent());
 
     const cells = screen.getAllByRole('cell');
+    const editIcons = screen.getAllByTestId('edit-icon');
 
-    await waitFor(() => {
-      expect(cells).toHaveLength(24);
+    expect(cells).toHaveLength(24);
 
-      // === First Row ===
-      expect(cells[0]).toBeInTheDocument(); // checkbox
-      expect(cells[1]).toHaveTextContent('Glass Elevator');
-      expect(cells[2]).toHaveTextContent('Silverhill Apartments');
-      expect(cells[3]).toHaveTextContent('Penthouse');
-      expect(cells[4]).toHaveTextContent('test-id-1');
-      expect(cells[5]).toHaveTextContent('Operational');
-      expect(cells[6]).toHaveTextContent('2000');
-      expect(cells[7]).toHaveTextContent('Jan 20, 2024 12:00 PM');
-      expect(cells[8]).toHaveTextContent('Mar 10, 2024 15:00 PM');
-      expect(cells[9].querySelector('[data-testid="edit-icon"]')).toBeInTheDocument();
-      expect(cells[10]).toBeInTheDocument();
-      expect(cells[11]).toBeInTheDocument();
+    // === First Row ===
+    expect(cells[0]).toBeInTheDocument(); // checkbox
+    expect(cells[1]).toHaveTextContent('Glass Elevator');
+    expect(cells[2]).toHaveTextContent('Silverhill Apartments');
+    expect(cells[3]).toHaveTextContent('Penthouse');
+    expect(cells[4]).toHaveTextContent('test-id-1');
+    expect(cells[5]).toHaveTextContent('Operational');
+    expect(cells[6]).toHaveTextContent('2000');
+    expect(cells[7]).toHaveTextContent('Jan 20, 2024 12:00 PM');
+    expect(cells[8]).toHaveTextContent('Mar 10, 2024 15:00 PM');
+    expect(editIcons[0]).toBeInTheDocument(); // First row edit icon
+    expect(cells[10]).toBeInTheDocument();
+    expect(cells[11]).toBeInTheDocument();
 
-      // === Second Row ===
-      expect(cells[12]).toBeInTheDocument();
-      expect(cells[13]).toHaveTextContent('Service Elevator');
-      expect(cells[14]).toHaveTextContent('Oceanview Condos');
-      expect(cells[15]).toHaveTextContent('Sky Bridge');
-      expect(cells[16]).toHaveTextContent('test-id-2');
-      expect(cells[17]).toHaveTextContent('Operational');
-      expect(cells[18]).toHaveTextContent('3500');
-      expect(cells[19]).toHaveTextContent('Apr 05, 2024 13:00 PM');
-      expect(cells[20]).toHaveTextContent('Jul 28, 2024 18:00 PM');
-      expect(cells[21].querySelector('[data-testid="edit-icon"]')).toBeInTheDocument();
-      expect(cells[22]).toBeInTheDocument();
-      expect(cells[23]).toBeInTheDocument();
-    });
+    // === Second Row ===
+    expect(cells[12]).toBeInTheDocument();
+    expect(cells[13]).toHaveTextContent('Service Elevator');
+    expect(cells[14]).toHaveTextContent('Oceanview Condos');
+    expect(cells[15]).toHaveTextContent('Sky Bridge');
+    expect(cells[16]).toHaveTextContent('test-id-2');
+    expect(cells[17]).toHaveTextContent('Operational');
+    expect(cells[18]).toHaveTextContent('3500');
+    expect(cells[19]).toHaveTextContent('Apr 05, 2024 13:00 PM');
+    expect(cells[20]).toHaveTextContent('Jul 28, 2024 18:00 PM');
+    expect(editIcons[1]).toBeInTheDocument();
+    expect(cells[22]).toBeInTheDocument();
+    expect(cells[23]).toBeInTheDocument();
   });
 
   it('should show alert message when no data available for a table', () => {
@@ -143,17 +140,13 @@ describe('ElevatorManagementTable', () => {
 
     render(ElevatorManagementTableComponent());
 
-    const row = screen.getByText('Glass Elevator').closest('tr') as HTMLTableRowElement;
+    const row = screen.getByRole('row', { name: /glass elevator/i });
 
     expect(row).toBeInTheDocument();
 
-    userEvent.click(row);
+    await userEvent.click(row);
 
-    await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledTimes(1);
-      expect(mockPush).toHaveBeenCalledWith(
-        `${AppRoutes.ElevatorManagement}/${mockGlassElevatorElevatorRecord.node.id}`
-      );
-    });
+    expect(mockPush).toHaveBeenCalledTimes(1);
+    expect(mockPush).toHaveBeenCalledWith(`${AppRoutes.ElevatorManagement}/${mockGlassElevatorElevatorRecord.node.id}`);
   });
 });

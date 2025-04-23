@@ -1,9 +1,10 @@
+import { render, screen } from '@testing-library/react';
+
 import { mockElevatorRecordsFormData } from '@/mocks/elevatorManagementMocks';
-import { withApolloAndFormProvider, withApolloProvider } from '@/mocks/testMocks';
+import { withApolloAndFormProvider } from '@/mocks/testMocks';
 import EditElevatorRecordForm from '@/modules/elevator-management/components/edit-elevator-record-form';
 import { EditElevatorRecordFormProps } from '@/modules/elevator-management/components/edit-elevator-record-form/EditElevatorRecordForm';
 import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions';
-import { render, screen } from '@testing-library/react';
 
 jest.mock('@/shared/hooks/useFetchDropdownOptions');
 

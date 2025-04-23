@@ -24,7 +24,7 @@ import { getItemsFromQuery, removeTypeNamesFromArray } from '@/shared/utils';
 
 import { ELEVATOR_RECORDS_TABLE_FILTER_KEY_MAP } from './constants';
 
-type UseGetElevatorRecords<T> = {
+export type UseGetElevatorRecords<T> = {
   elevatorRecords: ElevatorRecord[];
   loading: boolean;
   hasMore: boolean;
@@ -35,7 +35,7 @@ type UseGetElevatorRecords<T> = {
   refetch: (variables?: Partial<QueryGetElevatorRecordsArgs>) => Promise<ApolloQueryResult<GetElevatorRecordsQuery>>;
 };
 
-const useGetElevatorRecords = <T>(): UseGetElevatorRecords<T> => {
+export const useGetElevatorRecords = <T>(): UseGetElevatorRecords<T> => {
   const { storedState: tableStorageState, setStoredState: setTableState } = useStoredTableState<
     SortingState,
     TableFilters<T>,
@@ -112,5 +112,3 @@ const useGetElevatorRecords = <T>(): UseGetElevatorRecords<T> => {
     refetch,
   };
 };
-
-export default useGetElevatorRecords;

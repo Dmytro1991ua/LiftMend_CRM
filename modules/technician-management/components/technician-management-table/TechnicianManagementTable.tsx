@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 
 import { GetTechnicianRecordsQuery, QueryGetTechnicianRecordsArgs } from '@/graphql/types/client/generated_types';
 import BaseTable from '@/shared/base-table';
+import { useSearchInTable } from '@/shared/base-table/hooks';
 import { getEmptyTableMessage, onHandleRowClick } from '@/shared/base-table/utils';
 import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions';
 import { DropdownOptions } from '@/shared/hooks/useFetchDropdownOptions/config';
@@ -18,7 +19,6 @@ import { TECHNICIAN_RECORD_COLUMNS } from './columns';
 import { getTechnicianRecordFilterConfig } from './config';
 import { DEFAULT_SEARCH_INPUT_PLACEHOLDER, DEFAULT_TECHNICIAN_RECORDS_TABLE_EMPTY_TABLE_MESSAGE } from './constants';
 import { getRowTooltipMessage, isTechnicianRecordRowDisabled } from './utils';
-import { useSearchInTable } from '@/shared/base-table/hooks';
 
 const TechnicianManagementTable = () => {
   const router = useRouter();

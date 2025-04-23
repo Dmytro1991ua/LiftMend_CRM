@@ -1,5 +1,4 @@
 import { useDeleteElevatorRecord } from '@/modules/elevator-management/hooks';
-import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 
 type UseElevatorRecordDeletionProps = {
   id: string;
@@ -17,12 +16,7 @@ export const useElevatorRecordDeletion = ({
   onCloseModal,
   onRedirect,
 }: UseElevatorRecordDeletionProps): UseElevatorRecordDeletion => {
-  const { onError, onSuccess } = useMutationResultToasts();
-
-  const { onDeleteElevatorRecord, isLoading } = useDeleteElevatorRecord({
-    onError,
-    onSuccess,
-  });
+  const { onDeleteElevatorRecord, isLoading } = useDeleteElevatorRecord();
 
   const onHandleDeleteElevatorRecord = async () => {
     await onDeleteElevatorRecord(id);

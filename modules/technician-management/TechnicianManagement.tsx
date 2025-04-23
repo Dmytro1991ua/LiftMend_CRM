@@ -4,8 +4,7 @@ import { HiPlus } from 'react-icons/hi';
 
 import { Button } from '@/components/ui/button';
 import BaseModal from '@/shared/base-modal';
-import { useModal } from '@/shared/hooks';
-import { useFormState } from '@/shared/hooks';
+import { useFormState, useModal } from '@/shared/hooks';
 import SectionHeader from '@/shared/section-header';
 import { SectionHeaderDescription, SectionHeaderTitle } from '@/types/enums';
 

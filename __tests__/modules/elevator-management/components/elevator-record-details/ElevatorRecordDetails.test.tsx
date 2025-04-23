@@ -1,10 +1,10 @@
 import * as apollo from '@apollo/client';
+import { render, screen } from '@testing-library/react';
 
+import { mockElevatorRecord } from '@/mocks/elevatorManagementMocks';
 import { withRouterAndApolloProvider } from '@/mocks/testMocks';
 import ElevatorRecordDetails from '@/modules/elevator-management/components/elevator-record-details/ElevatorRecordDetails';
 import { AppRoutes } from '@/types/enums';
-import { render, screen } from '@testing-library/react';
-import { mockElevatorRecord } from '@/mocks/elevatorManagementMocks';
 
 describe('ElevatorRecordDetails', () => {
   afterEach(() => {

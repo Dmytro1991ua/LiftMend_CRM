@@ -6,6 +6,7 @@ import AuthFormSeparator from '@/shared/auth/auth-form-separator';
 import { useAuthMutation } from '@/shared/auth/hooks';
 import ThirdPartyAuthButton from '@/shared/auth/third-party-auth-button';
 import { usePhoneCountry } from '@/shared/base-input/phone-number-input/hooks';
+import { useFormState } from '@/shared/hooks';
 import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import { formatPhoneNumber } from '@/shared/utils';
 import { AppRoutes } from '@/types/enums';
@@ -13,7 +14,6 @@ import { AppRoutes } from '@/types/enums';
 import AuthForm from '../auth-form';
 import { AuthButtonLabel, AuthFormType } from '../types';
 import { INITIAL_SIGN_UP_FORM_VALUES, SignUpFormFields, signUpSchema } from '../validation';
-import { useFormState } from '@/shared/hooks';
 
 const SignUpForm = () => {
   const { formState, onReset } = useFormState<SignUpFormFields>({

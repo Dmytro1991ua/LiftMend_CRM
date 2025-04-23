@@ -1,13 +1,14 @@
+import { MockedResponse } from '@apollo/client/testing';
+import { RenderHookResult, act, renderHook } from '@testing-library/react-hooks';
+
 import { mockUpdateElevatorRecord, mockUpdateElevatorRecordGQLError } from '@/mocks/elevatorManagementMocks';
 import { MockProviderHook } from '@/mocks/testMocks';
-import { useUpdateElevatorRecordVisibility } from '@/modules/elevator-management/components/elevator-status-toggle-cell/hooks/useUpdateElevatorRecordVisibility';
 import useUpdateElevatorRecordStatus, {
   UseUpdateEmploymentStatus,
   UseUpdateEmploymentStatusProps,
 } from '@/modules/elevator-management/components/elevator-status-toggle-cell/hooks/useUpdateElevatorRecordStatus';
+import { useUpdateElevatorRecordVisibility } from '@/modules/elevator-management/components/elevator-status-toggle-cell/hooks/useUpdateElevatorRecordVisibility';
 import { ElevatorStatus } from '@/modules/elevator-management/types';
-import { MockedResponse } from '@apollo/client/testing';
-import { act, renderHook, RenderHookResult } from '@testing-library/react-hooks';
 
 jest.mock(
   '@/modules/elevator-management/components/elevator-status-toggle-cell/hooks/useUpdateElevatorRecordVisibility'

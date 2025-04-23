@@ -76,7 +76,7 @@ describe('useUpdateElevatorRecordVisibility', () => {
     expect(result.current.loading).toBeFalsy();
   });
 
-  it('should call update and trigger onSuccess if mutation succeeds without errors', async () => {
+  it('should trigger onUpdateElevatorRecordStatus with success if mutation succeeds without errors', async () => {
     mockUseMutation.mockImplementationOnce(() =>
       Promise.resolve({
         data: {

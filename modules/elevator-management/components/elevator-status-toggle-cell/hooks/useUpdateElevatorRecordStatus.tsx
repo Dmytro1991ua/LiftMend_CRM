@@ -2,9 +2,9 @@ import { useCallback } from 'react';
 
 import { ElevatorStatus, ElevatorStatusConfig } from '@/modules/elevator-management/types';
 import { useModal } from '@/shared/hooks';
-import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 
 import { getElevatorStatusUpdateConfig } from '../config';
+
 import { useUpdateElevatorRecordVisibility } from './useUpdateElevatorRecordVisibility';
 
 export type UseUpdateEmploymentStatusProps = {
