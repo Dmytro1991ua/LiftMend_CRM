@@ -10,6 +10,7 @@ import { getCommonDetailsPageActionButtonsConfig } from '@/shared/base-details-p
 import DeleteModal from '@/shared/base-modal/delete-modal';
 import EditModal from '@/shared/base-modal/edit-modal';
 import { getModalTitle } from '@/shared/base-modal/edit-modal/utils';
+import { useFormState } from '@/shared/hooks';
 import { getDeleteModalDescription, getElevatorRecordInfo } from '@/shared/utils';
 
 import { DEFAULT_DELETE_ELEVATOR_MODAL_TITLE } from '../../constants';
@@ -22,7 +23,6 @@ import { elevatorRecordEditFormSchema } from '../edit-elevator-record-form/valid
 
 import { elevatorRecordSectionsConfig } from './config';
 import useFetchElevatorRecordById from './hooks/useFetchElevatorRecordById';
-import { useFormState } from '@/shared/hooks';
 
 const ElevatorRecordDetails = () => {
   const {

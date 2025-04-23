@@ -6,14 +6,10 @@ import {
   DeleteElevatorRecordMutationVariables,
   ElevatorRecord,
 } from '@/graphql/types/client/generated_types';
+import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import { onHandleMutationErrors } from '@/shared/utils';
 
-type UseDeleteElevatorRecordProps = {
-  onSuccess?: (message: string) => void;
-  onError?: (errorMessage: string, errorDescription: string) => void;
-};
-
-type UseDeleteElevatorRecord = {
+export type UseDeleteElevatorRecord = {
   onDeleteElevatorRecord: (id: string) => Promise<void>;
   isLoading: boolean;
   error?: string;
@@ -28,10 +24,9 @@ type ElevatorCacheEdge = {
 export const DEFAULT_DELETE_ELEVATOR_RECORD_SUCCESS_MESSAGE = 'Successfully deleted elevation record';
 export const DEFAULT_DELETE_ELEVATOR_RECORD_FAIL_MESSAGE = 'Fail to deleted elevator record';
 
-export const useDeleteElevatorRecord = ({
-  onSuccess,
-  onError,
-}: UseDeleteElevatorRecordProps): UseDeleteElevatorRecord => {
+export const useDeleteElevatorRecord = (): UseDeleteElevatorRecord => {
+  const { onError, onSuccess } = useMutationResultToasts();
+
   const [deleteElevatorRecord, { loading, error }] = useMutation<
     DeleteElevatorRecordMutation,
     DeleteElevatorRecordMutationVariables

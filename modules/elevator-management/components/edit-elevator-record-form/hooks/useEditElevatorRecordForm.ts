@@ -1,9 +1,8 @@
 import { SubmitHandler } from 'react-hook-form';
 
-import { ElevatorRecordFormValues } from '@/modules/elevator-management/types';
-import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
-import { ElevatorRecord } from '@/shared/types';
 import { useUpdateElevatorRecord } from '@/modules/elevator-management/hooks';
+import { ElevatorRecordFormValues } from '@/modules/elevator-management/types';
+import { ElevatorRecord } from '@/shared/types';
 
 type UseEditElevatorRecordFormProps = {
   elevatorRecord: ElevatorRecord;
@@ -19,9 +18,7 @@ const useEditElevatorRecordForm = ({
   elevatorRecord,
   onReset,
 }: UseEditElevatorRecordFormProps): UseEditElevatorRecordForm => {
-  const { onError, onSuccess } = useMutationResultToasts();
-
-  const { onUpdateElevatorRecord, isLoading: isUpdateRecordLoading } = useUpdateElevatorRecord({ onError, onSuccess });
+  const { onUpdateElevatorRecord, isLoading: isUpdateRecordLoading } = useUpdateElevatorRecord();
 
   const onEditElevatorRecord: SubmitHandler<ElevatorRecordFormValues> = async (data): Promise<void> => {
     const updateElevatorRecord = {

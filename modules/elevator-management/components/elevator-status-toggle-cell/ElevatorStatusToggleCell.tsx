@@ -27,8 +27,8 @@ const ElevatorStatusToggleCell = ({ status, elevatorRecordId, lastKnownStatus }:
   return (
     <section>
       <Button
-        data-testid='status-toggle-btn'
         className='relative hover:bg-transparent'
+        data-testid='status-toggle-btn'
         variant='ghost'
         onClick={(e) => {
           e.stopPropagation();

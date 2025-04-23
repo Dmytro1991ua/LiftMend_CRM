@@ -230,11 +230,11 @@ const EditElevatorRecordForm = ({ elevatorRecordFormValues }: EditElevatorRecord
 
   return (
     <EditEntityForm<ElevatorRecordFormValues>
+      dataTestId='edit-elevator-record-form'
       error={error}
       fieldConfigs={ELEVATOR_RECORD_FORM_FIELD_CONFIG}
       formValues={elevatorRecordFormValues}
       loading={loading}
-      dataTestId='edit-elevator-record-form'
     />
   );
 };

@@ -5,26 +5,21 @@ import {
   UpdateElevatorRecordMutation,
   UpdateElevatorRecordMutationVariables,
 } from '@/graphql/types/client/generated_types';
+import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import { ElevatorRecord } from '@/shared/types';
 import { getFieldsToUpdateForMutation, onHandleMutationErrors } from '@/shared/utils';
 
 import { ElevatorRecordFormValues } from '../types';
 import { convertFormFieldsToElevatorRecord } from '../utils';
 
-type UseUpdateElevatorRecordProps = {
-  onSuccess?: (message: string) => void;
-  onError?: (errorMessage: string, errorDescription: string) => void;
-};
-
-type UseUpdateElevatorRecord = {
+export type UseUpdateElevatorRecord = {
   isLoading: boolean;
   onUpdateElevatorRecord: (formFields: ElevatorRecordFormValues, originalRepairJob?: ElevatorRecord) => Promise<void>;
 };
 
-export const useUpdateElevatorRecord = ({
-  onSuccess,
-  onError,
-}: UseUpdateElevatorRecordProps): UseUpdateElevatorRecord => {
+export const useUpdateElevatorRecord = (): UseUpdateElevatorRecord => {
+  const { onError, onSuccess } = useMutationResultToasts();
+
   const [updateElevatorRecord, { loading }] = useMutation<
     UpdateElevatorRecordMutation,
     UpdateElevatorRecordMutationVariables
@@ -48,12 +43,12 @@ export const useUpdateElevatorRecord = ({
 
       if (hasErrors) {
         onHandleMutationErrors({
-          message: `Fail to update ${elevatorRecord.elevatorLocation} elevator record`,
+          message: `Fail to update ${elevatorRecord.elevatorType} elevator record`,
           errors: result.errors,
           onFailure: onError,
         });
       } else {
-        onSuccess?.(`Successfully updated scheduled ${elevatorRecord.elevatorLocation} elevator record`);
+        onSuccess?.(`Successfully updated ${elevatorRecord.elevatorType} elevator record`);
       }
     } catch (e) {
       onHandleMutationErrors({
