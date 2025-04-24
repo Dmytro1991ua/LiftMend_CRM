@@ -1,20 +1,17 @@
 import { render, screen } from '@testing-library/react';
 
-import { MockProviderHook } from '@/mocks/testMocks';
+import { MockProviderHook, withApolloProvider } from '@/mocks/testMocks';
 import ElevatorManagement from '@/modules/elevator-management';
-import { SectionHeaderTitle } from '@/types/enums';
+import { SectionHeaderDescription, SectionHeaderTitle } from '@/types/enums';
 
 describe('ElevatorManagement', () => {
-  const ElevatorManagementComponent = () => (
-    <MockProviderHook mocks={[]}>
-      <ElevatorManagement />
-    </MockProviderHook>
-  );
+  const ElevatorManagementComponent = () => withApolloProvider(<ElevatorManagement />);
 
   it('should render component without crashing', () => {
     render(<ElevatorManagementComponent />);
 
     expect(screen.getByText(SectionHeaderTitle.ElevatorManagement)).toBeInTheDocument();
+    expect(screen.getByText(SectionHeaderDescription.ElevatorManagement)).toBeInTheDocument();
     expect(screen.getByTestId('base-table')).toBeInTheDocument();
   });
 });
