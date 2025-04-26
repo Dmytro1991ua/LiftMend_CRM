@@ -6,7 +6,13 @@ import { NavigationLinkLabel } from '@/modules/sidebar/types';
 import { AppRoutes } from '@/types/enums';
 
 describe('Header', () => {
-  const headerComponent = () => withRouterAndApolloProvider(<Header />, AppRoutes.Dashboard);
+  const mockOnBurgerIconClick = jest.fn();
+
+  const defaultProps = {
+    onBurgerIconClick: mockOnBurgerIconClick,
+  };
+
+  const headerComponent = () => withRouterAndApolloProvider(<Header {...defaultProps} />, AppRoutes.Dashboard);
 
   it('should render component without crashing', () => {
     render(headerComponent());
@@ -42,5 +48,15 @@ describe('Header', () => {
 
     fireEvent.click(logoutLink);
     expect(logoutLink).toHaveAttribute('href', AppRoutes.SignIn);
+  });
+
+  it('should open sidenav on mobile screen by clicking to burger icon', () => {
+    render(headerComponent());
+
+    const burgerButton = screen.getByTestId('burger-button');
+
+    fireEvent.click(burgerButton);
+
+    expect(mockOnBurgerIconClick).toHaveBeenCalled();
   });
 });

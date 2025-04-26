@@ -1,11 +1,8 @@
-import { useCallback, useState } from 'react';
-
 import { BiLogOut, BiSolidUser } from 'react-icons/bi';
 import { FaBars } from 'react-icons/fa6';
 
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { useSignOut } from '@/shared/auth/hooks';
 import { useUser } from '@/shared/contexts/UserContext';
 import UserAvatar from '@/shared/user-avatar';
 import UserName from '@/shared/user-avatar/user-name/UserName';
@@ -14,6 +11,7 @@ import { AppRoutes } from '@/types/enums';
 import NavigationLink from '../sidebar/navigation-link';
 import { NavigationLinkLabel } from '../sidebar/types';
 
+import { useHeader } from './hooks';
 import { DropdownConfig } from './types';
 
 type HeaderProps = {
@@ -23,25 +21,9 @@ type HeaderProps = {
 const Header = ({ onBurgerIconClick }: HeaderProps) => {
   const { user, loading: userLoading } = useUser();
 
-  const { onSignOut } = useSignOut();
-
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { isDropdownOpen, onDropdownClose, onDropdownOpen, onHandleSignOut } = useHeader();
 
   const commonIconClasses = 'mr-2 h-4 w-4';
-
-  const onDropdownOpen = useCallback((): void => {
-    setIsDropdownOpen(true);
-  }, []);
-
-  const onDropdownClose = useCallback((): void => {
-    setIsDropdownOpen(false);
-  }, []);
-
-  const onHandleSignOut = useCallback(async (): Promise<void> => {
-    await onSignOut();
-
-    onDropdownClose();
-  }, [onSignOut, onDropdownClose]);
 
   const DROPDOWN_CONFIG: DropdownConfig[] = [
     {
@@ -64,10 +46,10 @@ const Header = ({ onBurgerIconClick }: HeaderProps) => {
 
   return (
     <header className='header' data-testid='header'>
-      <button className='md:hidden p-2' onClick={onBurgerIconClick}>
+      <button className='md:hidden p-2' data-testid='burger-button' onClick={onBurgerIconClick}>
         <FaBars className='w-6 h-6 text-gray-700' />
       </button>
-      <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
+      <DropdownMenu open={isDropdownOpen} onOpenChange={onDropdownOpen}>
         <DropdownMenuTrigger className='ml-auto'>
           <Button
             className='px-2 hover:bg-transparent'
