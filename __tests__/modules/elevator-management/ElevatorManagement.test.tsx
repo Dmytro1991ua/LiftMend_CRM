@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
-import { MockProviderHook, withApolloProvider } from '@/mocks/testMocks';
+import { withApolloProvider } from '@/mocks/testMocks';
 import ElevatorManagement from '@/modules/elevator-management';
 import { SectionHeaderDescription, SectionHeaderTitle } from '@/types/enums';
 
