@@ -21,7 +21,7 @@ type HeaderProps = {
 const Header = ({ onBurgerIconClick }: HeaderProps) => {
   const { user, loading: userLoading } = useUser();
 
-  const { isDropdownOpen, onDropdownClose, onDropdownOpen, onHandleSignOut } = useHeader();
+  const { isDropdownOpen, onDropdownClose, onDropdownOpen, onHandleSignOut, onSetIsDropdownOpen } = useHeader();
 
   const commonIconClasses = 'mr-2 h-4 w-4';
 
@@ -49,7 +49,7 @@ const Header = ({ onBurgerIconClick }: HeaderProps) => {
       <button className='md:hidden p-2' data-testid='burger-button' onClick={onBurgerIconClick}>
         <FaBars className='w-6 h-6 text-gray-700' />
       </button>
-      <DropdownMenu open={isDropdownOpen} onOpenChange={onDropdownOpen}>
+      <DropdownMenu open={isDropdownOpen} onOpenChange={onSetIsDropdownOpen}>
         <DropdownMenuTrigger className='ml-auto'>
           <Button
             className='px-2 hover:bg-transparent'

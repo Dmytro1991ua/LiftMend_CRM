@@ -27,6 +27,7 @@ describe('useGetElevatorRecords', () => {
       addTypename: false,
       typePolicies,
     });
+
     return renderHook(() => useGetElevatorRecords(), {
       wrapper: ({ children }) => (
         <MockProviderHook cache={cache} mocks={mocks}>

@@ -1,14 +1,14 @@
 import { ApolloError, useMutation } from '@apollo/client';
 
 import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
+import { onHandleMutationErrors } from '@/shared/utils';
 
 import { UPDATE_PROFILE } from '../../../graphql/schemas/updateProfile';
 import { UpdateProfileMutation, UpdateProfileMutationVariables } from '../../../graphql/types/client/generated_types';
-import { onHandleMutationErrors } from '../../../graphql/utils';
 import { DEFAULT_UPDATE_PROFILE_FAIL_MESSAGE, DEFAULT_UPDATE_PROFILE_SUCCESS_MESSAGE } from '../constants';
 import { ProfileContentFormFields } from '../validation';
 
-type UseUpdateProfileResult = {
+export type UseUpdateProfileResult = {
   isLoading: boolean;
   onUpdateProfile: (formFields: ProfileContentFormFields, userId?: string) => Promise<void>;
 };
@@ -44,15 +44,16 @@ export const useUpdateProfile = (): UseUpdateProfileResult => {
         variables: {
           input: {
             id: userId ?? '',
-            firstName,
-            lastName,
-            phone: phoneNumber,
-            password: newPassword,
+            ...(firstName && { firstName }),
+            ...(lastName && { lastName }),
+            ...(phoneNumber && { phone: phoneNumber }),
+            ...(newPassword && { password: newPassword }),
           },
         },
       });
 
       const hasErrors = !!result.errors?.length;
+
       if (hasErrors) {
         onHandleMutationErrors({
           message: DEFAULT_UPDATE_PROFILE_FAIL_MESSAGE,

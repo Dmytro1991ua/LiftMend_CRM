@@ -7,7 +7,7 @@ import UserAvatar from '@/shared/user-avatar';
 
 import { PROFILE_ACCOUNT_SETTINGS_CONFIG } from '../configs';
 import { ACCEPTABLE_FILE_IMAGE_TYPES } from '../constants';
-import { useProfileAvatarState } from '../hooks';
+import { useUpdateProfilePicture } from '../hooks';
 import ProfileFormFields from '../profile-form-fields';
 
 import ProfileDropzone from './profile-dropzone';
@@ -20,7 +20,7 @@ type ProfileAccountSettingsProps = {
 };
 
 const ProfileAccountSettings = ({ user, isLoading, selectedCountry, onSelectCountry }: ProfileAccountSettingsProps) => {
-  const { loading: uploadFileLoading, previewImage, onImageUpload } = useProfileAvatarState();
+  const { loading: uploadFileLoading, previewImage, onImageUpload } = useUpdateProfilePicture();
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: onImageUpload,

@@ -17,13 +17,13 @@ import {
 } from '../constants';
 import { handleImageDrop } from '../utils';
 
-type UseProfileAvatarState = {
+export type UseUpdateProfilePicture = {
   previewImage: string | null;
   onImageUpload: (files: File[]) => Promise<void>;
   loading: boolean;
 };
 
-export const useProfileAvatarState = (): UseProfileAvatarState => {
+export const useUpdateProfilePicture = (): UseUpdateProfilePicture => {
   const { onError, onSuccess } = useMutationResultToasts();
 
   const [uploadProfilePicture, { loading }] = useMutation<

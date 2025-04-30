@@ -1,0 +1,27 @@
+export const mockFormState = {
+  control: {
+    register: jest.fn(),
+    unregister: jest.fn(),
+    getFieldState: jest.fn(),
+    handleSubmit: jest.fn(),
+    setError: jest.fn(),
+  },
+  trigger: jest.fn(),
+  register: jest.fn(),
+  handleSubmit: jest.fn(),
+  watch: jest.fn(),
+  setValue: jest.fn(),
+  getValues: jest.fn(),
+  reset: jest.fn(),
+  resetField: jest.fn(),
+  clearErrors: jest.fn(),
+  unregister: jest.fn(),
+  setError: jest.fn(),
+  setFocus: jest.fn(),
+  getFieldState: jest.fn(),
+  formState: {
+    defaultValue: undefined,
+    handleSubmit: jest.fn(),
+    getValues: jest.fn(),
+  },
+};

@@ -5,7 +5,7 @@ import { SubmitHandler, UseFormReturn, useForm } from 'react-hook-form';
 
 import { AppUser } from '@/graphql/types/client/generated_types';
 import { usePhoneCountry } from '@/shared/base-input/phone-number-input/hooks';
-import { useGetUser } from '@/shared/hooks/useGetUser';
+import { useGetUser } from '@/shared/hooks';
 import { formatPhoneNumber } from '@/shared/utils';
 
 import { convertProfileDataToFormValues } from '../utils';
@@ -13,7 +13,7 @@ import { ProfileContentFormFields, profileFormSchema } from '../validation';
 
 import { useUpdateProfile } from './useUpdateProfile';
 
-type UseProfileResult = {
+export type UseProfileResult = {
   formState: UseFormReturn<ProfileContentFormFields>;
   loading: boolean;
   updateProfileLoading: boolean;
