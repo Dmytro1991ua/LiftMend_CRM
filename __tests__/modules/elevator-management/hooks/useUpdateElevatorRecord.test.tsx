@@ -88,7 +88,7 @@ describe('useUpdateElevatorRecord', () => {
     expect(result.current.isLoading).toBeFalsy();
   });
 
-  it('should trigger onUpdateElevatorRecord with success if mutation succeeds without errors', async () => {
+  it('Should trigger onUpdateElevatorRecord with success when the mutation succeeds without errors.', async () => {
     mockUseMutation.mockReturnValue([
       jest.fn().mockResolvedValue({ data: { updateElevatorRecord: mockUpdateElevatorRecord } }),
       { loading: false, error: undefined },
@@ -108,7 +108,7 @@ describe('useUpdateElevatorRecord', () => {
 
   it('should handle GraphQL errors and trigger onHandleMutationErrors', async () => {
     mockUseMutation.mockReturnValue([
-      jest.fn().mockResolvedValue({ data: { updateElevatorRecord: mockUpdateElevatorRecord }, errors: mockGqlError }),
+      jest.fn().mockResolvedValue({ data: undefined, errors: mockGqlError }),
       { loading: false, error: undefined },
     ]);
 
@@ -130,7 +130,7 @@ describe('useUpdateElevatorRecord', () => {
 
   it('should handle network error and call onHandleMutationErrors', async () => {
     mockUseMutation.mockReturnValue([
-      jest.fn().mockRejectedValue(new Error('Network Error')),
+      jest.fn().mockRejectedValue({ message: 'Network Error' }),
       { loading: false, error: mockNetworkError },
     ]);
 

@@ -4,3 +4,4 @@ export * from './useMutationResultToasts';
 export * from './useBaseToast/useBaseToast';
 export * from './useFormState';
 export * from './useNavigationLoading';
+export * from './useGetUser';

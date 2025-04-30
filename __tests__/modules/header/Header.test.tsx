@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 
 import { withRouterAndApolloProvider } from '@/mocks/testMocks';
+import { mockUserResponse } from '@/mocks/userMocks';
 import Header from '@/modules/header';
 import { NavigationLinkLabel } from '@/modules/sidebar/types';
 import { AppRoutes } from '@/types/enums';
@@ -12,7 +13,8 @@ describe('Header', () => {
     onBurgerIconClick: mockOnBurgerIconClick,
   };
 
-  const headerComponent = () => withRouterAndApolloProvider(<Header {...defaultProps} />, AppRoutes.Dashboard);
+  const headerComponent = () =>
+    withRouterAndApolloProvider(<Header {...defaultProps} />, AppRoutes.Dashboard, [mockUserResponse]);
 
   it('should render component without crashing', () => {
     render(headerComponent());

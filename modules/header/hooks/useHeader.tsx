@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { Dispatch, SetStateAction, useCallback, useState } from 'react';
 
 import { useSignOut } from '@/shared/auth/hooks';
 
@@ -7,6 +7,7 @@ type UseHeader = {
   onDropdownClose: () => void;
   onDropdownOpen: () => void;
   onHandleSignOut: () => Promise<void>;
+  onSetIsDropdownOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 export const useHeader = (): UseHeader => {
@@ -33,5 +34,6 @@ export const useHeader = (): UseHeader => {
     onDropdownClose,
     onDropdownOpen,
     onHandleSignOut,
+    onSetIsDropdownOpen: setIsDropdownOpen,
   };
 };
