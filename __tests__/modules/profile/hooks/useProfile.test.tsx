@@ -8,7 +8,7 @@ import { mockFormState } from '@/mocks/formStateMock';
 import { mockUpdateProfileResponse } from '@/mocks/profileMocks';
 import { MockProviderHook } from '@/mocks/testMocks';
 import { mockUser, mockUserResponse } from '@/mocks/userMocks';
-import { UseProfileResult, useProfile, useUpdateProfile } from '@/modules/profile/hooks';
+import { UseProfileResult, useProfile } from '@/modules/profile/hooks';
 import { usePhoneCountry } from '@/shared/base-input/phone-number-input/hooks';
 import { useGetUser } from '@/shared/hooks';
 

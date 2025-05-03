@@ -5,7 +5,7 @@ import BaseButton from '@/shared/base-button';
 
 import { ProfileActionButtonConfig, ProfileFormButtonLabel } from '../types';
 
-type ProfileActionButtonsProps = {
+export type ProfileActionButtonsProps = {
   isLoading?: boolean;
   isDisabled?: boolean;
   onReset: () => void;
@@ -36,7 +36,7 @@ const ProfileActionButtons = ({ isDisabled, isLoading, onReset, onSubmit }: Prof
     },
   ];
   return (
-    <section className='flex gap-2'>
+    <section className='flex gap-2' data-testid='profile-action-buttons'>
       {PROFILE_ACTION_BUTTONS_CONFIG.map(
         ({ id, icon, type, isDisabled, isLoading, label, variant, className, onClick }) => (
           <BaseButton

@@ -1,6 +1,6 @@
-import { ProfileContentSubtitle, ProfileContentTitle } from '../../types';
+import { ProfileContentSubtitle, ProfileContentTitle } from '../types';
 
-type ProfileContentWrapperProps = {
+export type ProfileContentWrapperProps = {
   title: ProfileContentTitle;
   subtitle: ProfileContentSubtitle;
   children: React.JSX.Element;

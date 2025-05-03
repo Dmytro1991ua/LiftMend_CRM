@@ -6,8 +6,8 @@ import { SectionHeaderTitle } from '@/types/enums';
 import { PROFILE_CHANGE_PASSWORD_SETTINGS_CONFIG } from './configs';
 import { useProfile } from './hooks';
 import ProfileAccountSettings from './profile-account-settings';
-import ProfileContentWrapper from './profile-account-settings/profile-content-wrapper';
 import ProfileActionButtons from './profile-action-buttons/ProfileActionButtons';
+import ProfileContentWrapper from './profile-content-wrapper';
 import ProfileFormFields from './profile-form-fields';
 import { ProfileContentConfig, ProfileContentSubtitle, ProfileContentTitle } from './types';
 
