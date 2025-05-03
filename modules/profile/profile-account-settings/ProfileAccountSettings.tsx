@@ -8,11 +8,10 @@ import UserAvatar from '@/shared/user-avatar';
 import { PROFILE_ACCOUNT_SETTINGS_CONFIG } from '../configs';
 import { ACCEPTABLE_FILE_IMAGE_TYPES } from '../constants';
 import { useUpdateProfilePicture } from '../hooks';
+import ProfileDropzone from '../profile-dropzone';
 import ProfileFormFields from '../profile-form-fields';
 
-import ProfileDropzone from './profile-dropzone';
-
-type ProfileAccountSettingsProps = {
+export type ProfileAccountSettingsProps = {
   user: GetUserQuery['getUser'] | null;
   isLoading: boolean;
   selectedCountry?: string;

@@ -8,7 +8,7 @@ import PhoneNumberInput from '@/shared/base-input/phone-number-input';
 import { FromInputConfig } from '../types';
 import { ProfileContentFormFields } from '../validation';
 
-type ProfileFormFieldsProps = {
+export type ProfileFormFieldsProps = {
   config: FromInputConfig[];
   selectedCountry?: string;
   onSelectCountry?: (country: string) => void;
@@ -18,7 +18,7 @@ const ProfileFormFields = ({ config, selectedCountry, onSelectCountry }: Profile
   const { clearErrors } = useFormContext<ProfileContentFormFields>();
 
   return (
-    <div className='flex-1 w-full'>
+    <div className='flex-1 w-full' data-testid='profile-form-fields'>
       {config.map(({ id, name, type, placeholder, disabled, label, isLastElement }) => {
         if (type === 'phone') {
           return (
