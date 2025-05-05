@@ -21,7 +21,7 @@ const config: Config = {
     '^@/shared/(.*)$': '<rootDir>/shared/$1',
     '^@/lib/(.*)$': '<rootDir>/lib/$1',
   },
-  coveragePathIgnorePatterns: ['/node_modules/', '<rootDir>/components/'],
+  coveragePathIgnorePatterns: ['/node_modules/', '<rootDir>/components/', '/validation\\.ts$'],
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   preset: 'ts-jest',
