@@ -167,10 +167,6 @@ describe('useRepairJobForm', () => {
       await result.current.onSubmit(mockFromValues);
     });
 
-    // Debugging logs to check if the functions were called
-    console.log(mockOnCreateRepairJobAndEvent.mock.calls);
-    console.log(mockOnReset.mock.calls);
-
     expect(mockOnCreateRepairJobAndEvent).toHaveBeenCalled();
     expect(mockOnReset).toHaveBeenCalled();
   });
