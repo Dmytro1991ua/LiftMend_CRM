@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
+import { mockElevatorManagementDropdownOptions } from '@/mocks/dropdownOptions';
 import { mockElevatorRecordsFormData } from '@/mocks/elevatorManagementMocks';
 import { withApolloAndFormProvider } from '@/mocks/testMocks';
 import EditElevatorRecordForm from '@/modules/elevator-management/components/edit-elevator-record-form';
@@ -9,32 +10,6 @@ import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions'
 jest.mock('@/shared/hooks/useFetchDropdownOptions');
 
 describe('EditElevatorRecordForm', () => {
-  const mockDropdownOptions = {
-    elevatorTypes: [
-      { value: 'Auto-Elevator', label: 'Auto-Elevator' },
-      { value: 'Baggage Lift', label: 'Baggage Lift' },
-      { value: 'Glass Elevator', label: 'Glass Elevator' },
-    ],
-    buildingNames: [
-      { value: 'Clearwater Towers', label: 'Clearwater Towers' },
-      { value: 'Coastal Heights', label: 'Coastal Heights' },
-      { value: 'Crystal Bay Apartments', label: 'Crystal Bay Apartments' },
-      { value: 'Silverhill Apartments', label: 'Silverhill Apartments' },
-    ],
-    elevatorLocations: [
-      { value: 'Warehouse', label: 'Warehouse' },
-      { value: 'Warehouse Level', label: 'Warehouse Level' },
-      { value: 'Workshop', label: 'Workshop' },
-      { value: 'Penthouse', label: 'Penthouse' },
-    ],
-    elevatorStatuses: [
-      { value: 'Operational', label: 'Operational' },
-      { value: 'Out of Service', label: 'Out of Service' },
-      { value: 'Paused', label: 'Paused' },
-      { value: 'Under Maintenance', label: 'Under Maintenance' },
-    ],
-  };
-
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -58,7 +33,7 @@ describe('EditElevatorRecordForm', () => {
 
   it('should render component without crashing', () => {
     (useFetchDropdownOptions as jest.Mock).mockReturnValue({
-      dropdownOptions: mockDropdownOptions,
+      dropdownOptions: mockElevatorManagementDropdownOptions,
       loading: false,
       error: undefined,
     });
@@ -70,7 +45,7 @@ describe('EditElevatorRecordForm', () => {
 
   it('should loader when from data is fetching', () => {
     (useFetchDropdownOptions as jest.Mock).mockReturnValue({
-      dropdownOptions: mockDropdownOptions,
+      dropdownOptions: mockElevatorManagementDropdownOptions,
       loading: true,
       error: undefined,
     });
@@ -83,7 +58,7 @@ describe('EditElevatorRecordForm', () => {
 
   it('should display error alert when fetch of form data', () => {
     (useFetchDropdownOptions as jest.Mock).mockReturnValue({
-      dropdownOptions: mockDropdownOptions,
+      dropdownOptions: mockElevatorManagementDropdownOptions,
       loading: false,
       error: 'Fetch form data failed',
     });

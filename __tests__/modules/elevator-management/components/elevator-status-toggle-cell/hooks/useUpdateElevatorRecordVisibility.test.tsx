@@ -43,7 +43,9 @@ jest.mock('@/shared/utils', () => ({
 }));
 
 describe('useUpdateElevatorRecordVisibility', () => {
-  (useMutationResultToasts as jest.Mock).mockReturnValue({ onSuccess: mockOnSuccess, onError: mockOnError });
+  beforeEach(() => {
+    (useMutationResultToasts as jest.Mock).mockReturnValue({ onSuccess: mockOnSuccess, onError: mockOnError });
+  });
 
   afterEach(() => {
     jest.clearAllMocks();
