@@ -96,8 +96,6 @@ const ElevatorRecordDetails = () => {
     [onOpenDeleteModal, onOpenEditModal]
   );
 
-  console.log(error);
-
   return (
     <FormProvider {...formState}>
       <BaseDetailsPage

@@ -25,7 +25,7 @@ type UseCreateRepairJobAndCalendarEvent = {
   ) => Promise<void>;
 };
 
-const useCreateRepairJobAndCalendarEvent = ({
+export const useCreateRepairJobAndCalendarEvent = ({
   onSuccess,
   onError,
 }: UseCreateRepairJobAndCalendarEventProps): UseCreateRepairJobAndCalendarEvent => {
@@ -124,5 +124,3 @@ const useCreateRepairJobAndCalendarEvent = ({
 
   return { onCreateRepairJobAndEvent, isLoading: loading };
 };
-
-export default useCreateRepairJobAndCalendarEvent;

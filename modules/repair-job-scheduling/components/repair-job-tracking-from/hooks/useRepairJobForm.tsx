@@ -1,7 +1,7 @@
-import { SubmitHandler, useFormContext } from 'react-hook-form';
+import { SubmitHandler, UseFormHandleSubmit, useFormContext } from 'react-hook-form';
 
-import { REPAIR_JOB_TRACKING_STEPS, STEP_VALIDATION_CONFIG } from '@/modules/repair-job-scheduling/constants';
-import useCreateRepairJobAndCalendarEvent from '@/modules/repair-job-scheduling/hooks/useCreateRepairJobAndCalendarEvent';
+import { REPAIR_JOB_TRACKING_STEPS, STEP_VALIDATION_CONFIG } from '@/modules/repair-job-scheduling/config';
+import { useCreateRepairJobAndCalendarEvent } from '@/modules/repair-job-scheduling/hooks/useCreateRepairJobAndCalendarEvent';
 import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 
 import { RepairJobFormProps } from '../RepairJobForm';
@@ -9,11 +9,12 @@ import { RepairJobFromFields } from '../validation';
 
 type UseRepairJobForm = {
   isLoading: boolean;
-  onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void>;
+  onSubmit: SubmitHandler<RepairJobFromFields>;
   onHandleNext: (activeStep: number) => Promise<boolean>;
+  handleSubmit: UseFormHandleSubmit<RepairJobFromFields>;
 };
 
-const useRepairJobForm = ({ selectedDateRange, onReset }: RepairJobFormProps): UseRepairJobForm => {
+export const useRepairJobForm = ({ selectedDateRange, onReset }: RepairJobFormProps): UseRepairJobForm => {
   const { handleSubmit, trigger } = useFormContext<RepairJobFromFields>();
   const { onError, onSuccess } = useMutationResultToasts();
 
@@ -38,8 +39,7 @@ const useRepairJobForm = ({ selectedDateRange, onReset }: RepairJobFormProps): U
   return {
     isLoading,
     onHandleNext,
-    onSubmit: handleSubmit(onSubmit),
+    onSubmit,
+    handleSubmit,
   };
 };
-
-export default useRepairJobForm;
