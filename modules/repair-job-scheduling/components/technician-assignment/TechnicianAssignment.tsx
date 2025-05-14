@@ -3,10 +3,10 @@ import { Fragment } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { Bars } from 'react-loader-spinner';
 
-import { useFetchAvailableTechniciansForAssignment } from '@/modules/repair-job-tracking/components/reassign-technician-action-cell/reassign-technician-form/hooks';
 import BaseAlert from '@/shared/base-alert/BaseAlert';
 import ControlledSingleSelect from '@/shared/base-select/components/controlled-single-select';
 import InfoTooltip from '@/shared/base-tooltip/info-tooltip/InfoTooltip';
+import { useFetchAvailableTechniciansForAssignment } from '@/shared/hooks';
 import QueryResponse from '@/shared/query-response';
 import { ItemConfig } from '@/shared/types';
 

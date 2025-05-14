@@ -5,12 +5,12 @@ import { useFormContext } from 'react-hook-form';
 import BaseAlert from '@/shared/base-alert/BaseAlert';
 import ControlledSingleSelect from '@/shared/base-select/components/controlled-single-select';
 import InfoTooltip from '@/shared/base-tooltip/info-tooltip/InfoTooltip';
+import { useFetchAvailableTechniciansForAssignment } from '@/shared/hooks';
 import { RepairJob } from '@/shared/types';
 
 import { TECHNICIAN_NAME_FIELD_TOOLTIP_MESSAGE } from '../constants';
 import { getReassignTechnicianWarningMessage } from '../utils';
 
-import { useFetchAvailableTechniciansForAssignment } from './hooks';
 import { TechnicianReassignmentFormFields } from './validation';
 
 type ReassignTechnicianFormProps = {

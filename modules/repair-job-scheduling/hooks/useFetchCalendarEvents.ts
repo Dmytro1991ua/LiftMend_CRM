@@ -10,13 +10,13 @@ import {
 } from '@/graphql/types/client/generated_types';
 import { removeTypeNamesFromArray } from '@/shared/utils';
 
-type UseFetchCalendarEvents = {
+export type UseFetchCalendarEvents = {
   events: CalendarEvent[];
   loading: boolean;
   error?: string;
 };
 
-const useFetchCalendarEvents = (): UseFetchCalendarEvents => {
+export const useFetchCalendarEvents = (): UseFetchCalendarEvents => {
   const { data, error, loading } = useQuery<GetCalendarEventsQuery, GetCalendarEventsQueryVariables>(
     GET_CALENDAR_EVENTS,
     {
@@ -34,5 +34,3 @@ const useFetchCalendarEvents = (): UseFetchCalendarEvents => {
     error: error?.message,
   };
 };
-
-export default useFetchCalendarEvents;

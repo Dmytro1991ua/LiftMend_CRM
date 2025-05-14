@@ -6,18 +6,14 @@ import {
   CreateRepairJobAndCalendarEventMutation,
   GetCalendarEventsQuery,
 } from '@/graphql/types/client/generated_types';
+import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import { getCalendarEventInfo, onHandleMutationErrors } from '@/shared/utils';
 
 import { RepairJobFromFields } from '../components/repair-job-tracking-from/validation';
 import { DEFAULT_SCHEDULE_REPAIR_JOB_FAIL_MESSAGE, DEFAULT_SCHEDULE_REPAIR_JOB_SUCCESS_MESSAGE } from '../constants';
 import { adjustDateForAllDayEvent } from '../utils';
 
-type UseCreateRepairJobAndCalendarEventProps = {
-  onSuccess?: (message: string) => void;
-  onError?: (errorMessage: string, errorDescription: string) => void;
-};
-
-type UseCreateRepairJobAndCalendarEvent = {
+export type UseCreateRepairJobAndCalendarEvent = {
   isLoading: boolean;
   onCreateRepairJobAndEvent: (
     formFields: RepairJobFromFields,
@@ -25,10 +21,9 @@ type UseCreateRepairJobAndCalendarEvent = {
   ) => Promise<void>;
 };
 
-export const useCreateRepairJobAndCalendarEvent = ({
-  onSuccess,
-  onError,
-}: UseCreateRepairJobAndCalendarEventProps): UseCreateRepairJobAndCalendarEvent => {
+export const useCreateRepairJobAndCalendarEvent = (): UseCreateRepairJobAndCalendarEvent => {
+  const { onError, onSuccess } = useMutationResultToasts();
+
   const [createRepairJobAndEvent, { loading }] = useMutation<CreateRepairJobAndCalendarEventMutation>(
     CREATE_REPAIR_JOB_AND_CALENDAR_EVENT,
     {
@@ -61,6 +56,8 @@ export const useCreateRepairJobAndCalendarEvent = ({
         elevatorInformation: { elevatorLocation, elevatorType, buildingName },
         technicianAssignment: { technicianName },
       } = formFields;
+
+      console.log(formFields);
 
       const { description, title } = getCalendarEventInfo({ elevatorType, elevatorLocation, buildingName, jobType });
 

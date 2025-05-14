@@ -15,7 +15,7 @@ import {
   RepairJobFromFields,
   repairJobFormSchema,
 } from './components/repair-job-tracking-from/validation';
-import useRepairJobTrackingModals from './hooks/useRepairJobTrackingModals';
+import { useRepairJobTrackingModals } from './hooks';
 
 const RepairJobScheduling = () => {
   const {

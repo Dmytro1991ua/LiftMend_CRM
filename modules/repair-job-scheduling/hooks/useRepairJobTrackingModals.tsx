@@ -7,7 +7,7 @@ import useBaseStepper from '@/shared/base-stepper/hooks';
 import { useBaseToast } from '@/shared/hooks';
 import { BaseToastVariant } from '@/shared/hooks/useBaseToast/types';
 
-type useRepairJobTrackingModals = {
+type UseRepairJobTrackingModals = {
   selectedDateRange: DateSelectArg | null;
   isCreateEventModalOpen: boolean;
   isDeleteEventModalOpen: boolean;
@@ -18,7 +18,7 @@ type useRepairJobTrackingModals = {
   onHandleDateClick: (selectedDate: DateSelectArg) => void;
 };
 
-const useRepairJobTrackingModals = () => {
+export const useRepairJobTrackingModals = (): UseRepairJobTrackingModals => {
   const { baseToast } = useBaseToast(BaseToastVariant.Warning);
   const { onCancel } = useBaseStepper({});
 
@@ -60,5 +60,3 @@ const useRepairJobTrackingModals = () => {
     onHandleDateClick,
   };
 };
-
-export default useRepairJobTrackingModals;

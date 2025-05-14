@@ -2,7 +2,6 @@ import { SubmitHandler, UseFormHandleSubmit, useFormContext } from 'react-hook-f
 
 import { REPAIR_JOB_TRACKING_STEPS, STEP_VALIDATION_CONFIG } from '@/modules/repair-job-scheduling/config';
 import { useCreateRepairJobAndCalendarEvent } from '@/modules/repair-job-scheduling/hooks/useCreateRepairJobAndCalendarEvent';
-import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 
 import { RepairJobFormProps } from '../RepairJobForm';
 import { RepairJobFromFields } from '../validation';
@@ -16,9 +15,8 @@ type UseRepairJobForm = {
 
 export const useRepairJobForm = ({ selectedDateRange, onReset }: RepairJobFormProps): UseRepairJobForm => {
   const { handleSubmit, trigger } = useFormContext<RepairJobFromFields>();
-  const { onError, onSuccess } = useMutationResultToasts();
 
-  const { onCreateRepairJobAndEvent, isLoading } = useCreateRepairJobAndCalendarEvent({ onSuccess, onError });
+  const { onCreateRepairJobAndEvent, isLoading } = useCreateRepairJobAndCalendarEvent();
 
   const onHandleNext = async (activeStep: number): Promise<boolean> => {
     const stepId = REPAIR_JOB_TRACKING_STEPS[activeStep].id;
