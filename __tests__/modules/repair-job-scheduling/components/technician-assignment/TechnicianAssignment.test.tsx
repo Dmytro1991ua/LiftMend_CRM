@@ -5,9 +5,12 @@ import { mockAvailableTechnician, mockAvailableTechniciansResponse } from '@/moc
 import { withApolloAndFormProvider } from '@/mocks/testMocks';
 import TechnicianAssignment from '@/modules/repair-job-scheduling/components/technician-assignment';
 import { TECHNICIAN_NAME_TOOLTIP_MESSAGE } from '@/modules/repair-job-scheduling/constants';
-import { useFetchAvailableTechniciansForAssignment } from '@/modules/repair-job-tracking/components/reassign-technician-action-cell/reassign-technician-form/hooks';
+import { useFetchAvailableTechniciansForAssignment } from '@/shared/hooks';
 
-jest.mock('@/modules/repair-job-tracking/components/reassign-technician-action-cell/reassign-technician-form/hooks');
+jest.mock('@/shared/hooks', () => ({
+  ...jest.requireActual('@/shared/hooks'),
+  useFetchAvailableTechniciansForAssignment: jest.fn(),
+}));
 
 describe('TechnicianAssignment', () => {
   afterEach(() => {
