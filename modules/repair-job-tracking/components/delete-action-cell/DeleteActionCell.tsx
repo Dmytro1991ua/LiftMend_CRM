@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import DeleteModal from '@/shared/base-modal/delete-modal';
 import { useModal } from '@/shared/hooks';
 import { DEFAULT_DELETE_MODAL_TITLE } from '@/shared/repair-job/constants';
-import useRepairJobDeletion from '@/shared/repair-job/hooks/useRepairJobDeletion';
+import { useRepairJobDeletion } from '@/shared/repair-job/hooks';
 import { RepairJob } from '@/shared/types';
 import { getCalendarEventInfo, getDeleteModalDescription } from '@/shared/utils';
 
