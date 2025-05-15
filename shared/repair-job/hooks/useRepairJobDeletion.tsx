@@ -14,7 +14,7 @@ type UseRepairJobDeletion = {
   onDeleteCalendarEvent: (calendarEventId?: string, repairJobId?: string) => Promise<void>;
 };
 
-const useRepairJobDeletion = ({
+export const useRepairJobDeletion = ({
   calendarEventId,
   repairJobId,
   onCloseModal,
@@ -47,5 +47,3 @@ const useRepairJobDeletion = ({
     isDeleteRepairJobLoading: isLoading,
   };
 };
-
-export default useRepairJobDeletion;

@@ -6,7 +6,7 @@ import { FormProvider } from 'react-hook-form';
 import BaseCalendar from '@/shared/base-calendar';
 import { getCalendarModalsConfig } from '@/shared/base-calendar/config';
 import { useFormState } from '@/shared/hooks';
-import useRepairJobDeletion from '@/shared/repair-job/hooks/useRepairJobDeletion';
+import { useRepairJobDeletion } from '@/shared/repair-job/hooks';
 import SectionHeader from '@/shared/section-header';
 import { SectionHeaderDescription, SectionHeaderTitle } from '@/types/enums';
 
