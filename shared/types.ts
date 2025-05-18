@@ -68,8 +68,8 @@ export type RepairJob = {
   jobType: string;
   jobDetails: string;
   jobPriority: string;
-  startDate: Date;
-  endDate: Date;
+  startDate: string | Date;
+  endDate: string | Date;
   elevatorType: string;
   buildingName: string;
   elevatorLocation: string;

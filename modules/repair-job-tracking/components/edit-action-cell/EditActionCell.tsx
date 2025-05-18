@@ -18,7 +18,7 @@ import { convertRepairJobToFormValues } from '@/shared/repair-job/repair-job-det
 import { RepairJob } from '@/shared/types';
 import { getCalendarEventInfo } from '@/shared/utils';
 
-type EditActionCellProps = {
+export type EditActionCellProps = {
   repairJob: RepairJob;
 };
 
@@ -68,7 +68,7 @@ const EditActionCell = ({ repairJob }: EditActionCellProps) => {
             disabled={isEditButtonDisabled}
             variant='ghost'
             onClick={onHandleEditClick}>
-            <FaEdit className='h-5 w-5 text-primary' />
+            <FaEdit className='h-5 w-5 text-primary' data-testid='edit-icon' />
           </Button>
         </BaseTooltip>
         <EditModal

@@ -9,9 +9,9 @@ type OverdueRepairJobProps = {
 
 const OverdueRepairJob = ({ isOverdue }: OverdueRepairJobProps) => {
   const statusIcon = isOverdue ? (
-    <IoIosWarning className='h-6 w-6 mr-1 text-yellow-400' />
+    <IoIosWarning className='h-6 w-6 mr-1 text-yellow-400' data-testid='warning-icon' />
   ) : (
-    <FaCheckCircle className='h-6 w-6 mr-1 text-green-400' />
+    <FaCheckCircle className='h-6 w-6 mr-1 text-green-400' data-testid='check-icon' />
   );
 
   const statusText = isOverdue ? (

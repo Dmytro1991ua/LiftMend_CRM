@@ -90,7 +90,13 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
         original: { startDate },
       },
     }) => (
-      <DatePicker key={`${startDate}`} isDisabled isDateRangeMode={false} numberOfMonths={1} singleDate={startDate} />
+      <DatePicker
+        key={`${startDate}`}
+        isDisabled
+        isDateRangeMode={false}
+        numberOfMonths={1}
+        singleDate={startDate as Date}
+      />
     ),
     enableSorting: true,
     size: 300,
@@ -106,7 +112,15 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
       row: {
         original: { endDate },
       },
-    }) => <DatePicker key={`${endDate}`} isDisabled isDateRangeMode={false} numberOfMonths={1} singleDate={endDate} />,
+    }) => (
+      <DatePicker
+        key={`${endDate}`}
+        isDisabled
+        isDateRangeMode={false}
+        numberOfMonths={1}
+        singleDate={endDate as Date}
+      />
+    ),
     size: 300,
     minSize: 300,
     maxSize: 500,

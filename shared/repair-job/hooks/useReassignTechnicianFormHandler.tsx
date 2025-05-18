@@ -17,7 +17,7 @@ type UseUseReassignTechnicianFormHandler = {
   onHandleTechnicianReassignment: SubmitHandler<ReassignTechnicianFormValues>;
 };
 
-const useReassignTechnicianFormHandler = ({
+export const useReassignTechnicianFormHandler = ({
   repairJob,
   onReset,
 }: UseReassignTechnicianFormHandlerProps): UseUseReassignTechnicianFormHandler => {
@@ -42,5 +42,3 @@ const useReassignTechnicianFormHandler = ({
     onHandleTechnicianReassignment,
   };
 };
-
-export default useReassignTechnicianFormHandler;

@@ -9,7 +9,7 @@ import EditModal from '@/shared/base-modal/edit-modal';
 import BaseTooltip from '@/shared/base-tooltip';
 import { useFormState, useModal } from '@/shared/hooks';
 import { ReassignTechnicianFormValues } from '@/shared/repair-job/edit-repair-job-form/types';
-import useReassignTechnicianFormHandler from '@/shared/repair-job/hooks/useReassignTechnicianFormHandler';
+import { useReassignTechnicianFormHandler } from '@/shared/repair-job/hooks/useReassignTechnicianFormHandler';
 import { RepairJob } from '@/shared/types';
 
 import { REASSIGN_TECHNICIAN_BUTTON_TOOLTIP_MESSAGE } from './constants';
@@ -19,7 +19,7 @@ import {
   technicianReassignmentSchema,
 } from './reassign-technician-form/validation';
 
-type ReassignTechnicianActionCellProps = {
+export type ReassignTechnicianActionCellProps = {
   repairJob: RepairJob;
 };
 
@@ -60,7 +60,7 @@ const ReassignTechnicianActionCell = ({ repairJob }: ReassignTechnicianActionCel
             disabled={isReassignTechnicianButtonDisabled}
             variant='ghost'
             onClick={onHandleReassignTechnicianClick}>
-            <MdAssignmentAdd className='h-5 w-5 text-primary' />
+            <MdAssignmentAdd className='h-5 w-5 text-primary' data-testid='technician-reassignment-icon' />
           </Button>
         </BaseTooltip>
         <EditModal
