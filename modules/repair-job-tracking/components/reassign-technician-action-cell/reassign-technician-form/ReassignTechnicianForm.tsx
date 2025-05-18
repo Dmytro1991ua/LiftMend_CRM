@@ -13,7 +13,7 @@ import { getReassignTechnicianWarningMessage } from '../utils';
 
 import { TechnicianReassignmentFormFields } from './validation';
 
-type ReassignTechnicianFormProps = {
+export type ReassignTechnicianFormProps = {
   repairJob: RepairJob;
 };
 
@@ -26,7 +26,7 @@ const ReassignTechnicianForm = ({ repairJob }: ReassignTechnicianFormProps) => {
 
   return (
     <>
-      <BaseAlert className='mb-6' description={warningMessage} variant='warning' />
+      <BaseAlert className='mb-6' data-testid='warning-alert' description={warningMessage} variant='warning' />
       <ControlledSingleSelect<TechnicianReassignmentFormFields>
         captureMenuScroll={false}
         className='mb-4'

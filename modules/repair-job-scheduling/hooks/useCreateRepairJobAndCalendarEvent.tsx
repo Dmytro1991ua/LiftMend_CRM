@@ -57,8 +57,6 @@ export const useCreateRepairJobAndCalendarEvent = (): UseCreateRepairJobAndCalen
         technicianAssignment: { technicianName },
       } = formFields;
 
-      console.log(formFields);
-
       const { description, title } = getCalendarEventInfo({ elevatorType, elevatorLocation, buildingName, jobType });
 
       const adjustedStartDate = adjustDateForAllDayEvent(

@@ -37,7 +37,7 @@ const DeleteActionCell = ({ repairJob }: DeleteActionCelProps) => {
   return (
     <section className='flex justify-center items-center'>
       <Button className='hover:bg-transparent' variant='ghost' onClick={onHandleDeleteClick}>
-        <FaTrashAlt className='h-4 w-4 text-red-500' />
+        <FaTrashAlt className='h-4 w-4 text-red-500' data-testid='trash-icon' />
       </Button>
       <DeleteModal
         description={getDeleteModalDescription(title)}
