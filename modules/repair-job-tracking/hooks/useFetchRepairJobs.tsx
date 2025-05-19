@@ -20,7 +20,7 @@ import { getItemsFromQuery, removeTypeNamesFromArray } from '@/shared/utils';
 
 import { REPAIR_JOBS_TABLE_FILTER_KEY_MAP } from './constants';
 
-type UseFetchRepairJobs<T> = {
+export type UseFetchRepairJobs<T> = {
   repairJobs: RepairJob[];
   loading: boolean;
   error?: string;

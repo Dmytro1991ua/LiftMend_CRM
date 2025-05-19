@@ -81,7 +81,7 @@ describe('RepairJobTable', () => {
     // === First Row ===
     expect(cells[0]).toBeInTheDocument(); // checkbox
     expect(cells[1]).toHaveTextContent('Routine');
-    expect(cells[2]).toHaveTextContent('1bcc2a00-5296-475f-af08-5cada100d509');
+    expect(cells[2]).toHaveTextContent('test-repair-job-id-1');
     expect(cells[3]).toHaveTextContent('asdasdasdasd');
     expect(cells[4]).toHaveTextContent('Low');
     expect(cells[5]).toHaveTextContent('Scheduled');
@@ -100,7 +100,7 @@ describe('RepairJobTable', () => {
     // === Second Row ===
     expect(cells[17]).toBeInTheDocument();
     expect(cells[18]).toHaveTextContent('Upgrade');
-    expect(cells[19]).toHaveTextContent('3eddc560-b0e8-473d-a712-9e1d96b2184f');
+    expect(cells[19]).toHaveTextContent('test-repair-job-id-2');
     expect(cells[20]).toHaveTextContent('asdasdasdasd');
     expect(cells[21]).toHaveTextContent('Medium');
     expect(cells[22]).toHaveTextContent('Completed');
