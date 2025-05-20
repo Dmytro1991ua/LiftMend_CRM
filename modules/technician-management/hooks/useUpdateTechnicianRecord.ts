@@ -5,16 +5,12 @@ import {
   UpdateTechnicianRecordMutation,
   UpdateTechnicianRecordMutationVariables,
 } from '@/graphql/types/client/generated_types';
+import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import { TechnicianRecord } from '@/shared/types';
 import { getFieldsToUpdateForMutation, onHandleMutationErrors } from '@/shared/utils';
 
 import { TechnicianRecordFormValues } from '../types';
 import { convertFormFieldsToTechnicianRecord } from '../utils';
-
-type UseUpdateTechnicianRecordProps = {
-  onSuccess?: (message: string) => void;
-  onError?: (errorMessage: string, errorDescription: string) => void;
-};
 
 type UseUpdateTechnicianRecord = {
   isLoading: boolean;
@@ -24,10 +20,9 @@ type UseUpdateTechnicianRecord = {
   ) => Promise<void>;
 };
 
-const useUpdateTechnicianRecord = ({
-  onSuccess,
-  onError,
-}: UseUpdateTechnicianRecordProps): UseUpdateTechnicianRecord => {
+export const useUpdateTechnicianRecord = (): UseUpdateTechnicianRecord => {
+  const { onError, onSuccess } = useMutationResultToasts();
+
   const [updateTechnicianRecord, { loading }] = useMutation<
     UpdateTechnicianRecordMutation,
     UpdateTechnicianRecordMutationVariables
@@ -75,5 +70,3 @@ const useUpdateTechnicianRecord = ({
     onUpdateTechnicianRecord,
   };
 };
-
-export default useUpdateTechnicianRecord;

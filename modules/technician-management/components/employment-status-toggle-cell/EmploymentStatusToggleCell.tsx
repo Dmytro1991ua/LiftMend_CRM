@@ -3,11 +3,11 @@ import BaseModal from '@/shared/base-modal';
 import ModalFooter from '@/shared/base-modal/modal-footer';
 import BaseTooltip from '@/shared/base-tooltip';
 
-import useUpdateEmploymentStatus from '../../hooks/useUpdateEmploymentStatus';
+import { useUpdateEmploymentStatus } from '../../hooks';
 import { EmploymentStatus } from '../../types';
 import { STATUS_ICON_TOOLTIP_MESSAGE } from '../technician-management-table/constants';
 
-type EmploymentStatusToggleCellProps = {
+export type EmploymentStatusToggleCellProps = {
   employmentStatus: EmploymentStatus;
   technicianId: string;
   availabilityStatus: string | null;

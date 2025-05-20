@@ -1,8 +1,7 @@
 import { SubmitHandler } from 'react-hook-form';
 
-import useUpdateTechnicianRecord from '@/modules/technician-management/hooks/useUpdateTechnicianRecord';
+import { useUpdateTechnicianRecord } from '@/modules/technician-management/hooks';
 import { TechnicianRecordFormValues } from '@/modules/technician-management/types';
-import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import { TechnicianRecord } from '@/shared/types';
 
 type UseEditTechnicianRecordFormProps = {
@@ -10,21 +9,16 @@ type UseEditTechnicianRecordFormProps = {
   onReset: () => void;
 };
 
-type UseEditTechnicianRecordForm = {
+export type UseEditTechnicianRecordForm = {
   isUpdateRecordLoading: boolean;
   onEditTechnicianRecord: SubmitHandler<TechnicianRecordFormValues>;
 };
 
-const useEditTechnicianRecordForm = ({
+export const useEditTechnicianRecordForm = ({
   technicianRecord,
   onReset,
 }: UseEditTechnicianRecordFormProps): UseEditTechnicianRecordForm => {
-  const { onError, onSuccess } = useMutationResultToasts();
-
-  const { onUpdateTechnicianRecord, isLoading: isUpdateRecordLoading } = useUpdateTechnicianRecord({
-    onError,
-    onSuccess,
-  });
+  const { onUpdateTechnicianRecord, isLoading: isUpdateRecordLoading } = useUpdateTechnicianRecord();
 
   const onEditTechnicianRecord: SubmitHandler<TechnicianRecordFormValues> = async (data) => {
     const updateTechnicianRecord = {
@@ -42,5 +36,3 @@ const useEditTechnicianRecordForm = ({
     isUpdateRecordLoading,
   };
 };
-
-export default useEditTechnicianRecordForm;

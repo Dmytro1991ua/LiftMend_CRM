@@ -28,13 +28,11 @@ describe('EditActionCell', () => {
 
     (useQuery as jest.Mock).mockImplementation(() => {
       return {
-        refetch: jest.fn().mockResolvedValue({
-          data: {
-            getRepairJobScheduleData: {
-              repairJobTypes: [mockRepairJobTypes],
-            },
+        data: {
+          getRepairJobScheduleData: {
+            repairJobTypes: [mockRepairJobTypes],
           },
-        }),
+        },
         loading: false,
       } as unknown as QueryResult;
     });

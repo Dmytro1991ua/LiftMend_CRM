@@ -54,7 +54,7 @@ export const getTechnicianDetailsPageActionButtonsConfig = ({
   return [
     ...getCommonDetailsPageActionButtonsConfig({ onOpenDeleteModal, onOpenEditModal }),
     {
-      id: 2,
+      id: 3,
       variant: 'default',
       label: ActionButtonLabel.UPDATE_EMPLOYMENT_STATUS,
       icon: <FaEye />,

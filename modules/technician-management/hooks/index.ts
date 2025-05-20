@@ -3,3 +3,4 @@ export * from './useCreateTechnicianRecord';
 export * from './useUpdateTechnicianRecord';
 export * from './useDeleteTechnicianRecord';
 export * from './useUpdateTechnicianVisibility';
+export * from './useUpdateEmploymentStatus';

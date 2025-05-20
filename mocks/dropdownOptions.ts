@@ -51,6 +51,20 @@ export const mockRepairJobPriorities = {
   ],
 };
 
+export const mockAvailableTechnicianStatuses = {
+  availabilityStatuses: ['Available', 'Busy', 'Inactive', 'On Leave', 'Reserved', 'Unavailable'],
+};
+
+export const mockTechnicianEmploymentStatus = { employmentStatuses: ['Active', 'Inactive'] };
+
+export const mockTechnicianCertificates = {
+  certifications: ['Advanced Welding Certification', 'Certified Elevator Technician'],
+};
+
+export const mockTechnicianSkills = {
+  skills: ['Blueprint Reading', 'Customer Service'],
+};
+
 export const mockElevatorManagementDropdownOptions = {
   ...mockElevatorTypes,
   ...mockBuildingNames,
@@ -61,4 +75,11 @@ export const mockElevatorManagementDropdownOptions = {
 export const mockRepairJobSchedulingDropdownOptions = {
   ...mockRepairJobTypes,
   ...mockRepairJobPriorities,
+};
+
+export const mockTechnicalManagementDropdownOptions = {
+  ...mockTechnicianEmploymentStatus,
+  ...mockAvailableTechnicianStatuses,
+  ...mockTechnicianCertificates,
+  ...mockTechnicianSkills,
 };

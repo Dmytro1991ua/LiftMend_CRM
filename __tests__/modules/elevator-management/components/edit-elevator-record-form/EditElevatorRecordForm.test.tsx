@@ -40,7 +40,7 @@ describe('EditElevatorRecordForm', () => {
 
     render(EditElevatorRecordFormComponent());
 
-    expect(screen.getByTestId('edit-elevator-record-form')).toBeInTheDocument();
+    expect(screen.getByTestId('edit-form-entity')).toBeInTheDocument();
   });
 
   it('should loader when from data is fetching', () => {
@@ -52,7 +52,7 @@ describe('EditElevatorRecordForm', () => {
 
     render(EditElevatorRecordFormComponent());
 
-    expect(screen.getByTestId('edit-elevator-record-form')).toBeInTheDocument();
+    expect(screen.getByTestId('edit-form-entity')).toBeInTheDocument();
     expect(screen.getByTestId('circles-with-bar-svg')).toBeInTheDocument();
   });
 

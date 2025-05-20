@@ -1,11 +1,10 @@
-import { SubmitHandler, useFormContext } from 'react-hook-form';
+import { SubmitHandler, UseFormHandleSubmit, useFormContext } from 'react-hook-form';
 
 import {
   TECHNICIAN_RECORD_FORM_STEPS,
   TECHNICIAN_RECORD_STEP_VALIDATION_CONFIG,
-} from '@/modules/technician-management/constants';
-import useCreateTechnicianRecord from '@/modules/technician-management/hooks/useCreateTechnicianRecord';
-import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
+} from '@/modules/technician-management/config';
+import { useCreateTechnicianRecord } from '@/modules/technician-management/hooks';
 
 import { TechnicianRecordFormFields } from '../validation';
 
@@ -15,17 +14,17 @@ type UseCreateTechnicianRecordFormProps = {
 
 type UseCreateTechnicianRecordForm = {
   isCreateRecordLoading: boolean;
-  onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void>;
+  onSubmit: SubmitHandler<TechnicianRecordFormFields>;
   onHandleNext: (activeStep: number) => Promise<boolean>;
+  handleSubmit: UseFormHandleSubmit<TechnicianRecordFormFields>;
 };
 
-const useCreateTechnicianRecordForm = ({
+export const useCreateTechnicianRecordForm = ({
   onReset,
 }: UseCreateTechnicianRecordFormProps): UseCreateTechnicianRecordForm => {
   const { handleSubmit, trigger } = useFormContext<TechnicianRecordFormFields>();
-  const { onError, onSuccess } = useMutationResultToasts();
 
-  const { onCreateTechnicianRecord, isLoading } = useCreateTechnicianRecord({ onError, onSuccess });
+  const { onCreateTechnicianRecord, isLoading } = useCreateTechnicianRecord();
 
   const onHandleNext = async (activeStep: number): Promise<boolean> => {
     const stepId = TECHNICIAN_RECORD_FORM_STEPS[activeStep].id;
@@ -46,8 +45,7 @@ const useCreateTechnicianRecordForm = ({
   return {
     isCreateRecordLoading: isLoading,
     onHandleNext,
-    onSubmit: handleSubmit(onSubmit),
+    onSubmit,
+    handleSubmit,
   };
 };
-
-export default useCreateTechnicianRecordForm;

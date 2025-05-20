@@ -1,5 +1,4 @@
-import useDeleteTechnicianRecord from '@/modules/technician-management/hooks/useDeleteTechnicianRecord';
-import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
+import { useDeleteTechnicianRecord } from '@/modules/technician-management/hooks';
 
 type UseTechnicianRecordDeletionProps = {
   id: string;
@@ -7,7 +6,7 @@ type UseTechnicianRecordDeletionProps = {
   onRedirect?: () => void;
 };
 
-type UseTechnicianRecordDeletion = {
+export type UseTechnicianRecordDeletion = {
   isDeleteTechnicianRecordLoading: boolean;
   onHandleDeleteTechnicianRecord: () => Promise<void>;
 };
@@ -17,12 +16,7 @@ const useTechnicianRecordDeletion = ({
   onCloseModal,
   onRedirect,
 }: UseTechnicianRecordDeletionProps): UseTechnicianRecordDeletion => {
-  const { onError, onSuccess } = useMutationResultToasts();
-
-  const { onDeleteTechnicianRecord, isLoading } = useDeleteTechnicianRecord({
-    onError,
-    onSuccess,
-  });
+  const { onDeleteTechnicianRecord, isLoading } = useDeleteTechnicianRecord();
 
   const onHandleDeleteTechnicianRecord = async () => {
     await onDeleteTechnicianRecord(id);
