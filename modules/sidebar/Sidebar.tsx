@@ -20,7 +20,7 @@ import { NavigationLinkConfig } from '@/types/type';
 
 import { NavigationLinkLabel } from './types';
 
-type SidebarProps = {
+export type SidebarProps = {
   isMobileNavOpen: boolean;
   onCloseMobileNav: () => void;
 };
@@ -82,6 +82,7 @@ const Sidebar = ({ isMobileNavOpen, onCloseMobileNav }: SidebarProps) => {
   return (
     <>
       <div
+        role='presentation'
         className={cn(
           'fixed inset-0 bg-black bg-opacity-50 transition-opacity z-40',
           isMobileNavOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
@@ -103,7 +104,11 @@ const Sidebar = ({ isMobileNavOpen, onCloseMobileNav }: SidebarProps) => {
         <button
           className='absolute tra top-5 -right-3 p-2 bg-primary rounded-xl cursor-pointer text-white hover:bg-blue-500 hidden md:block'
           onClick={onToggleCollapse}>
-          {isExpanded ? <FaChevronLeft className='w-3 h-3' /> : <FaChevronRight className='w-3 h-3' />}
+          {isExpanded ? (
+            <FaChevronLeft data-testid='chevron-left' className='w-3 h-3' />
+          ) : (
+            <FaChevronRight data-testid='chevron-right' className='w-3 h-3' />
+          )}
         </button>
 
         {NAVIGATION_CONFIG.map(({ id, url, icon, label }) => (
