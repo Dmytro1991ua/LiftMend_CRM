@@ -36,7 +36,7 @@ export const mockPassengerElevatorRepairJob = {
   cursor: 'test-repair-job-id-1',
   node: {
     status: 'Scheduled',
-    id: '1bcc2a00-5296-475f-af08-5cada100d509',
+    id: 'test-repair-job-id-1',
     jobType: 'Routine',
     jobDetails: 'asdasdasdasd',
     jobPriority: 'Low',
@@ -56,7 +56,7 @@ export const mockMastLiftRepairJob = {
   cursor: 'test-repair-job-id-2',
   node: {
     status: 'Completed',
-    id: '3eddc560-b0e8-473d-a712-9e1d96b2184f',
+    id: 'test-repair-job-id-2',
     jobType: 'Upgrade',
     jobDetails: 'asdasdasdasd',
     jobPriority: 'Medium',
@@ -69,6 +69,26 @@ export const mockMastLiftRepairJob = {
     calendarEventId: 'test-event-id-2',
     actualEndDate: '2025-01-19T11:16:41.472Z',
     isOverdue: false,
+  },
+};
+
+export const mockShipElevatorRepairJpb = {
+  cursor: 'test-repair-job-id-3',
+  node: {
+    status: 'In Progress',
+    id: 'test-repair-job-id-3',
+    jobType: 'Consultation',
+    jobDetails: 'asdasdasdasdasda23qeqwdead',
+    jobPriority: 'Medium',
+    elevatorType: 'Ship Elevator',
+    buildingName: 'Bayview Condominiums',
+    elevatorLocation: 'Kitchen',
+    technicianName: 'Alice Johnson',
+    startDate: '2025-01-18T22:00:00.000Z',
+    endDate: '2025-01-21T21:59:59.999Z',
+    calendarEventId: 'test-event-id-3',
+    actualEndDate: null,
+    isOverdue: true,
   },
 };
 
@@ -100,6 +120,29 @@ export const mockRepairJobsResponse: FetchResult<GetRepairJobsQuery> = {
   },
 };
 
+export const mockRepairJobsPaginatedResponse: FetchResult<GetRepairJobsQuery> = {
+  data: {
+    getRepairJobs: {
+      edges: [
+        {
+          cursor: mockShipElevatorRepairJpb.cursor,
+          node: { ...mockShipElevatorRepairJpb.node, __typename: 'RepairJob' },
+          __typename: 'RepairJobEdge',
+        },
+      ],
+      pageInfo: {
+        hasNextPage: false,
+        hasPreviousPage: true,
+        startCursor: 'test-id-2',
+        endCursor: 'test-id-3',
+        __typename: 'PageInfo',
+      },
+      total: 1,
+      __typename: 'RepairJobConnection',
+    },
+  },
+};
+
 export const mockRepairJobs: MockedResponse<GetRepairJobsQuery> = {
   request: {
     query: GET_REPAIR_JOBS,
@@ -121,3 +164,24 @@ export const mockRepairJobs: MockedResponse<GetRepairJobsQuery> = {
     ...mockRepairJobsResponse,
   },
 };
+
+export const mockPaginatedRepairJobs: MockedResponse<GetRepairJobsQuery>[] = [
+  mockRepairJobs,
+  {
+    request: {
+      query: GET_REPAIR_JOBS,
+      variables: {
+        paginationOptions: {
+          limit: 20,
+          offset: 2,
+        },
+        filterOptions: {
+          searchTerm: '',
+        },
+      },
+    },
+    result: {
+      ...mockRepairJobsPaginatedResponse,
+    },
+  },
+];
