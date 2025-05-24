@@ -37,7 +37,7 @@ const DeleteActionCell = ({ technicianRecord }: DeleteActionCelProps) => {
         disabled={true} /** TODO: Temporary disabled */
         variant='ghost'
         onClick={onHandleDeleteClick}>
-        <FaTrashAlt className='h-4 w-4 text-red-500' />
+        <FaTrashAlt className='h-4 w-4 text-red-500' data-testid='trash-icon' />
       </Button>
       <DeleteModal
         description={getModalDescription(technicianRecord.name, 'record')}

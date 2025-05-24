@@ -13,9 +13,9 @@ import { TechnicianRecordFormValues } from '../../types';
 import { convertTechnicianRecordToFormValues } from '../../utils';
 import EditTechnicianRecordForm from '../edit-technician-record-form';
 import { technicianRecordEditFormSchema } from '../edit-technician-record-form/validation';
-import useEditTechnicianRecordForm from '../technician-record-form/hooks/useEditTechnicianRecordForm';
+import { useEditTechnicianRecordForm } from '../technician-record-form/hooks';
 
-type EditActionCellProps = {
+export type EditActionCellProps = {
   technicianRecord: TechnicianRecord;
 };
 
@@ -51,7 +51,7 @@ const EditActionCell = ({ technicianRecord }: EditActionCellProps) => {
           disabled={isDeleteButtonDisabled}
           variant='ghost'
           onClick={onHandleEditClick}>
-          <FaEdit className='h-5 w-5 text-primary' />
+          <FaEdit className='h-5 w-5 text-primary' data-testid='edit-icon' />
         </Button>
         <EditModal
           isDisabled={!formState.formState.isDirty || isUpdateRecordLoading}

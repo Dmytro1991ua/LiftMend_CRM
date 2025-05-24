@@ -2,25 +2,20 @@ import { ApolloError, useMutation } from '@apollo/client';
 
 import { CREATE_TECHNICIAN_RECORD } from '@/graphql/schemas/createTechnicianRecord';
 import { CreateTechnicianRecordMutation } from '@/graphql/types/client/generated_types';
+import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import { onHandleMutationErrors } from '@/shared/utils';
 
 import { TechnicianRecordFormFields } from '../components/technician-record-form/validation';
 import { DEFAULT_TECHNICIAN_RECORD_FAIL_MESSAGE, DEFAULT_TECHNICIAN_RECORD_SUCCESS_MESSAGE } from '../constants';
-
-type UseCreateTechnicianRecordProps = {
-  onSuccess?: (message: string) => void;
-  onError?: (errorMessage: string, errorDescription: string) => void;
-};
 
 type UseCreateTechnicianRecord = {
   isLoading: boolean;
   onCreateTechnicianRecord: (formFields: TechnicianRecordFormFields) => Promise<void>;
 };
 
-const useCreateTechnicianRecord = ({
-  onSuccess,
-  onError,
-}: UseCreateTechnicianRecordProps): UseCreateTechnicianRecord => {
+export const useCreateTechnicianRecord = (): UseCreateTechnicianRecord => {
+  const { onError, onSuccess } = useMutationResultToasts();
+
   const [createTechnicianRecord, { loading }] = useMutation<CreateTechnicianRecordMutation>(CREATE_TECHNICIAN_RECORD, {
     update: (cache, { data }) => {
       if (!data) return;
@@ -94,5 +89,3 @@ const useCreateTechnicianRecord = ({
 
   return { onCreateTechnicianRecord, isLoading: loading };
 };
-
-export default useCreateTechnicianRecord;

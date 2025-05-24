@@ -14,13 +14,13 @@ import { useFormState } from '@/shared/hooks';
 import { getDeleteModalDescription } from '@/shared/utils';
 
 import { DEFAULT_DELETE_TECHNICIAN_MODAL_TITLE } from '../../constants';
-import useUpdateEmploymentStatus from '../../hooks/useUpdateEmploymentStatus';
+import { useUpdateEmploymentStatus } from '../../hooks';
 import { EmploymentStatus, TechnicianRecordFormValues } from '../../types';
 import { convertTechnicianRecordToFormValues } from '../../utils';
 import useTechnicianRecordDeletion from '../delete-action-cell/hooks/useTechnicianRecordDeletion';
 import EditTechnicianRecordForm from '../edit-technician-record-form';
 import { technicianRecordEditFormSchema } from '../edit-technician-record-form/validation';
-import useEditTechnicianRecordForm from '../technician-record-form/hooks/useEditTechnicianRecordForm';
+import { useEditTechnicianRecordForm } from '../technician-record-form/hooks';
 
 import { technicianRecordSectionsConfig } from './config';
 import { useFetchTechnicianRecordById } from './hooks';
@@ -122,7 +122,7 @@ const TechnicianRecordDetails = () => {
       ),
     },
     {
-      id: 2,
+      id: 3,
       content: (
         <EditModal
           cancelButtonLabel='No'

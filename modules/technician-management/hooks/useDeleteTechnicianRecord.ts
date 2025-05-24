@@ -6,12 +6,8 @@ import {
   DeleteTechnicianRecordMutationVariables,
   TechnicianRecord,
 } from '@/graphql/types/client/generated_types';
+import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import { onHandleMutationErrors } from '@/shared/utils';
-
-type UseDeleteTechnicianRecordProps = {
-  onSuccess?: (message: string) => void;
-  onError?: (errorMessage: string, errorDescription: string) => void;
-};
 
 type UseDeleteTechnicianRecord = {
   onDeleteTechnicianRecord: (id: string) => Promise<void>;
@@ -28,10 +24,9 @@ type TechnicianCacheEdge = {
 export const DEFAULT_DELETE_TECHNICIAN_RECORD_SUCCESS_MESSAGE = 'Successfully deleted technician record';
 export const DEFAULT_DELETE_TECHNICIAN_RECORD_FAIL_MESSAGE = 'Fail to deleted technician record';
 
-const useDeleteTechnicianRecord = ({
-  onSuccess,
-  onError,
-}: UseDeleteTechnicianRecordProps): UseDeleteTechnicianRecord => {
+export const useDeleteTechnicianRecord = (): UseDeleteTechnicianRecord => {
+  const { onError, onSuccess } = useMutationResultToasts();
+
   const [deleteTechnicianRecord, { loading, error }] = useMutation<
     DeleteTechnicianRecordMutation,
     DeleteTechnicianRecordMutationVariables
@@ -87,4 +82,3 @@ const useDeleteTechnicianRecord = ({
 
   return { onDeleteTechnicianRecord, isLoading: loading, error: error?.message };
 };
-export default useDeleteTechnicianRecord;

@@ -47,7 +47,7 @@ describe('useElevatorRecordDeletion', () => {
     expect(result.current.isDeleteElevatorRecordLoading).toBe(false);
   });
 
-  it('should trigger onHandleDeleteElevatorRecord and close modal and redirect', async () => {
+  it('should trigger onHandleDeleteElevatorRecord, close modal and redirect', async () => {
     const { result } = hook();
 
     await act(async () => result.current.onHandleDeleteElevatorRecord());

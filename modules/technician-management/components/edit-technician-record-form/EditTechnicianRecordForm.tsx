@@ -10,11 +10,12 @@ import { FormFieldLabel, ItemConfig } from '@/shared/types';
 
 import { EditTechnicalRecordFormValues, TechnicianRecordFormValues } from '../../types';
 
-type EditTechnicianRecordFormProps = {
+export type EditTechnicianRecordFormProps = {
   technicianRecordFormValues: EditTechnicalRecordFormValues;
 };
 
 const EditTechnicianRecordForm = ({ technicianRecordFormValues }: EditTechnicianRecordFormProps) => {
+  console.log(technicianRecordFormValues);
   const { clearErrors } = useFormContext<TechnicianRecordFormValues>();
 
   const {

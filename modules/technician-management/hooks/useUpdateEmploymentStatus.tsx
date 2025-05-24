@@ -26,7 +26,7 @@ type UseUpdateEmploymentStatus = {
   onCloseModal: () => void;
 };
 
-const useUpdateEmploymentStatus = ({
+export const useUpdateEmploymentStatus = ({
   employmentStatus,
   technicianId,
   availabilityStatus,
@@ -73,5 +73,3 @@ const useUpdateEmploymentStatus = ({
     onHandleEmploymentStatusChange,
   };
 };
-
-export default useUpdateEmploymentStatus;

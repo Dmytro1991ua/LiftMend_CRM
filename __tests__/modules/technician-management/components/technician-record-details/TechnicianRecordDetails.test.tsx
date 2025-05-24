@@ -1,34 +1,33 @@
 import * as apollo from '@apollo/client';
 import { render, screen } from '@testing-library/react';
 
-import { mockElevatorRecord } from '@/mocks/elevatorManagementMocks';
+import { mockBenjaminHallRecord } from '@/mocks/technicianManagementMocks';
 import { withRouterAndApolloProvider } from '@/mocks/testMocks';
-import ElevatorRecordDetails from '@/modules/elevator-management/components/elevator-record-details/ElevatorRecordDetails';
+import TechnicianRecordDetails from '@/modules/technician-management/components/technician-record-details';
 import { AppRoutes } from '@/types/enums';
 
-describe('ElevatorRecordDetails', () => {
+describe('TechnicianRecordDetails', () => {
+  beforeEach(() => {
+    jest.spyOn(apollo, 'useQuery').mockImplementation(() => {
+      return {
+        data: {
+          getTechnicianRecordById: mockBenjaminHallRecord,
+        },
+      } as apollo.QueryResult;
+    });
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  const ElevatorRecordDetailsComponent = () =>
-    withRouterAndApolloProvider(<ElevatorRecordDetails />, AppRoutes.ElevatorManagement);
+  const TechnicianRecordDetailsComponent = () =>
+    withRouterAndApolloProvider(<TechnicianRecordDetails />, AppRoutes.TechnicianManagement);
 
   it('should render component without crashing', () => {
-    jest.spyOn(apollo, 'useQuery').mockImplementation(() => {
-      return {
-        data: {
-          getElevatorRecordById: mockElevatorRecord,
-        },
-      } as apollo.QueryResult;
-    });
+    render(TechnicianRecordDetailsComponent());
 
-    render(ElevatorRecordDetailsComponent());
-
-    expect(screen.getByText('Scenic Elevator Information')).toBeInTheDocument();
-    expect(
-      screen.getByText('Elevator Record of Scenic Elevator at Skyline Plaza - Observation Deck')
-    ).toBeInTheDocument();
+    expect(screen.getByText("Benjamin Hall's Record Details")).toBeInTheDocument();
     expect(screen.getByTestId('header-actions')).toBeInTheDocument();
   });
 
@@ -43,7 +42,7 @@ describe('ElevatorRecordDetails', () => {
       } as apollo.QueryResult;
     });
 
-    render(ElevatorRecordDetailsComponent());
+    render(TechnicianRecordDetailsComponent());
 
     const loaders = screen.getAllByTestId('audio-svg');
     const detailsPageHeaderLoader = loaders[0];
@@ -62,13 +61,13 @@ describe('ElevatorRecordDetails', () => {
       } as apollo.QueryResult;
     });
 
-    render(ElevatorRecordDetailsComponent());
+    render(TechnicianRecordDetailsComponent());
 
     expect(screen.getByText('Error Occurs'));
   });
 
-  it('should disable Edit button when form fields are not changed', () => {
-    render(ElevatorRecordDetailsComponent());
+  it('should disable Edit button when form fields are not changed or form is updating', () => {
+    render(TechnicianRecordDetailsComponent());
 
     const editButton = screen.getByRole('button', { name: /edit/i });
 

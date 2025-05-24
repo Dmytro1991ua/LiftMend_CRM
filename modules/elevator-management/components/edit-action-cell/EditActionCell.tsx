@@ -44,6 +44,8 @@ const EditActionCell = ({ elevatorRecord }: EditActionCellProps) => {
     onOpenModal();
   };
 
+  console.log(formState.formState.isDirty);
+
   return (
     <FormProvider {...formState}>
       <section className='flex justify-center items-center'>

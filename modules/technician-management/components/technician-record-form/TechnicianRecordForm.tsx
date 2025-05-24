@@ -2,16 +2,16 @@ import { Form } from 'react-hook-form';
 
 import BaseStepper from '@/shared/base-stepper';
 
-import { TECHNICIAN_RECORD_FORM_STEPS, TECHNICIAN_RECORD_STEP_CONTENT_CONFIG } from '../../constants';
+import { TECHNICIAN_RECORD_FORM_STEPS, TECHNICIAN_RECORD_STEP_CONTENT_CONFIG } from '../../config';
 
-import useCreateTechnicianRecordForm from './hooks/useCreateTechnicianRecordForm';
+import { useCreateTechnicianRecordForm } from './hooks';
 
 export type TechnicianRecordFormProps = {
   onReset: () => void;
 };
 
 const TechnicianRecordForm = ({ onReset }: TechnicianRecordFormProps) => {
-  const { onHandleNext, onSubmit } = useCreateTechnicianRecordForm({ onReset });
+  const { onHandleNext, onSubmit, handleSubmit } = useCreateTechnicianRecordForm({ onReset });
 
   return (
     <Form>
@@ -21,7 +21,7 @@ const TechnicianRecordForm = ({ onReset }: TechnicianRecordFormProps) => {
         steps={TECHNICIAN_RECORD_FORM_STEPS}
         onHandleNext={onHandleNext}
         onReset={onReset}
-        onSubmit={onSubmit}
+        onSubmit={handleSubmit(onSubmit)}
       />
     </Form>
   );
