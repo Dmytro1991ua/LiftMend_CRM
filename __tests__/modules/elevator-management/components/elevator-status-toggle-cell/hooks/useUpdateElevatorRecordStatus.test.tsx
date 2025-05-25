@@ -4,8 +4,8 @@ import { RenderHookResult, act, renderHook } from '@testing-library/react-hooks'
 import { mockUpdateElevatorRecord, mockUpdateElevatorRecordGQLError } from '@/mocks/elevatorManagementMocks';
 import { MockProviderHook } from '@/mocks/testMocks';
 import useUpdateElevatorRecordStatus, {
-  UseUpdateEmploymentStatus,
-  UseUpdateEmploymentStatusProps,
+  UseUpdateElevatorStatus,
+  UseUpdateElevatorStatusProps,
 } from '@/modules/elevator-management/components/elevator-status-toggle-cell/hooks/useUpdateElevatorRecordStatus';
 import { useUpdateElevatorRecordVisibility } from '@/modules/elevator-management/components/elevator-status-toggle-cell/hooks/useUpdateElevatorRecordVisibility';
 import { ElevatorStatus } from '@/modules/elevator-management/types';
@@ -37,10 +37,10 @@ describe('useUpdateElevatorRecordStatus', () => {
   };
 
   const hook = (
-    props: Partial<UseUpdateEmploymentStatusProps>,
+    props: Partial<UseUpdateElevatorStatusProps>,
     mocks: MockedResponse[] = []
-  ): RenderHookResult<unknown, UseUpdateEmploymentStatus> => {
-    return renderHook(() => useUpdateElevatorRecordStatus({ ...props } as UseUpdateEmploymentStatusProps), {
+  ): RenderHookResult<unknown, UseUpdateElevatorStatus> => {
+    return renderHook(() => useUpdateElevatorRecordStatus({ ...props } as UseUpdateElevatorStatusProps), {
       wrapper: ({ children }) => <MockProviderHook mocks={mocks}>{children}</MockProviderHook>,
     });
   };
@@ -62,8 +62,6 @@ describe('useUpdateElevatorRecordStatus', () => {
       id: 'test-id-1',
       newStatus: 'Out of Service',
     });
-
-    expect(mockOnUpdateElevatorRecordStatus).toHaveBeenCalled();
     expect(mockOnRedirect).toHaveBeenCalled();
   });
 

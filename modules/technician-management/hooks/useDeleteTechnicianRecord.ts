@@ -9,7 +9,7 @@ import {
 import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import { onHandleMutationErrors } from '@/shared/utils';
 
-type UseDeleteTechnicianRecord = {
+export type UseDeleteTechnicianRecord = {
   onDeleteTechnicianRecord: (id: string) => Promise<void>;
   isLoading: boolean;
   error?: string;

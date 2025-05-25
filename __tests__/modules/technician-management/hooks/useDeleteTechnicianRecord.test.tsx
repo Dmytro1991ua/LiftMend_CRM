@@ -4,16 +4,18 @@ import { RenderHookResult, act, renderHook } from '@testing-library/react-hooks'
 
 import { typePolicies } from '@/graphql/typePolicies';
 import {
-  mocDeleteElevatorRecordGQLError,
-  mockDeleteElevatorRecord,
-  mockDeleteElevatorRecordNetworkError,
-} from '@/mocks/elevatorManagementMocks';
+  mockBenjaminHallRecordId,
+  mockDeleteTechnicianRecord,
+  mockDeleteTechnicianRecordGQLError,
+  mockDeleteTechnicianRecordNetworkError,
+} from '@/mocks/technicianManagementMocks';
 import { MockProviderHook } from '@/mocks/testMocks';
 import {
-  DEFAULT_DELETE_ELEVATOR_RECORD_SUCCESS_MESSAGE,
-  UseDeleteElevatorRecord,
-  useDeleteElevatorRecord,
-} from '@/modules/elevator-management/hooks';
+  DEFAULT_DELETE_TECHNICIAN_RECORD_FAIL_MESSAGE,
+  DEFAULT_DELETE_TECHNICIAN_RECORD_SUCCESS_MESSAGE,
+  UseDeleteTechnicianRecord,
+  useDeleteTechnicianRecord,
+} from '@/modules/technician-management/hooks';
 import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import { onHandleMutationErrors } from '@/shared/utils';
 
@@ -38,19 +40,22 @@ jest.mock('@/shared/utils', () => ({
   onHandleMutationErrors: jest.fn(),
 }));
 
-describe('useDeleteElevatorRecord', () => {
+describe('useDeleteTechnicianRecord', () => {
   const mockUseMutation = jest.fn();
   const mockGqlError = [{ message: 'Simulated GQL error in result' }];
   const mockNetworkError = { message: 'Test network Error' };
   const mockOnSuccess = jest.fn();
   const mockOnError = jest.fn();
   const mockCacheModify = jest.fn();
-  const mockDeleteElevatorRecordResponse = {
-    id: 'test-id-1',
-    __typename: 'DeleteElevatorRecordResponse',
+  const mockDeleteTechnicianRecordResponse = {
+    id: mockBenjaminHallRecordId,
+    __typename: 'DeleteTechnicianRecordResponse',
   };
-  const mockExistingElevatorRecords = {
-    edges: [{ node: { id: 'test-id-1', name: 'Record 1' } }, { node: { id: 'test-id-2', name: 'Record 2' } }],
+  const mockExistingTechnicianRecords = {
+    edges: [
+      { node: { id: mockBenjaminHallRecordId, name: 'Record 1' } },
+      { node: { id: 'test-id-2', name: 'Record 2' } },
+    ],
     total: 2,
   };
 
@@ -62,13 +67,13 @@ describe('useDeleteElevatorRecord', () => {
     jest.clearAllMocks();
   });
 
-  const hook = (mocks: MockedResponse[] = []): RenderHookResult<unknown, UseDeleteElevatorRecord> => {
+  const hook = (mocks: MockedResponse[] = []): RenderHookResult<unknown, UseDeleteTechnicianRecord> => {
     const cache = new InMemoryCache({
       addTypename: false,
       typePolicies,
     });
 
-    return renderHook(() => useDeleteElevatorRecord(), {
+    return renderHook(() => useDeleteTechnicianRecord(), {
       wrapper: ({ children }) => (
         <MockProviderHook cache={cache} mocks={mocks}>
           {children}
@@ -79,82 +84,72 @@ describe('useDeleteElevatorRecord', () => {
 
   it('should return correct initial data', () => {
     mockUseMutation.mockReturnValue([
-      jest.fn().mockResolvedValue({ data: { deleteElevatorRecord: mockDeleteElevatorRecordResponse } }),
+      jest.fn().mockResolvedValue({ data: { deleteTechnicianRecord: mockDeleteTechnicianRecordResponse } }),
       { loading: false, error: undefined },
     ]);
 
     (useMutation as jest.Mock).mockImplementation(mockUseMutation);
 
-    const { result } = hook([mockDeleteElevatorRecord]);
+    const { result } = hook([mockDeleteTechnicianRecord]);
 
     expect(result.current.error).toBeUndefined();
     expect(result.current.isLoading).toBeFalsy();
   });
 
-  it('should trigger onDeleteElevatorRecord with success if mutation succeeds without errors', async () => {
+  it('should trigger onDeleteTechnicianRecord with success if mutation succeeds without errors', async () => {
     mockUseMutation.mockReturnValue([
-      jest.fn().mockResolvedValue({ data: { deleteElevatorRecord: mockDeleteElevatorRecordResponse } }),
+      jest.fn().mockResolvedValue({ data: { deleteElevatorRecord: mockDeleteTechnicianRecordResponse } }),
       { loading: false, error: undefined },
     ]);
 
     (useMutation as jest.Mock).mockImplementation(mockUseMutation);
 
-    const { result } = hook([mockDeleteElevatorRecord]);
+    const { result } = hook([mockDeleteTechnicianRecord]);
 
     await act(async () => {
-      await result.current.onDeleteElevatorRecord('test-id-1');
+      await result.current.onDeleteTechnicianRecord(mockBenjaminHallRecordId);
     });
 
-    expect(mockOnSuccess).toHaveBeenCalledWith(DEFAULT_DELETE_ELEVATOR_RECORD_SUCCESS_MESSAGE);
+    expect(mockOnSuccess).toHaveBeenCalledWith(DEFAULT_DELETE_TECHNICIAN_RECORD_SUCCESS_MESSAGE);
     expect(onHandleMutationErrors).not.toHaveBeenCalled();
   });
 
-  it('should update cache when mutation is successful and Elevator Record is being deleted', async () => {
+  it('should update cache when mutation is successful and Technician Record is being deleted', async () => {
     mockUseMutation.mockImplementationOnce((_, options) => {
       options?.update(
         {
           modify: mockCacheModify,
         },
-        { data: { deleteElevatorRecord: mockDeleteElevatorRecordResponse } }
+        { data: { deleteTechnicianRecord: mockDeleteTechnicianRecordResponse } }
       );
 
       return [
-        jest.fn().mockResolvedValue({ data: { deleteElevatorRecord: mockDeleteElevatorRecordResponse } }),
+        jest.fn().mockResolvedValue({ data: { deleteTechnicianRecord: mockDeleteTechnicianRecordResponse } }),
         { loading: false },
       ];
     });
 
     (useMutation as jest.Mock).mockImplementation(mockUseMutation);
 
-    const { result } = hook([mockDeleteElevatorRecord]);
+    const { result } = hook([mockDeleteTechnicianRecord]);
 
     await act(async () => {
-      await result.current.onDeleteElevatorRecord('test-id-1');
+      await result.current.onDeleteTechnicianRecord(mockBenjaminHallRecordId);
     });
 
     expect(mockCacheModify).toHaveBeenCalledWith({
       fields: {
-        getElevatorRecords: expect.any(Function),
+        getTechnicianRecords: expect.any(Function),
       },
     });
 
-    const { getElevatorRecords: customModifyFn } = mockCacheModify.mock.calls[0][0].fields;
+    const { getTechnicianRecords: customModifyFn } = mockCacheModify.mock.calls[0][0].fields;
 
-    const modifiedElevatorRecords = customModifyFn(mockExistingElevatorRecords);
+    const modifiedTechnicianRecords = customModifyFn(mockExistingTechnicianRecords);
 
-    const updatedElevatorRecordsResult = {
-      edges: [
-        {
-          node: {
-            id: 'test-id-2',
-            name: 'Record 2',
-          },
-        },
-      ],
-      total: 1,
-    };
+    const updatedTechnicianRecordsResult = { edges: [{ node: { id: 'test-id-2', name: 'Record 2' } }], total: 1 };
 
-    expect(modifiedElevatorRecords).toEqual(updatedElevatorRecordsResult);
+    expect(modifiedTechnicianRecords).toEqual(updatedTechnicianRecordsResult);
   });
 
   it('should not modify the cache if data is undefined or null', async () => {
@@ -171,10 +166,10 @@ describe('useDeleteElevatorRecord', () => {
 
     (useMutation as jest.Mock).mockImplementationOnce(mockUseMutation);
 
-    const { result } = hook([mockDeleteElevatorRecord]);
+    const { result } = hook([mockDeleteTechnicianRecord]);
 
     await act(async () => {
-      await result.current.onDeleteElevatorRecord('test-id-1');
+      await result.current.onDeleteTechnicianRecord(mockBenjaminHallRecordId);
     });
 
     expect(mockCacheModify).not.toHaveBeenCalled();
@@ -182,24 +177,25 @@ describe('useDeleteElevatorRecord', () => {
 
   it('should handle GraphQL errors and trigger onHandleMutationErrors', async () => {
     mockUseMutation.mockReturnValue([
-      jest
-        .fn()
-        .mockResolvedValue({ data: { deleteElevatorRecord: mockDeleteElevatorRecordResponse }, errors: mockGqlError }),
+      jest.fn().mockResolvedValue({
+        data: { deleteElevatorRecord: mockDeleteTechnicianRecordResponse },
+        errors: mockGqlError,
+      }),
       { loading: false, error: undefined },
     ]);
 
     (useMutation as jest.Mock).mockImplementation(mockUseMutation);
 
-    const { result } = hook([mocDeleteElevatorRecordGQLError]);
+    const { result } = hook([mockDeleteTechnicianRecordGQLError]);
 
     await act(async () => {
-      await result.current.onDeleteElevatorRecord('test-id-1');
+      await result.current.onDeleteTechnicianRecord(mockBenjaminHallRecordId);
     });
 
     expect(mockOnSuccess).not.toHaveBeenCalled();
     expect(onHandleMutationErrors).toHaveBeenCalledWith({
       errors: [{ message: 'Simulated GQL error in result' }],
-      message: 'Fail to deleted elevator record',
+      message: DEFAULT_DELETE_TECHNICIAN_RECORD_FAIL_MESSAGE,
       onFailure: expect.any(Function),
     });
   });
@@ -212,16 +208,16 @@ describe('useDeleteElevatorRecord', () => {
 
     (useMutation as jest.Mock).mockImplementation(mockUseMutation);
 
-    const { result } = hook([mockDeleteElevatorRecordNetworkError]);
+    const { result } = hook([mockDeleteTechnicianRecordNetworkError]);
 
     await act(async () => {
-      await result.current.onDeleteElevatorRecord('test-id-1');
+      await result.current.onDeleteTechnicianRecord(mockBenjaminHallRecordId);
     });
 
     expect(mockOnSuccess).not.toHaveBeenCalled();
     expect(onHandleMutationErrors).toHaveBeenCalledWith({
       error: expect.objectContaining({ message: 'Network Error' }),
-      message: 'Fail to deleted elevator record',
+      message: DEFAULT_DELETE_TECHNICIAN_RECORD_FAIL_MESSAGE,
       onFailure: expect.any(Function),
     });
   });

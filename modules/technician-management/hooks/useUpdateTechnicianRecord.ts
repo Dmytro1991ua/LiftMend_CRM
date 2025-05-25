@@ -12,7 +12,7 @@ import { getFieldsToUpdateForMutation, onHandleMutationErrors } from '@/shared/u
 import { TechnicianRecordFormValues } from '../types';
 import { convertFormFieldsToTechnicianRecord } from '../utils';
 
-type UseUpdateTechnicianRecord = {
+export type UseUpdateTechnicianRecord = {
   isLoading: boolean;
   onUpdateTechnicianRecord: (
     formFields: TechnicianRecordFormValues,

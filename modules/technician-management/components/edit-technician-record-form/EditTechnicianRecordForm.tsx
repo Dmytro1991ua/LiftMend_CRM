@@ -15,7 +15,6 @@ export type EditTechnicianRecordFormProps = {
 };
 
 const EditTechnicianRecordForm = ({ technicianRecordFormValues }: EditTechnicianRecordFormProps) => {
-  console.log(technicianRecordFormValues);
   const { clearErrors } = useFormContext<TechnicianRecordFormValues>();
 
   const {

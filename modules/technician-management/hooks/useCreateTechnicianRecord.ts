@@ -8,7 +8,7 @@ import { onHandleMutationErrors } from '@/shared/utils';
 import { TechnicianRecordFormFields } from '../components/technician-record-form/validation';
 import { DEFAULT_TECHNICIAN_RECORD_FAIL_MESSAGE, DEFAULT_TECHNICIAN_RECORD_SUCCESS_MESSAGE } from '../constants';
 
-type UseCreateTechnicianRecord = {
+export type UseCreateTechnicianRecord = {
   isLoading: boolean;
   onCreateTechnicianRecord: (formFields: TechnicianRecordFormFields) => Promise<void>;
 };
