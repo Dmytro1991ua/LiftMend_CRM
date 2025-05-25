@@ -3,9 +3,9 @@ import { RenderHookResult, renderHook } from '@testing-library/react-hooks';
 
 import {
   mockBenjaminHallRecord,
+  mockBenjaminHallRecordId,
   mockTechnicianRecordById,
   mockTechnicianRecordByIdError,
-  mockTechnicianRecordId,
 } from '@/mocks/technicianManagementMocks';
 import { MockProviderHook } from '@/mocks/testMocks';
 import {
@@ -36,7 +36,7 @@ describe('useFetchTechnicianRecordById', () => {
   });
 
   it('should fetch technician record by id', async () => {
-    const { result, waitForNextUpdate } = hook(mockTechnicianRecordId, [mockTechnicianRecordById]);
+    const { result, waitForNextUpdate } = hook(mockBenjaminHallRecordId, [mockTechnicianRecordById]);
 
     await waitForNextUpdate();
 

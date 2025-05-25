@@ -1,14 +1,13 @@
 import { useCallback } from 'react';
 
 import { useModal } from '@/shared/hooks';
-import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 
 import { getEmploymentStatusUpdateConfig } from '../config';
 import { EmploymentStatus, EmploymentStatusConfig } from '../types';
 
-import useUpdateTechnicianVisibility from './useUpdateTechnicianVisibility';
+import { useUpdateTechnicianVisibility } from './useUpdateTechnicianVisibility';
 
-type UseUpdateEmploymentStatusProps = {
+export type UseUpdateEmploymentStatusProps = {
   employmentStatus: EmploymentStatus;
   technicianId: string;
   availabilityStatus: string | null;
@@ -16,7 +15,7 @@ type UseUpdateEmploymentStatusProps = {
   onRedirect?: () => void;
 };
 
-type UseUpdateEmploymentStatus = {
+export type UseUpdateEmploymentStatus = {
   loading: boolean;
   config: EmploymentStatusConfig;
   isModalOpen: boolean;
@@ -34,12 +33,8 @@ export const useUpdateEmploymentStatus = ({
   onRedirect,
 }: UseUpdateEmploymentStatusProps): UseUpdateEmploymentStatus => {
   const { isModalOpen, onCloseModal, onOpenModal } = useModal();
-  const { onError, onSuccess } = useMutationResultToasts();
 
-  const { loading, onUpdateEmploymentStatus } = useUpdateTechnicianVisibility({
-    onError,
-    onSuccess,
-  });
+  const { loading, onUpdateEmploymentStatus } = useUpdateTechnicianVisibility();
 
   const config = getEmploymentStatusUpdateConfig(lastKnownAvailabilityStatus ?? '')[employmentStatus] || {};
 

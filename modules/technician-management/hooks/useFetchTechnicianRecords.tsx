@@ -24,7 +24,7 @@ import { getItemsFromQuery, removeTypeNamesFromArray } from '@/shared/utils';
 
 import { TECHNICIAN_RECORDS_TABLE_FILTER_KEY_MAP } from '../constants';
 
-type UseFetchTechnicianRecords<T> = {
+export type UseFetchTechnicianRecords<T> = {
   technicianRecords: TechnicianRecord[];
   loading: boolean;
   error?: string;
@@ -37,7 +37,7 @@ type UseFetchTechnicianRecords<T> = {
   onSetTableStorageState: Dispatch<SetStateAction<TableStorageState<SortingState, TableFilters<T>>>>;
 };
 
-const useFetchTechnicianRecords = <T,>(): UseFetchTechnicianRecords<T> => {
+export const useFetchTechnicianRecords = <T,>(): UseFetchTechnicianRecords<T> => {
   const { storedState: tableStorageState, setStoredState: setTableState } = useStoredTableState<
     SortingState,
     TableFilters<T>,
@@ -117,5 +117,3 @@ const useFetchTechnicianRecords = <T,>(): UseFetchTechnicianRecords<T> => {
     onSetTableStorageState: setTableState,
   };
 };
-
-export default useFetchTechnicianRecords;

@@ -105,7 +105,7 @@ describe('useUpdateProfile', () => {
     expect(onHandleMutationErrors).not.toHaveBeenCalledWith();
   });
 
-  it('should update cache when mutation is successful and Elevator Record is being deleted', async () => {
+  it('should update cache when mutation is successful and profile data is updated', async () => {
     mockUseMutation.mockImplementationOnce((_, options) => {
       options?.update(
         {

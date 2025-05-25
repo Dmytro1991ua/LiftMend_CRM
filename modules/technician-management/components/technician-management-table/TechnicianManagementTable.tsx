@@ -13,7 +13,7 @@ import QueryResponse from '@/shared/query-response';
 import { TableNames, TechnicianRecord } from '@/shared/types';
 import { AppRoutes } from '@/types/enums';
 
-import useFetchTechnicianRecords from '../../hooks/useFetchTechnicianRecords';
+import { useFetchTechnicianRecords } from '../../hooks';
 
 import { TECHNICIAN_RECORD_COLUMNS } from './columns';
 import { getTechnicianRecordFilterConfig } from './config';

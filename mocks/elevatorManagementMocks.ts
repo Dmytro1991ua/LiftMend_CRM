@@ -307,7 +307,7 @@ export const mocDeleteElevatorRecordGQLError = {
 
 export const mockDeleteElevatorRecordNetworkError = {
   request: {
-    query: UPDATE_ELEVATOR_RECORD,
+    query: DELETE_ELEVATOR_RECORD,
     variables: {
       id: 'test-id-1',
     },

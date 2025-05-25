@@ -7,14 +7,14 @@ import { getElevatorStatusUpdateConfig } from '../config';
 
 import { useUpdateElevatorRecordVisibility } from './useUpdateElevatorRecordVisibility';
 
-export type UseUpdateEmploymentStatusProps = {
+export type UseUpdateElevatorStatusProps = {
   status: ElevatorStatus;
   elevatorRecordId: string;
   lastKnownStatus?: string | null;
   onRedirect?: () => void;
 };
 
-export type UseUpdateEmploymentStatus = {
+export type UseUpdateElevatorStatus = {
   config: ElevatorStatusConfig;
   isModalOpen: boolean;
   onOpenModal: () => void;
@@ -28,7 +28,7 @@ export default function useUpdateElevatorRecordStatus({
   elevatorRecordId,
   lastKnownStatus,
   onRedirect,
-}: UseUpdateEmploymentStatusProps): UseUpdateEmploymentStatus {
+}: UseUpdateElevatorStatusProps): UseUpdateElevatorStatus {
   const { isModalOpen, onCloseModal, onOpenModal } = useModal();
 
   const { loading, onUpdateElevatorRecordStatus } = useUpdateElevatorRecordVisibility();

@@ -5,12 +5,8 @@ import {
   UpdateTechnicianRecordMutation,
   UpdateTechnicianRecordMutationVariables,
 } from '@/graphql/types/client/generated_types';
+import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import { onHandleMutationErrors } from '@/shared/utils';
-
-type UseUpdateTechnicianVisibilityProps = {
-  onSuccess?: (message: string) => void;
-  onError?: (errorMessage: string, errorDescription: string) => void;
-};
 
 type UpdateEmploymentStatus = {
   id: string;
@@ -19,7 +15,7 @@ type UpdateEmploymentStatus = {
   currentAvailabilityStatus?: string | null;
 };
 
-type UseUpdateTechnicianVisibility = {
+export type UseUpdateTechnicianVisibility = {
   loading: boolean;
   error?: string;
   onUpdateEmploymentStatus: ({
@@ -30,10 +26,9 @@ type UseUpdateTechnicianVisibility = {
   }: UpdateEmploymentStatus) => Promise<FetchResult<UpdateTechnicianRecordMutation> | undefined>;
 };
 
-const useUpdateTechnicianVisibility = ({
-  onError,
-  onSuccess,
-}: UseUpdateTechnicianVisibilityProps): UseUpdateTechnicianVisibility => {
+export const useUpdateTechnicianVisibility = (): UseUpdateTechnicianVisibility => {
+  const { onError, onSuccess } = useMutationResultToasts();
+
   const [updateTechnicianRecord, { loading, error }] = useMutation<
     UpdateTechnicianRecordMutation,
     UpdateTechnicianRecordMutationVariables
@@ -66,13 +61,13 @@ const useUpdateTechnicianVisibility = ({
           onFailure: onError,
         });
       } else {
-        onSuccess?.('Successfully updated technician employment  and availability status');
+        onSuccess?.('Successfully updated technician employment and availability status');
       }
 
       return result;
     } catch (e) {
       onHandleMutationErrors({
-        message: 'Update Employment ans Availability Status Fail',
+        message: 'Update Employment and Availability Status Fail',
         error: e as ApolloError,
         onFailure: onError,
       });
@@ -85,5 +80,3 @@ const useUpdateTechnicianVisibility = ({
     onUpdateEmploymentStatus,
   };
 };
-
-export default useUpdateTechnicianVisibility;
