@@ -4,7 +4,6 @@ import { FormProvider, SubmitHandler } from 'react-hook-form';
 
 import { useAuthMutation } from '@/shared/auth/hooks';
 import { useFormState } from '@/shared/hooks';
-import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import { AppRoutes } from '@/types/enums';
 
 import AuthForm from '../auth-form';
@@ -19,12 +18,8 @@ const ResetPasswordForm = () => {
     resolver: zodResolver(resetPasswordSchema),
   });
 
-  const { onError, onSuccess } = useMutationResultToasts();
-
   const { onAuthMutation, isLoading } = useAuthMutation({
     action: 'RESET_PASSWORD',
-    onError,
-    onSuccess,
     onReset,
     onRedirect: () => router.push(AppRoutes.Dashboard),
   });

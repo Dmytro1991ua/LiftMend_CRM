@@ -82,11 +82,11 @@ const Sidebar = ({ isMobileNavOpen, onCloseMobileNav }: SidebarProps) => {
   return (
     <>
       <div
-        role='presentation'
         className={cn(
           'fixed inset-0 bg-black bg-opacity-50 transition-opacity z-40',
           isMobileNavOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
         )}
+        role='presentation'
         onClick={onCloseSidebar}
       />
       <aside
@@ -105,9 +105,9 @@ const Sidebar = ({ isMobileNavOpen, onCloseMobileNav }: SidebarProps) => {
           className='absolute tra top-5 -right-3 p-2 bg-primary rounded-xl cursor-pointer text-white hover:bg-blue-500 hidden md:block'
           onClick={onToggleCollapse}>
           {isExpanded ? (
-            <FaChevronLeft data-testid='chevron-left' className='w-3 h-3' />
+            <FaChevronLeft className='w-3 h-3' data-testid='chevron-left' />
           ) : (
-            <FaChevronRight data-testid='chevron-right' className='w-3 h-3' />
+            <FaChevronRight className='w-3 h-3' data-testid='chevron-right' />
           )}
         </button>
 

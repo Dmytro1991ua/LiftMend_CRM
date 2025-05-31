@@ -7,7 +7,6 @@ import { useAuthMutation } from '@/shared/auth/hooks';
 import ThirdPartyAuthButton from '@/shared/auth/third-party-auth-button';
 import { usePhoneCountry } from '@/shared/base-input/phone-number-input/hooks';
 import { useFormState } from '@/shared/hooks';
-import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import { formatPhoneNumber } from '@/shared/utils';
 import { AppRoutes } from '@/types/enums';
 
@@ -23,12 +22,8 @@ const SignUpForm = () => {
 
   const router = useRouter();
 
-  const { onError, onSuccess } = useMutationResultToasts();
-
   const { onAuthMutation, isLoading } = useAuthMutation({
     action: 'SIGN_UP',
-    onError,
-    onSuccess,
     onRedirect: () => router.push(AppRoutes.SignIn),
     onReset,
   });
