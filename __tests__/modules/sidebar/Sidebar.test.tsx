@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { withRouterAndApolloProvider } from '@/mocks/testMocks';
 import Sidebar from '@/modules/sidebar';
+import { SidebarProps } from '@/modules/sidebar/Sidebar';
 import { NavigationLinkLabel } from '@/modules/sidebar/types';
 import { AppRoutes } from '@/types/enums';
-import { SidebarProps } from '@/modules/sidebar/Sidebar';
-import userEvent from '@testing-library/user-event';
 
 describe('Sidebar', () => {
   afterEach(() => {

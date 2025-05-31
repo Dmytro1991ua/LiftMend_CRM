@@ -4,17 +4,13 @@ import { FaGithub, FaGooglePlusG } from 'react-icons/fa';
 
 import { Button } from '@/components/ui/button';
 import { OAuthProvider } from '@/graphql/types/client/generated_types';
-import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 
 import { useAuthMutation } from '../hooks';
 import { ThirdPartyAuthButtonConfig } from '../types';
 
 const ThirdPartyAuthButton = () => {
-  const { onError } = useMutationResultToasts();
-
   const { onAuthMutation } = useAuthMutation<'SIGN_IN_WITH_OAUTH'>({
     action: 'SIGN_IN_WITH_OAUTH',
-    onError,
   });
 
   const onHandleSignInWithOauth = useCallback(
@@ -41,21 +37,23 @@ const ThirdPartyAuthButton = () => {
         id: 1,
         icon: <FaGooglePlusG className={commonIconStales} />,
         className: commonIconWrapperStyles,
+        ariaLabel: 'google-auth-button',
         onClick: () => onHandleSignInWithOauth(OAuthProvider.Google),
       },
       {
         id: 2,
         icon: <FaGithub className={commonIconStales} />,
         className: commonIconWrapperStyles,
+        ariaLabel: 'github-auth-button',
         onClick: () => onHandleSignInWithOauth(OAuthProvider.Github),
       },
     ];
   }, [onHandleSignInWithOauth]);
 
   return (
-    <section className='flex justify-center'>
-      {THIRD_PARTY_AUTH_BUTTON_CONFIG.map(({ id, icon, className, onClick }) => (
-        <Button key={id} className={className} type='button' onClick={onClick}>
+    <section className='flex justify-center' data-testid='third-party-auth-buttons'>
+      {THIRD_PARTY_AUTH_BUTTON_CONFIG.map(({ id, icon, ariaLabel, className, onClick }) => (
+        <Button key={id} aria-label={ariaLabel} className={className} type='button' onClick={onClick}>
           {icon}
         </Button>
       ))}

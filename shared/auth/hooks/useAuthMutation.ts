@@ -4,6 +4,7 @@ import { FORGOT_PASSWORD } from '@/graphql/schemas/forgotPassword';
 import { RESET_PASSWORD } from '@/graphql/schemas/resetPassword';
 import { SIGN_IN_WITH_OAUTH } from '@/graphql/schemas/signInWithOAuth';
 import { SIGN_OUT_USER } from '@/graphql/schemas/signOutUser';
+import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import { onHandleMutationErrors } from '@/shared/utils';
 
 import {
@@ -37,7 +38,7 @@ import {
   SignOutUserMutationVariables,
 } from './../../../graphql/types/client/generated_types';
 
-type AuthMutations = {
+export type AuthMutations = {
   SIGN_UP: {
     schema: typeof CREATE_USER;
     response: CreateUserMutation;
@@ -127,7 +128,7 @@ const authMutations: AuthMutations = {
   },
 };
 
-type UseAuthMutation<T extends keyof AuthMutations> = {
+export type UseAuthMutation<T extends keyof AuthMutations> = {
   isLoading: boolean;
   onAuthMutation: (
     variables: AuthMutations[T]['variables']
@@ -136,12 +137,12 @@ type UseAuthMutation<T extends keyof AuthMutations> = {
 
 export const useAuthMutation = <T extends keyof AuthMutations>({
   action,
-  onError,
-  onSuccess,
   onRedirect,
   onReset,
 }: AuthHookProps): UseAuthMutation<T> => {
   const { schema, successMessage, failureMessage } = authMutations[action];
+
+  const { onError, onSuccess } = useMutationResultToasts();
 
   const [mutation, { loading }] = useMutation<AuthMutations[T]['response'], AuthMutations[T]['variables']>(schema);
 

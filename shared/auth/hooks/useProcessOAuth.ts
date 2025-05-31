@@ -11,7 +11,11 @@ import { AppRoutes } from '@/types/enums';
 import { OAUTH_CALLBACK_REDIRECT_DELAY } from '../constants';
 import { getUserName } from '../utils';
 
-export const useProcessAuth = () => {
+export type UseProcessAuth = {
+  welcomeMessage: JSX.Element;
+};
+
+export const useProcessAuth = (): UseProcessAuth => {
   const router = useRouter();
 
   const { user, loading } = useUser();
