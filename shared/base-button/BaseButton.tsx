@@ -4,7 +4,7 @@ import { Loader2 } from 'lucide-react';
 
 import { Button, ButtonProps } from '@/components/ui/button';
 
-interface BaseButton extends ButtonProps {
+export interface BaseButtonProps extends ButtonProps {
   isLoading?: boolean;
   isDisabled?: boolean;
   label: string;
@@ -13,7 +13,7 @@ interface BaseButton extends ButtonProps {
   onClick?: () => Promise<void> | void;
 }
 
-const BaseButton = ({ isDisabled, isLoading, label, icon, className, onClick, ...rest }: BaseButton) => {
+const BaseButton = ({ isDisabled, isLoading, label, icon, className, onClick, ...rest }: BaseButtonProps) => {
   return (
     <Button className={className} disabled={isDisabled || isLoading} size='lg' onClick={onClick} {...rest}>
       {isLoading ? <Loader2 className='h-4 w-4 animate-spin' data-testid='button-loader' /> : icon}
