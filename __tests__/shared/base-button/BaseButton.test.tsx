@@ -1,6 +1,7 @@
+import { render, screen } from '@testing-library/react';
+
 import BaseButton from '@/shared/base-button';
 import { BaseButtonProps } from '@/shared/base-button/BaseButton';
-import { render, screen } from '@testing-library/react';
 
 describe('BaseButton', () => {
   const defaultProps = {

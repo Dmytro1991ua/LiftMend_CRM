@@ -3,10 +3,10 @@ import { render, screen } from '@testing-library/react';
 import { mockCalendarEvent, mockCalendarEventsResponse } from '@/mocks/repairJobScheduling';
 import { withApolloAndFormProvider } from '@/mocks/testMocks';
 import RepairJobScheduling from '@/modules/repair-job-scheduling';
-import { useFetchCalendarEvents } from '@/modules/repair-job-scheduling/hooks';
+import { useFetchCalendarEvents } from '@/shared/base-calendar/hooks';
 
-jest.mock('@/modules/repair-job-scheduling/hooks', () => ({
-  ...jest.requireActual('@/modules/repair-job-scheduling/hooks'),
+jest.mock('@/shared/base-calendar/hooks', () => ({
+  ...jest.requireActual('@/shared/base-calendar/hooks'),
   useFetchCalendarEvents: jest.fn(),
 }));
 
