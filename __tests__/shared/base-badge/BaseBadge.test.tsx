@@ -1,5 +1,6 @@
-import Badge from '@/shared/badge';
 import { render, screen } from '@testing-library/react';
+
+import Badge from '@/shared/badge';
 
 describe('BaseBadge', () => {
   const defaultProps = {

@@ -13,7 +13,9 @@ export const getEventActionsConfig = (
 ) => [
   {
     id: 1,
-    content: <FaTrash className='cursor-pointer' size={15} onClick={handleDeleteButtonClick} />,
+    content: (
+      <FaTrash className='cursor-pointer' data-testid='delete-event-icon' size={15} onClick={handleDeleteButtonClick} />
+    ),
   },
 ];
 

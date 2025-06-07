@@ -1,5 +1,5 @@
 import { MockedResponse } from '@apollo/client/testing';
-import { DateSelectArg } from '@fullcalendar/core';
+import { DateSelectArg, EventContentArg } from '@fullcalendar/core';
 import { GraphQLError } from 'graphql';
 
 import {
@@ -80,6 +80,88 @@ export const mockSelectedDateRange = {
     },
   },
 } as unknown as DateSelectArg;
+
+export const mockCalendarEventInfo = {
+  event: {
+    allDay: true,
+    title: 'Inspection Repair Job',
+    start: '2025-01-20',
+    end: '2025-01-23',
+    id: '9cc89880-6731-4388-adac-646a8761059a',
+    extendedProps: {
+      description: 'Repair Job for Panoramic Lift at Cityscape Residences - Event Stage',
+      repairJobId: 'd550fa3e-19cd-4f2b-bfb4-2ce527e0dc06',
+    },
+  },
+  view: {
+    type: 'dayGridMonth',
+    dateEnv: {
+      timeZone: 'local',
+      canComputeOffset: true,
+      calendarSystem: {},
+      locale: {
+        codeArg: 'en',
+        codes: ['en'],
+        week: {
+          dow: 0,
+          doy: 4,
+        },
+        simpleNumberFormat: {},
+        options: {
+          direction: 'ltr',
+          buttonText: {
+            prev: 'prev',
+            next: 'next',
+            prevYear: 'prev year',
+            nextYear: 'next year',
+            year: 'year',
+            today: 'today',
+            month: 'month',
+            week: 'week',
+            day: 'day',
+            list: 'list',
+          },
+          weekText: 'W',
+          weekTextLong: 'Week',
+          closeHint: 'Close',
+          timeHint: 'Time',
+          eventHint: 'Event',
+          allDayText: 'all-day',
+          moreLinkText: 'more',
+          noEventsText: 'No events to display',
+          buttonHints: {
+            prev: 'Previous $0',
+            next: 'Next $0',
+          },
+          viewHint: '$0 view',
+          navLinkHint: 'Go to $0',
+        },
+      },
+      weekDow: 0,
+      weekDoy: 4,
+      weekText: 'W',
+      weekTextLong: 'Week',
+      cmdFormatter: null,
+      defaultSeparator: ' - ',
+    },
+  },
+  timeText: '',
+  textColor: '',
+  backgroundColor: '',
+  borderColor: '',
+  isDraggable: false,
+  isStartResizable: false,
+  isEndResizable: false,
+  isMirror: false,
+  isStart: true,
+  isEnd: true,
+  isPast: true,
+  isFuture: false,
+  isToday: false,
+  isSelected: false,
+  isDragging: false,
+  isResizing: false,
+} as unknown as EventContentArg;
 
 export const mockAvailableTechniciansResponse: MockedResponse<GetAvailableTechniciansForAssignmentQuery> = {
   request: {

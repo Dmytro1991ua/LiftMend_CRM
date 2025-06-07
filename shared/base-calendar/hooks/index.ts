@@ -1,1 +1,2 @@
-export { default } from './useBaseCalendar';
+export * from './useBaseCalendar';
+export * from './useFetchCalendarEvents';

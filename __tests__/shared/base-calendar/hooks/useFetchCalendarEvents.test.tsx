@@ -5,7 +5,7 @@ import { RenderHookResult, renderHook } from '@testing-library/react-hooks';
 import { typePolicies } from '@/graphql/typePolicies';
 import { mockCalendarEvent, mockCalendarEventsResponse } from '@/mocks/repairJobScheduling';
 import { MockProviderHook } from '@/mocks/testMocks';
-import { UseFetchCalendarEvents, useFetchCalendarEvents } from '@/modules/repair-job-scheduling/hooks';
+import { UseFetchCalendarEvents, useFetchCalendarEvents } from '@/shared/base-calendar/hooks';
 
 describe('useFetchCalendarEvents', () => {
   afterEach(() => {

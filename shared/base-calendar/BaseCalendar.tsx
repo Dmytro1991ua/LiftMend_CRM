@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { ToolbarInput } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -6,13 +8,12 @@ import Fullcalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { Circles } from 'react-loader-spinner';
 
-import { useFetchCalendarEvents } from '@/modules/repair-job-scheduling/hooks';
-
 import QueryResponse from '../query-response';
 
 import CalendarEventContent from './components/calendar-event-content';
+import { getEventModalsConfig } from './config';
 import { DEFAULT_CALENDAR_HEADER_TOOLBAR_CONFIG, DEFAULT_CALENDAR_VIEW } from './constants';
-import useBaseCalendar from './hooks';
+import { useBaseCalendar, useFetchCalendarEvents } from './hooks';
 import { CalendarActions } from './types';
 
 type BaseCalendarProps = {
@@ -29,7 +30,18 @@ const BaseCalendar = ({
   calendarActions,
 }: BaseCalendarProps) => {
   const { events, loading, error } = useFetchCalendarEvents();
-  const { modalsConfig, onSetCalendarEvent } = useBaseCalendar({ calendarActions });
+  const { onDeleteCalendarEventAndRepairJob, onSetCalendarEvent } = useBaseCalendar({ calendarActions });
+
+  const modalsConfig = useMemo(
+    () =>
+      getEventModalsConfig({
+        isDeleteEventModalOpen: calendarActions?.isDeleteEventModalOpen,
+        onCloseDeleteEventModal: calendarActions?.onCloseDeleteEventModal,
+        onDeleteCalendarEventAndRepairJob,
+        isLoading: calendarActions?.isLoading,
+      }),
+    [calendarActions, onDeleteCalendarEventAndRepairJob]
+  );
 
   return (
     <>
