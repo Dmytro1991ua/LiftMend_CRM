@@ -11,7 +11,7 @@ import {
 import { DEFAULT_FALLBACK_MESSAGE } from '../constants';
 import { AdditionalChatConfigFields, BaseChartProps, ChartType } from '../types';
 
-interface BasePieChartProps extends Omit<BaseChartProps, 'additionalChartConfigFields' | 'chartType'> {
+export interface BasePieChartProps extends Omit<BaseChartProps, 'additionalChartConfigFields' | 'chartType'> {
   additionalChartConfigFields?: AdditionalChatConfigFields[ChartType.Pie];
 }
 
@@ -68,7 +68,7 @@ const BasePieChart = ({ data, config, className, additionalChartConfigFields }: 
   }
 
   return (
-    <ChartContainer className={className} config={config}>
+    <ChartContainer className={className} config={config} data-testid='pie-chart-container'>
       <PieChart>
         <ChartTooltip content={<ChartTooltipContent hideLabel />} />
         <Pie
