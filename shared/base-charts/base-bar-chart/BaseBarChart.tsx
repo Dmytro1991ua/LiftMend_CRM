@@ -5,7 +5,7 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/
 import { DEFAULT_FALLBACK_MESSAGE } from '../constants';
 import { AdditionalChatConfigFields, BaseChartProps, ChartType } from '../types';
 
-interface BaseBarChartProps extends Omit<BaseChartProps, 'additionalChartConfigFields' | 'chartType'> {
+export interface BaseBarChartProps extends Omit<BaseChartProps, 'additionalChartConfigFields' | 'chartType'> {
   additionalChartConfigFields?: AdditionalChatConfigFields[ChartType.Bar];
 }
 
@@ -50,7 +50,7 @@ const BaseBarChart = ({ config, className, additionalChartConfigFields, data }: 
   }
 
   return (
-    <ChartContainer className={className} config={config}>
+    <ChartContainer className={className} config={config} data-testid='bar-chart-container'>
       <BarChart
         data={filteredChartData}
         layout={layout}
