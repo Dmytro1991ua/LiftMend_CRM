@@ -3,6 +3,7 @@ import { FaTrashAlt } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
 import DeleteModal from '@/shared/base-modal/delete-modal';
 import { getModalDescription } from '@/shared/base-modal/edit-modal/utils';
+import BaseTooltip from '@/shared/base-tooltip';
 import { useModal } from '@/shared/hooks';
 import { TechnicianRecord } from '@/shared/types';
 
@@ -32,13 +33,20 @@ const DeleteActionCell = ({ technicianRecord }: DeleteActionCelProps) => {
 
   return (
     <section className='flex justify-center items-center'>
-      <Button
-        className='hover:bg-transparent'
-        disabled={true} /** TODO: Temporary disabled */
-        variant='ghost'
-        onClick={onHandleDeleteClick}>
-        <FaTrashAlt className='h-4 w-4 text-red-500' data-testid='trash-icon' />
-      </Button>
+      {/* TODO => Temporary disable => make enable if permissions will be implemented*/}
+      <BaseTooltip
+        shouldRenderInPortal
+        className='w-[33rem] !shadow-none'
+        id='delete-button-tooltip'
+        message={'You do not have permission to proceed with this action'}>
+        <Button
+          className='hover:bg-transparent'
+          disabled={true} /* TODO => Temporary disable => make enable if permissions will be implemented*/
+          variant='ghost'
+          onClick={onHandleDeleteClick}>
+          <FaTrashAlt className='h-4 w-4 text-red-500' data-testid='trash-icon' />
+        </Button>
+      </BaseTooltip>
       <DeleteModal
         description={getModalDescription(technicianRecord.name, 'record')}
         isDisabled={isDeleteTechnicianRecordLoading}

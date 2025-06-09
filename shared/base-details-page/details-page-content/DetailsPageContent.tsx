@@ -3,7 +3,7 @@ import BaseCard from '@/shared/base-card';
 
 import { DetailsPageSectionsConfig } from '../types';
 
-type DetailsPageContentProps = {
+export type DetailsPageContentProps = {
   loading: boolean;
   error?: string;
   detailsPageSections: DetailsPageSectionsConfig[];
