@@ -10,7 +10,7 @@ import DetailsPageContent from './details-page-content';
 import DetailsPageHeader from './details-page-header';
 import { DetailsPageActionButtonConfig, DetailsPageSectionsConfig } from './types';
 
-type BaseDetailsPageProps = {
+export type BaseDetailsPageProps = {
   error?: string;
   loading: boolean;
   errorMessage: string;

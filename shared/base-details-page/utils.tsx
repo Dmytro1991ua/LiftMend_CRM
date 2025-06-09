@@ -37,6 +37,14 @@ export const getCommonDetailsPageActionButtonsConfig = ({
       variant: 'destructive',
       label: ActionButtonLabel.DELETE,
       icon: <MdDelete />,
+      // TODO: remove if permission flow will be implemented
+      tooltipData: {
+        id: 'delete-button-tooltip',
+        message: 'You do not have permission to proceed with this action',
+        disable: true,
+        className: 'w-[33rem]',
+      },
+      isDisabled: true, // TODO: remove if permission flow will be implemented
       onClick: () => onOpenDeleteModal(),
     },
   ];

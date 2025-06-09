@@ -10,7 +10,7 @@ import SectionHeader from '@/shared/section-header';
 
 import { DetailsPageActionButtonConfig } from '../types';
 
-type DetailsPageHeaderProps = {
+export type DetailsPageHeaderProps = {
   loading: boolean;
   description?: string;
   title: string;
@@ -25,7 +25,7 @@ const DetailsPageHeader = ({ loading, description, title, actionButtonsConfig }:
   }, [router]);
 
   const renderGoBackButton = (
-    <Button variant='default' onClick={onHandleGoBack}>
+    <Button data-testid='go-back-button' variant='default' onClick={onHandleGoBack}>
       <IoMdArrowRoundBack size={20} />
     </Button>
   );
