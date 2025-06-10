@@ -29,7 +29,9 @@ const BaseInput = <T extends string>({
   ...props
 }: BaseInputProps<T>) => {
   return (
-    <div className={cn('relative grid w-full items-center gap-1.5', !isLastElement && 'mb-8')}>
+    <div
+      className={cn('relative grid w-full items-center gap-1.5', !isLastElement && 'mb-8')}
+      data-testid='base-input-wrapper'>
       {label && (
         <label className='font-bold' htmlFor={props.id}>
           {label}
