@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-type usePhoneCountryResult = {
+export type usePhoneCountryResult = {
   onResetPhoneInputCountry: () => void;
   selectedCountry: string;
   onSelectCountry: (country: string) => void;

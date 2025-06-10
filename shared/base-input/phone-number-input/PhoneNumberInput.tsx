@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 import { getNestedError } from '@/modules/repair-job-scheduling/utils';
 import { getCommonFormLabelErrorStyles } from '@/shared/utils';
 
-interface PhoneNumberInputProps<T extends FieldValues> extends InputProps {
+export interface PhoneNumberInputProps<T extends FieldValues> extends InputProps {
   name: Path<T>;
   disabled?: boolean;
   inputClassName?: string;
@@ -67,7 +67,7 @@ const PhoneNumberInput = <T extends FieldValues>({
                 onSelectCountry && onSelectCountry((countryData as CountryData).countryCode);
               }}
             />
-            {hasError && <span className='text-red-500 text-sm'>{errorKey?.message as string}</span>}
+            {hasError && <span className='text-red-500 text-sm'>{errorKey?.message}</span>}
           </div>
         )}
       />
