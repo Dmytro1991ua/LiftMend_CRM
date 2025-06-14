@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
 import { withFormProvider } from '@/mocks/testMocks';
-import { ProfileContentFormFields } from '@/modules/profile/validation';
 import { getNestedError } from '@/modules/repair-job-scheduling/utils';
 import PhoneNumberInput, { PhoneNumberInputProps } from '@/shared/base-input/phone-number-input/PhoneNumberInput';
 
@@ -22,7 +21,7 @@ describe('PhoneNumberInput', () => {
     id: 'phoneNumber',
   };
 
-  const PhoneNumberInputComponent = (props?: Partial<PhoneNumberInputProps<ProfileContentFormFields>>) =>
+  const PhoneNumberInputComponent = (props?: Partial<PhoneNumberInputProps<{ firstName: string }>>) =>
     withFormProvider(<PhoneNumberInput {...defaultProps} {...props} />);
 
   it('should render component without crashing', () => {

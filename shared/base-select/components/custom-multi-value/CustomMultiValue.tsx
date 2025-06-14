@@ -32,7 +32,7 @@ const CustomMultiValue = <T extends string, IsMulti extends boolean>(
         {/* @ts-ignore */}
         <components.MultiValueLabel {...rest}>{rest.children} </components.MultiValueLabel>
       </components.MultiValue>
-      {/* If this is the last item to be displayed and there are remaining items, show the "+X more" label */}{' '}
+      {/* If this is the last item to be displayed and there are remaining items, show the "+X more" label */}
       {isLastMaxDisplayedValue && (
         <div className='ml-auto'>
           {/* @ts-ignore */}

@@ -31,6 +31,7 @@ const SkillsAndCertifications = () => {
           hideSelectedOptions={false}
           isMultiSelect={true}
           label='Technician Skill(s)'
+          multipleSelectControls={true}
           name='skillsAndCertifications.skills'
           options={skills}
           placeholder='Select Technician Skills'
@@ -51,6 +52,7 @@ const SkillsAndCertifications = () => {
           hideSelectedOptions={false}
           isMultiSelect={true}
           label='Technician Certificate(s)'
+          multipleSelectControls={true}
           name='skillsAndCertifications.certifications'
           options={certifications}
           placeholder='Select Technician Certifications'

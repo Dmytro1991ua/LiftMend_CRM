@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
 import { withFormProvider } from '@/mocks/testMocks';
-import { ProfileContentFormFields } from '@/modules/profile/validation';
 import { getNestedError } from '@/modules/repair-job-scheduling/utils';
 import FormInput, { FormInputProps } from '@/shared/base-input/form-input/FormInput';
 
@@ -23,7 +22,7 @@ describe('FormInput', () => {
     id: 'firstName',
   };
 
-  const FormInputComponent = (props?: Partial<FormInputProps<ProfileContentFormFields>>) =>
+  const FormInputComponent = (props?: Partial<FormInputProps<{ fullName: string }>>) =>
     withFormProvider(<FormInput {...defaultProps} {...props} />);
 
   it('should render component without crashing', () => {
