@@ -42,7 +42,7 @@ const TechnicianManagement = () => {
         <div className='content-wrapper'>
           <TechnicianManagementTable />
         </div>
-        <BaseModal isOpen={isModalOpen} title={CREATE_NEW_TECHNICIAN_MODAL_TITLE} onClose={onCloseModal}>
+        <BaseModal isOpen={isModalOpen} title={CREATE_NEW_TECHNICIAN_MODAL_TITLE} onClose={onReset}>
           <TechnicianRecordForm onReset={onReset} />
         </BaseModal>
       </section>
