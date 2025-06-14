@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import { CustomMultiControlProps, DropdownOption } from '../../types';
 
@@ -22,8 +22,19 @@ const CustomMultiControl = <T extends string, IsMulti extends boolean>({
   const values = getValue();
 
   const isSelectAllVisible = useMemo(() => {
-    return !!values && selectAllOptions.length !== values.length && selectProps?.onSelectAll;
+    return !!(values && selectAllOptions.length !== values.length && selectProps?.onSelectAll);
   }, [selectProps?.onSelectAll, selectAllOptions.length, values]);
+
+  const onSelectAllButtonClick = useCallback(
+    (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) =>
+      selectProps?.onSelectAll && selectProps.onSelectAll(e, selectAllOptions),
+    [selectProps, selectAllOptions]
+  );
+
+  const onClearAllButtonClick = useCallback(
+    (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => selectProps?.onClearAll && selectProps.onClearAll(e),
+    [selectProps]
+  );
 
   return (
     <>
@@ -35,7 +46,7 @@ const CustomMultiControl = <T extends string, IsMulti extends boolean>({
             <span
               className='flex justify-between text-primary text-sm cursor-pointer hover:underline'
               data-testid='select-all-control'
-              onClick={(e): void => selectProps?.onSelectAll && selectProps.onSelectAll(e, selectAllOptions)}>
+              onClick={onSelectAllButtonClick}>
               Select All
             </span>
           )}
@@ -44,7 +55,7 @@ const CustomMultiControl = <T extends string, IsMulti extends boolean>({
             <span
               className='text-red-600 text-sm cursor-pointer hover:underline'
               data-testid='clear-all-control'
-              onClick={(e) => selectProps?.onClearAll && selectProps.onClearAll(e)}>
+              onClick={onClearAllButtonClick}>
               Clear All
             </span>
           )}

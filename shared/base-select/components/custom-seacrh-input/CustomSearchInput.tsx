@@ -37,6 +37,7 @@ const CustomSearchInput = <T extends string, IsMulti extends boolean>({
       autoComplete='off'
       autoCorrect='off'
       className='w-full p-2 border-b border-gray-200'
+      data-testid='custom-search-input'
       placeholder={selectProps?.searchInputPlaceholder}
       spellCheck='false'
       type='text'
