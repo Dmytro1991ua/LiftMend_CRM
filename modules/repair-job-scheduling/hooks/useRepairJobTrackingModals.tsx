@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react';
 import { DateSelectArg } from '@fullcalendar/core';
 import { startOfToday } from 'date-fns';
 
-import useBaseStepper from '@/shared/base-stepper/hooks';
+import { useBaseStepper } from '@/shared/base-stepper/hooks';
 import { useBaseToast } from '@/shared/hooks';
 import { BaseToastVariant } from '@/shared/hooks/useBaseToast/types';
 

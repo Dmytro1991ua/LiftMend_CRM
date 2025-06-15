@@ -1,1 +1,1 @@
-export { default } from './useBaseStepper';
+export * from './useBaseStepper';

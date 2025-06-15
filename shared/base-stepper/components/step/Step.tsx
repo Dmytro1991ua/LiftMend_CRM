@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
 
-type StepProps = {
+export type StepProps = {
   step: string;
   stepsLength: number;
   stepIndex: number;
@@ -36,12 +36,18 @@ const Step = ({ step, stepsLength, stepIndex, activeStep, isStepCompleted }: Ste
     <span className='text-xs'>{stepIndex + 1}</span>
   );
 
-  const renderLineConnector = stepIndex !== stepsLength - 1 && <div className={connectorClasses} />;
+  const renderLineConnector = stepIndex !== stepsLength - 1 && (
+    <div className={connectorClasses} data-testid='line-connector' />
+  );
 
   return (
-    <div className={stepIndex !== stepsLength - 1 ? 'w-full flex items-center pr-3' : 'flex items-center'}>
+    <div
+      className={stepIndex !== stepsLength - 1 ? 'w-full flex items-center pr-3' : 'flex items-center'}
+      data-testid='step'>
       <div className='relative flex flex-col items-center'>
-        <div className={circleClasses}>{renderStepIndicator}</div>
+        <div className={circleClasses} data-testid='step-circle'>
+          {renderStepIndicator}
+        </div>
         <div className={labelClasses}>{step}</div>
       </div>
       {renderLineConnector}

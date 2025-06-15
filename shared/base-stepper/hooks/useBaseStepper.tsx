@@ -20,7 +20,12 @@ type useBaseStepper = {
   onCancel: () => void;
 };
 
-const useBaseStepper = ({ totalSteps = 0, onSubmit, onHandleNext, onReset }: useBaseStepperProps): useBaseStepper => {
+export const useBaseStepper = ({
+  totalSteps = 0,
+  onSubmit,
+  onHandleNext,
+  onReset,
+}: useBaseStepperProps): useBaseStepper => {
   const [activeStep, setActiveStep] = useState(0);
   const [isLastStepComplete, setIsLastStepComplete] = useState(false);
 
@@ -53,5 +58,3 @@ const useBaseStepper = ({ totalSteps = 0, onSubmit, onHandleNext, onReset }: use
 
   return { activeStep, isLastStepComplete, isStepCompleted, onNextStep, onPreviousStep, onCancel };
 };
-
-export default useBaseStepper;
