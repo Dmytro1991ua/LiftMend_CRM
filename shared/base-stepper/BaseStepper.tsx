@@ -6,7 +6,7 @@ import { RepairJobFromFields } from '@/modules/repair-job-scheduling/components/
 
 import Step from './components/step';
 import StepperActions from './components/stepper-actions';
-import useBaseStepper from './hooks';
+import { useBaseStepper } from './hooks';
 import { StepValue } from './types';
 
 type BaseStepperProps<T extends string | number> = {
@@ -36,7 +36,7 @@ const BaseStepper = <T extends string | number>({
   const stepContent = useMemo(() => stepContentConfig[activeStep as T], [stepContentConfig, activeStep]);
 
   return (
-    <section className='ml-1 flex flex-col items-center justify-between'>
+    <section className='ml-1 flex flex-col items-center justify-between' data-testid='base-stepper'>
       <div className='flex w-full mb-10 pl-8 pr-15'>
         {steps.map(({ id, value }) => (
           <Step

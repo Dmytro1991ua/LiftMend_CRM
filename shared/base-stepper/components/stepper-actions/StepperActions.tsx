@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 
 import { ButtonConfig, ButtonLabel } from '../../types';
 
-type StepperActionsProps = {
+export type StepperActionsProps = {
   activeStep: number;
   stepsLength: number;
   onHandlePreviousStep: () => void;
@@ -84,7 +84,7 @@ const StepperActions: React.FC<StepperActionsProps> = ({
               type={type}
               variant={variant}
               onClick={onClick}>
-              {isLoading ? <Loader2 className='mr-2 h-4 w-4 animate-spin' /> : label}
+              {isLoading ? <Loader2 className='mr-2 h-4 w-4 animate-spin' data-testid='btn-loader' /> : label}
             </Button>
           )
       )}
