@@ -7,12 +7,13 @@ import { TableNames } from '@/shared/types';
 
 import { convertExportFileNameToCorrectFormat, getDataToExport } from './utils';
 
-type ExportButtonProps<T> = {
+export type ExportButtonProps<T> = {
   rowModel?: RowModel<T>;
   columns?: Column<T, unknown>[];
   tableName: TableNames;
   isDisabled?: boolean;
 };
+
 const EXPORT_BUTTON_LABEL = 'Export to CSV';
 
 const ExportButton = <T,>({ rowModel, columns, tableName, isDisabled }: ExportButtonProps<T>) => {
@@ -31,12 +32,17 @@ const ExportButton = <T,>({ rowModel, columns, tableName, isDisabled }: ExportBu
   return (
     <>
       {isDisabled ? (
-        <button disabled className={buttonClass} type='button'>
+        <button disabled className={buttonClass} data-testid='regular-btn' type='button'>
           <BsDownload />
           {renderButtonContent}
         </button>
       ) : (
-        <CSVLink className={buttonClass} data={dataToExport} filename={`${exportFileName}.csv`} role='link'>
+        <CSVLink
+          className={buttonClass}
+          data={dataToExport}
+          data-testid='csv-link'
+          filename={`${exportFileName}.csv`}
+          role='link'>
           <BsDownload />
           {renderButtonContent}
         </CSVLink>

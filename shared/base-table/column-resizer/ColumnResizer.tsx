@@ -1,6 +1,6 @@
 import { Header } from '@tanstack/react-table';
 
-type ColumnResizerProps<T> = {
+export type ColumnResizerProps<T> = {
   header: Header<T, unknown>;
 };
 const ColumnResizer = <T,>({ header }: ColumnResizerProps<T>) => {
@@ -13,6 +13,7 @@ const ColumnResizer = <T,>({ header }: ColumnResizerProps<T>) => {
 
   return (
     <div
+      data-testid='column-resizer'
       {...{
         onMouseDown: getResizeHandler(),
         onTouchStart: getResizeHandler(),

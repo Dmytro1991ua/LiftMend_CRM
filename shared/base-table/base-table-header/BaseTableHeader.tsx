@@ -7,7 +7,7 @@ import { TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import ColumnResizer from '../column-resizer/ColumnResizer';
 import SortArrow from '../sort-arrow';
 
-type BaseTableHeaderProps<T> = {
+export type BaseTableHeaderProps<T> = {
   headerGroups: HeaderGroup<T>[];
   columnVisibility: VisibilityState;
 };

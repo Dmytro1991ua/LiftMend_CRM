@@ -11,6 +11,7 @@ const BaseTableCheckbox = <T,>({ table }: BaseTableCheckboxProps<T>) => {
     <Checkbox
       aria-label='Select all'
       checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')}
+      data-testid='base-table-checkbox'
       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
     />
   );

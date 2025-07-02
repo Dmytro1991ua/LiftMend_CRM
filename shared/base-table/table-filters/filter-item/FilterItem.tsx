@@ -7,7 +7,7 @@ import FilterOption from '../filter-option';
 
 import { getIsFilterSelected } from './utils';
 
-type FilterItemProps<T> = {
+export type FilterItemProps<T> = {
   filterKey: FilterKey;
   filterType?: FilterType;
   label: FilterLabel;

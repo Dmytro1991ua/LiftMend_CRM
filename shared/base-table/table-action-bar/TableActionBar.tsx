@@ -39,7 +39,7 @@ const TableActionBar = <T,>({
   onClearFilter,
 }: TableActionBarProps<T>) => {
   return (
-    <section className='flex items-center justify-between py-4'>
+    <section className='flex items-center justify-between py-4' data-testid='table-action-bar'>
       <div className='flex items-center gap-2'>
         <TableFilters
           filtersConfig={filtersConfig}

@@ -56,6 +56,7 @@ const BaseTableBody = <T,>({
                 getRowHighlightInfo(row.original).highlightStyles
             )}
             data-state={row.getIsSelected() && 'selected'}
+            data-testid='base-table-row'
             title={
               typeof rowTooltipMessage === 'string'
                 ? rowTooltipMessage
