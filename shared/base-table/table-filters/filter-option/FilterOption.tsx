@@ -5,7 +5,7 @@ import { DropdownOption } from '@/shared/base-select/types';
 
 import { FilterKey, FilterType } from '../../types';
 
-type FilterOptionProps = {
+export type FilterOptionProps = {
   filterKey: FilterKey;
   option: DropdownOption;
   isSelected: boolean;
@@ -28,6 +28,7 @@ const FilterOption = ({ option, isSelected, filterKey, filterType, onFilterChang
         <>
           <Checkbox
             checked={isSelected}
+            data-testid='filter-checkbox'
             id={`checkbox-${filterKey}_${option.value}`}
             onCheckedChange={onHandleCheckboxChange}
           />
@@ -41,6 +42,7 @@ const FilterOption = ({ option, isSelected, filterKey, filterType, onFilterChang
           <input
             checked={isSelected}
             className='form-radio h-4 w-4 text-blue-600'
+            data-testid='filter-radio'
             id={`radio-${filterKey}_${option.value}`}
             type='radio'
             onChange={onHandleRadioButtonChange}

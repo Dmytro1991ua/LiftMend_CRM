@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 
 import { getSelectedFilterCountLabel } from '../utils';
 
-type FilterHeaderProps = {
+export type FilterHeaderProps = {
   label: string;
   selectedFiltersCount: number;
   onClear: () => void;

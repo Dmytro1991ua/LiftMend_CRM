@@ -10,7 +10,7 @@ import { columnsValueAccessors } from './config';
 const headerColumnsToIgnore = ['edit', 'delete', 'reassignTechnician', 'visibility'];
 const rowCellsToIgnore = [...headerColumnsToIgnore, 'select'];
 
-const convertCurrentDateToExportFileNameDate = (date: Date): string => {
+export const convertCurrentDateToExportFileNameDate = (date: Date): string => {
   // eslint-disable-next-line quotes
   return format(date, "MMddyy'_'HHmma");
 };
@@ -19,7 +19,7 @@ export const convertExportFileNameToCorrectFormat = (tableName: TableNames, date
   return `${upperFirst(tableName).replace(/ /g, '')}_${convertCurrentDateToExportFileNameDate(date)}`;
 };
 
-const getHeaderColumns = <T>(columns: Column<T, unknown>[]): string[] => {
+export const getHeaderColumns = <T>(columns: Column<T, unknown>[]): string[] => {
   const headerColumns = columns.reduce<string[]>(
     (acc, column) => {
       if (
