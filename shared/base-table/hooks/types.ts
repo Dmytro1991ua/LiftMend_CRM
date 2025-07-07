@@ -6,7 +6,7 @@ import { ColumnSizingState, OnChangeFn, RowSelectionState, SortingState, Visibil
 import { DropdownOption } from '@/shared/base-select/types';
 import { TableStorageState } from '@/shared/storage/hooks/useStoredState';
 
-import { FilterKey, TableFilters } from '../types';
+import { FilterKey, FilterType, TableFilters } from '../types';
 
 export type BaseHookProps<T> = {
   tableStorageState: TableStorageState<SortingState, TableFilters<T>>;
@@ -61,6 +61,6 @@ export type TableStateReturn<T> = UseSorting &
 
 export type UseFilterInTable<T> = {
   filters: TableFilters<T>;
-  onFilterChange: (key: FilterKey, selectedOption: DropdownOption) => void;
+  onFilterChange: (key: FilterKey, selectedOption: DropdownOption, filterType?: FilterType) => void;
   onClearFilter: (key: FilterKey) => void;
 };
