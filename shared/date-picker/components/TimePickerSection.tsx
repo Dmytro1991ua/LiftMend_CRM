@@ -7,7 +7,7 @@ import { TimePickerType } from '../types';
 import { TIME_PICKER_CONFIG } from './config';
 import TimePickerField from './TimePickerField';
 
-type TimePickerFieldProps = {
+export type TimePickerSectionProps = {
   dateRange?: DateRange;
   singleDate?: Date;
   isDisabled?: boolean;
@@ -15,12 +15,14 @@ type TimePickerFieldProps = {
   onHandleTimeChange: (updatedDate?: Date, isStart?: boolean) => void;
 };
 
-const TimePickerSection = ({ dateRange, singleDate, isDisabled, onHandleTimeChange }: TimePickerFieldProps) => {
+const TimePickerSection = ({ dateRange, singleDate, isDisabled, onHandleTimeChange }: TimePickerSectionProps) => {
+  console.log(dateRange, singleDate, isDisabled);
   const renderTimePickerForDateRange = useMemo(
     () => (
       <>
         {dateRange?.from && (
           <TimePickerField
+            dataTestId='time-picker-from-date-range'
             date={dateRange.from}
             isDisabled={isDisabled}
             isStartPosition={true}
@@ -31,6 +33,7 @@ const TimePickerSection = ({ dateRange, singleDate, isDisabled, onHandleTimeChan
         )}
         {dateRange?.to && (
           <TimePickerField
+            dataTestId='time-picker-to-date-range'
             date={dateRange.to}
             isDisabled={isDisabled}
             isStartPosition={false}
@@ -47,6 +50,7 @@ const TimePickerSection = ({ dateRange, singleDate, isDisabled, onHandleTimeChan
   const renderTimePickerForSingleDate = useMemo(
     () => (
       <TimePickerField
+        dataTestId='time-picker-single-date'
         date={singleDate}
         isDisabled={isDisabled}
         isStartPosition={true}

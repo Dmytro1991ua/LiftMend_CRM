@@ -4,7 +4,7 @@ import { Clock } from 'lucide-react';
 
 import { TimePickerInput } from './components/TimePickerInput';
 
-interface TimePickerProps {
+export interface TimePickerProps {
   date: Date | undefined;
   disabled?: boolean;
   setDate: (date: Date | undefined) => void;
