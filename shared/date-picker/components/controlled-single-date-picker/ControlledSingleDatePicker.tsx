@@ -6,7 +6,7 @@ import { getCommonFormLabelErrorStyles } from '@/shared/utils';
 
 import DatePicker, { DatePickerProps } from '../../DatePicker';
 
-interface ControlledDatePickerProps<T extends FieldValues> extends DatePickerProps {
+export interface ControlledDatePickerProps<T extends FieldValues> extends DatePickerProps {
   label?: string;
   name: Path<T>;
   className?: string;

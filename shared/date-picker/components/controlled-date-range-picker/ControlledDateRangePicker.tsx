@@ -6,7 +6,7 @@ import { formatScheduledDate, getCommonFormLabelErrorStyles } from '@/shared/uti
 
 import DatePicker, { DatePickerProps } from '../../DatePicker';
 
-interface ControlledDateRangePickerProps<T extends FieldValues> extends DatePickerProps {
+export interface ControlledDateRangePickerProps<T extends FieldValues> extends DatePickerProps {
   label?: string;
   name: Path<T>;
   className?: string;
