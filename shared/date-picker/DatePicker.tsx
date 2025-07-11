@@ -10,7 +10,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { cn } from '@/lib/utils';
 
 import TimePickerSection from './components/TimePickerSection';
-import useDatePicker from './hooks';
+import { useDatePicker } from './hooks';
 import { DateRangeConfigKey } from './types';
 import { getDatePickerConfig, getDatePicketConfigKey } from './utils';
 
