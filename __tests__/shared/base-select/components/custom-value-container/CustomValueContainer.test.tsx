@@ -4,19 +4,31 @@ import { render, screen } from '@testing-library/react';
 import { GroupBase, MultiValueProps, components } from 'react-select';
 
 import CustomValueContainer from '@/shared/base-select/components/custom-value-container';
-import { CustomValueContainerProps } from '@/shared/base-select/types';
+import {
+  CustomMultiValueProps,
+  CustomPlaceholderProps,
+  CustomSingleValueProps,
+  CustomValueContainerProps,
+} from '@/shared/base-select/types';
 
-jest.mock('@/shared/base-select/components/custom-multi-value', () =>
-  jest.fn(() => <div data-testid='custom-multi-value'>Custom Multi Value</div>)
-);
-
-jest.mock('@/shared/base-select/components/custom-placeholder', () =>
-  jest.fn(() => <div data-testid='custom-placeholder'>Custom Placeholder</div>)
-);
-
-jest.mock('@/shared/base-select/components/custom-single-value', () =>
-  jest.fn(() => <div data-testid='custom-single-value'>Custom Single Value</div>)
-);
+jest.mock('@/shared/base-select/components/custom-multi-value', () => ({
+  __esModule: true,
+  default: (props: CustomMultiValueProps<string, true>) => (
+    <div data-testid='custom-multi-value'>Multi: {props.data?.label}</div>
+  ),
+}));
+jest.mock('@/shared/base-select/components/custom-placeholder', () => ({
+  __esModule: true,
+  default: (props: CustomPlaceholderProps<string, false>) => (
+    <div data-testid='custom-placeholder'>Placeholder: {props.children}</div>
+  ),
+}));
+jest.mock('@/shared/base-select/components/custom-single-value', () => ({
+  __esModule: true,
+  default: (props: CustomSingleValueProps<string, false>) => (
+    <div data-testid='custom-single-value'>Single: {props.children}</div>
+  ),
+}));
 
 describe('CustomValueContainer', () => {
   afterEach(() => {

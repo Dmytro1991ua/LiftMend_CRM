@@ -7,7 +7,7 @@ import BaseAlert from '../base-alert/BaseAlert';
 import QueryResponse from '../query-response';
 import { ItemConfig } from '../types';
 
-type EditEntityFormProps<T> = {
+export type EditEntityFormProps<T> = {
   formValues: T;
   fieldConfigs: ItemConfig[];
   loading: boolean;

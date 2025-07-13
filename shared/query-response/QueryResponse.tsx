@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import { useBaseToast } from '../hooks';
 import { BaseToastVariant } from '../hooks/useBaseToast/types';
 
-type QueryResponseProps = {
+export type QueryResponseProps = {
   loading?: boolean;
   errorMessage?: string;
   errorDescription?: string;
