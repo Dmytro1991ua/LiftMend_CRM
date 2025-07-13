@@ -13,13 +13,13 @@ const NavigationLoadingWrapper = ({ children }: NavigationLoadingWrapperProps) =
 
   if (isRedirecting) {
     return (
-      <div className='flex justify-center items-center h-screen'>
+      <div className='flex justify-center items-center h-screen' data-testid='loader-wrapper'>
         <ThreeCircles ariaLabel='three-circles-loading' color='#2563eb' height={120} visible={true} width={120} />
       </div>
     );
   }
 
-  return <section>{children}</section>;
+  return <section data-testid='navigation-wrapper'>{children}</section>;
 };
 
 export default NavigationLoadingWrapper;

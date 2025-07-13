@@ -10,7 +10,9 @@ const Pill = ({ status }: PillProps) => {
   return (
     <span className='flex items-center gap-1'>
       {icon}
-      <span className={className}>{label}</span>
+      <span className={className} data-testid='pill-label'>
+        {label}
+      </span>
     </span>
   );
 };
