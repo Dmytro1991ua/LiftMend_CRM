@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 
-import { useToast } from '@/components/ui/use-toast';
 import { useBaseToast } from '@/shared/hooks';
 import QueryResponse from '@/shared/query-response';
 import { QueryResponseProps } from '@/shared/query-response/QueryResponse';

@@ -23,7 +23,7 @@ import { DETAILS_PAGE_ALERT_MESSAGE } from '../config';
 import { useRepairJobDeletion } from '../hooks';
 
 import { repairJobSectionsConfig } from './config';
-import useFetchRepairJobById from './hooks/useFetchRepairJobById';
+import { useFetchRepairJobById } from './hooks';
 import { convertRepairJobToFormValues } from './utils';
 
 const RepairJobDetails = () => {

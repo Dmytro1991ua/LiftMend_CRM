@@ -1,12 +1,14 @@
 import { FetchResult } from '@apollo/client';
 import { MockedResponse } from '@apollo/client/testing';
 
-import { GET_REPAIR_JOBS } from '@/graphql/schemas';
-import { GetRepairJobsQuery } from '@/graphql/types/client/generated_types';
+import { GET_REPAIR_JOBS, GET_REPAIR_JOB_BY_ID, GET_REPAIR_JOB_FORM_DATA } from '@/graphql/schemas';
+import { GetRepairJobByIdQuery, GetRepairJobsQuery } from '@/graphql/types/client/generated_types';
+
+export const mockRepairJobId = '1bcc2a00-5296-475f-af08-5cada100d509';
 
 export const mockRepairJob = {
   status: 'Scheduled',
-  id: '1bcc2a00-5296-475f-af08-5cada100d509',
+  id: mockRepairJobId,
   jobType: 'Routine',
   jobDetails: 'asdasdasdasd',
   jobPriority: 'Low',
@@ -185,3 +187,46 @@ export const mockPaginatedRepairJobs: MockedResponse<GetRepairJobsQuery>[] = [
     },
   },
 ];
+
+export const mockRepairJobsFormData: MockedResponse = {
+  request: {
+    query: GET_REPAIR_JOB_FORM_DATA,
+  },
+  result: {
+    data: {
+      getRepairJobScheduleData: {
+        repairJobTypes: ['Compliance', 'Consultation', 'Emergency'],
+        elevatorTypes: ['Auto-Elevator', 'Baggage Lift', 'Battery Powered Lift'],
+        buildingNames: ['Bayview Condominiums', 'Beacon Heights Office Complex', 'Bluewater Hotel'],
+        elevatorLocations: ['Art Gallery', 'Auditorium', 'Basement Garage'],
+        technicianNames: ['Alice Johnson', 'Ava Young', 'Benjamin Hall'],
+        technicianSkills: ['Blueprint Reading', 'Customer Service', 'Electrical'],
+        priorities: ['High', 'Low', 'Medium'],
+        statuses: ['Cancelled', 'Completed', 'In Progress', 'On Hold', 'Scheduled'],
+        __typename: 'RepairJobScheduleData',
+      },
+    },
+  },
+};
+
+export const mockRepairJobById: MockedResponse<GetRepairJobByIdQuery> = {
+  request: {
+    query: GET_REPAIR_JOB_BY_ID,
+    variables: {
+      id: mockRepairJobId,
+    },
+  },
+  result: {
+    data: {
+      getRepairJobById: { ...mockRepairJob, __typename: 'RepairJob' },
+    },
+  },
+};
+
+export const mockRepairJobByIdError: MockedResponse<GetRepairJobByIdQuery> = {
+  request: {
+    query: GET_REPAIR_JOB_BY_ID,
+    variables: { id: 'test-id-error' },
+  },
+  error: new Error('Something went wrong!'),
+};

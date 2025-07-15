@@ -13,7 +13,7 @@ import { FormFieldLabel, ItemConfig } from '@/shared/types';
 import { ELEVATOR_DETAILS_TOOLTIP, JOB_TYPE_TOOLTIP } from './constants';
 import { RepairJobFormValues } from './types';
 
-type EditRepairJobFormProps = {
+export type EditRepairJobFormProps = {
   repairJobFormValues: RepairJobFormValues;
 };
 
