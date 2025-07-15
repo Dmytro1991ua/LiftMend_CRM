@@ -10,17 +10,17 @@ import {
 } from '@/graphql/types/client/generated_types';
 import { removeTypeNamesFromObject } from '@/shared/utils';
 
-type UseFetchRepairJobById = {
+export type UseFetchRepairJobById = {
   repairJob: RepairJob;
   loading: boolean;
   error?: string;
 };
 
-const useFetchRepairJobById = (id: string): UseFetchRepairJobById => {
+export const useFetchRepairJobById = (id: string | null): UseFetchRepairJobById => {
   const { data, loading, error } = useQuery<GetRepairJobByIdQuery, GetRepairJobByIdQueryVariables>(
     GET_REPAIR_JOB_BY_ID,
     {
-      variables: { id },
+      variables: { id: id! },
       skip: !id,
       fetchPolicy: 'cache-first',
     }
@@ -34,5 +34,3 @@ const useFetchRepairJobById = (id: string): UseFetchRepairJobById => {
     error: error?.message,
   };
 };
-
-export default useFetchRepairJobById;

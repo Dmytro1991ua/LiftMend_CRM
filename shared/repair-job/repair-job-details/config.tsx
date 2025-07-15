@@ -18,21 +18,21 @@ export const repairJobSectionsConfig = (repairJob: RepairJob): DetailsPageSectio
         fieldClassName: 'items-center',
       },
       {
-        id: 3,
+        id: 4,
         label: 'Is Overdue?',
         value: <OverdueRepairJob isOverdue={repairJob.isOverdue} />,
         fieldClassName: 'items-center',
       },
-      { id: 4, label: 'Type', value: repairJob.jobType },
-      { id: 5, label: 'Details', value: repairJob.jobDetails },
+      { id: 5, label: 'Type', value: repairJob.jobType },
+      { id: 6, label: 'Details', value: repairJob.jobDetails },
       {
-        id: 6,
+        id: 7,
         label: 'Priority',
         value: <Pill status={repairJob.jobPriority as PillStatus} />,
         fieldClassName: 'items-center',
       },
       {
-        id: 7,
+        id: 8,
         label: 'Scheduled Dates',
         value: (
           <DatePicker
@@ -45,7 +45,7 @@ export const repairJobSectionsConfig = (repairJob: RepairJob): DetailsPageSectio
       ...(repairJob?.actualEndDate
         ? [
             {
-              id: 8,
+              id: 9,
               label: 'Actual End Date',
               value: (
                 <DatePicker

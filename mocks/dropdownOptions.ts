@@ -34,13 +34,11 @@ export const mockElevatorStatuses = {
 };
 
 export const mockRepairJobTypes = {
-  repairJobTypes: {
-    repairJobTypes: [
-      { value: 'Compliance', label: 'Compliance' },
-      { value: 'Consultation', label: 'Consultation' },
-      { value: 'Emergency', label: 'Emergency' },
-    ],
-  },
+  repairJobTypes: [
+    { value: 'Compliance', label: 'Compliance' },
+    { value: 'Consultation', label: 'Consultation' },
+    { value: 'Emergency', label: 'Emergency' },
+  ],
 };
 
 export const mockRepairJobPriorities = {
@@ -65,6 +63,10 @@ export const mockTechnicianSkills = {
   skills: ['Blueprint Reading', 'Customer Service'],
 };
 
+export const mockRepairJobStatuses = {
+  statuses: ['Cancelled', 'Completed', 'In Progress', 'On Hold', 'Scheduled'],
+};
+
 export const mockElevatorManagementDropdownOptions = {
   ...mockElevatorTypes,
   ...mockBuildingNames,
@@ -82,4 +84,13 @@ export const mockTechnicalManagementDropdownOptions = {
   ...mockAvailableTechnicianStatuses,
   ...mockTechnicianCertificates,
   ...mockTechnicianSkills,
+};
+
+export const mockRepairJobsDropdownOptions = {
+  ...mockRepairJobTypes,
+  ...mockElevatorTypes,
+  ...mockBuildingNames,
+  ...mockElevatorLocations,
+  ...mockRepairJobPriorities,
+  ...mockRepairJobStatuses,
 };

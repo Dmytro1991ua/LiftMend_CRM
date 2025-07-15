@@ -1,4 +1,4 @@
-import { PopoverContentProps, PopoverProps, PopoverTriggerProps } from '@radix-ui/react-popover';
+import { PopoverContentProps, PopoverTriggerProps } from '@radix-ui/react-popover';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {
@@ -9,7 +9,6 @@ import {
   SelectSingleEventHandler,
 } from 'react-day-picker';
 
-import { CalendarProps } from '@/components/ui/calendar';
 import DatePicker, { DatePickerProps } from '@/shared/date-picker/DatePicker';
 import { useDatePicker } from '@/shared/date-picker/hooks';
 

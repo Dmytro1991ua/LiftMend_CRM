@@ -3,7 +3,7 @@ import { IoIosWarning } from 'react-icons/io';
 
 import { Maybe } from '@/graphql/types/client/generated_types';
 
-type OverdueRepairJobProps = {
+export type OverdueRepairJobProps = {
   isOverdue?: Maybe<boolean>;
 };
 
