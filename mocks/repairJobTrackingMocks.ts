@@ -1,10 +1,23 @@
 import { FetchResult } from '@apollo/client';
 import { MockedResponse } from '@apollo/client/testing';
+import { GraphQLError } from 'graphql';
 
-import { GET_REPAIR_JOBS, GET_REPAIR_JOB_BY_ID, GET_REPAIR_JOB_FORM_DATA } from '@/graphql/schemas';
-import { GetRepairJobByIdQuery, GetRepairJobsQuery } from '@/graphql/types/client/generated_types';
+import {
+  GET_REPAIR_JOBS,
+  GET_REPAIR_JOB_BY_ID,
+  GET_REPAIR_JOB_FORM_DATA,
+  REASSIGN_TECHNICIAN,
+  UPDATE_REPAIR_JOB,
+} from '@/graphql/schemas';
+import {
+  GetRepairJobByIdQuery,
+  GetRepairJobsQuery,
+  ReassignTechnicianMutation,
+  UpdateRepairJobMutation,
+} from '@/graphql/types/client/generated_types';
 
 export const mockRepairJobId = '1bcc2a00-5296-475f-af08-5cada100d509';
+export const mockCalendarEventId = '35c674d5-cf50-4153-b505-1e33696a1fdd';
 
 export const mockRepairJob = {
   status: 'Scheduled',
@@ -18,9 +31,14 @@ export const mockRepairJob = {
   technicianName: 'Sophia Martinez',
   startDate: '2025-01-18T22:00:00.000Z',
   endDate: '2025-01-20T21:59:59.999Z',
-  calendarEventId: '35c674d5-cf50-4153-b505-1e33696a1fdd',
+  calendarEventId: mockCalendarEventId,
   actualEndDate: new Date('2025-01-19T11:17:48.591Z'),
   isOverdue: false,
+};
+
+export const mockUpdatedRepairJob = {
+  ...mockRepairJob,
+  technicianName: 'Mike Smith',
 };
 
 export const mockAvailableTechnicians = [
@@ -229,4 +247,115 @@ export const mockRepairJobByIdError: MockedResponse<GetRepairJobByIdQuery> = {
     variables: { id: 'test-id-error' },
   },
   error: new Error('Something went wrong!'),
+};
+
+export const mockReassignTechnician: MockedResponse<ReassignTechnicianMutation> = {
+  request: {
+    query: REASSIGN_TECHNICIAN,
+    variables: {
+      input: {
+        id: mockRepairJob.id,
+        technicianName: 'Mike Smith',
+      },
+    },
+  },
+  result: {
+    data: {
+      reassignTechnician: {
+        ...mockRepairJob,
+        technicianName: 'Mike Smith',
+        __typename: 'RepairJob',
+      },
+    },
+    errors: [],
+  },
+};
+
+export const mockReassignTechnicianGQLError = {
+  request: {
+    query: REASSIGN_TECHNICIAN,
+    variables: {
+      input: {
+        id: mockRepairJob.id,
+        technicianName: 'Mike Smith',
+      },
+    },
+  },
+  result: {
+    data: undefined,
+    errors: [new GraphQLError('Test error')],
+  },
+};
+
+export const mockReassignTechnicianNetworkError = {
+  request: {
+    query: REASSIGN_TECHNICIAN,
+    variables: {
+      input: {
+        id: mockRepairJob.id,
+        technicianName: 'Mike Smith',
+      },
+    },
+  },
+  result: {
+    data: undefined,
+    error: new Error('Error occurs'),
+  },
+};
+
+export const mockUpdateRepairJob: MockedResponse<UpdateRepairJobMutation> = {
+  request: {
+    query: UPDATE_REPAIR_JOB,
+    variables: {
+      input: {
+        id: mockRepairJob.id,
+        technicianName: mockRepairJob.technicianName,
+        jobDetails: 'Test description',
+      },
+    },
+  },
+  result: {
+    data: {
+      updateRepairJob: {
+        ...mockRepairJob,
+        jobDetails: 'Test description',
+        __typename: 'RepairJob',
+      },
+    },
+    errors: [],
+  },
+};
+
+export const mockUpdateRepairJobGQLError = {
+  request: {
+    query: UPDATE_REPAIR_JOB,
+    variables: {
+      input: {
+        id: mockRepairJobById,
+        technicianName: mockRepairJob.technicianName,
+        jobDetails: 'Test description',
+      },
+    },
+  },
+  result: {
+    data: undefined,
+    errors: [new GraphQLError('Test error')],
+  },
+};
+
+export const mockUpdateRepairJobNetworkError = {
+  request: {
+    query: UPDATE_REPAIR_JOB,
+    variables: {
+      input: {
+        id: mockRepairJobById,
+        technicianName: mockRepairJob.technicianName,
+        jobDetails: 'Test description',
+      },
+    },
+  },
+  result: {
+    data: undefined,
+    error: new Error('Error occurs'),
+  },
 };

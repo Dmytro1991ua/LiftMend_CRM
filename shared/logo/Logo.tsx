@@ -19,7 +19,7 @@ const Logo = ({ iconClassName, wrapperClassName, labelClassName, isLabelShown = 
       <div className='flex justify-center items-center p-3 bg-primary text-white rounded-full group'>
         <FaElevator className={iconClassName} data-testid='logo-icon' />
       </div>
-      {isLabelShown ? <h3 className={cn('text-lg font-bold', labelClassName)}>{LOGO_LABEL}</h3> : null}
+      {isLabelShown ? <h3 className={cn('ml-2 text-lg font-bold', labelClassName)}>{LOGO_LABEL}</h3> : null}
     </div>
   );
 };

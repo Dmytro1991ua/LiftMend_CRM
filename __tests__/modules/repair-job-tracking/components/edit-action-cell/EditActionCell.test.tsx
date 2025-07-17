@@ -12,7 +12,7 @@ import {
   EDIT_BUTTON_CANCELLED_STATUS_TOOLTIP_MESSAGE,
   EDIT_BUTTON_COMPLETED_STATUS_TOOLTIP_MESSAGE,
 } from '@/shared/repair-job/constants';
-import useRepairJobFormHandler from '@/shared/repair-job/hooks/useRepairJobFormHandler';
+import { useRepairJobFormHandler } from '@/shared/repair-job/hooks';
 
 jest.mock('@/shared/repair-job/hooks/useRepairJobFormHandler');
 jest.mock('@apollo/client');

@@ -7,6 +7,7 @@ import {
   UpdateRepairJobMutation,
   UpdateRepairJobMutationVariables,
 } from '@/graphql/types/client/generated_types';
+import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import { RepairJobFormValues } from '@/shared/repair-job/edit-repair-job-form/types';
 import { RepairJob } from '@/shared/types';
 import { getCalendarEventInfo, getFieldsToUpdateForMutation, onHandleMutationErrors } from '@/shared/utils';
@@ -14,17 +15,14 @@ import { getCalendarEventInfo, getFieldsToUpdateForMutation, onHandleMutationErr
 import { STATUS_CHANGE_MESSAGES } from '../config';
 import { convertFormFieldsToRepairJob } from '../repair-job-details/utils';
 
-type UseUpdateRepairJobProps = {
-  onSuccess?: (message: string, description?: string) => void;
-  onError?: (errorMessage: string, errorDescription: string) => void;
-};
-
-type UseUpdateRepairJob = {
+export type UseUpdateRepairJob = {
   isLoading: boolean;
   onUpdateRepairJob: (formFields: RepairJobFormValues, originalRepairJob?: RepairJob) => Promise<void>;
 };
 
-const useUpdateRepairJob = ({ onSuccess, onError }: UseUpdateRepairJobProps): UseUpdateRepairJob => {
+export const useUpdateRepairJob = (): UseUpdateRepairJob => {
+  const { onError, onSuccess } = useMutationResultToasts();
+
   const [updateRepairJob, { loading }] = useMutation<UpdateRepairJobMutation, UpdateRepairJobMutationVariables>(
     UPDATE_REPAIR_JOB,
     {
@@ -94,5 +92,3 @@ const useUpdateRepairJob = ({ onSuccess, onError }: UseUpdateRepairJobProps): Us
     onUpdateRepairJob,
   };
 };
-
-export default useUpdateRepairJob;

@@ -1,5 +1,4 @@
-import useDeleteRepairJobAndCalendarEvent from '@/shared/hooks/useDeleteRepairJobAndCalendarEvent';
-import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
+import { useDeleteRepairJobAndCalendarEvent } from '@/shared/hooks';
 
 type UseRepairJobDeletionProps = {
   calendarEventId?: string;
@@ -8,7 +7,7 @@ type UseRepairJobDeletionProps = {
   onRedirect?: () => void;
 };
 
-type UseRepairJobDeletion = {
+export type UseRepairJobDeletion = {
   isDeleteRepairJobLoading: boolean;
   onDeleteRepairJob: () => Promise<void>;
   onDeleteCalendarEvent: (calendarEventId?: string, repairJobId?: string) => Promise<void>;
@@ -20,12 +19,7 @@ export const useRepairJobDeletion = ({
   onCloseModal,
   onRedirect,
 }: UseRepairJobDeletionProps): UseRepairJobDeletion => {
-  const { onError, onSuccess } = useMutationResultToasts();
-
-  const { onDeleteRepairJobAndCalendarEvent, isLoading } = useDeleteRepairJobAndCalendarEvent({
-    onError,
-    onSuccess,
-  });
+  const { onDeleteRepairJobAndCalendarEvent, isLoading } = useDeleteRepairJobAndCalendarEvent();
 
   const onDeleteRepairJob = async () => {
     await onDeleteRepairJobAndCalendarEvent(calendarEventId, repairJobId);

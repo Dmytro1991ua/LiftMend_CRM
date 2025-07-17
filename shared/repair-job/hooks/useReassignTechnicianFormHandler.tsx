@@ -1,18 +1,17 @@
 import { SubmitHandler } from 'react-hook-form';
 
-import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import { RepairJob } from '@/shared/types';
 
 import { ReassignTechnicianFormValues } from '../edit-repair-job-form/types';
 
-import useReassignTechnician from './useReassignTechnician';
+import { useReassignTechnician } from './useReassignTechnician';
 
 type UseReassignTechnicianFormHandlerProps = {
   repairJob: RepairJob;
   onReset: () => void;
 };
 
-type UseUseReassignTechnicianFormHandler = {
+export type UseUseReassignTechnicianFormHandler = {
   isReassignTechnicianLoading: boolean;
   onHandleTechnicianReassignment: SubmitHandler<ReassignTechnicianFormValues>;
 };
@@ -21,9 +20,7 @@ export const useReassignTechnicianFormHandler = ({
   repairJob,
   onReset,
 }: UseReassignTechnicianFormHandlerProps): UseUseReassignTechnicianFormHandler => {
-  const { onError, onSuccess } = useMutationResultToasts();
-
-  const { onReassignTechnician, isLoading } = useReassignTechnician({ onError, onSuccess });
+  const { onReassignTechnician, isLoading } = useReassignTechnician();
 
   const onHandleTechnicianReassignment: SubmitHandler<ReassignTechnicianFormValues> = async (data) => {
     const updatedRepairJob = {

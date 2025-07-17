@@ -5,21 +5,19 @@ import {
   ReassignTechnicianMutation,
   ReassignTechnicianMutationVariables,
 } from '@/graphql/types/client/generated_types';
+import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import { ReassignTechnicianFormValues } from '@/shared/repair-job/edit-repair-job-form/types';
 import { RepairJob } from '@/shared/types';
 import { onHandleMutationErrors } from '@/shared/utils';
 
-type UseReassignTechnicianProps = {
-  onSuccess?: (message: string, description?: string) => void;
-  onError?: (errorMessage: string, errorDescription: string) => void;
-};
-
-type UseReassignTechnician = {
+export type UseReassignTechnician = {
   isLoading: boolean;
   onReassignTechnician: (formFields: ReassignTechnicianFormValues, originalRepairJob?: RepairJob) => Promise<void>;
 };
 
-const useReassignTechnician = ({ onSuccess, onError }: UseReassignTechnicianProps): UseReassignTechnician => {
+export const useReassignTechnician = (): UseReassignTechnician => {
+  const { onError, onSuccess } = useMutationResultToasts();
+
   const [reassignTechnician, { loading }] = useMutation<
     ReassignTechnicianMutation,
     ReassignTechnicianMutationVariables
@@ -61,5 +59,3 @@ const useReassignTechnician = ({ onSuccess, onError }: UseReassignTechnicianProp
     onReassignTechnician,
   };
 };
-
-export default useReassignTechnician;

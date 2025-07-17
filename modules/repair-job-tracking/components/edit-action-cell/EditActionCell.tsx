@@ -13,7 +13,7 @@ import { getEditButtonDisabledState } from '@/shared/repair-job/config';
 import EditRepairJobForm from '@/shared/repair-job/edit-repair-job-form';
 import { RepairJobFormValues } from '@/shared/repair-job/edit-repair-job-form/types';
 import { repairJobEditFormSchema } from '@/shared/repair-job/edit-repair-job-form/validation';
-import useRepairJobFormHandler from '@/shared/repair-job/hooks/useRepairJobFormHandler';
+import { useRepairJobFormHandler } from '@/shared/repair-job/hooks';
 import { convertRepairJobToFormValues } from '@/shared/repair-job/repair-job-details/utils';
 import { RepairJob } from '@/shared/types';
 import { getCalendarEventInfo } from '@/shared/utils';

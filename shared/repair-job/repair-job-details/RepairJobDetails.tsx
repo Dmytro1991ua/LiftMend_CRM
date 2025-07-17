@@ -16,11 +16,10 @@ import { DEFAULT_DELETE_MODAL_TITLE, OVERDUE_JOB_WARNING_MESSAGE } from '@/share
 import EditRepairJobForm from '@/shared/repair-job/edit-repair-job-form';
 import { RepairJobFormValues } from '@/shared/repair-job/edit-repair-job-form/types';
 import { repairJobEditFormSchema } from '@/shared/repair-job/edit-repair-job-form/validation';
-import useRepairJobFormHandler from '@/shared/repair-job/hooks/useRepairJobFormHandler';
 import { getCalendarEventInfo, getDeleteModalDescription } from '@/shared/utils';
 
 import { DETAILS_PAGE_ALERT_MESSAGE } from '../config';
-import { useRepairJobDeletion } from '../hooks';
+import { useRepairJobDeletion, useRepairJobFormHandler } from '../hooks';
 
 import { repairJobSectionsConfig } from './config';
 import { useFetchRepairJobById } from './hooks';

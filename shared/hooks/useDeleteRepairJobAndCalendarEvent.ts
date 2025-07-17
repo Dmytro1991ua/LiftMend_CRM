@@ -5,10 +5,7 @@ import { DeleteRepairJobAndEventMutation } from '@/graphql/types/client/generate
 
 import { onHandleMutationErrors } from '../utils';
 
-type UseDeleteRepairJobAndCalendarEventProps = {
-  onSuccess?: (message: string) => void;
-  onError?: (errorMessage: string, errorDescription: string) => void;
-};
+import useMutationResultToasts from './useMutationResultToasts';
 
 type UseDeleteRepairJobAndCalendarEvent = {
   onDeleteRepairJobAndCalendarEvent: (calendarEventId?: string, repairJobId?: string) => Promise<void>;
@@ -32,10 +29,9 @@ export const DEFAULT_DELETE_CALENDAR_EVENT_AND_REPAIR_JOB_SUCCESS_MESSAGE =
 export const DEFAULT_DELETE_CALENDAR_EVENT_AND_REPAIR_JOB_FAIL_MESSAGE =
   'Fail to deleted the calendar event and associated scheduled repair job';
 
-const useDeleteRepairJobAndCalendarEvent = ({
-  onSuccess,
-  onError,
-}: UseDeleteRepairJobAndCalendarEventProps): UseDeleteRepairJobAndCalendarEvent => {
+export const useDeleteRepairJobAndCalendarEvent = (): UseDeleteRepairJobAndCalendarEvent => {
+  const { onError, onSuccess } = useMutationResultToasts();
+
   const [deleteRepairJonAndCalendarEvent, { loading, error }] = useMutation<DeleteRepairJobAndEventMutation>(
     DELETE_REPAIR_JOB_AND_EVENT,
     {
@@ -99,4 +95,3 @@ const useDeleteRepairJobAndCalendarEvent = ({
 
   return { onDeleteRepairJobAndCalendarEvent, isLoading: loading, error: error?.message };
 };
-export default useDeleteRepairJobAndCalendarEvent;

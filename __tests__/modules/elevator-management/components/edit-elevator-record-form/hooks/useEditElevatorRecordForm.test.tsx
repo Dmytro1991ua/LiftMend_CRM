@@ -6,7 +6,7 @@ import { UseEditElevatorRecordForm } from '@/modules/elevator-management/compone
 import useEditElevatorRecordForm from '@/modules/elevator-management/components/edit-elevator-record-form/hooks/useEditElevatorRecordForm';
 import { useUpdateElevatorRecord } from '@/modules/elevator-management/hooks';
 
-jest.mock('@/modules/elevator-management/hooks/', () => ({
+jest.mock('@/modules/elevator-management/hooks', () => ({
   ...jest.requireActual('@/modules/elevator-management/hooks'),
   useUpdateElevatorRecord: jest.fn(),
 }));
