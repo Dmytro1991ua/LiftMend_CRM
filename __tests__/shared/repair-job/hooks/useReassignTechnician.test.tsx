@@ -3,17 +3,17 @@ import { MockedResponse } from '@apollo/client/testing';
 import { RenderHookResult, act, renderHook } from '@testing-library/react-hooks';
 
 import { typePolicies } from '@/graphql/typePolicies';
+import { mockRepairJob } from '@/mocks/repairJobScheduling';
 import {
-  mockElevatorRecord,
-  mockUpdateElevatorRecord,
-  mockUpdateElevatorRecordGQLError,
-  mockUpdateElevatorRecordNetworkError,
-  mockUpdatedElevatorRecord,
-} from '@/mocks/elevatorManagementMocks';
+  mockReassignTechnician,
+  mockReassignTechnicianGQLError,
+  mockReassignTechnicianNetworkError,
+} from '@/mocks/repairJobTrackingMocks';
 import { MockProviderHook } from '@/mocks/testMocks';
-import { UseUpdateElevatorRecord, useUpdateElevatorRecord } from '@/modules/elevator-management/hooks';
 import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
-import { getFieldsToUpdateForMutation, onHandleMutationErrors } from '@/shared/utils';
+import { UseReassignTechnician, useReassignTechnician } from '@/shared/repair-job/hooks/useReassignTechnician';
+import { onHandleMutationErrors } from '@/shared/utils';
+
 jest.mock('@apollo/client', () => {
   const originalModule = jest.requireActual('@apollo/client');
 
@@ -34,39 +34,38 @@ jest.mock('@/shared/hooks/useMutationResultToasts', () => ({
 jest.mock('@/shared/utils', () => ({
   ...jest.requireActual('@/shared/utils'),
   onHandleMutationErrors: jest.fn(),
-  getFieldsToUpdateForMutation: jest.fn(),
 }));
 
-describe('useUpdateElevatorRecord', () => {
+describe('useReassignTechnician', () => {
   const mockUseMutation = jest.fn();
   const mockGqlError = [{ message: 'Simulated GQL error in result' }];
   const mockNetworkError = { message: 'Test network Error' };
   const mockOnSuccess = jest.fn();
   const mockOnError = jest.fn();
-  const mockFormValues = {
-    ...mockElevatorRecord,
-    nextMaintenanceDate: new Date('2024-09-10T16:00:00.000Z'),
+  const mockUpdatedTechnicianName = 'Mike Smith';
+  const mockFormFields = {
+    technicianName: mockUpdatedTechnicianName,
+  };
+  const mockUpdatedRepairJob = {
+    ...mockRepairJob,
+    technicianName: mockUpdatedTechnicianName,
   };
 
   beforeEach(() => {
     (useMutationResultToasts as jest.Mock).mockReturnValue({ onSuccess: mockOnSuccess, onError: mockOnError });
-
-    (getFieldsToUpdateForMutation as jest.Mock).mockReturnValue({
-      nextMaintenanceDate: new Date('2024-09-10T16:00:00.000Z'),
-    });
   });
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  const hook = (mocks: MockedResponse[] = []): RenderHookResult<unknown, UseUpdateElevatorRecord> => {
+  const hook = (mocks: MockedResponse[] = []): RenderHookResult<unknown, UseReassignTechnician> => {
     const cache = new InMemoryCache({
       addTypename: false,
       typePolicies,
     });
 
-    return renderHook(() => useUpdateElevatorRecord(), {
+    return renderHook(() => useReassignTechnician(), {
       wrapper: ({ children }) => (
         <MockProviderHook cache={cache} mocks={mocks}>
           {children}
@@ -77,32 +76,32 @@ describe('useUpdateElevatorRecord', () => {
 
   it('should return correct initial data', () => {
     mockUseMutation.mockReturnValue([
-      jest.fn().mockResolvedValue({ data: { updateElevatorRecord: mockUpdatedElevatorRecord } }),
+      jest.fn().mockResolvedValue({ data: { reassignTechnician: mockUpdatedRepairJob } }),
       { loading: false, error: undefined },
     ]);
 
     (useMutation as jest.Mock).mockImplementation(mockUseMutation);
 
-    const { result } = hook([mockUpdateElevatorRecord]);
+    const { result } = hook([mockReassignTechnician]);
 
     expect(result.current.isLoading).toBeFalsy();
   });
 
-  it('should trigger onUpdateElevatorRecord with success when the mutation succeeds without errors.', async () => {
+  it('should trigger onReassignTechnician with success when the mutation succeeds without errors.', async () => {
     mockUseMutation.mockReturnValue([
-      jest.fn().mockResolvedValue({ data: { updateElevatorRecord: mockUpdateElevatorRecord } }),
+      jest.fn().mockResolvedValue({ data: { reassignTechnician: mockUpdatedRepairJob } }),
       { loading: false, error: undefined },
     ]);
 
     (useMutation as jest.Mock).mockImplementation(mockUseMutation);
 
-    const { result } = hook([mockUpdateElevatorRecord]);
+    const { result } = hook([mockReassignTechnician]);
 
     await act(async () => {
-      await result.current.onUpdateElevatorRecord(mockFormValues);
+      await result.current.onReassignTechnician(mockFormFields, { ...mockRepairJob, status: 'In Progress' });
     });
 
-    expect(mockOnSuccess).toHaveBeenCalledWith('Successfully updated Scenic Elevator elevator record');
+    expect(mockOnSuccess).toHaveBeenCalledWith('Successfully Reassign Emergency Repair Job to Mike Smith');
     expect(onHandleMutationErrors).not.toHaveBeenCalledWith();
   });
 
@@ -114,16 +113,16 @@ describe('useUpdateElevatorRecord', () => {
 
     (useMutation as jest.Mock).mockImplementation(mockUseMutation);
 
-    const { result } = hook([mockUpdateElevatorRecordGQLError]);
+    const { result } = hook([mockReassignTechnicianGQLError]);
 
     await act(async () => {
-      await result.current.onUpdateElevatorRecord(mockFormValues);
+      await result.current.onReassignTechnician(mockFormFields, { ...mockRepairJob, status: 'In Progress' });
     });
 
     expect(mockOnSuccess).not.toHaveBeenCalled();
     expect(onHandleMutationErrors).toHaveBeenCalledWith({
       errors: [{ message: 'Simulated GQL error in result' }],
-      message: 'Fail to update Scenic Elevator elevator record',
+      message: 'Fail to Reassign Chloe Carter to Mike Smith',
       onFailure: expect.any(Function),
     });
   });
@@ -136,16 +135,16 @@ describe('useUpdateElevatorRecord', () => {
 
     (useMutation as jest.Mock).mockImplementation(mockUseMutation);
 
-    const { result } = hook([mockUpdateElevatorRecordNetworkError]);
+    const { result } = hook([mockReassignTechnicianNetworkError]);
 
     await act(async () => {
-      await result.current.onUpdateElevatorRecord(mockFormValues);
+      await result.current.onReassignTechnician(mockFormFields, { ...mockRepairJob, status: 'In Progress' });
     });
 
     expect(mockOnSuccess).not.toHaveBeenCalled();
     expect(onHandleMutationErrors).toHaveBeenCalledWith({
       error: expect.objectContaining({ message: 'Network Error' }),
-      message: 'Update Elevator Record Fail',
+      message: 'Reassign Technician Fail',
       onFailure: expect.any(Function),
     });
   });

@@ -16,7 +16,6 @@ export type TimePickerSectionProps = {
 };
 
 const TimePickerSection = ({ dateRange, singleDate, isDisabled, onHandleTimeChange }: TimePickerSectionProps) => {
-  console.log(dateRange, singleDate, isDisabled);
   const renderTimePickerForDateRange = useMemo(
     () => (
       <>

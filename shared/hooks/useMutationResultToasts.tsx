@@ -2,7 +2,7 @@ import { BaseToastVariant } from './useBaseToast/types';
 import { useBaseToast } from './useBaseToast/useBaseToast';
 
 type UseMutationResultToasts = {
-  onSuccess: (message: string) => void;
+  onSuccess: (message: string, description?: string) => void;
   onError: (message: string, description: string) => void;
 };
 

@@ -17,7 +17,39 @@ describe('ControlledDateRangePicker', () => {
   const mockErrorMessage = 'Date range name is required';
   const mockOnClearErrors = jest.fn();
 
+  // Save the original Date constructor to restore later
+  const RealDate = Date;
+
+  // Fixed date string to be used as the "current" date in tests
+  const FIXED_DATE_STRING = '2025-07-15T12:00:00Z';
+  const FIXED_DATE = new RealDate(FIXED_DATE_STRING);
+
+  beforeEach(() => {
+    // Mock the global Date constructor to control the current date/time in tests
+    global.Date = class extends RealDate {
+      // @ts-ignore
+      // When called without arguments, always return the fixed mock date
+      // This ensures that `new Date()` inside tested code returns a consistent, predictable date
+      constructor(...args: unknown[]) {
+        // If called with arguments, behave like the original Date constructor
+        if (args.length === 0) {
+          return FIXED_DATE;
+        }
+
+        // @ts-ignore
+        return new RealDate(...args);
+      }
+
+      // Override Date.now() to return the fixed timestamp, keeping it consistent with new Date()
+      static now() {
+        return FIXED_DATE.getTime();
+      }
+    } as typeof Date;
+  });
+
   afterEach(() => {
+    global.Date = RealDate;
+
     jest.clearAllMocks();
   });
 
