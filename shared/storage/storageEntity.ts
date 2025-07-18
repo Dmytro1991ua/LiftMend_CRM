@@ -44,6 +44,7 @@ export class StorageEntity<T> {
 export const sessionStorageWrapper: AppStorage = {
   getData<T>(key: string): T | undefined {
     const data = sessionStorage.getItem(key);
+
     return data ? (JSON.parse(data) as T) : undefined;
   },
   setData<T>(key: string, data: T): void {

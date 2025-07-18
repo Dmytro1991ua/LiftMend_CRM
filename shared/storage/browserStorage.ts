@@ -27,7 +27,9 @@ export class BrowserStorage implements AppStorage {
 
       return JSON.parse(serializedState);
     } catch (error) {
-      return undefined;
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to get data from storage:', error);
+      }
     }
   };
 
@@ -42,7 +44,9 @@ export class BrowserStorage implements AppStorage {
     try {
       this.storage.setItem(key, JSON.stringify(value));
     } catch (error) {
-      // Ignore write errors
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to set data to storage:', error);
+      }
     }
   };
 
@@ -56,7 +60,9 @@ export class BrowserStorage implements AppStorage {
     try {
       this.storage.removeItem(key);
     } catch (error) {
-      // Ignore write errors
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to remove from storage:', error);
+      }
     }
   };
 }
