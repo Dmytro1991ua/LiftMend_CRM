@@ -39,7 +39,7 @@ export const TimePicker = ({ date, disabled, setDate }: TimePickerProps) => {
         />
       </div>
       <div className='flex h-10 items-center'>
-        <Clock className='ml-2 h-4 w-4' />
+        <Clock className='ml-2 h-4 w-4' data-testid='clock-icon' />
       </div>
     </div>
   );
