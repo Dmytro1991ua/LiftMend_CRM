@@ -1,4 +1,5 @@
 import { ApolloError, FieldFunctionOptions, FieldMergeFunction } from '@apollo/client';
+import Cookies from 'js-cookie';
 
 import {
   apolloDefaultError,
@@ -17,8 +18,13 @@ import {
   findValueInArray,
   getErrorMessageFromGraphQlErrors,
   getGraphQLErrorExtensionsMessage,
+  getSupabaseToken,
   handleGraphQLErrors,
 } from '../../graphql/utils';
+
+jest.mock('js-cookie', () => ({
+  get: jest.fn(),
+}));
 
 describe('handleGraphQLErrors', () => {
   it('should successfully create error map from array of graphql errors', () => {
@@ -216,5 +222,49 @@ describe('findValueInArray', () => {
     expect(findValueInArray('one', ['one', 'two', 'three'])).toBe('one');
     expect(findValueInArray('four', ['one', 'two', 'three'])).toBe(undefined);
     expect(findValueInArray('one', [])).toBe(undefined);
+  });
+});
+
+describe('getSupabaseToken', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should return undefined if cookie is not set', () => {
+    (Cookies.get as jest.Mock).mockReturnValue(undefined);
+
+    expect(getSupabaseToken()).toBeUndefined();
+  });
+
+  it('should return first element if cookie is a valid JSON array with elements', () => {
+    const mockToken = JSON.stringify(['access_token_123', 'refresh_token']);
+
+    (Cookies.get as jest.Mock).mockReturnValue(mockToken);
+
+    expect(getSupabaseToken()).toBe('access_token_123');
+  });
+
+  it('should return raw token if JSON is a valid empty array', () => {
+    const mockToken = JSON.stringify([]);
+
+    (Cookies.get as jest.Mock).mockReturnValue(mockToken);
+
+    expect(getSupabaseToken()).toBe(mockToken);
+  });
+
+  it('should return raw token if JSON.parse throws (invalid JSON)', () => {
+    const invalidJSON = 'not a valid json';
+
+    (Cookies.get as jest.Mock).mockReturnValue(invalidJSON);
+
+    expect(getSupabaseToken()).toBe(invalidJSON);
+  });
+
+  it('should return raw token if parsed result is not an array', () => {
+    const notArray = JSON.stringify({ access_token: '123' });
+
+    (Cookies.get as jest.Mock).mockReturnValue(notArray);
+
+    expect(getSupabaseToken()).toBe(notArray);
   });
 });
