@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 
 import { Skeleton } from '@/components/ui/skeleton';
 
-type UserNameProps = {
+export type UserNameProps = {
   firstName?: string;
   lastName?: string;
   skeletonClassName?: string;
@@ -13,7 +13,7 @@ type UserNameProps = {
 
 const UserName = ({ firstName, lastName, skeletonClassName, nameClassName, isLoading }: UserNameProps) => {
   if (isLoading) {
-    return <Skeleton className={skeletonClassName} />;
+    return <Skeleton className={skeletonClassName} data-testid='user-name-skeleton' />;
   }
 
   return (
