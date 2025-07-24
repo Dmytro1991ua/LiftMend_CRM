@@ -11,17 +11,23 @@ import { DROPDOWN_OPTIONS_CONFIG, DropdownOptions } from './config';
 
 export type MultiStepDropdownOption = Record<string, DropdownOption[]>;
 
-type UseFetchDropdownOptions = {
+export type UseFetchDropdownOptionsProps = {
+  configKey: DropdownOptions;
+  skip?: boolean;
+  variables?: Record<string, string>;
+};
+
+export type UseFetchDropdownOptions = {
   loading: boolean;
   dropdownOptions: MultiStepDropdownOption;
   error?: string;
 };
 
-export const useFetchDropdownOptions = <T,>(
-  configKey: DropdownOptions,
-  skip?: boolean,
-  variables?: Record<string, string>
-): UseFetchDropdownOptions => {
+export const useFetchDropdownOptions = <T,>({
+  configKey,
+  skip,
+  variables,
+}: UseFetchDropdownOptionsProps): UseFetchDropdownOptions => {
   const { schema, queryName, fields, requiresVariable } = DROPDOWN_OPTIONS_CONFIG[configKey] || {};
 
   const requiredQueryVariables = requiresVariable && variables ? variables : undefined;
@@ -37,6 +43,7 @@ export const useFetchDropdownOptions = <T,>(
 
     return fields.reduce((acc, field) => {
       acc[field] = convertQueryResponseToDropdownOptions(queryNameData[field] ?? []);
+
       return acc;
     }, {} as MultiStepDropdownOption);
   }, [data, fields, queryName]);

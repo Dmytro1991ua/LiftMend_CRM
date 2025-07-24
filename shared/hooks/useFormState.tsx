@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 
 import { DefaultValues, FieldValues, Resolver, UseFormReturn, useForm } from 'react-hook-form';
 
-type UseFormStateProps<T extends FieldValues> = {
+export type UseFormStateProps<T extends FieldValues> = {
   onCloseModal?: () => void;
   initialValues: DefaultValues<T>;
   resolver?: Resolver<T>;

@@ -10,7 +10,7 @@ import {
 import { DropdownOption } from '@/shared/base-select/types';
 import { removeTypeNamesFromArray } from '@/shared/utils';
 
-type UseFetchAvailableTechniciansForAssignment = {
+export type UseFetchAvailableTechniciansForAssignment = {
   availableTechnicians: DropdownOption[];
   loading: boolean;
   error?: string;

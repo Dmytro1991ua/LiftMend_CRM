@@ -21,7 +21,7 @@ const EditTechnicianRecordForm = ({ technicianRecordFormValues }: EditTechnician
     dropdownOptions: { skills: technicianSkills, certifications: technicianCertifications },
     loading,
     error,
-  } = useFetchDropdownOptions<GetTechnicianRecordFormDataQuery>(DropdownOptions.TechnicianManagement);
+  } = useFetchDropdownOptions<GetTechnicianRecordFormDataQuery>({ configKey: DropdownOptions.TechnicianManagement });
 
   const { contactInformation, name, skills, certifications } = technicianRecordFormValues;
 

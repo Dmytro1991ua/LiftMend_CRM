@@ -26,7 +26,7 @@ const BasicInformation = () => {
     dropdownOptions: { availabilityStatuses, employmentStatuses },
     loading,
     error,
-  } = useFetchDropdownOptions<GetTechnicianRecordFormDataQuery>(DropdownOptions.TechnicianManagement);
+  } = useFetchDropdownOptions<GetTechnicianRecordFormDataQuery>({ configKey: DropdownOptions.TechnicianManagement });
 
   const BASIC_INFORMATION_FORM_FIELDS_CONFIG: ItemConfig[] = [
     {

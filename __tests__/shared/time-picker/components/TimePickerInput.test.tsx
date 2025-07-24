@@ -109,7 +109,7 @@ describe('TimePickerInput', () => {
   });
 
   it('should handle digit keys, update date, toggles flag and call onRightFocus if flag is true and picker is 12hours', () => {
-    (setDateByType as jest.Mock).mockImplementation((date, val) => date);
+    (setDateByType as jest.Mock).mockImplementation((date) => date);
     (getDateByType as jest.Mock).mockReturnValue('01');
 
     render(TimePickerInputComponent({ date: new Date() }));

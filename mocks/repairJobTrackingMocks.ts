@@ -3,6 +3,8 @@ import { MockedResponse } from '@apollo/client/testing';
 import { GraphQLError } from 'graphql';
 
 import {
+  DELETE_REPAIR_JOB_AND_EVENT,
+  GET_AVAILABLE_TECHNICIANS_FOR_ASSIGNMENT,
   GET_REPAIR_JOBS,
   GET_REPAIR_JOB_BY_ID,
   GET_REPAIR_JOB_FORM_DATA,
@@ -10,6 +12,8 @@ import {
   UPDATE_REPAIR_JOB,
 } from '@/graphql/schemas';
 import {
+  DeleteRepairJobAndEventMutation,
+  GetAvailableTechniciansForAssignmentQuery,
   GetRepairJobByIdQuery,
   GetRepairJobsQuery,
   ReassignTechnicianMutation,
@@ -111,6 +115,17 @@ export const mockShipElevatorRepairJpb = {
     isOverdue: true,
   },
 };
+
+export const mockAvailableTechniciansForAssignment = [
+  {
+    id: '3f16eb24-26fd-44e3-939f-2ede19e89534',
+    name: 'Charles Robinson',
+  },
+  {
+    id: 'e2e34422-4335-40e2-a5f1-0d04baae3727',
+    name: 'Chloe Carter',
+  },
+];
 
 export const mockRepairJobsResponse: FetchResult<GetRepairJobsQuery> = {
   data: {
@@ -359,3 +374,74 @@ export const mockUpdateRepairJobNetworkError = {
     error: new Error('Error occurs'),
   },
 };
+
+export const mockDeleteRepairJobAndCalendarEvent: MockedResponse<DeleteRepairJobAndEventMutation> = {
+  request: {
+    query: DELETE_REPAIR_JOB_AND_EVENT,
+    variables: {
+      repairJobId: mockRepairJobId,
+      calendarEventid: mockCalendarEventId,
+    },
+  },
+  result: {
+    data: {
+      deleteRepairJobAndEvent: {
+        deletedRepairJobId: mockRepairJobId,
+        deletedEventId: mockCalendarEventId,
+        __typename: 'DeleteCalendarAndRepairJobResponse',
+      },
+    },
+    errors: [],
+  },
+};
+
+export const mocDeleteRepairJobAndCalendarEventGQLError = {
+  request: {
+    query: DELETE_REPAIR_JOB_AND_EVENT,
+    variables: {
+      repairJobId: mockRepairJobId,
+      calendarEventid: mockCalendarEventId,
+    },
+  },
+  result: {
+    data: undefined,
+    errors: [new GraphQLError('Test error')],
+  },
+};
+
+export const mocDeleteRepairJobAndCalendarEventNetworkError = {
+  request: {
+    query: DELETE_REPAIR_JOB_AND_EVENT,
+    variables: {
+      repairJobId: mockRepairJobId,
+      calendarEventid: mockCalendarEventId,
+    },
+  },
+  result: {
+    data: undefined,
+    error: new Error('Error occurs'),
+  },
+};
+
+export const mockGetAvailableTechniciansForAssignmentResponse: MockedResponse<GetAvailableTechniciansForAssignmentQuery> =
+  {
+    request: {
+      query: GET_AVAILABLE_TECHNICIANS_FOR_ASSIGNMENT,
+    },
+    result: {
+      data: {
+        getAvailableTechniciansForAssignment: mockAvailableTechniciansForAssignment.map((technician) => ({
+          ...technician,
+          __typename: 'TechnicianRecord',
+        })),
+      },
+    },
+  };
+
+export const mockGetAvailableTechniciansForAssignmentErrorResponse: MockedResponse<GetAvailableTechniciansForAssignmentQuery> =
+  {
+    request: {
+      query: GET_AVAILABLE_TECHNICIANS_FOR_ASSIGNMENT,
+    },
+    error: new Error('Something went wrong'),
+  };

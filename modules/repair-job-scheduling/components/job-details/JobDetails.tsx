@@ -21,7 +21,7 @@ const JobDetails = () => {
     dropdownOptions: { repairJobTypes, priorities },
     loading,
     error,
-  } = useFetchDropdownOptions<GetRepairJobFromDataQuery>(DropdownOptions.RepairJob);
+  } = useFetchDropdownOptions<GetRepairJobFromDataQuery>({ configKey: DropdownOptions.RepairJob });
 
   const JOB_DETAILS_FORM_FIELDS_CONFIG: ItemConfig[] = [
     {
