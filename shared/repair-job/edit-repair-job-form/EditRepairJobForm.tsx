@@ -22,7 +22,7 @@ const EditRepairJobForm = ({ repairJobFormValues }: EditRepairJobFormProps) => {
     dropdownOptions: { repairJobTypes, priorities, elevatorLocations, elevatorTypes, buildingNames, statuses },
     loading,
     error,
-  } = useFetchDropdownOptions<GetRepairJobFromDataQuery>(DropdownOptions.RepairJob);
+  } = useFetchDropdownOptions<GetRepairJobFromDataQuery>({ configKey: DropdownOptions.RepairJob });
 
   const { clearErrors } = useFormContext<RepairJobFormValues>();
 

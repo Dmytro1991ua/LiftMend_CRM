@@ -15,7 +15,7 @@ const SkillsAndCertifications = () => {
 
   const {
     dropdownOptions: { skills, certifications },
-  } = useFetchDropdownOptions<GetTechnicianRecordFormDataQuery>(DropdownOptions.TechnicianManagement);
+  } = useFetchDropdownOptions<GetTechnicianRecordFormDataQuery>({ configKey: DropdownOptions.TechnicianManagement });
 
   const SKILLS_AND_CERTIFICATIONS_FORM_FIELDS_CONFIG: ItemConfig[] = [
     {

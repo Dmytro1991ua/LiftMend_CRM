@@ -7,7 +7,7 @@ import { onHandleMutationErrors } from '../utils';
 
 import useMutationResultToasts from './useMutationResultToasts';
 
-type UseDeleteRepairJobAndCalendarEvent = {
+export type UseDeleteRepairJobAndCalendarEvent = {
   onDeleteRepairJobAndCalendarEvent: (calendarEventId?: string, repairJobId?: string) => Promise<void>;
   isLoading: boolean;
   error?: string;
@@ -58,7 +58,7 @@ export const useDeleteRepairJobAndCalendarEvent = (): UseDeleteRepairJobAndCalen
               return {
                 ...existingRepairJobs,
                 edges: updatedRepairJobs,
-                total: (existingRepairJobs.total || 0) + 1,
+                total: Math.max((existingRepairJobs.total || 0) - 1, 0),
               };
             },
           },

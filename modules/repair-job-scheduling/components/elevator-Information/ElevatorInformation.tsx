@@ -20,12 +20,16 @@ const ElevatorInformation = () => {
 
   const {
     dropdownOptions: { buildingNames },
-  } = useFetchDropdownOptions<GetRepairJobFromDataQuery>(DropdownOptions.RepairJob);
+  } = useFetchDropdownOptions<GetRepairJobFromDataQuery>({ configKey: DropdownOptions.RepairJob });
 
   const {
     dropdownOptions: { elevatorLocations, elevatorTypes },
-  } = useFetchDropdownOptions<GetElevatorDetailsByBuildingNameQuery>(DropdownOptions.ElevatorDetails, !buildingName, {
-    buildingName,
+  } = useFetchDropdownOptions<GetElevatorDetailsByBuildingNameQuery>({
+    configKey: DropdownOptions.ElevatorDetails,
+    skip: !buildingName,
+    variables: {
+      buildingName,
+    },
   });
 
   const ELEVATOR_INFORMATION_FORM_FIELDS_CONFIG: ItemConfig[] = [

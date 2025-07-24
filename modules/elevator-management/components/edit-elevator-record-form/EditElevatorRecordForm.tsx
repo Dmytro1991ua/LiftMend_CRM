@@ -30,7 +30,7 @@ const EditElevatorRecordForm = ({ elevatorRecordFormValues }: EditElevatorRecord
     dropdownOptions: { elevatorTypes, elevatorLocations, buildingNames, elevatorStatuses },
     loading,
     error,
-  } = useFetchDropdownOptions<GetElevatorRecordFormDataQuery>(DropdownOptions.ElevatorManagement);
+  } = useFetchDropdownOptions<GetElevatorRecordFormDataQuery>({ configKey: DropdownOptions.ElevatorManagement });
 
   const { clearErrors } = useFormContext<ElevatorRecordFormValues>();
 

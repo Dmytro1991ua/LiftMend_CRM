@@ -36,9 +36,9 @@ const ElevatorManagementTable = () => {
     refetch,
   });
 
-  const { dropdownOptions, error: elevatorRecordDataError } = useFetchDropdownOptions<GetElevatorRecordsQuery>(
-    DropdownOptions.ElevatorManagement
-  );
+  const { dropdownOptions, error: elevatorRecordDataError } = useFetchDropdownOptions<GetElevatorRecordsQuery>({
+    configKey: DropdownOptions.ElevatorManagement,
+  });
 
   const filtersConfig = useMemo(() => getElevatorRecordFilterConfig(dropdownOptions), [dropdownOptions]);
 

@@ -40,9 +40,9 @@ const RepairJobTable = () => {
     refetch,
   });
 
-  const { dropdownOptions, error: repairJobDataError } = useFetchDropdownOptions<GetRepairJobFromDataQuery>(
-    DropdownOptions.RepairJob
-  );
+  const { dropdownOptions, error: repairJobDataError } = useFetchDropdownOptions<GetRepairJobFromDataQuery>({
+    configKey: DropdownOptions.RepairJob,
+  });
 
   const filtersConfig = useMemo(() => getRepairJobFilterConfig(dropdownOptions), [dropdownOptions]);
 

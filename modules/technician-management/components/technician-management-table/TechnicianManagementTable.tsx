@@ -32,9 +32,9 @@ const TechnicianManagementTable = () => {
     refetch,
   });
 
-  const { dropdownOptions, error: technicianRecordDataError } = useFetchDropdownOptions<GetTechnicianRecordsQuery>(
-    DropdownOptions.TechnicianManagement
-  );
+  const { dropdownOptions, error: technicianRecordDataError } = useFetchDropdownOptions<GetTechnicianRecordsQuery>({
+    configKey: DropdownOptions.TechnicianManagement,
+  });
 
   const filtersConfig = useMemo(() => getTechnicianRecordFilterConfig(dropdownOptions), [dropdownOptions]);
 

@@ -10,7 +10,7 @@ jest.mock('@/shared/hooks/useFetchDropdownOptions');
 
 describe('ElevatorInformation', () => {
   beforeEach(() => {
-    (useFetchDropdownOptions as jest.Mock).mockImplementation((configKey, skip) => {
+    (useFetchDropdownOptions as jest.Mock).mockImplementation(({ configKey, skip }) => {
       if (configKey === DropdownOptions.RepairJob) {
         return {
           dropdownOptions: {
