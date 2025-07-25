@@ -4,8 +4,6 @@ import { DateRange } from 'react-day-picker';
 import { RepairJobFormValues } from '@/shared/repair-job/edit-repair-job-form/types';
 import { RepairJob } from '@/shared/types';
 
-import { OverlappingKeys } from './types';
-
 export const convertRepairJobToFormValues = (repairJob: RepairJob): RepairJobFormValues => ({
   jobType: repairJob ? repairJob.jobType : null,
   jobDescription: repairJob ? repairJob.jobDetails : '',
@@ -36,18 +34,3 @@ export const convertFormFieldsToRepairJob = (formFields: RepairJobFormValues): R
   calendarEventId: formFields.calendarEventId ?? null,
   status: formFields.status ?? '',
 });
-
-export const getFieldsToUpdate = (updatedRepairJob: RepairJob, originalRepairJob: RepairJob): Partial<RepairJob> => {
-  const fieldsToUpdate: Partial<RepairJob> = {};
-
-  (Object.keys(updatedRepairJob) as Array<OverlappingKeys>).forEach((key) => {
-    const newValue = updatedRepairJob[key];
-    const originalValue = originalRepairJob[key];
-
-    if (!_isEqual(newValue, originalValue) && newValue !== null) {
-      fieldsToUpdate[key] = newValue;
-    }
-  });
-
-  return fieldsToUpdate;
-};
