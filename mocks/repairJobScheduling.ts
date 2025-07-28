@@ -195,8 +195,11 @@ export const mockNewCalendarInput = {
   title: 'Emergency Repair Job',
 };
 
+export const mockCalendarEventId = '88d41b40-0331-4d29-b1cd-e59528284fce';
+export const mockRepairJobId = '7fdfd63f-d091-4fa6-8194-cc986e7e1848';
+
 export const mockRepairJob = {
-  id: '7fdfd63f-d091-4fa6-8194-cc986e7e1848',
+  id: mockRepairJobId,
   jobType: 'Emergency',
   jobDetails: 'asdasdasdasd',
   jobPriority: 'Low',
@@ -206,18 +209,18 @@ export const mockRepairJob = {
   technicianName: 'Chloe Carter',
   startDate: '2025-05-12T21:00:00.000Z',
   endDate: '2025-05-14T20:59:59.999Z',
-  calendarEventId: '88d41b40-0331-4d29-b1cd-e59528284fce',
+  calendarEventId: mockCalendarEventId,
   actualEndDate: null,
   isOverdue: false,
 };
 export const mockCalendarEvent = {
-  id: '88d41b40-0331-4d29-b1cd-e59528284fce',
+  id: mockCalendarEventId,
   title: 'Emergency Repair Job',
   start: '2025-05-12T21:00:00.000Z',
   end: '2025-05-14T20:59:59.999Z',
   description: 'Repair Job for Eco-Friendly Elevator at Bluewater Hotel - Restaurant',
   allDay: true,
-  repairJobId: '7fdfd63f-d091-4fa6-8194-cc986e7e1848',
+  repairJobId: mockRepairJobId,
 };
 
 export const mockCreateRepairJobAndCalendarEventResponse: MockedResponse<CreateRepairJobAndCalendarEventMutation> = {
