@@ -1,10 +1,15 @@
-import { CreateUserInput, OAuthProvider, SignInUserInput } from '@/graphql/types/server/generated_types';
-import { mockUser } from '@/mocks/userMocks';
-import AuthService from '@/pages/api/graphql/dataSources/AuthService';
-import { DEFAULT_RESET_PASSWORD_MESSAGE, DEFAULT_SIGN_IN_MESSAGE, DEFAULT_SIGN_UP_MESSAGE } from '@/pages/api/graphql/dataSources/constants';
 import { PrismaClient } from '@prisma/client';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { GraphQLError } from 'graphql';
+
+import { CreateUserInput, OAuthProvider, SignInUserInput } from '@/graphql/types/server/generated_types';
+import { mockUser } from '@/mocks/userMocks';
+import AuthService from '@/pages/api/graphql/dataSources/AuthService';
+import {
+  DEFAULT_RESET_PASSWORD_MESSAGE,
+  DEFAULT_SIGN_IN_MESSAGE,
+  DEFAULT_SIGN_UP_MESSAGE,
+} from '@/pages/api/graphql/dataSources/constants';
 
 describe('AuthService', () => {
   const prismaMock = {
@@ -23,6 +28,10 @@ describe('AuthService', () => {
       updateUser: jest.fn(),
     },
   } as unknown as SupabaseClient;
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
   const authService = new AuthService(prismaMock, supabaseMock);
 

@@ -165,7 +165,7 @@ class ElevatorService {
 
   async updateElevatorMaintenanceDates(elevatorId: string): Promise<void> {
     const currentDate = new Date();
-    // Calculate 6 months from now to determinepElevator nextMaintenanceDate
+    // Calculate 6 months from now to determine Elevator Record nextMaintenanceDate
     const nextMaintenanceDate = addMonths(currentDate, 6);
 
     await this.prisma.elevatorRecord.update({
