@@ -16,8 +16,10 @@ import {
   UpdateElevatorRecordMutation,
 } from '@/graphql/types/client/generated_types';
 
+export const mockElevatorRecordId = 'test_id';
+
 export const mockElevatorRecord = {
-  id: 'test_id',
+  id: mockElevatorRecordId,
   elevatorType: 'Scenic Elevator',
   buildingName: 'Skyline Plaza',
   elevatorLocation: 'Observation Deck',
