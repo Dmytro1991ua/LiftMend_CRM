@@ -1,3 +1,5 @@
+import { PrismaClient } from '@prisma/client';
+
 import {
   mockCalendarEvent,
   mockCalendarEventId,
@@ -5,7 +7,6 @@ import {
   mockRepairJobId,
 } from '@/mocks/repairJobScheduling';
 import CalendarEventService from '@/pages/api/graphql/dataSources/CalendarEventService';
-import { PrismaClient } from '@prisma/client';
 
 describe('CalendarEventService', () => {
   const prismaMock = {
