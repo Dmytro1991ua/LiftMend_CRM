@@ -165,7 +165,7 @@ class TechnicianService {
     });
   }
 
-  async deleteTechnicianRecord(id: string) {
+  async deleteTechnicianRecord(id: string): Promise<TechnicianRecord> {
     return await this.prisma.technicianRecord.delete({
       where: { id },
     });
