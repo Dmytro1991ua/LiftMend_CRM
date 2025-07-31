@@ -1,4 +1,3 @@
-import { isEqual as _isEqual } from 'lodash';
 import { DateRange } from 'react-day-picker';
 
 import { RepairJobFormValues } from '@/shared/repair-job/edit-repair-job-form/types';

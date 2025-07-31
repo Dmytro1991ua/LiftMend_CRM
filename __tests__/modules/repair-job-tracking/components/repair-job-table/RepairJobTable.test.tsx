@@ -104,9 +104,9 @@ describe('RepairJobTable', () => {
     expect(cells[20]).toHaveTextContent('asdasdasdasd');
     expect(cells[21]).toHaveTextContent('Medium');
     expect(cells[22]).toHaveTextContent('Completed');
-    expect(cells[23]).toHaveTextContent('Jan 19, 2025 00:00 AM');
-    expect(cells[24]).toHaveTextContent('Jan 20, 2025 23:59 PM');
-    expect(cells[25]).toHaveTextContent('Jan 19, 2025 13:16 PM');
+    expect(cells[23]).toHaveTextContent('Jan 23, 2025 00:00 AM');
+    expect(cells[24]).toHaveTextContent('Jan 24, 2025 23:59 PM');
+    expect(cells[25]).toHaveTextContent('Jan 28, 2025 13:16 PM');
     expect(checkIcons[1]).toBeInTheDocument();
     expect(cells[27]).toHaveTextContent('Mast Lift');
     expect(cells[28]).toHaveTextContent('Cedar Ridge Apartments');

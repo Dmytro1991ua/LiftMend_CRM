@@ -46,7 +46,7 @@ describe('ElevatorService', () => {
   describe('getElevatorRecords', () => {
     const mockArgs = {
       paginationOptions: { offset: 5, limit: 10 },
-      sortOptions: { field: 'createdAt', direction: 'desc' },
+      sortOptions: { field: 'createdAt', order: 'desc' },
       filterOptions: { status: 'active' },
     } as unknown as QueryGetElevatorRecordsArgs;
 
@@ -62,7 +62,7 @@ describe('ElevatorService', () => {
         elevatorLocation: 'Penthouse',
       },
     ];
-    const mockTotalItems = 100;
+    const mockTotalItems = 2;
     const mockConnection = {
       edges: [],
       pageInfo: {},
@@ -205,7 +205,7 @@ describe('ElevatorService', () => {
       jest.clearAllMocks();
     });
 
-    it('should calculate elevator metrics correctly', async () => {
+    it('should calculate elevator records metrics correctly', async () => {
       const result = await elevatorService.getElevatorRecordsMetrics();
 
       expect(result).toEqual({
