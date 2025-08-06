@@ -195,6 +195,17 @@ export const mockNewCalendarInput = {
   title: 'Emergency Repair Job',
 };
 
+export const mockRepairJobScheduledData = {
+  repairJobTypes: ['Compliance'],
+  elevatorTypes: ['Auto-Elevator'],
+  buildingNames: ['Bayview Condominiums', 'Beacon Heights Office Complex'],
+  elevatorLocations: ['Boardroom', 'Warehouse', 'Warehouse Level', 'Workshop'],
+  technicianNames: ['Matthew Nelson', 'Mia Scott'],
+  technicianSkills: ['Welding'],
+  priorities: ['High', 'Low', 'Medium'],
+  statuses: ['Cancelled', 'Completed', 'In Progress', 'On Hold', 'Scheduled'],
+};
+
 export const mockCalendarEventId = '88d41b40-0331-4d29-b1cd-e59528284fce';
 export const mockRepairJobId = '7fdfd63f-d091-4fa6-8194-cc986e7e1848';
 

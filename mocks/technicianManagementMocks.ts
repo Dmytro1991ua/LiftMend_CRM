@@ -67,32 +67,34 @@ export const mockUpdatedBenjaminHallRecord = {
   lastKnownAvailabilityStatus: 'Available',
 };
 
-export const mockTechnicianRecordsResponse: FetchResult<GetTechnicianRecordsQuery> = {
-  data: {
-    getTechnicianRecords: {
-      edges: [
-        {
-          cursor: mockBenjaminHallRecordId,
-          node: { ...mockBenjaminHallRecord, __typename: 'TechnicianRecord' },
-          __typename: 'TechnicianRecordEdges',
-        },
-        {
-          cursor: mockOliviaLewisRecordId,
-          node: { ...mockOliviaLewisRecord, __typename: 'TechnicianRecord' },
-          __typename: 'TechnicianRecordEdges',
-        },
-      ],
-      pageInfo: {
-        hasNextPage: true,
-        hasPreviousPage: false,
-        startCursor: mockBenjaminHallRecordId,
-        endCursor: mockOliviaLewisRecordId,
-        __typename: 'PageInfo',
+export const mockedReturnedTechnicianRecordsData = {
+  getTechnicianRecords: {
+    edges: [
+      {
+        cursor: mockBenjaminHallRecordId,
+        node: { ...mockBenjaminHallRecord, __typename: 'TechnicianRecord' },
+        __typename: 'TechnicianRecordEdges',
       },
-      total: 2,
-      __typename: 'TechnicianRecordConnection',
+      {
+        cursor: mockOliviaLewisRecordId,
+        node: { ...mockOliviaLewisRecord, __typename: 'TechnicianRecord' },
+        __typename: 'TechnicianRecordEdges',
+      },
+    ],
+    pageInfo: {
+      hasNextPage: true,
+      hasPreviousPage: false,
+      startCursor: mockBenjaminHallRecordId,
+      endCursor: mockOliviaLewisRecordId,
+      __typename: 'PageInfo',
     },
+    total: 2,
+    __typename: 'TechnicianRecordConnection',
   },
+};
+
+export const mockTechnicianRecordsResponse: FetchResult<GetTechnicianRecordsQuery> = {
+  data: { ...(mockedReturnedTechnicianRecordsData as GetTechnicianRecordsQuery) },
 };
 
 export const mockTechnicianRecordsPaginatedResponse: FetchResult<GetTechnicianRecordsQuery> = {

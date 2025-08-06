@@ -1,11 +1,10 @@
-import { PrismaClient } from '@prisma/client';
-
 import {
   CreateTechnicianRecordInput,
   QueryGetTechnicianRecordsArgs,
   TechnicianRecord,
   UpdateTechnicianRecordInput,
 } from '@/graphql/types/server/generated_types';
+import { technicianRecordPrismaMock } from '@/mocks/gql/prismaMocks';
 import {
   mockBenjaminHallRecord,
   mockJamesAndersonRecord,
@@ -30,28 +29,13 @@ jest.mock('@/pages/api/graphql/utils', () => ({
 }));
 
 describe('TechnicianService', () => {
-  const prismaMock = {
-    technicianRecord: {
-      findMany: jest.fn(),
-      count: jest.fn(),
-      findUnique: jest.fn(),
-      findFirst: jest.fn(),
-      create: jest.fn(),
-      update: jest.fn(),
-      delete: jest.fn(),
-    },
-    availabilityStatuses: {},
-    certifications: {},
-    technicianSkills: {},
-    employmentStatuses: {},
-  } as unknown as PrismaClient;
   const mockTechnicianRecords = [mockBenjaminHallRecord, mockOliviaLewisRecord, mockJamesAndersonRecord];
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  const technicianService = new TechnicianService(prismaMock);
+  const technicianService = new TechnicianService(technicianRecordPrismaMock);
 
   describe('getTechnicianRecords', () => {
     const mockArgs = {
@@ -80,14 +64,14 @@ describe('TechnicianService', () => {
     });
 
     it('should fetch technician records with correct prisma calls and return connection object', async () => {
-      (prismaMock.technicianRecord.findMany as jest.Mock).mockResolvedValue(mockTechnicianRecords);
-      (prismaMock.technicianRecord.count as jest.Mock).mockResolvedValue(mockTotalItems);
+      (technicianRecordPrismaMock.technicianRecord.findMany as jest.Mock).mockResolvedValue(mockTechnicianRecords);
+      (technicianRecordPrismaMock.technicianRecord.count as jest.Mock).mockResolvedValue(mockTotalItems);
 
       const result = await technicianService.getTechnicianRecords(mockArgs);
 
-      expect(prismaMock.technicianRecord.findMany).toHaveBeenCalledWith();
+      expect(technicianRecordPrismaMock.technicianRecord.findMany).toHaveBeenCalledWith();
 
-      expect(prismaMock.technicianRecord.count).toHaveBeenCalledWith({
+      expect(technicianRecordPrismaMock.technicianRecord.count).toHaveBeenCalledWith({
         where: mockFilters,
       });
 
@@ -107,11 +91,11 @@ describe('TechnicianService', () => {
 
   describe('findTechnicianRecordByName', () => {
     it('should return technician record by name', async () => {
-      (prismaMock.technicianRecord.findFirst as jest.Mock).mockResolvedValue(mockBenjaminHallRecord);
+      (technicianRecordPrismaMock.technicianRecord.findFirst as jest.Mock).mockResolvedValue(mockBenjaminHallRecord);
 
       const result = await technicianService.findTechnicianRecordByName('Benjamin Hall');
 
-      expect(prismaMock.technicianRecord.findFirst).toHaveBeenCalledWith({
+      expect(technicianRecordPrismaMock.technicianRecord.findFirst).toHaveBeenCalledWith({
         where: { name: 'Benjamin Hall' },
       });
       expect(result).toEqual(mockBenjaminHallRecord);
@@ -120,11 +104,11 @@ describe('TechnicianService', () => {
 
   describe('findTechnicianRecordById', () => {
     it('should return technician record by id', async () => {
-      (prismaMock.technicianRecord.findUnique as jest.Mock).mockResolvedValue(mockOliviaLewisRecord);
+      (technicianRecordPrismaMock.technicianRecord.findUnique as jest.Mock).mockResolvedValue(mockOliviaLewisRecord);
 
       const result = await technicianService.findTechnicianRecordById(mockOliviaLewisRecord.id);
 
-      expect(prismaMock.technicianRecord.findUnique).toHaveBeenCalledWith({
+      expect(technicianRecordPrismaMock.technicianRecord.findUnique).toHaveBeenCalledWith({
         where: { id: mockOliviaLewisRecord.id },
       });
       expect(result).toEqual(mockOliviaLewisRecord);
@@ -167,11 +151,11 @@ describe('TechnicianService', () => {
     ];
 
     it('should return technicians whose status is not in blocking statuses', async () => {
-      (prismaMock.technicianRecord.findMany as jest.Mock).mockResolvedValue(mockedTechnicianRecords);
+      (technicianRecordPrismaMock.technicianRecord.findMany as jest.Mock).mockResolvedValue(mockedTechnicianRecords);
 
       const result = await technicianService.getAvailableTechniciansForAssignment();
 
-      expect(prismaMock.technicianRecord.findMany).toHaveBeenCalledWith({
+      expect(technicianRecordPrismaMock.technicianRecord.findMany).toHaveBeenCalledWith({
         where: {
           availabilityStatus: {
             notIn: TECHNICIAN_ASSIGNMENT_BLOCKING_STATUSES,
@@ -243,11 +227,11 @@ describe('TechnicianService', () => {
     };
 
     it('should create a new technician', async () => {
-      (prismaMock.technicianRecord.create as jest.Mock).mockResolvedValue(mockNewlyCreateTechnician);
+      (technicianRecordPrismaMock.technicianRecord.create as jest.Mock).mockResolvedValue(mockNewlyCreateTechnician);
 
       const result = await technicianService.createTechnicianRecord(mockInput);
 
-      expect(prismaMock.technicianRecord.create).toHaveBeenCalledWith({
+      expect(technicianRecordPrismaMock.technicianRecord.create).toHaveBeenCalledWith({
         data: mockInput,
       });
       expect(result).toEqual(mockNewlyCreateTechnician);
@@ -269,11 +253,11 @@ describe('TechnicianService', () => {
     };
 
     it('should update technician record', async () => {
-      (prismaMock.technicianRecord.update as jest.Mock).mockResolvedValue(mockUpdatedTechnicianRecord);
+      (technicianRecordPrismaMock.technicianRecord.update as jest.Mock).mockResolvedValue(mockUpdatedTechnicianRecord);
 
       const result = await technicianService.updateTechnicianRecord(mockInput);
 
-      expect(prismaMock.technicianRecord.update).toHaveBeenCalledWith({
+      expect(technicianRecordPrismaMock.technicianRecord.update).toHaveBeenCalledWith({
         data: { certifications: [mockNewCertificate] },
         where: { id: mockBenjaminHallRecord.id },
       });
@@ -283,11 +267,11 @@ describe('TechnicianService', () => {
     it('should omit null fields in update', async () => {
       const mockInput = { id: mockBenjaminHallRecord.id, certifications: null, skills: [mockNewSkill] };
 
-      (prismaMock.technicianRecord.update as jest.Mock).mockResolvedValue(mockBenjaminHallRecord);
+      (technicianRecordPrismaMock.technicianRecord.update as jest.Mock).mockResolvedValue(mockBenjaminHallRecord);
 
       await technicianService.updateTechnicianRecord(mockInput);
 
-      expect(prismaMock.technicianRecord.update).toHaveBeenCalledWith({
+      expect(technicianRecordPrismaMock.technicianRecord.update).toHaveBeenCalledWith({
         data: { skills: [mockNewSkill] },
         where: { id: mockBenjaminHallRecord.id },
       });
@@ -302,11 +286,11 @@ describe('TechnicianService', () => {
         availabilityStatus: mockNewAvailabilityStatus,
       };
 
-      (prismaMock.technicianRecord.update as jest.Mock).mockResolvedValue(mockedTechnicianRecord);
+      (technicianRecordPrismaMock.technicianRecord.update as jest.Mock).mockResolvedValue(mockedTechnicianRecord);
 
       await technicianService.updateTechnicianStatus(mockBenjaminHallRecord.id, mockNewAvailabilityStatus);
 
-      expect(prismaMock.technicianRecord.update).toHaveBeenCalledWith({
+      expect(technicianRecordPrismaMock.technicianRecord.update).toHaveBeenCalledWith({
         data: { availabilityStatus: mockNewAvailabilityStatus },
         where: { id: mockBenjaminHallRecord.id },
       });
@@ -315,11 +299,11 @@ describe('TechnicianService', () => {
 
   describe('deleteTechnicianRecord', () => {
     it('should delete technician record by id', async () => {
-      (prismaMock.technicianRecord.delete as jest.Mock).mockResolvedValue(mockBenjaminHallRecord);
+      (technicianRecordPrismaMock.technicianRecord.delete as jest.Mock).mockResolvedValue(mockBenjaminHallRecord);
 
       const result = await technicianService.deleteTechnicianRecord(mockBenjaminHallRecord.id);
 
-      expect(prismaMock.technicianRecord.delete).toHaveBeenCalledWith({
+      expect(technicianRecordPrismaMock.technicianRecord.delete).toHaveBeenCalledWith({
         where: { id: mockBenjaminHallRecord.id },
       });
       expect(result).toEqual(mockBenjaminHallRecord);

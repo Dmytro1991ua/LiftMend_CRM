@@ -1,8 +1,8 @@
-import { PrismaClient } from '@prisma/client';
-import { SupabaseClient } from '@supabase/supabase-js';
 import { GraphQLError } from 'graphql';
 
 import { CreateUserInput, OAuthProvider, SignInUserInput } from '@/graphql/types/server/generated_types';
+import { authServicePrismaMock } from '@/mocks/gql/prismaMocks';
+import { authServiceSupabaseMock } from '@/mocks/gql/supabaseMocks';
 import { mockUser } from '@/mocks/userMocks';
 import AuthService from '@/pages/api/graphql/dataSources/AuthService';
 import {
@@ -12,28 +12,11 @@ import {
 } from '@/pages/api/graphql/dataSources/constants';
 
 describe('AuthService', () => {
-  const prismaMock = {
-    user: {
-      create: jest.fn(),
-    },
-  } as unknown as PrismaClient;
-
-  const supabaseMock = {
-    auth: {
-      signUp: jest.fn(),
-      signInWithPassword: jest.fn(),
-      signInWithOAuth: jest.fn(),
-      signOut: jest.fn(),
-      resetPasswordForEmail: jest.fn(),
-      updateUser: jest.fn(),
-    },
-  } as unknown as SupabaseClient;
-
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  const authService = new AuthService(prismaMock, supabaseMock);
+  const authService = new AuthService(authServicePrismaMock, authServiceSupabaseMock);
 
   describe('signUp', () => {
     const mockInput: CreateUserInput = {
@@ -50,16 +33,16 @@ describe('AuthService', () => {
     });
 
     it('should sign up and create user successfully', async () => {
-      (supabaseMock.auth.signUp as jest.Mock).mockResolvedValue({
+      (authServiceSupabaseMock.auth.signUp as jest.Mock).mockResolvedValue({
         data: { user: mockUser },
         error: null,
       });
 
-      (prismaMock.user.create as jest.Mock).mockResolvedValue({ ...mockUser });
+      (authServicePrismaMock.user.create as jest.Mock).mockResolvedValue({ ...mockUser });
 
       const result = await authService.signUp(mockInput);
 
-      expect(supabaseMock.auth.signUp).toHaveBeenCalledWith({
+      expect(authServiceSupabaseMock.auth.signUp).toHaveBeenCalledWith({
         email: mockInput.email,
         password: mockInput.password,
         options: {
@@ -74,7 +57,7 @@ describe('AuthService', () => {
     });
 
     it('should throw an error if supabase returns error', async () => {
-      (supabaseMock.auth.signUp as jest.Mock).mockResolvedValue({
+      (authServiceSupabaseMock.auth.signUp as jest.Mock).mockResolvedValue({
         data: null,
         error: { message: 'Test error' },
       });
@@ -83,7 +66,7 @@ describe('AuthService', () => {
     });
 
     it('should throw an error if supabase returns no user', async () => {
-      (supabaseMock.auth.signUp as jest.Mock).mockResolvedValue({
+      (authServiceSupabaseMock.auth.signUp as jest.Mock).mockResolvedValue({
         data: { user: null },
         error: null,
       });
@@ -103,19 +86,19 @@ describe('AuthService', () => {
     });
 
     it('should successfully login and return user', async () => {
-      (supabaseMock.auth.signInWithPassword as jest.Mock).mockResolvedValue({
+      (authServiceSupabaseMock.auth.signInWithPassword as jest.Mock).mockResolvedValue({
         data: { user: mockUser },
         error: null,
       });
 
       const result = await authService.signIn(mockInput);
 
-      expect(supabaseMock.auth.signInWithPassword).toHaveBeenCalledWith(mockInput);
+      expect(authServiceSupabaseMock.auth.signInWithPassword).toHaveBeenCalledWith(mockInput);
       expect(result).toEqual(mockUser);
     });
 
     it('should throw an error if supabase returns error', async () => {
-      (supabaseMock.auth.signInWithPassword as jest.Mock).mockResolvedValue({
+      (authServiceSupabaseMock.auth.signInWithPassword as jest.Mock).mockResolvedValue({
         data: null,
         error: { message: 'Test login error' },
       });
@@ -124,7 +107,7 @@ describe('AuthService', () => {
     });
 
     it('should throw an error if supabase returns no user', async () => {
-      (supabaseMock.auth.signInWithPassword as jest.Mock).mockResolvedValue({
+      (authServiceSupabaseMock.auth.signInWithPassword as jest.Mock).mockResolvedValue({
         data: { user: null },
         error: null,
       });
@@ -145,14 +128,14 @@ describe('AuthService', () => {
     });
 
     it('should signIn user with Google provider and return url', async () => {
-      (supabaseMock.auth.signInWithOAuth as jest.Mock).mockResolvedValue({
+      (authServiceSupabaseMock.auth.signInWithOAuth as jest.Mock).mockResolvedValue({
         data: { url: mockUrl },
         error: null,
       });
 
       const result = await authService.signInWithOAuth(OAuthProvider.Google);
 
-      expect(supabaseMock.auth.signInWithOAuth).toHaveBeenCalledWith({
+      expect(authServiceSupabaseMock.auth.signInWithOAuth).toHaveBeenCalledWith({
         options: { redirectTo: mockUrl },
         provider: 'google',
       });
@@ -160,7 +143,7 @@ describe('AuthService', () => {
     });
 
     it('should throw an error if supabase returns error', async () => {
-      (supabaseMock.auth.signInWithOAuth as jest.Mock).mockResolvedValue({
+      (authServiceSupabaseMock.auth.signInWithOAuth as jest.Mock).mockResolvedValue({
         data: null,
         error: { message: 'Test sign in with oauth error' },
       });
@@ -177,7 +160,7 @@ describe('AuthService', () => {
     });
 
     it('should successfully signOut a user and return true', async () => {
-      (supabaseMock.auth.signOut as jest.Mock).mockResolvedValue({
+      (authServiceSupabaseMock.auth.signOut as jest.Mock).mockResolvedValue({
         error: null,
       });
 
@@ -187,7 +170,7 @@ describe('AuthService', () => {
     });
 
     it('should throw an error if supabase returns error', async () => {
-      (supabaseMock.auth.signOut as jest.Mock).mockResolvedValue({
+      (authServiceSupabaseMock.auth.signOut as jest.Mock).mockResolvedValue({
         error: { message: 'Test signOut error' },
       });
 
@@ -206,7 +189,7 @@ describe('AuthService', () => {
     });
 
     it('should successfully reset password, send email to redirect url a user and return true', async () => {
-      (supabaseMock.auth.resetPasswordForEmail as jest.Mock).mockResolvedValue({
+      (authServiceSupabaseMock.auth.resetPasswordForEmail as jest.Mock).mockResolvedValue({
         error: null,
       });
 
@@ -216,7 +199,7 @@ describe('AuthService', () => {
     });
 
     it('should throw an error if supabase returns error', async () => {
-      (supabaseMock.auth.resetPasswordForEmail as jest.Mock).mockResolvedValue({
+      (authServiceSupabaseMock.auth.resetPasswordForEmail as jest.Mock).mockResolvedValue({
         error: { message: 'Test forgot password error' },
       });
 
@@ -232,19 +215,19 @@ describe('AuthService', () => {
     });
 
     it('should reset password, update user data and return user', async () => {
-      (supabaseMock.auth.updateUser as jest.Mock).mockResolvedValue({
+      (authServiceSupabaseMock.auth.updateUser as jest.Mock).mockResolvedValue({
         data: { user: mockUser },
         error: null,
       });
 
       const result = await authService.resetPassword('test-password');
 
-      expect(supabaseMock.auth.updateUser).toHaveBeenCalledWith({ password: 'test-password' });
+      expect(authServiceSupabaseMock.auth.updateUser).toHaveBeenCalledWith({ password: 'test-password' });
       expect(result).toEqual(mockUser);
     });
 
     it('should throw an error if supabase returns error', async () => {
-      (supabaseMock.auth.updateUser as jest.Mock).mockResolvedValue({
+      (authServiceSupabaseMock.auth.updateUser as jest.Mock).mockResolvedValue({
         data: null,
         error: { message: 'Test reset password error' },
       });
@@ -255,7 +238,7 @@ describe('AuthService', () => {
     });
 
     it('should throw an error if supabase returns no user', async () => {
-      (supabaseMock.auth.updateUser as jest.Mock).mockResolvedValue({
+      (authServiceSupabaseMock.auth.updateUser as jest.Mock).mockResolvedValue({
         data: { user: null },
         error: null,
       });

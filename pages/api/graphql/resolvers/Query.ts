@@ -18,12 +18,10 @@ import {
 
 const Query: QueryResolvers = {
   getRepairJobScheduleData: async (_, __, { dataSources }): Promise<RepairJobScheduleData> => {
-    return await dataSources.repairJob.getRepairJobScheduleData();
+    return dataSources.repairJob.getRepairJobScheduleData();
   },
   getCalendarEvents: async (_, __, { dataSources }): Promise<CalendarEvent[]> => {
-    const calendarEvents = await dataSources.calendarEvent.getCalendarEvents();
-
-    return calendarEvents || [];
+    return dataSources.calendarEvent.getCalendarEvents();
   },
   getRepairJobs: async (_, args, { dataSources }): Promise<RepairJobConnection> => {
     return await dataSources.repairJob.getRepairJobs(args);
