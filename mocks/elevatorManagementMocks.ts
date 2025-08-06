@@ -92,32 +92,34 @@ export const mockWarehouseLiftElevatorRecord = {
   },
 };
 
-export const mockElevatorRecordsResponse: FetchResult<GetElevatorRecordsQuery> = {
-  data: {
-    getElevatorRecords: {
-      edges: [
-        {
-          cursor: mockGlassElevatorElevatorRecord.cursor,
-          node: { ...mockGlassElevatorElevatorRecord.node, __typename: 'ElevatorRecord' },
-          __typename: 'ElevatorRecordEdge',
-        },
-        {
-          cursor: mockServiceElevatorElevatorRecord.cursor,
-          node: { ...mockServiceElevatorElevatorRecord.node, __typename: 'ElevatorRecord' },
-          __typename: 'ElevatorRecordEdge',
-        },
-      ],
-      pageInfo: {
-        hasNextPage: true,
-        hasPreviousPage: false,
-        startCursor: 'test-id-1',
-        endCursor: 'test-id-2',
-        __typename: 'PageInfo',
+export const mockedReturnedElevatorRecordsData = {
+  getElevatorRecords: {
+    edges: [
+      {
+        cursor: mockGlassElevatorElevatorRecord.cursor,
+        node: { ...mockGlassElevatorElevatorRecord.node, __typename: 'ElevatorRecord' },
+        __typename: 'ElevatorRecordEdge',
       },
-      total: 2,
-      __typename: 'ElevatorRecordConnection',
+      {
+        cursor: mockServiceElevatorElevatorRecord.cursor,
+        node: { ...mockServiceElevatorElevatorRecord.node, __typename: 'ElevatorRecord' },
+        __typename: 'ElevatorRecordEdge',
+      },
+    ],
+    pageInfo: {
+      hasNextPage: true,
+      hasPreviousPage: false,
+      startCursor: 'test-id-1',
+      endCursor: 'test-id-2',
+      __typename: 'PageInfo',
     },
+    total: 2,
+    __typename: 'ElevatorRecordConnection',
   },
+};
+
+export const mockElevatorRecordsResponse: FetchResult<GetElevatorRecordsQuery> = {
+  data: { ...(mockedReturnedElevatorRecordsData as GetElevatorRecordsQuery) },
 };
 
 export const mockElevatorRecordsPaginatedResponse: FetchResult<GetElevatorRecordsQuery> = {

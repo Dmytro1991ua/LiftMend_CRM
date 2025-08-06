@@ -127,32 +127,34 @@ export const mockAvailableTechniciansForAssignment = [
   },
 ];
 
-export const mockRepairJobsResponse: FetchResult<GetRepairJobsQuery> = {
-  data: {
-    getRepairJobs: {
-      edges: [
-        {
-          cursor: mockPassengerElevatorRepairJob.cursor,
-          node: { ...mockPassengerElevatorRepairJob.node, __typename: 'RepairJob' },
-          __typename: 'RepairJobEdge',
-        },
-        {
-          cursor: mockMastLiftRepairJob.cursor,
-          node: { ...mockMastLiftRepairJob.node, __typename: 'RepairJob' },
-          __typename: 'RepairJobEdge',
-        },
-      ],
-      pageInfo: {
-        hasNextPage: true,
-        hasPreviousPage: false,
-        startCursor: 'test-id-1',
-        endCursor: 'test-id-2',
-        __typename: 'PageInfo',
+export const mockReturnedRepairJobsData = {
+  getRepairJobs: {
+    edges: [
+      {
+        cursor: mockPassengerElevatorRepairJob.cursor,
+        node: { ...mockPassengerElevatorRepairJob.node, __typename: 'RepairJob' },
+        __typename: 'RepairJobEdge',
       },
-      total: 2,
-      __typename: 'RepairJobConnection',
+      {
+        cursor: mockMastLiftRepairJob.cursor,
+        node: { ...mockMastLiftRepairJob.node, __typename: 'RepairJob' },
+        __typename: 'RepairJobEdge',
+      },
+    ],
+    pageInfo: {
+      hasNextPage: true,
+      hasPreviousPage: false,
+      startCursor: 'test-id-1',
+      endCursor: 'test-id-2',
+      __typename: 'PageInfo',
     },
+    total: 2,
+    __typename: 'RepairJobConnection',
   },
+};
+
+export const mockRepairJobsResponse: FetchResult<GetRepairJobsQuery> = {
+  data: { ...(mockReturnedRepairJobsData as GetRepairJobsQuery) },
 };
 
 export const mockRepairJobsPaginatedResponse: FetchResult<GetRepairJobsQuery> = {

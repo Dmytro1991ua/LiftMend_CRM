@@ -1,8 +1,8 @@
-import { PrismaClient } from '@prisma/client';
 import { addMonths } from 'date-fns';
 
 import { QueryGetElevatorRecordsArgs, UpdateElevatorRecordInput } from '@/graphql/types/server/generated_types';
 import { mockElevatorRecord, mockElevatorRecordId } from '@/mocks/elevatorManagementMocks';
+import { elevatorRecordServicePrismaMock } from '@/mocks/gql/prismaMocks';
 import { mockRepairJob } from '@/mocks/repairJobScheduling';
 import ElevatorService from '@/pages/api/graphql/dataSources/ElevatorService';
 import {
@@ -22,26 +22,11 @@ jest.mock('@/pages/api/graphql/utils', () => ({
 }));
 
 describe('ElevatorService', () => {
-  const prismaMock = {
-    elevatorRecord: {
-      findMany: jest.fn(),
-      count: jest.fn(),
-      findUnique: jest.fn(),
-      findFirst: jest.fn(),
-      update: jest.fn(),
-      delete: jest.fn(),
-    },
-    elevatorTypes: {},
-    buildingNames: {},
-    elevatorLocations: {},
-    elevatorStatuses: {},
-  } as unknown as PrismaClient;
-
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  const elevatorService = new ElevatorService(prismaMock);
+  const elevatorService = new ElevatorService(elevatorRecordServicePrismaMock);
 
   describe('getElevatorRecords', () => {
     const mockArgs = {
@@ -80,19 +65,19 @@ describe('ElevatorService', () => {
     });
 
     it('should fetch elevator records with correct prisma calls and return connection object', async () => {
-      (prismaMock.elevatorRecord.findMany as jest.Mock).mockResolvedValue(mockElevatorRecords);
-      (prismaMock.elevatorRecord.count as jest.Mock).mockResolvedValue(mockTotalItems);
+      (elevatorRecordServicePrismaMock.elevatorRecord.findMany as jest.Mock).mockResolvedValue(mockElevatorRecords);
+      (elevatorRecordServicePrismaMock.elevatorRecord.count as jest.Mock).mockResolvedValue(mockTotalItems);
 
       const result = await elevatorService.getElevatorRecords(mockArgs);
 
-      expect(prismaMock.elevatorRecord.findMany).toHaveBeenCalledWith({
+      expect(elevatorRecordServicePrismaMock.elevatorRecord.findMany).toHaveBeenCalledWith({
         where: mockFilters,
         orderBy: mockOrderBy,
         skip: 5,
         take: 10,
       });
 
-      expect(prismaMock.elevatorRecord.count).toHaveBeenCalledWith({
+      expect(elevatorRecordServicePrismaMock.elevatorRecord.count).toHaveBeenCalledWith({
         where: mockFilters,
       });
 
@@ -109,11 +94,11 @@ describe('ElevatorService', () => {
 
   describe('findElevatorRecordById', () => {
     it('should return elevator record by id', async () => {
-      (prismaMock.elevatorRecord.findUnique as jest.Mock).mockResolvedValue(mockElevatorRecord);
+      (elevatorRecordServicePrismaMock.elevatorRecord.findUnique as jest.Mock).mockResolvedValue(mockElevatorRecord);
 
       const result = await elevatorService.findElevatorRecordById(mockElevatorRecordId);
 
-      expect(prismaMock.elevatorRecord.findUnique).toHaveBeenCalledWith({
+      expect(elevatorRecordServicePrismaMock.elevatorRecord.findUnique).toHaveBeenCalledWith({
         where: { id: mockElevatorRecordId },
       });
       expect(result).toEqual(mockElevatorRecord);
@@ -130,11 +115,11 @@ describe('ElevatorService', () => {
     };
 
     it('should return elevator record by provided repair job', async () => {
-      (prismaMock.elevatorRecord.findFirst as jest.Mock).mockResolvedValue(mockElevatorRecord);
+      (elevatorRecordServicePrismaMock.elevatorRecord.findFirst as jest.Mock).mockResolvedValue(mockElevatorRecord);
 
       const result = await elevatorService.findElevatorRecordByRepairJob(repairJobMock);
 
-      expect(prismaMock.elevatorRecord.findFirst).toHaveBeenCalledWith({
+      expect(elevatorRecordServicePrismaMock.elevatorRecord.findFirst).toHaveBeenCalledWith({
         where: {
           buildingName: mockElevatorRecord.buildingName,
           elevatorLocation: mockElevatorRecord.elevatorLocation,
@@ -239,11 +224,11 @@ describe('ElevatorService', () => {
     };
 
     it('should update elevator record', async () => {
-      (prismaMock.elevatorRecord.update as jest.Mock).mockResolvedValue(mockUpdatedElevatorRecord);
+      (elevatorRecordServicePrismaMock.elevatorRecord.update as jest.Mock).mockResolvedValue(mockUpdatedElevatorRecord);
 
       const result = await elevatorService.updateElevatorRecord(mockInput);
 
-      expect(prismaMock.elevatorRecord.update).toHaveBeenCalledWith({
+      expect(elevatorRecordServicePrismaMock.elevatorRecord.update).toHaveBeenCalledWith({
         data: { capacity: 500 },
         where: { id: 'test_id' },
       });
@@ -253,11 +238,11 @@ describe('ElevatorService', () => {
 
   describe('deleteElevatorRecord', () => {
     it('should delete elevator record by id', async () => {
-      (prismaMock.elevatorRecord.delete as jest.Mock).mockResolvedValue(mockElevatorRecord);
+      (elevatorRecordServicePrismaMock.elevatorRecord.delete as jest.Mock).mockResolvedValue(mockElevatorRecord);
 
       const result = await elevatorService.deleteElevatorRecord(mockElevatorRecordId);
 
-      expect(prismaMock.elevatorRecord.delete).toHaveBeenCalledWith({
+      expect(elevatorRecordServicePrismaMock.elevatorRecord.delete).toHaveBeenCalledWith({
         where: { id: mockElevatorRecordId },
       });
       expect(result).toEqual(mockElevatorRecord);
@@ -273,11 +258,11 @@ describe('ElevatorService', () => {
     };
 
     it('should update elevator record status', async () => {
-      (prismaMock.elevatorRecord.update as jest.Mock).mockResolvedValue(mockUpdatedElevatorRecord);
+      (elevatorRecordServicePrismaMock.elevatorRecord.update as jest.Mock).mockResolvedValue(mockUpdatedElevatorRecord);
 
       const result = await elevatorService.updateElevatorStatus(mockElevatorRecordId, updatedCStatus);
 
-      expect(prismaMock.elevatorRecord.update).toHaveBeenCalledWith({
+      expect(elevatorRecordServicePrismaMock.elevatorRecord.update).toHaveBeenCalledWith({
         data: { status: 'In Progress' },
         where: { id: 'test_id' },
       });
@@ -302,7 +287,7 @@ describe('ElevatorService', () => {
 
       const expectedNextMaintenanceDate = addMonths(mockDate, 6);
 
-      expect(prismaMock.elevatorRecord.update).toHaveBeenCalledWith({
+      expect(elevatorRecordServicePrismaMock.elevatorRecord.update).toHaveBeenCalledWith({
         where: { id: mockElevatorRecordId },
         data: {
           lastMaintenanceDate: mockDate,

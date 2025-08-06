@@ -1,5 +1,3 @@
-import { PrismaClient } from '@prisma/client';
-
 import { UpdateRepairJobInput } from '@/graphql/types/client/generated_types';
 import {
   CreateRepairJobInput,
@@ -8,6 +6,7 @@ import {
   RepairJobSortField,
 } from '@/graphql/types/server/generated_types';
 import { mockElevatorRecord } from '@/mocks/elevatorManagementMocks';
+import { repairJobServicePrismaMock } from '@/mocks/gql/prismaMocks';
 import { mockCalendarEventId } from '@/mocks/repairJobScheduling';
 import {
   mockMastLiftRepairJob,
@@ -35,27 +34,6 @@ jest.mock('@/pages/api/graphql/utils', () => ({
 }));
 
 describe('RepairJobService', () => {
-  const prismaMock = {
-    repairJob: {
-      findMany: jest.fn(),
-      count: jest.fn(),
-      findUnique: jest.fn(),
-      update: jest.fn(),
-      create: jest.fn(),
-      delete: jest.fn(),
-    },
-    repairJobTypes: {},
-    elevatorTypes: {},
-    buildingNames: {},
-    elevatorLocations: {},
-    technicianNames: {},
-    technicianSkills: {},
-    priorities: {},
-    statuses: {},
-    elevatorRecord: {
-      findMany: jest.fn(),
-    },
-  } as unknown as PrismaClient;
   const mockRepairJobs = [
     mockPassengerElevatorRepairJob.node,
     mockMastLiftRepairJob.node,
@@ -73,7 +51,7 @@ describe('RepairJobService', () => {
     jest.useRealTimers();
   });
 
-  const repairJobService = new RepairJobService(prismaMock);
+  const repairJobService = new RepairJobService(repairJobServicePrismaMock);
 
   describe('getRepairJobs', () => {
     const mockArgs = {
@@ -108,19 +86,19 @@ describe('RepairJobService', () => {
     });
 
     it('should fetch repair jobs with correct prisma calls and return connection object', async () => {
-      (prismaMock.repairJob.findMany as jest.Mock).mockResolvedValue(mockRepairJobs);
-      (prismaMock.repairJob.count as jest.Mock).mockResolvedValue(mockTotalItems);
+      (repairJobServicePrismaMock.repairJob.findMany as jest.Mock).mockResolvedValue(mockRepairJobs);
+      (repairJobServicePrismaMock.repairJob.count as jest.Mock).mockResolvedValue(mockTotalItems);
 
       const result = await repairJobService.getRepairJobs(mockArgs);
 
-      expect(prismaMock.repairJob.findMany).toHaveBeenCalledWith({
+      expect(repairJobServicePrismaMock.repairJob.findMany).toHaveBeenCalledWith({
         where: mockExpectedWhere,
         orderBy: mockOrderBy,
         skip: 5,
         take: 10,
       });
 
-      expect(prismaMock.repairJob.count).toHaveBeenCalledWith({
+      expect(repairJobServicePrismaMock.repairJob.count).toHaveBeenCalledWith({
         where: mockFilters,
       });
 
@@ -140,11 +118,11 @@ describe('RepairJobService', () => {
 
   describe('findRepairJobById', () => {
     it('should return repair job by id', async () => {
-      (prismaMock.repairJob.findUnique as jest.Mock).mockResolvedValue(mockRepairJob);
+      (repairJobServicePrismaMock.repairJob.findUnique as jest.Mock).mockResolvedValue(mockRepairJob);
 
       const result = await repairJobService.findRepairJobById(mockRepairJobId);
 
-      expect(prismaMock.repairJob.findUnique).toHaveBeenCalledWith({
+      expect(repairJobServicePrismaMock.repairJob.findUnique).toHaveBeenCalledWith({
         where: { id: mockRepairJobId },
       });
       expect(result).toEqual(mockRepairJob);
@@ -185,11 +163,11 @@ describe('RepairJobService', () => {
 
   describe('getElevatorDetailsByBuildingName', () => {
     it('should return elevator details by building name', async () => {
-      (prismaMock.elevatorRecord.findMany as jest.Mock).mockResolvedValue([mockElevatorRecord]);
+      (repairJobServicePrismaMock.elevatorRecord.findMany as jest.Mock).mockResolvedValue([mockElevatorRecord]);
 
       const result = await repairJobService.getElevatorDetailsByBuildingName(mockElevatorRecord.buildingName);
 
-      expect(prismaMock.elevatorRecord.findMany).toHaveBeenCalledWith({
+      expect(repairJobServicePrismaMock.elevatorRecord.findMany).toHaveBeenCalledWith({
         select: { elevatorLocation: true, elevatorType: true },
         where: { buildingName: mockElevatorRecord.buildingName },
       });
@@ -279,11 +257,11 @@ describe('RepairJobService', () => {
         isOverdue: true,
       };
 
-      (prismaMock.repairJob.create as jest.Mock).mockResolvedValue(mockExpectedOutput);
+      (repairJobServicePrismaMock.repairJob.create as jest.Mock).mockResolvedValue(mockExpectedOutput);
 
       const result = await repairJobService.createRepairJob(mockNewRepairJob);
 
-      expect(prismaMock.repairJob.create).toHaveBeenCalledWith({
+      expect(repairJobServicePrismaMock.repairJob.create).toHaveBeenCalledWith({
         data: {
           ...mockNewRepairJob,
           isOverdue: true,
@@ -306,11 +284,11 @@ describe('RepairJobService', () => {
         isOverdue: false,
       };
 
-      (prismaMock.repairJob.create as jest.Mock).mockResolvedValue(mockExpectedOutput);
+      (repairJobServicePrismaMock.repairJob.create as jest.Mock).mockResolvedValue(mockExpectedOutput);
 
       const result = await repairJobService.createRepairJob(mockedNewRepairJob);
 
-      expect(prismaMock.repairJob.create).toHaveBeenCalledWith({
+      expect(repairJobServicePrismaMock.repairJob.create).toHaveBeenCalledWith({
         data: {
           ...mockedNewRepairJob,
           isOverdue: false,
@@ -322,11 +300,11 @@ describe('RepairJobService', () => {
 
   describe('updateRepairJobWithCalendarEventId', () => {
     it('should update repairJob with calendarEventId', async () => {
-      (prismaMock.repairJob.update as jest.Mock).mockResolvedValue(mockRepairJob);
+      (repairJobServicePrismaMock.repairJob.update as jest.Mock).mockResolvedValue(mockRepairJob);
 
       const result = await repairJobService.updateRepairJobWithCalendarEventId(mockRepairJobId, mockCalendarEventId);
 
-      expect(prismaMock.repairJob.update).toHaveBeenCalledWith({
+      expect(repairJobServicePrismaMock.repairJob.update).toHaveBeenCalledWith({
         where: { id: mockRepairJobId },
         data: { calendarEventId: mockCalendarEventId },
       });
@@ -348,11 +326,11 @@ describe('RepairJobService', () => {
     };
 
     it('should update repair job with only jobDetails and compute isOverdue as false', async () => {
-      (prismaMock.repairJob.update as jest.Mock).mockResolvedValue(mockUpdatedRepairJob);
+      (repairJobServicePrismaMock.repairJob.update as jest.Mock).mockResolvedValue(mockUpdatedRepairJob);
 
       const result = await repairJobService.updateRepairJob(mockInput);
 
-      expect(prismaMock.repairJob.update).toHaveBeenCalledWith({
+      expect(repairJobServicePrismaMock.repairJob.update).toHaveBeenCalledWith({
         data: { jobDetails: mockUpdatedJobDetails, isOverdue: false },
         where: { id: mockRepairJobId },
       });
@@ -362,8 +340,8 @@ describe('RepairJobService', () => {
     it('should set actualEndDate if status is Completed', async () => {
       const mockInput = { id: mockRepairJobId, status: 'Completed' };
 
-      (prismaMock.repairJob.findUnique as jest.Mock).mockResolvedValue(mockRepairJob);
-      (prismaMock.repairJob.update as jest.Mock).mockResolvedValue({
+      (repairJobServicePrismaMock.repairJob.findUnique as jest.Mock).mockResolvedValue(mockRepairJob);
+      (repairJobServicePrismaMock.repairJob.update as jest.Mock).mockResolvedValue({
         ...mockRepairJob,
         status: 'Completed',
         actualEndDate: mockNowDate,
@@ -372,7 +350,7 @@ describe('RepairJobService', () => {
 
       const result = await repairJobService.updateRepairJob(mockInput);
 
-      expect(prismaMock.repairJob.update).toHaveBeenCalledWith({
+      expect(repairJobServicePrismaMock.repairJob.update).toHaveBeenCalledWith({
         where: { id: mockRepairJobId },
         data: {
           status: 'Completed',
@@ -389,8 +367,8 @@ describe('RepairJobService', () => {
       const mockPastEndDate = new Date('2024-01-01T00:00:00.000Z');
       const mockInput = { id: mockRepairJobId, endDate: mockPastEndDate, status: 'Scheduled' };
 
-      (prismaMock.repairJob.findUnique as jest.Mock).mockResolvedValue(mockRepairJob);
-      (prismaMock.repairJob.update as jest.Mock).mockResolvedValue({
+      (repairJobServicePrismaMock.repairJob.findUnique as jest.Mock).mockResolvedValue(mockRepairJob);
+      (repairJobServicePrismaMock.repairJob.update as jest.Mock).mockResolvedValue({
         ...mockRepairJob,
         ...mockInput,
         isOverdue: true,
@@ -398,7 +376,7 @@ describe('RepairJobService', () => {
 
       const result = await repairJobService.updateRepairJob(mockInput);
 
-      expect(prismaMock.repairJob.update).toHaveBeenCalledWith({
+      expect(repairJobServicePrismaMock.repairJob.update).toHaveBeenCalledWith({
         where: { id: mockRepairJobId },
         data: {
           endDate: mockPastEndDate,
@@ -413,12 +391,12 @@ describe('RepairJobService', () => {
     it('should omit null fields in update', async () => {
       const mockInput = { id: mockRepairJobId, jobDetails: null };
 
-      (prismaMock.repairJob.findUnique as jest.Mock).mockResolvedValue(mockRepairJob);
-      (prismaMock.repairJob.update as jest.Mock).mockResolvedValue(mockRepairJob);
+      (repairJobServicePrismaMock.repairJob.findUnique as jest.Mock).mockResolvedValue(mockRepairJob);
+      (repairJobServicePrismaMock.repairJob.update as jest.Mock).mockResolvedValue(mockRepairJob);
 
       await repairJobService.updateRepairJob(mockInput);
 
-      expect(prismaMock.repairJob.update).toHaveBeenCalledWith({
+      expect(repairJobServicePrismaMock.repairJob.update).toHaveBeenCalledWith({
         where: { id: mockRepairJobId },
         data: {
           isOverdue: false,
@@ -434,15 +412,15 @@ describe('RepairJobService', () => {
         endDate: new Date('2025-12-12T00:00:00.000Z'),
       };
 
-      (prismaMock.repairJob.findUnique as jest.Mock).mockResolvedValue(mockExistingJob);
-      (prismaMock.repairJob.update as jest.Mock).mockResolvedValue({
+      (repairJobServicePrismaMock.repairJob.findUnique as jest.Mock).mockResolvedValue(mockExistingJob);
+      (repairJobServicePrismaMock.repairJob.update as jest.Mock).mockResolvedValue({
         ...mockExistingJob,
         isOverdue: false,
       });
 
       await repairJobService.updateRepairJob(mockInput);
 
-      expect(prismaMock.repairJob.update).toHaveBeenCalledWith({
+      expect(repairJobServicePrismaMock.repairJob.update).toHaveBeenCalledWith({
         where: { id: mockRepairJobId },
         data: {
           isOverdue: false,
@@ -453,11 +431,11 @@ describe('RepairJobService', () => {
 
   describe('deleteRepairJob', () => {
     it('should delete repair job by id', async () => {
-      (prismaMock.repairJob.delete as jest.Mock).mockResolvedValue(mockRepairJob);
+      (repairJobServicePrismaMock.repairJob.delete as jest.Mock).mockResolvedValue(mockRepairJob);
 
       const result = await repairJobService.deleteRepairJob(mockRepairJobId);
 
-      expect(prismaMock.repairJob.delete).toHaveBeenCalledWith({
+      expect(repairJobServicePrismaMock.repairJob.delete).toHaveBeenCalledWith({
         where: { id: mockRepairJobId },
       });
       expect(result).toEqual(mockRepairJob);
