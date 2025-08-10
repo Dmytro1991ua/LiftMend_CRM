@@ -70,8 +70,6 @@ describe('EditActionCell', () => {
 
     await userEvent.click(button);
 
-    screen.debug(document.body, 99999);
-
     const cancelButtonClick = screen.getByText('Cancel');
 
     await userEvent.click(cancelButtonClick);

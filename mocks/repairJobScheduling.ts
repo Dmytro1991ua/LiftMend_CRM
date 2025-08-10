@@ -175,7 +175,7 @@ export const mockAvailableTechniciansResponse: MockedResponse<GetAvailableTechni
   },
 };
 
-const mockNewRepairJobInput = {
+export const mockNewRepairJobInput = {
   buildingName: 'Bluewater Hotel',
   elevatorLocation: 'Restaurant',
   elevatorType: 'Eco-Friendly Elevator',

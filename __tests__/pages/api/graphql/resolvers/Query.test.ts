@@ -22,15 +22,15 @@ import {
 import { userServiceSupabaseMock } from '@/mocks/gql/supabaseMocks';
 import { mockCalendarEvent, mockRepairJobScheduledData } from '@/mocks/repairJobScheduling';
 import { mockRepairJob, mockRepairJobId, mockReturnedRepairJobsData } from '@/mocks/repairJobTrackingMocks';
-import { mockBenjaminHallRecord, mockedReturnedTechnicianRecordsData } from '@/mocks/technicianManagementMocks';
-import { mockUser } from '@/mocks/userMocks';
-
 import {
+  mockBenjaminHallRecord,
   mockBenjaminHallRecordId,
   mockJamesAndersonRecord,
   mockOliviaLewisRecord,
-} from './../../../../mocks/technicianManagementMocks';
-import Query from './Query';
+  mockedReturnedTechnicianRecordsData,
+} from '@/mocks/technicianManagementMocks';
+import { mockUser } from '@/mocks/userMocks';
+import Query from '@/pages/api/graphql/resolvers/Query';
 
 describe('Query', () => {
   describe('getDashboardMetrics', () => {
