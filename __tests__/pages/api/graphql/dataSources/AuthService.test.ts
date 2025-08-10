@@ -3,7 +3,7 @@ import { GraphQLError } from 'graphql';
 import { CreateUserInput, OAuthProvider, SignInUserInput } from '@/graphql/types/server/generated_types';
 import { authServicePrismaMock } from '@/mocks/gql/prismaMocks';
 import { authServiceSupabaseMock } from '@/mocks/gql/supabaseMocks';
-import { mockUser } from '@/mocks/userMocks';
+import { mockSupabaseUser, mockUser } from '@/mocks/userMocks';
 import AuthService from '@/pages/api/graphql/dataSources/AuthService';
 import {
   DEFAULT_RESET_PASSWORD_MESSAGE,
@@ -34,7 +34,7 @@ describe('AuthService', () => {
 
     it('should sign up and create user successfully', async () => {
       (authServiceSupabaseMock.auth.signUp as jest.Mock).mockResolvedValue({
-        data: { user: mockUser },
+        data: { user: mockSupabaseUser },
         error: null,
       });
 
@@ -53,7 +53,7 @@ describe('AuthService', () => {
           },
         },
       });
-      expect(result).toEqual(mockUser);
+      expect(result).toEqual(mockSupabaseUser);
     });
 
     it('should throw an error if supabase returns error', async () => {

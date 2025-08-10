@@ -2,7 +2,7 @@ import { SupabaseClient } from '@supabase/supabase-js';
 
 import { userServicePrismaMock } from '@/mocks/gql/prismaMocks';
 import { userServiceSupabaseMock } from '@/mocks/gql/supabaseMocks';
-import { mockUser } from '@/mocks/userMocks';
+import { createMockFile, mockUser } from '@/mocks/userMocks';
 import {
   DEFAULT_IMAGE_PUBLIC_URL_FAILED_MESSAGE,
   DEFAULT_SUPABASE_NOT_INITIALIZED_MESSAGE,
@@ -93,8 +93,9 @@ describe('UserService', () => {
         (userServiceSupabaseMock.auth.updateUser as jest.Mock).mockResolvedValue({ error: null });
         (userServicePrismaMock.user.update as jest.Mock).mockResolvedValue(mockUser);
 
-        const file = { createReadStream: () => ({ on: jest.fn(), pipe: jest.fn() }) };
-        const result = await userService.uploadProfilePicture(file as any);
+        const file = createMockFile();
+
+        const result = await userService.uploadProfilePicture(file);
 
         expect(result).toEqual({
           avatarUrl: `https://cdn.supabase.com/avatar.jpg?v=${mockFixedTimestamp}`,
