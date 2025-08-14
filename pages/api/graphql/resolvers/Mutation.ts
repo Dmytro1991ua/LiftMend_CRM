@@ -8,6 +8,7 @@ import {
   DeleteTechnicianRecordResponse,
   ElevatorRecord,
   MutationResolvers,
+  RemoveAccountResponse,
   RepairJob,
   TechnicianRecord,
   UploadProfilePicturePayload,
@@ -234,6 +235,13 @@ const Mutation: MutationResolvers = {
   },
   updateUserProfile: async (_, { input }, { dataSources }): Promise<AppUser> => {
     return await dataSources.user.updateUserProfile(input);
+  },
+  removeAccount: async (_, { userId }, { dataSources }): Promise<RemoveAccountResponse> => {
+    await dataSources.user.removeAccount(userId);
+
+    return {
+      userId,
+    };
   },
 };
 

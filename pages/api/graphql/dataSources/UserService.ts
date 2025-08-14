@@ -4,6 +4,7 @@ import { GraphQLError } from 'graphql';
 import { isNull as _isNull, omitBy as _omitBy } from 'lodash';
 
 import { AppUser, UploadProfilePicturePayload, UserProfileInput } from '@/graphql/types/server/generated_types';
+import { supabaseServiceRole } from '@/lib/supabase-service-role';
 
 import { convertStreamToBuffer } from '../utils';
 
@@ -24,10 +25,12 @@ type GraphQLUploadFile = {
 class UserService {
   private prisma;
   private supabase;
+  private supabaseAdmin;
 
   constructor(prisma: PrismaClient, supabase?: SupabaseClient) {
     this.prisma = prisma;
     this.supabase = supabase;
+    this.supabaseAdmin = supabaseServiceRole;
   }
 
   async uploadProfilePicture(file: GraphQLUploadFile): Promise<UploadProfilePicturePayload> {
@@ -79,6 +82,22 @@ class UserService {
     }
 
     return user;
+  }
+
+  async removeAccount(userId: string): Promise<void> {
+    if (!this.supabase) {
+      throw new GraphQLError(DEFAULT_SUPABASE_NOT_INITIALIZED_MESSAGE);
+    }
+
+    const { error: supabaseError } = await this.supabaseAdmin.auth.admin.deleteUser(userId, false);
+
+    if (supabaseError) {
+      throw new GraphQLError(`Supabase deletion failed: ${supabaseError.message}`);
+    }
+
+    await this.prisma.user.delete({
+      where: { id: userId },
+    });
   }
 
   private async getAuthenticatedUserId(): Promise<string | null> {

@@ -72,6 +72,7 @@ export const userServicePrismaMock = {
   user: {
     update: jest.fn(),
     findUnique: jest.fn(),
+    delete: jest.fn(),
   },
   storage: {
     from: jest.fn(),
