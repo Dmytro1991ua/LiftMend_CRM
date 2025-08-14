@@ -21,6 +21,16 @@ jest.mock('@/pages/api/graphql/utils', () => ({
   getElevatorStatusErrorMessage: jest.fn(),
 }));
 
+jest.mock('@/lib/supabase-service-role', () => ({
+  supabaseServiceRole: {
+    auth: {
+      admin: {
+        deleteUser: jest.fn().mockResolvedValue({ error: null }),
+      },
+    },
+  },
+}));
+
 describe('Mutation', () => {
   let mockDataSources: ReturnType<typeof createDataSourcesMock>;
 
@@ -41,6 +51,7 @@ describe('Mutation', () => {
   let resetPasswordResolver: TestResolver<typeof Mutation, 'resetPassword'>;
   let uploadProfilePictureResolver: TestResolver<typeof Mutation, 'uploadProfilePicture'>;
   let updateUserProfileResolver: TestResolver<typeof Mutation, 'updateUserProfile'>;
+  let removeAccountResolver: TestResolver<typeof Mutation, 'removeAccount'>;
 
   beforeEach(() => {
     mockDataSources = createDataSourcesMock(repairJobServicePrismaMock, userServiceSupabaseMock);
@@ -62,6 +73,7 @@ describe('Mutation', () => {
     resetPasswordResolver = getResolverToTest(Mutation, 'resetPassword', mockDataSources);
     uploadProfilePictureResolver = getResolverToTest(Mutation, 'uploadProfilePicture', mockDataSources);
     updateUserProfileResolver = getResolverToTest(Mutation, 'updateUserProfile', mockDataSources);
+    removeAccountResolver = getResolverToTest(Mutation, 'removeAccount', mockDataSources);
 
     (getElevatorStatusErrorMessage as jest.Mock).mockReturnValue({});
   });
@@ -422,18 +434,19 @@ describe('Mutation', () => {
   });
 
   describe('updateElevatorRecord', () => {
-    it('should update elevator record', async () => {
-      const mockInput = {
-        id: mockElevatorRecord.id,
-        status: 'Out of Service',
-        lastKnownStatus: 'Operational',
-      };
-      const mockUpdatedElevatorRecord = {
-        ...mockElevatorRecord,
-        status: 'Out of Service',
-        lastKnownStatus: 'Operational',
-      };
+    const mockError = 'Failed to update elevator record';
+    const mockInput = {
+      id: mockElevatorRecord.id,
+      status: 'Out of Service',
+      lastKnownStatus: 'Operational',
+    };
+    const mockUpdatedElevatorRecord = {
+      ...mockElevatorRecord,
+      status: 'Out of Service',
+      lastKnownStatus: 'Operational',
+    };
 
+    it('should update elevator record', async () => {
       mockDataSources.elevatorRecord.updateElevatorRecord.mockResolvedValue(mockUpdatedElevatorRecord);
 
       const result = await updateElevatorRecordResolver({}, { input: mockInput });
@@ -441,9 +454,17 @@ describe('Mutation', () => {
       expect(mockDataSources.elevatorRecord.updateElevatorRecord).toHaveBeenCalledWith(mockInput);
       expect(result).toEqual(mockUpdatedElevatorRecord);
     });
+
+    it('should throw an error when failed to update elevator record', async () => {
+      mockDataSources.elevatorRecord.updateElevatorRecord.mockRejectedValueOnce(new Error(mockError));
+
+      await expect(updateElevatorRecordResolver({}, { input: mockInput })).rejects.toThrow(mockError);
+    });
   });
 
   describe('deleteElevatorRecord', () => {
+    const mockError = 'Failed to delete elevator record';
+
     it('should delete elevator record', async () => {
       mockDataSources.elevatorRecord.deleteElevatorRecord.mockResolvedValue(mockElevatorRecord);
 
@@ -452,19 +473,26 @@ describe('Mutation', () => {
       expect(mockDataSources.elevatorRecord.deleteElevatorRecord).toHaveBeenCalledWith(mockElevatorRecord.id);
       expect(result).toEqual({ id: mockElevatorRecord.id });
     });
+
+    it('should throw an error when failed to delete elevator record', async () => {
+      mockDataSources.elevatorRecord.deleteElevatorRecord.mockRejectedValueOnce(new Error(mockError));
+
+      await expect(deleteElevatorRecordResolver({}, { id: mockElevatorRecord.id })).rejects.toThrow(mockError);
+    });
   });
 
   describe('createTechnicianRecord', () => {
-    it('should create technician record', async () => {
-      const mockInput = {
-        availabilityStatus: mockBenjaminHallRecord.availabilityStatus,
-        certifications: mockBenjaminHallRecord.certifications,
-        contactInformation: mockBenjaminHallRecord.contactInformation,
-        employmentStatus: mockBenjaminHallRecord.employmentStatus,
-        name: mockBenjaminHallRecord.name,
-        skills: mockBenjaminHallRecord.skills,
-      };
+    const mockError = 'Failed to create technician record';
+    const mockInput = {
+      availabilityStatus: mockBenjaminHallRecord.availabilityStatus,
+      certifications: mockBenjaminHallRecord.certifications,
+      contactInformation: mockBenjaminHallRecord.contactInformation,
+      employmentStatus: mockBenjaminHallRecord.employmentStatus,
+      name: mockBenjaminHallRecord.name,
+      skills: mockBenjaminHallRecord.skills,
+    };
 
+    it('should create technician record', async () => {
       mockDataSources.technicianRecord.createTechnicianRecord.mockResolvedValue(mockBenjaminHallRecord);
 
       const result = await createTechnicianRecordResolver({}, { input: mockInput });
@@ -472,19 +500,26 @@ describe('Mutation', () => {
       expect(mockDataSources.technicianRecord.createTechnicianRecord).toHaveBeenCalledWith(mockInput);
       expect(result).toEqual(mockBenjaminHallRecord);
     });
+
+    it('should throw an error when failed to create technician record', async () => {
+      mockDataSources.technicianRecord.createTechnicianRecord.mockRejectedValueOnce(new Error(mockError));
+
+      await expect(createTechnicianRecordResolver({}, { input: mockInput })).rejects.toThrow(mockError);
+    });
   });
 
   describe('updateTechnicianRecord', () => {
-    it('should update elevator record', async () => {
-      const mockInput = {
-        id: mockBenjaminHallRecord.id,
-        skills: ['New Test Skill'],
-      };
-      const mockUpdatedTechnicianRecord = {
-        ...mockBenjaminHallRecord,
-        skills: ['New Test Skill'],
-      };
+    const mockError = 'Failed to update technician record';
+    const mockInput = {
+      id: mockBenjaminHallRecord.id,
+      skills: ['New Test Skill'],
+    };
+    const mockUpdatedTechnicianRecord = {
+      ...mockBenjaminHallRecord,
+      skills: ['New Test Skill'],
+    };
 
+    it('should update elevator record', async () => {
       mockDataSources.technicianRecord.updateTechnicianRecord.mockResolvedValue(mockUpdatedTechnicianRecord);
 
       const result = await updateTechnicianRecordResolver({}, { input: mockInput });
@@ -492,9 +527,17 @@ describe('Mutation', () => {
       expect(mockDataSources.technicianRecord.updateTechnicianRecord).toHaveBeenCalledWith(mockInput);
       expect(result).toEqual(mockUpdatedTechnicianRecord);
     });
+
+    it('should throw an error when failed to update technician record', async () => {
+      mockDataSources.technicianRecord.updateTechnicianRecord.mockRejectedValueOnce(new Error(mockError));
+
+      await expect(updateTechnicianRecordResolver({}, { input: mockInput })).rejects.toThrow(mockError);
+    });
   });
 
   describe('deleteTechnicianRecord', () => {
+    const mockError = 'Failed to delete technician record';
+
     it('should delete technician record', async () => {
       mockDataSources.technicianRecord.deleteTechnicianRecord.mockResolvedValue(mockBenjaminHallRecord);
 
@@ -503,18 +546,25 @@ describe('Mutation', () => {
       expect(mockDataSources.technicianRecord.deleteTechnicianRecord).toHaveBeenCalledWith(mockBenjaminHallRecord.id);
       expect(result).toEqual({ id: mockBenjaminHallRecord.id });
     });
+
+    it('should throw an error when failed to delete technician record', async () => {
+      mockDataSources.technicianRecord.deleteTechnicianRecord.mockRejectedValueOnce(new Error(mockError));
+
+      await expect(deleteTechnicianRecordResolver({}, { id: mockBenjaminHallRecord.id })).rejects.toThrow(mockError);
+    });
   });
 
   describe('signUp', () => {
-    it('should create a new user', async () => {
-      const mockInput: CreateUserInput = {
-        email: 'test@gmail.com',
-        password: 'test-password',
-        firstName: 'Mike',
-        lastName: 'Arrow',
-        emailRedirectTo: 'http://localhost/welcome-new-user',
-      };
+    const mockError = 'Failed to signUp';
+    const mockInput: CreateUserInput = {
+      email: 'test@gmail.com',
+      password: 'test-password',
+      firstName: 'Mike',
+      lastName: 'Arrow',
+      emailRedirectTo: 'http://localhost/welcome-new-user',
+    };
 
+    it('should create a new user', async () => {
       mockDataSources.auth.signUp.mockResolvedValue(mockSupabaseUser);
 
       const result = await signUpResolver({}, { input: mockInput });
@@ -522,15 +572,22 @@ describe('Mutation', () => {
       expect(mockDataSources.auth.signUp).toHaveBeenCalledWith(mockInput);
       expect(result).toEqual({ id: mockSupabaseUser.id });
     });
+
+    it('should throw an error when sign up fails', async () => {
+      mockDataSources.auth.signUp.mockRejectedValueOnce(new Error(mockError));
+
+      await expect(signUpResolver({}, { input: mockInput })).rejects.toThrow(mockError);
+    });
   });
 
   describe('signIn', () => {
-    it('should sign-in an existing user', async () => {
-      const mockInput: SignInUserInput = {
-        email: 'test@gmail.com',
-        password: 'test-password',
-      };
+    const mockError = 'Failed to signIn';
+    const mockInput: SignInUserInput = {
+      email: 'test@gmail.com',
+      password: 'test-password',
+    };
 
+    it('should sign-in an existing user', async () => {
       mockDataSources.auth.signIn.mockResolvedValue(mockSupabaseUser);
 
       const result = await signInResolver({}, { input: mockInput });
@@ -538,9 +595,17 @@ describe('Mutation', () => {
       expect(mockDataSources.auth.signIn).toHaveBeenCalledWith(mockInput);
       expect(result).toEqual({ id: mockSupabaseUser.id });
     });
+
+    it('should throw an error when sign in fails', async () => {
+      mockDataSources.auth.signIn.mockRejectedValueOnce(new Error(mockError));
+
+      await expect(signInResolver({}, { input: mockInput })).rejects.toThrow(mockError);
+    });
   });
 
   describe('signInWithOAuth', () => {
+    const mockError = 'Failed to signInWithOAuth';
+
     it('should sign in with Google Oauth provider', async () => {
       const mockOauthUrl = 'https://test-google-url.com';
 
@@ -562,9 +627,17 @@ describe('Mutation', () => {
       expect(mockDataSources.auth.signInWithOAuth).toHaveBeenCalledWith('GITHUB');
       expect(result).toEqual(mockOauthUrl);
     });
+
+    it('should throw an error when sign in user with OAuth fails', async () => {
+      mockDataSources.auth.signInWithOAuth.mockRejectedValueOnce(new Error(mockError));
+
+      await expect(signInWithOAuthResolver({}, { input: { provider: 'GITHUB' } })).rejects.toThrow(mockError);
+    });
   });
 
   describe('signOut', () => {
+    const mockError = 'Failed to signOut';
+
     it('should signOut an existing user', async () => {
       mockDataSources.auth.signOut.mockResolvedValue(true);
 
@@ -572,18 +645,25 @@ describe('Mutation', () => {
 
       expect(result).toEqual(true);
     });
+
+    it('should throw an error when user signOut fails', async () => {
+      mockDataSources.auth.signOut.mockRejectedValueOnce(new Error(mockError));
+
+      await expect(signOutResolver()).rejects.toThrow(mockError);
+    });
   });
 
   describe('forgotPassword', () => {
+    const mockError = 'Failed to forgot password';
+    const mockEmail = 'test@gmail.com';
+    const mockRedirectToUrl = 'https://test-redirect-url.com';
+
+    const mockInput = {
+      email: mockEmail,
+      redirectTo: mockRedirectToUrl,
+    };
+
     it("should successfully reset user's forgotten password", async () => {
-      const mockEmail = 'test@gmail.com';
-      const mockRedirectToUrl = 'https://test-redirect-url.com';
-
-      const mockInput = {
-        email: mockEmail,
-        redirectTo: mockRedirectToUrl,
-      };
-
       mockDataSources.auth.forgotPassword.mockResolvedValue(true);
 
       const result = await forgotPasswordResolver({}, { input: mockInput });
@@ -591,12 +671,19 @@ describe('Mutation', () => {
       expect(mockDataSources.auth.forgotPassword).toHaveBeenCalledWith(mockEmail, mockRedirectToUrl);
       expect(result).toEqual(true);
     });
+
+    it('should throw an error when forgot password fails', async () => {
+      mockDataSources.auth.forgotPassword.mockRejectedValueOnce(new Error(mockError));
+
+      await expect(forgotPasswordResolver({}, { input: mockInput })).rejects.toThrow(mockError);
+    });
   });
 
   describe('resetPassword', () => {
-    it("should successfully update the user's password after it was reset", async () => {
-      const mockPassword = 'new-test-password';
+    const mockError = 'Failed to reset password';
+    const mockPassword = 'new-test-password';
 
+    it("should successfully update the user's password after it was reset", async () => {
       mockDataSources.auth.resetPassword.mockResolvedValue(mockSupabaseUser);
 
       const result = await resetPasswordResolver({}, { input: { password: mockPassword } });
@@ -604,12 +691,19 @@ describe('Mutation', () => {
       expect(mockDataSources.auth.resetPassword).toHaveBeenCalledWith(mockPassword);
       expect(result).toEqual(mockSupabaseUser);
     });
+
+    it('should throw an error when reset password fails', async () => {
+      mockDataSources.auth.resetPassword.mockRejectedValueOnce(new Error(mockError));
+
+      await expect(resetPasswordResolver({}, { input: { password: mockPassword } })).rejects.toThrow(mockError);
+    });
   });
 
   describe('uploadProfilePicture', () => {
-    it("should upload user's profile picture", async () => {
-      const mockFile = createMockFile();
+    const mockError = 'Failed to upload profile picture';
+    const mockFile = createMockFile();
 
+    it("should upload user's profile picture", async () => {
       mockDataSources.user.uploadProfilePicture.mockResolvedValue(mockUser);
 
       const result = await uploadProfilePictureResolver({}, { file: mockFile });
@@ -617,26 +711,57 @@ describe('Mutation', () => {
       expect(mockDataSources.user.uploadProfilePicture).toHaveBeenCalledWith(mockFile);
       expect(result).toEqual(mockUser);
     });
+
+    it('should throw an error when upload of profile picture fails', async () => {
+      mockDataSources.user.uploadProfilePicture.mockRejectedValueOnce(new Error(mockError));
+
+      await expect(uploadProfilePictureResolver({}, { file: mockFile })).rejects.toThrow(mockError);
+    });
   });
 
   describe('updateUserProfile', () => {
+    const mockError = 'Failed to update user profile';
+    const mockNewPhoneNumber = '+380666188618';
+    const mockInput = {
+      phone: mockNewPhoneNumber,
+    };
+    const mockUpdatedUser = {
+      ...mockUser,
+      phone: mockNewPhoneNumber,
+    };
+
     it('should update user profile', async () => {
-      const mockNewPhoneNumber = '+380666188618';
-      const mockInput = {
-        phone: mockNewPhoneNumber,
-      };
-
-      const mockUpdatedUser = {
-        ...mockUser,
-        phone: mockNewPhoneNumber,
-      };
-
       mockDataSources.user.updateUserProfile.mockResolvedValue(mockUpdatedUser);
 
       const result = await updateUserProfileResolver({}, { input: mockInput });
 
       expect(mockDataSources.user.updateUserProfile).toHaveBeenCalledWith({ phone: mockNewPhoneNumber });
       expect(result).toEqual(mockUpdatedUser);
+    });
+
+    it('should throw an error when update of user profile fails', async () => {
+      mockDataSources.user.updateUserProfile.mockRejectedValueOnce(new Error(mockError));
+
+      await expect(updateUserProfileResolver({}, { input: mockInput })).rejects.toThrow(mockError);
+    });
+  });
+
+  describe('removeAccount', () => {
+    const mockUserId = 'test-user-id-2';
+
+    it("should remove user's account", async () => {
+      const result = await removeAccountResolver({}, { userId: mockUserId });
+
+      expect(mockDataSources.user.removeAccount).toHaveBeenCalledWith(mockUserId);
+      expect(result).toEqual({ userId: mockUserId });
+    });
+
+    it('should throw an error if removeAccount fails', async () => {
+      const mockError = 'Failed to remove account';
+
+      mockDataSources.user.removeAccount.mockRejectedValueOnce(new Error(mockError));
+
+      await expect(removeAccountResolver({}, { userId: mockUserId })).rejects.toThrow(mockError);
     });
   });
 });

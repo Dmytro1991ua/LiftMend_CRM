@@ -1,5 +1,6 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 
+import { supabaseServiceRole } from '@/lib/supabase-service-role';
 import { userServicePrismaMock } from '@/mocks/gql/prismaMocks';
 import { userServiceSupabaseMock } from '@/mocks/gql/supabaseMocks';
 import { createMockFile, mockUser } from '@/mocks/userMocks';
@@ -15,6 +16,16 @@ import { convertStreamToBuffer } from '@/pages/api/graphql/utils';
 jest.mock('@/pages/api/graphql/utils', () => ({
   ...jest.requireActual('@/pages/api/graphql/utils'),
   convertStreamToBuffer: jest.fn(),
+}));
+
+jest.mock('@/lib/supabase-service-role', () => ({
+  supabaseServiceRole: {
+    auth: {
+      admin: {
+        deleteUser: jest.fn().mockResolvedValue({ error: null }),
+      },
+    },
+  },
 }));
 
 describe('UserService', () => {
@@ -215,6 +226,41 @@ describe('UserService', () => {
           where: { id: userId },
           data: { avatarUrl: newUrl },
         });
+      });
+    });
+
+    describe('removeAccount', () => {
+      const userId = 'test-user-id-2';
+
+      it('should throw error if supabase is not initialized', async () => {
+        const service = new UserService(userServicePrismaMock, undefined);
+
+        await expect(service['removeAccount'](userId)).rejects.toThrow(DEFAULT_SUPABASE_NOT_INITIALIZED_MESSAGE);
+      });
+
+      it('should delete user in Supabase and Prisma successfully', async () => {
+        const service = new UserService(userServicePrismaMock, userServiceSupabaseMock);
+
+        (supabaseServiceRole.auth.admin.deleteUser as jest.Mock).mockResolvedValue({ error: null });
+        (userServicePrismaMock.user.delete as jest.Mock).mockResolvedValue({ id: userId });
+
+        await expect(service['removeAccount'](userId)).resolves.toBeUndefined();
+
+        expect(supabaseServiceRole.auth.admin.deleteUser).toHaveBeenCalledWith(userId, false);
+        expect(userServicePrismaMock.user.delete).toHaveBeenCalledWith({ where: { id: userId } });
+      });
+
+      it('should throw GraphQLError if Supabase deletion fails', async () => {
+        const service = new UserService(userServicePrismaMock, userServiceSupabaseMock);
+
+        (supabaseServiceRole.auth.admin.deleteUser as jest.Mock).mockResolvedValue({
+          error: { message: 'User not allowed' },
+        });
+
+        await expect(service.removeAccount(userId)).rejects.toThrow('Supabase deletion failed: User not allowed');
+
+        expect(supabaseServiceRole.auth.admin.deleteUser).toHaveBeenCalledWith(userId, false);
+        expect(userServicePrismaMock.user.delete).not.toHaveBeenCalled();
       });
     });
   });

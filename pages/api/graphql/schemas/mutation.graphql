@@ -17,6 +17,10 @@ type UploadProfilePicturePayload {
   avatarUrl: String!
 }
 
+type RemoveAccountResponse {
+  userId: ID!
+}
+
 type Mutation {
   createRepairJobAndEvent(
     repairJobInput: CreateRepairJobInput!
@@ -38,4 +42,5 @@ type Mutation {
   signInWithOAuth(input: SignInWithOAuthInput!): String!
   uploadProfilePicture(file: Upload!): UploadProfilePicturePayload!
   updateUserProfile(input: UserProfileInput!): AppUser!
+  removeAccount(userId: ID!): RemoveAccountResponse!
 }

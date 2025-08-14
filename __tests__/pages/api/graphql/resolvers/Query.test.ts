@@ -32,6 +32,16 @@ import {
 import { mockUser } from '@/mocks/userMocks';
 import Query from '@/pages/api/graphql/resolvers/Query';
 
+jest.mock('@/lib/supabase-service-role', () => ({
+  supabaseServiceRole: {
+    auth: {
+      admin: {
+        deleteUser: jest.fn().mockResolvedValue({ error: null }),
+      },
+    },
+  },
+}));
+
 describe('Query', () => {
   describe('getDashboardMetrics', () => {
     let mockDataSources: ReturnType<typeof createDataSourcesMock>;
