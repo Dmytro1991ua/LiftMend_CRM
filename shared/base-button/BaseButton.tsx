@@ -17,7 +17,7 @@ const BaseButton = ({ isDisabled, isLoading, label, icon, className, onClick, ..
   return (
     <Button className={className} disabled={isDisabled || isLoading} size='lg' onClick={onClick} {...rest}>
       {isLoading ? <Loader2 className='h-4 w-4 animate-spin' data-testid='button-loader' /> : icon}
-      <span className='ml-1'>{label}</span>
+      <span className='ml-1.5'>{label}</span>
     </Button>
   );
 };

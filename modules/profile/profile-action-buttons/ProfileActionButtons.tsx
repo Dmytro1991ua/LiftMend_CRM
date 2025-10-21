@@ -1,5 +1,6 @@
 import { CiSaveDown1 } from 'react-icons/ci';
 import { VscDiscard } from 'react-icons/vsc';
+import { FiUserX } from 'react-icons/fi';
 
 import BaseButton from '@/shared/base-button';
 
@@ -10,12 +11,29 @@ export type ProfileActionButtonsProps = {
   isDisabled?: boolean;
   onReset: () => void;
   onSubmit: () => Promise<void> | void;
+  onDeleteAccount: () => Promise<void> | void;
 };
 
-const ProfileActionButtons = ({ isDisabled, isLoading, onReset, onSubmit }: ProfileActionButtonsProps) => {
+const ProfileActionButtons = ({
+  isDisabled,
+  isLoading,
+  onReset,
+  onDeleteAccount,
+  onSubmit,
+}: ProfileActionButtonsProps) => {
   const PROFILE_ACTION_BUTTONS_CONFIG: ProfileActionButtonConfig[] = [
     {
       id: 1,
+      icon: <FiUserX size={20} />,
+      label: ProfileFormButtonLabel.DeleteAccount,
+      onClick: onDeleteAccount,
+      isDisabled: false,
+      variant: 'default',
+      type: 'button',
+      className: 'bg-red-500 text-white hover:bg-red-600',
+    },
+    {
+      id: 2,
       icon: <VscDiscard size={20} />,
       label: ProfileFormButtonLabel.DiscardChanges,
       onClick: onReset,
@@ -25,7 +43,7 @@ const ProfileActionButtons = ({ isDisabled, isLoading, onReset, onSubmit }: Prof
       className: 'text-primary hover:text-primary hover:bg-transparent',
     },
     {
-      id: 2,
+      id: 3,
       icon: <CiSaveDown1 size={20} />,
       label: ProfileFormButtonLabel.UpdateProfile,
       onClick: onSubmit,

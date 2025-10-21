@@ -10,10 +10,25 @@ import ProfileActionButtons from './profile-action-buttons/ProfileActionButtons'
 import ProfileContentWrapper from './profile-content-wrapper';
 import ProfileFormFields from './profile-form-fields';
 import { ProfileContentConfig, ProfileContentSubtitle, ProfileContentTitle } from './types';
+import DeleteModal from '@/shared/base-modal/delete-modal';
+import { DEFAULT_DELETE_ACCOUNT_MODAL_DESCRIPTION, DEFAULT_DELETE_ACCOUNT_MODAL_TITLE } from './constants';
 
 const Profile = (): React.JSX.Element => {
-  const { formState, selectedCountry, onSelectCountry, onSubmit, user, loading, updateProfileLoading, onReset } =
-    useProfile();
+  const {
+    formState,
+    selectedCountry,
+    isDeleteAccountLoading,
+    isModalOpen,
+    onSelectCountry,
+    onSubmit,
+    user,
+    loading,
+    updateProfileLoading,
+    onReset,
+    onOpenModal,
+    onHandleDeleteAccount,
+    onCloseModal,
+  } = useProfile();
 
   const PROFILE_CONTENT_CONFIG: ProfileContentConfig[] = [
     {
@@ -47,6 +62,7 @@ const Profile = (): React.JSX.Element => {
               isLoading={updateProfileLoading}
               onReset={onReset}
               onSubmit={formState.handleSubmit(onSubmit)}
+              onDeleteAccount={onOpenModal}
             />
           }
           title={SectionHeaderTitle.Profile}
@@ -59,6 +75,15 @@ const Profile = (): React.JSX.Element => {
           ))}
         </div>
       </Form>
+      <DeleteModal
+        description={DEFAULT_DELETE_ACCOUNT_MODAL_DESCRIPTION}
+        isDisabled={isDeleteAccountLoading}
+        isLoading={isDeleteAccountLoading}
+        isOpen={isModalOpen}
+        title={DEFAULT_DELETE_ACCOUNT_MODAL_TITLE}
+        onClose={onCloseModal}
+        onSubmit={onHandleDeleteAccount}
+      />
     </FormProvider>
   );
 };
