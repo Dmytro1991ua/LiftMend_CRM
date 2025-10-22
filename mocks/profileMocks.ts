@@ -2,8 +2,13 @@ import { MockedResponse } from '@apollo/client/testing';
 import { GraphQLError } from 'graphql';
 
 import { UPLOAD_PROFILE_PICTURE } from '@/graphql/schemas';
+import { DELETE_ACCOUNT } from '@/graphql/schemas/deleteAccount';
 import { UPDATE_PROFILE } from '@/graphql/schemas/updateProfile';
-import { UpdateProfileMutation, UploadProfilePictureMutation } from '@/graphql/types/client/generated_types';
+import {
+  DeleteAccountMutation,
+  UpdateProfileMutation,
+  UploadProfilePictureMutation,
+} from '@/graphql/types/client/generated_types';
 
 export const mockUpdatedProfile = {
   id: 'test-user-id-1',
@@ -120,6 +125,49 @@ export const mockUpdateProfilePictureNetworkErrorResponse = {
       input: {
         ...mockUploadFile,
       },
+    },
+  },
+  result: {
+    data: undefined,
+    error: new Error('Network Error occurs'),
+  },
+};
+
+export const mockDeleteUserAccountResponse: MockedResponse<DeleteAccountMutation> = {
+  request: {
+    query: DELETE_ACCOUNT,
+    variables: {
+      userId: 'test-user-id-1',
+    },
+  },
+  result: {
+    data: {
+      removeAccount: {
+        userId: 'test-user-id-1',
+      },
+    },
+    errors: [],
+  },
+};
+
+export const mockDeleteUserAccountGqlErrorResponse: MockedResponse<DeleteAccountMutation> = {
+  request: {
+    query: DELETE_ACCOUNT,
+    variables: {
+      userId: 'test-user-id-1',
+    },
+  },
+  result: {
+    data: undefined,
+    errors: [new GraphQLError('Test GQL error')],
+  },
+};
+
+export const mockDeleteUserAccountNetworkErrorResponse = {
+  request: {
+    query: DELETE_ACCOUNT,
+    variables: {
+      userId: 'test-user-id-1',
     },
   },
   result: {

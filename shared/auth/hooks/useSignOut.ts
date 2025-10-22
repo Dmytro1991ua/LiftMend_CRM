@@ -23,7 +23,7 @@ export const useSignOut = (): UseSignOut => {
 
       await router.push(route);
     },
-    [onAuthMutation]
+    [router, onAuthMutation]
   );
 
   return {

@@ -15,6 +15,7 @@ describe('ProfileActionButtons', () => {
     isDisabled: false,
     onReset: mockOnReset,
     onSubmit: mockOnSubmit,
+    onDeleteAccount: jest.fn(),
   };
 
   const ProfileActionButtonsComponent = (props?: Partial<ProfileActionButtonsProps>) => (

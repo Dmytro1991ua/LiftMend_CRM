@@ -7,8 +7,8 @@ import { formatDate } from '../utils';
 import { boolToString } from './utils';
 
 const accessors = {
-  startDate: (cell: Cell<TableModel, TableValue>): string => formatDate(cell.row.original.startDate),
-  endDate: (cell: Cell<TableModel, TableValue>): string => formatDate(cell.row.original.endDate),
+  startDate: (cell: Cell<TableModel, TableValue>): string => formatDate(cell.row.original.startDate as Date),
+  endDate: (cell: Cell<TableModel, TableValue>): string => formatDate(cell.row.original.endDate as Date),
   actualEndDate: (cell: Cell<TableModel, TableValue>): string => formatDate(cell.row.original.actualEndDate),
   skills: (cell: Cell<TableModel, TableValue>): string => cell.row.original.skills.join(', '),
   lastMaintenanceDate: (cell: Cell<TableModel, TableValue>): string =>

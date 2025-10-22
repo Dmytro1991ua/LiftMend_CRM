@@ -1,22 +1,21 @@
 import { useCallback, useEffect, useMemo } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/router';
 import { SubmitHandler, UseFormReturn, useForm } from 'react-hook-form';
 
 import { AppUser } from '@/graphql/types/client/generated_types';
+import { useSignOut } from '@/shared/auth/hooks';
 import { usePhoneCountry } from '@/shared/base-input/phone-number-input/hooks';
 import { useGetUser, useModal } from '@/shared/hooks';
 import { formatPhoneNumber } from '@/shared/utils';
+import { AppRoutes } from '@/types/enums';
 
 import { convertProfileDataToFormValues } from '../utils';
 import { ProfileContentFormFields, profileFormSchema } from '../validation';
 
-import { useUpdateProfile } from './useUpdateProfile';
 import { useDeleteAccount } from './useDeleteAccount';
-import { useRouter } from 'next/router';
-import { AppRoutes } from '@/types/enums';
-import { useSignOut } from '@/shared/auth/hooks';
-import { supabaseClient } from '@/lib/supabase-client';
+import { useUpdateProfile } from './useUpdateProfile';
 
 export type UseProfileResult = {
   formState: UseFormReturn<ProfileContentFormFields>;
@@ -71,7 +70,7 @@ export const useProfile = (): UseProfileResult => {
     await onDeleteAccount(user?.id);
 
     onCloseModal();
-  }, [router]);
+  }, [onSignOut, onDeleteAccount, onCloseModal, user?.id]);
 
   const onReset = useCallback((): void => {
     formState.reset(currentUserData);

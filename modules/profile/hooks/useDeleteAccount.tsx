@@ -1,12 +1,11 @@
+import { ApolloError, FetchResult, useMutation } from '@apollo/client';
+
 import { DELETE_ACCOUNT } from '@/graphql/schemas/deleteAccount';
 import { DeleteAccountMutation, DeleteAccountMutationVariables } from '@/graphql/types/client/generated_types';
 import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import { onHandleMutationErrors } from '@/shared/utils';
-import { AppRoutes } from '@/types/enums';
-import { ApolloError, FetchResult, useMutation } from '@apollo/client';
-import { useRouter } from 'next/router';
 
-type UseDeleteAccount = {
+export type UseDeleteAccount = {
   loading: boolean;
   error?: string;
   onDeleteAccount: (userId: string) => Promise<FetchResult<DeleteAccountMutation> | undefined>;

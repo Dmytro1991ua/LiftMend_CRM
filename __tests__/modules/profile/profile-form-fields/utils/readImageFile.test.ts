@@ -27,18 +27,18 @@ describe('readImageFile', () => {
     const expectedResult = 'data:image/png;base64,ABC123';
 
     const mockFileReader = {
-      onload: null,
+      onload: jest.fn(),
       onerror: jest.fn(),
       readAsDataURL: jest.fn(),
       result: expectedResult,
     };
 
-    window.FileReader = jest.fn(() => mockFileReader);
+    window.FileReader = jest.fn(() => mockFileReader) as unknown as typeof FileReader;
 
     const resultPromise = readImageFile([mockFile]);
 
     setTimeout(() => {
-      mockFileReader.onload();
+      mockFileReader?.onload?.();
     }, 100);
 
     resultPromise.then((result) => {
@@ -65,8 +65,8 @@ describe('readImageFile', () => {
       naturalHeight: DEFAULT_MAX_IMAGE_DIMENSION.height,
     };
 
-    window.FileReader = jest.fn(() => mockFileReader);
-    window.Image = jest.fn(() => mockImage);
+    window.FileReader = jest.fn(() => mockFileReader) as unknown as typeof FileReader;
+    window.Image = jest.fn(() => mockImage) as unknown as typeof Image;
 
     const resultPromise = readImageFile([mockFile]);
 
@@ -91,7 +91,7 @@ describe('readImageFile', () => {
       readAsDataURL: jest.fn(),
     };
 
-    window.FileReader = jest.fn(() => mockFileReader);
+    window.FileReader = jest.fn(() => mockFileReader) as unknown as typeof FileReader;
 
     const invalidFile = new File(['dummy file'], 'image.txt', {
       type: 'text/plain',
@@ -120,8 +120,8 @@ describe('readImageFile', () => {
       naturalHeight: 300,
     };
 
-    window.FileReader = jest.fn(() => mockFileReader);
-    window.Image = jest.fn(() => mockImage);
+    window.FileReader = jest.fn(() => mockFileReader) as unknown as typeof FileReader;
+    window.Image = jest.fn(() => mockImage) as unknown as typeof Image;
 
     const resultPromise = readImageFile([invalidFile]);
 
@@ -156,7 +156,7 @@ describe('readImageFile', () => {
       result: 'data:image/png;base64,ABC123',
     };
 
-    window.FileReader = jest.fn(() => mockFileReader);
+    window.FileReader = jest.fn(() => mockFileReader) as unknown as typeof FileReader;
 
     const resultPromise = readImageFile([largeFile]);
 
