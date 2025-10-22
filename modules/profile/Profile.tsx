@@ -1,9 +1,11 @@
 import { Form, FormProvider } from 'react-hook-form';
 
+import DeleteModal from '@/shared/base-modal/delete-modal';
 import SectionHeader from '@/shared/section-header';
 import { SectionHeaderTitle } from '@/types/enums';
 
 import { PROFILE_CHANGE_PASSWORD_SETTINGS_CONFIG } from './configs';
+import { DEFAULT_DELETE_ACCOUNT_MODAL_DESCRIPTION, DEFAULT_DELETE_ACCOUNT_MODAL_TITLE } from './constants';
 import { useProfile } from './hooks';
 import ProfileAccountSettings from './profile-account-settings';
 import ProfileActionButtons from './profile-action-buttons/ProfileActionButtons';
@@ -12,8 +14,21 @@ import ProfileFormFields from './profile-form-fields';
 import { ProfileContentConfig, ProfileContentSubtitle, ProfileContentTitle } from './types';
 
 const Profile = (): React.JSX.Element => {
-  const { formState, selectedCountry, onSelectCountry, onSubmit, user, loading, updateProfileLoading, onReset } =
-    useProfile();
+  const {
+    formState,
+    selectedCountry,
+    isDeleteAccountLoading,
+    isModalOpen,
+    onSelectCountry,
+    onSubmit,
+    user,
+    loading,
+    updateProfileLoading,
+    onReset,
+    onOpenModal,
+    onHandleDeleteAccount,
+    onCloseModal,
+  } = useProfile();
 
   const PROFILE_CONTENT_CONFIG: ProfileContentConfig[] = [
     {
@@ -45,6 +60,7 @@ const Profile = (): React.JSX.Element => {
             <ProfileActionButtons
               isDisabled={!formState.formState.isDirty || updateProfileLoading}
               isLoading={updateProfileLoading}
+              onDeleteAccount={onOpenModal}
               onReset={onReset}
               onSubmit={formState.handleSubmit(onSubmit)}
             />
@@ -59,6 +75,15 @@ const Profile = (): React.JSX.Element => {
           ))}
         </div>
       </Form>
+      <DeleteModal
+        description={DEFAULT_DELETE_ACCOUNT_MODAL_DESCRIPTION}
+        isDisabled={isDeleteAccountLoading}
+        isLoading={isDeleteAccountLoading}
+        isOpen={isModalOpen}
+        title={DEFAULT_DELETE_ACCOUNT_MODAL_TITLE}
+        onClose={onCloseModal}
+        onSubmit={onHandleDeleteAccount}
+      />
     </FormProvider>
   );
 };

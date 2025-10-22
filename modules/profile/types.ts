@@ -18,6 +18,7 @@ export enum ProfileContentSubtitle {
 export enum ProfileFormButtonLabel {
   DiscardChanges = 'Discard Changes',
   UpdateProfile = 'Update Profile',
+  DeleteAccount = 'Delete Account',
 }
 
 export type Dimensions = {

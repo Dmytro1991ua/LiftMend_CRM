@@ -7,7 +7,7 @@ import { AppRoutes } from '@/types/enums';
 import { useAuthMutation } from './useAuthMutation';
 
 type UseSignOut = {
-  onSignOut: () => Promise<void>;
+  onSignOut: (route?: AppRoutes) => Promise<void>;
 };
 
 export const useSignOut = (): UseSignOut => {
@@ -15,15 +15,16 @@ export const useSignOut = (): UseSignOut => {
 
   const { onAuthMutation } = useAuthMutation({
     action: 'SIGN_OUT',
-    onRedirect: () => router.push(AppRoutes.SignIn),
   });
 
-  const onSignOut = useCallback(async (): Promise<void> => {
-    await onAuthMutation({});
+  const onSignOut = useCallback(
+    async (route: AppRoutes = AppRoutes.SignIn): Promise<void> => {
+      await onAuthMutation({});
 
-    // Reload to clear Supabase's stale in-memory session (which doesn't update immediately on sign-out).
-    window.location.reload();
-  }, [onAuthMutation]);
+      await router.push(route);
+    },
+    [router, onAuthMutation]
+  );
 
   return {
     onSignOut,

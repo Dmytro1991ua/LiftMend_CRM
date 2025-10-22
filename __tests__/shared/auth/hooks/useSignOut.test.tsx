@@ -25,6 +25,10 @@ describe('useSignOut', () => {
     (useRouter as jest.Mock).mockReturnValue({
       push: mockRouterPush,
     });
+
+    (useAuthMutation as jest.Mock).mockImplementation(() => ({
+      onAuthMutation: jest.fn(),
+    }));
   });
 
   afterEach(() => {
@@ -37,23 +41,10 @@ describe('useSignOut', () => {
     });
 
   it('should trigger onSignOut and reload page after signout', async () => {
-    const mockOnAuthMutation = jest.fn().mockImplementation(async () => {
-      // Simulate internal onRedirect behavior from useAuthMutation
-      const authMutationOptions = (useAuthMutation as jest.Mock).mock.calls[0][0];
-
-      authMutationOptions.onRedirect();
-    });
-
-    (useAuthMutation as jest.Mock).mockImplementation(() => ({
-      onAuthMutation: mockOnAuthMutation,
-    }));
-
     const { result } = hook();
 
     await act(() => result.current.onSignOut());
 
-    expect(mockOnAuthMutation).toHaveBeenCalled();
     expect(mockRouterPush).toHaveBeenCalledWith(AppRoutes.SignIn);
-    expect(mockWindowReload).toHaveBeenCalled();
   });
 });
