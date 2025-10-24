@@ -25,4 +25,5 @@ type Query {
   getElevatorDetailsByBuildingName(buildingName: String!): ElevatorDetails!
   getDashboardMetrics(startDate: String!, endDate: String!): DashboardMetrics!
   getUser(id: ID!): AppUser!
+  getRecentRepairJobs(jobsCount: Int): [RepairJob!]!
 }

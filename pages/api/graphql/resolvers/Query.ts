@@ -77,6 +77,9 @@ const Query: QueryResolvers = {
   getUser: async (_, { id }, { dataSources }): Promise<AppUser> => {
     return await dataSources.user.user(id);
   },
+  getRecentRepairJobs: async (_, { jobsCount }, { dataSources }): Promise<RepairJob[]> => {
+    return await dataSources.repairJob.recentRepairJobs(jobsCount);
+  },
 };
 
 export default Query;
