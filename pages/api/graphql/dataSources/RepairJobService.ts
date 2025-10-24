@@ -4,6 +4,7 @@ import { isNull as _isNull, omitBy as _omitBy } from 'lodash';
 import {
   CreateRepairJobInput,
   ElevatorDetails,
+  InputMaybe,
   QueryGetRepairJobsArgs,
   RepairJob,
   RepairJobConnection,
@@ -23,7 +24,13 @@ import {
   makeConnectionObject,
 } from '../utils';
 
-import { REPAIR_JOB_PRIORITY_MAP, REPAIR_JOB_STATUS_MAP, REPAIR_JOB_TYPE_MAP } from './constants';
+import {
+  DEFAULT_RECENT_JOBS_COUNT,
+  DEFAULT_RECENT_JOBS_SORTING,
+  REPAIR_JOB_PRIORITY_MAP,
+  REPAIR_JOB_STATUS_MAP,
+  REPAIR_JOB_TYPE_MAP,
+} from './constants';
 
 class RepairJobService {
   private prisma;
@@ -278,6 +285,15 @@ class RepairJobService {
     return await this.prisma.repairJob.delete({
       where: { id },
     });
+  }
+
+  async recentRepairJobs(jobsCount: InputMaybe<number>): Promise<RepairJob[]> {
+    const queryOptions: Prisma.RepairJobFindManyArgs = {
+      take: jobsCount ?? DEFAULT_RECENT_JOBS_COUNT,
+      orderBy: { startDate: DEFAULT_RECENT_JOBS_SORTING },
+    };
+
+    return await this.prisma.repairJob.findMany(queryOptions);
   }
 }
 

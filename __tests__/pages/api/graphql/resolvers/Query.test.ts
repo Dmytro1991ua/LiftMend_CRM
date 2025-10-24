@@ -21,7 +21,12 @@ import {
 } from '@/mocks/gql/prismaMocks';
 import { userServiceSupabaseMock } from '@/mocks/gql/supabaseMocks';
 import { mockCalendarEvent, mockRepairJobScheduledData } from '@/mocks/repairJobScheduling';
-import { mockRepairJob, mockRepairJobId, mockReturnedRepairJobsData } from '@/mocks/repairJobTrackingMocks';
+import {
+  mockRepairJob,
+  mockRepairJobId,
+  mockReturnedRecentRepairJobsData,
+  mockReturnedRepairJobsData,
+} from '@/mocks/repairJobTrackingMocks';
 import {
   mockBenjaminHallRecord,
   mockBenjaminHallRecordId,
@@ -30,6 +35,7 @@ import {
   mockedReturnedTechnicianRecordsData,
 } from '@/mocks/technicianManagementMocks';
 import { mockUser } from '@/mocks/userMocks';
+import { DEFAULT_RECENT_JOBS_COUNT } from '@/pages/api/graphql/dataSources/constants';
 import Query from '@/pages/api/graphql/resolvers/Query';
 
 jest.mock('@/lib/supabase-service-role', () => ({
@@ -83,6 +89,7 @@ describe('Query', () => {
     let getRepairJobsResolver: TestResolver<typeof Query, 'getRepairJobs'>;
     let getRepairJobByIdResolver: TestResolver<typeof Query, 'getRepairJobById'>;
     let getElevatorDetailsByBuildingNameResolver: TestResolver<typeof Query, 'getElevatorDetailsByBuildingName'>;
+    let getRecentRepairJobsResolver: TestResolver<typeof Query, 'getRecentRepairJobs'>;
 
     beforeEach(() => {
       mockDataSources = createDataSourcesMock(repairJobServicePrismaMock);
@@ -95,6 +102,7 @@ describe('Query', () => {
         'getElevatorDetailsByBuildingName',
         mockDataSources
       );
+      getRecentRepairJobsResolver = getResolverToTest(Query, 'getRecentRepairJobs', mockDataSources);
     });
 
     afterEach(() => {
@@ -152,6 +160,17 @@ describe('Query', () => {
 
         expect(mockDataSources.repairJob.getElevatorDetailsByBuildingName).toHaveBeenCalled();
         expect(result).toEqual(mockElevatorDetails);
+      });
+    });
+
+    describe('getRecentRepairJobs', () => {
+      it('should return recent repair jobs data', async () => {
+        mockDataSources.repairJob.recentRepairJobs.mockResolvedValue(mockReturnedRecentRepairJobsData);
+
+        const result = await getRecentRepairJobsResolver({}, { jobsCount: DEFAULT_RECENT_JOBS_COUNT });
+
+        expect(mockDataSources.repairJob.recentRepairJobs).toHaveBeenCalledWith(DEFAULT_RECENT_JOBS_COUNT);
+        expect(result).toEqual(mockReturnedRecentRepairJobsData);
       });
     });
   });

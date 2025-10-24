@@ -153,6 +153,8 @@ export const mockReturnedRepairJobsData = {
   },
 };
 
+export const mockReturnedRecentRepairJobsData = [mockPassengerElevatorRepairJob.node];
+
 export const mockRepairJobsResponse: FetchResult<GetRepairJobsQuery> = {
   data: { ...(mockReturnedRepairJobsData as GetRepairJobsQuery) },
 };

@@ -15,6 +15,7 @@ import {
   mockRepairJobId,
   mockShipElevatorRepairJpb,
 } from '@/mocks/repairJobTrackingMocks';
+import { DEFAULT_RECENT_JOBS_COUNT, DEFAULT_RECENT_JOBS_SORTING } from '@/pages/api/graphql/dataSources/constants';
 import RepairJobService from '@/pages/api/graphql/dataSources/RepairJobService';
 import {
   createRepairJobFilterOptions,
@@ -439,6 +440,20 @@ describe('RepairJobService', () => {
         where: { id: mockRepairJobId },
       });
       expect(result).toEqual(mockRepairJob);
+    });
+  });
+
+  describe('recentRepairJobs', () => {
+    it('should fetch recent repair jobs', async () => {
+      (repairJobServicePrismaMock.repairJob.findMany as jest.Mock).mockResolvedValue(mockRepairJobs);
+
+      const result = await repairJobService.recentRepairJobs(DEFAULT_RECENT_JOBS_COUNT);
+
+      expect(repairJobServicePrismaMock.repairJob.findMany).toHaveBeenCalledWith({
+        orderBy: { startDate: DEFAULT_RECENT_JOBS_SORTING },
+        take: DEFAULT_RECENT_JOBS_COUNT,
+      });
+      expect(result).toEqual(mockRepairJobs);
     });
   });
 });
