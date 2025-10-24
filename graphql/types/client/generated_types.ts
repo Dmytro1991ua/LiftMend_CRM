@@ -369,6 +369,7 @@ export type Query = {
   getElevatorRecordById: ElevatorRecord;
   getElevatorRecordFormData: ElevatorRecordFormData;
   getElevatorRecords: ElevatorRecordConnection;
+  getRecentRepairJobs: Array<RepairJob>;
   getRepairJobById: RepairJob;
   getRepairJobScheduleData: RepairJobScheduleData;
   getRepairJobs: RepairJobConnection;
@@ -399,6 +400,11 @@ export type QueryGetElevatorRecordsArgs = {
   filterOptions?: InputMaybe<ElevatorRecordFilterOptions>;
   paginationOptions?: InputMaybe<PaginationOptions>;
   sortOptions?: InputMaybe<ElevatorRecordSortInput>;
+};
+
+
+export type QueryGetRecentRepairJobsArgs = {
+  jobsCount?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -783,6 +789,13 @@ export type GetElevatorRecordsQueryVariables = Exact<{
 
 
 export type GetElevatorRecordsQuery = { __typename?: 'Query', getElevatorRecords: { __typename?: 'ElevatorRecordConnection', total: number, edges: Array<{ __typename?: 'ElevatorRecordEdge', cursor: string, node: { __typename?: 'ElevatorRecord', id: string, elevatorType: string, buildingName: string, elevatorLocation: string, lastMaintenanceDate: any, nextMaintenanceDate: any, capacity: number, status: string, lastKnownStatus: string | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor: string | null, endCursor: string | null } } };
+
+export type GetRecentRepairJobsQueryVariables = Exact<{
+  jobsCount?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type GetRecentRepairJobsQuery = { __typename?: 'Query', getRecentRepairJobs: Array<{ __typename?: 'RepairJob', status: string, id: string, jobType: string, jobDetails: string, jobPriority: string, elevatorType: string, buildingName: string, elevatorLocation: string, technicianName: string, startDate: any, endDate: any, calendarEventId: string | null, actualEndDate: any | null, isOverdue: boolean | null }> };
 
 export type GetRepairJobByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];

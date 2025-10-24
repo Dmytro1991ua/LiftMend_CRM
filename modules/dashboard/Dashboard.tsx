@@ -10,6 +10,7 @@ import RepairJobStatusMetrics from './components/repair-job-status-metrics';
 import RepairJobTypeMetrics from './components/repair-job-type-metrics';
 import TechnicianVisibilityMetrics from './components/technician-visibility-metrics';
 import { useDashBoard } from './hooks';
+import { RecentRepairJobsTable } from './components/recent-repair-jobs-table';
 
 const Dashboard = () => {
   const {
@@ -37,7 +38,7 @@ const Dashboard = () => {
       />
       <section className='content-wrapper flex-grow overflow-y-auto'>
         <KeyAppMetrics dashboardMetrics={dashboardMetrics} error={error} loading={loading} />
-        <div className='grid grid-cols-1 gap-2 xl:grid-cols-2'>
+        <div className='grid grid-cols-1 mb-2 gap-2 xl:grid-cols-2'>
           <TechnicianVisibilityMetrics dashboardMetrics={dashboardMetrics} error={error} loading={loading} />
           <ElevatorStatusMetrics dashboardMetrics={dashboardMetrics} error={error} loading={loading} />
           <RepairJobStatusMetrics dashboardMetrics={dashboardMetrics} error={error} loading={loading} />
@@ -50,6 +51,7 @@ const Dashboard = () => {
             loading={loading}
           />
         </div>
+        <RecentRepairJobsTable />
       </section>
     </section>
   );

@@ -9,12 +9,13 @@ import { useUser } from '@/shared/contexts/UserContext';
 import { useBaseToast } from '@/shared/hooks';
 import { BaseToastVariant } from '@/shared/hooks/useBaseToast/types';
 import useStoredTableState from '@/shared/storage/hooks';
-import { StorageTableName } from '@/shared/types';
+import { RepairJob, StorageTableName } from '@/shared/types';
 
 import { DEFAULT_DATE_FILTER } from '../constants';
 import { getSanitizeDateRange, validateDateRange } from '../utils';
 
 import { useFetchDashboardMetrics } from './useFetchDashboardMetrics';
+import { useFetchRecentRepairJobs } from './useFetchRecentRepairJobs';
 
 export type UseDashboard = {
   dashboardMetrics: DashboardMetrics;
