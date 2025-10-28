@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/router';
 import { SubmitHandler, UseFormReturn, useForm } from 'react-hook-form';
 
 import { AppUser } from '@/graphql/types/client/generated_types';
@@ -34,8 +33,6 @@ export type UseProfileResult = {
 };
 
 export const useProfile = (): UseProfileResult => {
-  const router = useRouter();
-
   const { user, loading } = useGetUser();
   const { onUpdateProfile, isLoading: updateProfileLoading } = useUpdateProfile();
   const { selectedCountry, onSelectCountry, onResetPhoneInputCountry } = usePhoneCountry();

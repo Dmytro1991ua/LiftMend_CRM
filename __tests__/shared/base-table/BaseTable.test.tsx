@@ -59,6 +59,28 @@ describe('<BaseTable />', () => {
     expect(screen.getByTestId('hourglass-svg')).toBeInTheDocument();
   });
 
+  it('should not render table filters when hasTableFilters is false', () => {
+    render(
+      <BaseTable<MockData, unknown, unknown>
+        table-action-bar
+        columns={mockColumns}
+        data={[]}
+        filtersConfig={[]}
+        hasMore={false}
+        hasTableFilters={false}
+        loadMore={loadMoreMock}
+        loading={true}
+        refetch={() => null!}
+        tableName={TableNames.RepairJobsTable}
+        tableStorageState={{}}
+        onHandleRowClick={jest.fn()}
+        onSetTableStorageState={jest.fn()}
+      />
+    );
+
+    expect(screen.queryByTestId('table-action-bar')).not.toBeInTheDocument();
+  });
+
   it('should render empty table message if there is no data', () => {
     render(
       <BaseTable<MockData, unknown, unknown>
