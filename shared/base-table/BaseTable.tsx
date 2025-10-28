@@ -32,6 +32,9 @@ type BaseTableProps<T extends object, K, M> = {
   tableName: TableNames;
   filtersConfig: TableFiltersConfig[];
   rowTooltipMessage?: string | ((rowOriginal: T) => string);
+  hasTableFilters?: boolean;
+  tableHeaderContent?: JSX.Element;
+  isFullWidthTable?: boolean;
   isRowDisabled?: (rowOriginal: T) => boolean;
   getRowHighlightInfo?: (rowOriginal: T) => RowHighlightInfo;
   refetch: (variables: Partial<K>) => Promise<ApolloQueryResult<M>>;
@@ -53,6 +56,9 @@ const BaseTable = <T extends object, K, M>({
   filtersConfig,
   searchFieldPlaceholder,
   rowTooltipMessage,
+  hasTableFilters = true,
+  isFullWidthTable = true,
+  tableHeaderContent,
   isRowDisabled,
   refetch,
   onSetTableStorageState,
@@ -101,20 +107,24 @@ const BaseTable = <T extends object, K, M>({
 
   return (
     <>
-      <TableActionBar<T>
-        columns={getAllColumns() ?? []}
-        filtersConfig={filtersConfig}
-        isExportButtonDisabled={!memoizedData.length}
-        rowModel={getRowModel()}
-        searchFieldPlaceholder={searchFieldPlaceholder}
-        searchTerm={searchTerm}
-        storedFilters={filters}
-        tableName={tableName}
-        onClearFilter={onClearFilter}
-        onClearSearch={onClearSearch}
-        onFilterChange={onFilterChange}
-        onSearch={onSearch}
-      />
+      {hasTableFilters ? (
+        <TableActionBar<T>
+          columns={getAllColumns() ?? []}
+          filtersConfig={filtersConfig}
+          isExportButtonDisabled={!memoizedData.length}
+          rowModel={getRowModel()}
+          searchFieldPlaceholder={searchFieldPlaceholder}
+          searchTerm={searchTerm}
+          storedFilters={filters}
+          tableName={tableName}
+          onClearFilter={onClearFilter}
+          onClearSearch={onClearSearch}
+          onFilterChange={onFilterChange}
+          onSearch={onSearch}
+        />
+      ) : (
+        tableHeaderContent
+      )}
       <div className={cn('overflow-y-auto', className)} id={SCROLL_WRAPPER_ID}>
         <InfiniteScroll
           dataLength={getRowModel().rows.length}
@@ -132,9 +142,14 @@ const BaseTable = <T extends object, K, M>({
           next={loadMore}
           scrollThreshold={0.99}
           scrollableTarget={SCROLL_WRAPPER_ID}
-          style={{ overflow: INFINITE_SCROLL_OVERFLOW }}>
+          style={{ overflow: INFINITE_SCROLL_OVERFLOW }}
+        >
           <div className={cn('relative w-fit rounded-[2rem] border')}>
-            <Table className='w-full table-fixed' data-testid='base-table' style={{ width: getTotalSize() }}>
+            <Table
+              className='w-full table-fixed'
+              data-testid='base-table'
+              style={isFullWidthTable ? { width: getTotalSize() } : undefined}
+            >
               <BaseTableHeader columnVisibility={columnVisibility} headerGroups={getHeaderGroups()} />
               <BaseTableBody
                 className={className}

@@ -11,7 +11,7 @@ type useBaseStepperProps = {
   onHandleNext?: (activeStep: number) => Promise<boolean>;
 };
 
-type useBaseStepper = {
+type UseBaseStepper = {
   activeStep: number;
   isLastStepComplete: boolean;
   isStepCompleted: (index: number) => boolean;
@@ -25,7 +25,7 @@ export const useBaseStepper = ({
   onSubmit,
   onHandleNext,
   onReset,
-}: useBaseStepperProps): useBaseStepper => {
+}: useBaseStepperProps): UseBaseStepper => {
   const [activeStep, setActiveStep] = useState(0);
   const [isLastStepComplete, setIsLastStepComplete] = useState(false);
 

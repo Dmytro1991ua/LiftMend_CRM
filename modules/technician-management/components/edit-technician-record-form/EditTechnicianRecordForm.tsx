@@ -45,7 +45,7 @@ const EditTechnicianRecordForm = ({ technicianRecordFormValues }: EditTechnician
       label: FormFieldLabel.ContactInformation,
       content: (
         <FormInput<TechnicianRecordFormValues>
-          defaultValue={contactInformation}
+          defaultValue={contactInformation ?? ''}
           id='contactInformation'
           name='contactInformation'
           placeholder='Please provide a contact information'

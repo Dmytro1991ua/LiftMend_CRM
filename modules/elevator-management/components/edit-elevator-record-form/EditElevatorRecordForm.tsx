@@ -162,7 +162,7 @@ const EditElevatorRecordForm = ({ elevatorRecordFormValues }: EditElevatorRecord
         <FormInput<ElevatorRecordFormValues>
           disabled
           isLastElement
-          defaultValue={capacity}
+          defaultValue={capacity ?? 0}
           id='capacity'
           infoTooltip={
             <InfoTooltip

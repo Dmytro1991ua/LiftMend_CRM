@@ -7,10 +7,12 @@ import {
   GET_AVAILABLE_TECHNICIANS_FOR_ASSIGNMENT,
   GET_CALENDAR_EVENTS,
 } from '@/graphql/schemas';
+import { GET_RECENT_REPAIR_JOBS } from '@/graphql/schemas/getRecentRepairJobs';
 import {
   CreateRepairJobAndCalendarEventMutation,
   GetAvailableTechniciansForAssignmentQuery,
   GetCalendarEventsQuery,
+  GetRecentRepairJobsQuery,
 } from '@/graphql/types/client/generated_types';
 
 export const mockAvailableTechnician = {
@@ -290,6 +292,18 @@ export const mockCalendarEventsResponse: MockedResponse<GetCalendarEventsQuery> 
   result: {
     data: {
       getCalendarEvents: [{ ...mockCalendarEvent, __typename: 'CalendarEvent' }],
+    },
+    errors: [],
+  },
+};
+
+export const mockRecentRepairJobsResponse: MockedResponse<GetRecentRepairJobsQuery> = {
+  request: {
+    query: GET_RECENT_REPAIR_JOBS,
+  },
+  result: {
+    data: {
+      getRecentRepairJobs: [{ ...mockRepairJob, status: 'Scheduled', __typename: 'RepairJob' }],
     },
     errors: [],
   },
