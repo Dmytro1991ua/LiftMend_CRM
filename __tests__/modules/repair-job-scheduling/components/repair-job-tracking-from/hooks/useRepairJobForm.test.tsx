@@ -100,6 +100,8 @@ describe('useRepairJobForm', () => {
   });
 
   it('should trigger onSubmit and reset form', async () => {
+    mockOnCreateRepairJobAndEvent.mockResolvedValue(true);
+
     const { result } = hook();
 
     await act(async () => {
@@ -108,5 +110,18 @@ describe('useRepairJobForm', () => {
 
     expect(mockOnCreateRepairJobAndEvent).toHaveBeenCalled();
     expect(mockOnReset).toHaveBeenCalled();
+  });
+
+  it('should not reset form if mutation fails', async () => {
+    mockOnCreateRepairJobAndEvent.mockResolvedValue(false);
+
+    const { result } = hook();
+
+    await act(async () => {
+      await result.current.onSubmit(mockFromValues);
+    });
+
+    expect(mockOnCreateRepairJobAndEvent).toHaveBeenCalled();
+    expect(mockOnReset).not.toHaveBeenCalled();
   });
 });

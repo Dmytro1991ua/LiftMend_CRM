@@ -29,7 +29,9 @@ export const useRepairJobForm = ({ selectedDateRange, onReset }: RepairJobFormPr
   };
 
   const onSubmit: SubmitHandler<RepairJobFromFields> = async (data) => {
-    await onCreateRepairJobAndEvent(data, selectedDateRange);
+    const isRepairJobAndEventCreated = await onCreateRepairJobAndEvent(data, selectedDateRange);
+
+    if (!isRepairJobAndEventCreated) return;
 
     onReset();
   };

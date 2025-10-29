@@ -18,7 +18,7 @@ export type UseCreateRepairJobAndCalendarEvent = {
   onCreateRepairJobAndEvent: (
     formFields: RepairJobFromFields,
     selectedDateRange: DateSelectArg | null
-  ) => Promise<void>;
+  ) => Promise<boolean>;
 };
 
 export const useCreateRepairJobAndCalendarEvent = (): UseCreateRepairJobAndCalendarEvent => {
@@ -49,7 +49,7 @@ export const useCreateRepairJobAndCalendarEvent = (): UseCreateRepairJobAndCalen
   const onCreateRepairJobAndEvent = async (
     formFields: RepairJobFromFields,
     selectedDateRange: DateSelectArg | null
-  ): Promise<void> => {
+  ): Promise<boolean> => {
     try {
       const {
         jobDetails: { jobType, jobDescription, priority },
@@ -105,8 +105,12 @@ export const useCreateRepairJobAndCalendarEvent = (): UseCreateRepairJobAndCalen
           errors: result.errors,
           onFailure: onError,
         });
+
+        return false;
       } else {
         onSuccess?.(DEFAULT_SCHEDULE_REPAIR_JOB_SUCCESS_MESSAGE);
+
+        return true;
       }
     } catch (e) {
       onHandleMutationErrors({
@@ -114,6 +118,8 @@ export const useCreateRepairJobAndCalendarEvent = (): UseCreateRepairJobAndCalen
         error: e as ApolloError,
         onFailure: onError,
       });
+
+      return false;
     }
   };
 
