@@ -80,6 +80,9 @@ const Query: QueryResolvers = {
   getRecentRepairJobs: async (_, { jobsCount }, { dataSources }): Promise<RepairJob[]> => {
     return await dataSources.repairJob.recentRepairJobs(jobsCount);
   },
+  getElevatorMentainanceHistory: async (_, args, { dataSources }): Promise<RepairJobConnection> => {
+    return await dataSources.repairJob.elevatorMentainanceHistory(args);
+  },
 };
 
 export default Query;

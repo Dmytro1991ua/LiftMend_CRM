@@ -46,7 +46,7 @@ class TechnicianService {
       queryOptions.take = paginationOptions.limit ?? undefined;
     }
 
-    const technicianRecords = await this.prisma.technicianRecord.findMany();
+    const technicianRecords = await this.prisma.technicianRecord.findMany(queryOptions);
 
     const totalItems = await this.prisma.technicianRecord.count({
       where: filters,

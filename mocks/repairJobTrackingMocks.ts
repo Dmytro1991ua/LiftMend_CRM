@@ -153,6 +153,27 @@ export const mockReturnedRepairJobsData = {
   },
 };
 
+export const mockReturnedRepairJobsDataForElevatorMaintenance = {
+  getElevatorMentainanceHistory: {
+    edges: [
+      {
+        cursor: mockPassengerElevatorRepairJob.cursor,
+        node: { ...mockPassengerElevatorRepairJob.node, __typename: 'RepairJob' },
+        __typename: 'RepairJobEdge',
+      },
+    ],
+    pageInfo: {
+      hasNextPage: false,
+      hasPreviousPage: false,
+      startCursor: 'test-id-1',
+      endCursor: 'test-id-2',
+      __typename: 'PageInfo',
+    },
+    total: 2,
+    __typename: 'RepairJobConnection',
+  },
+};
+
 export const mockReturnedRecentRepairJobsData = [mockPassengerElevatorRepairJob.node];
 
 export const mockRepairJobsResponse: FetchResult<GetRepairJobsQuery> = {

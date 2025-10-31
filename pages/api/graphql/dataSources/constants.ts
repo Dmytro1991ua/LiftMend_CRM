@@ -124,4 +124,4 @@ export const DEFAULT_USER_NOT_AUTHENTICATED_MESSAGE = 'User is not authenticated
 export const DEFAULT_SUPABASE_NOT_INITIALIZED_MESSAGE = 'Supabase client is not initialized';
 export const DEFAULT_IMAGE_PUBLIC_URL_FAILED_MESSAGE = 'Error fetching signed URL';
 export const DEFAULT_RECENT_JOBS_COUNT = 5;
-export const DEFAULT_RECENT_JOBS_SORTING = 'desc';
+export const DEFAULT_SORTING_OPTION = 'desc';
