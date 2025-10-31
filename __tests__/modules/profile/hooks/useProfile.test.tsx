@@ -79,8 +79,7 @@ describe('useProfile', () => {
       wrapper: ({ children }) => (
         <MockProviderHook
           cache={cache}
-          mocks={[mockUserResponse, mockUpdateProfileResponse, mockDeleteUserAccountResponse]}
-        >
+          mocks={[mockUserResponse, mockUpdateProfileResponse, mockDeleteUserAccountResponse]}>
           {children}
         </MockProviderHook>
       ),

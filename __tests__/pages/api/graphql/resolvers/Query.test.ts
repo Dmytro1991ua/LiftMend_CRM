@@ -26,6 +26,7 @@ import {
   mockRepairJobId,
   mockReturnedRecentRepairJobsData,
   mockReturnedRepairJobsData,
+  mockReturnedRepairJobsDataForElevatorMaintenance,
 } from '@/mocks/repairJobTrackingMocks';
 import {
   mockBenjaminHallRecord,
@@ -90,6 +91,7 @@ describe('Query', () => {
     let getRepairJobByIdResolver: TestResolver<typeof Query, 'getRepairJobById'>;
     let getElevatorDetailsByBuildingNameResolver: TestResolver<typeof Query, 'getElevatorDetailsByBuildingName'>;
     let getRecentRepairJobsResolver: TestResolver<typeof Query, 'getRecentRepairJobs'>;
+    let getElevatorMentainanceHistoryResolver: TestResolver<typeof Query, 'getElevatorMentainanceHistory'>;
 
     beforeEach(() => {
       mockDataSources = createDataSourcesMock(repairJobServicePrismaMock);
@@ -103,6 +105,11 @@ describe('Query', () => {
         mockDataSources
       );
       getRecentRepairJobsResolver = getResolverToTest(Query, 'getRecentRepairJobs', mockDataSources);
+      getElevatorMentainanceHistoryResolver = getResolverToTest(
+        Query,
+        'getElevatorMentainanceHistory',
+        mockDataSources
+      );
     });
 
     afterEach(() => {
@@ -171,6 +178,19 @@ describe('Query', () => {
 
         expect(mockDataSources.repairJob.recentRepairJobs).toHaveBeenCalledWith(DEFAULT_RECENT_JOBS_COUNT);
         expect(result).toEqual(mockReturnedRecentRepairJobsData);
+      });
+    });
+
+    describe('getElevatorMentainanceHistory', () => {
+      it('should return repair jobs data for elevator maintenance history', async () => {
+        mockDataSources.repairJob.elevatorMentainanceHistory.mockResolvedValue(
+          mockReturnedRepairJobsDataForElevatorMaintenance.getElevatorMentainanceHistory as RepairJobConnection
+        );
+
+        const result = await getElevatorMentainanceHistoryResolver();
+
+        expect(mockDataSources.repairJob.elevatorMentainanceHistory).toHaveBeenCalled();
+        expect(result).toEqual(mockReturnedRepairJobsDataForElevatorMaintenance.getElevatorMentainanceHistory);
       });
     });
   });

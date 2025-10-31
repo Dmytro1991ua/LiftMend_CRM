@@ -26,4 +26,5 @@ type Query {
   getDashboardMetrics(startDate: String!, endDate: String!): DashboardMetrics!
   getUser(id: ID!): AppUser!
   getRecentRepairJobs(jobsCount: Int): [RepairJob!]!
+  getElevatorMentainanceHistory(paginationOptions: PaginationOptions, buildingName: String!, elevatorLocation: String!): RepairJobConnection!
 }

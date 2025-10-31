@@ -2,6 +2,7 @@ import { UpdateRepairJobInput } from '@/graphql/types/client/generated_types';
 import {
   CreateRepairJobInput,
   OrderOption,
+  QueryGetElevatorMentainanceHistoryArgs,
   RepairJob,
   RepairJobSortField,
 } from '@/graphql/types/server/generated_types';
@@ -15,7 +16,7 @@ import {
   mockRepairJobId,
   mockShipElevatorRepairJpb,
 } from '@/mocks/repairJobTrackingMocks';
-import { DEFAULT_RECENT_JOBS_COUNT, DEFAULT_RECENT_JOBS_SORTING } from '@/pages/api/graphql/dataSources/constants';
+import { DEFAULT_RECENT_JOBS_COUNT, DEFAULT_SORTING_OPTION } from '@/pages/api/graphql/dataSources/constants';
 import RepairJobService from '@/pages/api/graphql/dataSources/RepairJobService';
 import {
   createRepairJobFilterOptions,
@@ -450,10 +451,78 @@ describe('RepairJobService', () => {
       const result = await repairJobService.recentRepairJobs(DEFAULT_RECENT_JOBS_COUNT);
 
       expect(repairJobServicePrismaMock.repairJob.findMany).toHaveBeenCalledWith({
-        orderBy: { startDate: DEFAULT_RECENT_JOBS_SORTING },
+        orderBy: { startDate: DEFAULT_SORTING_OPTION },
         take: DEFAULT_RECENT_JOBS_COUNT,
       });
       expect(result).toEqual(mockRepairJobs);
+    });
+  });
+
+  describe('elevatorMentainanceHistory', () => {
+    const mockArgs = {
+      paginationOptions: { offset: 5, limit: 10 },
+      buildingName: 'Silverhill Apartments',
+      elevatorLocation: 'Penthouse',
+    } as unknown as QueryGetElevatorMentainanceHistoryArgs;
+
+    const mockRepairJobRecords = [
+      {
+        ...mockRepairJob,
+        id: 'test-id-2',
+        elevatorType: 'Glass Elevator',
+        buildingName: 'Silverhill Apartments',
+        elevatorLocation: 'Penthouse',
+      },
+    ];
+    const mockTotalItems = 2;
+    const mockConnection = {
+      edges: [],
+      pageInfo: {},
+      totalCount: mockTotalItems,
+    };
+
+    beforeEach(() => {
+      (makeConnectionObject as jest.Mock).mockReturnValue(mockConnection);
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it('should fetch repair jobs records for elevator mentainance history with correct prisma calls and return connection object by building name and elevator location', async () => {
+      (repairJobServicePrismaMock.repairJob.findMany as jest.Mock).mockResolvedValue(mockRepairJobRecords);
+      (repairJobServicePrismaMock.repairJob.count as jest.Mock).mockResolvedValue(mockTotalItems);
+
+      const result = await repairJobService.elevatorMentainanceHistory(mockArgs);
+
+      expect(repairJobServicePrismaMock.repairJob.findMany).toHaveBeenCalledWith({
+        where: {
+          buildingName: 'Silverhill Apartments',
+          elevatorLocation: 'Penthouse',
+        },
+        orderBy: { startDate: DEFAULT_SORTING_OPTION },
+        skip: 5,
+        take: 10,
+      });
+
+      expect(repairJobServicePrismaMock.repairJob.count).toHaveBeenCalledWith({
+        where: {
+          buildingName: 'Silverhill Apartments',
+          elevatorLocation: 'Penthouse',
+        },
+      });
+
+      expect(makeConnectionObject).toHaveBeenCalledWith({
+        items: mockRepairJobRecords,
+        totalItems: mockTotalItems,
+        paginationOptions: mockArgs.paginationOptions,
+        getCursor: expect.any(Function),
+      });
+
+      const getCursorFn = (makeConnectionObject as jest.Mock).mock.calls[0][0].getCursor;
+      expect(getCursorFn({ id: 'abc-123' } as RepairJob)).toBe('abc-123');
+
+      expect(result).toEqual(mockConnection);
     });
   });
 });

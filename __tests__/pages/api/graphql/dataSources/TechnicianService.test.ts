@@ -69,7 +69,12 @@ describe('TechnicianService', () => {
 
       const result = await technicianService.getTechnicianRecords(mockArgs);
 
-      expect(technicianRecordPrismaMock.technicianRecord.findMany).toHaveBeenCalledWith();
+      expect(technicianRecordPrismaMock.technicianRecord.findMany).toHaveBeenCalledWith({
+        orderBy: { availableStatus: 'desc' },
+        skip: 5,
+        take: 10,
+        where: { availableStatus: 'active' },
+      });
 
       expect(technicianRecordPrismaMock.technicianRecord.count).toHaveBeenCalledWith({
         where: mockFilters,

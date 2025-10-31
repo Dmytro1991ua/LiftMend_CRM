@@ -5,6 +5,7 @@ import {
   CreateRepairJobInput,
   ElevatorDetails,
   InputMaybe,
+  QueryGetElevatorMentainanceHistoryArgs,
   QueryGetRepairJobsArgs,
   RepairJob,
   RepairJobConnection,
@@ -26,7 +27,7 @@ import {
 
 import {
   DEFAULT_RECENT_JOBS_COUNT,
-  DEFAULT_RECENT_JOBS_SORTING,
+  DEFAULT_SORTING_OPTION,
   REPAIR_JOB_PRIORITY_MAP,
   REPAIR_JOB_STATUS_MAP,
   REPAIR_JOB_TYPE_MAP,
@@ -290,10 +291,40 @@ class RepairJobService {
   async recentRepairJobs(jobsCount: InputMaybe<number>): Promise<RepairJob[]> {
     const queryOptions: Prisma.RepairJobFindManyArgs = {
       take: jobsCount ?? DEFAULT_RECENT_JOBS_COUNT,
-      orderBy: { startDate: DEFAULT_RECENT_JOBS_SORTING },
+      orderBy: { startDate: DEFAULT_SORTING_OPTION },
     };
 
     return await this.prisma.repairJob.findMany(queryOptions);
+  }
+
+  async elevatorMentainanceHistory(args: QueryGetElevatorMentainanceHistoryArgs): Promise<RepairJobConnection> {
+    const { buildingName, elevatorLocation, paginationOptions } = args;
+
+    const queryOptions: Prisma.RepairJobFindManyArgs = {
+      where: {
+        buildingName,
+        elevatorLocation,
+      },
+      orderBy: { startDate: DEFAULT_SORTING_OPTION },
+    };
+
+    if (paginationOptions) {
+      queryOptions.skip = paginationOptions.offset ?? undefined;
+      queryOptions.take = paginationOptions.limit ?? undefined;
+    }
+
+    const repairJobRecords = await this.prisma.repairJob.findMany(queryOptions);
+
+    const totalItems = await this.prisma.repairJob.count({
+      where: queryOptions.where,
+    });
+
+    return makeConnectionObject({
+      items: repairJobRecords,
+      totalItems,
+      paginationOptions,
+      getCursor: (repairJobRecord: RepairJob) => repairJobRecord.id,
+    });
   }
 }
 
