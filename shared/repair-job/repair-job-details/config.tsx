@@ -13,27 +13,27 @@ export const repairJobSectionsConfig = (repairJob: RepairJob): DetailsPageSectio
     fields: [
       {
         id: 3,
-        label: 'Status',
+        label: 'Status:',
         value: <Pill status={repairJob.status as PillStatus} />,
         fieldClassName: 'items-center',
       },
       {
         id: 4,
-        label: 'Is Overdue?',
+        label: 'Is Overdue?:',
         value: <OverdueRepairJob isOverdue={repairJob.isOverdue} />,
         fieldClassName: 'items-center',
       },
-      { id: 5, label: 'Type', value: repairJob.jobType },
-      { id: 6, label: 'Details', value: repairJob.jobDetails },
+      { id: 5, label: 'Type:', value: repairJob.jobType },
+      { id: 6, label: 'Details:', value: repairJob.jobDetails },
       {
         id: 7,
-        label: 'Priority',
+        label: 'Priority:',
         value: <Pill status={repairJob.jobPriority as PillStatus} />,
         fieldClassName: 'items-center',
       },
       {
         id: 8,
-        label: 'Scheduled Dates',
+        label: 'Scheduled Dates:',
         value: (
           <DatePicker
             key={`${repairJob.startDate}-${repairJob.endDate}`}
@@ -46,7 +46,7 @@ export const repairJobSectionsConfig = (repairJob: RepairJob): DetailsPageSectio
         ? [
             {
               id: 9,
-              label: 'Actual End Date',
+              label: 'Actual End Date:',
               value: (
                 <DatePicker
                   key={repairJob?.actualEndDate}
@@ -65,14 +65,14 @@ export const repairJobSectionsConfig = (repairJob: RepairJob): DetailsPageSectio
     id: 2,
     title: 'Elevator Information',
     fields: [
-      { id: 7, label: 'Type', value: repairJob.elevatorType },
-      { id: 8, label: 'Building Name', value: repairJob.buildingName },
-      { id: 9, label: 'Location', value: repairJob.elevatorLocation },
+      { id: 7, label: 'Type:', value: repairJob.elevatorType },
+      { id: 8, label: 'Building Name:', value: repairJob.buildingName },
+      { id: 9, label: 'Location:', value: repairJob.elevatorLocation },
     ],
   },
   {
     id: 3,
     title: 'Technician Information',
-    fields: [{ id: 10, label: 'Name', value: repairJob.technicianName }],
+    fields: [{ id: 10, label: 'Name:', value: repairJob.technicianName }],
   },
 ];

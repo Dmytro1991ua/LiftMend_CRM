@@ -110,3 +110,6 @@ export const onHandleMutationErrors = ({
     onFailure?.(message, errorMessage);
   }
 };
+
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+export const NOOP = (): void => {};

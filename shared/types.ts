@@ -15,6 +15,7 @@ export enum TableNames {
   ElevatorManagementTable = 'ElevatorManagement',
   TechnicianManagementTable = 'TechnicianManagement',
   RecentRepairJobs = 'RecentRepairJobs',
+  ElevatorMentainanceHistory = 'ElevatorMentainanceHistory',
 }
 
 export enum FormFieldLabel {

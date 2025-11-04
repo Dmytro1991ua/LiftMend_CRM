@@ -9,17 +9,17 @@ export const technicianRecordSectionsConfig = (technicianRecord: TechnicianRecor
     id: 1,
     title: 'Basic Information',
     fields: [
-      { id: 3, label: 'Full Name', value: technicianRecord.name },
-      { id: 4, label: 'Contact Information', value: technicianRecord.contactInformation },
+      { id: 3, label: 'Full Name:', value: technicianRecord.name },
+      { id: 4, label: 'Contact Information:', value: technicianRecord.contactInformation },
       {
         id: 5,
-        label: 'Availability Status',
+        label: 'Availability Status:',
         value: <Pill status={technicianRecord.availabilityStatus as PillStatus} />,
         fieldClassName: 'items-center',
       },
       {
         id: 6,
-        label: 'Employment Status',
+        label: 'Employment Status:',
         value: <Pill status={technicianRecord.employmentStatus as PillStatus} />,
         fieldClassName: 'items-center',
       },
@@ -31,7 +31,7 @@ export const technicianRecordSectionsConfig = (technicianRecord: TechnicianRecor
     fields: [
       {
         id: 7,
-        label: 'Technician Skill(s)',
+        label: 'Technician Skill(s):',
         value: (
           <Badge bgColor='bg-primary' className='flex text-center flex-wrap' items={technicianRecord.skills ?? []} />
         ),
@@ -39,7 +39,7 @@ export const technicianRecordSectionsConfig = (technicianRecord: TechnicianRecor
       },
       {
         id: 8,
-        label: 'Technician Certificate(s)',
+        label: 'Technician Certificate(s):',
         value: (
           <Badge
             bgColor='bg-cyan-600'
