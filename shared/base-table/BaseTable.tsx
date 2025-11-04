@@ -34,7 +34,7 @@ type BaseTableProps<T extends object, K, M> = {
   rowTooltipMessage?: string | ((rowOriginal: T) => string);
   hasTableFilters?: boolean;
   tableHeaderContent?: JSX.Element;
-  isFullWidthTable?: boolean;
+  isCalculatedWidthEnabled?: boolean;
   isRowDisabled?: (rowOriginal: T) => boolean;
   getRowHighlightInfo?: (rowOriginal: T) => RowHighlightInfo;
   refetch: (variables: Partial<K>) => Promise<ApolloQueryResult<M>>;
@@ -57,7 +57,7 @@ const BaseTable = <T extends object, K, M>({
   searchFieldPlaceholder,
   rowTooltipMessage,
   hasTableFilters = true,
-  isFullWidthTable = true,
+  isCalculatedWidthEnabled = true,
   tableHeaderContent,
   isRowDisabled,
   refetch,
@@ -142,12 +142,14 @@ const BaseTable = <T extends object, K, M>({
           next={loadMore}
           scrollThreshold={0.99}
           scrollableTarget={SCROLL_WRAPPER_ID}
-          style={{ overflow: INFINITE_SCROLL_OVERFLOW }}>
+          style={{ overflow: INFINITE_SCROLL_OVERFLOW }}
+        >
           <div className={cn('relative w-fit rounded-[2rem] border')}>
             <Table
               className='w-full table-fixed'
               data-testid='base-table'
-              style={isFullWidthTable ? { width: getTotalSize() } : undefined}>
+              style={isCalculatedWidthEnabled ? { width: getTotalSize() } : undefined}
+            >
               <BaseTableHeader columnVisibility={columnVisibility} headerGroups={getHeaderGroups()} />
               <BaseTableBody
                 className={className}

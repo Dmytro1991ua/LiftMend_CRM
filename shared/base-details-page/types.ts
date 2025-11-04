@@ -7,7 +7,13 @@ export enum ActionButtonLabel {
   UPDATE_EMPLOYMENT_STATUS = 'Update Employment Status',
 }
 
-type SectionField = { id: number; label: string; value: React.ReactNode | string; fieldClassName?: string };
+type SectionField = {
+  id: number;
+  label: string;
+  value: React.ReactNode | string;
+  fieldClassName?: string;
+  valueClassName?: string;
+};
 
 export type DetailsPageSectionsConfig = {
   id: number;

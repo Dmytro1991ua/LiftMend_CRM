@@ -28,3 +28,5 @@ export const TECHNICIAN_RECORD_KEY_FIELDS = [
   'sortOptions',
   ['field', 'order'],
 ];
+
+export const ELEVATOR_MAINTENANCE_HISTORY_KEY_FIELDS = ['buildingName', 'elevatorLocation'];

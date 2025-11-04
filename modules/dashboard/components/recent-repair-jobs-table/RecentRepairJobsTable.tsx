@@ -8,13 +8,11 @@ import {
 import BaseTable from '@/shared/base-table';
 import QueryResponse from '@/shared/query-response';
 import { RepairJob, TableNames } from '@/shared/types';
+import { NOOP } from '@/shared/utils';
 
 import { useFetchRecentRepairJobs } from '../../hooks';
 
 import { RECENT_REPAIR_JOB_COLUMNS } from './columns';
-
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-export const NOOP = (): void => {};
 
 const RecentRepairJobsTable = () => {
   const { recentRepairJobs, loading, error } = useFetchRecentRepairJobs();
@@ -35,7 +33,7 @@ const RecentRepairJobsTable = () => {
         filtersConfig={[]}
         hasMore={false}
         hasTableFilters={false}
-        isFullWidthTable={false}
+        isCalculatedWidthEnabled={false}
         isRowDisabled={() => false}
         loadMore={NOOP}
         loading={loading}

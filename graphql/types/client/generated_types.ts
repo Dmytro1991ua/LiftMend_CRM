@@ -349,6 +349,7 @@ export type Query = {
   getCalendarEvents: Array<CalendarEvent>;
   getDashboardMetrics: DashboardMetrics;
   getElevatorDetailsByBuildingName: ElevatorDetails;
+  getElevatorMentainanceHistory: RepairJobConnection;
   getElevatorRecordById: ElevatorRecord;
   getElevatorRecordFormData: ElevatorRecordFormData;
   getElevatorRecords: ElevatorRecordConnection;
@@ -369,6 +370,12 @@ export type QueryGetDashboardMetricsArgs = {
 
 export type QueryGetElevatorDetailsByBuildingNameArgs = {
   buildingName: Scalars['String']['input'];
+};
+
+export type QueryGetElevatorMentainanceHistoryArgs = {
+  buildingName: Scalars['String']['input'];
+  elevatorLocation: Scalars['String']['input'];
+  paginationOptions?: InputMaybe<PaginationOptions>;
 };
 
 export type QueryGetElevatorRecordByIdArgs = {
@@ -909,6 +916,48 @@ export type GetElevatorDetailsByBuildingNameQuery = {
     __typename?: 'ElevatorDetails';
     elevatorTypes: Array<string>;
     elevatorLocations: Array<string>;
+  };
+};
+
+export type GetElevatorMentainanceHistoryQueryVariables = Exact<{
+  buildingName: Scalars['String']['input'];
+  elevatorLocation: Scalars['String']['input'];
+  paginationOptions?: InputMaybe<PaginationOptions>;
+}>;
+
+export type GetElevatorMentainanceHistoryQuery = {
+  __typename?: 'Query';
+  getElevatorMentainanceHistory: {
+    __typename?: 'RepairJobConnection';
+    total: number;
+    edges: Array<{
+      __typename?: 'RepairJobEdge';
+      cursor: string;
+      node: {
+        __typename?: 'RepairJob';
+        status: string;
+        id: string;
+        jobType: string;
+        jobDetails: string;
+        jobPriority: string;
+        elevatorType: string;
+        buildingName: string;
+        elevatorLocation: string;
+        technicianName: string;
+        startDate: any;
+        endDate: any;
+        calendarEventId: string | null;
+        actualEndDate: any | null;
+        isOverdue: boolean | null;
+      };
+    }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor: string | null;
+      endCursor: string | null;
+    };
   };
 };
 

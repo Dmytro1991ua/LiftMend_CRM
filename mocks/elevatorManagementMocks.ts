@@ -9,14 +9,20 @@ import {
   GET_ELEVATOR_RECORD_FORM_DATA,
   UPDATE_ELEVATOR_RECORD,
 } from '@/graphql/schemas';
+import { GET_ELEVATOR_MENTAINANCE_HISTORY } from '@/graphql/schemas/getElevatorMentainanceHistory';
 import {
   DeleteElevatorRecordMutation,
+  GetElevatorMentainanceHistoryQuery,
   GetElevatorRecordByIdQuery,
   GetElevatorRecordsQuery,
   UpdateElevatorRecordMutation,
 } from '@/graphql/types/client/generated_types';
 
+import { mockMastLiftRepairJob, mockPassengerElevatorRepairJob } from './repairJobTrackingMocks';
+
 export const mockElevatorRecordId = 'test_id';
+export const mockBuildingName = 'Skyline Plaza';
+export const mockElevatorLocation = 'Observation Deck';
 
 export const mockElevatorRecord = {
   id: mockElevatorRecordId,
@@ -118,8 +124,33 @@ export const mockedReturnedElevatorRecordsData = {
   },
 };
 
+export const mockedReturnedElevatorMentainanceHistoryData = {
+  getElevatorMentainanceHistory: {
+    edges: [
+      {
+        cursor: mockPassengerElevatorRepairJob.cursor,
+        node: { ...mockPassengerElevatorRepairJob.node, __typename: 'RepairJob' },
+        __typename: 'RepairJobEdge',
+      },
+    ],
+    pageInfo: {
+      hasNextPage: true,
+      hasPreviousPage: false,
+      startCursor: 'test-id-1',
+      endCursor: 'test-id-2',
+      __typename: 'PageInfo',
+    },
+    total: 1,
+    __typename: 'RepairJobConnection',
+  },
+};
+
 export const mockElevatorRecordsResponse: FetchResult<GetElevatorRecordsQuery> = {
   data: { ...(mockedReturnedElevatorRecordsData as GetElevatorRecordsQuery) },
+};
+
+export const mockElevatorMentainanceHistoryResponse: FetchResult<GetElevatorMentainanceHistoryQuery> = {
+  data: { ...(mockedReturnedElevatorMentainanceHistoryData as GetElevatorMentainanceHistoryQuery) },
 };
 
 export const mockElevatorRecordsPaginatedResponse: FetchResult<GetElevatorRecordsQuery> = {
@@ -141,6 +172,29 @@ export const mockElevatorRecordsPaginatedResponse: FetchResult<GetElevatorRecord
       },
       total: 1,
       __typename: 'ElevatorRecordConnection',
+    },
+  },
+};
+
+export const mockElevatorMentainanceHistoryPaginatedResponse: FetchResult<GetElevatorMentainanceHistoryQuery> = {
+  data: {
+    getElevatorMentainanceHistory: {
+      edges: [
+        {
+          cursor: mockMastLiftRepairJob.cursor,
+          node: { ...mockMastLiftRepairJob.node, __typename: 'RepairJob' },
+          __typename: 'RepairJobEdge',
+        },
+      ],
+      pageInfo: {
+        hasNextPage: false,
+        hasPreviousPage: true,
+        startCursor: 'test-id-2',
+        endCursor: 'test-id-3',
+        __typename: 'PageInfo',
+      },
+      total: 1,
+      __typename: 'RepairJobConnection',
     },
   },
 };
@@ -321,3 +375,40 @@ export const mockDeleteElevatorRecordNetworkError = {
     error: new Error('Error occurs'),
   },
 };
+
+export const mockElevatorMaintenanceHistory: MockedResponse<GetElevatorMentainanceHistoryQuery> = {
+  request: {
+    query: GET_ELEVATOR_MENTAINANCE_HISTORY,
+    variables: {
+      paginationOptions: {
+        limit: 20,
+        offset: 0,
+      },
+      buildingName: mockBuildingName,
+      elevatorLocation: mockElevatorLocation,
+    },
+  },
+  result: {
+    ...mockElevatorMentainanceHistoryResponse,
+  },
+};
+
+export const mockPaginatedElevatorMentainanceHistoryData: MockedResponse<GetElevatorMentainanceHistoryQuery>[] = [
+  mockElevatorMaintenanceHistory,
+  {
+    request: {
+      query: GET_ELEVATOR_MENTAINANCE_HISTORY,
+      variables: {
+        paginationOptions: {
+          limit: 20,
+          offset: 2,
+        },
+        buildingName: mockBuildingName,
+        elevatorLocation: mockElevatorLocation,
+      },
+    },
+    result: {
+      ...mockElevatorMentainanceHistoryPaginatedResponse,
+    },
+  },
+];
