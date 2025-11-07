@@ -4,6 +4,7 @@ export type AuthAction = 'SIGN_UP' | 'LOGIN' | 'SIGN_IN_WITH_OAUTH' | 'SIGN_OUT'
 
 export type AuthHookProps = {
   action: AuthAction;
+  showSuccessToast?: boolean;
   onRedirect?: () => void;
   onReset?: () => void;
 };

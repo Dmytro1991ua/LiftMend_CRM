@@ -11,6 +11,7 @@ import { ThirdPartyAuthButtonConfig } from '../types';
 const ThirdPartyAuthButton = () => {
   const { onAuthMutation } = useAuthMutation<'SIGN_IN_WITH_OAUTH'>({
     action: 'SIGN_IN_WITH_OAUTH',
+    showSuccessToast: false,
   });
 
   const onHandleSignInWithOauth = useCallback(

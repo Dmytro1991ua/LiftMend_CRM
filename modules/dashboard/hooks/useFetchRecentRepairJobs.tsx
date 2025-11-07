@@ -23,8 +23,6 @@ export const useFetchRecentRepairJobs = (): UseFetchRecentRepairJobs => {
     [data]
   );
 
-  console.log(recentRepairJobs);
-
   return {
     recentRepairJobs,
     loading,

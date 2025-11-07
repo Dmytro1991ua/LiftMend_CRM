@@ -5,4 +5,5 @@ export const ALLOWED_UNAUTHENTICATED_ROUTES = [
   AppRoutes.SignUp,
   AppRoutes.ForgotPassword,
   AppRoutes.ResetPassword,
+  AppRoutes.SignOut,
 ];

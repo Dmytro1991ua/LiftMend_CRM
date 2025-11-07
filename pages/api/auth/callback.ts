@@ -24,7 +24,9 @@ const handler: NextApiHandler = async (req, res) => {
   } = await supabase.auth.getSession();
   const user = session?.user;
 
-  if (!user) return;
+  if (!user) {
+    return res.status(401).json({ error: 'User not found in session' });
+  }
 
   const { firstName, lastName } = parseOAuthFullName(user.user_metadata.full_name);
   const avatarUrl = user.user_metadata?.avatar_url || '';
@@ -44,12 +46,12 @@ const handler: NextApiHandler = async (req, res) => {
       },
     });
 
-    return;
+    return res.redirect(302, '/auth/callback');
   }
 
   // If the user exists but already has an avatar, or if there's no avatarUrl to update, exit.
   if (existingUser.avatarUrl || !avatarUrl) {
-    return;
+    return res.redirect(302, '/auth/callback');
   }
 
   // Otherwise, update the avatarUrl.

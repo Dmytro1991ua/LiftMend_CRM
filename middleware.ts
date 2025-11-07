@@ -16,7 +16,9 @@ export async function middleware(req: NextRequest) {
   const reqUrl = req.nextUrl.pathname;
 
   // Allow Next.js internal requests
-  if (reqUrl.startsWith('/_next')) return res;
+  if (reqUrl.startsWith('/_next/static') || reqUrl.startsWith('/_next/image') || reqUrl.startsWith('/_next/data')) {
+    return res;
+  }
 
   // Check if the current route is allowed without a session
   const isAllowedUnauthenticated = ALLOWED_UNAUTHENTICATED_ROUTES.some((route) => reqUrl.startsWith(route));

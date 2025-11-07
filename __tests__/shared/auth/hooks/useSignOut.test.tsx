@@ -1,6 +1,5 @@
 import { act } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
-import { useRouter } from 'next/router';
 
 import { mockSignOutResponse } from '@/mocks/authMocks';
 import { MockProviderHook } from '@/mocks/testMocks';
@@ -8,26 +7,18 @@ import { useAuthMutation, useSignOut } from '@/shared/auth/hooks';
 import { AppRoutes } from '@/types/enums';
 
 jest.mock('@/shared/auth/hooks/useAuthMutation');
-jest.mock('next/router', () => ({
-  useRouter: jest.fn(),
-}));
 
 describe('useSignOut', () => {
-  const mockWindowReload = jest.fn();
-  const mockRouterPush = jest.fn();
+  const mockOnAuthMutation = jest.fn();
 
   beforeEach(() => {
     Object.defineProperty(window, 'location', {
       configurable: true,
-      value: { reload: mockWindowReload },
-    });
-
-    (useRouter as jest.Mock).mockReturnValue({
-      push: mockRouterPush,
+      value: { href: '' },
     });
 
     (useAuthMutation as jest.Mock).mockImplementation(() => ({
-      onAuthMutation: jest.fn(),
+      onAuthMutation: mockOnAuthMutation,
     }));
   });
 
@@ -40,11 +31,25 @@ describe('useSignOut', () => {
       wrapper: ({ children }) => <MockProviderHook mocks={[mockSignOutResponse]}>{children}</MockProviderHook>,
     });
 
-  it('should trigger onSignOut and reload page after signout', async () => {
+  it('should call onAuthMutation and redirect to sign-in by default', async () => {
     const { result } = hook();
 
-    await act(() => result.current.onSignOut());
+    await act(async () => {
+      await result.current.onSignOut();
+    });
 
-    expect(mockRouterPush).toHaveBeenCalledWith(AppRoutes.SignIn);
+    expect(mockOnAuthMutation).toHaveBeenCalledWith({});
+    expect(window.location.href).toBe(AppRoutes.SignIn);
+  });
+
+  it('should redirect to a custom route if provided', async () => {
+    const { result } = hook();
+
+    await act(async () => {
+      await result.current.onSignOut(AppRoutes.SignOut);
+    });
+
+    expect(mockOnAuthMutation).toHaveBeenCalledWith({});
+    expect(window.location.href).toBe(AppRoutes.SignOut);
   });
 });
