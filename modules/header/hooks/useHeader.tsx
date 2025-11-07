@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useCallback, useState } from 'react';
 
 import { useSignOut } from '@/shared/auth/hooks';
+import { AppRoutes } from '@/types/enums';
 
 type UseHeader = {
   isDropdownOpen: boolean;
@@ -24,7 +25,7 @@ export const useHeader = (): UseHeader => {
   }, []);
 
   const onHandleSignOut = useCallback(async (): Promise<void> => {
-    await onSignOut();
+    await onSignOut(AppRoutes.SignOut);
 
     onDropdownClose();
   }, [onSignOut, onDropdownClose]);

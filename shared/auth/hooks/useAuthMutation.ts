@@ -137,6 +137,7 @@ export type UseAuthMutation<T extends keyof AuthMutations> = {
 
 export const useAuthMutation = <T extends keyof AuthMutations>({
   action,
+  showSuccessToast = true,
   onRedirect,
   onReset,
 }: AuthHookProps): UseAuthMutation<T> => {
@@ -159,7 +160,8 @@ export const useAuthMutation = <T extends keyof AuthMutations>({
           onFailure: onError,
         });
       } else {
-        onSuccess?.(successMessage);
+        if (showSuccessToast) onSuccess?.(successMessage);
+
         onRedirect?.();
         onReset?.();
       }

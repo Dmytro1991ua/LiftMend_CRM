@@ -4,24 +4,22 @@ import { useRouter } from 'next/router';
 
 import { supabaseClient } from '@/lib/supabase-client';
 import { useUser } from '@/shared/contexts/UserContext';
-import { useBaseToast } from '@/shared/hooks';
-import { BaseToastVariant } from '@/shared/hooks/useBaseToast/types';
+import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import { AppRoutes } from '@/types/enums';
 
-import { OAUTH_CALLBACK_REDIRECT_DELAY } from '../constants';
+import { CALLBACK_PAGE_REDIRECT_DELAY } from '../constants';
 import { getUserName } from '../utils';
 
 export type UseProcessAuth = {
   welcomeMessage: JSX.Element;
 };
 
+export const DEFAULT_OAUTH_FAILED_MESSAGE = 'Failed to sign-in';
+export const DEFAULT_OAUTH_SUCCESS_MESSAGE = 'Signed in successfully';
+
 export const useProcessAuth = (): UseProcessAuth => {
-  const router = useRouter();
-
   const { user, loading } = useUser();
-
-  const { baseToast: successToast } = useBaseToast(BaseToastVariant.Success);
-  const { baseToast: errorToast } = useBaseToast(BaseToastVariant.Error);
+  const { onSuccess, onError } = useMutationResultToasts();
 
   const welcomeMessage = useMemo(
     () =>
@@ -38,11 +36,18 @@ export const useProcessAuth = (): UseProcessAuth => {
     let timeoutId: ReturnType<typeof setTimeout>;
 
     const processAuth = async () => {
-      await supabaseClient.auth.getSession();
+      try {
+        await supabaseClient.auth.getSession();
 
-      timeoutId = setTimeout(() => {
-        router.replace(AppRoutes.Dashboard);
-      }, OAUTH_CALLBACK_REDIRECT_DELAY);
+        timeoutId = setTimeout(() => {
+          // Use full page reload instead of router.replace to avoid double success toast in Strict Mode
+          window.location.href = AppRoutes.Dashboard;
+          onSuccess?.(DEFAULT_OAUTH_SUCCESS_MESSAGE);
+        }, CALLBACK_PAGE_REDIRECT_DELAY);
+      } catch (err) {
+        console.error('Sign-in processing failed', err);
+        onError?.(DEFAULT_OAUTH_FAILED_MESSAGE, (err as Error).message);
+      }
     };
 
     processAuth();
@@ -52,7 +57,7 @@ export const useProcessAuth = (): UseProcessAuth => {
         clearTimeout(timeoutId);
       }
     };
-  }, [router, successToast, errorToast]);
+  }, [onSuccess, onError]);
 
   return { welcomeMessage };
 };
