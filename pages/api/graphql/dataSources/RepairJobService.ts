@@ -12,6 +12,7 @@ import {
   RepairJobEdge,
   RepairJobScheduleData,
   RepairJobsMetrics,
+  TechnicianPerformanceMetrics,
   UpdateRepairJobInput,
 } from '@/graphql/types/server/generated_types';
 
@@ -19,6 +20,9 @@ import {
   createRepairJobFilterOptions,
   createRepairJobSortOptions,
   fetchFormDropdownData,
+  getAverageRepairJobDurationInDays,
+  getOnTimeCompletionRate,
+  getRepairJobDurationInDays,
   getSortedFormDropdownData,
   isRepairJobOverdue,
   isToday,
@@ -26,6 +30,7 @@ import {
 } from '../utils';
 
 import {
+  ACTIVE_REPAIR_JOB_STATUSES,
   DEFAULT_RECENT_JOBS_COUNT,
   DEFAULT_SORTING_OPTION,
   REPAIR_JOB_PRIORITY_MAP,
@@ -325,6 +330,62 @@ class RepairJobService {
       paginationOptions,
       getCursor: (repairJobRecord: RepairJob) => repairJobRecord.id,
     });
+  }
+
+  async technicianPerformanceMetrics(technicianName: string): Promise<TechnicianPerformanceMetrics> {
+    const repairJobs = await this.prisma.repairJob.findMany({
+      where: { technicianName },
+    });
+
+    const {
+      totalRepairJobs,
+      completedRepairJobs,
+      overdueRepairJobs,
+      activeRepairJobs,
+      totalDurationDays,
+      onTimeCompletedCount,
+    } = repairJobs.reduce(
+      (acc, job) => {
+        acc.totalRepairJobs++;
+
+        if (job.isOverdue) acc.overdueRepairJobs++;
+        if (job.status === 'Completed') {
+          acc.completedRepairJobs++;
+
+          // Calculate duration for specific completed job in days
+          const repairEndDate = job.actualEndDate ?? job.endDate;
+          acc.totalDurationDays += getRepairJobDurationInDays(job.startDate, repairEndDate);
+
+          // Count if job was completed on or before planned end date
+          if (job.actualEndDate && job.actualEndDate <= job.endDate) {
+            acc.onTimeCompletedCount++;
+          }
+        }
+
+        if (ACTIVE_REPAIR_JOB_STATUSES.includes(job.status)) {
+          acc.activeRepairJobs++;
+        }
+
+        return acc;
+      },
+      {
+        totalRepairJobs: 0,
+        completedRepairJobs: 0,
+        overdueRepairJobs: 0,
+        totalDurationDays: 0,
+        onTimeCompletedCount: 0,
+        activeRepairJobs: 0,
+      }
+    );
+
+    return {
+      totalRepairJobs,
+      completedRepairJobs,
+      overdueRepairJobs,
+      averageDurationDays: getAverageRepairJobDurationInDays(totalDurationDays, completedRepairJobs),
+      onTimeCompletionRate: getOnTimeCompletionRate(onTimeCompletedCount, completedRepairJobs),
+      activeRepairJobs,
+    };
   }
 }
 

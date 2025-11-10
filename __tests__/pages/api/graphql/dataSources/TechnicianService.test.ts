@@ -10,7 +10,7 @@ import {
   mockJamesAndersonRecord,
   mockOliviaLewisRecord,
 } from '@/mocks/technicianManagementMocks';
-import { TECHNICIAN_ASSIGNMENT_BLOCKING_STATUSES } from '@/pages/api/graphql/constants';
+import { TECHNICIAN_ASSIGNMENT_BLOCKING_STATUSES } from '@/pages/api/graphql/dataSources/constants';
 import TechnicianService from '@/pages/api/graphql/dataSources/TechnicianService';
 import {
   createTechnicianRecordFilterOptions,

@@ -12,7 +12,6 @@ import {
   UpdateTechnicianRecordInput,
 } from '@/graphql/types/server/generated_types';
 
-import { TECHNICIAN_ASSIGNMENT_BLOCKING_STATUSES } from '../constants';
 import {
   createTechnicianRecordFilterOptions,
   createTechnicianRecordSortOptions,
@@ -21,7 +20,7 @@ import {
   makeConnectionObject,
 } from '../utils';
 
-import { TECHNICIAN_AVAILABILITY_STATUS_MAP } from './constants';
+import { TECHNICIAN_ASSIGNMENT_BLOCKING_STATUSES, TECHNICIAN_AVAILABILITY_STATUS_MAP } from './constants';
 
 class TechnicianService {
   private prisma;

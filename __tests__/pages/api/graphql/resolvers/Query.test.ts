@@ -92,6 +92,7 @@ describe('Query', () => {
     let getElevatorDetailsByBuildingNameResolver: TestResolver<typeof Query, 'getElevatorDetailsByBuildingName'>;
     let getRecentRepairJobsResolver: TestResolver<typeof Query, 'getRecentRepairJobs'>;
     let getElevatorMentainanceHistoryResolver: TestResolver<typeof Query, 'getElevatorMentainanceHistory'>;
+    let getTechnicianPerformanceResolver: TestResolver<typeof Query, 'getTechnicianPerformance'>;
 
     beforeEach(() => {
       mockDataSources = createDataSourcesMock(repairJobServicePrismaMock);
@@ -110,6 +111,7 @@ describe('Query', () => {
         'getElevatorMentainanceHistory',
         mockDataSources
       );
+      getTechnicianPerformanceResolver = getResolverToTest(Query, 'getTechnicianPerformance', mockDataSources);
     });
 
     afterEach(() => {
@@ -191,6 +193,45 @@ describe('Query', () => {
 
         expect(mockDataSources.repairJob.elevatorMentainanceHistory).toHaveBeenCalled();
         expect(result).toEqual(mockReturnedRepairJobsDataForElevatorMaintenance.getElevatorMentainanceHistory);
+      });
+    });
+
+    describe('getTechnicianPerformance', () => {
+      const mockTechnician = 'Chloe Carter';
+
+      afterEach(() => {
+        jest.clearAllMocks();
+      });
+
+      it('should return technician performance data', async () => {
+        const mockOutput = {
+          activeRepairJobs: 2,
+          averageDurationDays: 5.6,
+          completedRepairJobs: 1,
+          onTimeCompletionRate: 0,
+          overdueRepairJobs: 1,
+          totalRepairJobs: 3,
+        };
+
+        mockDataSources.repairJob.technicianPerformanceMetrics.mockResolvedValue(mockOutput);
+
+        const result = await getTechnicianPerformanceResolver(undefined, { technicianName: mockTechnician });
+
+        expect(mockDataSources.repairJob.technicianPerformanceMetrics).toHaveBeenCalledWith(mockTechnician);
+        expect(result).toEqual(mockOutput);
+      });
+
+      it('should throw an error if data source fails', async () => {
+        const mockTechnician = 'Chloe Carter';
+        const mockError = new Error('Database connection failed');
+
+        mockDataSources.repairJob.technicianPerformanceMetrics.mockRejectedValueOnce(mockError);
+
+        await expect(getTechnicianPerformanceResolver(undefined, { technicianName: mockTechnician })).rejects.toThrow(
+          mockError
+        );
+
+        expect(mockDataSources.repairJob.technicianPerformanceMetrics).toHaveBeenCalledWith(mockTechnician);
       });
     });
   });

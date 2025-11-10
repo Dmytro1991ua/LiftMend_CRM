@@ -16,7 +16,7 @@ import {
 } from '@/graphql/types/server/generated_types';
 import { Nullable } from '@/shared/base-table/types';
 
-import { DEFAULT_PAGINATION } from './constants';
+import { DEFAULT_PAGINATION, MILLISECONDS_IN_DAY } from './constants';
 import { Connection, Edge, PageInfo } from './types';
 
 export const getSortedFormDropdownData = async <T>(
@@ -225,3 +225,22 @@ export const convertStreamToBuffer = async (stream: NodeJS.ReadableStream): Prom
     });
   });
 };
+
+/**
+ * Calculates the duration of a repair job in days between the start and end dates.
+ */
+export const getRepairJobDurationInDays = (startDate: Date, endDate: Date): number =>
+  (endDate.getTime() - startDate.getTime()) / MILLISECONDS_IN_DAY;
+
+/**
+ * Calculates the average duration of completed repair jobs in days,
+ * Rounded to one decimal place. Returns 0 if there are no completed jobs.
+ */
+export const getAverageRepairJobDurationInDays = (totalDurationDays: number, completedRepairJobs: number): number =>
+  completedRepairJobs > 0 ? Math.round((totalDurationDays / completedRepairJobs) * 10) / 10 : 0;
+
+/**
+ * Calculates the percentage of on-time completed repair jobs.
+ */
+export const getOnTimeCompletionRate = (onTimeCompletedCount: number, completedRepairJobs: number): number =>
+  completedRepairJobs > 0 ? Math.round((onTimeCompletedCount / completedRepairJobs) * 100) : 0;
