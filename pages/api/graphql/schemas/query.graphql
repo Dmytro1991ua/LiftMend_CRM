@@ -27,4 +27,5 @@ type Query {
   getUser(id: ID!): AppUser!
   getRecentRepairJobs(jobsCount: Int): [RepairJob!]!
   getElevatorMentainanceHistory(paginationOptions: PaginationOptions, buildingName: String!, elevatorLocation: String!): RepairJobConnection!
+  getTechnicianPerformance(technicianName: String!): TechnicianPerformanceMetrics!
 }

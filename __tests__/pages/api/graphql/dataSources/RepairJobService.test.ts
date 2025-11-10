@@ -525,4 +525,34 @@ describe('RepairJobService', () => {
       expect(result).toEqual(mockConnection);
     });
   });
+
+  describe('technicianPerformanceMetrics', () => {
+    it('should return performance metrics for a specific technician', async () => {
+      const mockTechnician = 'Chloe Carter';
+
+      (repairJobServicePrismaMock.repairJob.findMany as jest.Mock).mockResolvedValue(
+        mockRepairJobs.map((job) => ({
+          ...job,
+          technicianName: mockTechnician,
+          startDate: new Date(job.startDate),
+          endDate: new Date(job.endDate),
+          actualEndDate: job.actualEndDate ? new Date(job.actualEndDate) : undefined,
+        }))
+      );
+
+      const result = await repairJobService.technicianPerformanceMetrics(mockTechnician);
+
+      expect(repairJobServicePrismaMock.repairJob.findMany).toHaveBeenCalledWith({
+        where: { technicianName: mockTechnician },
+      });
+      expect(result).toEqual({
+        activeRepairJobs: 2,
+        averageDurationDays: 5.6,
+        completedRepairJobs: 1,
+        onTimeCompletionRate: 0,
+        overdueRepairJobs: 1,
+        totalRepairJobs: 3,
+      });
+    });
+  });
 });

@@ -11,6 +11,7 @@ import {
   RepairJob,
   RepairJobConnection,
   RepairJobScheduleData,
+  TechnicianPerformanceMetrics,
   TechnicianRecord,
   TechnicianRecordConnection,
   TechnicianRecordFormData,
@@ -82,6 +83,9 @@ const Query: QueryResolvers = {
   },
   getElevatorMentainanceHistory: async (_, args, { dataSources }): Promise<RepairJobConnection> => {
     return await dataSources.repairJob.elevatorMentainanceHistory(args);
+  },
+  getTechnicianPerformance: async (_, { technicianName }, { dataSources }): Promise<TechnicianPerformanceMetrics> => {
+    return await dataSources.repairJob.technicianPerformanceMetrics(technicianName);
   },
 };
 

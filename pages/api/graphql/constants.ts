@@ -22,7 +22,6 @@ export const REPAIR_JOB_STATUS_TO_ELEVATOR_RECORD_STATUS_MAP: Record<string, str
   Cancelled: 'Operational',
 };
 
-export const TECHNICIAN_ASSIGNMENT_BLOCKING_STATUSES = ['Busy', 'Reserved'];
-
 export const MAX_FILE_SIZE = 10000000;
 export const MAX_FILES = 10;
+export const MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24;

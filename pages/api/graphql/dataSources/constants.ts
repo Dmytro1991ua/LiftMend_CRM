@@ -125,3 +125,6 @@ export const DEFAULT_SUPABASE_NOT_INITIALIZED_MESSAGE = 'Supabase client is not 
 export const DEFAULT_IMAGE_PUBLIC_URL_FAILED_MESSAGE = 'Error fetching signed URL';
 export const DEFAULT_RECENT_JOBS_COUNT = 5;
 export const DEFAULT_SORTING_OPTION = 'desc';
+
+export const TECHNICIAN_ASSIGNMENT_BLOCKING_STATUSES = ['Busy', 'Reserved'];
+export const ACTIVE_REPAIR_JOB_STATUSES = ['Scheduled', 'In Progress', 'On Hold'];

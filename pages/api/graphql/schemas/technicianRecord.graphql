@@ -37,6 +37,27 @@ type DeleteTechnicianRecordResponse {
   id: ID!
 }
 
+type TechnicianPerformanceMetrics {
+  """
+  All jobs assigned to this technician
+  """
+  totalRepairJobs: Int!
+  completedRepairJobs: Int!
+  overdueRepairJobs: Int!
+  """
+  % of completed jobs finished on or before expected endDate
+  """
+  onTimeCompletionRate: Int
+  """
+  Average time per job (in days)
+  """
+  averageDurationDays: Float!
+  """
+  Currently ongoing jobs for a particular technician
+  """
+  activeRepairJobs: Int
+}
+
 input CreateTechnicianRecordInput {
   name: String!
   contactInformation: String!
