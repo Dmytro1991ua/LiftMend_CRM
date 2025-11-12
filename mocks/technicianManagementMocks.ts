@@ -13,11 +13,14 @@ import {
 import {
   CreateTechnicianRecordMutation,
   DeleteTechnicianRecordMutation,
+  GetTechnicianPerformanceMetricsQuery,
   GetTechnicianRecordByIdQuery,
   GetTechnicianRecordFormDataQuery,
   GetTechnicianRecordsQuery,
   UpdateTechnicianRecordMutation,
 } from '@/graphql/types/client/generated_types';
+
+import { GET_TECHNICIAN_PERFORMANCE_METRICS } from './../graphql/schemas/getTechnicianPerfomanceMetrics';
 
 export const mockTechnicianContactInfo = 'benjamin.hall@example.com';
 export const mockTechnicianSkills = ['Electrical', 'Mechanical', 'Troubleshooting'];
@@ -65,6 +68,15 @@ export const mockUpdatedBenjaminHallRecord = {
   employmentStatus: 'Inactive',
   availabilityStatus: 'Unavailable',
   lastKnownAvailabilityStatus: 'Available',
+};
+
+export const mockBenjaminHallPerformanceMetrics = {
+  totalRepairJobs: 3,
+  completedRepairJobs: 1,
+  activeRepairJobs: 1,
+  overdueRepairJobs: 1,
+  averageDurationDays: 61.6,
+  onTimeCompletionRate: 0,
 };
 
 export const mockedReturnedTechnicianRecordsData = {
@@ -343,4 +355,28 @@ export const mockDeleteTechnicianRecordNetworkError = {
     data: undefined,
     error: new Error('Error occurs'),
   },
+};
+
+export const mockTechnicianPerformanceMetricsResponse: MockedResponse<GetTechnicianPerformanceMetricsQuery> = {
+  request: {
+    query: GET_TECHNICIAN_PERFORMANCE_METRICS,
+    variables: {
+      technicianName: mockBenjaminHallRecord.name,
+    },
+  },
+  result: {
+    data: {
+      getTechnicianPerformance: { ...mockBenjaminHallPerformanceMetrics, __typename: 'TechnicianPerformanceMetrics' },
+    },
+  },
+};
+
+export const mockTechnicianPerformanceMetricsErrorResponse = {
+  request: {
+    query: GET_TECHNICIAN_PERFORMANCE_METRICS,
+    variables: {
+      technicianName: mockBenjaminHallRecord.name,
+    },
+  },
+  error: new Error('Something went wrong'),
 };
