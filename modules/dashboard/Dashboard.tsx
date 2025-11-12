@@ -1,16 +1,20 @@
+import { useMemo } from 'react';
+
+import BaseAppMetrics from '@/shared/base-app-metrics';
 import SectionHeader from '@/shared/section-header';
 import { SectionHeaderTitle } from '@/types/enums';
 
 import DashboardDateRangeFilter from './components/dashboard-date-range-filter';
 import ElevatorStatusMetrics from './components/elevator-status-metrics';
 import ElevatorTypeMetrics from './components/elevator-type-metrics';
-import KeyAppMetrics from './components/key-app-metrics';
 import { RecentRepairJobsTable } from './components/recent-repair-jobs-table';
 import RepairJobPriorityMetrics from './components/repair-job-priority-metrics';
 import RepairJobStatusMetrics from './components/repair-job-status-metrics';
 import RepairJobTypeMetrics from './components/repair-job-type-metrics';
 import TechnicianVisibilityMetrics from './components/technician-visibility-metrics';
 import { useDashBoard } from './hooks';
+import { SectionTitle } from './types';
+import { getKeyMetricsConfig } from './utils';
 
 const Dashboard = () => {
   const {
@@ -22,6 +26,8 @@ const Dashboard = () => {
     sanitizedDateRange,
     onHandleCalendarPopoverClose,
   } = useDashBoard();
+
+  const dashboardMetricsConfig = useMemo(() => getKeyMetricsConfig(dashboardMetrics), [dashboardMetrics]);
 
   return (
     <section className='flex flex-col h-[80vh]'>
@@ -37,7 +43,12 @@ const Dashboard = () => {
         title={SectionHeaderTitle.Dashboard}
       />
       <section className='content-wrapper flex-grow overflow-y-auto'>
-        <KeyAppMetrics dashboardMetrics={dashboardMetrics} error={error} loading={loading} />
+        <BaseAppMetrics
+          error={error}
+          loading={loading}
+          metricsConfig={dashboardMetricsConfig}
+          sectionTitle={SectionTitle.KeyAppMetrics}
+        />
         <div className='grid grid-cols-1 mb-2 gap-2 xl:grid-cols-2'>
           <TechnicianVisibilityMetrics dashboardMetrics={dashboardMetrics} error={error} loading={loading} />
           <ElevatorStatusMetrics dashboardMetrics={dashboardMetrics} error={error} loading={loading} />

@@ -4,6 +4,8 @@ import Pill from '@/shared/pill';
 import { PillStatus } from '@/shared/pill/config';
 import { TechnicianRecord } from '@/shared/types';
 
+import { TechnicianPerformanceMetrics } from '../technician-performance-metrics';
+
 export const technicianRecordSectionsConfig = (technicianRecord: TechnicianRecord): DetailsPageSectionsConfig[] => [
   {
     id: 1,
@@ -48,6 +50,19 @@ export const technicianRecordSectionsConfig = (technicianRecord: TechnicianRecor
           />
         ),
         fieldClassName: 'items-center',
+      },
+    ],
+  },
+  {
+    id: 3,
+    title: ' Technician Performance',
+    fields: [
+      {
+        id: 9,
+        label: '',
+        value: <TechnicianPerformanceMetrics technicianName={technicianRecord.name} />,
+        fieldClassName: 'items-center',
+        valueClassName: 'overflow-x-auto',
       },
     ],
   },

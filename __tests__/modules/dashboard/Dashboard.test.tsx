@@ -14,6 +14,6 @@ describe('Dashboard', () => {
   it('should render component without crashing', () => {
     render(DashboardComponent());
     expect(screen.getByText(SectionHeaderTitle.Dashboard)).toBeInTheDocument();
-    expect(screen.getByTestId('key-app-metrics')).toBeInTheDocument();
+    expect(screen.getByTestId('base-app-metrics')).toBeInTheDocument();
   });
 });

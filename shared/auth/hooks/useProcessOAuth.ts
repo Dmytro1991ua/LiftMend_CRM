@@ -1,7 +1,5 @@
 import { useEffect, useMemo } from 'react';
 
-import { useRouter } from 'next/router';
-
 import { supabaseClient } from '@/lib/supabase-client';
 import { useUser } from '@/shared/contexts/UserContext';
 import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';

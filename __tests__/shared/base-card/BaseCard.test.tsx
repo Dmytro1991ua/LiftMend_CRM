@@ -1,8 +1,18 @@
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import BaseCard from '@/shared/base-card';
 
 describe('BaseCard', () => {
+  const mockTooltipMessage = 'Test Tooltip Message';
+  const mockInfoTooltipProps = {
+    id: 'test-tooltip-id',
+    message: mockTooltipMessage,
+    className: '',
+    iconSize: '12',
+    iconClassName: '',
+  };
+
   const defaultProps = {
     title: 'Test Card Title',
     cardClassName: '',
@@ -11,6 +21,10 @@ describe('BaseCard', () => {
     footerContent: null,
     footerClassName: '',
   };
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
   it('should render component without crashing', () => {
     render(<BaseCard {...defaultProps} />);
@@ -30,5 +44,15 @@ describe('BaseCard', () => {
     render(<BaseCard {...defaultProps} footerContent={null} />);
 
     expect(screen.queryByTestId('base-card-footer')).not.toBeInTheDocument();
+  });
+
+  it('should render info tooltip if infoTooltip prop is provided', async () => {
+    render(<BaseCard {...defaultProps} infoTooltip={mockInfoTooltipProps} />);
+
+    const icon = screen.getByTestId('info-icon');
+
+    await userEvent.hover(icon);
+
+    expect(screen.getByText(mockTooltipMessage)).toBeInTheDocument();
   });
 });

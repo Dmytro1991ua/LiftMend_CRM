@@ -357,6 +357,7 @@ export type Query = {
   getRepairJobById: RepairJob;
   getRepairJobScheduleData: RepairJobScheduleData;
   getRepairJobs: RepairJobConnection;
+  getTechnicianPerformance: TechnicianPerformanceMetrics;
   getTechnicianRecordById: TechnicianRecord;
   getTechnicianRecordFormData: TechnicianRecordFormData;
   getTechnicianRecords: TechnicianRecordConnection;
@@ -400,6 +401,10 @@ export type QueryGetRepairJobsArgs = {
   filterOptions?: InputMaybe<RepairJobFilterOptions>;
   paginationOptions?: InputMaybe<PaginationOptions>;
   sortOptions?: InputMaybe<RepairJobSortInput>;
+};
+
+export type QueryGetTechnicianPerformanceArgs = {
+  technicianName: Scalars['String']['input'];
 };
 
 export type QueryGetTechnicianRecordByIdArgs = {
@@ -541,6 +546,20 @@ export type SignInUserInput = {
 
 export type SignInWithOAuthInput = {
   provider: OAuthProvider;
+};
+
+export type TechnicianPerformanceMetrics = {
+  __typename?: 'TechnicianPerformanceMetrics';
+  /** Currently ongoing jobs for a particular technician */
+  activeRepairJobs: Maybe<Scalars['Int']['output']>;
+  /** Average time per job (in days) */
+  averageDurationDays: Scalars['Float']['output'];
+  completedRepairJobs: Scalars['Int']['output'];
+  /** % of completed jobs finished on or before expected endDate */
+  onTimeCompletionRate: Maybe<Scalars['Int']['output']>;
+  overdueRepairJobs: Scalars['Int']['output'];
+  /** All jobs assigned to this technician */
+  totalRepairJobs: Scalars['Int']['output'];
 };
 
 export type TechnicianRecord = Node & {
@@ -1137,6 +1156,23 @@ export type GetRepairJobsQuery = {
       startCursor: string | null;
       endCursor: string | null;
     };
+  };
+};
+
+export type GetTechnicianPerformanceMetricsQueryVariables = Exact<{
+  technicianName: Scalars['String']['input'];
+}>;
+
+export type GetTechnicianPerformanceMetricsQuery = {
+  __typename?: 'Query';
+  getTechnicianPerformance: {
+    __typename?: 'TechnicianPerformanceMetrics';
+    activeRepairJobs: number | null;
+    totalRepairJobs: number;
+    onTimeCompletionRate: number | null;
+    overdueRepairJobs: number;
+    averageDurationDays: number;
+    completedRepairJobs: number;
   };
 };
 

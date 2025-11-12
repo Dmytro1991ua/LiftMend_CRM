@@ -1,4 +1,5 @@
 import { DashboardMetrics } from './../../graphql/types/server/generated_types';
+
 export enum SectionTitle {
   KeyAppMetrics = 'Key App Metrics',
   TechnicianAvailabilityMetrics = 'Technician Availability Metrics',
@@ -14,6 +15,16 @@ export enum DateRangeErrorVariant {
   MissingEndDate = 'MissingEndDate',
   InvalidDateOrder = 'InvalidDateOrder',
   DateRangeTooLarge = 'DateRangeTooLarge',
+}
+
+export enum KeyMetricCardTitle {
+  AvailableTechnicians = 'Available Technicians',
+  TotalElevators = 'Total Elevators',
+  TotalRepairJobs = 'Total Repair Jobs',
+  TotalTechnicians = 'Total Technicians',
+  OngoingRepairJobs = 'Ongoing Repair Jobs',
+  OverdueRepairJobs = 'Overdue Repair Jobs',
+  CompletedTodayJobs = 'Completed Today',
 }
 
 export type DashboardSectionProps = {
