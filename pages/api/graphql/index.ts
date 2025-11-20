@@ -47,6 +47,7 @@ const handler = startServerAndCreateNextHandler(server, {
       res,
       prisma,
       dataSources: createDataSources(prisma, supabase),
+      dataLoaders: new WeakMap(),
       user,
       supabase,
     };

@@ -18,7 +18,7 @@ import {
   REPAIR_JOB_STATUS_TO_ELEVATOR_RECORD_STATUS_MAP,
   REPAIR_JOB_STATUS_TO_TECHNICIAN_AVAILABILITY_STATUS_MAP,
 } from '../constants';
-import { getElevatorStatusErrorMessage } from '../utils';
+import { getElevatorStatusErrorMessage } from '../utils/utils';
 
 import { ScheduledEventAndRepairJobResponse } from './../../../../graphql/types/server/generated_types';
 

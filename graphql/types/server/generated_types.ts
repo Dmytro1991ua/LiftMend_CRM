@@ -134,6 +134,8 @@ export type ElevatorRecord = Node & {
   capacity: Scalars['Int']['output'];
   elevatorLocation: Scalars['String']['output'];
   elevatorType: Scalars['String']['output'];
+  /** Computed health score of the elevator (0–100) */
+  healthScore?: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
   lastKnownStatus?: Maybe<Scalars['String']['output']>;
   lastMaintenanceDate: Scalars['DateTime']['output'];
@@ -1010,6 +1012,7 @@ export type ElevatorRecordResolvers<
   capacity?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   elevatorLocation?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   elevatorType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  healthScore?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   lastKnownStatus?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   lastMaintenanceDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;

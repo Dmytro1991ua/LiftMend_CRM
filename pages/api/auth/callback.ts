@@ -3,7 +3,7 @@ import { NextApiHandler } from 'next';
 
 import prisma from '@/prisma/db';
 
-import { parseOAuthFullName } from '../graphql/utils';
+import { parseOAuthFullName } from '../graphql/utils/utils';
 
 const handler: NextApiHandler = async (req, res) => {
   const { code } = req.query;

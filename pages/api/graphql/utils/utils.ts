@@ -1,3 +1,5 @@
+import DataLoader from 'dataloader';
+import { FieldNode } from 'graphql';
 import { first as _first, last as _last, orderBy as _orderBy, words as _words } from 'lodash';
 
 import {
@@ -16,8 +18,8 @@ import {
 } from '@/graphql/types/server/generated_types';
 import { Nullable } from '@/shared/base-table/types';
 
-import { DEFAULT_PAGINATION, MILLISECONDS_IN_DAY } from './constants';
-import { Connection, Edge, PageInfo } from './types';
+import { DEFAULT_PAGINATION, MILLISECONDS_IN_DAY } from '../constants';
+import { Connection, Edge, GraphQLDataLoaders, PageInfo } from '../types';
 
 export const getSortedFormDropdownData = async <T>(
   model: { findMany: () => Promise<T[]> },
@@ -244,3 +246,30 @@ export const getAverageRepairJobDurationInDays = (totalDurationDays: number, com
  */
 export const getOnTimeCompletionRate = (onTimeCompletedCount: number, completedRepairJobs: number): number =>
   completedRepairJobs > 0 ? Math.round((onTimeCompletedCount / completedRepairJobs) * 100) : 0;
+
+export const getDataLoader = <T>(
+  dataloaders: GraphQLDataLoaders,
+  fieldNodes: readonly FieldNode[],
+  batchDataIds: (keys: readonly string[]) => Promise<T[]>
+): DataLoader<string, T, string> => {
+  let loader = dataloaders.get(fieldNodes) as DataLoader<string, T, string> | undefined;
+
+  if (!loader) {
+    loader = new DataLoader(batchDataIds);
+
+    dataloaders.set(fieldNodes, loader);
+  }
+
+  return loader;
+};
+
+export const loadWithDataLoader = async <T>(
+  dataloaders: GraphQLDataLoaders,
+  fieldNodes: readonly FieldNode[],
+  batchFunction: (keys: readonly string[]) => Promise<T[][]>,
+  key: string
+): Promise<T[]> => {
+  const loader = getDataLoader(dataloaders, fieldNodes, batchFunction);
+
+  return await loader.load(key);
+};

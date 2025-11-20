@@ -27,7 +27,7 @@ import {
   isRepairJobOverdue,
   isToday,
   makeConnectionObject,
-} from '../utils';
+} from '../utils/utils';
 
 import {
   ACTIVE_REPAIR_JOB_STATUSES,

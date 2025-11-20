@@ -17,6 +17,10 @@ type ElevatorRecord implements Node {
   capacity: Int!
   status: String!
   lastKnownStatus: String
+  """
+  Computed health score of the elevator (0–100)
+  """
+  healthScore: Int
 }
 
 type ElevatorRecordEdge implements Edge {

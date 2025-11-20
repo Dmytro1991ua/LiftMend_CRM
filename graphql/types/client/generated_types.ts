@@ -130,6 +130,8 @@ export type ElevatorRecord = Node & {
   capacity: Scalars['Int']['output'];
   elevatorLocation: Scalars['String']['output'];
   elevatorType: Scalars['String']['output'];
+  /** Computed health score of the elevator (0–100) */
+  healthScore: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
   lastKnownStatus: Maybe<Scalars['String']['output']>;
   lastMaintenanceDate: Scalars['DateTime']['output'];
