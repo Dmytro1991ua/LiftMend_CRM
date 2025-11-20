@@ -18,9 +18,9 @@ import {
   fetchFormDropdownData,
   getSortedFormDropdownData,
   makeConnectionObject,
-} from '@/pages/api/graphql/utils';
+} from '@/pages/api/graphql/utils/utils';
 
-jest.mock('@/pages/api/graphql/utils', () => ({
+jest.mock('@/pages/api/graphql/utils/utils', () => ({
   createTechnicianRecordFilterOptions: jest.fn(),
   createTechnicianRecordSortOptions: jest.fn(),
   makeConnectionObject: jest.fn(),

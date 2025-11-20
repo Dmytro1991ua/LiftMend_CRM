@@ -1,5 +1,8 @@
 import { PassThrough } from 'stream';
 
+import DataLoader from 'dataloader';
+import { Kind } from 'graphql';
+
 import {
   ElevatorRecordSortField,
   OrderOption,
@@ -18,6 +21,7 @@ import {
   createTechnicianRecordSortOptions,
   fetchFormDropdownData,
   getAverageRepairJobDurationInDays,
+  getDataLoader,
   getElevatorStatusErrorMessage,
   getOnTimeCompletionRate,
   getRepairJobDurationInDays,
@@ -25,9 +29,15 @@ import {
   makeConnectionObject,
   parseOAuthFullName,
   stringToBool,
-} from '@/pages/api/graphql/utils';
+} from '@/pages/api/graphql/utils/utils';
 
 type TestItem = { id: string; name: string };
+
+jest.mock('dataloader', () => {
+  return jest.fn().mockImplementation(() => ({
+    load: jest.fn(),
+  }));
+});
 
 describe('utils', () => {
   describe('getSortedFormDropdownData', () => {
@@ -775,6 +785,38 @@ describe('utils', () => {
       const result = getOnTimeCompletionRate(0, 0);
 
       expect(result).toBe(0);
+    });
+  });
+
+  describe('getDataLoader', () => {
+    it('should return an existing data loader from the WeakMap', () => {
+      const fieldNodes = [{ kind: Kind.FIELD, name: { kind: Kind.NAME, value: 'Test' } }] as const;
+
+      const dataloaders = new WeakMap();
+      const batchDataIds = jest.fn();
+
+      // DON'T call new DataLoader() or you'll increment the counter!
+      const existingLoader = { load: jest.fn() };
+
+      dataloaders.set(fieldNodes, existingLoader);
+
+      const result = getDataLoader(dataloaders, fieldNodes, batchDataIds);
+
+      expect(result).toBe(existingLoader);
+      expect(DataLoader).toHaveBeenCalledTimes(0);
+    });
+
+    it('should create a new data loader if one does not exist', () => {
+      const fieldNodes = [{ kind: Kind.FIELD, name: { kind: Kind.NAME, value: 'Test' } }] as const;
+
+      const dataloaders = new WeakMap();
+      const batchDataIds = jest.fn();
+
+      const result = getDataLoader(dataloaders, fieldNodes, batchDataIds);
+
+      expect(DataLoader).toHaveBeenCalledTimes(1);
+      expect(DataLoader).toHaveBeenCalledWith(batchDataIds);
+      expect(result).toBeInstanceOf(Object);
     });
   });
 });

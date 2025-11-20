@@ -18,7 +18,7 @@ import {
   fetchFormDropdownData,
   getSortedFormDropdownData,
   makeConnectionObject,
-} from '../utils';
+} from '../utils/utils';
 
 import { TECHNICIAN_ASSIGNMENT_BLOCKING_STATUSES, TECHNICIAN_AVAILABILITY_STATUS_MAP } from './constants';
 

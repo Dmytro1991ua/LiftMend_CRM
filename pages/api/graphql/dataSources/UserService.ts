@@ -6,7 +6,7 @@ import { isNull as _isNull, omitBy as _omitBy } from 'lodash';
 import { AppUser, UploadProfilePicturePayload, UserProfileInput } from '@/graphql/types/server/generated_types';
 import { supabaseServiceRole } from '@/lib/supabase-service-role';
 
-import { convertStreamToBuffer } from '../utils';
+import { convertStreamToBuffer } from '../utils/utils';
 
 import {
   DEFAULT_IMAGE_PUBLIC_URL_FAILED_MESSAGE,

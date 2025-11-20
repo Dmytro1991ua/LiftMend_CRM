@@ -34,6 +34,7 @@ export const mockElevatorRecord = {
   capacity: 5000,
   status: 'Operational',
   lastKnownStatus: null,
+  healthScore: 75,
 };
 
 export const mockElevatorRecordsFormData: MockedResponse = {

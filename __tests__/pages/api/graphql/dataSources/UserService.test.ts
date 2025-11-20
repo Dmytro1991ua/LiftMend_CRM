@@ -11,10 +11,10 @@ import {
   DEFAULT_USER_NOT_FOUND_MESSAGE,
 } from '@/pages/api/graphql/dataSources/constants';
 import UserService from '@/pages/api/graphql/dataSources/UserService';
-import { convertStreamToBuffer } from '@/pages/api/graphql/utils';
+import { convertStreamToBuffer } from '@/pages/api/graphql/utils/utils';
 
-jest.mock('@/pages/api/graphql/utils', () => ({
-  ...jest.requireActual('@/pages/api/graphql/utils'),
+jest.mock('@/pages/api/graphql/utils/utils', () => ({
+  ...jest.requireActual('@/pages/api/graphql/utils/utils'),
   convertStreamToBuffer: jest.fn(),
 }));
 

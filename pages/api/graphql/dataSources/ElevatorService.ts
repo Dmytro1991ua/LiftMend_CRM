@@ -18,7 +18,7 @@ import {
   fetchFormDropdownData,
   getSortedFormDropdownData,
   makeConnectionObject,
-} from '../utils';
+} from '../utils/utils';
 
 import { ELEVATOR_STATUS_MAP, ELEVATOR_TYPE_MAP } from './constants';
 
@@ -56,7 +56,7 @@ class ElevatorService {
       totalItems,
       paginationOptions,
       getCursor: (elevatorRecord: ElevatorRecord) => elevatorRecord.id,
-    });
+    }) as ElevatorRecordConnection;
   }
 
   async findElevatorRecordById(id: string): Promise<ElevatorRecord | null> {

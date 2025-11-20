@@ -24,10 +24,10 @@ import {
   fetchFormDropdownData,
   getSortedFormDropdownData,
   makeConnectionObject,
-} from '@/pages/api/graphql/utils';
+} from '@/pages/api/graphql/utils/utils';
 
-jest.mock('@/pages/api/graphql/utils', () => ({
-  ...jest.requireActual('@/pages/api/graphql/utils'),
+jest.mock('@/pages/api/graphql/utils/utils', () => ({
+  ...jest.requireActual('@/pages/api/graphql/utils/utils'),
   createRepairJobFilterOptions: jest.fn(),
   createRepairJobSortOptions: jest.fn(),
   makeConnectionObject: jest.fn(),

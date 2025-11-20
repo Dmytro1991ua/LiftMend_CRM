@@ -14,10 +14,10 @@ import { mockRepairJob, mockRepairJobId } from '@/mocks/repairJobTrackingMocks';
 import { mockBenjaminHallRecord, mockOliviaLewisRecord } from '@/mocks/technicianManagementMocks';
 import { createMockFile, mockSupabaseUser, mockUser } from '@/mocks/userMocks';
 import Mutation from '@/pages/api/graphql/resolvers/Mutation';
-import { getElevatorStatusErrorMessage } from '@/pages/api/graphql/utils';
+import { getElevatorStatusErrorMessage } from '@/pages/api/graphql/utils/utils';
 
-jest.mock('@/pages/api/graphql/utils', () => ({
-  ...jest.requireActual('@/pages/api/graphql/utils'),
+jest.mock('@/pages/api/graphql/utils/utils', () => ({
+  ...jest.requireActual('@/pages/api/graphql/utils/utils'),
   getElevatorStatusErrorMessage: jest.fn(),
 }));
 
@@ -749,7 +749,7 @@ describe('Mutation', () => {
   describe('removeAccount', () => {
     const mockUserId = 'test-user-id-2';
 
-    it("should remove user's account", async () => {
+    it('should remove user account', async () => {
       const result = await removeAccountResolver({}, { userId: mockUserId });
 
       expect(mockDataSources.user.removeAccount).toHaveBeenCalledWith(mockUserId);
