@@ -94,7 +94,7 @@ describe('getCalculatedElevatorHealthScore', () => {
 
     const result = getCalculatedElevatorHealthScore(mockRepairJobs, mockLastMaintenanceDate);
 
-    expect(result).toBe(86);
+    expect(result).toBe(92);
   });
 
   it('should ignore cancelled repair jobs', () => {
@@ -147,10 +147,10 @@ describe('getCalculatedElevatorHealthScore', () => {
 
     const result = getCalculatedElevatorHealthScore(mockRepairJobs, mockLastMaintenanceDate);
 
-    expect(result).toBe(96);
+    expect(result).toBe(95);
   });
 
-  it('should return 0 when all factors exceed worst-case thresholds', () => {
+  it('should return 0 when all factors exceed worst-case thresholds with impacting job types', () => {
     const mockLastMaintenanceDate = new Date(Date.now() - 400 * MILLISECONDS_IN_DAY);
 
     const mockRepairJobs = Array.from({ length: 20 }).map(() => ({
@@ -163,10 +163,32 @@ describe('getCalculatedElevatorHealthScore', () => {
       updatedAt: new Date(),
       actualEndDate: new Date(),
       calendarEventId: mockCalendarEventId,
+      jobType: 'Upgrade',
     }));
 
     const result = getCalculatedElevatorHealthScore(mockRepairJobs, mockLastMaintenanceDate);
 
     expect(result).toBe(0);
+  });
+
+  it('should return 30 when all factors exceed worst-case thresholds with non-impacting job types', () => {
+    const mockLastMaintenanceDate = new Date(Date.now() - 400 * MILLISECONDS_IN_DAY);
+
+    const mockRepairJobs = Array.from({ length: 20 }).map(() => ({
+      ...mockRepairJob,
+      status: 'Completed',
+      isOverdue: true,
+      endDate: new Date(Date.now() - 10 * MILLISECONDS_IN_DAY),
+      startDate: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      actualEndDate: new Date(),
+      calendarEventId: mockCalendarEventId,
+      jobType: 'Routine',
+    }));
+
+    const result = getCalculatedElevatorHealthScore(mockRepairJobs, mockLastMaintenanceDate);
+
+    expect(result).toBe(30);
   });
 });
