@@ -79,14 +79,10 @@ describe('ElevatorRecord', () => {
         lastMaintenanceDate: mockLastMaintenanceDate,
       });
 
-      // 2 overdue jobs → 0.2 * 40 = 8
-      // 2 completed jobs → 0.2 * 30 = 6
-      // daysSinceMaintenance ≈ 0
-      // score = 100 - (8 + 6 + 0) = 86
-      expect(result).toBe(86);
+      expect(result).toBe(92);
     });
 
-    it('should return 0 when all factors hit worst-case thresholds', async () => {
+    it('should return 0 when all factors hit worst-case thresholds with impacting job types', async () => {
       const mockLastMaintenanceDate = new Date(Date.now() - 400 * MILLISECONDS_IN_DAY); // > 365 days
 
       (loadWithDataLoader as jest.Mock).mockResolvedValueOnce(
@@ -94,6 +90,7 @@ describe('ElevatorRecord', () => {
           status: 'Completed',
           isOverdue: true,
           endDate: new Date(Date.now() - 10 * MILLISECONDS_IN_DAY),
+          jobType: 'Upgrade',
         }))
       );
 
@@ -104,6 +101,27 @@ describe('ElevatorRecord', () => {
       });
 
       expect(result).toBe(0);
+    });
+
+    it('should return 30 when all factors hit worst-case thresholds with non-impacting job types', async () => {
+      const mockLastMaintenanceDate = new Date(Date.now() - 400 * MILLISECONDS_IN_DAY); // > 365 days
+
+      (loadWithDataLoader as jest.Mock).mockResolvedValueOnce(
+        Array.from({ length: 10 }).map(() => ({
+          status: 'Completed',
+          isOverdue: true,
+          endDate: new Date(Date.now() - 10 * MILLISECONDS_IN_DAY),
+          jobType: 'Routine',
+        }))
+      );
+
+      const result = await healthScoreResolver({
+        buildingName: mockBuildingName,
+        elevatorLocation: mockElevatorLocation,
+        lastMaintenanceDate: mockLastMaintenanceDate,
+      });
+
+      expect(result).toBe(30);
     });
   });
 });

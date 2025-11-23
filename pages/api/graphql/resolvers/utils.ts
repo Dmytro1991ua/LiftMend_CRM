@@ -1,10 +1,13 @@
 import { RepairJob } from '@prisma/client';
 
 import {
+  ELEVATOR_HEALTH_IMPACTING_JOB_TYPES,
+  MAX_ELEVATOR_HEALTH_SCORE,
   MAX_MAINTENANCE_DELAY_IMPACT,
   MAX_OVERDUE_REPAIR_JOB_IMPACT,
   MAX_RECENT_REPAIRS_JOB_IMPACT,
   MILLISECONDS_IN_DAY,
+  REPAIR_JOB_TYPE_WEIGHTS,
   WORST_CASE_DAYS_SINCE_LAST_MAINTENANCE_THRESHOLD,
   WORST_CASE_OVERDUE_REPAIR_JOB_THRESHOLD,
   WORST_CASE_RECENT_REPAIR_JOB_THRESHOLD,
@@ -37,8 +40,14 @@ export const getCalculatedElevatorHealthScore = (repairJobs: RepairJob[], lastMa
 
       if (job.isOverdue) acc.overdueRepairJobs++;
 
-      if (isRepairJobAfterLastMaintenance && job.status === 'Completed') {
-        acc.completedRepairJobs++;
+      // Only count completed jobs that are serious AND occurred after the last maintenance.
+      // Minor jobs (Routine, Inspection, Consultation, etc.) do not reduce health score.
+      if (
+        isRepairJobAfterLastMaintenance &&
+        job.status === 'Completed' &&
+        ELEVATOR_HEALTH_IMPACTING_JOB_TYPES.includes(job.jobType)
+      ) {
+        acc.completedRepairJobs += REPAIR_JOB_TYPE_WEIGHTS[job.jobType];
       }
 
       return acc;
@@ -51,13 +60,14 @@ export const getCalculatedElevatorHealthScore = (repairJobs: RepairJob[], lastMa
 
   const overdueRepairJobImpact = getElevatorHealthImpact(overdueRepairJobs, WORST_CASE_OVERDUE_REPAIR_JOB_THRESHOLD);
   const completedRepairJobImpact = getElevatorHealthImpact(completedRepairJobs, WORST_CASE_RECENT_REPAIR_JOB_THRESHOLD);
+  // Apply Math.sqrt to reduce impact of very long maintenance gaps
   const daysSinceMaintenanceImpact = getElevatorHealthImpact(
-    getDaysSinceLastMaintenance(lastMaintenanceDate),
-    WORST_CASE_DAYS_SINCE_LAST_MAINTENANCE_THRESHOLD
+    Math.sqrt(getDaysSinceLastMaintenance(lastMaintenanceDate)),
+    Math.sqrt(WORST_CASE_DAYS_SINCE_LAST_MAINTENANCE_THRESHOLD)
   );
 
   const rawElevatorHealthScore =
-    100 -
+    MAX_ELEVATOR_HEALTH_SCORE -
     (overdueRepairJobImpact * MAX_OVERDUE_REPAIR_JOB_IMPACT +
       completedRepairJobImpact * MAX_RECENT_REPAIRS_JOB_IMPACT +
       daysSinceMaintenanceImpact * MAX_MAINTENANCE_DELAY_IMPACT);

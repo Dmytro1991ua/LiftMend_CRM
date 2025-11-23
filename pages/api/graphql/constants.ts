@@ -22,6 +22,18 @@ export const REPAIR_JOB_STATUS_TO_ELEVATOR_RECORD_STATUS_MAP: Record<string, str
   Cancelled: 'Operational',
 };
 
+/**
+ * Defines weight factors for each impactful job type.
+ * Higher weight means the job has a bigger negative impact on elevator health.
+ * For example, an Emergency is more serious than a standard Repair, so it reduces health more.
+ */
+export const REPAIR_JOB_TYPE_WEIGHTS: Record<string, number> = {
+  Repair: 1,
+  Upgrade: 1.3,
+  Emergency: 1.5,
+  Modernization: 1.2,
+};
+
 export const MAX_FILE_SIZE = 10000000;
 export const MAX_FILES = 10;
 export const MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24;
@@ -56,3 +68,11 @@ export const WORST_CASE_DAYS_SINCE_LAST_MAINTENANCE_THRESHOLD = 365;
 export const MAX_OVERDUE_REPAIR_JOB_IMPACT = 40;
 export const MAX_RECENT_REPAIRS_JOB_IMPACT = 30;
 export const MAX_MAINTENANCE_DELAY_IMPACT = 30;
+
+/**
+ * Job types that significantly impact elevator health when completed after last maintenance.
+ * These jobs reflect wear, failures, or major updates, and thus should reduce the health score.
+ */
+export const ELEVATOR_HEALTH_IMPACTING_JOB_TYPES = ['Repair', 'Upgrade', 'Emergency', 'Modernization'];
+
+export const MAX_ELEVATOR_HEALTH_SCORE = 100;
