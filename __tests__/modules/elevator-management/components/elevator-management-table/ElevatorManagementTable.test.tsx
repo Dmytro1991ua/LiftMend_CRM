@@ -1,11 +1,12 @@
 import * as apollo from '@apollo/client';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useRouter } from 'next/router';
 
 import { mockGlassElevatorElevatorRecord, mockServiceElevatorElevatorRecord } from '@/mocks/elevatorManagementMocks';
 import { withRouterAndApolloProvider } from '@/mocks/testMocks';
 import ElevatorManagementTable from '@/modules/elevator-management/components/elevator-management-table';
+import { DEFAULT_TOTAL_DOTS } from '@/modules/elevator-management/components/health-score-cell/health-score-dots/constants';
 import { AppRoutes } from '@/types/enums';
 
 jest.mock('next/router', () => ({
@@ -34,7 +35,7 @@ describe('ElevatorManagementTable', () => {
 
     const columnHeaders = screen.getAllByRole('columnheader');
 
-    expect(columnHeaders).toHaveLength(12);
+    expect(columnHeaders).toHaveLength(13);
 
     expect(columnHeaders[0]).toHaveTextContent('');
     expect(columnHeaders[1]).toHaveTextContent('Elevator Type');
@@ -42,12 +43,13 @@ describe('ElevatorManagementTable', () => {
     expect(columnHeaders[3]).toHaveTextContent('Elevator Location');
     expect(columnHeaders[4]).toHaveTextContent('Record Id');
     expect(columnHeaders[5]).toHaveTextContent('Status');
-    expect(columnHeaders[6]).toHaveTextContent('Capacity (kg)');
-    expect(columnHeaders[7]).toHaveTextContent('Last Maintenance Date');
-    expect(columnHeaders[8]).toHaveTextContent('Next Maintenance Date');
-    expect(columnHeaders[9]).toHaveTextContent('Edit');
-    expect(columnHeaders[10]).toHaveTextContent('Delete');
-    expect(columnHeaders[11]).toHaveTextContent('Elevator Visibility');
+    expect(columnHeaders[6]).toHaveTextContent('Health Score');
+    expect(columnHeaders[7]).toHaveTextContent('Capacity (kg)');
+    expect(columnHeaders[8]).toHaveTextContent('Last Maintenance Date');
+    expect(columnHeaders[9]).toHaveTextContent('Next Maintenance Date');
+    expect(columnHeaders[10]).toHaveTextContent('Edit');
+    expect(columnHeaders[11]).toHaveTextContent('Delete');
+    expect(columnHeaders[12]).toHaveTextContent('Elevator Visibility');
   });
 
   it('should render correct table cells', async () => {
@@ -65,8 +67,11 @@ describe('ElevatorManagementTable', () => {
 
     const cells = screen.getAllByRole('cell');
     const editIcons = screen.getAllByTestId('edit-icon');
+    const healthScoreCells = screen.getAllByTestId('health-score-cell');
+    const firstRowDots = within(healthScoreCells[0]).getAllByTestId('health-dot');
+    const secondRowDots = within(healthScoreCells[1]).getAllByTestId('health-dot');
 
-    expect(cells).toHaveLength(24);
+    expect(cells).toHaveLength(26);
 
     // === First Row ===
     expect(cells[0]).toBeInTheDocument(); // checkbox
@@ -75,26 +80,28 @@ describe('ElevatorManagementTable', () => {
     expect(cells[3]).toHaveTextContent('Penthouse');
     expect(cells[4]).toHaveTextContent('test-id-1');
     expect(cells[5]).toHaveTextContent('Operational');
-    expect(cells[6]).toHaveTextContent('2000');
-    expect(cells[7]).toHaveTextContent('Jan 20, 2024 12:00 PM');
-    expect(cells[8]).toHaveTextContent('Mar 10, 2024 15:00 PM');
+    expect(firstRowDots).toHaveLength(DEFAULT_TOTAL_DOTS);
+    expect(cells[7]).toHaveTextContent('2000');
+    expect(cells[8]).toHaveTextContent('Jan 20, 2024 12:00 PM');
+    expect(cells[9]).toHaveTextContent('Mar 10, 2024 15:00 PM');
     expect(editIcons[0]).toBeInTheDocument(); // First row edit icon
-    expect(cells[10]).toBeInTheDocument();
     expect(cells[11]).toBeInTheDocument();
+    expect(cells[12]).toBeInTheDocument();
 
     // === Second Row ===
-    expect(cells[12]).toBeInTheDocument();
-    expect(cells[13]).toHaveTextContent('Service Elevator');
-    expect(cells[14]).toHaveTextContent('Oceanview Condos');
-    expect(cells[15]).toHaveTextContent('Sky Bridge');
-    expect(cells[16]).toHaveTextContent('test-id-2');
-    expect(cells[17]).toHaveTextContent('Operational');
-    expect(cells[18]).toHaveTextContent('3500');
-    expect(cells[19]).toHaveTextContent('Apr 05, 2024 13:00 PM');
-    expect(cells[20]).toHaveTextContent('Jul 28, 2024 18:00 PM');
+    expect(cells[13]).toBeInTheDocument();
+    expect(cells[14]).toHaveTextContent('Service Elevator');
+    expect(cells[15]).toHaveTextContent('Oceanview Condos');
+    expect(cells[16]).toHaveTextContent('Sky Bridge');
+    expect(cells[17]).toHaveTextContent('test-id-2');
+    expect(cells[18]).toHaveTextContent('Operational');
+    expect(secondRowDots).toHaveLength(DEFAULT_TOTAL_DOTS);
+    expect(cells[20]).toHaveTextContent('3500');
+    expect(cells[21]).toHaveTextContent('Apr 05, 2024 13:00 PM');
+    expect(cells[22]).toHaveTextContent('Jul 28, 2024 18:00 PM');
     expect(editIcons[1]).toBeInTheDocument();
-    expect(cells[22]).toBeInTheDocument();
-    expect(cells[23]).toBeInTheDocument();
+    expect(cells[24]).toBeInTheDocument();
+    expect(cells[25]).toBeInTheDocument();
   });
 
   it('should show alert message when no data available for a table', () => {

@@ -11,6 +11,7 @@ import { ElevatorStatus } from '../../types';
 import DeleteActionCell from '../delete-action-cell';
 import EditActionCell from '../edit-action-cell';
 import ElevatorStatusToggleCell from '../elevator-status-toggle-cell';
+import { HealthScoreCell } from '../health-score-cell';
 
 export const ELEVATOR_MANAGEMENT_COLUMNS: ColumnDef<ElevatorRecord>[] = [
   {
@@ -75,6 +76,20 @@ export const ELEVATOR_MANAGEMENT_COLUMNS: ColumnDef<ElevatorRecord>[] = [
     size: 180,
     minSize: 120,
     maxSize: 350,
+  },
+  {
+    accessorKey: 'healthScore',
+    header: 'Health Score',
+    cell: ({
+      row: {
+        original: { healthScore },
+      },
+    }) => <HealthScoreCell healthScore={healthScore} />,
+    enableResizing: false,
+    enableSorting: false,
+    size: 120,
+    minSize: 100,
+    maxSize: 150,
   },
   {
     accessorKey: 'capacity',

@@ -1,8 +1,11 @@
 import { ElevatorRecord } from '@/graphql/types/client/generated_types';
 import { mockElevatorRecord } from '@/mocks/elevatorManagementMocks';
+import { HealthScoreLabel, HealthScoreTooltipDescription } from '@/modules/elevator-management/types';
 import {
   convertElevatorRecordToFormValues,
   convertFormFieldsToElevatorRecord,
+  getElevatorHealthScoreColor,
+  getElevatorHealthTooltipMessage,
 } from '@/modules/elevator-management/utils';
 
 describe('convertElevatorRecordToFormValues', () => {
@@ -78,5 +81,141 @@ describe('convertFormFieldsToElevatorRecord', () => {
     expect(result.status).toBe('');
     expect(result.lastMaintenanceDate).toBeInstanceOf(Date);
     expect(result.nextMaintenanceDate).toBeInstanceOf(Date);
+  });
+});
+
+describe('getElevatorHealthScoreColor', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  const testScenarios = [
+    { name: 'undefined score', score: undefined, expectedLabel: null, expectedTooltip: null },
+    { name: 'null score', score: null, expectedLabel: null, expectedTooltip: null },
+
+    // Critical range (0–49)
+    {
+      name: 'score at 0',
+      score: 0,
+      expectedLabel: HealthScoreLabel.Critical,
+      expectedTooltip: getElevatorHealthTooltipMessage({
+        score: 0,
+        label: HealthScoreLabel.Critical,
+        description: HealthScoreTooltipDescription.Critical,
+      }),
+    },
+    {
+      name: 'score in Critical range',
+      score: 25,
+      expectedLabel: HealthScoreLabel.Critical,
+      expectedTooltip: getElevatorHealthTooltipMessage({
+        score: 25,
+        label: HealthScoreLabel.Critical,
+        description: HealthScoreTooltipDescription.Critical,
+      }),
+    },
+
+    // Poor range (50–69)
+    {
+      name: 'score at 50',
+      score: 50,
+      expectedLabel: HealthScoreLabel.Poor,
+      expectedTooltip: getElevatorHealthTooltipMessage({
+        score: 50,
+        label: HealthScoreLabel.Poor,
+        description: HealthScoreTooltipDescription.Poor,
+      }),
+    },
+    {
+      name: 'score at 60',
+      score: 60,
+      expectedLabel: HealthScoreLabel.Poor,
+      expectedTooltip: getElevatorHealthTooltipMessage({
+        score: 60,
+        label: HealthScoreLabel.Poor,
+        description: HealthScoreTooltipDescription.Poor,
+      }),
+    },
+
+    // Fair range (70–89)
+    {
+      name: 'score at 75',
+      score: 75,
+      expectedLabel: HealthScoreLabel.Fair,
+      expectedTooltip: getElevatorHealthTooltipMessage({
+        score: 75,
+        label: HealthScoreLabel.Fair,
+        description: HealthScoreTooltipDescription.Fair,
+      }),
+    },
+
+    // Excellent range (90–100+)
+    {
+      name: 'score at 95',
+      score: 95,
+      expectedLabel: HealthScoreLabel.Excellent,
+      expectedTooltip: getElevatorHealthTooltipMessage({
+        score: 95,
+        label: HealthScoreLabel.Excellent,
+        description: HealthScoreTooltipDescription.Excellent,
+      }),
+    },
+    {
+      name: 'score at 100',
+      score: 100,
+      expectedLabel: HealthScoreLabel.Excellent,
+      expectedTooltip: getElevatorHealthTooltipMessage({
+        score: 100,
+        label: HealthScoreLabel.Excellent,
+        description: HealthScoreTooltipDescription.Excellent,
+      }),
+    },
+  ];
+
+  testScenarios.forEach(({ name, score, expectedLabel, expectedTooltip }) => {
+    it(`should return ${expectedLabel ?? 'null'} label for ${name}`, () => {
+      const result = getElevatorHealthScoreColor(score);
+
+      if (!result) return expect(result).toBeNull();
+
+      expect(result.label).toBe(expectedLabel);
+      expect(result.value).toBe(score);
+      expect(result.tooltipProps.getTooltipMessage(score!)).toBe(expectedTooltip);
+    });
+  });
+});
+
+describe('getElevatorHealthTooltipMessage', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  const testScenarios = [
+    {
+      name: 'Critical score',
+      input: { score: 25, label: HealthScoreLabel.Critical, description: HealthScoreTooltipDescription.Critical },
+      expected: `Elevator Health Score: 25 – ${HealthScoreLabel.Critical}. ${HealthScoreTooltipDescription.Critical}`,
+    },
+    {
+      name: 'Poor score',
+      input: { score: 55, label: HealthScoreLabel.Poor, description: HealthScoreTooltipDescription.Poor },
+      expected: `Elevator Health Score: 55 – ${HealthScoreLabel.Poor}. ${HealthScoreTooltipDescription.Poor}`,
+    },
+    {
+      name: 'Fair score',
+      input: { score: 75, label: HealthScoreLabel.Fair, description: HealthScoreTooltipDescription.Fair },
+      expected: `Elevator Health Score: 75 – ${HealthScoreLabel.Fair}. ${HealthScoreTooltipDescription.Fair}`,
+    },
+    {
+      name: 'Excellent score',
+      input: { score: 95, label: HealthScoreLabel.Excellent, description: HealthScoreTooltipDescription.Excellent },
+      expected: `Elevator Health Score: 95 – ${HealthScoreLabel.Excellent}. ${HealthScoreTooltipDescription.Excellent}`,
+    },
+  ];
+
+  testScenarios.forEach(({ name, input, expected }) => {
+    it(`should return correct message for ${name} health score`, () => {
+      expect(getElevatorHealthTooltipMessage(input)).toBe(expected);
+    });
   });
 });
