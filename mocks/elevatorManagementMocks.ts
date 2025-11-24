@@ -66,6 +66,7 @@ export const mockGlassElevatorElevatorRecord = {
     capacity: 2000,
     status: 'Operational',
     lastKnownStatus: null,
+    healthScore: 70,
   },
 };
 
@@ -81,6 +82,7 @@ export const mockServiceElevatorElevatorRecord = {
     capacity: 3500,
     status: 'Operational',
     lastKnownStatus: null,
+    healthScore: 80,
   },
 };
 
@@ -96,6 +98,7 @@ export const mockWarehouseLiftElevatorRecord = {
     capacity: 3000,
     status: 'Operational',
     lastKnownStatus: null,
+    healthScore: 90,
   },
 };
 
@@ -275,6 +278,7 @@ export const mockUpdatedElevatorRecord = {
   capacity: 1000,
   status: 'Out of Service',
   lastKnownStatus: 'Operational',
+  healthScore: 72,
 };
 
 export const mockUpdateElevatorRecord: MockedResponse<UpdateElevatorRecordMutation> = {

@@ -11,5 +11,6 @@ export const ELEVATOR_RECORD_FRAGMENT = gql`
     capacity
     status
     lastKnownStatus
+    healthScore
   }
 `;

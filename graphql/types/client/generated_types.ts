@@ -701,6 +701,7 @@ export type ElevatorRecordFieldsFragment = {
   capacity: number;
   status: string;
   lastKnownStatus: string | null;
+  healthScore: number | null;
 };
 
 export type RepairJobFieldsFragment = {
@@ -999,6 +1000,7 @@ export type GetElevatorRecordByIdQuery = {
     capacity: number;
     status: string;
     lastKnownStatus: string | null;
+    healthScore: number | null;
   };
 };
 
@@ -1040,6 +1042,7 @@ export type GetElevatorRecordsQuery = {
         capacity: number;
         status: string;
         lastKnownStatus: string | null;
+        healthScore: number | null;
       };
     }>;
     pageInfo: {
@@ -1332,6 +1335,7 @@ export type UpdateElevatorRecordMutation = {
     capacity: number;
     status: string;
     lastKnownStatus: string | null;
+    healthScore: number | null;
   };
 };
 
