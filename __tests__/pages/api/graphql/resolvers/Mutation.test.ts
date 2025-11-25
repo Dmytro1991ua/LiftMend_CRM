@@ -323,7 +323,10 @@ describe('Mutation', () => {
         mockElevatorRecord.id,
         'Under Maintenance'
       );
-      expect(mockDataSources.elevatorRecord.updateElevatorMaintenanceDates).toHaveBeenCalledWith(mockElevatorRecord.id);
+      expect(mockDataSources.elevatorRecord.updateElevatorMaintenanceDates).toHaveBeenCalledWith(
+        mockElevatorRecord.id,
+        'Scenic Elevator'
+      );
       expect(result).toEqual(mockUpdatedRepairJob);
     });
   });

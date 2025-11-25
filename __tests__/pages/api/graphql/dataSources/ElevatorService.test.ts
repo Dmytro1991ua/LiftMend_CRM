@@ -272,6 +272,7 @@ describe('ElevatorService', () => {
 
   describe('updateElevatorMaintenanceDates', () => {
     const mockDate = new Date('2025-01-01T00:00:00.000Z');
+    const mockElevatorType = 'Freight Elevator';
 
     beforeEach(() => {
       jest.useFakeTimers().setSystemTime(mockDate);
@@ -282,10 +283,10 @@ describe('ElevatorService', () => {
       jest.useRealTimers();
     });
 
-    it('should update maintenance dates with current and 6 months later dates', async () => {
-      await elevatorService.updateElevatorMaintenanceDates(mockElevatorRecordId);
+    it('should update maintenance dates based on elevator type interval', async () => {
+      await elevatorService.updateElevatorMaintenanceDates(mockElevatorRecordId, mockElevatorType);
 
-      const expectedNextMaintenanceDate = addMonths(mockDate, 6);
+      const expectedNextMaintenanceDate = addMonths(mockDate, 4); // Freight Elevator → 4 months
 
       expect(elevatorRecordServicePrismaMock.elevatorRecord.update).toHaveBeenCalledWith({
         where: { id: mockElevatorRecordId },
