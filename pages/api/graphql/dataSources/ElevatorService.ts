@@ -12,6 +12,7 @@ import {
   UpdateElevatorRecordInput,
 } from '@/graphql/types/server/generated_types';
 
+import { DEFAULT_ELEVATOR_MAINTENANCE_INTERVAL, ELEVATOR_MAINTENANCE_INTERVALS } from '../constants';
 import {
   createElevatorRecordFilterOptions,
   createElevatorRecordSortOptions,
@@ -163,10 +164,15 @@ class ElevatorService {
     });
   }
 
-  async updateElevatorMaintenanceDates(elevatorId: string): Promise<void> {
+  async updateElevatorMaintenanceDates(elevatorId: string, elevatorType: string): Promise<void> {
     const currentDate = new Date();
-    // Calculate 6 months from now to determine Elevator Record nextMaintenanceDate
-    const nextMaintenanceDate = addMonths(currentDate, 6);
+
+    // Determine maintenance interval in months based on elevator type
+    const maintenanceIntervalMonths =
+      ELEVATOR_MAINTENANCE_INTERVALS[elevatorType] ?? DEFAULT_ELEVATOR_MAINTENANCE_INTERVAL;
+
+    // Calculate next maintenance date based on interval
+    const nextMaintenanceDate = addMonths(currentDate, maintenanceIntervalMonths);
 
     await this.prisma.elevatorRecord.update({
       where: { id: elevatorId },
