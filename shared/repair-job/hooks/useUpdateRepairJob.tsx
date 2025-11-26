@@ -67,7 +67,7 @@ export const useUpdateRepairJob = (): UseUpdateRepairJob => {
       });
 
       const hasErrors = !!result.errors?.length;
-      const successDescription = STATUS_CHANGE_MESSAGES[formFields.status ?? ''];
+      const successDescription = STATUS_CHANGE_MESSAGES[formFields.status ?? '']?.(repairJob.elevatorType);
 
       if (hasErrors) {
         onHandleMutationErrors({
