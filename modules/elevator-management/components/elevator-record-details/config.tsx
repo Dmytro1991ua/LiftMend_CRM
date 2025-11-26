@@ -4,6 +4,7 @@ import DatePicker from '@/shared/date-picker';
 import Pill from '@/shared/pill';
 import { PillStatus } from '@/shared/pill/config';
 
+import { ElevatorHealthScoreGaugeChart } from '../elevator-health-score-gauge-chart';
 import { ElevatorMentainanceHistoryTable } from '../elevator-mentainance-history-table';
 
 export const elevatorRecordSectionsConfig = (elevatorRecord: ElevatorRecord): DetailsPageSectionsConfig[] => [
@@ -61,10 +62,22 @@ export const elevatorRecordSectionsConfig = (elevatorRecord: ElevatorRecord): De
   },
   {
     id: 3,
-    title: 'Maintenance History',
+    title: 'Health Score',
     fields: [
       {
         id: 10,
+        label: '',
+        value: <ElevatorHealthScoreGaugeChart healthScore={elevatorRecord.healthScore} />,
+        fieldClassName: 'justify-center',
+      },
+    ],
+  },
+  {
+    id: 4,
+    title: 'Maintenance History',
+    fields: [
+      {
+        id: 1,
         label: '',
         value: <ElevatorMentainanceHistoryTable elevatorRecord={elevatorRecord} />,
         valueClassName: 'overflow-x-auto',

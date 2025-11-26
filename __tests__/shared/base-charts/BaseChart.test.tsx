@@ -10,6 +10,16 @@ jest.mock('short-uuid', () => {
   };
 });
 
+jest.mock('next/dynamic', () => {
+  return () => {
+    const TestMock = (props: Record<string, unknown>) => <div data-testid='gauge-chart' {...props} />;
+
+    TestMock.displayName = 'TestMock';
+
+    return TestMock;
+  };
+});
+
 describe('BaseChart', () => {
   beforeEach(() => {
     global.ResizeObserver = jest.fn().mockImplementation(() => ({
@@ -66,6 +76,7 @@ describe('BaseChart', () => {
 
     expect(screen.getByTestId('pie-chart-container')).toBeInTheDocument();
     expect(screen.queryByTestId('bar-chart-container')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('gauge-chart')).not.toBeInTheDocument();
   });
 
   it('should render Bar chart based on chartType key', () => {
@@ -97,5 +108,31 @@ describe('BaseChart', () => {
 
     expect(screen.getByTestId('bar-chart-container')).toBeInTheDocument();
     expect(screen.queryByTestId('pie-chart-container')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('gauge-chart')).not.toBeInTheDocument();
+  });
+
+  it('should render Gauge chart based on chartType key', () => {
+    render(
+      BaseChartComponent({
+        chartType: ChartType.Gauge,
+        data: [
+          {
+            name: 'HealthScore',
+            value: 30,
+          },
+        ],
+        additionalChartConfigFields: {
+          Gauge: {
+            hideText: true,
+            nrOfLevels: 3,
+            colors: ['red', 'yellow', 'green'],
+          },
+        },
+      })
+    );
+
+    expect(screen.getByTestId('gauge-chart')).toBeInTheDocument();
+    expect(screen.queryByTestId('pie-chart-container')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('bar-chart-container')).not.toBeInTheDocument();
   });
 });

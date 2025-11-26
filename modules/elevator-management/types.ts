@@ -5,16 +5,16 @@ export enum ElevatorRecordSteps {
 
 export enum HealthScoreLabel {
   Excellent = 'Excellent',
-  Fair = 'Fair',
-  Poor = 'Poor',
-  Critical = 'Critical',
+  Good = 'Good',
+  Fair = 'Poor',
+  Poor = 'Critical',
 }
 
 export enum HealthScoreTooltipDescription {
   Excellent = 'Almost perfect condition',
-  Fair = 'Slight issues, monitor closely',
-  Poor = 'Needs maintenance soon',
-  Critical = 'High risk, immediate repair required',
+  Good = 'Slight issues, monitor closely',
+  Fair = 'Needs maintenance soon',
+  Poor = 'High risk, immediate repair required',
 }
 
 export type ElevatorRecordFormValues = {

@@ -6,6 +6,12 @@ import { withRouterAndApolloProvider } from '@/mocks/testMocks';
 import ElevatorRecordDetails from '@/modules/elevator-management/components/elevator-record-details/ElevatorRecordDetails';
 import { AppRoutes } from '@/types/enums';
 
+jest.mock('short-uuid', () => {
+  return {
+    generate: jest.fn(() => 'mocked-uuid'),
+  };
+});
+
 describe('ElevatorRecordDetails', () => {
   afterEach(() => {
     jest.clearAllMocks();
