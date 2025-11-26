@@ -20,10 +20,26 @@ export const ELEVATOR_HEALTH_SCORE_THRESHOLDS: ElevatorHealthScore[] = [
   },
   {
     value: 70,
-    label: HealthScoreLabel.Fair,
+    label: HealthScoreLabel.Good,
     color: '#facc15',
     classes: { background: 'bg-yellow-400', text: 'text-yellow-600', border: 'border-yellow-400' },
     activeDots: 2,
+    tooltipProps: {
+      id: HealthScoreLabel.Good,
+      getTooltipMessage: (score: number) =>
+        getElevatorHealthTooltipMessage({
+          score,
+          label: HealthScoreLabel.Good,
+          description: HealthScoreTooltipDescription.Good,
+        }),
+    },
+  },
+  {
+    value: 50,
+    label: HealthScoreLabel.Fair,
+    color: '#f97316',
+    classes: { background: 'bg-orange-500', text: 'text-orange-600', border: 'border-orange-500' },
+    activeDots: 1,
     tooltipProps: {
       id: HealthScoreLabel.Fair,
       getTooltipMessage: (score: number) =>
@@ -35,10 +51,10 @@ export const ELEVATOR_HEALTH_SCORE_THRESHOLDS: ElevatorHealthScore[] = [
     },
   },
   {
-    value: 50,
+    value: 0,
     label: HealthScoreLabel.Poor,
-    color: '#f97316',
-    classes: { background: 'bg-orange-500', text: 'text-orange-600', border: 'border-orange-500' },
+    color: '#ef4444',
+    classes: { background: 'bg-red-500', text: 'text-red-600', border: 'border-red-500' },
     activeDots: 1,
     tooltipProps: {
       id: HealthScoreLabel.Poor,
@@ -47,22 +63,6 @@ export const ELEVATOR_HEALTH_SCORE_THRESHOLDS: ElevatorHealthScore[] = [
           score,
           label: HealthScoreLabel.Poor,
           description: HealthScoreTooltipDescription.Poor,
-        }),
-    },
-  },
-  {
-    value: 0,
-    label: HealthScoreLabel.Critical,
-    color: '#ef4444',
-    classes: { background: 'bg-red-500', text: 'text-red-600', border: 'border-red-500' },
-    activeDots: 1,
-    tooltipProps: {
-      id: HealthScoreLabel.Critical,
-      getTooltipMessage: (score: number) =>
-        getElevatorHealthTooltipMessage({
-          score,
-          label: HealthScoreLabel.Critical,
-          description: HealthScoreTooltipDescription.Critical,
         }),
     },
   },

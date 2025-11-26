@@ -93,59 +93,59 @@ describe('getElevatorHealthScoreColor', () => {
     { name: 'undefined score', score: undefined, expectedLabel: null, expectedTooltip: null },
     { name: 'null score', score: null, expectedLabel: null, expectedTooltip: null },
 
-    // Critical range (0–49)
+    // Poor range (0–49)
     {
       name: 'score at 0',
       score: 0,
-      expectedLabel: HealthScoreLabel.Critical,
+      expectedLabel: HealthScoreLabel.Poor,
       expectedTooltip: getElevatorHealthTooltipMessage({
         score: 0,
-        label: HealthScoreLabel.Critical,
-        description: HealthScoreTooltipDescription.Critical,
+        label: HealthScoreLabel.Poor,
+        description: HealthScoreTooltipDescription.Poor,
       }),
     },
     {
-      name: 'score in Critical range',
+      name: 'score in Poor range',
       score: 25,
-      expectedLabel: HealthScoreLabel.Critical,
+      expectedLabel: HealthScoreLabel.Poor,
       expectedTooltip: getElevatorHealthTooltipMessage({
         score: 25,
-        label: HealthScoreLabel.Critical,
-        description: HealthScoreTooltipDescription.Critical,
+        label: HealthScoreLabel.Poor,
+        description: HealthScoreTooltipDescription.Poor,
       }),
     },
 
-    // Poor range (50–69)
+    // Fair range (50–69)
     {
       name: 'score at 50',
       score: 50,
-      expectedLabel: HealthScoreLabel.Poor,
+      expectedLabel: HealthScoreLabel.Fair,
       expectedTooltip: getElevatorHealthTooltipMessage({
         score: 50,
-        label: HealthScoreLabel.Poor,
-        description: HealthScoreTooltipDescription.Poor,
+        label: HealthScoreLabel.Fair,
+        description: HealthScoreTooltipDescription.Fair,
       }),
     },
     {
       name: 'score at 60',
       score: 60,
-      expectedLabel: HealthScoreLabel.Poor,
+      expectedLabel: HealthScoreLabel.Fair,
       expectedTooltip: getElevatorHealthTooltipMessage({
         score: 60,
-        label: HealthScoreLabel.Poor,
-        description: HealthScoreTooltipDescription.Poor,
+        label: HealthScoreLabel.Fair,
+        description: HealthScoreTooltipDescription.Fair,
       }),
     },
 
-    // Fair range (70–89)
+    // Good range (70–89)
     {
       name: 'score at 75',
       score: 75,
-      expectedLabel: HealthScoreLabel.Fair,
+      expectedLabel: HealthScoreLabel.Good,
       expectedTooltip: getElevatorHealthTooltipMessage({
         score: 75,
-        label: HealthScoreLabel.Fair,
-        description: HealthScoreTooltipDescription.Fair,
+        label: HealthScoreLabel.Good,
+        description: HealthScoreTooltipDescription.Good,
       }),
     },
 
@@ -192,19 +192,19 @@ describe('getElevatorHealthTooltipMessage', () => {
 
   const testScenarios = [
     {
-      name: 'Critical score',
-      input: { score: 25, label: HealthScoreLabel.Critical, description: HealthScoreTooltipDescription.Critical },
-      expected: `Elevator Health Score: 25 – ${HealthScoreLabel.Critical}. ${HealthScoreTooltipDescription.Critical}`,
-    },
-    {
       name: 'Poor score',
-      input: { score: 55, label: HealthScoreLabel.Poor, description: HealthScoreTooltipDescription.Poor },
-      expected: `Elevator Health Score: 55 – ${HealthScoreLabel.Poor}. ${HealthScoreTooltipDescription.Poor}`,
+      input: { score: 25, label: HealthScoreLabel.Poor, description: HealthScoreTooltipDescription.Poor },
+      expected: `Elevator Health Score: 25 – ${HealthScoreLabel.Poor}. ${HealthScoreTooltipDescription.Poor}`,
     },
     {
       name: 'Fair score',
-      input: { score: 75, label: HealthScoreLabel.Fair, description: HealthScoreTooltipDescription.Fair },
-      expected: `Elevator Health Score: 75 – ${HealthScoreLabel.Fair}. ${HealthScoreTooltipDescription.Fair}`,
+      input: { score: 55, label: HealthScoreLabel.Fair, description: HealthScoreTooltipDescription.Fair },
+      expected: `Elevator Health Score: 55 – ${HealthScoreLabel.Fair}. ${HealthScoreTooltipDescription.Fair}`,
+    },
+    {
+      name: 'Good score',
+      input: { score: 75, label: HealthScoreLabel.Good, description: HealthScoreTooltipDescription.Good },
+      expected: `Elevator Health Score: 75 – ${HealthScoreLabel.Good}. ${HealthScoreTooltipDescription.Good}`,
     },
     {
       name: 'Excellent score',

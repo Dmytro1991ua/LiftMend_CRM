@@ -1,6 +1,7 @@
 export enum ChartType {
   Pie = 'Pie',
   Bar = 'Bar',
+  Gauge = 'Gauge',
 }
 
 export interface BaseChartProps {
@@ -9,6 +10,7 @@ export interface BaseChartProps {
   additionalChartConfigFields?: AdditionalChatConfigFields;
   chartType: ChartType;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export type ChartData = {
@@ -66,7 +68,37 @@ export type BarChartConfig = {
   };
 };
 
+export type GaugeChartConfig = {
+  id?: string;
+  className?: string;
+  style?: React.CSSProperties;
+  marginInPercent?: number;
+  cornerRadius?: number;
+  nrOfLevels?: number;
+  percent?: number;
+  arcPadding?: number;
+  arcWidth?: number;
+  arcsLength?: number[];
+  colors?: string[];
+  textColor?: string;
+  needleColor?: string;
+  needleBaseColor?: string;
+  hideText?: boolean;
+  animate?: boolean;
+  fontSize?: string;
+  animateDuration?: number;
+  animDelay?: number;
+  formatTextValue?: (value: string) => string;
+  textComponent?: React.ReactElement;
+  textComponentContainerClassName?: string;
+  needleScale?: number;
+  customNeedleComponent?: React.ReactElement;
+  customNeedleComponentClassName?: string;
+  customNeedleStyle?: React.CSSProperties;
+};
+
 export type AdditionalChatConfigFields = {
   [ChartType.Pie]?: PieChartConfig;
   [ChartType.Bar]?: BarChartConfig;
+  [ChartType.Gauge]?: GaugeChartConfig;
 };
