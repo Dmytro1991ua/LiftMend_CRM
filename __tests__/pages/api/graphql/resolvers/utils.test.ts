@@ -16,13 +16,66 @@ import {
 } from '@/pages/api/graphql/constants';
 import {
   clampScoreToPercentage,
+  getAverageRepairJobDurationInDays,
   getCalculateTechnicianPerformanceScore,
   getCalculatedElevatorHealthScore,
   getDaysSinceLastMaintenance,
   getElevatorHealthImpact,
+  getOnTimeCompletionRate,
   getPerformanceScoreFromRatio,
+  getRepairJobDurationInDays,
   getTechnicianPerformanceMetrics,
 } from '@/pages/api/graphql/resolvers/utils';
+
+describe('getRepairJobDurationInDays', () => {
+  it('should correctly calculate the duration in days between two dates', () => {
+    const mockStart = new Date('2024-01-01');
+    const mockEnd = new Date('2024-01-04');
+
+    const result = getRepairJobDurationInDays(mockStart, mockEnd);
+
+    expect(result).toBe(3);
+  });
+
+  it('should return 0 if start and end date are the same', () => {
+    const mockDate = new Date('2024-01-01');
+
+    const result = getRepairJobDurationInDays(mockDate, mockDate);
+
+    expect(result).toBe(0);
+  });
+});
+
+describe('getAverageRepairJobDurationInDays', () => {
+  it('should calculate the average duration and round to one decimal', () => {
+    const mockTotalDurationDays = 22;
+    const mockCompletedRepairJobs = 4;
+
+    const result = getAverageRepairJobDurationInDays(mockTotalDurationDays, mockCompletedRepairJobs);
+
+    expect(result).toBe(5.5);
+  });
+
+  it('should return 0 if there are no completed jobs', () => {
+    const result = getAverageRepairJobDurationInDays(10, 0);
+
+    expect(result).toBe(0);
+  });
+});
+
+describe('getOnTimeCompletionRate', () => {
+  it('should calculate the on-time completion rate as a whole percentage', () => {
+    const result = getOnTimeCompletionRate(4, 5);
+
+    expect(result).toBe(80);
+  });
+
+  it('should return 0 if there are no completed jobs', () => {
+    const result = getOnTimeCompletionRate(0, 0);
+
+    expect(result).toBe(0);
+  });
+});
 
 describe('getElevatorHealthImpact', () => {
   afterEach(() => {

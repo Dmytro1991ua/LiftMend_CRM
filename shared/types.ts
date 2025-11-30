@@ -1,7 +1,7 @@
 import { Cell } from '@tanstack/react-table';
 import { NextPage } from 'next';
 
-import { Maybe } from '@/graphql/types/client/generated_types';
+import { Maybe, TechnicianPerformanceMetrics } from '@/graphql/types/client/generated_types';
 
 export enum StorageTableName {
   RepairJobTable = 'repairJobTable',
@@ -104,6 +104,7 @@ export type TechnicianRecord = {
   name: string;
   skills: string[];
   lastKnownAvailabilityStatus?: string | null;
+  performanceMetrics?: Maybe<TechnicianPerformanceMetrics>;
 };
 
 export type TableModel = RepairJob & ElevatorRecord & TechnicianRecord;

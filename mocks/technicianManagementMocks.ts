@@ -13,14 +13,11 @@ import {
 import {
   CreateTechnicianRecordMutation,
   DeleteTechnicianRecordMutation,
-  GetTechnicianPerformanceMetricsQuery,
   GetTechnicianRecordByIdQuery,
   GetTechnicianRecordFormDataQuery,
   GetTechnicianRecordsQuery,
   UpdateTechnicianRecordMutation,
 } from '@/graphql/types/client/generated_types';
-
-import { GET_TECHNICIAN_PERFORMANCE_METRICS } from './../graphql/schemas/getTechnicianPerfomanceMetrics';
 
 export const mockTechnicianContactInfo = 'benjamin.hall@example.com';
 export const mockTechnicianSkills = ['Electrical', 'Mechanical', 'Troubleshooting'];
@@ -39,6 +36,15 @@ export const mockBenjaminHallRecord = {
   availabilityStatus: 'Available',
   employmentStatus: 'Active',
   lastKnownAvailabilityStatus: null,
+  performanceMetrics: {
+    totalRepairJobs: 4,
+    completedRepairJobs: 2,
+    activeRepairJobs: 1,
+    overdueRepairJobs: 2,
+    averageDurationDays: 61.6,
+    onTimeCompletionRate: 0,
+    performanceScore: 70,
+  },
 };
 
 export const mockOliviaLewisRecord = {
@@ -50,6 +56,15 @@ export const mockOliviaLewisRecord = {
   availabilityStatus: 'Available',
   employmentStatus: 'Active',
   lastKnownAvailabilityStatus: null,
+  performanceMetrics: {
+    totalRepairJobs: 3,
+    completedRepairJobs: 1,
+    activeRepairJobs: 1,
+    overdueRepairJobs: 1,
+    averageDurationDays: 51.6,
+    onTimeCompletionRate: 0,
+    performanceScore: 60,
+  },
 };
 
 export const mockJamesAndersonRecord = {
@@ -61,6 +76,15 @@ export const mockJamesAndersonRecord = {
   availabilityStatus: 'Available',
   employmentStatus: 'Active',
   lastKnownAvailabilityStatus: null,
+  performanceMetrics: {
+    totalRepairJobs: 2,
+    completedRepairJobs: 1,
+    activeRepairJobs: 1,
+    overdueRepairJobs: 1,
+    averageDurationDays: 52.6,
+    onTimeCompletionRate: 0,
+    performanceScore: 30,
+  },
 };
 
 export const mockUpdatedBenjaminHallRecord = {
@@ -68,15 +92,15 @@ export const mockUpdatedBenjaminHallRecord = {
   employmentStatus: 'Inactive',
   availabilityStatus: 'Unavailable',
   lastKnownAvailabilityStatus: 'Available',
-};
-
-export const mockBenjaminHallPerformanceMetrics = {
-  totalRepairJobs: 3,
-  completedRepairJobs: 1,
-  activeRepairJobs: 1,
-  overdueRepairJobs: 1,
-  averageDurationDays: 61.6,
-  onTimeCompletionRate: 0,
+  performanceMetrics: {
+    totalRepairJobs: 3,
+    completedRepairJobs: 1,
+    activeRepairJobs: 1,
+    overdueRepairJobs: 1,
+    averageDurationDays: 61.6,
+    onTimeCompletionRate: 0,
+    performanceScore: 40,
+  },
 };
 
 export const mockedReturnedTechnicianRecordsData = {
@@ -355,28 +379,4 @@ export const mockDeleteTechnicianRecordNetworkError = {
     data: undefined,
     error: new Error('Error occurs'),
   },
-};
-
-export const mockTechnicianPerformanceMetricsResponse: MockedResponse<GetTechnicianPerformanceMetricsQuery> = {
-  request: {
-    query: GET_TECHNICIAN_PERFORMANCE_METRICS,
-    variables: {
-      technicianName: mockBenjaminHallRecord.name,
-    },
-  },
-  result: {
-    data: {
-      getTechnicianPerformance: { ...mockBenjaminHallPerformanceMetrics, __typename: 'TechnicianPerformanceMetrics' },
-    },
-  },
-};
-
-export const mockTechnicianPerformanceMetricsErrorResponse = {
-  request: {
-    query: GET_TECHNICIAN_PERFORMANCE_METRICS,
-    variables: {
-      technicianName: mockBenjaminHallRecord.name,
-    },
-  },
-  error: new Error('Something went wrong'),
 };

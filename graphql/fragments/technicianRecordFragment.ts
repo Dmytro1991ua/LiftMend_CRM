@@ -10,5 +10,14 @@ export const TECHNICIAN_RECORD_FRAGMENT = gql`
     availabilityStatus
     employmentStatus
     lastKnownAvailabilityStatus
+    performanceMetrics {
+      activeRepairJobs
+      onTimeCompletionRate
+      overdueRepairJobs
+      totalRepairJobs
+      completedRepairJobs
+      averageDurationDays
+      performanceScore
+    }
   }
 `;
