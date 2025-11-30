@@ -60,7 +60,7 @@ export const technicianRecordSectionsConfig = (technicianRecord: TechnicianRecor
       {
         id: 9,
         label: '',
-        value: <TechnicianPerformanceMetrics technicianName={technicianRecord.name} />,
+        value: <TechnicianPerformanceMetrics technicianRecord={technicianRecord} />,
         fieldClassName: 'items-center',
         valueClassName: 'overflow-x-auto',
       },

@@ -1,23 +1,21 @@
 import { useMemo } from 'react';
 
 import BaseAppMetrics from '@/shared/base-app-metrics';
+import { TechnicianRecord } from '@/shared/types';
 
-import { useGetTechnicianPerformanceMetrics } from './hooks';
 import { getTechnicianPerformanceMetricsConfig } from './utils';
 
 type TechnicianPerformanceMetricsProps = {
-  technicianName: string;
+  technicianRecord: TechnicianRecord;
 };
 
-const TechnicianPerformanceMetrics = ({ technicianName }: TechnicianPerformanceMetricsProps) => {
-  const { technicianPerformanceMetrics, error, loading } = useGetTechnicianPerformanceMetrics(technicianName);
-
+const TechnicianPerformanceMetrics = ({ technicianRecord }: TechnicianPerformanceMetricsProps) => {
   const technicianPerformanceMetricsConfig = useMemo(
-    () => getTechnicianPerformanceMetricsConfig(technicianPerformanceMetrics),
-    [technicianPerformanceMetrics]
+    () => getTechnicianPerformanceMetricsConfig(technicianRecord.performanceMetrics),
+    [technicianRecord.performanceMetrics]
   );
 
-  return <BaseAppMetrics error={error} loading={loading} metricsConfig={technicianPerformanceMetricsConfig} />;
+  return <BaseAppMetrics loading={false} metricsConfig={technicianPerformanceMetricsConfig} />;
 };
 
 export default TechnicianPerformanceMetrics;

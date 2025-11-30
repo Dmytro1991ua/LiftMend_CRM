@@ -359,7 +359,6 @@ export type Query = {
   getRepairJobById: RepairJob;
   getRepairJobScheduleData: RepairJobScheduleData;
   getRepairJobs: RepairJobConnection;
-  getTechnicianPerformance: TechnicianPerformanceMetrics;
   getTechnicianRecordById: TechnicianRecord;
   getTechnicianRecordFormData: TechnicianRecordFormData;
   getTechnicianRecords: TechnicianRecordConnection;
@@ -403,10 +402,6 @@ export type QueryGetRepairJobsArgs = {
   filterOptions?: InputMaybe<RepairJobFilterOptions>;
   paginationOptions?: InputMaybe<PaginationOptions>;
   sortOptions?: InputMaybe<RepairJobSortInput>;
-};
-
-export type QueryGetTechnicianPerformanceArgs = {
-  technicianName: Scalars['String']['input'];
 };
 
 export type QueryGetTechnicianRecordByIdArgs = {
@@ -560,6 +555,8 @@ export type TechnicianPerformanceMetrics = {
   /** % of completed jobs finished on or before expected endDate */
   onTimeCompletionRate: Maybe<Scalars['Int']['output']>;
   overdueRepairJobs: Scalars['Int']['output'];
+  /** Computed technician performance score based on performance metrics (0–100) */
+  performanceScore: Maybe<Scalars['Int']['output']>;
   /** All jobs assigned to this technician */
   totalRepairJobs: Scalars['Int']['output'];
 };
@@ -573,6 +570,7 @@ export type TechnicianRecord = Node & {
   id: Scalars['ID']['output'];
   lastKnownAvailabilityStatus: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
+  performanceMetrics: Maybe<TechnicianPerformanceMetrics>;
   skills: Array<Scalars['String']['output']>;
 };
 
@@ -731,6 +729,16 @@ export type TechnicianRecordFieldsFragment = {
   availabilityStatus: string | null;
   employmentStatus: string | null;
   lastKnownAvailabilityStatus: string | null;
+  performanceMetrics: {
+    __typename?: 'TechnicianPerformanceMetrics';
+    activeRepairJobs: number | null;
+    onTimeCompletionRate: number | null;
+    overdueRepairJobs: number;
+    totalRepairJobs: number;
+    completedRepairJobs: number;
+    averageDurationDays: number;
+    performanceScore: number | null;
+  } | null;
 };
 
 export type CreateRepairJobAndCalendarEventMutationVariables = Exact<{
@@ -787,6 +795,16 @@ export type CreateTechnicianRecordMutation = {
     availabilityStatus: string | null;
     employmentStatus: string | null;
     lastKnownAvailabilityStatus: string | null;
+    performanceMetrics: {
+      __typename?: 'TechnicianPerformanceMetrics';
+      activeRepairJobs: number | null;
+      onTimeCompletionRate: number | null;
+      overdueRepairJobs: number;
+      totalRepairJobs: number;
+      completedRepairJobs: number;
+      averageDurationDays: number;
+      performanceScore: number | null;
+    } | null;
   };
 };
 
@@ -1164,23 +1182,6 @@ export type GetRepairJobsQuery = {
   };
 };
 
-export type GetTechnicianPerformanceMetricsQueryVariables = Exact<{
-  technicianName: Scalars['String']['input'];
-}>;
-
-export type GetTechnicianPerformanceMetricsQuery = {
-  __typename?: 'Query';
-  getTechnicianPerformance: {
-    __typename?: 'TechnicianPerformanceMetrics';
-    activeRepairJobs: number | null;
-    totalRepairJobs: number;
-    onTimeCompletionRate: number | null;
-    overdueRepairJobs: number;
-    averageDurationDays: number;
-    completedRepairJobs: number;
-  };
-};
-
 export type GetTechnicianRecordByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
@@ -1197,6 +1198,16 @@ export type GetTechnicianRecordByIdQuery = {
     availabilityStatus: string | null;
     employmentStatus: string | null;
     lastKnownAvailabilityStatus: string | null;
+    performanceMetrics: {
+      __typename?: 'TechnicianPerformanceMetrics';
+      activeRepairJobs: number | null;
+      onTimeCompletionRate: number | null;
+      overdueRepairJobs: number;
+      totalRepairJobs: number;
+      completedRepairJobs: number;
+      averageDurationDays: number;
+      performanceScore: number | null;
+    } | null;
   };
 };
 
@@ -1237,6 +1248,16 @@ export type GetTechnicianRecordsQuery = {
         availabilityStatus: string | null;
         employmentStatus: string | null;
         lastKnownAvailabilityStatus: string | null;
+        performanceMetrics: {
+          __typename?: 'TechnicianPerformanceMetrics';
+          activeRepairJobs: number | null;
+          onTimeCompletionRate: number | null;
+          overdueRepairJobs: number;
+          totalRepairJobs: number;
+          completedRepairJobs: number;
+          averageDurationDays: number;
+          performanceScore: number | null;
+        } | null;
       };
     }>;
     pageInfo: {
@@ -1389,6 +1410,16 @@ export type UpdateTechnicianRecordMutation = {
     availabilityStatus: string | null;
     employmentStatus: string | null;
     lastKnownAvailabilityStatus: string | null;
+    performanceMetrics: {
+      __typename?: 'TechnicianPerformanceMetrics';
+      activeRepairJobs: number | null;
+      onTimeCompletionRate: number | null;
+      overdueRepairJobs: number;
+      totalRepairJobs: number;
+      completedRepairJobs: number;
+      averageDurationDays: number;
+      performanceScore: number | null;
+    } | null;
   };
 };
 
