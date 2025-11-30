@@ -1,12 +1,11 @@
-import {
-  SUCCESSFULLY_CANCELLED_REPAIR_JOB_STATUS_CHANGE,
-} from '@/modules/repair-job-scheduling/constants';
+import { SUCCESSFULLY_CANCELLED_REPAIR_JOB_STATUS_CHANGE } from '@/modules/repair-job-scheduling/constants';
 import {
   EDIT_BUTTON_CANCELLED_STATUS_TOOLTIP_MESSAGE,
   EDIT_BUTTON_COMPLETED_STATUS_TOOLTIP_MESSAGE,
 } from '@/shared/repair-job/constants';
 
 import BaseAlert from '../base-alert/BaseAlert';
+
 import { getCompletedRepairJobMessage } from './hooks/utils';
 
 type EditButtonDisabledSate = {

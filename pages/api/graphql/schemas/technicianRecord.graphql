@@ -12,7 +12,8 @@ type TechnicianRecord implements Node {
   certifications: [String!]!
   availabilityStatus: String
   employmentStatus: String
-  lastKnownAvailabilityStatus: String
+  lastKnownAvailabilityStatus: String 
+  performanceMetrics: TechnicianPerformanceMetrics
 }
 
 type TechnicianRecordEdges implements Edge {
@@ -56,6 +57,10 @@ type TechnicianPerformanceMetrics {
   Currently ongoing jobs for a particular technician
   """
   activeRepairJobs: Int
+    """
+  Computed technician performance score based on performance metrics (0–100)
+  """
+  performanceScore: Int
 }
 
 input CreateTechnicianRecordInput {

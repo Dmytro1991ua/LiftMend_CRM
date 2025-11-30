@@ -1,17 +1,42 @@
 import { RepairJob } from '@prisma/client';
 
+import { TechnicianPerformanceMetrics } from '@/graphql/types/server/generated_types';
+
 import {
   ELEVATOR_HEALTH_IMPACTING_JOB_TYPES,
   MAX_ELEVATOR_HEALTH_SCORE,
   MAX_MAINTENANCE_DELAY_IMPACT,
   MAX_OVERDUE_REPAIR_JOB_IMPACT,
   MAX_RECENT_REPAIRS_JOB_IMPACT,
+  MAX_REPAIR_JOB_DURATION_IN_DAYS,
   MILLISECONDS_IN_DAY,
   REPAIR_JOB_TYPE_WEIGHTS,
+  TECHNICIAN_PERFORMANCE_WEIGHTS,
   WORST_CASE_DAYS_SINCE_LAST_MAINTENANCE_THRESHOLD,
   WORST_CASE_OVERDUE_REPAIR_JOB_THRESHOLD,
   WORST_CASE_RECENT_REPAIR_JOB_THRESHOLD,
 } from '../constants';
+
+import { ACTIVE_REPAIR_JOB_STATUSES } from './constants';
+
+/**
+ * Calculates the duration of a repair job in days between the start and end dates.
+ */
+export const getRepairJobDurationInDays = (startDate: Date, endDate: Date): number =>
+  (endDate.getTime() - startDate.getTime()) / MILLISECONDS_IN_DAY;
+
+/**
+ * Calculates the average duration of completed repair jobs in days,
+ * Rounded to one decimal place. Returns 0 if there are no completed jobs.
+ */
+export const getAverageRepairJobDurationInDays = (totalDurationDays: number, completedRepairJobs: number): number =>
+  completedRepairJobs > 0 ? Math.round((totalDurationDays / completedRepairJobs) * 10) / 10 : 0;
+
+/**
+ * Calculates the percentage of on-time completed repair jobs.
+ */
+export const getOnTimeCompletionRate = (onTimeCompletedCount: number, completedRepairJobs: number): number =>
+  completedRepairJobs > 0 ? Math.round((onTimeCompletedCount / completedRepairJobs) * 100) : 0;
 
 /**
  * Returns a value between 0 and 1 representing the impact of a metric on elevator health.
@@ -28,6 +53,27 @@ export const getDaysSinceLastMaintenance = (lastMaintenanceDate: Date | null) =>
   lastMaintenanceDate
     ? Math.floor((Date.now() - new Date(lastMaintenanceDate).getTime()) / MILLISECONDS_IN_DAY)
     : WORST_CASE_DAYS_SINCE_LAST_MAINTENANCE_THRESHOLD;
+
+/**
+ * Converts a ratio (0–1) into a 0–100 performance score.
+ * 0 = best, 1 = worst.
+ *
+ * Examples:
+ * - Efficiency: ratio = averageDuration / MAX_REPAIR_JOB_DURATION
+ * - Quality: ratio = overdueJobs / totalJobs
+ *
+ * @param ratio - proportion of actual value to maximum or total (0–1)
+ * @returns 0–100 performance score (higher is better)
+ */
+export const getPerformanceScoreFromRatio = (ratio: number): number => (1 - ratio) * 100;
+
+/**
+ * Ensures a score stays within 0–100 and rounds it to the nearest integer.
+ * @param score - the raw score value to clamp
+ */
+export const clampScoreToPercentage = (score: number): number => {
+  return Math.max(0, Math.min(100, Math.round(score)));
+};
 
 export const getCalculatedElevatorHealthScore = (repairJobs: RepairJob[], lastMaintenanceDate: Date | null): number => {
   const { completedRepairJobs, overdueRepairJobs } = repairJobs.reduce(
@@ -72,6 +118,87 @@ export const getCalculatedElevatorHealthScore = (repairJobs: RepairJob[], lastMa
       completedRepairJobImpact * MAX_RECENT_REPAIRS_JOB_IMPACT +
       daysSinceMaintenanceImpact * MAX_MAINTENANCE_DELAY_IMPACT);
 
-  // Ensures the final health score never goes below 0 or above 100,
-  return Math.max(0, Math.min(100, Math.round(rawElevatorHealthScore)));
+  return clampScoreToPercentage(rawElevatorHealthScore);
+};
+
+export const getCalculateTechnicianPerformanceScore = ({
+  totalRepairJobs,
+  overdueRepairJobs,
+  averageDurationDays,
+  onTimeCompletionRate,
+}: TechnicianPerformanceMetrics): number | null => {
+  // No jobs → cannot compute performance
+  if (totalRepairJobs === 0) return null;
+
+  const durationScore = getPerformanceScoreFromRatio(averageDurationDays / MAX_REPAIR_JOB_DURATION_IN_DAYS);
+  const overdueScore = getPerformanceScoreFromRatio(overdueRepairJobs / totalRepairJobs);
+
+  const rawTechnicianPerformanceScore =
+    onTimeCompletionRate! * TECHNICIAN_PERFORMANCE_WEIGHTS.RELIABILITY +
+    durationScore * TECHNICIAN_PERFORMANCE_WEIGHTS.EFFICIENCY +
+    overdueScore * TECHNICIAN_PERFORMANCE_WEIGHTS.QUALITY;
+
+  return clampScoreToPercentage(rawTechnicianPerformanceScore);
+};
+
+export const getTechnicianPerformanceMetrics = (repairJobs: RepairJob[]) => {
+  const {
+    totalRepairJobs,
+    completedRepairJobs,
+    overdueRepairJobs,
+    activeRepairJobs,
+    totalDurationDays,
+    onTimeCompletedCount,
+  } = repairJobs.reduce(
+    (acc, job) => {
+      acc.totalRepairJobs++;
+
+      if (job.isOverdue) acc.overdueRepairJobs++;
+      if (job.status === 'Completed') {
+        acc.completedRepairJobs++;
+
+        // Calculate duration for specific completed job in days
+        const repairEndDate = job.actualEndDate ?? job.endDate;
+        acc.totalDurationDays += getRepairJobDurationInDays(job.startDate, repairEndDate);
+
+        // Count if job was completed on or before planned end date
+        if (job.actualEndDate && job.actualEndDate <= job.endDate) {
+          acc.onTimeCompletedCount++;
+        }
+      }
+
+      if (ACTIVE_REPAIR_JOB_STATUSES.includes(job.status)) {
+        acc.activeRepairJobs++;
+      }
+
+      return acc;
+    },
+    {
+      totalRepairJobs: 0,
+      completedRepairJobs: 0,
+      overdueRepairJobs: 0,
+      totalDurationDays: 0,
+      onTimeCompletedCount: 0,
+      activeRepairJobs: 0,
+    }
+  );
+
+  const averageDurationDays = getAverageRepairJobDurationInDays(totalDurationDays, completedRepairJobs);
+  const onTimeCompletionRate = getOnTimeCompletionRate(onTimeCompletedCount, completedRepairJobs);
+
+  return {
+    totalRepairJobs,
+    completedRepairJobs,
+    overdueRepairJobs,
+    averageDurationDays,
+    onTimeCompletionRate,
+    activeRepairJobs,
+    performanceScore: getCalculateTechnicianPerformanceScore({
+      totalRepairJobs,
+      completedRepairJobs,
+      overdueRepairJobs,
+      averageDurationDays,
+      onTimeCompletionRate,
+    }),
+  };
 };

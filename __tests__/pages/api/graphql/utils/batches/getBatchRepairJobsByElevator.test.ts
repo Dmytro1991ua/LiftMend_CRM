@@ -1,8 +1,8 @@
 import { repairJobServicePrismaMock } from '@/mocks/gql/prismaMocks';
 import { DEFAULT_SORTING_OPTION } from '@/pages/api/graphql/dataSources/constants';
-import { getBatchRepairJobs } from '@/pages/api/graphql/utils/batches/getBatchRepairJobs';
+import { getBatchRepairJobsByElevator } from '@/pages/api/graphql/utils/batches/getBatchRepairJobsByElevator';
 
-describe('getBatchRepairJobs', () => {
+describe('getBatchRepairJobsByElevator', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -19,7 +19,7 @@ describe('getBatchRepairJobs', () => {
 
     (repairJobServicePrismaMock.repairJob.findMany as jest.Mock).mockResolvedValue(mockJobs);
 
-    const batchFn = getBatchRepairJobs(repairJobServicePrismaMock);
+    const batchFn = getBatchRepairJobsByElevator(repairJobServicePrismaMock);
 
     const result = await batchFn(mockKeys);
 
@@ -53,7 +53,7 @@ describe('getBatchRepairJobs', () => {
 
     (repairJobServicePrismaMock.repairJob.findMany as jest.Mock).mockResolvedValue([]);
 
-    const batchFn = getBatchRepairJobs(repairJobServicePrismaMock);
+    const batchFn = getBatchRepairJobsByElevator(repairJobServicePrismaMock);
 
     const result = await batchFn(mockKeys);
 

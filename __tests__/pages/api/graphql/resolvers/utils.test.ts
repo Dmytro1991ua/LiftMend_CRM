@@ -1,13 +1,27 @@
-import { mockCalendarEventId, mockRepairJob } from '@/mocks/repairJobTrackingMocks';
+import { RepairJob } from '@prisma/client';
+
+import { TechnicianPerformanceMetrics } from '@/graphql/types/server/generated_types';
+import {
+  mockCalendarEventId,
+  mockMastLiftRepairJob,
+  mockPassengerElevatorRepairJob,
+  mockRepairJob,
+  mockShipElevatorRepairJpb,
+} from '@/mocks/repairJobTrackingMocks';
 import {
   MAX_MAINTENANCE_DELAY_IMPACT,
+  MAX_REPAIR_JOB_DURATION_IN_DAYS,
   MILLISECONDS_IN_DAY,
   WORST_CASE_DAYS_SINCE_LAST_MAINTENANCE_THRESHOLD,
 } from '@/pages/api/graphql/constants';
 import {
+  clampScoreToPercentage,
+  getCalculateTechnicianPerformanceScore,
   getCalculatedElevatorHealthScore,
   getDaysSinceLastMaintenance,
   getElevatorHealthImpact,
+  getPerformanceScoreFromRatio,
+  getTechnicianPerformanceMetrics,
 } from '@/pages/api/graphql/resolvers/utils';
 
 describe('getElevatorHealthImpact', () => {
@@ -190,5 +204,142 @@ describe('getCalculatedElevatorHealthScore', () => {
     const result = getCalculatedElevatorHealthScore(mockRepairJobs, mockLastMaintenanceDate);
 
     expect(result).toBe(30);
+  });
+});
+
+describe('getPerformanceScoreFromRatio', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should return 100 for a ratio of 0', () => {
+    expect(getPerformanceScoreFromRatio(0)).toBe(100);
+  });
+
+  it('should return 0 for a ratio of 1', () => {
+    expect(getPerformanceScoreFromRatio(1)).toBe(0);
+  });
+
+  it('should return correct value for ratio between 0 and 1', () => {
+    expect(getPerformanceScoreFromRatio(0.25)).toBe(75);
+    expect(getPerformanceScoreFromRatio(0.5)).toBe(50);
+    expect(getPerformanceScoreFromRatio(0.75)).toBe(25);
+  });
+});
+
+describe('clampScoreToPercentage', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should round and clamp values above 100', () => {
+    expect(clampScoreToPercentage(120.7)).toBe(100);
+  });
+
+  it('should round and clamp values below 0', () => {
+    expect(clampScoreToPercentage(-10.2)).toBe(0);
+  });
+
+  it('should round fractional scores within 0–100', () => {
+    expect(clampScoreToPercentage(72.4)).toBe(72);
+    expect(clampScoreToPercentage(72.6)).toBe(73);
+  });
+});
+
+describe('getCalculateTechnicianPerformanceScore', () => {
+  const mockTechnicianPerformanceMetrics: TechnicianPerformanceMetrics = {
+    totalRepairJobs: 10,
+    completedRepairJobs: 0,
+    overdueRepairJobs: 2,
+    averageDurationDays: 5,
+    onTimeCompletionRate: 0.8,
+  };
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should return null when there are no repair jobs', () => {
+    expect(
+      getCalculateTechnicianPerformanceScore({ ...mockTechnicianPerformanceMetrics, totalRepairJobs: 0 })
+    ).toBeNull();
+  });
+
+  it('should calculate a score within 0–100', () => {
+    const result = getCalculateTechnicianPerformanceScore(mockTechnicianPerformanceMetrics);
+
+    expect(result).toBeGreaterThanOrEqual(0);
+    expect(result).toBeLessThanOrEqual(100);
+  });
+
+  it('should handle perfect performance', () => {
+    const result = getCalculateTechnicianPerformanceScore({
+      totalRepairJobs: 10,
+      overdueRepairJobs: 0,
+      averageDurationDays: 0,
+      onTimeCompletionRate: 100,
+      completedRepairJobs: 2,
+    });
+
+    expect(result).toBe(100);
+  });
+
+  it('should handle worst possible performance', () => {
+    const result = getCalculateTechnicianPerformanceScore({
+      totalRepairJobs: 10,
+      overdueRepairJobs: 10,
+      averageDurationDays: MAX_REPAIR_JOB_DURATION_IN_DAYS,
+      onTimeCompletionRate: 0,
+      completedRepairJobs: 0,
+    })!;
+
+    expect(result).toBe(0);
+  });
+});
+
+describe('getTechnicianPerformanceMetrics', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  const mockTechnician = 'Chloe Carter';
+  const mockRepairJobs = [
+    mockPassengerElevatorRepairJob.node,
+    mockMastLiftRepairJob.node,
+    mockShipElevatorRepairJpb.node,
+  ].map((job) => ({
+    ...job,
+    technicianName: mockTechnician,
+    startDate: new Date(job.startDate),
+    endDate: new Date(job.endDate),
+    actualEndDate: job.actualEndDate ? new Date(job.actualEndDate) : undefined,
+  })) as RepairJob[];
+
+  it('should calculate metrics correctly', () => {
+    const result = getTechnicianPerformanceMetrics(mockRepairJobs);
+
+    expect(result).toEqual({
+      activeRepairJobs: 2,
+      averageDurationDays: 5.6,
+      completedRepairJobs: 1,
+      onTimeCompletionRate: 0,
+      overdueRepairJobs: 1,
+      totalRepairJobs: 3,
+      performanceScore: 38,
+    });
+  });
+
+  it('should handle empty array', () => {
+    const result = getTechnicianPerformanceMetrics([]);
+
+    expect(result).toEqual({
+      activeRepairJobs: 0,
+      averageDurationDays: 0,
+      completedRepairJobs: 0,
+      onTimeCompletionRate: 0,
+      overdueRepairJobs: 0,
+      performanceScore: null,
+      totalRepairJobs: 0,
+    });
   });
 });

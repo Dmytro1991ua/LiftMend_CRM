@@ -560,6 +560,8 @@ export type TechnicianPerformanceMetrics = {
   /** % of completed jobs finished on or before expected endDate */
   onTimeCompletionRate?: Maybe<Scalars['Int']['output']>;
   overdueRepairJobs: Scalars['Int']['output'];
+  /** Computed technician performance score based on performance metrics (0–100) */
+  performanceScore?: Maybe<Scalars['Int']['output']>;
   /** All jobs assigned to this technician */
   totalRepairJobs: Scalars['Int']['output'];
 };
@@ -573,6 +575,7 @@ export type TechnicianRecord = Node & {
   id: Scalars['ID']['output'];
   lastKnownAvailabilityStatus?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
+  performanceMetrics?: Maybe<TechnicianPerformanceMetrics>;
   skills: Array<Scalars['String']['output']>;
 };
 
@@ -1386,6 +1389,7 @@ export type TechnicianPerformanceMetricsResolvers<
   completedRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   onTimeCompletionRate?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   overdueRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  performanceScore?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   totalRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
@@ -1401,6 +1405,7 @@ export type TechnicianRecordResolvers<
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   lastKnownAvailabilityStatus?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  performanceMetrics?: Resolver<Maybe<ResolversTypes['TechnicianPerformanceMetrics']>, ParentType, ContextType>;
   skills?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
