@@ -11,6 +11,7 @@ import {
   RepairJob,
   UpdateElevatorRecordInput,
 } from '@/graphql/types/server/generated_types';
+import { DEFAULT_ELEVATOR_MAINTENANCE_INTERVAL, ELEVATOR_MAINTENANCE_INTERVALS } from '@/shared/constants';
 
 import {
   createElevatorRecordFilterOptions,
@@ -21,7 +22,6 @@ import {
 } from '../utils/utils';
 
 import { ELEVATOR_STATUS_MAP, ELEVATOR_TYPE_MAP } from './constants';
-import { DEFAULT_ELEVATOR_MAINTENANCE_INTERVAL, ELEVATOR_MAINTENANCE_INTERVALS } from '@/shared/constants';
 
 class ElevatorService {
   private prisma;

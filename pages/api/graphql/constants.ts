@@ -76,3 +76,26 @@ export const MAX_MAINTENANCE_DELAY_IMPACT = 30;
 export const ELEVATOR_HEALTH_IMPACTING_JOB_TYPES = ['Repair', 'Upgrade', 'Emergency', 'Modernization'];
 
 export const MAX_ELEVATOR_HEALTH_SCORE = 100;
+
+/**
+ * Max duration (days) considered reasonable for a repair job.
+ * Longer durations reduce technician performance score.
+ */
+export const MAX_REPAIR_JOB_DURATION_IN_DAYS = 30;
+
+/**
+ * Weight distribution for final Technician Performance Score.
+ * These define how much each KPI contributes to the final 0–100 score.
+ *
+ * Why these values:
+ * - RELIABILITY (On-time completion, 50%) → most important: a late repair reflects poorly on the technician.
+ * - EFFICIENCY (Average duration, 30%) → moderately important: completing tasks quickly improves operational efficiency.
+ * - QUALITY (Overdue jobs, 20%) → less weight: overdue jobs are negative but may be influenced by external factors (parts, building access, etc.)
+ *
+ * Total sum must be 1.0 (100%).
+ */
+export const TECHNICIAN_PERFORMANCE_WEIGHTS = {
+  RELIABILITY: 0.5,
+  EFFICIENCY: 0.3,
+  QUALITY: 0.2,
+} as const;

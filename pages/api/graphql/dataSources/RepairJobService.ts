@@ -16,6 +16,7 @@ import {
   UpdateRepairJobInput,
 } from '@/graphql/types/server/generated_types';
 
+import { getCalculateTechnicianPerformanceScore } from '../resolvers/utils';
 import {
   createRepairJobFilterOptions,
   createRepairJobSortOptions,
@@ -378,13 +379,23 @@ class RepairJobService {
       }
     );
 
+    const averageDurationDays = getAverageRepairJobDurationInDays(totalDurationDays, completedRepairJobs);
+    const onTimeCompletionRate = getOnTimeCompletionRate(onTimeCompletedCount, completedRepairJobs);
+
     return {
       totalRepairJobs,
       completedRepairJobs,
       overdueRepairJobs,
-      averageDurationDays: getAverageRepairJobDurationInDays(totalDurationDays, completedRepairJobs),
-      onTimeCompletionRate: getOnTimeCompletionRate(onTimeCompletedCount, completedRepairJobs),
+      averageDurationDays,
+      onTimeCompletionRate,
       activeRepairJobs,
+      performanceScore: getCalculateTechnicianPerformanceScore({
+        totalRepairJobs,
+        completedRepairJobs,
+        overdueRepairJobs,
+        averageDurationDays,
+        onTimeCompletionRate,
+      }),
     };
   }
 }

@@ -552,6 +552,7 @@ describe('RepairJobService', () => {
         onTimeCompletionRate: 0,
         overdueRepairJobs: 1,
         totalRepairJobs: 3,
+        performanceScore: 38,
       });
     });
   });
