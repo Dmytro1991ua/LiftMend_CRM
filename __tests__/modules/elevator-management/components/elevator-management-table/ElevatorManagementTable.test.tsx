@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { mockGlassElevatorElevatorRecord, mockServiceElevatorElevatorRecord } from '@/mocks/elevatorManagementMocks';
 import { withRouterAndApolloProvider } from '@/mocks/testMocks';
 import ElevatorManagementTable from '@/modules/elevator-management/components/elevator-management-table';
-import { DEFAULT_TOTAL_DOTS } from '@/modules/elevator-management/components/health-score-cell/health-score-dots/constants';
+import { DEFAULT_TOTAL_DOTS } from '@/shared/base-score-cell/constants';
 import { AppRoutes } from '@/types/enums';
 
 jest.mock('next/router', () => ({
@@ -68,8 +68,8 @@ describe('ElevatorManagementTable', () => {
     const cells = screen.getAllByRole('cell');
     const editIcons = screen.getAllByTestId('edit-icon');
     const healthScoreCells = screen.getAllByTestId('health-score-cell');
-    const firstRowDots = within(healthScoreCells[0]).getAllByTestId('health-dot');
-    const secondRowDots = within(healthScoreCells[1]).getAllByTestId('health-dot');
+    const firstRowDots = within(healthScoreCells[0]).getAllByTestId('score-dot');
+    const secondRowDots = within(healthScoreCells[1]).getAllByTestId('score-dot');
 
     expect(cells).toHaveLength(26);
 

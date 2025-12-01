@@ -36,29 +36,3 @@ export type ElevatorStatusConfig = {
   modalMessage: string;
   dataTestId?: string;
 };
-
-export type HealthScoreStyleClasses = {
-  background: string;
-  text: string;
-  border: string;
-};
-
-export type ElevatorHealthTooltip = {
-  id: string;
-  getTooltipMessage: (score: number) => string;
-};
-
-export type ElevatorHealthTooltipMessageParams = {
-  score: number;
-  label: HealthScoreLabel;
-  description: HealthScoreTooltipDescription;
-};
-
-export type ElevatorHealthScore = {
-  value: number;
-  color: string;
-  label: HealthScoreLabel;
-  classes: HealthScoreStyleClasses;
-  activeDots: number;
-  tooltipProps: ElevatorHealthTooltip;
-};

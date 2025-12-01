@@ -6,6 +6,12 @@ import { withRouterAndApolloProvider } from '@/mocks/testMocks';
 import TechnicianRecordDetails from '@/modules/technician-management/components/technician-record-details';
 import { AppRoutes } from '@/types/enums';
 
+jest.mock('short-uuid', () => {
+  return {
+    generate: jest.fn(() => 'mocked-uuid'),
+  };
+});
+
 describe('TechnicianRecordDetails', () => {
   beforeEach(() => {
     jest.spyOn(apollo, 'useQuery').mockImplementation(() => {

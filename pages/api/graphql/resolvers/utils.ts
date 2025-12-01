@@ -130,7 +130,10 @@ export const getCalculateTechnicianPerformanceScore = ({
   // No jobs → cannot compute performance
   if (totalRepairJobs === 0) return null;
 
-  const durationScore = getPerformanceScoreFromRatio(averageDurationDays / MAX_REPAIR_JOB_DURATION_IN_DAYS);
+  // Limit ratio to 1 to prevent negative scores when average duration exceeds the max allowed
+  const durationScore = getPerformanceScoreFromRatio(
+    Math.min(averageDurationDays / MAX_REPAIR_JOB_DURATION_IN_DAYS, 1)
+  );
   const overdueScore = getPerformanceScoreFromRatio(overdueRepairJobs / totalRepairJobs);
 
   const rawTechnicianPerformanceScore =
