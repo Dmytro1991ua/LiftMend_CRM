@@ -13,6 +13,7 @@ import { EmploymentStatus, TechnicianScoreLabel } from '../../types';
 import DeleteActionCell from '../delete-action-cell';
 import EditActionCell from '../edit-action-cell';
 import EmploymentStatusToggleCell from '../employment-status-toggle-cell';
+import { DEFAULT_SCORE_THRESHOLD_LABEL } from '@/shared/base-score-cell/constants';
 
 export const TECHNICIAN_RECORD_COLUMNS: ColumnDef<TechnicianRecord>[] = [
   {
@@ -61,7 +62,7 @@ export const TECHNICIAN_RECORD_COLUMNS: ColumnDef<TechnicianRecord>[] = [
     maxSize: 350,
   },
   {
-    accessorKey: 'performanceScore',
+    accessorFn: (row) => row.performanceMetrics?.performanceScore ?? DEFAULT_SCORE_THRESHOLD_LABEL,
     header: 'Performance Score',
     cell: ({
       row: {
