@@ -1,10 +1,12 @@
 import { ElevatorRecord } from '@/graphql/types/client/generated_types';
 import { DetailsPageSectionsConfig } from '@/shared/base-details-page/types';
+import BaseScoreGaugeChart from '@/shared/base-score-cell/base-score-gauge-chart/BaseScoreGaugeChart';
+import { getScoreGaugeChartConfig, getScoreGaugeChartData } from '@/shared/base-score-cell/utils';
 import DatePicker from '@/shared/date-picker';
 import Pill from '@/shared/pill';
 import { PillStatus } from '@/shared/pill/config';
 
-import { ElevatorHealthScoreGaugeChart } from '../elevator-health-score-gauge-chart';
+import { ELEVATOR_HEALTH_SCORE_THRESHOLDS } from '../../config';
 import { ElevatorMentainanceHistoryTable } from '../elevator-mentainance-history-table';
 
 export const elevatorRecordSectionsConfig = (elevatorRecord: ElevatorRecord): DetailsPageSectionsConfig[] => [
@@ -67,7 +69,14 @@ export const elevatorRecordSectionsConfig = (elevatorRecord: ElevatorRecord): De
       {
         id: 10,
         label: '',
-        value: <ElevatorHealthScoreGaugeChart healthScore={elevatorRecord.healthScore} />,
+        value: (
+          <BaseScoreGaugeChart
+            getChartConfig={(activeColor) => getScoreGaugeChartConfig(ELEVATOR_HEALTH_SCORE_THRESHOLDS, activeColor)}
+            getChartData={getScoreGaugeChartData}
+            score={elevatorRecord.healthScore}
+            thresholds={ELEVATOR_HEALTH_SCORE_THRESHOLDS}
+          />
+        ),
         fieldClassName: 'justify-center',
       },
     ],

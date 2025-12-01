@@ -14,3 +14,4 @@ export const TECHNICIAN_RECORDS_TABLE_FILTER_KEY_MAP: Record<string, string> = {
 };
 
 export const DEFAULT_DELETE_TECHNICIAN_MODAL_TITLE = 'Delete technician record';
+export const TECHNICIAN_PERFORMANCE_SCORE_TOOLTIP_TITLE = 'Technician Performance Score';

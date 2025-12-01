@@ -2,12 +2,14 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import { Checkbox } from '@/components/ui/checkbox';
 import Badge from '@/shared/badge';
+import BaseScoreCell from '@/shared/base-score-cell/BaseScoreCell';
 import BaseTableCheckbox from '@/shared/base-table/base-table-checkbox';
 import Pill from '@/shared/pill';
 import { PillStatus } from '@/shared/pill/config';
 import { TechnicianRecord } from '@/shared/types';
 
-import { EmploymentStatus } from '../../types';
+import { TECHNICIAN_PERFORMANCE_SCORE_THRESHOLDS } from '../../config';
+import { EmploymentStatus, TechnicianScoreLabel } from '../../types';
 import DeleteActionCell from '../delete-action-cell';
 import EditActionCell from '../edit-action-cell';
 import EmploymentStatusToggleCell from '../employment-status-toggle-cell';
@@ -57,6 +59,26 @@ export const TECHNICIAN_RECORD_COLUMNS: ColumnDef<TechnicianRecord>[] = [
     size: 200,
     minSize: 120,
     maxSize: 350,
+  },
+  {
+    accessorKey: 'performanceScore',
+    header: 'Performance Score',
+    cell: ({
+      row: {
+        original: { performanceMetrics },
+      },
+    }) => (
+      <BaseScoreCell<TechnicianScoreLabel>
+        score={performanceMetrics?.performanceScore}
+        scoreThresholds={TECHNICIAN_PERFORMANCE_SCORE_THRESHOLDS}
+        testId='performance-score-cell'
+      />
+    ),
+    enableResizing: false,
+    enableSorting: false,
+    size: 160,
+    minSize: 155,
+    maxSize: 180,
   },
   {
     accessorKey: 'contactInformation',

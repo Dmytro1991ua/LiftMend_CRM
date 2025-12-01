@@ -1,7 +1,6 @@
 import { ElevatorRecord } from '@/shared/types';
 
-import { ELEVATOR_HEALTH_SCORE_THRESHOLDS } from './components/health-score-cell/configs';
-import { ElevatorHealthScore, ElevatorHealthTooltipMessageParams, ElevatorRecordFormValues } from './types';
+import { ElevatorRecordFormValues } from './types';
 
 export const convertElevatorRecordToFormValues = (elevatorRecord: ElevatorRecord): ElevatorRecordFormValues => ({
   elevatorType: elevatorRecord ? elevatorRecord.elevatorType : null,
@@ -24,19 +23,3 @@ export const convertFormFieldsToElevatorRecord = (formFields: ElevatorRecordForm
   id: formFields.id ?? '',
   status: formFields.status ?? '',
 });
-
-export const getElevatorHealthScoreColor = (healthScore?: number | null): ElevatorHealthScore | null => {
-  if (healthScore == null) return null;
-
-  const healthScoreLevel = ELEVATOR_HEALTH_SCORE_THRESHOLDS.find(({ value }) => healthScore >= value);
-
-  if (!healthScoreLevel) return null;
-
-  return {
-    ...healthScoreLevel,
-    value: healthScore,
-  };
-};
-
-export const getElevatorHealthTooltipMessage = ({ score, label, description }: ElevatorHealthTooltipMessageParams) =>
-  `Elevator Health Score: ${score} – ${label}. ${description}`;

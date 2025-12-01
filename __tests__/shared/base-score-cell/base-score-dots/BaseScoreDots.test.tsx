@@ -1,34 +1,30 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { HealthScoreDots } from '@/modules/elevator-management/components/health-score-cell/health-score-dots';
-import {
-  DEFAULT_HEALTH_SCORE_LABEL,
-  DEFAULT_TOTAL_DOTS,
-} from '@/modules/elevator-management/components/health-score-cell/health-score-dots/constants';
-import { HealthScoreDotsProps } from '@/modules/elevator-management/components/health-score-cell/health-score-dots/HealthScoreDots';
 import { HealthScoreLabel } from '@/modules/elevator-management/types';
+import BaseScoreDots, { BaseScoreDotsProps } from '@/shared/base-score-cell/base-score-dots/BaseScoreDots';
+import { DEFAULT_SCORE_THRESHOLD_LABEL, DEFAULT_TOTAL_DOTS } from '@/shared/base-score-cell/constants';
 
-describe('HealthScoreDots', () => {
+describe('BaseScoreDots', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
   const defaultProps = {
-    healthScoreLevel: null,
+    scoreLevel: null,
   };
 
-  const HealthScoreDotsComponent = (props?: Partial<HealthScoreDotsProps>) => (
-    <HealthScoreDots {...defaultProps} {...props} />
+  const BaseScoreDotsComponent = (props?: Partial<BaseScoreDotsProps<HealthScoreLabel>>) => (
+    <BaseScoreDots {...defaultProps} {...props} />
   );
 
-  it('should render default N/A label when healthScoreLevel is null', () => {
-    render(HealthScoreDotsComponent());
+  it('should render default N/A label when scoreLevel is null', () => {
+    render(BaseScoreDotsComponent());
 
-    expect(screen.getByText(DEFAULT_HEALTH_SCORE_LABEL)).toBeInTheDocument();
+    expect(screen.getByText(DEFAULT_SCORE_THRESHOLD_LABEL)).toBeInTheDocument();
   });
 
-  it('should render health score dots based on healthScoreLevel', () => {
+  it('should render score dots based on scoreLevel', () => {
     const mockHealthScoreLevel = {
       value: 70,
       label: HealthScoreLabel.Fair,
@@ -45,9 +41,9 @@ describe('HealthScoreDots', () => {
       },
     };
 
-    render(HealthScoreDotsComponent({ healthScoreLevel: mockHealthScoreLevel }));
+    render(BaseScoreDotsComponent({ scoreLevel: mockHealthScoreLevel }));
 
-    const healthScoreDots = screen.getAllByTestId('health-dot');
+    const healthScoreDots = screen.getAllByTestId('score-dot');
 
     expect(healthScoreDots).toHaveLength(DEFAULT_TOTAL_DOTS);
     expect(healthScoreDots[0]).toHaveClass('bg-yellow-400');
@@ -55,7 +51,7 @@ describe('HealthScoreDots', () => {
     expect(healthScoreDots[2]).toHaveClass('bg-gray-300 ');
   });
 
-  it('should show a tooltip message on hover over health score dots', async () => {
+  it('should show a tooltip message on hover over score dots', async () => {
     const mockHealthScoreLevel = {
       value: 98,
       label: HealthScoreLabel.Excellent,
@@ -72,11 +68,11 @@ describe('HealthScoreDots', () => {
       },
     };
 
-    render(HealthScoreDotsComponent({ healthScoreLevel: mockHealthScoreLevel }));
+    render(BaseScoreDotsComponent({ scoreLevel: mockHealthScoreLevel }));
 
-    const healthScoreDotsContainer = screen.getByTestId('health-dot-container');
+    const scoreThresholdsDotsContainer = screen.getByTestId('score-dot-container');
 
-    await userEvent.hover(healthScoreDotsContainer);
+    await userEvent.hover(scoreThresholdsDotsContainer);
 
     expect(screen.getByText('Test tooltip message')).toBeInTheDocument();
   });

@@ -3,6 +3,20 @@ export enum TechnicianRecordSteps {
   SkillsAndCertifications,
 }
 
+export enum TechnicianScoreLabel {
+  Excellent = 'Excellent',
+  Good = 'Good',
+  Fair = 'Fair',
+  Poor = 'Poor',
+}
+
+export enum TechnicianScoreTooltipDescription {
+  Excellent = 'Outstanding performance, on time consistently.',
+  Good = 'Reliable performance with minor delays.',
+  Fair = 'Some delays or inconsistent performance.',
+  Poor = 'Frequent delays, needs immediate attention.',
+}
+
 export type TechnicianRecordFormValues = {
   id: string;
   name: string;

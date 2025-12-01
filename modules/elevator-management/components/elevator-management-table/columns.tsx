@@ -1,17 +1,18 @@
 import { ColumnDef } from '@tanstack/react-table';
 
 import { Checkbox } from '@/components/ui/checkbox';
+import BaseScoreCell from '@/shared/base-score-cell/BaseScoreCell';
 import BaseTableCheckbox from '@/shared/base-table/base-table-checkbox';
 import DatePicker from '@/shared/date-picker';
 import { PillStatus } from '@/shared/pill/config';
 import { ElevatorRecord } from '@/shared/types';
 
 import Pill from '../../../../shared/pill/Pill';
-import { ElevatorStatus } from '../../types';
+import { ELEVATOR_HEALTH_SCORE_THRESHOLDS } from '../../config';
+import { ElevatorStatus, HealthScoreLabel } from '../../types';
 import DeleteActionCell from '../delete-action-cell';
 import EditActionCell from '../edit-action-cell';
 import ElevatorStatusToggleCell from '../elevator-status-toggle-cell';
-import { HealthScoreCell } from '../health-score-cell';
 
 export const ELEVATOR_MANAGEMENT_COLUMNS: ColumnDef<ElevatorRecord>[] = [
   {
@@ -84,7 +85,13 @@ export const ELEVATOR_MANAGEMENT_COLUMNS: ColumnDef<ElevatorRecord>[] = [
       row: {
         original: { healthScore },
       },
-    }) => <HealthScoreCell healthScore={healthScore} />,
+    }) => (
+      <BaseScoreCell<HealthScoreLabel>
+        score={healthScore}
+        scoreThresholds={ELEVATOR_HEALTH_SCORE_THRESHOLDS}
+        testId='health-score-cell'
+      />
+    ),
     enableResizing: false,
     enableSorting: false,
     size: 120,
