@@ -39,7 +39,11 @@ describe('useRepairJobForm', () => {
       elevatorLocation: 'Loading Bay',
     },
     technicianAssignment: {
-      technicianName: 'Benjamin Hall',
+      selectedTechnician: {
+        id: 'test-technician-id-1',
+        label: 'Benjamin Hall',
+        value: 'test-technician-id-1',
+      },
     },
   };
 

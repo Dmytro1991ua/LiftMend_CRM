@@ -187,6 +187,7 @@ export const mockNewRepairJobInput = {
   jobType: 'Emergency',
   startDate: '2025-05-12T21:00:00.000Z',
   technicianName: 'Chloe Carter',
+  technicianId: 'test-technician-id-1',
 };
 
 export const mockNewCalendarInput = {
@@ -247,7 +248,12 @@ export const mockCreateRepairJobAndCalendarEventResponse: MockedResponse<CreateR
   result: {
     data: {
       createRepairJobAndEvent: {
-        repairJob: { ...mockRepairJob, __typename: 'RepairJob' },
+        repairJob: {
+          ...mockRepairJob,
+          elevatorId: 'test-elevator-id-1',
+          technicianId: 'test-technician-id-1',
+          __typename: 'RepairJob',
+        },
         calendarEvent: { ...mockCalendarEvent, __typename: 'CalendarEvent' },
         __typename: 'ScheduledEventAndRepairJobResponse',
       },
@@ -303,7 +309,15 @@ export const mockRecentRepairJobsResponse: MockedResponse<GetRecentRepairJobsQue
   },
   result: {
     data: {
-      getRecentRepairJobs: [{ ...mockRepairJob, status: 'Scheduled', __typename: 'RepairJob' }],
+      getRecentRepairJobs: [
+        {
+          ...mockRepairJob,
+          elevatorId: 'test-elevator-id-1',
+          technicianId: 'test-technician-id-1',
+          status: 'Scheduled',
+          __typename: 'RepairJob',
+        },
+      ],
     },
     errors: [],
   },

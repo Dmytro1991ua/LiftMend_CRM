@@ -30,8 +30,16 @@ describe('useFetchAvailableTechniciansForAssignment', () => {
 
     expect(result.current.loading).toBe(false);
     expect(result.current.availableTechnicians).toEqual([
-      { id: '3f16eb24-26fd-44e3-939f-2ede19e89534', label: 'Charles Robinson', value: 'Charles Robinson' },
-      { id: 'e2e34422-4335-40e2-a5f1-0d04baae3727', label: 'Chloe Carter', value: 'Chloe Carter' },
+      {
+        id: '3f16eb24-26fd-44e3-939f-2ede19e89534',
+        label: 'Charles Robinson',
+        value: '3f16eb24-26fd-44e3-939f-2ede19e89534',
+      },
+      {
+        id: 'e2e34422-4335-40e2-a5f1-0d04baae3727',
+        label: 'Chloe Carter',
+        value: 'e2e34422-4335-40e2-a5f1-0d04baae3727',
+      },
     ]);
   });
 

@@ -94,19 +94,6 @@ describe('TechnicianService', () => {
     });
   });
 
-  describe('findTechnicianRecordByName', () => {
-    it('should return technician record by name', async () => {
-      (technicianRecordPrismaMock.technicianRecord.findFirst as jest.Mock).mockResolvedValue(mockBenjaminHallRecord);
-
-      const result = await technicianService.findTechnicianRecordByName('Benjamin Hall');
-
-      expect(technicianRecordPrismaMock.technicianRecord.findFirst).toHaveBeenCalledWith({
-        where: { name: 'Benjamin Hall' },
-      });
-      expect(result).toEqual(mockBenjaminHallRecord);
-    });
-  });
-
   describe('findTechnicianRecordById', () => {
     it('should return technician record by id', async () => {
       (technicianRecordPrismaMock.technicianRecord.findUnique as jest.Mock).mockResolvedValue(mockOliviaLewisRecord);
@@ -117,6 +104,16 @@ describe('TechnicianService', () => {
         where: { id: mockOliviaLewisRecord.id },
       });
       expect(result).toEqual(mockOliviaLewisRecord);
+    });
+
+    it('should throw an error if id is undefined', async () => {
+      await expect(technicianService.findTechnicianRecordById(undefined)).rejects.toThrow(
+        'RepairJob missing technicianId'
+      );
+    });
+
+    it('should throw an error if id is null', async () => {
+      await expect(technicianService.findTechnicianRecordById(null)).rejects.toThrow('RepairJob missing technicianId');
     });
   });
 
@@ -317,6 +314,7 @@ describe('TechnicianService', () => {
 
   describe('validateTechnicianAssignment', () => {
     const technicianName = 'Olivia Lewis';
+    const technicianId = 'test-technician-id-1';
 
     const mockAvailableTechnician = {
       ...mockOliviaLewisRecord,
@@ -329,26 +327,26 @@ describe('TechnicianService', () => {
     };
 
     it('should return technician record if available', async () => {
-      jest.spyOn(technicianService, 'findTechnicianRecordByName').mockResolvedValue(mockAvailableTechnician);
+      jest.spyOn(technicianService, 'findTechnicianRecordById').mockResolvedValue(mockAvailableTechnician);
 
-      const result = await technicianService.validateTechnicianAssignment(technicianName);
+      const result = await technicianService.validateTechnicianAssignment(technicianId, technicianName);
 
-      expect(technicianService.findTechnicianRecordByName).toHaveBeenCalledWith(technicianName);
+      expect(technicianService.findTechnicianRecordById).toHaveBeenCalledWith(technicianId);
       expect(result).toEqual(mockAvailableTechnician);
     });
 
     it('should throw if technician record not found', async () => {
-      jest.spyOn(technicianService, 'findTechnicianRecordByName').mockResolvedValue(null);
+      jest.spyOn(technicianService, 'findTechnicianRecordById').mockResolvedValue(null);
 
-      await expect(technicianService.validateTechnicianAssignment(technicianName)).rejects.toThrow(
+      await expect(technicianService.validateTechnicianAssignment(technicianId, technicianName)).rejects.toThrow(
         `Technician record for ${technicianName} was not found`
       );
     });
 
     it('should throw if technician status is blocking', async () => {
-      jest.spyOn(technicianService, 'findTechnicianRecordByName').mockResolvedValue(mockBusyTechnician);
+      jest.spyOn(technicianService, 'findTechnicianRecordById').mockResolvedValue(mockBusyTechnician);
 
-      await expect(technicianService.validateTechnicianAssignment(technicianName)).rejects.toThrow(
+      await expect(technicianService.validateTechnicianAssignment(technicianId, technicianName)).rejects.toThrow(
         `Technician ${technicianName} is already assigned to another job. Please check the Repair Job Tracking page to see current assignments o select a different technician.`
       );
     });

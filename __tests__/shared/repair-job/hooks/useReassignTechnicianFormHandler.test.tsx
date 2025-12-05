@@ -21,6 +21,11 @@ describe('useReassignTechnicianFormHandler', () => {
   const mockCurrentRepairJob = { ...mockRepairJob, status: 'In Progress' };
   const mockFormFields = {
     ...mockCurrentRepairJob,
+    selectedTechnician: {
+      id: 'test-technician-id-1',
+      label: mockUpdatedTechnicianName,
+      value: 'test-technician-id-1',
+    },
     technicianName: mockUpdatedTechnicianName,
     status: 'In Progress',
   };

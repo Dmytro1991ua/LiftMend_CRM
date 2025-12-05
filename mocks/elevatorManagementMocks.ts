@@ -9,10 +9,10 @@ import {
   GET_ELEVATOR_RECORD_FORM_DATA,
   UPDATE_ELEVATOR_RECORD,
 } from '@/graphql/schemas';
-import { GET_ELEVATOR_MENTAINANCE_HISTORY } from '@/graphql/schemas/getElevatorMentainanceHistory';
+import { GET_ELEVATOR_MAINTENANCE_HISTORY } from '@/graphql/schemas/getElevatorMaintenanceHistory';
 import {
   DeleteElevatorRecordMutation,
-  GetElevatorMentainanceHistoryQuery,
+  GetElevatorMaintenanceHistoryQuery,
   GetElevatorRecordByIdQuery,
   GetElevatorRecordsQuery,
   UpdateElevatorRecordMutation,
@@ -23,6 +23,7 @@ import { mockMastLiftRepairJob, mockPassengerElevatorRepairJob } from './repairJ
 export const mockElevatorRecordId = 'test_id';
 export const mockBuildingName = 'Skyline Plaza';
 export const mockElevatorLocation = 'Observation Deck';
+export const mockElevatorId = 'test_elevator_id_1';
 
 export const mockElevatorRecord = {
   id: mockElevatorRecordId,
@@ -128,8 +129,8 @@ export const mockedReturnedElevatorRecordsData = {
   },
 };
 
-export const mockedReturnedElevatorMentainanceHistoryData = {
-  getElevatorMentainanceHistory: {
+export const mockedReturnedElevatorMaintenanceHistoryData = {
+  getElevatorMaintenanceHistory: {
     edges: [
       {
         cursor: mockPassengerElevatorRepairJob.cursor,
@@ -153,8 +154,8 @@ export const mockElevatorRecordsResponse: FetchResult<GetElevatorRecordsQuery> =
   data: { ...(mockedReturnedElevatorRecordsData as GetElevatorRecordsQuery) },
 };
 
-export const mockElevatorMentainanceHistoryResponse: FetchResult<GetElevatorMentainanceHistoryQuery> = {
-  data: { ...(mockedReturnedElevatorMentainanceHistoryData as GetElevatorMentainanceHistoryQuery) },
+export const mockElevatorMaintenanceHistoryResponse: FetchResult<GetElevatorMaintenanceHistoryQuery> = {
+  data: { ...(mockedReturnedElevatorMaintenanceHistoryData as GetElevatorMaintenanceHistoryQuery) },
 };
 
 export const mockElevatorRecordsPaginatedResponse: FetchResult<GetElevatorRecordsQuery> = {
@@ -180,9 +181,9 @@ export const mockElevatorRecordsPaginatedResponse: FetchResult<GetElevatorRecord
   },
 };
 
-export const mockElevatorMentainanceHistoryPaginatedResponse: FetchResult<GetElevatorMentainanceHistoryQuery> = {
+export const mockElevatorMaintenanceHistoryPaginatedResponse: FetchResult<GetElevatorMaintenanceHistoryQuery> = {
   data: {
-    getElevatorMentainanceHistory: {
+    getElevatorMaintenanceHistory: {
       edges: [
         {
           cursor: mockMastLiftRepairJob.cursor,
@@ -381,39 +382,37 @@ export const mockDeleteElevatorRecordNetworkError = {
   },
 };
 
-export const mockElevatorMaintenanceHistory: MockedResponse<GetElevatorMentainanceHistoryQuery> = {
+export const mockElevatorMaintenanceHistory: MockedResponse<GetElevatorMaintenanceHistoryQuery> = {
   request: {
-    query: GET_ELEVATOR_MENTAINANCE_HISTORY,
+    query: GET_ELEVATOR_MAINTENANCE_HISTORY,
     variables: {
       paginationOptions: {
         limit: 20,
         offset: 0,
       },
-      buildingName: mockBuildingName,
-      elevatorLocation: mockElevatorLocation,
+      elevatorId: mockElevatorId,
     },
   },
   result: {
-    ...mockElevatorMentainanceHistoryResponse,
+    ...mockElevatorMaintenanceHistoryResponse,
   },
 };
 
-export const mockPaginatedElevatorMentainanceHistoryData: MockedResponse<GetElevatorMentainanceHistoryQuery>[] = [
+export const mockPaginatedElevatorMaintenanceHistoryData: MockedResponse<GetElevatorMaintenanceHistoryQuery>[] = [
   mockElevatorMaintenanceHistory,
   {
     request: {
-      query: GET_ELEVATOR_MENTAINANCE_HISTORY,
+      query: GET_ELEVATOR_MAINTENANCE_HISTORY,
       variables: {
         paginationOptions: {
           limit: 20,
           offset: 2,
         },
-        buildingName: mockBuildingName,
-        elevatorLocation: mockElevatorLocation,
+        elevatorId: mockElevatorId,
       },
     },
     result: {
-      ...mockElevatorMentainanceHistoryPaginatedResponse,
+      ...mockElevatorMaintenanceHistoryPaginatedResponse,
     },
   },
 ];

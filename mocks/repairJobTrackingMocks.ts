@@ -22,6 +22,8 @@ import {
 
 export const mockRepairJobId = '1bcc2a00-5296-475f-af08-5cada100d509';
 export const mockCalendarEventId = '35c674d5-cf50-4153-b505-1e33696a1fdd';
+export const mockElevatorId = 'test-elevator-id-1';
+export const mockTechnicianId = 'test-technician-id-1';
 
 export const mockRepairJob = {
   status: 'Scheduled',
@@ -38,6 +40,8 @@ export const mockRepairJob = {
   calendarEventId: mockCalendarEventId,
   actualEndDate: new Date('2025-01-19T11:17:48.591Z'),
   isOverdue: false,
+  elevatorId: mockElevatorId,
+  technicianId: mockTechnicianId,
 };
 
 export const mockUpdatedRepairJob = {
@@ -73,6 +77,8 @@ export const mockPassengerElevatorRepairJob = {
     calendarEventId: 'test-event-id-1',
     actualEndDate: '2025-01-19T11:17:48.591Z',
     isOverdue: false,
+    elevatorId: mockElevatorId,
+    technicianId: mockTechnicianId,
   },
 };
 
@@ -93,6 +99,8 @@ export const mockMastLiftRepairJob = {
     calendarEventId: 'test-event-id-2',
     actualEndDate: '2025-01-28T11:16:41.472Z',
     isOverdue: false,
+    elevatorId: mockElevatorId,
+    technicianId: mockTechnicianId,
   },
 };
 
@@ -113,6 +121,8 @@ export const mockShipElevatorRepairJpb = {
     calendarEventId: 'test-event-id-3',
     actualEndDate: null,
     isOverdue: true,
+    elevatorId: mockElevatorId,
+    technicianId: mockTechnicianId,
   },
 };
 
@@ -154,7 +164,7 @@ export const mockReturnedRepairJobsData = {
 };
 
 export const mockReturnedRepairJobsDataForElevatorMaintenance = {
-  getElevatorMentainanceHistory: {
+  getElevatorMaintenanceHistory: {
     edges: [
       {
         cursor: mockPassengerElevatorRepairJob.cursor,

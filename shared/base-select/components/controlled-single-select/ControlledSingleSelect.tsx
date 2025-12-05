@@ -1,4 +1,4 @@
-import { Controller, FieldValues, useFormContext } from 'react-hook-form';
+import { Controller, ControllerRenderProps, FieldValues, Path, useFormContext } from 'react-hook-form';
 
 import { cn } from '@/lib/utils';
 import { getNestedError } from '@/modules/repair-job-scheduling/utils';
@@ -17,6 +17,7 @@ const ControlledSingleSelect = <T extends FieldValues>({
   defaultValue,
   infoTooltip,
   clearErrors,
+  isStoringValueAsObject = false,
   ...props
 }: ControlledSingleSelectProps<T>) => {
   const {
@@ -28,6 +29,36 @@ const ControlledSingleSelect = <T extends FieldValues>({
   const hasError = !!errorKey;
 
   const labelErrorStyles = getCommonFormLabelErrorStyles(hasError);
+
+  const getSelectValue = <T extends FieldValues>(
+    field: ControllerRenderProps<T, Path<T>>,
+    options: SingleSelectValue<string>[],
+    isStoringValueAsObject: boolean
+  ): SingleSelectValue<string> | null => {
+    if (isStoringValueAsObject) {
+      const selectedValue = field.value;
+
+      if (!selectedValue || !selectedValue.value) return null;
+
+      return selectedValue;
+    }
+
+    return options.find((option) => option?.value === field.value) || null;
+  };
+
+  const handleSelectChange = <T extends FieldValues>(
+    field: ControllerRenderProps<T, Path<T>>,
+    selectedOption: SingleSelectValue<string> | null,
+    isStoringValueAsObject: boolean,
+    clearErrors?: (name?: Path<T>) => void,
+    name?: Path<T>
+  ) => {
+    const valueToStore = isStoringValueAsObject ? selectedOption ?? null : selectedOption?.value ?? null;
+
+    field.onChange(valueToStore);
+
+    if (clearErrors && name) clearErrors(name);
+  };
 
   return (
     <div className={cn('relative grid w-full items-center gap-1.5', className)}>
@@ -46,11 +77,10 @@ const ControlledSingleSelect = <T extends FieldValues>({
             isDisabled={disabled}
             options={options}
             placeholder={placeholder}
-            value={options.find((option) => option.value === field.value) || null}
-            onChange={(selectedOption: SingleSelectValue<string>) => {
-              field.onChange(selectedOption?.value);
-              clearErrors && clearErrors(name);
-            }}
+            value={getSelectValue(field, options, isStoringValueAsObject)}
+            onChange={(selectedOption) =>
+              handleSelectChange(field, selectedOption, isStoringValueAsObject, clearErrors, name)
+            }
             {...props}
           />
         )}

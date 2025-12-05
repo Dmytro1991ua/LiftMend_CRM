@@ -19,7 +19,10 @@ export const convertRepairJobToFormValues = (repairJob: RepairJob): RepairJobFor
   status: repairJob ? repairJob.status : null,
 });
 
-export const convertFormFieldsToRepairJob = (formFields: RepairJobFormValues): RepairJob => ({
+export const convertFormFieldsToRepairJob = (
+  formFields: RepairJobFormValues,
+  originalRepairJob?: RepairJob
+): RepairJob => ({
   jobType: formFields.jobType ?? '',
   jobDetails: formFields.jobDescription ?? '',
   jobPriority: formFields.jobPriority ?? '',
@@ -28,8 +31,8 @@ export const convertFormFieldsToRepairJob = (formFields: RepairJobFormValues): R
   elevatorType: formFields.elevatorType ?? '',
   buildingName: formFields.buildingName ?? '',
   elevatorLocation: formFields.elevatorLocation ?? '',
-  technicianName: formFields.technicianName ?? '',
+  technicianName: originalRepairJob?.technicianName ?? formFields.technicianName ?? '',
   id: formFields.id ?? '',
-  calendarEventId: formFields.calendarEventId ?? null,
+  calendarEventId: originalRepairJob?.calendarEventId ?? formFields.calendarEventId ?? null,
   status: formFields.status ?? '',
 });

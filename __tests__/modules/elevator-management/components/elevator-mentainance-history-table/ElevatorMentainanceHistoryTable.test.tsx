@@ -6,19 +6,19 @@ import { useRouter } from 'next/router';
 import { mockElevatorRecord } from '@/mocks/elevatorManagementMocks';
 import { mockPassengerElevatorRepairJob } from '@/mocks/repairJobTrackingMocks';
 import { withRouterAndApolloProvider } from '@/mocks/testMocks';
-import { ElevatorMentainanceHistoryTable } from '@/modules/elevator-management/components/elevator-mentainance-history-table';
+import { ElevatorMaintenanceHistoryTable } from '@/modules/elevator-management/components/elevator-maintenance-history-table';
 import { AppRoutes } from '@/types/enums';
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn(),
 }));
 
-describe('ElevatorMentainanceHistoryTable', () => {
+describe('ElevatorMaintenanceHistoryTable', () => {
   beforeEach(() => {
     jest.spyOn(apollo, 'useQuery').mockImplementation(() => {
       return {
         data: {
-          getElevatorMentainanceHistory: {
+          getElevatorMaintenanceHistory: {
             edges: [mockPassengerElevatorRepairJob],
           },
         },
@@ -30,20 +30,20 @@ describe('ElevatorMentainanceHistoryTable', () => {
     jest.clearAllMocks();
   });
 
-  const ElevatorMentainanceHistoryTableComponent = () =>
+  const ElevatorMaintenanceHistoryTableComponent = () =>
     withRouterAndApolloProvider(
-      <ElevatorMentainanceHistoryTable elevatorRecord={mockElevatorRecord} />,
+      <ElevatorMaintenanceHistoryTable elevatorRecord={mockElevatorRecord} />,
       AppRoutes.RepairJobDetails
     );
 
   it('should render component without crashing', () => {
-    render(ElevatorMentainanceHistoryTableComponent());
+    render(ElevatorMaintenanceHistoryTableComponent());
 
     expect(screen.getByRole('table')).toBeInTheDocument();
   });
 
   it('should render correct column headers', async () => {
-    render(ElevatorMentainanceHistoryTableComponent());
+    render(ElevatorMaintenanceHistoryTableComponent());
 
     const columnHeaders = screen.getAllByRole('columnheader');
 
@@ -58,7 +58,7 @@ describe('ElevatorMentainanceHistoryTable', () => {
   });
 
   it('should render correct table cells', async () => {
-    render(ElevatorMentainanceHistoryTableComponent());
+    render(ElevatorMaintenanceHistoryTableComponent());
 
     const cells = screen.getAllByRole('cell');
 
@@ -76,14 +76,14 @@ describe('ElevatorMentainanceHistoryTable', () => {
     jest.spyOn(apollo, 'useQuery').mockImplementation(() => {
       return {
         data: {
-          getElevatorMentainanceHistory: [],
+          getElevatorMaintenanceHistory: [],
         },
         loading: false,
         error: undefined,
       } as apollo.QueryResult;
     });
 
-    render(ElevatorMentainanceHistoryTableComponent());
+    render(ElevatorMaintenanceHistoryTableComponent());
 
     expect(screen.getByText('No elevator maintenance history found.')).toBeInTheDocument();
   });
@@ -95,7 +95,7 @@ describe('ElevatorMentainanceHistoryTable', () => {
       push: mockPush,
     });
 
-    render(ElevatorMentainanceHistoryTableComponent());
+    render(ElevatorMaintenanceHistoryTableComponent());
 
     const row = screen.getByRole('row', { name: /Routine/i });
 

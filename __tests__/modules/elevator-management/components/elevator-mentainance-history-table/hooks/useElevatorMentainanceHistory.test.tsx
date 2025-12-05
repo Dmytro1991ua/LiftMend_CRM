@@ -5,32 +5,31 @@ import { RenderHookResult, act, renderHook } from '@testing-library/react-hooks'
 
 import { typePolicies } from '@/graphql/typePolicies';
 import {
-  mockBuildingName,
-  mockElevatorLocation,
+  mockElevatorId,
   mockElevatorMaintenanceHistory,
-  mockElevatorMentainanceHistoryPaginatedResponse,
-  mockElevatorMentainanceHistoryResponse,
-  mockPaginatedElevatorMentainanceHistoryData,
+  mockElevatorMaintenanceHistoryPaginatedResponse,
+  mockElevatorMaintenanceHistoryResponse,
+  mockPaginatedElevatorMaintenanceHistoryData,
 } from '@/mocks/elevatorManagementMocks';
 import { mockPassengerElevatorRepairJob } from '@/mocks/repairJobTrackingMocks';
 import { MockProviderHook } from '@/mocks/testMocks';
 import {
-  UseElevatorMentainanceHistoryTable,
-  useElevatorMentainanceHistory,
-} from '@/modules/elevator-management/components/elevator-mentainance-history-table/hooks';
+  UseElevatorMaintenanceHistoryTable,
+  useElevatorMaintenanceHistory,
+} from '@/modules/elevator-management/components/elevator-maintenance-history-table/hooks';
 
-describe('useElevatorMentainanceHistory', () => {
+describe('useElevatorMaintenanceHistory', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  const hook = (mocks: MockedResponse[] = []): RenderHookResult<unknown, UseElevatorMentainanceHistoryTable> => {
+  const hook = (mocks: MockedResponse[] = []): RenderHookResult<unknown, UseElevatorMaintenanceHistoryTable> => {
     const cache = new InMemoryCache({
       addTypename: false,
       typePolicies,
     });
 
-    return renderHook(() => useElevatorMentainanceHistory(mockBuildingName, mockElevatorLocation), {
+    return renderHook(() => useElevatorMaintenanceHistory(mockElevatorId), {
       wrapper: ({ children }) => (
         <MockProviderHook cache={cache} mocks={mocks}>
           {children}
@@ -44,29 +43,29 @@ describe('useElevatorMentainanceHistory', () => {
 
     expect(result.current.loading).toBe(true);
     expect(result.current.error).toBeUndefined();
-    expect(result.current.elevatorMentainanceHistory).toEqual([]);
+    expect(result.current.elevatorMaintenanceHistory).toEqual([]);
     expect(result.current.hasMore).toBe(false);
 
     await waitForNextUpdate();
 
-    expect(result.current.elevatorMentainanceHistory).toEqual([mockPassengerElevatorRepairJob.node]);
+    expect(result.current.elevatorMaintenanceHistory).toEqual([mockPassengerElevatorRepairJob.node]);
     expect(result.current.loading).toBe(false);
   });
 
   it('should fetch next page when onNext is triggered', async () => {
-    const fetchMoreMock = jest.fn(() => mockElevatorMentainanceHistoryPaginatedResponse);
+    const fetchMoreMock = jest.fn(() => mockElevatorMaintenanceHistoryPaginatedResponse);
 
     jest.spyOn(apollo, 'useQuery').mockImplementation(
       () =>
         ({
-          data: mockElevatorMentainanceHistoryResponse.data,
+          data: mockElevatorMaintenanceHistoryResponse.data,
           loading: false,
           error: undefined,
           fetchMore: fetchMoreMock,
         } as unknown as apollo.QueryResult)
     );
 
-    const { result } = hook(mockPaginatedElevatorMentainanceHistoryData);
+    const { result } = hook(mockPaginatedElevatorMaintenanceHistoryData);
 
     await act(async () => await result.current.onNext());
 
@@ -83,14 +82,14 @@ describe('useElevatorMentainanceHistory', () => {
     jest.spyOn(apollo, 'useQuery').mockImplementation(
       () =>
         ({
-          data: mockElevatorMentainanceHistoryResponse.data,
+          data: mockElevatorMaintenanceHistoryResponse.data,
           loading: false,
           error: undefined,
           fetchMore: fetchMoreMock,
         } as unknown as apollo.QueryResult)
     );
 
-    const { result } = hook(mockPaginatedElevatorMentainanceHistoryData);
+    const { result } = hook(mockPaginatedElevatorMaintenanceHistoryData);
 
     await act(async () => {
       await result.current.onNext();
@@ -100,7 +99,7 @@ describe('useElevatorMentainanceHistory', () => {
     expect(consoleErrorSpy).toHaveBeenCalledWith(error);
   });
 
-  it('should return error if the elevator mentainance history data were failed to fetch', async () => {
+  it('should return error if the elevator maintenance history data were failed to fetch', async () => {
     const errorMock = { message: 'Failed to fetch data' } as apollo.ApolloError;
 
     jest.spyOn(apollo, 'useQuery').mockImplementation(
@@ -115,6 +114,6 @@ describe('useElevatorMentainanceHistory', () => {
     const { result } = hook([mockElevatorMaintenanceHistory]);
 
     expect(result.current.error).toBe('Failed to fetch data');
-    expect(result.current.elevatorMentainanceHistory).toEqual([]);
+    expect(result.current.elevatorMaintenanceHistory).toEqual([]);
   });
 });

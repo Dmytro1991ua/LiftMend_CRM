@@ -29,7 +29,8 @@ export const useReassignTechnician = (): UseReassignTechnician => {
         variables: {
           input: {
             id: originalRepairJob?.id ?? '',
-            technicianName: formFields.technicianName,
+            technicianId: formFields.selectedTechnician?.id,
+            technicianName: formFields.selectedTechnician?.label,
           },
         },
       });
@@ -38,12 +39,14 @@ export const useReassignTechnician = (): UseReassignTechnician => {
 
       if (hasErrors) {
         onHandleMutationErrors({
-          message: `Fail to Reassign ${originalRepairJob?.technicianName} to ${formFields.technicianName}`,
+          message: `Fail to Reassign ${originalRepairJob?.technicianName} to ${formFields.selectedTechnician?.label}`,
           errors: result.errors,
           onFailure: onError,
         });
       } else {
-        onSuccess?.(`Successfully Reassign ${originalRepairJob?.jobType} Repair Job to ${formFields.technicianName}`);
+        onSuccess?.(
+          `Successfully Reassign ${originalRepairJob?.jobType} Repair Job to ${formFields.selectedTechnician?.label}`
+        );
       }
     } catch (e) {
       onHandleMutationErrors({

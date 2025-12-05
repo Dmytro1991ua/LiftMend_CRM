@@ -23,13 +23,7 @@ export const useReassignTechnicianFormHandler = ({
   const { onReassignTechnician, isLoading } = useReassignTechnician();
 
   const onHandleTechnicianReassignment: SubmitHandler<ReassignTechnicianFormValues> = async (data) => {
-    const updatedRepairJob = {
-      ...repairJob,
-      id: repairJob.id,
-      technicianName: data.technicianName,
-    };
-
-    await onReassignTechnician(updatedRepairJob, repairJob);
+    await onReassignTechnician(data, repairJob);
 
     onReset();
   };

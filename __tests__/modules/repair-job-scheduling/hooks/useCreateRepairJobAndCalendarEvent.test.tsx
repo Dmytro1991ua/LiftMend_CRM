@@ -61,7 +61,11 @@ describe('useCreateRepairJobAndCalendarEvent', () => {
       elevatorLocation: 'Kitchen',
     },
     technicianAssignment: {
-      technicianName: 'Charles Robinson',
+      selectedTechnician: {
+        id: 'test-technician-id',
+        label: 'Charles Robinson',
+        value: 'test-technician-id',
+      },
     },
   };
   const mockCreatedJobAndEventResponse = {

@@ -7,7 +7,7 @@ import Pill from '@/shared/pill';
 import { PillStatus } from '@/shared/pill/config';
 
 import { ELEVATOR_HEALTH_SCORE_THRESHOLDS } from '../../config';
-import { ElevatorMentainanceHistoryTable } from '../elevator-mentainance-history-table';
+import { ElevatorMaintenanceHistoryTable } from '../elevator-maintenance-history-table';
 
 export const elevatorRecordSectionsConfig = (elevatorRecord: ElevatorRecord): DetailsPageSectionsConfig[] => [
   {
@@ -88,7 +88,7 @@ export const elevatorRecordSectionsConfig = (elevatorRecord: ElevatorRecord): De
       {
         id: 1,
         label: '',
-        value: <ElevatorMentainanceHistoryTable elevatorRecord={elevatorRecord} />,
+        value: <ElevatorMaintenanceHistoryTable elevatorRecord={elevatorRecord} />,
         valueClassName: 'overflow-x-auto',
       },
     ],

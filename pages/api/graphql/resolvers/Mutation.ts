@@ -30,6 +30,7 @@ const Mutation: MutationResolvers = {
   ): Promise<ScheduledEventAndRepairJobResponse> => {
     // Validate if the technician is available (not assigned to another job) before repair job and calendar event creation
     const technicianRecord = await dataSources.technicianRecord.validateTechnicianAssignment(
+      repairJobInput.technicianId,
       repairJobInput.technicianName
     );
 
@@ -43,7 +44,11 @@ const Mutation: MutationResolvers = {
     }
 
     // Create repair job and calendar event only when the elevator record passes validation
-    const repairJob = await dataSources.repairJob.createRepairJob(repairJobInput);
+    const repairJob = await dataSources.repairJob.createRepairJob(
+      repairJobInput,
+      elevatorRecord?.id,
+      technicianRecord?.id
+    );
     const calendarEvent = await dataSources.calendarEvent.createCalendarEvent(calendarEventInput, repairJob.id);
 
     // Update the RepairJob with the CalendarEvent ID
@@ -76,14 +81,12 @@ const Mutation: MutationResolvers = {
     const deletedRepairJob = await dataSources.repairJob.deleteRepairJob(repairJobId);
 
     // Update Technician status
-    const technicianRecord = await dataSources.technicianRecord.findTechnicianRecordByName(
-      repairJob?.technicianName ?? ''
-    );
+    const technicianRecord = await dataSources.technicianRecord.findTechnicianRecordById(repairJob?.technicianId);
     await dataSources.technicianRecord.updateTechnicianStatus(technicianRecord?.id ?? '', 'Available');
 
     // Find the elevator associated with the repair job and update its status to Operational
-    const elevatorRecord = (await dataSources.elevatorRecord.findElevatorRecordByRepairJob(
-      repairJob
+    const elevatorRecord = (await dataSources.elevatorRecord.findElevatorRecordById(
+      repairJob?.elevatorId
     )) as ElevatorRecord;
     await dataSources.elevatorRecord.updateElevatorStatus(elevatorRecord.id, 'Operational');
 
@@ -97,9 +100,7 @@ const Mutation: MutationResolvers = {
     const updatedRepairJob = await dataSources.repairJob.updateRepairJob(input);
 
     // Update technician's availability based on the repair job status
-    const technicianRecord = await dataSources.technicianRecord.findTechnicianRecordByName(
-      updatedRepairJob.technicianName
-    );
+    const technicianRecord = await dataSources.technicianRecord.findTechnicianRecordById(updatedRepairJob.technicianId);
 
     const updatedTechnicianAvailabilityStatus =
       REPAIR_JOB_STATUS_TO_TECHNICIAN_AVAILABILITY_STATUS_MAP[_startCase(updatedRepairJob.status).replace(/\s+/g, '')];
@@ -110,8 +111,8 @@ const Mutation: MutationResolvers = {
     );
 
     // Update elevator status based on repair job status
-    const elevatorRecord = (await dataSources.elevatorRecord.findElevatorRecordByRepairJob(
-      updatedRepairJob
+    const elevatorRecord = (await dataSources.elevatorRecord.findElevatorRecordById(
+      updatedRepairJob.elevatorId
     )) as ElevatorRecord;
 
     const updatedElevatorStatus =
@@ -124,7 +125,7 @@ const Mutation: MutationResolvers = {
     return updatedRepairJob;
   },
   reassignTechnician: async (_, { input }, { dataSources }): Promise<RepairJob> => {
-    const { id, technicianName } = input;
+    const { id, technicianId, technicianName } = input;
 
     const repairJob = await dataSources.repairJob.findRepairJobById(id);
 
@@ -133,23 +134,20 @@ const Mutation: MutationResolvers = {
     }
 
     // Check if the new technician is the same as the current one
-    if (repairJob.technicianName === technicianName) {
+    if (repairJob.technicianId === technicianId) {
       throw new Error(`Technician ${technicianName} is already assigned to this repair job.`);
     }
 
-    // Unassign the current technician (if any) and update availability status to Available
-    if (repairJob.technicianName) {
-      const currentTechnicianRecord = await dataSources.technicianRecord.findTechnicianRecordByName(
-        repairJob.technicianName
-      );
+    // Unassign the current technician if any and mark them as Available
+    if (repairJob.technicianId) {
+      const currentTechnician = await dataSources.technicianRecord.findTechnicianRecordById(repairJob.technicianId);
 
-      if (currentTechnicianRecord) {
-        await dataSources.technicianRecord.updateTechnicianStatus(currentTechnicianRecord.id, 'Available');
+      if (currentTechnician) {
+        await dataSources.technicianRecord.updateTechnicianStatus(currentTechnician.id, 'Available');
       }
     }
-
     // Assign the new technician and change availability status to Busy
-    const newTechnicianRecord = await dataSources.technicianRecord.findTechnicianRecordByName(technicianName ?? '');
+    const newTechnicianRecord = await dataSources.technicianRecord.findTechnicianRecordById(technicianId);
 
     if (!newTechnicianRecord) {
       throw new Error(`Technician ${technicianName} not found.`);
@@ -159,8 +157,9 @@ const Mutation: MutationResolvers = {
 
     // Update the repair job with the new technician
     const updatedRepairJob = await dataSources.repairJob.updateRepairJob({
-      ...repairJob,
-      technicianName,
+      id,
+      technicianId: newTechnicianRecord.id,
+      technicianName: newTechnicianRecord.name,
     });
 
     return updatedRepairJob;

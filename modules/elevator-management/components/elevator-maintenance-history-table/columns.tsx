@@ -5,7 +5,7 @@ import Pill from '@/shared/pill';
 import { PillStatus } from '@/shared/pill/config';
 import { RepairJob } from '@/shared/types';
 
-export const ElEVATOR_MENTAINANCE_HISTORY_COLUMNS: ColumnDef<RepairJob>[] = [
+export const ElEVATOR_MAINTENANCE_HISTORY_COLUMNS: ColumnDef<RepairJob>[] = [
   {
     accessorKey: 'jobType',
     header: 'Job Type',

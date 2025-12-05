@@ -15,11 +15,12 @@ describe('getBatchRepairJobsByTechnician', () => {
   });
 
   it('should fetch all repair jobs and group them by technicianName', async () => {
-    const mockKeys = ['Alice', 'Bob', 'Charlie'];
+    const mockKeys = ['tech-1', 'tech-2', 'tech-3'];
 
     const mockJobs = [
       {
         id: '1',
+        technicianId: 'tech-1',
         technicianName: 'Alice',
         buildingName: 'B1',
         elevatorLocation: 'L1',
@@ -34,6 +35,7 @@ describe('getBatchRepairJobsByTechnician', () => {
       },
       {
         id: '2',
+        technicianId: 'tech-2',
         technicianName: 'Bob',
         buildingName: 'B2',
         elevatorLocation: 'L2',
@@ -48,6 +50,7 @@ describe('getBatchRepairJobsByTechnician', () => {
       },
       {
         id: '3',
+        technicianId: 'tech-1',
         technicianName: 'Alice',
         buildingName: 'B1',
         elevatorLocation: 'L3',
@@ -62,6 +65,7 @@ describe('getBatchRepairJobsByTechnician', () => {
       },
       {
         id: '4',
+        technicianId: 'tech-3',
         technicianName: 'Charlie',
         buildingName: 'B3',
         elevatorLocation: 'L4',
@@ -85,7 +89,7 @@ describe('getBatchRepairJobsByTechnician', () => {
     // Prisma was called correctly
     expect(prismaMock.repairJob.findMany).toHaveBeenCalledWith({
       where: {
-        technicianName: { in: mockKeys },
+        technicianId: { in: mockKeys },
       },
       orderBy: { startDate: DEFAULT_SORTING_OPTION },
     });

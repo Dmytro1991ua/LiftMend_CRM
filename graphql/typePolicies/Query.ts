@@ -11,6 +11,6 @@ export const Query = {
     getRepairJobs: concatPaginationWithEdges(REPAIR_JOB_KEY_FIELDS),
     getElevatorRecords: concatPaginationWithEdges(ELEVATOR_RECORD_KEY_FIELDS),
     getTechnicianRecords: concatPaginationWithEdges(TECHNICIAN_RECORD_KEY_FIELDS),
-    getElevatorMentainanceHistory: concatPaginationWithEdges(ELEVATOR_MAINTENANCE_HISTORY_KEY_FIELDS),
+    getElevatorMaintenanceHistory: concatPaginationWithEdges(ELEVATOR_MAINTENANCE_HISTORY_KEY_FIELDS),
   },
 };

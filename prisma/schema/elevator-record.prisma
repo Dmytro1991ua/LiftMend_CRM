@@ -1,5 +1,5 @@
 model ElevatorRecord {
-  id                  String   @id @default(dbgenerated("uuid_generate_v4()"))
+  id                  String      @id @default(dbgenerated("uuid_generate_v4()"))
   elevatorType        String
   buildingName        String
   elevatorLocation    String
@@ -8,4 +8,5 @@ model ElevatorRecord {
   capacity            Int
   status              String
   lastKnownStatus     String?
+  repairJobs          RepairJob[]
 }

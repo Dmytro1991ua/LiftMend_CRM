@@ -1,5 +1,6 @@
 import { ElevatorRecord, Prisma, PrismaClient } from '@prisma/client';
 import { addMonths } from 'date-fns';
+import { Maybe } from 'graphql/jsutils/Maybe';
 import { isNull as _isNull, omitBy as _omitBy } from 'lodash';
 
 import { ElevatorRecordConnection, ElevatorRecordEdge } from '@/graphql/types/client/generated_types';
@@ -8,7 +9,6 @@ import {
   ElevatorRecordFormData,
   ElevatorRecordsMetrics,
   QueryGetElevatorRecordsArgs,
-  RepairJob,
   UpdateElevatorRecordInput,
 } from '@/graphql/types/server/generated_types';
 import { DEFAULT_ELEVATOR_MAINTENANCE_INTERVAL, ELEVATOR_MAINTENANCE_INTERVALS } from '@/shared/constants';
@@ -60,15 +60,17 @@ class ElevatorService {
     }) as ElevatorRecordConnection;
   }
 
-  async findElevatorRecordById(id: string): Promise<ElevatorRecord | null> {
+  async findElevatorRecordById(id: Maybe<string>): Promise<ElevatorRecord | null> {
+    if (!id) {
+      throw new Error('RepairJob missing elevatorId');
+    }
+
     return await this.prisma.elevatorRecord.findUnique({
       where: { id },
     });
   }
 
-  async findElevatorRecordByRepairJob(
-    repairJob: RepairJob | CreateRepairJobInput | null
-  ): Promise<ElevatorRecord | null> {
+  async findElevatorRecordByRepairJob(repairJob: CreateRepairJobInput | null): Promise<ElevatorRecord | null> {
     return await this.prisma.elevatorRecord.findFirst({
       where: {
         buildingName: repairJob?.buildingName,

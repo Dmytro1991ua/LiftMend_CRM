@@ -14,7 +14,11 @@ export const INITIAL_REPAIR_JOB_VALUES = {
     elevatorLocation: '',
   },
   technicianAssignment: {
-    technicianName: '',
+    selectedTechnician: {
+      id: '',
+      value: '',
+      label: '',
+    },
   },
 };
 
@@ -31,7 +35,14 @@ export const elevatorInformationSchema = z.object({
 });
 
 export const technicianAssignmentSchema = z.object({
-  technicianName: z.string().min(1, 'Technician name is required'),
+  selectedTechnician: z
+    .object({
+      id: z.string().min(1, 'Technician is required'), // ensures a valid id
+      value: z.string(),
+      label: z.string(),
+    })
+    .nullable()
+    .refine((val) => val !== null, 'Technician is required'), // ensure not null
 });
 
 export const repairJobFormSchema = z.object({

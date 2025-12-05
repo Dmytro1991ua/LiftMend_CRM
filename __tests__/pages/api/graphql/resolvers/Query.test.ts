@@ -91,7 +91,7 @@ describe('Query', () => {
     let getRepairJobByIdResolver: TestResolver<typeof Query, 'getRepairJobById'>;
     let getElevatorDetailsByBuildingNameResolver: TestResolver<typeof Query, 'getElevatorDetailsByBuildingName'>;
     let getRecentRepairJobsResolver: TestResolver<typeof Query, 'getRecentRepairJobs'>;
-    let getElevatorMentainanceHistoryResolver: TestResolver<typeof Query, 'getElevatorMentainanceHistory'>;
+    let getElevatorMaintenanceHistoryResolver: TestResolver<typeof Query, 'getElevatorMaintenanceHistory'>;
 
     beforeEach(() => {
       mockDataSources = createDataSourcesMock(repairJobServicePrismaMock);
@@ -105,9 +105,9 @@ describe('Query', () => {
         mockDataSources
       );
       getRecentRepairJobsResolver = getResolverToTest(Query, 'getRecentRepairJobs', mockDataSources);
-      getElevatorMentainanceHistoryResolver = getResolverToTest(
+      getElevatorMaintenanceHistoryResolver = getResolverToTest(
         Query,
-        'getElevatorMentainanceHistory',
+        'getElevatorMaintenanceHistory',
         mockDataSources
       );
     });
@@ -181,16 +181,16 @@ describe('Query', () => {
       });
     });
 
-    describe('getElevatorMentainanceHistory', () => {
+    describe('getElevatorMaintenanceHistory', () => {
       it('should return repair jobs data for elevator maintenance history', async () => {
-        mockDataSources.repairJob.elevatorMentainanceHistory.mockResolvedValue(
-          mockReturnedRepairJobsDataForElevatorMaintenance.getElevatorMentainanceHistory as RepairJobConnection
+        mockDataSources.repairJob.elevatorMaintenanceHistory.mockResolvedValue(
+          mockReturnedRepairJobsDataForElevatorMaintenance.getElevatorMaintenanceHistory as RepairJobConnection
         );
 
-        const result = await getElevatorMentainanceHistoryResolver();
+        const result = await getElevatorMaintenanceHistoryResolver();
 
-        expect(mockDataSources.repairJob.elevatorMentainanceHistory).toHaveBeenCalled();
-        expect(result).toEqual(mockReturnedRepairJobsDataForElevatorMaintenance.getElevatorMentainanceHistory);
+        expect(mockDataSources.repairJob.elevatorMaintenanceHistory).toHaveBeenCalled();
+        expect(result).toEqual(mockReturnedRepairJobsDataForElevatorMaintenance.getElevatorMaintenanceHistory);
       });
     });
   });

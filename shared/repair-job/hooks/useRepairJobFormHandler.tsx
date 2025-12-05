@@ -23,14 +23,7 @@ export const useRepairJobFormHandler = ({
   const { onUpdateRepairJob, isLoading } = useUpdateRepairJob();
 
   const onEditRepairJob: SubmitHandler<RepairJobFormValues> = async (data) => {
-    const updatedRepairJob = {
-      ...data,
-      id: repairJob.id,
-      technicianName: repairJob.technicianName,
-      calendarEventId: repairJob.calendarEventId,
-    };
-
-    await onUpdateRepairJob(updatedRepairJob, repairJob);
+    await onUpdateRepairJob(data, repairJob);
 
     onReset();
   };

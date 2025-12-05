@@ -28,7 +28,7 @@ export const useFetchAvailableTechniciansForAssignment = (): UseFetchAvailableTe
     () =>
       removeTypeNamesFromArray(data?.getAvailableTechniciansForAssignment ?? []).map(({ id, name }) => ({
         id,
-        value: name,
+        value: id,
         label: name,
       })),
     [data]

@@ -23,6 +23,7 @@ const TechnicianAssignment = () => {
       id: 1,
       content: (
         <ControlledSingleSelect<RepairJobFromFields>
+          isStoringValueAsObject
           captureMenuScroll={false}
           clearErrors={clearErrors}
           hasSearchInput={true}
@@ -38,7 +39,7 @@ const TechnicianAssignment = () => {
           }
           isMultiSelect={false}
           label='Technician Name'
-          name='technicianAssignment.technicianName'
+          name='technicianAssignment.selectedTechnician'
           options={availableTechnicians}
           placeholder='Select Technician Name'
           searchInputPlaceholder='Search for Technician name...'
