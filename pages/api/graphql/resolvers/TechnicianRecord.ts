@@ -6,12 +6,12 @@ import { loadWithDataLoader } from '../utils/utils';
 import { getTechnicianPerformanceMetrics } from './utils';
 
 const TechnicianRecord: TechnicianRecordResolvers = {
-  performanceMetrics: async ({ name }, _, { prisma, dataLoaders }, info) => {
+  performanceMetrics: async ({ id }, _, { prisma, dataLoaders }, info) => {
     const repairJobs = await loadWithDataLoader(
       dataLoaders,
       info.fieldNodes,
       getBatchRepairJobsByTechnician(prisma),
-      name
+      id
     );
 
     return getTechnicianPerformanceMetrics(repairJobs);

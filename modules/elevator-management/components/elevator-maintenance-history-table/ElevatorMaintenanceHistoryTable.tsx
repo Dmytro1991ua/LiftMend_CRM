@@ -6,8 +6,8 @@ import { useRouter } from 'next/router';
 
 import {
   Exact,
-  GetElevatorMentainanceHistoryQuery,
-  GetElevatorMentainanceHistoryQueryVariables,
+  GetElevatorMaintenanceHistoryQuery,
+  GetElevatorMaintenanceHistoryQueryVariables,
   InputMaybe,
   PaginationOptions,
 } from '@/graphql/types/client/generated_types';
@@ -18,22 +18,19 @@ import { ElevatorRecord, RepairJob, TableNames } from '@/shared/types';
 import { NOOP } from '@/shared/utils';
 import { AppRoutes } from '@/types/enums';
 
-import { ElEVATOR_MENTAINANCE_HISTORY_COLUMNS } from './columns';
-import { useElevatorMentainanceHistory } from './hooks';
+import { ElEVATOR_MAINTENANCE_HISTORY_COLUMNS } from './columns';
+import { useElevatorMaintenanceHistory } from './hooks';
 
-type ElevatorMentainanceHistoryTableProps = {
-  elevatorRecord: Pick<ElevatorRecord, 'buildingName' | 'elevatorLocation'>;
+type ElevatorMaintenanceHistoryTableProps = {
+  elevatorRecord: Pick<ElevatorRecord, 'id'>;
 };
 
-const ElevatorMentainanceHistoryTable = ({ elevatorRecord }: ElevatorMentainanceHistoryTableProps) => {
+const ElevatorMaintenanceHistoryTable = ({ elevatorRecord }: ElevatorMaintenanceHistoryTableProps) => {
   const router = useRouter();
 
-  const { buildingName, elevatorLocation } = elevatorRecord;
+  const { id } = elevatorRecord;
 
-  const { elevatorMentainanceHistory, loading, hasMore, error, onNext } = useElevatorMentainanceHistory(
-    buildingName,
-    elevatorLocation
-  );
+  const { elevatorMaintenanceHistory, loading, hasMore, error, onNext } = useElevatorMaintenanceHistory(id);
 
   const onRowClick = useCallback(
     (rowData: Row<RepairJob>) => {
@@ -53,10 +50,10 @@ const ElevatorMentainanceHistoryTable = ({ elevatorRecord }: ElevatorMentainance
         errorMessage='Failed to fetch elevator mentainance history data'
         isErrorOccurred={!!error}
       />
-      <BaseTable<RepairJob, GetElevatorMentainanceHistoryQuery, GetElevatorMentainanceHistoryQueryVariables>
+      <BaseTable<RepairJob, GetElevatorMaintenanceHistoryQuery, GetElevatorMaintenanceHistoryQueryVariables>
         className='h-[28rem]'
-        columns={ElEVATOR_MENTAINANCE_HISTORY_COLUMNS}
-        data={elevatorMentainanceHistory}
+        columns={ElEVATOR_MAINTENANCE_HISTORY_COLUMNS}
+        data={elevatorMaintenanceHistory}
         emptyTableMessage={'No elevator maintenance history found.'}
         errorMessage={error}
         filtersConfig={[]}
@@ -69,8 +66,7 @@ const ElevatorMentainanceHistoryTable = ({ elevatorRecord }: ElevatorMentainance
         refetch={async () => {
           return {} as ApolloQueryResult<
             Exact<{
-              buildingName: string;
-              elevatorLocation: string;
+              elevatorId: string;
               paginationOptions?: InputMaybe<PaginationOptions>;
             }>
           >;
@@ -84,4 +80,4 @@ const ElevatorMentainanceHistoryTable = ({ elevatorRecord }: ElevatorMentainance
   );
 };
 
-export default ElevatorMentainanceHistoryTable;
+export default ElevatorMaintenanceHistoryTable;

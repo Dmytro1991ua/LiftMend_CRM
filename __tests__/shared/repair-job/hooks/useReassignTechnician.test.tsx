@@ -11,6 +11,7 @@ import {
 } from '@/mocks/repairJobTrackingMocks';
 import { MockProviderHook } from '@/mocks/testMocks';
 import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
+import { ReassignTechnicianFormValues } from '@/shared/repair-job/edit-repair-job-form/types';
 import { UseReassignTechnician, useReassignTechnician } from '@/shared/repair-job/hooks/useReassignTechnician';
 import { onHandleMutationErrors } from '@/shared/utils';
 
@@ -43,8 +44,8 @@ describe('useReassignTechnician', () => {
   const mockOnSuccess = jest.fn();
   const mockOnError = jest.fn();
   const mockUpdatedTechnicianName = 'Mike Smith';
-  const mockFormFields = {
-    technicianName: mockUpdatedTechnicianName,
+  const mockFormFields: ReassignTechnicianFormValues = {
+    selectedTechnician: { id: 'tech-123', label: 'Mike Smith', value: 'Mike Smith' },
   };
   const mockUpdatedRepairJob = {
     ...mockRepairJob,

@@ -1,11 +1,12 @@
 import { Prisma, PrismaClient } from '@prisma/client';
+import { Maybe } from 'graphql/jsutils/Maybe';
 import { isNull as _isNull, omitBy as _omitBy } from 'lodash';
 
 import {
   CreateRepairJobInput,
   ElevatorDetails,
   InputMaybe,
-  QueryGetElevatorMentainanceHistoryArgs,
+  QueryGetElevatorMaintenanceHistoryArgs,
   QueryGetRepairJobsArgs,
   RepairJob,
   RepairJobConnection,
@@ -223,11 +224,15 @@ class RepairJobService {
     return metrics;
   }
 
-  async createRepairJob(repairJobInput: CreateRepairJobInput): Promise<RepairJob> {
+  async createRepairJob(
+    repairJobInput: CreateRepairJobInput,
+    elevatorId: Maybe<string>,
+    technicianId: Maybe<string>
+  ): Promise<RepairJob> {
     const isOverdue = isRepairJobOverdue(repairJobInput.endDate, 'Scheduled');
 
     return this.prisma.repairJob.create({
-      data: { ...repairJobInput, isOverdue },
+      data: { ...repairJobInput, isOverdue, elevatorId, technicianId },
     });
   }
 
@@ -297,13 +302,12 @@ class RepairJobService {
     return await this.prisma.repairJob.findMany(queryOptions);
   }
 
-  async elevatorMentainanceHistory(args: QueryGetElevatorMentainanceHistoryArgs): Promise<RepairJobConnection> {
-    const { buildingName, elevatorLocation, paginationOptions } = args;
+  async elevatorMaintenanceHistory(args: QueryGetElevatorMaintenanceHistoryArgs): Promise<RepairJobConnection> {
+    const { elevatorId, paginationOptions } = args;
 
     const queryOptions: Prisma.RepairJobFindManyArgs = {
       where: {
-        buildingName,
-        elevatorLocation,
+        elevatorId,
       },
       orderBy: { startDate: DEFAULT_SORTING_OPTION },
     };

@@ -1,5 +1,7 @@
 import { DateRange } from 'react-day-picker';
 
+import { DropdownOption } from '@/shared/base-select/types';
+
 export type RepairJobFormValues = {
   id: string;
   calendarEventId: string | null;
@@ -15,5 +17,5 @@ export type RepairJobFormValues = {
 };
 
 export type ReassignTechnicianFormValues = {
-  technicianName: string | null;
+  selectedTechnician: DropdownOption | null;
 };

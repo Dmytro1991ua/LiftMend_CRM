@@ -2,7 +2,7 @@ import { UpdateRepairJobInput } from '@/graphql/types/client/generated_types';
 import {
   CreateRepairJobInput,
   OrderOption,
-  QueryGetElevatorMentainanceHistoryArgs,
+  QueryGetElevatorMaintenanceHistoryArgs,
   RepairJob,
   RepairJobSortField,
 } from '@/graphql/types/server/generated_types';
@@ -249,6 +249,7 @@ describe('RepairJobService', () => {
       technicianName: 'Sophia Martinez',
       startDate: new Date('2025-01-10T00:00:00.000Z'),
       endDate: new Date('2025-01-15T00:00:00.000Z'),
+      technicianId: 'test-technician-id-1',
     };
 
     it('should mark job as overdue if endDate is before mockDate and status is Scheduled', async () => {
@@ -261,12 +262,17 @@ describe('RepairJobService', () => {
 
       (repairJobServicePrismaMock.repairJob.create as jest.Mock).mockResolvedValue(mockExpectedOutput);
 
-      const result = await repairJobService.createRepairJob(mockNewRepairJob);
+      const result = await repairJobService.createRepairJob(
+        mockNewRepairJob,
+        'test-elevator-id-1',
+        'test-technician-id-1'
+      );
 
       expect(repairJobServicePrismaMock.repairJob.create).toHaveBeenCalledWith({
         data: {
           ...mockNewRepairJob,
           isOverdue: true,
+          elevatorId: 'test-elevator-id-1',
         },
       });
       expect(result).toEqual(mockExpectedOutput);
@@ -288,12 +294,17 @@ describe('RepairJobService', () => {
 
       (repairJobServicePrismaMock.repairJob.create as jest.Mock).mockResolvedValue(mockExpectedOutput);
 
-      const result = await repairJobService.createRepairJob(mockedNewRepairJob);
+      const result = await repairJobService.createRepairJob(
+        mockedNewRepairJob,
+        'test-elevator-id-1',
+        'test-technician-id-1'
+      );
 
       expect(repairJobServicePrismaMock.repairJob.create).toHaveBeenCalledWith({
         data: {
           ...mockedNewRepairJob,
           isOverdue: false,
+          elevatorId: 'test-elevator-id-1',
         },
       });
       expect(result).toEqual(mockExpectedOutput);
@@ -459,19 +470,18 @@ describe('RepairJobService', () => {
   });
 
   describe('elevatorMentainanceHistory', () => {
+    const mockElevatorId = 'test_elevator_id';
     const mockArgs = {
       paginationOptions: { offset: 5, limit: 10 },
-      buildingName: 'Silverhill Apartments',
-      elevatorLocation: 'Penthouse',
-    } as unknown as QueryGetElevatorMentainanceHistoryArgs;
+      elevatorId: mockElevatorId,
+    } as unknown as QueryGetElevatorMaintenanceHistoryArgs;
 
     const mockRepairJobRecords = [
       {
         ...mockRepairJob,
         id: 'test-id-2',
         elevatorType: 'Glass Elevator',
-        buildingName: 'Silverhill Apartments',
-        elevatorLocation: 'Penthouse',
+        elevatorId: mockElevatorId,
       },
     ];
     const mockTotalItems = 2;
@@ -493,12 +503,11 @@ describe('RepairJobService', () => {
       (repairJobServicePrismaMock.repairJob.findMany as jest.Mock).mockResolvedValue(mockRepairJobRecords);
       (repairJobServicePrismaMock.repairJob.count as jest.Mock).mockResolvedValue(mockTotalItems);
 
-      const result = await repairJobService.elevatorMentainanceHistory(mockArgs);
+      const result = await repairJobService.elevatorMaintenanceHistory(mockArgs);
 
       expect(repairJobServicePrismaMock.repairJob.findMany).toHaveBeenCalledWith({
         where: {
-          buildingName: 'Silverhill Apartments',
-          elevatorLocation: 'Penthouse',
+          elevatorId: mockElevatorId,
         },
         orderBy: { startDate: DEFAULT_SORTING_OPTION },
         skip: 5,
@@ -507,8 +516,7 @@ describe('RepairJobService', () => {
 
       expect(repairJobServicePrismaMock.repairJob.count).toHaveBeenCalledWith({
         where: {
-          buildingName: 'Silverhill Apartments',
-          elevatorLocation: 'Penthouse',
+          elevatorId: mockElevatorId,
         },
       });
 

@@ -8,13 +8,13 @@ describe('getBatchRepairJobsByElevator', () => {
   });
 
   it('should fetch all repair jobs and group them by buildingName and elevatorLocation', async () => {
-    const mockKeys = ['BuildingA|Loc1', 'BuildingA|Loc2', 'BuildingB|Loc9'];
+    const mockKeys = ['elevator-1', 'elevator-2', 'elevator-3'];
 
     const mockJobs = [
-      { id: '1', buildingName: 'BuildingA', elevatorLocation: 'Loc1', startDate: new Date() },
-      { id: '2', buildingName: 'BuildingA', elevatorLocation: 'Loc2', startDate: new Date() },
-      { id: '3', buildingName: 'BuildingA', elevatorLocation: 'Loc1', startDate: new Date() },
-      { id: '4', buildingName: 'BuildingB', elevatorLocation: 'Loc9', startDate: new Date() },
+      { id: '1', elevatorId: 'elevator-1', buildingName: 'BuildingA', elevatorLocation: 'Loc1', startDate: new Date() },
+      { id: '2', elevatorId: 'elevator-2', buildingName: 'BuildingA', elevatorLocation: 'Loc2', startDate: new Date() },
+      { id: '3', elevatorId: 'elevator-1', buildingName: 'BuildingA', elevatorLocation: 'Loc1', startDate: new Date() },
+      { id: '4', elevatorId: 'elevator-3', buildingName: 'BuildingB', elevatorLocation: 'Loc9', startDate: new Date() },
     ];
 
     (repairJobServicePrismaMock.repairJob.findMany as jest.Mock).mockResolvedValue(mockJobs);
@@ -26,30 +26,26 @@ describe('getBatchRepairJobsByElevator', () => {
     // Prisma was called correctly
     expect(repairJobServicePrismaMock.repairJob.findMany).toHaveBeenCalledWith({
       where: {
-        OR: [
-          { buildingName: 'BuildingA', elevatorLocation: 'Loc1' },
-          { buildingName: 'BuildingA', elevatorLocation: 'Loc2' },
-          { buildingName: 'BuildingB', elevatorLocation: 'Loc9' },
-        ],
+        elevatorId: { in: mockKeys },
       },
       orderBy: { startDate: DEFAULT_SORTING_OPTION },
     });
 
     // Result grouped according to keys order
     expect(result).toEqual([
-      // "BuildingA|Loc1"
+      // "elevator-1"
       [mockJobs[0], mockJobs[2]],
 
-      // "BuildingA|Loc2"
+      // "elevator-2"
       [mockJobs[1]],
 
-      // "BuildingB|Loc9"
+      // "elevator-3"
       [mockJobs[3]],
     ]);
   });
 
   it('should return empty arrays when no jobs match a key', async () => {
-    const mockKeys = ['test_building|test_elevator_location'];
+    const mockKeys = ['non-existent-elevator'];
 
     (repairJobServicePrismaMock.repairJob.findMany as jest.Mock).mockResolvedValue([]);
 

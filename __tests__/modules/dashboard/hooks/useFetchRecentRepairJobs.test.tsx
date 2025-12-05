@@ -26,7 +26,9 @@ describe('useFetchRecentRepairJobs', () => {
 
     await waitForNextUpdate();
 
-    expect(result.current.recentRepairJobs).toEqual([{ ...mockRepairJob, status: 'Scheduled' }]);
+    expect(result.current.recentRepairJobs).toEqual([
+      { ...mockRepairJob, elevatorId: 'test-elevator-id-1', technicianId: 'test-technician-id-1', status: 'Scheduled' },
+    ]);
   });
 
   it('should return error if the recent repair jobs were failed to fetch', async () => {

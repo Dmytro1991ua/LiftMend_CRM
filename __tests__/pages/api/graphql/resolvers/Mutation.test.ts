@@ -10,7 +10,7 @@ import {
   mockNewCalendarInput,
   mockNewRepairJobInput,
 } from '@/mocks/repairJobScheduling';
-import { mockRepairJob, mockRepairJobId } from '@/mocks/repairJobTrackingMocks';
+import { mockElevatorId, mockRepairJob, mockRepairJobId, mockTechnicianId } from '@/mocks/repairJobTrackingMocks';
 import { mockBenjaminHallRecord, mockOliviaLewisRecord } from '@/mocks/technicianManagementMocks';
 import { createMockFile, mockSupabaseUser, mockUser } from '@/mocks/userMocks';
 import Mutation from '@/pages/api/graphql/resolvers/Mutation';
@@ -88,13 +88,21 @@ describe('Mutation', () => {
       mockDataSources.repairJob.updateRepairJobWithCalendarEventId.mockResolvedValue(mockRepairJob);
       mockDataSources.calendarEvent.createCalendarEvent.mockResolvedValue(mockCalendarEvent);
       mockDataSources.technicianRecord.validateTechnicianAssignment.mockResolvedValue(mockBenjaminHallRecord);
+      mockDataSources.elevatorRecord.findElevatorRecordByRepairJob.mockResolvedValue({
+        ...mockElevatorRecord,
+        id: mockElevatorId,
+      });
 
       const result = await createRepairJobAndEventResolver(
         {},
         { repairJobInput: mockNewRepairJobInput, calendarEventInput: mockNewCalendarInput }
       );
 
-      expect(mockDataSources.repairJob.createRepairJob).toHaveBeenCalledWith(mockNewRepairJobInput);
+      expect(mockDataSources.repairJob.createRepairJob).toHaveBeenCalledWith(
+        mockNewRepairJobInput,
+        mockElevatorId,
+        mockTechnicianId
+      );
       expect(mockDataSources.calendarEvent.createCalendarEvent).toHaveBeenCalledWith(
         mockNewCalendarInput,
         mockRepairJobId
@@ -187,12 +195,19 @@ describe('Mutation', () => {
       const result = await createRepairJobAndEventResolver(
         {},
         {
-          repairJobInput: { ...mockNewRepairJobInput, technicianName: 'Benjamin Hall' },
+          repairJobInput: {
+            ...mockNewRepairJobInput,
+            technicianName: 'Benjamin Hall',
+            technicianId: mockBenjaminHallRecord.id,
+          },
           calendarEventInput: mockNewCalendarInput,
         }
       );
 
-      expect(mockDataSources.technicianRecord.validateTechnicianAssignment).toHaveBeenCalledWith('Benjamin Hall');
+      expect(mockDataSources.technicianRecord.validateTechnicianAssignment).toHaveBeenCalledWith(
+        mockBenjaminHallRecord.id,
+        'Benjamin Hall'
+      );
       expect(result).toEqual({
         calendarEvent: mockCalendarEvent,
         repairJob: { ...mockRepairJob, technicianName: 'Benjamin Hall' },
@@ -251,10 +266,11 @@ describe('Mutation', () => {
       mockDataSources.repairJob.findRepairJobById.mockResolvedValue(mockRepairJob);
       mockDataSources.calendarEvent.deleteCalendarEvent.mockResolvedValue(mockCalendarEvent);
       mockDataSources.repairJob.deleteRepairJob.mockResolvedValue(mockRepairJob);
-      mockDataSources.elevatorRecord.findElevatorRecordByRepairJob.mockResolvedValue(mockElevatorRecord);
-      mockDataSources.technicianRecord.findTechnicianRecordByName.mockResolvedValue(mockBenjaminHallRecord);
+      mockDataSources.elevatorRecord.findElevatorRecordById.mockResolvedValue(mockElevatorRecord);
+      mockDataSources.technicianRecord.findTechnicianRecordById.mockResolvedValue(mockBenjaminHallRecord);
       mockDataSources.elevatorRecord.updateElevatorStatus.mockResolvedValue({
         ...mockElevatorRecord,
+        id: mockElevatorId,
         status: 'Operational',
       });
 
@@ -269,15 +285,14 @@ describe('Mutation', () => {
       expect(mockDataSources.repairJob.findRepairJobById).toHaveBeenCalledWith(mockRepairJobId);
       expect(mockDataSources.calendarEvent.deleteCalendarEvent).toHaveBeenCalledWith(mockCalendarEventId);
       expect(mockDataSources.repairJob.deleteRepairJob).toHaveBeenCalledWith(mockRepairJobId);
-      expect(mockDataSources.elevatorRecord.findElevatorRecordByRepairJob).toHaveBeenCalledWith(mockRepairJob);
-      expect(mockDataSources.technicianRecord.findTechnicianRecordByName).toHaveBeenCalledWith(
-        mockRepairJob.technicianName
+      expect(mockDataSources.elevatorRecord.findElevatorRecordById).toHaveBeenCalledWith(mockElevatorId);
+      expect(mockDataSources.technicianRecord.findTechnicianRecordById).toHaveBeenCalledWith(
+        mockRepairJob.technicianId
       );
       expect(mockDataSources.technicianRecord.updateTechnicianStatus).toHaveBeenCalledWith(
         mockBenjaminHallRecord.id,
         'Available'
       );
-      expect(mockDataSources.elevatorRecord.findElevatorRecordByRepairJob).toHaveBeenCalledWith(mockRepairJob);
       expect(mockDataSources.elevatorRecord.updateElevatorStatus).toHaveBeenCalledWith(
         mockElevatorRecord.id,
         'Operational'
@@ -299,11 +314,12 @@ describe('Mutation', () => {
       };
 
       mockDataSources.repairJob.updateRepairJob.mockResolvedValue(mockUpdatedRepairJob);
-      mockDataSources.technicianRecord.findTechnicianRecordByName.mockResolvedValue(mockBenjaminHallRecord);
+      mockDataSources.technicianRecord.findTechnicianRecordById.mockResolvedValue(mockBenjaminHallRecord);
       mockDataSources.technicianRecord.updateTechnicianStatus.mockResolvedValue();
-      mockDataSources.elevatorRecord.findElevatorRecordByRepairJob.mockResolvedValue(mockElevatorRecord);
+      mockDataSources.elevatorRecord.findElevatorRecordById.mockResolvedValue(mockElevatorRecord);
       mockDataSources.elevatorRecord.updateElevatorStatus.mockResolvedValue({
         ...mockElevatorRecord,
+        id: mockElevatorId,
         status: 'Under Maintenance',
       });
       mockDataSources.elevatorRecord.updateElevatorMaintenanceDates.mockResolvedValue();
@@ -311,14 +327,14 @@ describe('Mutation', () => {
       const result = await updateRepairJobResolver({}, { input: mockUpdatedRepairJob });
 
       expect(mockDataSources.repairJob.updateRepairJob).toHaveBeenCalledWith(mockUpdatedRepairJob);
-      expect(mockDataSources.technicianRecord.findTechnicianRecordByName).toHaveBeenCalledWith(
-        mockUpdatedRepairJob.technicianName
+      expect(mockDataSources.technicianRecord.findTechnicianRecordById).toHaveBeenCalledWith(
+        mockUpdatedRepairJob.technicianId
       );
       expect(mockDataSources.technicianRecord.updateTechnicianStatus).toHaveBeenCalledWith(
         mockBenjaminHallRecord.id,
         'Busy'
       );
-      expect(mockDataSources.elevatorRecord.findElevatorRecordByRepairJob).toHaveBeenCalledWith(mockUpdatedRepairJob);
+      expect(mockDataSources.elevatorRecord.findElevatorRecordById).toHaveBeenCalledWith(mockElevatorId);
       expect(mockDataSources.elevatorRecord.updateElevatorStatus).toHaveBeenCalledWith(
         mockElevatorRecord.id,
         'Under Maintenance'
@@ -348,12 +364,17 @@ describe('Mutation', () => {
     });
 
     it('should throw an error if new technician is same as current', async () => {
+      const mockTechnicianId = 'test-technician-id-1';
       const mockInput = {
         id: mockRepairJobId,
+        technicianId: mockTechnicianId,
         technicianName: 'Sophia Martinez',
       };
 
-      mockDataSources.repairJob.findRepairJobById.mockResolvedValue(mockRepairJob);
+      mockDataSources.repairJob.findRepairJobById.mockResolvedValue({
+        ...mockRepairJob,
+        technicianId: mockTechnicianId,
+      });
 
       await expect(reassignTechnicianResolver({}, { input: mockInput })).rejects.toThrow(
         'Technician Sophia Martinez is already assigned to this repair job.'
@@ -363,76 +384,75 @@ describe('Mutation', () => {
     });
 
     it('should unassign current technician and assign new technician', async () => {
-      const mockNewTechnicianName = 'Olivia Lewis';
-      const mockedRepairJob = {
-        ...mockRepairJob,
-        technicianName: mockBenjaminHallRecord.name,
-      };
-      const mockUpdatedRepairJob = {
-        ...mockRepairJob,
-        technicianName: mockNewTechnicianName,
-      };
+      const mockNewTechnicianId = mockOliviaLewisRecord.id;
 
-      mockDataSources.repairJob.findRepairJobById.mockResolvedValue(mockedRepairJob);
-      mockDataSources.technicianRecord.findTechnicianRecordByName.mockImplementation(async (name) => {
-        if (name === mockBenjaminHallRecord.name) return mockBenjaminHallRecord;
-        if (name === mockNewTechnicianName) return mockOliviaLewisRecord;
+      mockDataSources.repairJob.findRepairJobById.mockResolvedValue({
+        ...mockRepairJob,
+        technicianId: mockBenjaminHallRecord.id,
+      });
+
+      mockDataSources.technicianRecord.findTechnicianRecordById.mockImplementation(async (id) => {
+        if (id === mockBenjaminHallRecord.id) return mockBenjaminHallRecord;
+        if (id === mockOliviaLewisRecord.id) return mockOliviaLewisRecord;
         return null;
       });
+
       mockDataSources.technicianRecord.updateTechnicianStatus.mockResolvedValue();
-      mockDataSources.repairJob.updateRepairJob.mockResolvedValue(mockUpdatedRepairJob);
+      mockDataSources.repairJob.updateRepairJob.mockResolvedValue({
+        ...mockRepairJob,
+        technicianId: mockOliviaLewisRecord.id,
+        technicianName: mockOliviaLewisRecord.name,
+      });
 
       const result = await reassignTechnicianResolver(
         {},
-        { input: { id: mockRepairJobId, technicianName: mockNewTechnicianName } }
+        { input: { id: mockRepairJobId, technicianId: mockNewTechnicianId } }
       );
 
       expect(mockDataSources.repairJob.findRepairJobById).toHaveBeenCalledWith(mockRepairJobId);
 
-      // Unassign current technician
-      expect(mockDataSources.technicianRecord.findTechnicianRecordByName).toHaveBeenCalledWith(
-        mockBenjaminHallRecord.name
-      );
+      // Unassign previous tech
       expect(mockDataSources.technicianRecord.updateTechnicianStatus).toHaveBeenCalledWith(
         mockBenjaminHallRecord.id,
         'Available'
       );
 
-      // Assign new technician
-      expect(mockDataSources.technicianRecord.findTechnicianRecordByName).toHaveBeenCalledWith(mockNewTechnicianName);
+      // Assign new tech
       expect(mockDataSources.technicianRecord.updateTechnicianStatus).toHaveBeenCalledWith(
         mockOliviaLewisRecord.id,
         'Busy'
       );
 
-      // Update repair job with new technician
+      // Update job
       expect(mockDataSources.repairJob.updateRepairJob).toHaveBeenCalledWith({
-        ...mockRepairJob,
-        technicianName: mockNewTechnicianName,
+        id: mockRepairJobId,
+        technicianId: mockOliviaLewisRecord.id,
+        technicianName: mockOliviaLewisRecord.name,
       });
 
-      expect(result).toEqual(mockUpdatedRepairJob);
+      expect(result).toEqual({
+        ...mockRepairJob,
+        technicianId: mockOliviaLewisRecord.id,
+        technicianName: mockOliviaLewisRecord.name,
+      });
     });
 
     it('should throw and error if new technician not found', async () => {
-      const mockNewTechnicianName = 'Olivia Lewis';
-      const mockInput = { id: mockRepairJobId, technicianName: mockNewTechnicianName };
+      const mockNewTechId = 'non-existent-id';
+      const mockNewTechnician = 'Pedro Gomez';
 
       mockDataSources.repairJob.findRepairJobById.mockResolvedValue(mockRepairJob);
 
-      mockDataSources.technicianRecord.findTechnicianRecordByName.mockImplementation(async (name) => {
-        if (name === mockBenjaminHallRecord.name) return mockBenjaminHallRecord;
-        if (name === mockNewTechnicianName) return null;
+      mockDataSources.technicianRecord.findTechnicianRecordById.mockResolvedValue(null);
 
-        return null;
-      });
-      mockDataSources.technicianRecord.updateTechnicianStatus.mockResolvedValue();
+      await expect(
+        reassignTechnicianResolver(
+          {},
+          { input: { id: mockRepairJobId, technicianId: mockNewTechId, technicianName: mockNewTechnician } }
+        )
+      ).rejects.toThrow(`Technician ${mockNewTechnician} not found.`);
 
-      await expect(reassignTechnicianResolver({}, { input: mockInput })).rejects.toThrow(
-        `Technician ${mockNewTechnicianName} not found.`
-      );
-
-      expect(mockDataSources.technicianRecord.findTechnicianRecordByName).toHaveBeenCalledWith(mockNewTechnicianName);
+      expect(mockDataSources.technicianRecord.findTechnicianRecordById).toHaveBeenCalledWith(mockNewTechId);
     });
   });
 

@@ -54,7 +54,7 @@ export const useCreateRepairJobAndCalendarEvent = (): UseCreateRepairJobAndCalen
       const {
         jobDetails: { jobType, jobDescription, priority },
         elevatorInformation: { elevatorLocation, elevatorType, buildingName },
-        technicianAssignment: { technicianName },
+        technicianAssignment: { selectedTechnician },
       } = formFields;
 
       const { description, title } = getCalendarEventInfo({ elevatorType, elevatorLocation, buildingName, jobType });
@@ -79,7 +79,8 @@ export const useCreateRepairJobAndCalendarEvent = (): UseCreateRepairJobAndCalen
         jobPriority: priority,
         jobType,
         startDate: adjustedStartDate,
-        technicianName,
+        technicianName: selectedTechnician?.label,
+        technicianId: selectedTechnician?.id,
       };
 
       const calendarEventPayload = {

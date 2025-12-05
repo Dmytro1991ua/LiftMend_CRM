@@ -53,15 +53,14 @@ export const useUpdateRepairJob = (): UseUpdateRepairJob => {
 
   const onUpdateRepairJob = async (formFields: RepairJobFormValues, originalRepairJob?: RepairJob) => {
     try {
-      const repairJob = convertFormFieldsToRepairJob(formFields);
+      const repairJob = convertFormFieldsToRepairJob(formFields, originalRepairJob);
       const fieldsToUpdate = getFieldsToUpdateForMutation(repairJob, originalRepairJob);
 
       const result = await updateRepairJob({
         variables: {
           input: {
-            id: repairJob.id,
-            technicianName: originalRepairJob?.technicianName,
             ...fieldsToUpdate,
+            id: repairJob.id,
           },
         },
       });

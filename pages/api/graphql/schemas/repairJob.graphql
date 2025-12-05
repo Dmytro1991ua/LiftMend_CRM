@@ -38,6 +38,8 @@ type RepairJob implements Node {
   status: String!
   actualEndDate: DateTime
   isOverdue: Boolean
+  elevatorId: ID
+  technicianId: ID
 }
 
 type RepairJobEdge implements Edge {
@@ -59,6 +61,7 @@ input CreateRepairJobInput {
   buildingName: String!
   elevatorLocation: String!
   technicianName: String!
+  technicianId: ID!
   startDate: DateTime!
   endDate: DateTime!
 }
@@ -74,6 +77,7 @@ input UpdateRepairJobInput {
   buildingName: String
   elevatorLocation: String
   technicianName: String
+  technicianId: ID
   status: String
 }
 

@@ -6,15 +6,8 @@ import { loadWithDataLoader } from '../utils/utils';
 import { getCalculatedElevatorHealthScore } from './utils';
 
 const ElevatorRecord: ElevatorRecordResolvers = {
-  healthScore: async ({ buildingName, elevatorLocation, lastMaintenanceDate }, _, { prisma, dataLoaders }, info) => {
-    const key = `${buildingName}|${elevatorLocation}`;
-
-    const repairJobs = await loadWithDataLoader(
-      dataLoaders,
-      info.fieldNodes,
-      getBatchRepairJobsByElevator(prisma),
-      key
-    );
+  healthScore: async ({ id, lastMaintenanceDate }, _, { prisma, dataLoaders }, info) => {
+    const repairJobs = await loadWithDataLoader(dataLoaders, info.fieldNodes, getBatchRepairJobsByElevator(prisma), id);
 
     return getCalculatedElevatorHealthScore(repairJobs, lastMaintenanceDate);
   },

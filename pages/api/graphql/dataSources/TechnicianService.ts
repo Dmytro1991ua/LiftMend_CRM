@@ -1,4 +1,5 @@
 import { Prisma, PrismaClient } from '@prisma/client';
+import { Maybe } from 'graphql/jsutils/Maybe';
 import { isNull as _isNull, omitBy as _omitBy } from 'lodash';
 
 import {
@@ -59,13 +60,11 @@ class TechnicianService {
     });
   }
 
-  async findTechnicianRecordByName(name: string): Promise<TechnicianRecord | null> {
-    return await this.prisma.technicianRecord.findFirst({
-      where: { name },
-    });
-  }
+  async findTechnicianRecordById(id: Maybe<string>): Promise<TechnicianRecord | null> {
+    if (!id) {
+      throw new Error('RepairJob missing technicianId');
+    }
 
-  async findTechnicianRecordById(id: string): Promise<TechnicianRecord | null> {
     return await this.prisma.technicianRecord.findUnique({
       where: { id },
     });
@@ -170,8 +169,8 @@ class TechnicianService {
     });
   }
 
-  async validateTechnicianAssignment(name: string): Promise<TechnicianRecord> {
-    const technicianRecord = await this.findTechnicianRecordByName(name);
+  async validateTechnicianAssignment(id: string, name: string): Promise<TechnicianRecord> {
+    const technicianRecord = await this.findTechnicianRecordById(id);
 
     if (!technicianRecord) {
       throw new Error(`Technician record for ${name} was not found`);

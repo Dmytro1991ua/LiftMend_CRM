@@ -3,6 +3,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Checkbox } from '@/components/ui/checkbox';
 import Badge from '@/shared/badge';
 import BaseScoreCell from '@/shared/base-score-cell/BaseScoreCell';
+import { DEFAULT_SCORE_THRESHOLD_LABEL } from '@/shared/base-score-cell/constants';
 import BaseTableCheckbox from '@/shared/base-table/base-table-checkbox';
 import Pill from '@/shared/pill';
 import { PillStatus } from '@/shared/pill/config';
@@ -13,7 +14,6 @@ import { EmploymentStatus, TechnicianScoreLabel } from '../../types';
 import DeleteActionCell from '../delete-action-cell';
 import EditActionCell from '../edit-action-cell';
 import EmploymentStatusToggleCell from '../employment-status-toggle-cell';
-import { DEFAULT_SCORE_THRESHOLD_LABEL } from '@/shared/base-score-cell/constants';
 
 export const TECHNICIAN_RECORD_COLUMNS: ColumnDef<TechnicianRecord>[] = [
   {

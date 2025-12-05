@@ -73,6 +73,7 @@ export type CreateRepairJobInput = {
   jobPriority: Scalars['String']['input'];
   jobType: Scalars['String']['input'];
   startDate: Scalars['DateTime']['input'];
+  technicianId: Scalars['ID']['input'];
   technicianName: Scalars['String']['input'];
 };
 
@@ -352,7 +353,7 @@ export type Query = {
   getCalendarEvents: Array<CalendarEvent>;
   getDashboardMetrics: DashboardMetrics;
   getElevatorDetailsByBuildingName: ElevatorDetails;
-  getElevatorMentainanceHistory: RepairJobConnection;
+  getElevatorMaintenanceHistory: RepairJobConnection;
   getElevatorRecordById: ElevatorRecord;
   getElevatorRecordFormData: ElevatorRecordFormData;
   getElevatorRecords: ElevatorRecordConnection;
@@ -375,9 +376,8 @@ export type QueryGetElevatorDetailsByBuildingNameArgs = {
   buildingName: Scalars['String']['input'];
 };
 
-export type QueryGetElevatorMentainanceHistoryArgs = {
-  buildingName: Scalars['String']['input'];
-  elevatorLocation: Scalars['String']['input'];
+export type QueryGetElevatorMaintenanceHistoryArgs = {
+  elevatorId: Scalars['ID']['input'];
   paginationOptions?: InputMaybe<PaginationOptions>;
 };
 
@@ -429,6 +429,7 @@ export type RepairJob = Node & {
   actualEndDate?: Maybe<Scalars['DateTime']['output']>;
   buildingName: Scalars['String']['output'];
   calendarEventId?: Maybe<Scalars['String']['output']>;
+  elevatorId?: Maybe<Scalars['ID']['output']>;
   elevatorLocation: Scalars['String']['output'];
   elevatorType: Scalars['String']['output'];
   endDate: Scalars['DateTime']['output'];
@@ -439,6 +440,7 @@ export type RepairJob = Node & {
   jobType: Scalars['String']['output'];
   startDate: Scalars['DateTime']['output'];
   status: Scalars['String']['output'];
+  technicianId?: Maybe<Scalars['ID']['output']>;
   technicianName: Scalars['String']['output'];
 };
 
@@ -648,6 +650,7 @@ export type UpdateRepairJobInput = {
   jobType?: InputMaybe<Scalars['String']['input']>;
   startDate?: InputMaybe<Scalars['DateTime']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
+  technicianId?: InputMaybe<Scalars['ID']['input']>;
   technicianName?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -1214,11 +1217,11 @@ export type QueryResolvers<
     ContextType,
     RequireFields<QueryGetElevatorDetailsByBuildingNameArgs, 'buildingName'>
   >;
-  getElevatorMentainanceHistory?: Resolver<
+  getElevatorMaintenanceHistory?: Resolver<
     ResolversTypes['RepairJobConnection'],
     ParentType,
     ContextType,
-    RequireFields<QueryGetElevatorMentainanceHistoryArgs, 'buildingName' | 'elevatorLocation'>
+    RequireFields<QueryGetElevatorMaintenanceHistoryArgs, 'elevatorId'>
   >;
   getElevatorRecordById?: Resolver<
     ResolversTypes['ElevatorRecord'],
@@ -1283,6 +1286,7 @@ export type RepairJobResolvers<
   actualEndDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   buildingName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   calendarEventId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  elevatorId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   elevatorLocation?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   elevatorType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   endDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
@@ -1293,6 +1297,7 @@ export type RepairJobResolvers<
   jobType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   startDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  technicianId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   technicianName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;

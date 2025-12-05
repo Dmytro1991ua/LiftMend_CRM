@@ -69,6 +69,7 @@ export type CreateRepairJobInput = {
   jobPriority: Scalars['String']['input'];
   jobType: Scalars['String']['input'];
   startDate: Scalars['DateTime']['input'];
+  technicianId: Scalars['ID']['input'];
   technicianName: Scalars['String']['input'];
 };
 
@@ -351,7 +352,7 @@ export type Query = {
   getCalendarEvents: Array<CalendarEvent>;
   getDashboardMetrics: DashboardMetrics;
   getElevatorDetailsByBuildingName: ElevatorDetails;
-  getElevatorMentainanceHistory: RepairJobConnection;
+  getElevatorMaintenanceHistory: RepairJobConnection;
   getElevatorRecordById: ElevatorRecord;
   getElevatorRecordFormData: ElevatorRecordFormData;
   getElevatorRecords: ElevatorRecordConnection;
@@ -374,9 +375,8 @@ export type QueryGetElevatorDetailsByBuildingNameArgs = {
   buildingName: Scalars['String']['input'];
 };
 
-export type QueryGetElevatorMentainanceHistoryArgs = {
-  buildingName: Scalars['String']['input'];
-  elevatorLocation: Scalars['String']['input'];
+export type QueryGetElevatorMaintenanceHistoryArgs = {
+  elevatorId: Scalars['ID']['input'];
   paginationOptions?: InputMaybe<PaginationOptions>;
 };
 
@@ -428,6 +428,7 @@ export type RepairJob = Node & {
   actualEndDate: Maybe<Scalars['DateTime']['output']>;
   buildingName: Scalars['String']['output'];
   calendarEventId: Maybe<Scalars['String']['output']>;
+  elevatorId: Maybe<Scalars['ID']['output']>;
   elevatorLocation: Scalars['String']['output'];
   elevatorType: Scalars['String']['output'];
   endDate: Scalars['DateTime']['output'];
@@ -438,6 +439,7 @@ export type RepairJob = Node & {
   jobType: Scalars['String']['output'];
   startDate: Scalars['DateTime']['output'];
   status: Scalars['String']['output'];
+  technicianId: Maybe<Scalars['ID']['output']>;
   technicianName: Scalars['String']['output'];
 };
 
@@ -649,6 +651,7 @@ export type UpdateRepairJobInput = {
   jobType?: InputMaybe<Scalars['String']['input']>;
   startDate?: InputMaybe<Scalars['DateTime']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
+  technicianId?: InputMaybe<Scalars['ID']['input']>;
   technicianName?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -717,6 +720,8 @@ export type RepairJobFieldsFragment = {
   calendarEventId: string | null;
   actualEndDate: any | null;
   isOverdue: boolean | null;
+  elevatorId: string | null;
+  technicianId: string | null;
 };
 
 export type TechnicianRecordFieldsFragment = {
@@ -765,6 +770,8 @@ export type CreateRepairJobAndCalendarEventMutation = {
       calendarEventId: string | null;
       actualEndDate: any | null;
       isOverdue: boolean | null;
+      elevatorId: string | null;
+      technicianId: string | null;
     };
     calendarEvent: {
       __typename?: 'CalendarEvent';
@@ -959,15 +966,14 @@ export type GetElevatorDetailsByBuildingNameQuery = {
   };
 };
 
-export type GetElevatorMentainanceHistoryQueryVariables = Exact<{
-  buildingName: Scalars['String']['input'];
-  elevatorLocation: Scalars['String']['input'];
+export type GetElevatorMaintenanceHistoryQueryVariables = Exact<{
+  elevatorId: Scalars['ID']['input'];
   paginationOptions?: InputMaybe<PaginationOptions>;
 }>;
 
-export type GetElevatorMentainanceHistoryQuery = {
+export type GetElevatorMaintenanceHistoryQuery = {
   __typename?: 'Query';
-  getElevatorMentainanceHistory: {
+  getElevatorMaintenanceHistory: {
     __typename?: 'RepairJobConnection';
     total: number;
     edges: Array<{
@@ -989,6 +995,8 @@ export type GetElevatorMentainanceHistoryQuery = {
         calendarEventId: string | null;
         actualEndDate: any | null;
         isOverdue: boolean | null;
+        elevatorId: string | null;
+        technicianId: string | null;
       };
     }>;
     pageInfo: {
@@ -1095,6 +1103,8 @@ export type GetRecentRepairJobsQuery = {
     calendarEventId: string | null;
     actualEndDate: any | null;
     isOverdue: boolean | null;
+    elevatorId: string | null;
+    technicianId: string | null;
   }>;
 };
 
@@ -1120,6 +1130,8 @@ export type GetRepairJobByIdQuery = {
     calendarEventId: string | null;
     actualEndDate: any | null;
     isOverdue: boolean | null;
+    elevatorId: string | null;
+    technicianId: string | null;
   };
 };
 
@@ -1170,6 +1182,8 @@ export type GetRepairJobsQuery = {
         calendarEventId: string | null;
         actualEndDate: any | null;
         isOverdue: boolean | null;
+        elevatorId: string | null;
+        technicianId: string | null;
       };
     }>;
     pageInfo: {
@@ -1317,6 +1331,8 @@ export type ReassignTechnicianMutation = {
     calendarEventId: string | null;
     actualEndDate: any | null;
     isOverdue: boolean | null;
+    elevatorId: string | null;
+    technicianId: string | null;
   };
 };
 
@@ -1391,6 +1407,8 @@ export type UpdateRepairJobMutation = {
     calendarEventId: string | null;
     actualEndDate: any | null;
     isOverdue: boolean | null;
+    elevatorId: string | null;
+    technicianId: string | null;
   };
 };
 

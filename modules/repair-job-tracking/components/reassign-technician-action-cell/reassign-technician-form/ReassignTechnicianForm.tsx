@@ -28,6 +28,7 @@ const ReassignTechnicianForm = ({ repairJob }: ReassignTechnicianFormProps) => {
     <>
       <BaseAlert className='mb-6' data-testid='warning-alert' description={warningMessage} variant='warning' />
       <ControlledSingleSelect<TechnicianReassignmentFormFields>
+        isStoringValueAsObject
         captureMenuScroll={false}
         className='mb-4'
         clearErrors={clearErrors}
@@ -43,7 +44,7 @@ const ReassignTechnicianForm = ({ repairJob }: ReassignTechnicianFormProps) => {
         }
         isMultiSelect={false}
         label='Technician Name'
-        name='technicianName'
+        name='selectedTechnician'
         options={availableTechnicians}
         placeholder='Select Technician name'
       />

@@ -103,6 +103,14 @@ describe('ElevatorService', () => {
       });
       expect(result).toEqual(mockElevatorRecord);
     });
+
+    it('should throw an error if id is undefined', async () => {
+      await expect(elevatorService.findElevatorRecordById(undefined)).rejects.toThrow('RepairJob missing elevatorId');
+    });
+
+    it('should throw an error if id is null', async () => {
+      await expect(elevatorService.findElevatorRecordById(null)).rejects.toThrow('RepairJob missing elevatorId');
+    });
   });
 
   describe('findElevatorRecordByRepairJob', () => {
@@ -112,6 +120,7 @@ describe('ElevatorService', () => {
       elevatorType: 'Scenic Elevator',
       buildingName: 'Skyline Plaza',
       elevatorLocation: 'Observation Deck',
+      technicianId: 'test-technician-id-1',
     };
 
     it('should return elevator record by provided repair job', async () => {
