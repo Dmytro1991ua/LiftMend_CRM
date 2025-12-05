@@ -36,8 +36,13 @@ const ControlledSingleSelect = <T extends FieldValues>({
     isStoringValueAsObject: boolean
   ): SingleSelectValue<string> | null => {
     if (isStoringValueAsObject) {
-      return field.value ?? null; // field.value is SingleSelectValue<string> | null
+      const selectedValue = field.value;
+
+      if (!selectedValue || !selectedValue.value) return null;
+
+      return selectedValue;
     }
+
     return options.find((option) => option?.value === field.value) || null;
   };
 
