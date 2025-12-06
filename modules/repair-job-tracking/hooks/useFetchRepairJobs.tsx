@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useMemo } from 'react';
+import { Dispatch, SetStateAction, useEffect, useMemo } from 'react';
 
 import { ApolloQueryResult, useQuery } from '@apollo/client';
 import { SortingState } from '@tanstack/react-table';
@@ -18,7 +18,7 @@ import { TableStorageState } from '@/shared/storage/hooks/useStoredState';
 import { RepairJob, StorageTableName } from '@/shared/types';
 import { getItemsFromQuery, removeTypeNamesFromArray } from '@/shared/utils';
 
-import { REPAIR_JOBS_TABLE_FILTER_KEY_MAP } from './constants';
+import { REPAIR_JOBS_POLL_INTERVAL, REPAIR_JOBS_TABLE_FILTER_KEY_MAP } from './constants';
 
 export type UseFetchRepairJobs<T> = {
   repairJobs: RepairJob[];
@@ -54,21 +54,22 @@ const useFetchRepairJobs = <T,>(): UseFetchRepairJobs<T> => {
     [filterValues]
   );
 
+  // Memoize variables to prevent duplicate queries on polling
+  const variables = useMemo(
+    () => ({
+      paginationOptions: DEFAULT_PAGINATION,
+      sortOptions: { field: field as RepairJobSortField, order },
+      filterOptions: { searchTerm, ...filters },
+    }),
+    [field, order, searchTerm, filters]
+  );
+
   const { data, loading, error, fetchMore, refetch } = useQuery<GetRepairJobsQuery, QueryGetRepairJobsArgs>(
     GET_REPAIR_JOBS,
     {
-      variables: {
-        paginationOptions: DEFAULT_PAGINATION,
-        sortOptions: {
-          field: field as RepairJobSortField,
-          order,
-        },
-        filterOptions: {
-          searchTerm,
-          ...filters,
-        },
-      },
+      variables,
       notifyOnNetworkStatusChange: true,
+      pollInterval: REPAIR_JOBS_POLL_INTERVAL,
     }
   );
 

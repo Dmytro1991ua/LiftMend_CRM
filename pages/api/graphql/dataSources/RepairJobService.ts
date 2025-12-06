@@ -77,8 +77,6 @@ class RepairJobService {
       where: filters,
     });
 
-    await this.recalculateOverdueStatus(scheduledRepairJobs);
-
     return makeConnectionObject({
       items: scheduledRepairJobs,
       totalItems,
