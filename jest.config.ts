@@ -20,6 +20,7 @@ const config: Config = {
     '^@/types/(.*)$': '<rootDir>/types/$1',
     '^@/shared/(.*)$': '<rootDir>/shared/$1',
     '^@/lib/(.*)$': '<rootDir>/lib/$1',
+    '^@/prisma/(.*)$': '<rootDir>/prisma/$1',
   },
   coveragePathIgnorePatterns: ['/node_modules/', '<rootDir>/components/', '/validation\\.ts$'],
   testEnvironment: 'jsdom',

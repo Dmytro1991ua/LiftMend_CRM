@@ -37,9 +37,13 @@ const handler = startServerAndCreateNextHandler(server, {
 
     if (token) {
       const { data, error } = await supabase.auth.getUser(token);
-      if (error) throw new Error(error.message);
 
-      user = data.user;
+      if (error) {
+        console.warn('Supabase token invalid or expired:', error.message);
+        user = null;
+      } else {
+        user = data.user;
+      }
     }
 
     return {
