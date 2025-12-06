@@ -8,4 +8,4 @@ export const REPAIR_JOBS_TABLE_FILTER_KEY_MAP: Record<string, string> = {
   technicianNames: 'technicianName',
 };
 
-export const REPAIR_JOBS_POLL_INTERVAL = 60 * 60 * 1000; // 1 hour in ms
+export const REPAIR_JOBS_POLL_INTERVAL = 12 * 60 * 60 * 1000; // 12 hours

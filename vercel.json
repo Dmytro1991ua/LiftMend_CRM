@@ -2,7 +2,7 @@
   "crons": [
     {
       "path": "/api/crons/repair-job-overdue",
-      "schedule": "0 * * * *"
+      "schedule": "0 0 * * *"
     }
   ]
 }
