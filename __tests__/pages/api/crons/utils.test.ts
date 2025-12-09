@@ -33,6 +33,8 @@ describe('createNotificationIfNotExists', () => {
         category: mockPayload.category,
         message: mockPayload.message,
         priority: mockPayload.priority,
+        readAt: null,
+        status: 'Unread',
       },
     });
   });
