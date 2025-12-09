@@ -1,5 +1,6 @@
 import { PassThrough } from 'stream';
 
+import { RepairJob } from '@prisma/client';
 import DataLoader from 'dataloader';
 import { Kind } from 'graphql';
 
@@ -10,6 +11,8 @@ import {
   TechnicianRecordSortField,
 } from '@/graphql/types/server/generated_types';
 import { mockNewRepairJobInput } from '@/mocks/repairJobScheduling';
+import { mockRepairJob } from '@/mocks/repairJobTrackingMocks';
+import { INACTIVE_REPAIR_JOB_STATUSES } from '@/pages/api/graphql/constants';
 import {
   boolToStringArray,
   convertStreamToBuffer,
@@ -23,6 +26,9 @@ import {
   getDataLoader,
   getElevatorStatusErrorMessage,
   getSortedFormDropdownData,
+  isRepairJobOverdue,
+  isRepairJobUpcoming,
+  isRepairJobUrgent,
   makeConnectionObject,
   parseOAuthFullName,
   stringToBool,
@@ -764,6 +770,93 @@ describe('utils', () => {
       expect(DataLoader).toHaveBeenCalledTimes(1);
       expect(DataLoader).toHaveBeenCalledWith(batchDataIds);
       expect(result).toBeInstanceOf(Object);
+    });
+  });
+});
+
+describe('isRepairJobOverdue', () => {
+  const yesterday = new Date(Date.now() - 86400000);
+  const tomorrow = new Date(Date.now() + 86400000);
+
+  const nockScenarios = [
+    {
+      name: 'planned end date is past and repair status is active',
+      plannedEndDate: yesterday,
+      status: 'Scheduled',
+      expected: true,
+    },
+    {
+      name: 'planned end date is in the future and status is active',
+      plannedEndDate: tomorrow,
+      status: 'Scheduled',
+      expected: false,
+    },
+    ...INACTIVE_REPAIR_JOB_STATUSES.map((status) => ({
+      name: `planned end date is past but status is inactive (${status})`,
+      plannedEndDate: yesterday,
+      status,
+      expected: false,
+    })),
+  ];
+
+  nockScenarios.forEach(({ name, plannedEndDate, status, expected }) => {
+    it(`should return ${expected} when ${name}`, () => {
+      expect(isRepairJobOverdue(plannedEndDate, status)).toBe(expected);
+    });
+  });
+});
+
+describe('isRepairJobUpcoming', () => {
+  const tomorrow = new Date(Date.now() + 86400000);
+  const today = new Date();
+
+  const mockScenarios = [
+    {
+      name: 'repair job starts tomorrow and status is active',
+      job: { ...mockRepairJob, startDate: tomorrow } as unknown as RepairJob,
+      expected: true,
+    },
+    {
+      name: 'repair job starts tomorrow but status is inactive',
+      job: { ...mockRepairJob, startDate: tomorrow, status: 'Completed' } as unknown as RepairJob,
+      expected: false,
+    },
+    {
+      name: 'repair job starts today and status is active',
+      job: { ...mockRepairJob, startDate: today } as unknown as RepairJob,
+      expected: false,
+    },
+  ];
+
+  mockScenarios.forEach(({ name, job, expected }) => {
+    it(`should return ${expected} when ${name}`, () => {
+      expect(isRepairJobUpcoming(job, tomorrow)).toBe(expected);
+    });
+  });
+});
+
+describe('isRepairJobUrgent', () => {
+  const mockScenarios = [
+    {
+      name: 'active job with High priority',
+      job: { ...mockRepairJob, jobPriority: 'High' } as unknown as RepairJob,
+      expected: true,
+    },
+    {
+      name: 'active job with Low priority',
+      job: { ...mockRepairJob, jobPriority: 'Low' } as unknown as RepairJob,
+      expected: false,
+    },
+    {
+      name: 'inactive job with High priority',
+      job: { ...mockRepairJob, status: 'Completed', jobPriority: 'High' } as unknown as RepairJob,
+      expected: false,
+    },
+  ];
+
+  mockScenarios.forEach(({ name, job, expected }) => {
+    it(`should return ${expected} when ${name}`, () => {
+      expect(isRepairJobUrgent(job)).toBe(expected);
     });
   });
 });

@@ -45,8 +45,7 @@ const BaseAppMetrics = <T extends string, K extends string>({
                 cardTittleClassName={cardTittleClassName}
                 icon={icon}
                 infoTooltip={infoTooltip}
-                title={title}
-              >
+                title={title}>
                 {loading ? (
                   <Bars
                     ariaLabel='bars-loading'

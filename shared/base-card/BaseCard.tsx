@@ -46,8 +46,7 @@ const BaseCard = ({
         className={cn(
           icon ? 'w-full flex-row justify-center items-center' : 'flex-col items-start',
           cardHeaderClassName
-        )}
-      >
+        )}>
         {icon && <div className='flex-0 flex-shrink-0 basis-8'>{icon}</div>}
         <div className='flex items-center gap-2'>
           <CardTitle className={cardTittleClassName}>{title}</CardTitle>

@@ -1,3 +1,4 @@
+import { RepairJob } from '@prisma/client';
 import DataLoader from 'dataloader';
 import { FieldNode } from 'graphql';
 import { first as _first, last as _last, orderBy as _orderBy, words as _words } from 'lodash';
@@ -18,7 +19,7 @@ import {
 } from '@/graphql/types/server/generated_types';
 import { Nullable } from '@/shared/base-table/types';
 
-import { DEFAULT_PAGINATION } from '../constants';
+import { ACTIVE_REPAIR_JOB_STATUSES, DEFAULT_PAGINATION, INACTIVE_REPAIR_JOB_STATUSES } from '../constants';
 import { Connection, Edge, GraphQLDataLoaders, PageInfo } from '../types';
 
 export const getSortedFormDropdownData = async <T>(
@@ -188,11 +189,17 @@ export const getElevatorStatusErrorMessage = (repairJobInput: CreateRepairJobInp
   };
 };
 
-export function isRepairJobOverdue(plannedEndDate: Date, status: string): boolean {
+export const isRepairJobOverdue = (plannedEndDate: Date, status: string): boolean => {
   const isPlannedEndDatePast = new Date(plannedEndDate) < new Date();
 
-  return isPlannedEndDatePast && status !== 'Completed' && status !== 'Cancelled';
-}
+  return isPlannedEndDatePast && !INACTIVE_REPAIR_JOB_STATUSES.includes(status);
+};
+
+export const isRepairJobUpcoming = (job: RepairJob, tomorrow: Date): boolean =>
+  ACTIVE_REPAIR_JOB_STATUSES.includes(job.status) && new Date(job.startDate).toDateString() === tomorrow.toDateString();
+
+export const isRepairJobUrgent = (job: RepairJob): boolean =>
+  ACTIVE_REPAIR_JOB_STATUSES.includes(job.status) && job.jobPriority === 'High';
 
 export const isToday = (date: Date): boolean => {
   const today = new Date();
