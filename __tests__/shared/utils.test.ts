@@ -3,7 +3,7 @@ import { act } from '@testing-library/react';
 import { GraphQLError } from 'graphql';
 
 import { getErrorMessageFromGraphQlErrors, getGraphQLErrorExtensionsMessage } from '@/graphql/utils';
-import { logError, onHandleMutationErrors } from '@/shared/utils';
+import { convertYearValueToCorrectFormat, formatDate, logError, onHandleMutationErrors } from '@/shared/utils';
 
 jest.mock('@/graphql/utils');
 
@@ -73,5 +73,53 @@ describe('onHandleMutationErrors', () => {
     });
 
     expect(onFailureMock).not.toHaveBeenCalled();
+  });
+});
+
+describe('convertYearValueToCorrectFormat', () => {
+  // eslint-disable-next-line quotes
+  it("should return '2-digit' year string if it is not an Ad start or end date", () => {
+    expect(convertYearValueToCorrectFormat()).toEqual('2-digit');
+  });
+
+  // eslint-disable-next-line quotes
+  it("should return 'numeric' year string if it is an Ad start or end date", () => {
+    expect(convertYearValueToCorrectFormat(true)).toEqual('numeric');
+  });
+});
+
+describe('formatDate', () => {
+  const mockScenarios = [
+    {
+      name: 'default format with time included',
+      input: { value: new Date('2025-12-09T15:30:00') },
+      expected: '12/09/25 03:30 PM',
+    },
+    {
+      name: 'without time',
+      input: { value: new Date('2025-12-09T15:30:00'), includeTime: false },
+      expected: '12/09/25',
+    },
+    {
+      name: 'long year format',
+      input: { value: new Date('2025-12-09T15:30:00'), isYearFormatLong: true },
+      expected: '12/09/2025 03:30 PM',
+    },
+    {
+      name: 'without time and long year format',
+      input: { value: new Date('2025-12-09T15:30:00'), includeTime: false, isYearFormatLong: true },
+      expected: '12/09/2025',
+    },
+    {
+      name: 'invalid date',
+      input: { value: new Date('invalid') },
+      expected: 'Invalid Date',
+    },
+  ];
+
+  mockScenarios.forEach(({ name, input, expected }) => {
+    it(name, () => {
+      expect(formatDate(input.value, input.includeTime, input.isYearFormatLong)).toBe(expected);
+    });
   });
 });

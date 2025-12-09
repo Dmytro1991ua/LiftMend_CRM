@@ -1,6 +1,7 @@
+import { NextApiRequest, NextApiResponse } from 'next';
+
 import { repairJobServicePrismaMock } from '@/mocks/gql/prismaMocks';
 import handler from '@/pages/api/crons/repair-job-overdue';
-import { NextApiRequest, NextApiResponse } from 'next';
 
 jest.mock('@/prisma/db', () => repairJobServicePrismaMock);
 jest.mock('@/pages/api/graphql/utils/utils');

@@ -113,3 +113,41 @@ export const onHandleMutationErrors = ({
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export const NOOP = (): void => {};
+
+const dateFormatter = ({
+  date,
+  timeStringOptions,
+  includeTime,
+  dateStringOptions,
+}: {
+  date: Date;
+  timeStringOptions: Intl.DateTimeFormatOptions;
+  includeTime: boolean;
+  dateStringOptions?: Intl.DateTimeFormatOptions;
+}): string => {
+  if (isNaN(date.getTime())) return 'Invalid Date';
+
+  const dateString = date.toLocaleDateString('en-US', dateStringOptions);
+  const timeString = date.toLocaleTimeString([], timeStringOptions);
+
+  return `${dateString}${includeTime ? ` ${timeString}` : ''}`;
+};
+
+export const convertYearValueToCorrectFormat = (isYearFormatLong = false): 'numeric' | '2-digit' =>
+  isYearFormatLong ? 'numeric' : '2-digit';
+
+export const formatDate = (value: Date, includeTime = true, isYearFormatLong = false): string => {
+  return dateFormatter({
+    date: value,
+    timeStringOptions: {
+      hour: '2-digit',
+      minute: '2-digit',
+    },
+    includeTime,
+    dateStringOptions: {
+      day: '2-digit',
+      month: '2-digit',
+      year: convertYearValueToCorrectFormat(isYearFormatLong),
+    },
+  });
+};

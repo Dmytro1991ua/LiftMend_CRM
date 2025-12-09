@@ -3,6 +3,7 @@ import { RepairJob } from '@prisma/client';
 import { TechnicianPerformanceMetrics } from '@/graphql/types/server/generated_types';
 
 import {
+  ACTIVE_REPAIR_JOB_STATUSES,
   ELEVATOR_HEALTH_IMPACTING_JOB_TYPES,
   MAX_ELEVATOR_HEALTH_SCORE,
   MAX_MAINTENANCE_DELAY_IMPACT,
@@ -16,8 +17,6 @@ import {
   WORST_CASE_OVERDUE_REPAIR_JOB_THRESHOLD,
   WORST_CASE_RECENT_REPAIR_JOB_THRESHOLD,
 } from '../constants';
-
-import { ACTIVE_REPAIR_JOB_STATUSES } from './constants';
 
 /**
  * Calculates the duration of a repair job in days between the start and end dates.

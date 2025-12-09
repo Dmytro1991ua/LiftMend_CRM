@@ -99,3 +99,6 @@ export const TECHNICIAN_PERFORMANCE_WEIGHTS = {
   EFFICIENCY: 0.3,
   QUALITY: 0.2,
 } as const;
+
+export const ACTIVE_REPAIR_JOB_STATUSES = ['Scheduled', 'In Progress', 'On Hold'];
+export const INACTIVE_REPAIR_JOB_STATUSES = ['Completed', 'Cancelled'];

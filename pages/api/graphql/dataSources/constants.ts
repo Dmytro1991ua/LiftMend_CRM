@@ -127,4 +127,3 @@ export const DEFAULT_RECENT_JOBS_COUNT = 5;
 export const DEFAULT_SORTING_OPTION = 'desc';
 
 export const TECHNICIAN_ASSIGNMENT_BLOCKING_STATUSES = ['Busy', 'Reserved'];
-export const ACTIVE_REPAIR_JOB_STATUSES = ['Scheduled', 'In Progress', 'On Hold'];
