@@ -4,6 +4,7 @@ import getResolverToTest, { TestResolver } from '@/mocks/gql/getResolverToTest';
 import createDataSourcesMock from '@/mocks/gql/mockedDataSources';
 import { repairJobServicePrismaMock } from '@/mocks/gql/prismaMocks';
 import { userServiceSupabaseMock } from '@/mocks/gql/supabaseMocks';
+import { mockNotification, mockNotificationId } from '@/mocks/notificationMocks';
 import {
   mockCalendarEvent,
   mockCalendarEventId,
@@ -52,6 +53,8 @@ describe('Mutation', () => {
   let uploadProfilePictureResolver: TestResolver<typeof Mutation, 'uploadProfilePicture'>;
   let updateUserProfileResolver: TestResolver<typeof Mutation, 'updateUserProfile'>;
   let removeAccountResolver: TestResolver<typeof Mutation, 'removeAccount'>;
+  let markNotificationAsReadResolver: TestResolver<typeof Mutation, 'markNotificationAsRead'>;
+  let markAllNotificationsAsReadResolver: TestResolver<typeof Mutation, 'markAllNotificationsAsRead'>;
 
   beforeEach(() => {
     mockDataSources = createDataSourcesMock(repairJobServicePrismaMock, userServiceSupabaseMock);
@@ -74,6 +77,8 @@ describe('Mutation', () => {
     uploadProfilePictureResolver = getResolverToTest(Mutation, 'uploadProfilePicture', mockDataSources);
     updateUserProfileResolver = getResolverToTest(Mutation, 'updateUserProfile', mockDataSources);
     removeAccountResolver = getResolverToTest(Mutation, 'removeAccount', mockDataSources);
+    markNotificationAsReadResolver = getResolverToTest(Mutation, 'markNotificationAsRead', mockDataSources);
+    markAllNotificationsAsReadResolver = getResolverToTest(Mutation, 'markAllNotificationsAsRead', mockDataSources);
 
     (getElevatorStatusErrorMessage as jest.Mock).mockReturnValue({});
   });
@@ -785,6 +790,58 @@ describe('Mutation', () => {
       mockDataSources.user.removeAccount.mockRejectedValueOnce(new Error(mockError));
 
       await expect(removeAccountResolver({}, { userId: mockUserId })).rejects.toThrow(mockError);
+    });
+  });
+
+  describe('markNotificationAsRead', () => {
+    it('should mark specific notification as read', async () => {
+      const mockResponse = {
+        ...mockNotification,
+        id: mockNotificationId,
+        status: 'Read',
+        readAt: new Date(),
+        createdAt: new Date(mockNotification.createdAt),
+      };
+
+      mockDataSources.notification.markAsRead.mockResolvedValueOnce(mockResponse);
+
+      const result = await markNotificationAsReadResolver({}, { input: { id: mockNotificationId } });
+
+      expect(mockDataSources.notification.markAsRead).toHaveBeenCalledWith(mockNotificationId);
+      expect(result).toEqual(mockResponse);
+    });
+
+    it('should throw an error if markNotificationAsRead fails', async () => {
+      const mockError = 'Failed to remove account';
+
+      mockDataSources.notification.markAsRead.mockRejectedValueOnce(new Error(mockError));
+
+      await expect(markNotificationAsReadResolver({}, { input: { id: mockNotificationId } })).rejects.toThrow(
+        mockError
+      );
+    });
+  });
+
+  describe('markAllNotificationsAsRead', () => {
+    it('should mark all notifications as read', async () => {
+      const mockIds = ['id-1', 'id-2'];
+
+      mockDataSources.notification.markAllAsRead.mockResolvedValueOnce({
+        updatedNotificationIds: mockIds,
+      });
+
+      const result = await markAllNotificationsAsReadResolver();
+
+      expect(mockDataSources.notification.markAllAsRead).toHaveBeenCalledTimes(1);
+      expect(result).toEqual({ updatedNotificationIds: mockIds });
+    });
+
+    it('should throw an error if markAllNotificationsAsRead fails', async () => {
+      const mockError = 'Failed to mark all as read';
+
+      mockDataSources.notification.markAllAsRead.mockRejectedValueOnce(new Error(mockError));
+
+      await expect(markAllNotificationsAsReadResolver()).rejects.toThrow(mockError);
     });
   });
 });

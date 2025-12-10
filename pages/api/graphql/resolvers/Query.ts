@@ -7,6 +7,7 @@ import {
   ElevatorRecord,
   ElevatorRecordConnection,
   ElevatorRecordFormData,
+  NotificationConnection,
   QueryResolvers,
   RepairJob,
   RepairJobConnection,
@@ -82,6 +83,12 @@ const Query: QueryResolvers = {
   },
   getElevatorMaintenanceHistory: async (_, args, { dataSources }): Promise<RepairJobConnection> => {
     return await dataSources.repairJob.elevatorMaintenanceHistory(args);
+  },
+  getNotifications: async (_, args, { dataSources }): Promise<NotificationConnection> => {
+    return await dataSources.notification.notifications(args);
+  },
+  getUnreadNotificationCount: async (_, __, { dataSources }): Promise<number> => {
+    return dataSources.notification.unreadNotificationsCount();
   },
 };
 

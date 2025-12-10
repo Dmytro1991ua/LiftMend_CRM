@@ -18,6 +18,7 @@ import {
   convertStreamToBuffer,
   createElevatorRecordFilterOptions,
   createElevatorRecordSortOptions,
+  createNotificationFilterOptions,
   createRepairJobFilterOptions,
   createRepairJobSortOptions,
   createTechnicianRecordFilterOptions,
@@ -857,6 +858,44 @@ describe('isRepairJobUrgent', () => {
   mockScenarios.forEach(({ name, job, expected }) => {
     it(`should return ${expected} when ${name}`, () => {
       expect(isRepairJobUrgent(job)).toBe(expected);
+    });
+  });
+});
+
+describe('createNotificationFilterOptions', () => {
+  const scenarios = [
+    {
+      description: 'should return an empty object when no filter options are provided',
+      input: undefined,
+      expected: {},
+    },
+    {
+      description: 'should return only status if status is provided',
+      input: { status: 'Unread' },
+      expected: { status: 'Unread' },
+    },
+    {
+      description: 'should return only category if category is provided',
+      input: { category: 'Urgent' },
+      expected: { category: 'Urgent' },
+    },
+    {
+      description: 'should return both status and category if both are provided',
+      input: { status: 'Unread', category: 'Urgent' },
+      expected: { status: 'Unread', category: 'Urgent' },
+    },
+    {
+      description: 'should ignore falsy values for status and category',
+      input: { status: '', category: undefined },
+      expected: {},
+    },
+  ];
+
+  scenarios.forEach(({ description, input, expected }) => {
+    it(description, () => {
+      const result = createNotificationFilterOptions(input);
+
+      expect(result).toEqual(expected);
     });
   });
 });

@@ -1,5 +1,6 @@
 import {
   ElevatorRecordFormData,
+  NotificationConnection,
   RepairJobConnection,
   TechnicianRecordConnection,
 } from '@/graphql/types/server/generated_types';
@@ -15,11 +16,13 @@ import createDataSourcesMock from '@/mocks/gql/mockedDataSources';
 import {
   calendarEventServicePrismaMock,
   elevatorRecordServicePrismaMock,
+  notificationServicePrismaMock,
   repairJobServicePrismaMock,
   technicianRecordPrismaMock,
   userServicePrismaMock,
 } from '@/mocks/gql/prismaMocks';
 import { userServiceSupabaseMock } from '@/mocks/gql/supabaseMocks';
+import { mockedReturnedNotificationsData } from '@/mocks/notificationMocks';
 import { mockCalendarEvent, mockRepairJobScheduledData } from '@/mocks/repairJobScheduling';
 import {
   mockRepairJob,
@@ -383,6 +386,48 @@ describe('Query', () => {
 
       expect(mockDataSources.user.user).toHaveBeenCalled();
       expect(result).toEqual(mockUser);
+    });
+  });
+
+  describe('NotificationService', () => {
+    let mockDataSources: ReturnType<typeof createDataSourcesMock>;
+
+    let getNotificationsResolver: TestResolver<typeof Query, 'getNotifications'>;
+    let getUnreadNotificationCountResolver: TestResolver<typeof Query, 'getUnreadNotificationCount'>;
+
+    beforeEach(() => {
+      mockDataSources = createDataSourcesMock(notificationServicePrismaMock);
+
+      getNotificationsResolver = getResolverToTest(Query, 'getNotifications', mockDataSources);
+      getUnreadNotificationCountResolver = getResolverToTest(Query, 'getUnreadNotificationCount', mockDataSources);
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    describe('getNotifications', () => {
+      it('should return notifications', async () => {
+        mockDataSources.notification.notifications.mockResolvedValue(
+          mockedReturnedNotificationsData.getNotifications as NotificationConnection
+        );
+
+        const result = await getNotificationsResolver();
+
+        expect(mockDataSources.notification.notifications).toHaveBeenCalled();
+        expect(result).toEqual(mockedReturnedNotificationsData.getNotifications);
+      });
+    });
+
+    describe('getUnreadNotificationCount', () => {
+      it('should return a correct count of unread notifications', async () => {
+        mockDataSources.notification.unreadNotificationsCount.mockResolvedValue(2);
+
+        const result = await getUnreadNotificationCountResolver();
+
+        expect(mockDataSources.notification.unreadNotificationsCount).toHaveBeenCalled();
+        expect(result).toEqual(2);
+      });
     });
   });
 });

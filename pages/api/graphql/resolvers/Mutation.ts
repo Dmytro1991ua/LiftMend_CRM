@@ -242,6 +242,14 @@ const Mutation: MutationResolvers = {
       userId,
     };
   },
+  markNotificationAsRead: async (_, { input }, { dataSources }) => {
+    const { id } = input;
+
+    return await dataSources.notification.markAsRead(id);
+  },
+  markAllNotificationsAsRead: async (_, __, { dataSources }) => {
+    return await dataSources.notification.markAllAsRead();
+  },
 };
 
 export default Mutation;

@@ -1,4 +1,4 @@
-import { RepairJob } from '@prisma/client';
+import { Prisma, RepairJob } from '@prisma/client';
 import DataLoader from 'dataloader';
 import { FieldNode } from 'graphql';
 import { first as _first, last as _last, orderBy as _orderBy, words as _words } from 'lodash';
@@ -9,6 +9,7 @@ import {
   ElevatorRecordSortField,
   ElevatorRecordSortInput,
   InputMaybe,
+  NotificationFilterOptions,
   PaginationOptions,
   RepairJobFilterOptions,
   RepairJobSortField,
@@ -260,4 +261,15 @@ export const loadWithDataLoader = async <T>(
   const loader = getDataLoader(dataloaders, fieldNodes, batchFunction);
 
   return await loader.load(key);
+};
+
+export const createNotificationFilterOptions = (
+  filterOptions: InputMaybe<NotificationFilterOptions>
+): Prisma.NotificationWhereInput => {
+  const { status, category } = filterOptions || {};
+
+  return {
+    ...(status && { status }),
+    ...(category && { category }),
+  };
 };
