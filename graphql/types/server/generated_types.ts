@@ -11,14 +11,14 @@ export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' |
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
-  DateTime: { input: any; output: any; }
-  Upload: { input: any; output: any; }
-  Void: { input: any; output: any; }
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
+  DateTime: { input: any; output: any };
+  Upload: { input: any; output: any };
+  Void: { input: any; output: any };
 };
 
 export type AppUser = {
@@ -179,7 +179,7 @@ export enum ElevatorRecordSortField {
   ElevatorType = 'ELEVATOR_TYPE',
   LastMaintenanceDate = 'LAST_MAINTENANCE_DATE',
   NextMaintenanceDate = 'NEXT_MAINTENANCE_DATE',
-  Status = 'STATUS'
+  Status = 'STATUS',
 }
 
 export type ElevatorRecordSortInput = {
@@ -208,6 +208,15 @@ export type ForgotPasswordInput = {
   redirectTo: Scalars['String']['input'];
 };
 
+export type MarkAllNotificationsAsReadResult = {
+  __typename?: 'MarkAllNotificationsAsReadResult';
+  updatedNotificationIds?: Maybe<Array<Scalars['String']['output']>>;
+};
+
+export type MarkNotificationAsReadInput = {
+  id: Scalars['ID']['input'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createRepairJobAndEvent: ScheduledEventAndRepairJobResponse;
@@ -216,6 +225,8 @@ export type Mutation = {
   deleteRepairJobAndEvent: DeleteCalendarAndRepairJobResponse;
   deleteTechnicianRecord: DeleteTechnicianRecordResponse;
   forgotPassword: Scalars['Boolean']['output'];
+  markAllNotificationsAsRead: MarkAllNotificationsAsReadResult;
+  markNotificationAsRead: Notification;
   reassignTechnician: RepairJob;
   removeAccount: RemoveAccountResponse;
   resetPassword: AuthResponse;
@@ -230,88 +241,75 @@ export type Mutation = {
   uploadProfilePicture: UploadProfilePicturePayload;
 };
 
-
 export type MutationCreateRepairJobAndEventArgs = {
   calendarEventInput: CreateCalendarEventInput;
   repairJobInput: CreateRepairJobInput;
 };
 
-
 export type MutationCreateTechnicianRecordArgs = {
   input: CreateTechnicianRecordInput;
 };
 
-
 export type MutationDeleteElevatorRecordArgs = {
   id: Scalars['ID']['input'];
 };
-
 
 export type MutationDeleteRepairJobAndEventArgs = {
   calendarEventId: Scalars['ID']['input'];
   repairJobId: Scalars['ID']['input'];
 };
 
-
 export type MutationDeleteTechnicianRecordArgs = {
   id: Scalars['ID']['input'];
 };
-
 
 export type MutationForgotPasswordArgs = {
   input: ForgotPasswordInput;
 };
 
+export type MutationMarkNotificationAsReadArgs = {
+  input: MarkNotificationAsReadInput;
+};
 
 export type MutationReassignTechnicianArgs = {
   input: UpdateRepairJobInput;
 };
 
-
 export type MutationRemoveAccountArgs = {
   userId: Scalars['ID']['input'];
 };
-
 
 export type MutationResetPasswordArgs = {
   input: ResetPasswordInput;
 };
 
-
 export type MutationSignInArgs = {
   input: SignInUserInput;
 };
-
 
 export type MutationSignInWithOAuthArgs = {
   input: SignInWithOAuthInput;
 };
 
-
 export type MutationSignUpArgs = {
   input: CreateUserInput;
 };
-
 
 export type MutationUpdateElevatorRecordArgs = {
   input: UpdateElevatorRecordInput;
 };
 
-
 export type MutationUpdateRepairJobArgs = {
   input: UpdateRepairJobInput;
 };
-
 
 export type MutationUpdateTechnicianRecordArgs = {
   input: UpdateTechnicianRecordInput;
 };
 
-
 export type MutationUpdateUserProfileArgs = {
   input: UserProfileInput;
 };
-
 
 export type MutationUploadProfilePictureArgs = {
   file: Scalars['Upload']['input'];
@@ -321,7 +319,7 @@ export type Node = {
   id: Scalars['ID']['output'];
 };
 
-export type Notification = {
+export type Notification = Node & {
   __typename?: 'Notification';
   /**
    * Type or category of the notification.
@@ -333,7 +331,7 @@ export type Notification = {
    * Timestamp when the notification was created.
    * Might be used for ordering and showing relative time (e.g., '2h ago').
    */
-  createdAt: Scalars['String']['output'];
+  createdAt: Scalars['DateTime']['output'];
   /** Unique identifier for the notification */
   id: Scalars['ID']['output'];
   /** Full text message to display to the user in the UI dropdown or notification panel. */
@@ -348,7 +346,7 @@ export type Notification = {
    * Timestamp when the notification was marked as read.
    * Null if the notification has not been read yet.
    */
-  readAt?: Maybe<Scalars['String']['output']>;
+  readAt?: Maybe<Scalars['DateTime']['output']>;
   /** Optional ID of the related entity (RepairJob.id) for navigation or reference. */
   relatedEntityId?: Maybe<Scalars['String']['output']>;
   /**
@@ -362,6 +360,24 @@ export type Notification = {
    * Currently all users can see all notifications; can be extended for role-based notifications.
    */
   userId?: Maybe<Scalars['String']['output']>;
+};
+
+export type NotificationConnection = Connection & {
+  __typename?: 'NotificationConnection';
+  edges: Array<NotificationEdge>;
+  pageInfo: PageInfo;
+  total: Scalars['Int']['output'];
+};
+
+export type NotificationEdge = Edge & {
+  __typename?: 'NotificationEdge';
+  cursor: Scalars['String']['output'];
+  node: Notification;
+};
+
+export type NotificationFilterOptions = {
+  category?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
 };
 
 export enum OAuthProvider {
@@ -386,12 +402,12 @@ export enum OAuthProvider {
   Twitch = 'TWITCH',
   Twitter = 'TWITTER',
   Workos = 'WORKOS',
-  Zoom = 'ZOOM'
+  Zoom = 'ZOOM',
 }
 
 export enum OrderOption {
   Asc = 'ASC',
-  Desc = 'DESC'
+  Desc = 'DESC',
 }
 
 export type PageInfo = {
@@ -417,6 +433,7 @@ export type Query = {
   getElevatorRecordById: ElevatorRecord;
   getElevatorRecordFormData: ElevatorRecordFormData;
   getElevatorRecords: ElevatorRecordConnection;
+  getNotifications: NotificationConnection;
   getRecentRepairJobs: Array<RepairJob>;
   getRepairJobById: RepairJob;
   getRepairJobScheduleData: RepairJobScheduleData;
@@ -424,31 +441,27 @@ export type Query = {
   getTechnicianRecordById: TechnicianRecord;
   getTechnicianRecordFormData: TechnicianRecordFormData;
   getTechnicianRecords: TechnicianRecordConnection;
+  getUnreadNotificationCount: Scalars['Int']['output'];
   getUser: AppUser;
 };
-
 
 export type QueryGetDashboardMetricsArgs = {
   endDate: Scalars['String']['input'];
   startDate: Scalars['String']['input'];
 };
 
-
 export type QueryGetElevatorDetailsByBuildingNameArgs = {
   buildingName: Scalars['String']['input'];
 };
-
 
 export type QueryGetElevatorMaintenanceHistoryArgs = {
   elevatorId: Scalars['ID']['input'];
   paginationOptions?: InputMaybe<PaginationOptions>;
 };
 
-
 export type QueryGetElevatorRecordByIdArgs = {
   id: Scalars['ID']['input'];
 };
-
 
 export type QueryGetElevatorRecordsArgs = {
   filterOptions?: InputMaybe<ElevatorRecordFilterOptions>;
@@ -456,16 +469,18 @@ export type QueryGetElevatorRecordsArgs = {
   sortOptions?: InputMaybe<ElevatorRecordSortInput>;
 };
 
+export type QueryGetNotificationsArgs = {
+  filterOptions?: InputMaybe<NotificationFilterOptions>;
+  paginationOptions?: InputMaybe<PaginationOptions>;
+};
 
 export type QueryGetRecentRepairJobsArgs = {
   jobsCount?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 export type QueryGetRepairJobByIdArgs = {
   id: Scalars['ID']['input'];
 };
-
 
 export type QueryGetRepairJobsArgs = {
   filterOptions?: InputMaybe<RepairJobFilterOptions>;
@@ -473,18 +488,15 @@ export type QueryGetRepairJobsArgs = {
   sortOptions?: InputMaybe<RepairJobSortInput>;
 };
 
-
 export type QueryGetTechnicianRecordByIdArgs = {
   id: Scalars['ID']['input'];
 };
-
 
 export type QueryGetTechnicianRecordsArgs = {
   filterOptions?: InputMaybe<TechnicianRecordFilterOptions>;
   paginationOptions?: InputMaybe<PaginationOptions>;
   sortOptions?: InputMaybe<TechnicianRecordSortInput>;
 };
-
 
 export type QueryGetUserArgs = {
   id: Scalars['ID']['input'];
@@ -565,7 +577,7 @@ export enum RepairJobSortField {
   JobType = 'JOB_TYPE',
   StartDate = 'START_DATE',
   Status = 'STATUS',
-  TechnicianName = 'TECHNICIAN_NAME'
+  TechnicianName = 'TECHNICIAN_NAME',
 }
 
 export type RepairJobSortInput = {
@@ -679,7 +691,7 @@ export type TechnicianRecordFormData = {
 export enum TechnicianRecordSortField {
   AvailabilityStatus = 'AVAILABILITY_STATUS',
   EmploymentStatus = 'EMPLOYMENT_STATUS',
-  Name = 'NAME'
+  Name = 'NAME',
 }
 
 export type TechnicianRecordSortInput = {
@@ -755,11 +767,12 @@ export type ResolversObject<TObject> = WithIndex<TObject>;
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
 
-
 export type ResolverWithResolve<TResult, TParent, TContext, TArgs> = {
   resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
 };
-export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> = ResolverFn<TResult, TParent, TContext, TArgs> | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
+export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> =
+  | ResolverFn<TResult, TParent, TContext, TArgs>
+  | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
 
 export type ResolverFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
@@ -806,7 +819,11 @@ export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
   info: GraphQLResolveInfo
 ) => Maybe<TTypes> | Promise<Maybe<TTypes>>;
 
-export type IsTypeOfResolverFn<T = {}, TContext = {}> = (obj: T, context: TContext, info: GraphQLResolveInfo) => boolean | Promise<boolean>;
+export type IsTypeOfResolverFn<T = {}, TContext = {}> = (
+  obj: T,
+  context: TContext,
+  info: GraphQLResolveInfo
+) => boolean | Promise<boolean>;
 
 export type NextResolverFn<T> = () => Promise<T>;
 
@@ -818,12 +835,11 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
   info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
 
-
 /** Mapping of interface types */
 export type ResolversInterfaceTypes<RefType extends Record<string, unknown>> = ResolversObject<{
-  Connection: ( ElevatorRecordConnection ) | ( RepairJobConnection ) | ( TechnicianRecordConnection );
-  Edge: ( ElevatorRecordEdge ) | ( RepairJobEdge ) | ( TechnicianRecordEdges );
-  Node: ( ElevatorRecord ) | ( RepairJob ) | ( TechnicianRecord );
+  Connection: ElevatorRecordConnection | NotificationConnection | RepairJobConnection | TechnicianRecordConnection;
+  Edge: ElevatorRecordEdge | NotificationEdge | RepairJobEdge | TechnicianRecordEdges;
+  Node: ElevatorRecord | Notification | RepairJob | TechnicianRecord;
 }>;
 
 /** Mapping between all available schema types and the resolvers types */
@@ -856,9 +872,14 @@ export type ResolversTypes = ResolversObject<{
   ForgotPasswordInput: ForgotPasswordInput;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
+  MarkAllNotificationsAsReadResult: ResolverTypeWrapper<MarkAllNotificationsAsReadResult>;
+  MarkNotificationAsReadInput: MarkNotificationAsReadInput;
   Mutation: ResolverTypeWrapper<{}>;
   Node: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Node']>;
   Notification: ResolverTypeWrapper<Notification>;
+  NotificationConnection: ResolverTypeWrapper<NotificationConnection>;
+  NotificationEdge: ResolverTypeWrapper<NotificationEdge>;
+  NotificationFilterOptions: NotificationFilterOptions;
   OAuthProvider: OAuthProvider;
   OrderOption: OrderOption;
   PageInfo: ResolverTypeWrapper<PageInfo>;
@@ -925,9 +946,14 @@ export type ResolversParentTypes = ResolversObject<{
   ForgotPasswordInput: ForgotPasswordInput;
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
+  MarkAllNotificationsAsReadResult: MarkAllNotificationsAsReadResult;
+  MarkNotificationAsReadInput: MarkNotificationAsReadInput;
   Mutation: {};
   Node: ResolversInterfaceTypes<ResolversParentTypes>['Node'];
   Notification: Notification;
+  NotificationConnection: NotificationConnection;
+  NotificationEdge: NotificationEdge;
+  NotificationFilterOptions: NotificationFilterOptions;
   PageInfo: PageInfo;
   PaginationOptions: PaginationOptions;
   Query: {};
@@ -961,7 +987,10 @@ export type ResolversParentTypes = ResolversObject<{
   Void: Scalars['Void']['output'];
 }>;
 
-export type AppUserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['AppUser'] = ResolversParentTypes['AppUser']> = ResolversObject<{
+export type AppUserResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['AppUser'] = ResolversParentTypes['AppUser']
+> = ResolversObject<{
   avatarUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -974,12 +1003,18 @@ export type AppUserResolvers<ContextType = Context, ParentType extends Resolvers
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type AuthResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['AuthResponse'] = ResolversParentTypes['AuthResponse']> = ResolversObject<{
+export type AuthResponseResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['AuthResponse'] = ResolversParentTypes['AuthResponse']
+> = ResolversObject<{
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type CalendarEventResolvers<ContextType = Context, ParentType extends ResolversParentTypes['CalendarEvent'] = ResolversParentTypes['CalendarEvent']> = ResolversObject<{
+export type CalendarEventResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['CalendarEvent'] = ResolversParentTypes['CalendarEvent']
+> = ResolversObject<{
   allDay?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   end?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
@@ -990,14 +1025,24 @@ export type CalendarEventResolvers<ContextType = Context, ParentType extends Res
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type ConnectionResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Connection'] = ResolversParentTypes['Connection']> = ResolversObject<{
-  __resolveType: TypeResolveFn<'ElevatorRecordConnection' | 'RepairJobConnection' | 'TechnicianRecordConnection', ParentType, ContextType>;
+export type ConnectionResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['Connection'] = ResolversParentTypes['Connection']
+> = ResolversObject<{
+  __resolveType: TypeResolveFn<
+    'ElevatorRecordConnection' | 'NotificationConnection' | 'RepairJobConnection' | 'TechnicianRecordConnection',
+    ParentType,
+    ContextType
+  >;
   edges?: Resolver<Array<ResolversTypes['Edge']>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
   total?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
 }>;
 
-export type DashboardMetricsResolvers<ContextType = Context, ParentType extends ResolversParentTypes['DashboardMetrics'] = ResolversParentTypes['DashboardMetrics']> = ResolversObject<{
+export type DashboardMetricsResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['DashboardMetrics'] = ResolversParentTypes['DashboardMetrics']
+> = ResolversObject<{
   elevatorRecordsMetrics?: Resolver<ResolversTypes['ElevatorRecordsMetrics'], ParentType, ContextType>;
   repairJobsMetrics?: Resolver<ResolversTypes['RepairJobsMetrics'], ParentType, ContextType>;
   technicianRecordsMetrics?: Resolver<ResolversTypes['TechnicianRecordsMetrics'], ParentType, ContextType>;
@@ -1008,35 +1053,57 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
   name: 'DateTime';
 }
 
-export type DeleteCalendarAndRepairJobResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['DeleteCalendarAndRepairJobResponse'] = ResolversParentTypes['DeleteCalendarAndRepairJobResponse']> = ResolversObject<{
+export type DeleteCalendarAndRepairJobResponseResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['DeleteCalendarAndRepairJobResponse'] = ResolversParentTypes['DeleteCalendarAndRepairJobResponse']
+> = ResolversObject<{
   deletedEventId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   deletedRepairJobId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type DeleteElevatorRecordResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['DeleteElevatorRecordResponse'] = ResolversParentTypes['DeleteElevatorRecordResponse']> = ResolversObject<{
+export type DeleteElevatorRecordResponseResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['DeleteElevatorRecordResponse'] = ResolversParentTypes['DeleteElevatorRecordResponse']
+> = ResolversObject<{
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type DeleteTechnicianRecordResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['DeleteTechnicianRecordResponse'] = ResolversParentTypes['DeleteTechnicianRecordResponse']> = ResolversObject<{
+export type DeleteTechnicianRecordResponseResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['DeleteTechnicianRecordResponse'] = ResolversParentTypes['DeleteTechnicianRecordResponse']
+> = ResolversObject<{
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type EdgeResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Edge'] = ResolversParentTypes['Edge']> = ResolversObject<{
-  __resolveType: TypeResolveFn<'ElevatorRecordEdge' | 'RepairJobEdge' | 'TechnicianRecordEdges', ParentType, ContextType>;
+export type EdgeResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['Edge'] = ResolversParentTypes['Edge']
+> = ResolversObject<{
+  __resolveType: TypeResolveFn<
+    'ElevatorRecordEdge' | 'NotificationEdge' | 'RepairJobEdge' | 'TechnicianRecordEdges',
+    ParentType,
+    ContextType
+  >;
   cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   node?: Resolver<ResolversTypes['Node'], ParentType, ContextType>;
 }>;
 
-export type ElevatorDetailsResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ElevatorDetails'] = ResolversParentTypes['ElevatorDetails']> = ResolversObject<{
+export type ElevatorDetailsResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['ElevatorDetails'] = ResolversParentTypes['ElevatorDetails']
+> = ResolversObject<{
   elevatorLocations?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   elevatorTypes?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type ElevatorRecordResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ElevatorRecord'] = ResolversParentTypes['ElevatorRecord']> = ResolversObject<{
+export type ElevatorRecordResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['ElevatorRecord'] = ResolversParentTypes['ElevatorRecord']
+> = ResolversObject<{
   buildingName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   capacity?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   elevatorLocation?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -1050,20 +1117,29 @@ export type ElevatorRecordResolvers<ContextType = Context, ParentType extends Re
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type ElevatorRecordConnectionResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ElevatorRecordConnection'] = ResolversParentTypes['ElevatorRecordConnection']> = ResolversObject<{
+export type ElevatorRecordConnectionResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['ElevatorRecordConnection'] = ResolversParentTypes['ElevatorRecordConnection']
+> = ResolversObject<{
   edges?: Resolver<Array<ResolversTypes['ElevatorRecordEdge']>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
   total?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type ElevatorRecordEdgeResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ElevatorRecordEdge'] = ResolversParentTypes['ElevatorRecordEdge']> = ResolversObject<{
+export type ElevatorRecordEdgeResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['ElevatorRecordEdge'] = ResolversParentTypes['ElevatorRecordEdge']
+> = ResolversObject<{
   cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   node?: Resolver<ResolversTypes['ElevatorRecord'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type ElevatorRecordFormDataResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ElevatorRecordFormData'] = ResolversParentTypes['ElevatorRecordFormData']> = ResolversObject<{
+export type ElevatorRecordFormDataResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['ElevatorRecordFormData'] = ResolversParentTypes['ElevatorRecordFormData']
+> = ResolversObject<{
   buildingNames?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   elevatorLocations?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   elevatorStatuses?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
@@ -1071,7 +1147,10 @@ export type ElevatorRecordFormDataResolvers<ContextType = Context, ParentType ex
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type ElevatorRecordsMetricsResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ElevatorRecordsMetrics'] = ResolversParentTypes['ElevatorRecordsMetrics']> = ResolversObject<{
+export type ElevatorRecordsMetricsResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['ElevatorRecordsMetrics'] = ResolversParentTypes['ElevatorRecordsMetrics']
+> = ResolversObject<{
   freightElevators?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   homeElevators?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   luxuryHighSpeedElevators?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
@@ -1087,46 +1166,181 @@ export type ElevatorRecordsMetricsResolvers<ContextType = Context, ParentType ex
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  createRepairJobAndEvent?: Resolver<ResolversTypes['ScheduledEventAndRepairJobResponse'], ParentType, ContextType, RequireFields<MutationCreateRepairJobAndEventArgs, 'calendarEventInput' | 'repairJobInput'>>;
-  createTechnicianRecord?: Resolver<ResolversTypes['TechnicianRecord'], ParentType, ContextType, RequireFields<MutationCreateTechnicianRecordArgs, 'input'>>;
-  deleteElevatorRecord?: Resolver<ResolversTypes['DeleteElevatorRecordResponse'], ParentType, ContextType, RequireFields<MutationDeleteElevatorRecordArgs, 'id'>>;
-  deleteRepairJobAndEvent?: Resolver<ResolversTypes['DeleteCalendarAndRepairJobResponse'], ParentType, ContextType, RequireFields<MutationDeleteRepairJobAndEventArgs, 'calendarEventId' | 'repairJobId'>>;
-  deleteTechnicianRecord?: Resolver<ResolversTypes['DeleteTechnicianRecordResponse'], ParentType, ContextType, RequireFields<MutationDeleteTechnicianRecordArgs, 'id'>>;
-  forgotPassword?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationForgotPasswordArgs, 'input'>>;
-  reassignTechnician?: Resolver<ResolversTypes['RepairJob'], ParentType, ContextType, RequireFields<MutationReassignTechnicianArgs, 'input'>>;
-  removeAccount?: Resolver<ResolversTypes['RemoveAccountResponse'], ParentType, ContextType, RequireFields<MutationRemoveAccountArgs, 'userId'>>;
-  resetPassword?: Resolver<ResolversTypes['AuthResponse'], ParentType, ContextType, RequireFields<MutationResetPasswordArgs, 'input'>>;
-  signIn?: Resolver<ResolversTypes['AuthResponse'], ParentType, ContextType, RequireFields<MutationSignInArgs, 'input'>>;
-  signInWithOAuth?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationSignInWithOAuthArgs, 'input'>>;
-  signOut?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  signUp?: Resolver<ResolversTypes['AuthResponse'], ParentType, ContextType, RequireFields<MutationSignUpArgs, 'input'>>;
-  updateElevatorRecord?: Resolver<ResolversTypes['ElevatorRecord'], ParentType, ContextType, RequireFields<MutationUpdateElevatorRecordArgs, 'input'>>;
-  updateRepairJob?: Resolver<ResolversTypes['RepairJob'], ParentType, ContextType, RequireFields<MutationUpdateRepairJobArgs, 'input'>>;
-  updateTechnicianRecord?: Resolver<ResolversTypes['TechnicianRecord'], ParentType, ContextType, RequireFields<MutationUpdateTechnicianRecordArgs, 'input'>>;
-  updateUserProfile?: Resolver<ResolversTypes['AppUser'], ParentType, ContextType, RequireFields<MutationUpdateUserProfileArgs, 'input'>>;
-  uploadProfilePicture?: Resolver<ResolversTypes['UploadProfilePicturePayload'], ParentType, ContextType, RequireFields<MutationUploadProfilePictureArgs, 'file'>>;
+export type MarkAllNotificationsAsReadResultResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['MarkAllNotificationsAsReadResult'] = ResolversParentTypes['MarkAllNotificationsAsReadResult']
+> = ResolversObject<{
+  updatedNotificationIds?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type NodeResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Node'] = ResolversParentTypes['Node']> = ResolversObject<{
-  __resolveType: TypeResolveFn<'ElevatorRecord' | 'RepairJob' | 'TechnicianRecord', ParentType, ContextType>;
+export type MutationResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
+> = ResolversObject<{
+  createRepairJobAndEvent?: Resolver<
+    ResolversTypes['ScheduledEventAndRepairJobResponse'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateRepairJobAndEventArgs, 'calendarEventInput' | 'repairJobInput'>
+  >;
+  createTechnicianRecord?: Resolver<
+    ResolversTypes['TechnicianRecord'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateTechnicianRecordArgs, 'input'>
+  >;
+  deleteElevatorRecord?: Resolver<
+    ResolversTypes['DeleteElevatorRecordResponse'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteElevatorRecordArgs, 'id'>
+  >;
+  deleteRepairJobAndEvent?: Resolver<
+    ResolversTypes['DeleteCalendarAndRepairJobResponse'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteRepairJobAndEventArgs, 'calendarEventId' | 'repairJobId'>
+  >;
+  deleteTechnicianRecord?: Resolver<
+    ResolversTypes['DeleteTechnicianRecordResponse'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteTechnicianRecordArgs, 'id'>
+  >;
+  forgotPassword?: Resolver<
+    ResolversTypes['Boolean'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationForgotPasswordArgs, 'input'>
+  >;
+  markAllNotificationsAsRead?: Resolver<ResolversTypes['MarkAllNotificationsAsReadResult'], ParentType, ContextType>;
+  markNotificationAsRead?: Resolver<
+    ResolversTypes['Notification'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationMarkNotificationAsReadArgs, 'input'>
+  >;
+  reassignTechnician?: Resolver<
+    ResolversTypes['RepairJob'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationReassignTechnicianArgs, 'input'>
+  >;
+  removeAccount?: Resolver<
+    ResolversTypes['RemoveAccountResponse'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationRemoveAccountArgs, 'userId'>
+  >;
+  resetPassword?: Resolver<
+    ResolversTypes['AuthResponse'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationResetPasswordArgs, 'input'>
+  >;
+  signIn?: Resolver<
+    ResolversTypes['AuthResponse'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationSignInArgs, 'input'>
+  >;
+  signInWithOAuth?: Resolver<
+    ResolversTypes['String'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationSignInWithOAuthArgs, 'input'>
+  >;
+  signOut?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  signUp?: Resolver<
+    ResolversTypes['AuthResponse'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationSignUpArgs, 'input'>
+  >;
+  updateElevatorRecord?: Resolver<
+    ResolversTypes['ElevatorRecord'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateElevatorRecordArgs, 'input'>
+  >;
+  updateRepairJob?: Resolver<
+    ResolversTypes['RepairJob'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateRepairJobArgs, 'input'>
+  >;
+  updateTechnicianRecord?: Resolver<
+    ResolversTypes['TechnicianRecord'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateTechnicianRecordArgs, 'input'>
+  >;
+  updateUserProfile?: Resolver<
+    ResolversTypes['AppUser'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateUserProfileArgs, 'input'>
+  >;
+  uploadProfilePicture?: Resolver<
+    ResolversTypes['UploadProfilePicturePayload'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUploadProfilePictureArgs, 'file'>
+  >;
+}>;
+
+export type NodeResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['Node'] = ResolversParentTypes['Node']
+> = ResolversObject<{
+  __resolveType: TypeResolveFn<
+    'ElevatorRecord' | 'Notification' | 'RepairJob' | 'TechnicianRecord',
+    ParentType,
+    ContextType
+  >;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
 }>;
 
-export type NotificationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Notification'] = ResolversParentTypes['Notification']> = ResolversObject<{
+export type NotificationResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['Notification'] = ResolversParentTypes['Notification']
+> = ResolversObject<{
   category?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   priority?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  readAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  readAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   relatedEntityId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   userId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type PageInfoResolvers<ContextType = Context, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = ResolversObject<{
+export type NotificationConnectionResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['NotificationConnection'] = ResolversParentTypes['NotificationConnection']
+> = ResolversObject<{
+  edges?: Resolver<Array<ResolversTypes['NotificationEdge']>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
+  total?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type NotificationEdgeResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['NotificationEdge'] = ResolversParentTypes['NotificationEdge']
+> = ResolversObject<{
+  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  node?: Resolver<ResolversTypes['Notification'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type PageInfoResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']
+> = ResolversObject<{
   endCursor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   hasNextPage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   hasPreviousPage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
@@ -1134,31 +1348,97 @@ export type PageInfoResolvers<ContextType = Context, ParentType extends Resolver
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+export type QueryResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
+> = ResolversObject<{
   getAvailableTechniciansForAssignment?: Resolver<Array<ResolversTypes['TechnicianRecord']>, ParentType, ContextType>;
   getCalendarEvents?: Resolver<Array<ResolversTypes['CalendarEvent']>, ParentType, ContextType>;
-  getDashboardMetrics?: Resolver<ResolversTypes['DashboardMetrics'], ParentType, ContextType, RequireFields<QueryGetDashboardMetricsArgs, 'endDate' | 'startDate'>>;
-  getElevatorDetailsByBuildingName?: Resolver<ResolversTypes['ElevatorDetails'], ParentType, ContextType, RequireFields<QueryGetElevatorDetailsByBuildingNameArgs, 'buildingName'>>;
-  getElevatorMaintenanceHistory?: Resolver<ResolversTypes['RepairJobConnection'], ParentType, ContextType, RequireFields<QueryGetElevatorMaintenanceHistoryArgs, 'elevatorId'>>;
-  getElevatorRecordById?: Resolver<ResolversTypes['ElevatorRecord'], ParentType, ContextType, RequireFields<QueryGetElevatorRecordByIdArgs, 'id'>>;
+  getDashboardMetrics?: Resolver<
+    ResolversTypes['DashboardMetrics'],
+    ParentType,
+    ContextType,
+    RequireFields<QueryGetDashboardMetricsArgs, 'endDate' | 'startDate'>
+  >;
+  getElevatorDetailsByBuildingName?: Resolver<
+    ResolversTypes['ElevatorDetails'],
+    ParentType,
+    ContextType,
+    RequireFields<QueryGetElevatorDetailsByBuildingNameArgs, 'buildingName'>
+  >;
+  getElevatorMaintenanceHistory?: Resolver<
+    ResolversTypes['RepairJobConnection'],
+    ParentType,
+    ContextType,
+    RequireFields<QueryGetElevatorMaintenanceHistoryArgs, 'elevatorId'>
+  >;
+  getElevatorRecordById?: Resolver<
+    ResolversTypes['ElevatorRecord'],
+    ParentType,
+    ContextType,
+    RequireFields<QueryGetElevatorRecordByIdArgs, 'id'>
+  >;
   getElevatorRecordFormData?: Resolver<ResolversTypes['ElevatorRecordFormData'], ParentType, ContextType>;
-  getElevatorRecords?: Resolver<ResolversTypes['ElevatorRecordConnection'], ParentType, ContextType, Partial<QueryGetElevatorRecordsArgs>>;
-  getRecentRepairJobs?: Resolver<Array<ResolversTypes['RepairJob']>, ParentType, ContextType, Partial<QueryGetRecentRepairJobsArgs>>;
-  getRepairJobById?: Resolver<ResolversTypes['RepairJob'], ParentType, ContextType, RequireFields<QueryGetRepairJobByIdArgs, 'id'>>;
+  getElevatorRecords?: Resolver<
+    ResolversTypes['ElevatorRecordConnection'],
+    ParentType,
+    ContextType,
+    Partial<QueryGetElevatorRecordsArgs>
+  >;
+  getNotifications?: Resolver<
+    ResolversTypes['NotificationConnection'],
+    ParentType,
+    ContextType,
+    Partial<QueryGetNotificationsArgs>
+  >;
+  getRecentRepairJobs?: Resolver<
+    Array<ResolversTypes['RepairJob']>,
+    ParentType,
+    ContextType,
+    Partial<QueryGetRecentRepairJobsArgs>
+  >;
+  getRepairJobById?: Resolver<
+    ResolversTypes['RepairJob'],
+    ParentType,
+    ContextType,
+    RequireFields<QueryGetRepairJobByIdArgs, 'id'>
+  >;
   getRepairJobScheduleData?: Resolver<ResolversTypes['RepairJobScheduleData'], ParentType, ContextType>;
-  getRepairJobs?: Resolver<ResolversTypes['RepairJobConnection'], ParentType, ContextType, Partial<QueryGetRepairJobsArgs>>;
-  getTechnicianRecordById?: Resolver<ResolversTypes['TechnicianRecord'], ParentType, ContextType, RequireFields<QueryGetTechnicianRecordByIdArgs, 'id'>>;
+  getRepairJobs?: Resolver<
+    ResolversTypes['RepairJobConnection'],
+    ParentType,
+    ContextType,
+    Partial<QueryGetRepairJobsArgs>
+  >;
+  getTechnicianRecordById?: Resolver<
+    ResolversTypes['TechnicianRecord'],
+    ParentType,
+    ContextType,
+    RequireFields<QueryGetTechnicianRecordByIdArgs, 'id'>
+  >;
   getTechnicianRecordFormData?: Resolver<ResolversTypes['TechnicianRecordFormData'], ParentType, ContextType>;
-  getTechnicianRecords?: Resolver<ResolversTypes['TechnicianRecordConnection'], ParentType, ContextType, Partial<QueryGetTechnicianRecordsArgs>>;
+  getTechnicianRecords?: Resolver<
+    ResolversTypes['TechnicianRecordConnection'],
+    ParentType,
+    ContextType,
+    Partial<QueryGetTechnicianRecordsArgs>
+  >;
+  getUnreadNotificationCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   getUser?: Resolver<ResolversTypes['AppUser'], ParentType, ContextType, RequireFields<QueryGetUserArgs, 'id'>>;
 }>;
 
-export type RemoveAccountResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['RemoveAccountResponse'] = ResolversParentTypes['RemoveAccountResponse']> = ResolversObject<{
+export type RemoveAccountResponseResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['RemoveAccountResponse'] = ResolversParentTypes['RemoveAccountResponse']
+> = ResolversObject<{
   userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type RepairJobResolvers<ContextType = Context, ParentType extends ResolversParentTypes['RepairJob'] = ResolversParentTypes['RepairJob']> = ResolversObject<{
+export type RepairJobResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['RepairJob'] = ResolversParentTypes['RepairJob']
+> = ResolversObject<{
   actualEndDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   buildingName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   calendarEventId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -1178,20 +1458,29 @@ export type RepairJobResolvers<ContextType = Context, ParentType extends Resolve
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type RepairJobConnectionResolvers<ContextType = Context, ParentType extends ResolversParentTypes['RepairJobConnection'] = ResolversParentTypes['RepairJobConnection']> = ResolversObject<{
+export type RepairJobConnectionResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['RepairJobConnection'] = ResolversParentTypes['RepairJobConnection']
+> = ResolversObject<{
   edges?: Resolver<Array<ResolversTypes['RepairJobEdge']>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
   total?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type RepairJobEdgeResolvers<ContextType = Context, ParentType extends ResolversParentTypes['RepairJobEdge'] = ResolversParentTypes['RepairJobEdge']> = ResolversObject<{
+export type RepairJobEdgeResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['RepairJobEdge'] = ResolversParentTypes['RepairJobEdge']
+> = ResolversObject<{
   cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   node?: Resolver<ResolversTypes['RepairJob'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type RepairJobScheduleDataResolvers<ContextType = Context, ParentType extends ResolversParentTypes['RepairJobScheduleData'] = ResolversParentTypes['RepairJobScheduleData']> = ResolversObject<{
+export type RepairJobScheduleDataResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['RepairJobScheduleData'] = ResolversParentTypes['RepairJobScheduleData']
+> = ResolversObject<{
   buildingNames?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   elevatorLocations?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   elevatorTypes?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
@@ -1203,7 +1492,10 @@ export type RepairJobScheduleDataResolvers<ContextType = Context, ParentType ext
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type RepairJobsMetricsResolvers<ContextType = Context, ParentType extends ResolversParentTypes['RepairJobsMetrics'] = ResolversParentTypes['RepairJobsMetrics']> = ResolversObject<{
+export type RepairJobsMetricsResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['RepairJobsMetrics'] = ResolversParentTypes['RepairJobsMetrics']
+> = ResolversObject<{
   cancelledRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   completedRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   completedRepairJobsToday?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
@@ -1229,13 +1521,19 @@ export type RepairJobsMetricsResolvers<ContextType = Context, ParentType extends
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type ScheduledEventAndRepairJobResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ScheduledEventAndRepairJobResponse'] = ResolversParentTypes['ScheduledEventAndRepairJobResponse']> = ResolversObject<{
+export type ScheduledEventAndRepairJobResponseResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['ScheduledEventAndRepairJobResponse'] = ResolversParentTypes['ScheduledEventAndRepairJobResponse']
+> = ResolversObject<{
   calendarEvent?: Resolver<ResolversTypes['CalendarEvent'], ParentType, ContextType>;
   repairJob?: Resolver<ResolversTypes['RepairJob'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type TechnicianPerformanceMetricsResolvers<ContextType = Context, ParentType extends ResolversParentTypes['TechnicianPerformanceMetrics'] = ResolversParentTypes['TechnicianPerformanceMetrics']> = ResolversObject<{
+export type TechnicianPerformanceMetricsResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['TechnicianPerformanceMetrics'] = ResolversParentTypes['TechnicianPerformanceMetrics']
+> = ResolversObject<{
   activeRepairJobs?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   averageDurationDays?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   completedRepairJobs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
@@ -1246,7 +1544,10 @@ export type TechnicianPerformanceMetricsResolvers<ContextType = Context, ParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type TechnicianRecordResolvers<ContextType = Context, ParentType extends ResolversParentTypes['TechnicianRecord'] = ResolversParentTypes['TechnicianRecord']> = ResolversObject<{
+export type TechnicianRecordResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['TechnicianRecord'] = ResolversParentTypes['TechnicianRecord']
+> = ResolversObject<{
   availabilityStatus?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   certifications?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   contactInformation?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -1259,20 +1560,29 @@ export type TechnicianRecordResolvers<ContextType = Context, ParentType extends 
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type TechnicianRecordConnectionResolvers<ContextType = Context, ParentType extends ResolversParentTypes['TechnicianRecordConnection'] = ResolversParentTypes['TechnicianRecordConnection']> = ResolversObject<{
+export type TechnicianRecordConnectionResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['TechnicianRecordConnection'] = ResolversParentTypes['TechnicianRecordConnection']
+> = ResolversObject<{
   edges?: Resolver<Array<ResolversTypes['TechnicianRecordEdges']>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
   total?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type TechnicianRecordEdgesResolvers<ContextType = Context, ParentType extends ResolversParentTypes['TechnicianRecordEdges'] = ResolversParentTypes['TechnicianRecordEdges']> = ResolversObject<{
+export type TechnicianRecordEdgesResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['TechnicianRecordEdges'] = ResolversParentTypes['TechnicianRecordEdges']
+> = ResolversObject<{
   cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   node?: Resolver<ResolversTypes['TechnicianRecord'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type TechnicianRecordFormDataResolvers<ContextType = Context, ParentType extends ResolversParentTypes['TechnicianRecordFormData'] = ResolversParentTypes['TechnicianRecordFormData']> = ResolversObject<{
+export type TechnicianRecordFormDataResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['TechnicianRecordFormData'] = ResolversParentTypes['TechnicianRecordFormData']
+> = ResolversObject<{
   availabilityStatuses?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   certifications?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   employmentStatuses?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
@@ -1280,7 +1590,10 @@ export type TechnicianRecordFormDataResolvers<ContextType = Context, ParentType 
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type TechnicianRecordsMetricsResolvers<ContextType = Context, ParentType extends ResolversParentTypes['TechnicianRecordsMetrics'] = ResolversParentTypes['TechnicianRecordsMetrics']> = ResolversObject<{
+export type TechnicianRecordsMetricsResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['TechnicianRecordsMetrics'] = ResolversParentTypes['TechnicianRecordsMetrics']
+> = ResolversObject<{
   availableTechnicians?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   busyTechnicians?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   inactiveTechnicians?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
@@ -1295,7 +1608,10 @@ export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTyp
   name: 'Upload';
 }
 
-export type UploadProfilePicturePayloadResolvers<ContextType = Context, ParentType extends ResolversParentTypes['UploadProfilePicturePayload'] = ResolversParentTypes['UploadProfilePicturePayload']> = ResolversObject<{
+export type UploadProfilePicturePayloadResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['UploadProfilePicturePayload'] = ResolversParentTypes['UploadProfilePicturePayload']
+> = ResolversObject<{
   avatarUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -1322,9 +1638,12 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   ElevatorRecordEdge?: ElevatorRecordEdgeResolvers<ContextType>;
   ElevatorRecordFormData?: ElevatorRecordFormDataResolvers<ContextType>;
   ElevatorRecordsMetrics?: ElevatorRecordsMetricsResolvers<ContextType>;
+  MarkAllNotificationsAsReadResult?: MarkAllNotificationsAsReadResultResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Node?: NodeResolvers<ContextType>;
   Notification?: NotificationResolvers<ContextType>;
+  NotificationConnection?: NotificationConnectionResolvers<ContextType>;
+  NotificationEdge?: NotificationEdgeResolvers<ContextType>;
   PageInfo?: PageInfoResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   RemoveAccountResponse?: RemoveAccountResponseResolvers<ContextType>;
@@ -1344,4 +1663,3 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   UploadProfilePicturePayload?: UploadProfilePicturePayloadResolvers<ContextType>;
   Void?: GraphQLScalarType;
 }>;
-

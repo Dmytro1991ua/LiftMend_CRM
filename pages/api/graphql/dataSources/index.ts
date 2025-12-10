@@ -4,6 +4,7 @@ import { SupabaseClient } from '@supabase/supabase-js';
 import AuthService from './AuthService';
 import CalendarEventService from './CalendarEventService';
 import ElevatorService from './ElevatorService';
+import NotificationService from './NotificationService';
 import RepairJobService from './RepairJobService';
 import TechnicianService from './TechnicianService';
 import UserService from './UserService';
@@ -15,6 +16,7 @@ export const createDataSources = (prisma: PrismaClient, supabase?: SupabaseClien
   calendarEvent: new CalendarEventService(prisma),
   auth: new AuthService(prisma, supabase),
   user: new UserService(prisma, supabase),
+  notification: new NotificationService(prisma),
 });
 
 export type DataSources = ReturnType<typeof createDataSources>;

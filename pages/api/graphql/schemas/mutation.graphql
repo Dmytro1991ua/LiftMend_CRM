@@ -21,6 +21,10 @@ type RemoveAccountResponse {
   userId: ID!
 }
 
+type MarkAllNotificationsAsReadResult {
+  updatedNotificationIds: [String!]
+}
+
 type Mutation {
   createRepairJobAndEvent(
     repairJobInput: CreateRepairJobInput!
@@ -43,4 +47,6 @@ type Mutation {
   uploadProfilePicture(file: Upload!): UploadProfilePicturePayload!
   updateUserProfile(input: UserProfileInput!): AppUser!
   removeAccount(userId: ID!): RemoveAccountResponse!
+  markNotificationAsRead(input: MarkNotificationAsReadInput!): Notification!
+  markAllNotificationsAsRead: MarkAllNotificationsAsReadResult!
 }

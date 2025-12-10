@@ -301,6 +301,49 @@ export type Node = {
   id: Scalars['ID']['output'];
 };
 
+export type Notification = {
+  __typename?: 'Notification';
+  /**
+   * Type or category of the notification.
+   * Examples: 'Upcoming', 'Overdue', 'Urgent'.
+   * Used by the UI to show appropriate icon or color.
+   */
+  category: Scalars['String']['output'];
+  /**
+   * Timestamp when the notification was created.
+   * Might be used for ordering and showing relative time (e.g., '2h ago').
+   */
+  createdAt: Scalars['String']['output'];
+  /** Unique identifier for the notification */
+  id: Scalars['ID']['output'];
+  /** Full text message to display to the user in the UI dropdown or notification panel. */
+  message: Scalars['String']['output'];
+  /**
+   * Importance of the notification.
+   * Examples: 'Medium' for regular, 'High' for urgent notifications.
+   * Might be used to highlight critical items in the UI.
+   */
+  priority: Scalars['String']['output'];
+  /**
+   * Timestamp when the notification was marked as read.
+   * Null if the notification has not been read yet.
+   */
+  readAt: Maybe<Scalars['String']['output']>;
+  /** Optional ID of the related entity (RepairJob.id) for navigation or reference. */
+  relatedEntityId: Maybe<Scalars['String']['output']>;
+  /**
+   * Current read status of the notification.
+   * Values: 'Unread' or 'Read'.
+   * Might be used to calculate unread counts and display badges in the UI.
+   */
+  status: Scalars['String']['output'];
+  /**
+   * ID of the user who will see the notification.
+   * Currently all users can see all notifications; can be extended for role-based notifications.
+   */
+  userId: Maybe<Scalars['String']['output']>;
+};
+
 export const OAuthProvider = {
   Apple: 'APPLE',
   Azure: 'AZURE',

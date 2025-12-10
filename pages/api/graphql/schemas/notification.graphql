@@ -1,4 +1,4 @@
-type Notification {
+type Notification implements Node {
   """
   Unique identifier for the notification
   """
@@ -45,11 +45,31 @@ type Notification {
   Timestamp when the notification was created.
   Might be used for ordering and showing relative time (e.g., '2h ago').
   """
-  createdAt: String!
+  createdAt: DateTime!
 
   """
   Timestamp when the notification was marked as read.
   Null if the notification has not been read yet.
   """
-  readAt: String
+  readAt: DateTime
+}
+
+type NotificationEdge implements Edge {
+  cursor: String!
+  node: Notification!
+}
+
+type NotificationConnection implements Connection {
+  edges: [NotificationEdge!]!
+  pageInfo: PageInfo!
+  total: Int!
+}
+
+input NotificationFilterOptions {
+  category: String
+  status: String
+}
+
+input MarkNotificationAsReadInput {
+  id: ID!
 }
