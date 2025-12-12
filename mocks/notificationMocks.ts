@@ -1,4 +1,10 @@
+import { MockedResponse } from '@apollo/client/testing';
+
+import { GET_UNREAD_NOTIFICATIONS_COUNT } from '@/graphql/schemas/getUnreadNotificationCount';
+import { GetUnreadNotificationsCountQuery } from '@/graphql/types/client/generated_types';
+
 export const mockNotificationId = 'test-notification-id-1';
+export const mockUnreadNotificationsCount = 2;
 
 export const mockNotification = {
   id: mockNotificationId,
@@ -31,5 +37,17 @@ export const mockedReturnedNotificationsData = {
     },
     total: 2,
     __typename: 'NotificationConnection',
+  },
+};
+
+export const mockUnreadNotificationsCountResponse: MockedResponse<GetUnreadNotificationsCountQuery> = {
+  request: {
+    query: GET_UNREAD_NOTIFICATIONS_COUNT,
+  },
+  result: {
+    data: {
+      getUnreadNotificationCount: mockUnreadNotificationsCount,
+    },
+    errors: [],
   },
 };
