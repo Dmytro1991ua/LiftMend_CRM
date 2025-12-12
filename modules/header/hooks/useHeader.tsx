@@ -3,8 +3,12 @@ import { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import { useSignOut } from '@/shared/auth/hooks';
 import { AppRoutes } from '@/types/enums';
 
+import { useGetUnreadNotificationsCount } from './useGetUnreadNotificationCount';
+
 type UseHeader = {
   isDropdownOpen: boolean;
+  isUnreadNotificationCountLoading: boolean;
+  unreadNotificationCount: number;
   onDropdownClose: () => void;
   onDropdownOpen: () => void;
   onHandleSignOut: () => Promise<void>;
@@ -13,6 +17,7 @@ type UseHeader = {
 
 export const useHeader = (): UseHeader => {
   const { onSignOut } = useSignOut();
+  const { loading: isUnreadNotificationCountLoading, unreadNotificationCount } = useGetUnreadNotificationsCount();
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -32,6 +37,8 @@ export const useHeader = (): UseHeader => {
 
   return {
     isDropdownOpen,
+    isUnreadNotificationCountLoading,
+    unreadNotificationCount,
     onDropdownClose,
     onDropdownOpen,
     onHandleSignOut,

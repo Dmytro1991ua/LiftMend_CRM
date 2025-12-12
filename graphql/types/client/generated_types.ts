@@ -205,6 +205,15 @@ export type ForgotPasswordInput = {
   redirectTo: Scalars['String']['input'];
 };
 
+export type MarkAllNotificationsAsReadResult = {
+  __typename?: 'MarkAllNotificationsAsReadResult';
+  updatedNotificationIds: Maybe<Array<Scalars['String']['output']>>;
+};
+
+export type MarkNotificationAsReadInput = {
+  id: Scalars['ID']['input'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createRepairJobAndEvent: ScheduledEventAndRepairJobResponse;
@@ -213,6 +222,8 @@ export type Mutation = {
   deleteRepairJobAndEvent: DeleteCalendarAndRepairJobResponse;
   deleteTechnicianRecord: DeleteTechnicianRecordResponse;
   forgotPassword: Scalars['Boolean']['output'];
+  markAllNotificationsAsRead: MarkAllNotificationsAsReadResult;
+  markNotificationAsRead: Notification;
   reassignTechnician: RepairJob;
   removeAccount: RemoveAccountResponse;
   resetPassword: AuthResponse;
@@ -251,6 +262,10 @@ export type MutationDeleteTechnicianRecordArgs = {
 
 export type MutationForgotPasswordArgs = {
   input: ForgotPasswordInput;
+};
+
+export type MutationMarkNotificationAsReadArgs = {
+  input: MarkNotificationAsReadInput;
 };
 
 export type MutationReassignTechnicianArgs = {
@@ -301,7 +316,7 @@ export type Node = {
   id: Scalars['ID']['output'];
 };
 
-export type Notification = {
+export type Notification = Node & {
   __typename?: 'Notification';
   /**
    * Type or category of the notification.
@@ -313,7 +328,7 @@ export type Notification = {
    * Timestamp when the notification was created.
    * Might be used for ordering and showing relative time (e.g., '2h ago').
    */
-  createdAt: Scalars['String']['output'];
+  createdAt: Scalars['DateTime']['output'];
   /** Unique identifier for the notification */
   id: Scalars['ID']['output'];
   /** Full text message to display to the user in the UI dropdown or notification panel. */
@@ -328,7 +343,7 @@ export type Notification = {
    * Timestamp when the notification was marked as read.
    * Null if the notification has not been read yet.
    */
-  readAt: Maybe<Scalars['String']['output']>;
+  readAt: Maybe<Scalars['DateTime']['output']>;
   /** Optional ID of the related entity (RepairJob.id) for navigation or reference. */
   relatedEntityId: Maybe<Scalars['String']['output']>;
   /**
@@ -342,6 +357,24 @@ export type Notification = {
    * Currently all users can see all notifications; can be extended for role-based notifications.
    */
   userId: Maybe<Scalars['String']['output']>;
+};
+
+export type NotificationConnection = Connection & {
+  __typename?: 'NotificationConnection';
+  edges: Array<NotificationEdge>;
+  pageInfo: PageInfo;
+  total: Scalars['Int']['output'];
+};
+
+export type NotificationEdge = Edge & {
+  __typename?: 'NotificationEdge';
+  cursor: Scalars['String']['output'];
+  node: Notification;
+};
+
+export type NotificationFilterOptions = {
+  category?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
 };
 
 export const OAuthProvider = {
@@ -399,6 +432,7 @@ export type Query = {
   getElevatorRecordById: ElevatorRecord;
   getElevatorRecordFormData: ElevatorRecordFormData;
   getElevatorRecords: ElevatorRecordConnection;
+  getNotifications: NotificationConnection;
   getRecentRepairJobs: Array<RepairJob>;
   getRepairJobById: RepairJob;
   getRepairJobScheduleData: RepairJobScheduleData;
@@ -406,6 +440,7 @@ export type Query = {
   getTechnicianRecordById: TechnicianRecord;
   getTechnicianRecordFormData: TechnicianRecordFormData;
   getTechnicianRecords: TechnicianRecordConnection;
+  getUnreadNotificationCount: Scalars['Int']['output'];
   getUser: AppUser;
 };
 
@@ -431,6 +466,11 @@ export type QueryGetElevatorRecordsArgs = {
   filterOptions?: InputMaybe<ElevatorRecordFilterOptions>;
   paginationOptions?: InputMaybe<PaginationOptions>;
   sortOptions?: InputMaybe<ElevatorRecordSortInput>;
+};
+
+export type QueryGetNotificationsArgs = {
+  filterOptions?: InputMaybe<NotificationFilterOptions>;
+  paginationOptions?: InputMaybe<PaginationOptions>;
 };
 
 export type QueryGetRecentRepairJobsArgs = {
@@ -1326,6 +1366,10 @@ export type GetTechnicianRecordsQuery = {
     };
   };
 };
+
+export type GetUnreadNotificationsCountQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetUnreadNotificationsCountQuery = { __typename?: 'Query'; getUnreadNotificationCount: number };
 
 export type GetUserQueryVariables = Exact<{
   id: Scalars['ID']['input'];
