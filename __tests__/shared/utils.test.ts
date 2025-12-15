@@ -3,7 +3,14 @@ import { act } from '@testing-library/react';
 import { GraphQLError } from 'graphql';
 
 import { getErrorMessageFromGraphQlErrors, getGraphQLErrorExtensionsMessage } from '@/graphql/utils';
-import { convertYearValueToCorrectFormat, formatDate, logError, onHandleMutationErrors } from '@/shared/utils';
+import { DataLoadStatus } from '@/shared/types';
+import {
+  convertYearValueToCorrectFormat,
+  formatDate,
+  getDerivedDataLoadStatus,
+  logError,
+  onHandleMutationErrors,
+} from '@/shared/utils';
 
 jest.mock('@/graphql/utils');
 
@@ -121,5 +128,25 @@ describe('formatDate', () => {
     it(name, () => {
       expect(formatDate(input.value, input.includeTime, input.isYearFormatLong)).toBe(expected);
     });
+  });
+});
+
+describe('getDerivedDataLoadStatus', () => {
+  it('should return loading table status mode', () => {
+    const result = getDerivedDataLoadStatus(false, true);
+
+    expect(result).toBe(DataLoadStatus.Loading);
+  });
+
+  it('should return empty table status mode', () => {
+    const result = getDerivedDataLoadStatus(true);
+
+    expect(result).toBe(DataLoadStatus.Empty);
+  });
+
+  it('should return error table status mode', () => {
+    const result = getDerivedDataLoadStatus(false, false, 'Error');
+
+    expect(result).toBe(DataLoadStatus.Error);
   });
 });

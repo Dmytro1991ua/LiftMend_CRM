@@ -1,6 +1,6 @@
 import { SectionHeaderTitle } from '@/types/enums';
 
-type SectionHeaderProps = {
+export type SectionHeaderProps = {
   title: SectionHeaderTitle | string;
   subtitle?: string | JSX.Element;
   actionComponent?: React.JSX.Element;

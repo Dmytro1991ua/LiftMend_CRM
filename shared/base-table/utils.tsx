@@ -15,15 +15,7 @@ import {
   DEFAULT_EMPTY_TABLE_MESSAGE,
   DEFAULT_TABLE_ERROR_TITLE,
 } from './constants';
-import { FilterValues, Nullable, RowHighlightInfo, TableFilters, TableState, TableStatus } from './types';
-
-export const getTableStatusMod = (empty: boolean, loading?: boolean, errorMessage?: string): TableState => {
-  if (loading) return TableStatus.Loading;
-  if (errorMessage) return TableStatus.Error;
-  if (empty) return TableStatus.Empty;
-
-  return null;
-};
+import { FilterValues, Nullable, RowHighlightInfo, TableFilters, TableStatus } from './types';
 
 export const getTableStatusContent = (
   emptyTableMessage?: string,

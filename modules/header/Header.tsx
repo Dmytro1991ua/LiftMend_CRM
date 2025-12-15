@@ -21,6 +21,7 @@ const Header = ({ onBurgerIconClick }: HeaderProps) => {
     onDropdownOpen,
     onHandleSignOut,
     onSetIsDropdownOpen,
+    onRedirectToNotificationsPage,
   } = useHeader();
 
   return (
@@ -29,7 +30,11 @@ const Header = ({ onBurgerIconClick }: HeaderProps) => {
         <FaBars className='w-6 h-6 text-gray-700' />
       </button>
       <div className='flex items-center gap-2 ml-auto'>
-        <BellIcon isLoading={isUnreadNotificationCountLoading} unreadNotificationsCount={unreadNotificationCount} />
+        <BellIcon
+          isLoading={isUnreadNotificationCountLoading}
+          unreadNotificationsCount={unreadNotificationCount}
+          onClick={onRedirectToNotificationsPage}
+        />
         <UserMenu
           isLoading={userLoading}
           isOpen={isDropdownOpen}
