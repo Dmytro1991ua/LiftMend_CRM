@@ -38,6 +38,12 @@ export enum FormFieldLabel {
   Certifications = 'Certifications',
 }
 
+export enum DataLoadStatus {
+  Loading = 'loading',
+  Error = 'error',
+  Empty = 'empty',
+}
+
 export type CalendarEventInfoPayload = {
   elevatorType: string;
   buildingName: string;
@@ -107,6 +113,18 @@ export type TechnicianRecord = {
   performanceMetrics?: Maybe<TechnicianPerformanceMetrics>;
 };
 
+export type Notification = {
+  id: string;
+  userId: string | null;
+  category: string;
+  relatedEntityId: string | null;
+  message: string;
+  priority: string;
+  status: string;
+  createdAt: Date;
+  readAt: Maybe<Date>;
+};
+
 export type TableModel = RepairJob & ElevatorRecord & TechnicianRecord;
 export type TableValue = string | Date | string[] | Maybe<string> | unknown;
 
@@ -117,3 +135,5 @@ export type ColumnsValueAccessors = {
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: React.ReactElement) => React.ReactNode;
 };
+
+export type DataLoadStatusView = Record<DataLoadStatus, JSX.Element>;

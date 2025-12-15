@@ -44,8 +44,6 @@ export type FilterType = 'checkbox' | 'radio';
 
 export type Nullable<T> = T | null;
 
-export type TableState = 'empty' | 'error' | 'loading' | null;
-
 export type RowSelectionState = Record<number, boolean>;
 
 export type FilterValues = {

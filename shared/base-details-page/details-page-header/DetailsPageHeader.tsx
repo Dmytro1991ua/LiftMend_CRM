@@ -1,10 +1,7 @@
-import { useCallback } from 'react';
-
-import { useRouter } from 'next/router';
-import { IoMdArrowRoundBack } from 'react-icons/io';
 import { Audio } from 'react-loader-spinner';
 
 import { Button } from '@/components/ui/button';
+import GoBackButton from '@/shared/base-button/go-back-button';
 import BaseTooltip from '@/shared/base-tooltip/BaseTooltip';
 import SectionHeader from '@/shared/section-header';
 
@@ -18,18 +15,6 @@ export type DetailsPageHeaderProps = {
 };
 
 const DetailsPageHeader = ({ loading, description, title, actionButtonsConfig }: DetailsPageHeaderProps) => {
-  const router = useRouter();
-
-  const onHandleGoBack = useCallback(() => {
-    router.back();
-  }, [router]);
-
-  const renderGoBackButton = (
-    <Button data-testid='go-back-button' variant='default' onClick={onHandleGoBack}>
-      <IoMdArrowRoundBack size={20} />
-    </Button>
-  );
-
   const renderActionButtons = (
     <div className='flex gap-2'>
       {actionButtonsConfig.map(({ id, label, icon, variant, tooltipData, isDisabled, onClick }) => (
@@ -38,7 +23,8 @@ const DetailsPageHeader = ({ loading, description, title, actionButtonsConfig }:
           className={tooltipData?.className}
           disable={!tooltipData?.disable}
           id={tooltipData?.id ?? ''}
-          message={tooltipData?.message ?? ''}>
+          message={tooltipData?.message ?? ''}
+        >
           <Button disabled={isDisabled} variant={variant} onClick={onClick}>
             {icon}
             <span className='ml-2'>{label}</span>
@@ -55,7 +41,7 @@ const DetailsPageHeader = ({ loading, description, title, actionButtonsConfig }:
       ) : (
         <SectionHeader
           actionComponent={renderActionButtons}
-          goBackButton={renderGoBackButton}
+          goBackButton={<GoBackButton />}
           subtitle={description}
           title={title}
         />

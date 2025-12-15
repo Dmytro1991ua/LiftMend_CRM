@@ -4,7 +4,7 @@ import getResolverToTest, { TestResolver } from '@/mocks/gql/getResolverToTest';
 import createDataSourcesMock from '@/mocks/gql/mockedDataSources';
 import { repairJobServicePrismaMock } from '@/mocks/gql/prismaMocks';
 import { userServiceSupabaseMock } from '@/mocks/gql/supabaseMocks';
-import { mockNotification, mockNotificationId } from '@/mocks/notificationMocks';
+import { mockUpcomingNotification, mockUpcomingNotificationId } from '@/mocks/notificationMocks';
 import {
   mockCalendarEvent,
   mockCalendarEventId,
@@ -796,18 +796,18 @@ describe('Mutation', () => {
   describe('markNotificationAsRead', () => {
     it('should mark specific notification as read', async () => {
       const mockResponse = {
-        ...mockNotification,
-        id: mockNotificationId,
+        ...mockUpcomingNotification,
+        id: mockUpcomingNotificationId,
         status: 'Read',
         readAt: new Date(),
-        createdAt: new Date(mockNotification.createdAt),
+        createdAt: new Date(mockUpcomingNotification.createdAt),
       };
 
       mockDataSources.notification.markAsRead.mockResolvedValueOnce(mockResponse);
 
-      const result = await markNotificationAsReadResolver({}, { input: { id: mockNotificationId } });
+      const result = await markNotificationAsReadResolver({}, { input: { id: mockUpcomingNotificationId } });
 
-      expect(mockDataSources.notification.markAsRead).toHaveBeenCalledWith(mockNotificationId);
+      expect(mockDataSources.notification.markAsRead).toHaveBeenCalledWith(mockUpcomingNotificationId);
       expect(result).toEqual(mockResponse);
     });
 
@@ -816,7 +816,7 @@ describe('Mutation', () => {
 
       mockDataSources.notification.markAsRead.mockRejectedValueOnce(new Error(mockError));
 
-      await expect(markNotificationAsReadResolver({}, { input: { id: mockNotificationId } })).rejects.toThrow(
+      await expect(markNotificationAsReadResolver({}, { input: { id: mockUpcomingNotificationId } })).rejects.toThrow(
         mockError
       );
     });

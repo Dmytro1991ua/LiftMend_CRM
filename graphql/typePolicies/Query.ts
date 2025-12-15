@@ -1,6 +1,7 @@
 import {
   ELEVATOR_MAINTENANCE_HISTORY_KEY_FIELDS,
   ELEVATOR_RECORD_KEY_FIELDS,
+  NOTIFICATIONS_KEY_FIELDS,
   REPAIR_JOB_KEY_FIELDS,
   TECHNICIAN_RECORD_KEY_FIELDS,
 } from '../constants';
@@ -12,5 +13,6 @@ export const Query = {
     getElevatorRecords: concatPaginationWithEdges(ELEVATOR_RECORD_KEY_FIELDS),
     getTechnicianRecords: concatPaginationWithEdges(TECHNICIAN_RECORD_KEY_FIELDS),
     getElevatorMaintenanceHistory: concatPaginationWithEdges(ELEVATOR_MAINTENANCE_HISTORY_KEY_FIELDS),
+    getNotifications: concatPaginationWithEdges(NOTIFICATIONS_KEY_FIELDS),
   },
 };

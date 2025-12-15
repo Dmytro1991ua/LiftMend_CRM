@@ -99,3 +99,5 @@ export const ELEVATOR_MAINTENANCE_INTERVALS: Record<string, number> = {
   'Hospital Elevator': 3,
   'Elevator Stretcher': 3,
 };
+
+export const DEFAULT_DATA_LOAD_STATUS_ERROR_TITLE = 'Error occurred!';

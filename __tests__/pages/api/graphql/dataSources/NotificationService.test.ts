@@ -1,6 +1,6 @@
 import { QueryGetNotificationsArgs } from '@/graphql/types/server/generated_types';
 import { notificationServicePrismaMock } from '@/mocks/gql/prismaMocks';
-import { mockNotification, mockNotificationId } from '@/mocks/notificationMocks';
+import { mockUpcomingNotification, mockUpcomingNotificationId } from '@/mocks/notificationMocks';
 import { DEFAULT_SORTING_OPTION } from '@/pages/api/graphql/dataSources/constants';
 import NotificationService from '@/pages/api/graphql/dataSources/NotificationService';
 import { createNotificationFilterOptions, makeConnectionObject } from '@/pages/api/graphql/utils/utils';
@@ -27,9 +27,9 @@ describe('NotificationService', () => {
     const mockFilters = { status: 'Urgent' };
     const mockOrderBy = { createdAt: DEFAULT_SORTING_OPTION };
     const mockNotifications = [
-      mockNotification,
+      mockUpcomingNotification,
       {
-        ...mockNotification,
+        ...mockUpcomingNotification,
         id: 'test-notification-id-2',
         message: 'test-message',
         priority: 'Hight',
@@ -90,14 +90,14 @@ describe('NotificationService', () => {
 
   describe('markAsRead', () => {
     it('should mark a specific notification as marked', async () => {
-      const mockResult = { ...mockNotification, status: 'Read', readAt: new Date() };
+      const mockResult = { ...mockUpcomingNotification, status: 'Read', readAt: new Date() };
 
       (notificationServicePrismaMock.notification.update as jest.Mock).mockResolvedValue(mockResult);
 
-      const result = await notificationService.markAsRead(mockNotificationId);
+      const result = await notificationService.markAsRead(mockUpcomingNotificationId);
 
       expect(notificationServicePrismaMock.notification.update).toHaveBeenCalledWith({
-        where: { id: mockNotificationId },
+        where: { id: mockUpcomingNotificationId },
         data: {
           status: 'Read',
           readAt: expect.any(Date),

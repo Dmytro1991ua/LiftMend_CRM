@@ -4,9 +4,10 @@ import { Row, flexRender } from '@tanstack/react-table';
 
 import { TableBody, TableCell, TableRow } from '@/components/ui/table';
 import { cn } from '@/lib/utils';
+import { getDerivedDataLoadStatus } from '@/shared/utils';
 
 import { RowHighlightInfo } from '../types';
-import { getTableStatusContent, getTableStatusMod } from '../utils';
+import { getTableStatusContent } from '../utils';
 
 type BaseTableBodyProps<T> = {
   tableRows: Row<T>[];
@@ -35,7 +36,7 @@ const BaseTableBody = <T,>({
 }: BaseTableBodyProps<T>): React.JSX.Element => {
   const isTableEmpty = tableRows?.length === 0;
 
-  const currentTableStatus = getTableStatusMod(isTableEmpty, loading, errorMessage);
+  const currentTableStatus = getDerivedDataLoadStatus(isTableEmpty, loading, errorMessage);
 
   const tableStatusContent = useMemo(
     () => getTableStatusContent(emptyTableMessage, errorMessage),
@@ -67,13 +68,15 @@ const BaseTableBody = <T,>({
 
               if (isRowDisabled && !isRowDisabled(row.original)) onHandleRowClick(row);
             }}
-            onMouseDown={(e) => e.stopPropagation()}>
+            onMouseDown={(e) => e.stopPropagation()}
+          >
             {row.getVisibleCells().map((cell) => (
               <TableCell
                 key={cell.id}
                 style={{
                   width: `calc(var(--col-${cell.column.id}-size) * 1px)`,
-                }}>
+                }}
+              >
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </TableCell>
             ))}

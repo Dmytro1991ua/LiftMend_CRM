@@ -13,6 +13,7 @@ export enum AppRoutes {
   ForgotPassword = '/forgot-password',
   ResetPassword = '/reset-password',
   SignOut = '/signout',
+  Notifications = '/notifications',
 }
 
 export enum SectionHeaderTitle {

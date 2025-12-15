@@ -1,13 +1,16 @@
+import { FetchResult } from '@apollo/client';
 import { MockedResponse } from '@apollo/client/testing';
 
+import { GET_NOTIFICATIONS } from '@/graphql/schemas/getNotifications';
 import { GET_UNREAD_NOTIFICATIONS_COUNT } from '@/graphql/schemas/getUnreadNotificationCount';
-import { GetUnreadNotificationsCountQuery } from '@/graphql/types/client/generated_types';
+import { GetNotificationsQuery, GetUnreadNotificationsCountQuery } from '@/graphql/types/client/generated_types';
 
-export const mockNotificationId = 'test-notification-id-1';
+export const mockUpcomingNotificationId = 'test-notification-id-1';
+export const mockUrgentNotificationId = 'test-notification-id-2';
 export const mockUnreadNotificationsCount = 2;
 
-export const mockNotification = {
-  id: mockNotificationId,
+export const mockUpcomingNotification = {
+  id: mockUpcomingNotificationId,
   userId: null,
   category: 'Upcoming',
   relatedEntityId: '5121c978-c4a2-4e65-be09-676724ea16de',
@@ -19,25 +22,64 @@ export const mockNotification = {
   readAt: null,
 };
 
+export const mockUrgentNotification = {
+  id: mockUrgentNotificationId,
+  userId: null,
+  category: 'Urgent',
+  relatedEntityId: 'test-id-1',
+  message: 'Test Urgent Message',
+  priority: 'Hight',
+  status: 'Unread',
+  createdAt: '2025-10-10T19:00:02.535Z',
+  readAt: null,
+};
+
 export const mockedReturnedNotificationsData = {
   getNotifications: {
     edges: [
       {
-        cursor: mockNotificationId,
-        node: { ...mockNotification, __typename: 'Notification' },
+        cursor: mockUpcomingNotificationId,
+        node: { ...mockUpcomingNotification, __typename: 'Notification' },
         __typename: 'NotificationEdge',
       },
     ],
     pageInfo: {
-      hasNextPage: false,
+      hasNextPage: true,
       hasPreviousPage: false,
-      startCursor: mockNotificationId,
-      endCursor: mockNotificationId,
+      startCursor: mockUpcomingNotificationId,
+      endCursor: mockUpcomingNotificationId,
       __typename: 'PageInfo',
     },
-    total: 2,
+    total: 1,
     __typename: 'NotificationConnection',
   },
+};
+
+export const mockNotificationsPaginatedResponse: FetchResult<GetNotificationsQuery> = {
+  data: {
+    getNotifications: {
+      edges: [
+        {
+          cursor: mockUrgentNotificationId,
+          node: { ...mockUrgentNotification, __typename: 'Notification' },
+          __typename: 'NotificationEdge',
+        },
+      ],
+      pageInfo: {
+        hasNextPage: false,
+        hasPreviousPage: true,
+        startCursor: mockUpcomingNotificationId,
+        endCursor: mockUrgentNotificationId,
+        __typename: 'PageInfo',
+      },
+      total: 1,
+      __typename: 'NotificationConnection',
+    },
+  },
+};
+
+export const mockNotificationsResponse: FetchResult<GetNotificationsQuery> = {
+  data: { ...(mockedReturnedNotificationsData as GetNotificationsQuery) },
 };
 
 export const mockUnreadNotificationsCountResponse: MockedResponse<GetUnreadNotificationsCountQuery> = {
@@ -51,3 +93,36 @@ export const mockUnreadNotificationsCountResponse: MockedResponse<GetUnreadNotif
     errors: [],
   },
 };
+
+export const mockNotifications: MockedResponse<GetNotificationsQuery> = {
+  request: {
+    query: GET_NOTIFICATIONS,
+    variables: {
+      paginationOptions: {
+        limit: 20,
+        offset: 0,
+      },
+    },
+  },
+  result: {
+    ...mockNotificationsResponse,
+  },
+};
+
+export const mockPaginatedNotifications: MockedResponse<GetNotificationsQuery>[] = [
+  mockNotifications,
+  {
+    request: {
+      query: GET_NOTIFICATIONS,
+      variables: {
+        paginationOptions: {
+          limit: 20,
+          offset: 1,
+        },
+      },
+    },
+    result: {
+      ...mockNotificationsPaginatedResponse,
+    },
+  },
+];

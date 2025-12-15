@@ -5,7 +5,7 @@ import { isEqual as _isEqual } from 'lodash';
 import { getErrorMessageFromGraphQlErrors, getGraphQLErrorExtensionsMessage } from '@/graphql/utils';
 import { ActiveRoute } from '@/types/type';
 
-import { CalendarEventInfo, CalendarEventInfoPayload, ElevatorRecord } from './types';
+import { CalendarEventInfo, CalendarEventInfoPayload, DataLoadStatus, ElevatorRecord } from './types';
 
 export const getCommonFormLabelErrorStyles = (hasError: boolean): string =>
   `text-sm font-bold ${hasError ? 'text-red-400' : ''}`;
@@ -150,4 +150,16 @@ export const formatDate = (value: Date, includeTime = true, isYearFormatLong = f
       year: convertYearValueToCorrectFormat(isYearFormatLong),
     },
   });
+};
+
+export const getDerivedDataLoadStatus = (
+  empty: boolean,
+  loading?: boolean,
+  errorMessage?: string
+): DataLoadStatus | null => {
+  if (loading) return DataLoadStatus.Loading;
+  if (errorMessage) return DataLoadStatus.Error;
+  if (empty) return DataLoadStatus.Empty;
+
+  return null;
 };

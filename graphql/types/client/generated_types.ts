@@ -788,6 +788,19 @@ export type ElevatorRecordFieldsFragment = {
   healthScore: number | null;
 };
 
+export type NotificationFieldsFragment = {
+  __typename?: 'Notification';
+  id: string;
+  userId: string | null;
+  category: string;
+  relatedEntityId: string | null;
+  message: string;
+  priority: string;
+  status: string;
+  createdAt: any;
+  readAt: any | null;
+};
+
 export type RepairJobFieldsFragment = {
   __typename?: 'RepairJob';
   id: string;
@@ -1152,6 +1165,42 @@ export type GetElevatorRecordsQuery = {
         status: string;
         lastKnownStatus: string | null;
         healthScore: number | null;
+      };
+    }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor: string | null;
+      endCursor: string | null;
+    };
+  };
+};
+
+export type GetNotificationsQueryVariables = Exact<{
+  paginationOptions?: InputMaybe<PaginationOptions>;
+  filterOptions?: InputMaybe<NotificationFilterOptions>;
+}>;
+
+export type GetNotificationsQuery = {
+  __typename?: 'Query';
+  getNotifications: {
+    __typename?: 'NotificationConnection';
+    total: number;
+    edges: Array<{
+      __typename?: 'NotificationEdge';
+      cursor: string;
+      node: {
+        __typename?: 'Notification';
+        id: string;
+        userId: string | null;
+        category: string;
+        relatedEntityId: string | null;
+        message: string;
+        priority: string;
+        status: string;
+        createdAt: any;
+        readAt: any | null;
       };
     }>;
     pageInfo: {
