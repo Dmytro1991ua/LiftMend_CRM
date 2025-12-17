@@ -6,3 +6,10 @@ export const UNREAD_NOTIFICATION_STYLES: Record<string, string> = {
   Upcoming: 'border-blue-500 bg-blue-50 text-blue-800',
   Urgent: 'border-yellow-500 bg-yellow-50 text-yellow-800',
 };
+export const MARK_NOTIFICATION_AS_READ_ERROR_MESSAGE = 'Failed to mark notification as read';
+export const DEFAULT_BADGE_STYLE = 'bg-gray-200 text-gray-600';
+export const NOTIFICATION_BADGE_STYLES: Record<string, string> = {
+  Overdue: 'bg-red-100 text-red-700',
+  Upcoming: 'bg-blue-100 text-blue-700',
+  Urgent: 'bg-yellow-100 text-yellow-800',
+};
