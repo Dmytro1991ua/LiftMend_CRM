@@ -1,9 +1,15 @@
 import { FetchResult } from '@apollo/client';
 import { MockedResponse } from '@apollo/client/testing';
+import { GraphQLError } from 'graphql';
 
 import { GET_NOTIFICATIONS } from '@/graphql/schemas/getNotifications';
 import { GET_UNREAD_NOTIFICATIONS_COUNT } from '@/graphql/schemas/getUnreadNotificationCount';
-import { GetNotificationsQuery, GetUnreadNotificationsCountQuery } from '@/graphql/types/client/generated_types';
+import { MARK_NOTIFICATION_AS_READ } from '@/graphql/schemas/markNotificationAsRead';
+import {
+  GetNotificationsQuery,
+  GetUnreadNotificationsCountQuery,
+  MarkNotificationAsReadMutation,
+} from '@/graphql/types/client/generated_types';
 
 export const mockUpcomingNotificationId = 'test-notification-id-1';
 export const mockUrgentNotificationId = 'test-notification-id-2';
@@ -126,3 +132,54 @@ export const mockPaginatedNotifications: MockedResponse<GetNotificationsQuery>[]
     },
   },
 ];
+
+export const mockMarkNotificationAsReadResponse: MockedResponse<MarkNotificationAsReadMutation> = {
+  request: {
+    query: MARK_NOTIFICATION_AS_READ,
+    variables: {
+      input: {
+        id: mockUrgentNotification.id,
+      },
+    },
+  },
+  result: {
+    data: {
+      markNotificationAsRead: {
+        ...mockUrgentNotification,
+        status: 'Read',
+        __typename: 'Notification',
+      },
+    },
+    errors: [],
+  },
+};
+
+export const mockMarkNotificationAsReadGQLErrorResponse: MockedResponse<MarkNotificationAsReadMutation> = {
+  request: {
+    query: MARK_NOTIFICATION_AS_READ,
+    variables: {
+      input: {
+        id: mockUrgentNotification.id,
+      },
+    },
+  },
+  result: {
+    data: undefined,
+    errors: [new GraphQLError('Test error')],
+  },
+};
+
+export const mockMarkNotificationAsReadNetworkErrorResponse = {
+  request: {
+    query: MARK_NOTIFICATION_AS_READ,
+    variables: {
+      input: {
+        id: mockUrgentNotification.id,
+      },
+    },
+  },
+  result: {
+    data: undefined,
+    error: new Error('Error occurs'),
+  },
+};

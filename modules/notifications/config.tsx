@@ -25,7 +25,6 @@ export const getNotificationsLoadStatusView = ({
       />
     </div>
   ),
-
   [DataLoadStatus.Empty]: (
     <p className='flex flex-col items-center justify-center h-dvh text-center text-gray-500 text-xl font-bold'>
       {DEFAULT_EMPTY_NOTIFICATION_PAGE_MESSAGE}

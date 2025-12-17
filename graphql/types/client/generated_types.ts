@@ -1446,6 +1446,26 @@ export type LoginUserMutationVariables = Exact<{
 
 export type LoginUserMutation = { __typename?: 'Mutation'; signIn: { __typename?: 'AuthResponse'; id: string } };
 
+export type MarkNotificationAsReadMutationVariables = Exact<{
+  input: MarkNotificationAsReadInput;
+}>;
+
+export type MarkNotificationAsReadMutation = {
+  __typename?: 'Mutation';
+  markNotificationAsRead: {
+    __typename?: 'Notification';
+    id: string;
+    userId: string | null;
+    category: string;
+    relatedEntityId: string | null;
+    message: string;
+    priority: string;
+    status: string;
+    createdAt: any;
+    readAt: any | null;
+  };
+};
+
 export type ReassignTechnicianMutationVariables = Exact<{
   input: UpdateRepairJobInput;
 }>;

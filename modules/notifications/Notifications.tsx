@@ -9,8 +9,8 @@ import SectionHeader from '@/shared/section-header';
 import { getDerivedDataLoadStatus } from '@/shared/utils';
 
 import { getNotificationsLoadStatusView } from './config';
-import { DEFAULT_EMPTY_NOTIFICATION_PAGE_MESSAGE } from './constants';
 import { useGetNotifications } from './hooks';
+import { useMarkNotificationAsRead } from './hooks/useMarkNotificationAsRead';
 import NotificationItem from './notification-item';
 
 const Notifications = () => {
@@ -18,9 +18,6 @@ const Notifications = () => {
     useGetNotifications();
 
   const notificationsLoadStatus = getDerivedDataLoadStatus(isNotificationsEmpty, isInitialLoading, error);
-  {
-    DEFAULT_EMPTY_NOTIFICATION_PAGE_MESSAGE;
-  }
   const notificationsLoadStatusView = useMemo(() => getNotificationsLoadStatusView({ errorMessage: error }), [error]);
 
   if (notificationsLoadStatus) {

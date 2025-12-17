@@ -70,10 +70,15 @@ const config: Config = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' },
         },
+        wiggle: {
+          '0%, 100%': { transform: 'rotate(-10deg)' },
+          '50%': { transform: 'rotate(10deg)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        wiggle: 'wiggle 0.9s ease-in-out infinite',
       },
       spacing: () => ({
         ...Array.from({ length: 96 }, (_, index) => index * 0.5)
