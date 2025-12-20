@@ -17,6 +17,7 @@ const ElevatorInformation = () => {
   const { clearErrors, watch } = useFormContext<RepairJobFromFields>();
 
   const buildingName = watch('elevatorInformation.buildingName');
+  const selectedElevatorType = watch('elevatorInformation.elevatorType');
 
   const {
     dropdownOptions: { buildingNames },
@@ -29,6 +30,7 @@ const ElevatorInformation = () => {
     skip: !buildingName,
     variables: {
       buildingName,
+      selectedElevatorType,
     },
   });
 

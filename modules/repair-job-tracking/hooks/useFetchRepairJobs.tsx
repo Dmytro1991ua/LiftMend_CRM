@@ -11,6 +11,7 @@ import {
   DEFAULT_PAGINATION,
   DEFAULT_PAGINATION_LIMIT,
   DEFAULT_PAGINATION_OFFSET,
+  DEFAULT_QUERY_POLL_INTERVAL,
   TABLE_STATE_STORAGE_KEY,
 } from '@/shared/constants';
 import useStoredTableState from '@/shared/storage/hooks';
@@ -18,7 +19,7 @@ import { TableStorageState } from '@/shared/storage/hooks/useStoredState';
 import { RepairJob, StorageTableName } from '@/shared/types';
 import { getItemsFromQuery, removeTypeNamesFromArray } from '@/shared/utils';
 
-import { REPAIR_JOBS_POLL_INTERVAL, REPAIR_JOBS_TABLE_FILTER_KEY_MAP } from './constants';
+import { REPAIR_JOBS_TABLE_FILTER_KEY_MAP } from './constants';
 
 export type UseFetchRepairJobs<T> = {
   repairJobs: RepairJob[];
@@ -69,7 +70,7 @@ const useFetchRepairJobs = <T,>(): UseFetchRepairJobs<T> => {
     {
       variables,
       notifyOnNetworkStatusChange: true,
-      pollInterval: REPAIR_JOBS_POLL_INTERVAL,
+      pollInterval: DEFAULT_QUERY_POLL_INTERVAL,
     }
   );
 

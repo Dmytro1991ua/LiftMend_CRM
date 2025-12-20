@@ -7,6 +7,7 @@ export const UNREAD_NOTIFICATION_STYLES: Record<string, string> = {
   Urgent: 'border-yellow-500 bg-yellow-50 text-yellow-800',
 };
 export const MARK_NOTIFICATION_AS_READ_ERROR_MESSAGE = 'Failed to mark notification as read';
+export const MARK_ALL_NOTIFICATIONS_AS_READ_ERROR_MESSAGE = 'Failed to mark all notification as read';
 export const DEFAULT_BADGE_STYLE = 'bg-gray-200 text-gray-600';
 export const NOTIFICATION_BADGE_STYLES: Record<string, string> = {
   Overdue: 'bg-red-100 text-red-700',

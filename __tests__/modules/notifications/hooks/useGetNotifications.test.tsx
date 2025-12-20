@@ -46,6 +46,10 @@ describe('useGetNotifications', () => {
     await waitForNextUpdate();
 
     expect(result.current.notifications).toEqual([{ items: [mockUpcomingNotification], label: '10 December' }]);
+    expect(result.current.isInitialLoading).toBe(false);
+    expect(result.current.isNotificationsEmpty).toBe(false);
+    expect(result.current.totalNotificationsLength).toEqual(1);
+    expect(result.current.areAllNotificationsRead).toBe(false);
   });
 
   it('should fetch next page when onNext is triggered', async () => {

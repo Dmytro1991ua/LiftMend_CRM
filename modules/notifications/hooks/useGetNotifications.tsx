@@ -4,7 +4,12 @@ import { useQuery } from '@apollo/client';
 
 import { GET_NOTIFICATIONS } from '@/graphql/schemas/getNotifications';
 import { GetNotificationsQuery } from '@/graphql/types/client/generated_types';
-import { DEFAULT_PAGINATION, DEFAULT_PAGINATION_LIMIT, DEFAULT_PAGINATION_OFFSET } from '@/shared/constants';
+import {
+  DEFAULT_PAGINATION,
+  DEFAULT_PAGINATION_LIMIT,
+  DEFAULT_PAGINATION_OFFSET,
+  DEFAULT_QUERY_POLL_INTERVAL,
+} from '@/shared/constants';
 import { Notification } from '@/shared/types';
 import { getItemsFromQuery, removeTypeNamesFromArray } from '@/shared/utils';
 
@@ -18,6 +23,7 @@ export type UseGetNotifications = {
   hasMore: boolean;
   error?: string;
   totalNotificationsLength: number;
+  areAllNotificationsRead: boolean;
   onNext: () => Promise<void>;
 };
 export const useGetNotifications = () => {
@@ -26,6 +32,7 @@ export const useGetNotifications = () => {
       paginationOptions: DEFAULT_PAGINATION,
     },
     notifyOnNetworkStatusChange: true,
+    pollInterval: DEFAULT_QUERY_POLL_INTERVAL,
   });
 
   const notifications = useMemo(() => {
@@ -37,6 +44,7 @@ export const useGetNotifications = () => {
   const hasMore = !!data?.getNotifications?.pageInfo?.hasNextPage;
   const isInitialLoading = loading && notifications.length === 0;
   const isNotificationsEmpty = !loading && notifications.length === 0;
+  const areAllNotificationsRead = notifications.flatMap(({ items }) => items).every(({ status }) => status === 'Read');
 
   const totalNotificationsLength = notifications.reduce((sum, { items }) => sum + items.length, 0);
 
@@ -62,6 +70,7 @@ export const useGetNotifications = () => {
     isNotificationsEmpty,
     hasMore,
     totalNotificationsLength,
+    areAllNotificationsRead,
     error: error?.message,
     onNext,
   };

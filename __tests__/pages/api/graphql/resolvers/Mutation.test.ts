@@ -88,6 +88,17 @@ describe('Mutation', () => {
   });
 
   describe('createRepairJobAndEvent', () => {
+    beforeEach(() => {
+      mockDataSources.elevatorRecord.findElevatorRecordByRepairJob.mockResolvedValue({
+        ...mockElevatorRecord,
+        id: mockElevatorId,
+      });
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
     it('should successfully create a repair job and event', async () => {
       mockDataSources.repairJob.createRepairJob.mockResolvedValue(mockRepairJob);
       mockDataSources.repairJob.updateRepairJobWithCalendarEventId.mockResolvedValue(mockRepairJob);

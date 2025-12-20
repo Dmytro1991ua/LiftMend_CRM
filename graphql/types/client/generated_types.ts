@@ -451,6 +451,7 @@ export type QueryGetDashboardMetricsArgs = {
 
 export type QueryGetElevatorDetailsByBuildingNameArgs = {
   buildingName: Scalars['String']['input'];
+  selectedElevatorType?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type QueryGetElevatorMaintenanceHistoryArgs = {
@@ -1051,6 +1052,7 @@ export type GetDashboardMetricsQuery = {
 
 export type GetElevatorDetailsByBuildingNameQueryVariables = Exact<{
   buildingName: Scalars['String']['input'];
+  selectedElevatorType?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 export type GetElevatorDetailsByBuildingNameQuery = {
@@ -1445,6 +1447,16 @@ export type LoginUserMutationVariables = Exact<{
 }>;
 
 export type LoginUserMutation = { __typename?: 'Mutation'; signIn: { __typename?: 'AuthResponse'; id: string } };
+
+export type MarkAllNotificationsAsReadMutationVariables = Exact<{ [key: string]: never }>;
+
+export type MarkAllNotificationsAsReadMutation = {
+  __typename?: 'Mutation';
+  markAllNotificationsAsRead: {
+    __typename?: 'MarkAllNotificationsAsReadResult';
+    updatedNotificationIds: Array<string> | null;
+  };
+};
 
 export type MarkNotificationAsReadMutationVariables = Exact<{
   input: MarkNotificationAsReadInput;

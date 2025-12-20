@@ -8,6 +8,7 @@ import { MARK_NOTIFICATION_AS_READ } from '@/graphql/schemas/markNotificationAsR
 import {
   GetNotificationsQuery,
   GetUnreadNotificationsCountQuery,
+  MarkAllNotificationsAsReadMutation,
   MarkNotificationAsReadMutation,
 } from '@/graphql/types/client/generated_types';
 
@@ -177,6 +178,41 @@ export const mockMarkNotificationAsReadNetworkErrorResponse = {
         id: mockUrgentNotification.id,
       },
     },
+  },
+  result: {
+    data: undefined,
+    error: new Error('Error occurs'),
+  },
+};
+
+export const mockMarkAllNotificationsAsReadResponse: MockedResponse<MarkAllNotificationsAsReadMutation> = {
+  request: {
+    query: MARK_NOTIFICATION_AS_READ,
+  },
+  result: {
+    data: {
+      markAllNotificationsAsRead: {
+        updatedNotificationIds: [mockUrgentNotificationId, mockUpcomingNotificationId],
+        __typename: 'MarkAllNotificationsAsReadResult',
+      },
+    },
+    errors: [],
+  },
+};
+
+export const mockMarkAllNotificationsAsReadGQLErrorResponse: MockedResponse<MarkAllNotificationsAsReadMutation> = {
+  request: {
+    query: MARK_NOTIFICATION_AS_READ,
+  },
+  result: {
+    data: undefined,
+    errors: [new GraphQLError('Test error')],
+  },
+};
+
+export const mockMarkAllNotificationsAsReadNetworkErrorResponse = {
+  request: {
+    query: MARK_NOTIFICATION_AS_READ,
   },
   result: {
     data: undefined,
