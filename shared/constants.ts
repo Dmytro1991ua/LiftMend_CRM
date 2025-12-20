@@ -101,3 +101,4 @@ export const ELEVATOR_MAINTENANCE_INTERVALS: Record<string, number> = {
 };
 
 export const DEFAULT_DATA_LOAD_STATUS_ERROR_TITLE = 'Error occurred!';
+export const DEFAULT_QUERY_POLL_INTERVAL = 60 * 60 * 1000; // 1 hour

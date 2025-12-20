@@ -22,7 +22,7 @@ type Query {
   getTechnicianRecordFormData: TechnicianRecordFormData!
   getTechnicianRecordById(id: ID!): TechnicianRecord!
   getAvailableTechniciansForAssignment: [TechnicianRecord!]!
-  getElevatorDetailsByBuildingName(buildingName: String!): ElevatorDetails!
+  getElevatorDetailsByBuildingName(buildingName: String!, selectedElevatorType: String): ElevatorDetails!
   getDashboardMetrics(startDate: String!, endDate: String!): DashboardMetrics!
   getUser(id: ID!): AppUser!
   getRecentRepairJobs(jobsCount: Int): [RepairJob!]!

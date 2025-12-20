@@ -27,7 +27,7 @@ const NotificationItem = ({ notification }: NotificationItemProps) => {
     : DEFAULT_BADGE_STYLE;
 
   const onMarkAsRed = useCallback(
-    () => onMarkNotificationAsRead(notification.id, isNotificationUnread),
+    async () => await onMarkNotificationAsRead(notification.id, isNotificationUnread),
     [notification.id, isNotificationUnread, onMarkNotificationAsRead]
   );
 

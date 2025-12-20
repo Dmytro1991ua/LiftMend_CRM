@@ -53,6 +53,7 @@ describe('Notifications', () => {
       totalNotificationsLength: 0,
       error: undefined,
       onNext: jest.fn(),
+      areAllNotificationsRead: false,
     });
 
     mockGetNotificationsLoadStatusView.mockReturnValue({
@@ -77,6 +78,7 @@ describe('Notifications', () => {
       totalNotificationsLength: 0,
       error: undefined,
       onNext: jest.fn(),
+      areAllNotificationsRead: false,
     });
 
     render(<Notifications />);
@@ -93,6 +95,7 @@ describe('Notifications', () => {
       totalNotificationsLength: 0,
       error: 'Error',
       onNext: jest.fn(),
+      areAllNotificationsRead: false,
     });
 
     render(<Notifications />);
@@ -114,6 +117,7 @@ describe('Notifications', () => {
       totalNotificationsLength: 1,
       error: undefined,
       onNext: jest.fn(),
+      areAllNotificationsRead: false,
     });
 
     render(<Notifications />);

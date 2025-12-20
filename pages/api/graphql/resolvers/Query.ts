@@ -32,8 +32,8 @@ const Query: QueryResolvers = {
 
     return repairJob as RepairJob;
   },
-  getElevatorDetailsByBuildingName: async (_, { buildingName }, { dataSources }) => {
-    return await dataSources.repairJob.getElevatorDetailsByBuildingName(buildingName);
+  getElevatorDetailsByBuildingName: async (_, { buildingName, selectedElevatorType }, { dataSources }) => {
+    return await dataSources.repairJob.getElevatorDetailsByBuildingName(buildingName, selectedElevatorType);
   },
   getElevatorRecordFormData: async (_, __, { dataSources }): Promise<ElevatorRecordFormData> => {
     return await dataSources.elevatorRecord.getElevatorRecordFormData();

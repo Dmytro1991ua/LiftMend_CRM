@@ -452,6 +452,7 @@ export type QueryGetDashboardMetricsArgs = {
 
 export type QueryGetElevatorDetailsByBuildingNameArgs = {
   buildingName: Scalars['String']['input'];
+  selectedElevatorType?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type QueryGetElevatorMaintenanceHistoryArgs = {

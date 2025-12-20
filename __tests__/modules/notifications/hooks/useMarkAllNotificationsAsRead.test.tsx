@@ -4,18 +4,15 @@ import { RenderHookResult, act, renderHook } from '@testing-library/react-hooks'
 
 import { typePolicies } from '@/graphql/typePolicies';
 import {
-  mockMarkNotificationAsReadGQLErrorResponse,
-  mockMarkNotificationAsReadNetworkErrorResponse,
-  mockMarkNotificationAsReadResponse,
-  mockUrgentNotification,
+  mockMarkAllNotificationsAsReadGQLErrorResponse,
+  mockMarkAllNotificationsAsReadNetworkErrorResponse,
+  mockMarkAllNotificationsAsReadResponse,
+  mockUpcomingNotificationId,
   mockUrgentNotificationId,
 } from '@/mocks/notificationMocks';
 import { MockProviderHook } from '@/mocks/testMocks';
-import { MARK_NOTIFICATION_AS_READ_ERROR_MESSAGE } from '@/modules/notifications/constants';
-import {
-  UseMarkNotificationAsRead,
-  useMarkNotificationAsRead,
-} from '@/modules/notifications/hooks/useMarkNotificationAsRead';
+import { MARK_ALL_NOTIFICATIONS_AS_READ_ERROR_MESSAGE } from '@/modules/notifications/constants';
+import { UseMarkAllNotificationsAsRead, useMarkAllNotificationsAsRead } from '@/modules/notifications/hooks';
 import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import { onHandleMutationErrors } from '@/shared/utils';
 
@@ -40,13 +37,17 @@ jest.mock('@/shared/utils', () => ({
   onHandleMutationErrors: jest.fn(),
 }));
 
-describe('useMarkNotificationAsRead', () => {
+describe('useMarkAllNotificationsAsRead', () => {
   const mockUseMutation = jest.fn();
   const mockGqlError = [{ message: 'Simulated GQL error in result' }];
   const mockNetworkError = { message: 'Test network Error' };
   const mockOnError = jest.fn();
   const mockCacheModify = jest.fn();
-  const mockUpdatedMarkNotificationAsRead = { ...mockUrgentNotification, status: 'Read' };
+  const mockCacheIdentify = jest.fn().mockImplementation(() => `Notification:${mockUrgentNotificationId}`);
+  const mockMarkedAllNotificationsResponse = {
+    updatedNotificationIds: [mockUrgentNotificationId, mockUpcomingNotificationId],
+    __typename: 'MarkAllNotificationsAsReadResult',
+  };
 
   beforeEach(() => {
     (useMutationResultToasts as jest.Mock).mockReturnValue({ onError: mockOnError });
@@ -56,13 +57,13 @@ describe('useMarkNotificationAsRead', () => {
     jest.clearAllMocks();
   });
 
-  const hook = (mocks: MockedResponse[] = []): RenderHookResult<unknown, UseMarkNotificationAsRead> => {
+  const hook = (mocks: MockedResponse[] = []): RenderHookResult<unknown, UseMarkAllNotificationsAsRead> => {
     const cache = new InMemoryCache({
       addTypename: false,
       typePolicies,
     });
 
-    return renderHook(() => useMarkNotificationAsRead(), {
+    return renderHook(() => useMarkAllNotificationsAsRead(), {
       wrapper: ({ children }) => (
         <MockProviderHook cache={cache} mocks={mocks}>
           {children}
@@ -73,56 +74,70 @@ describe('useMarkNotificationAsRead', () => {
 
   it('should return correct initial data', () => {
     mockUseMutation.mockReturnValue([
-      jest.fn().mockResolvedValue({ data: { markNotificationAsRead: mockUpdatedMarkNotificationAsRead } }),
+      jest.fn().mockResolvedValue({ data: { markAllAllNotificationsAsRead: mockMarkedAllNotificationsResponse } }),
       { loading: false, error: undefined },
     ]);
 
     (useMutation as jest.Mock).mockImplementation(mockUseMutation);
 
-    const { result } = hook([mockMarkNotificationAsReadResponse]);
+    const { result } = hook([mockMarkAllNotificationsAsReadResponse]);
 
     expect(result.current.loading).toBeFalsy();
   });
 
-  it('should update cache when marking an unread notification as read', async () => {
+  it('should update cache when marking all unread notification as read', async () => {
     const mockMutateFn = jest.fn().mockImplementation(({ update }) => {
       update?.(
-        { modify: mockCacheModify },
+        { modify: mockCacheModify, identify: mockCacheIdentify },
         {
-          data: { markNotificationAsRead: mockUpdatedMarkNotificationAsRead },
+          data: { markAllNotificationsAsRead: mockMarkedAllNotificationsResponse },
         }
       );
-      return Promise.resolve({ data: { markNotificationAsRead: mockUpdatedMarkNotificationAsRead } });
+      return Promise.resolve({ data: { markAllNotificationsAsRead: mockMarkedAllNotificationsResponse } });
     });
 
     (useMutation as jest.Mock).mockReturnValue([mockMutateFn, { loading: false }]);
 
-    const { result } = hook([mockMarkNotificationAsReadResponse]);
+    const { result } = hook([mockMarkAllNotificationsAsReadResponse]);
 
     await act(async () => {
-      await result.current.onMarkNotificationAsRead(mockUrgentNotification.id, true);
+      await result.current.onMarkAllNotificationsAsRead();
     });
 
-    expect(mockCacheModify).toHaveBeenCalledWith({
-      fields: {
-        getUnreadNotificationCount: expect.any(Function),
-      },
+    expect(mockMutateFn).toHaveBeenCalled();
+
+    const notificationModifyCalls = mockCacheModify.mock.calls.filter(([arg]) => arg.id?.startsWith('Notification:'));
+
+    expect(notificationModifyCalls).toHaveLength(mockMarkedAllNotificationsResponse.updatedNotificationIds.length);
+
+    notificationModifyCalls.forEach(([arg]) => {
+      const { status, readAt } = arg.fields;
+
+      expect(status()).toBe('Read');
+
+      const isoDate = readAt();
+
+      expect(typeof isoDate).toBe('string');
+      expect(new Date(isoDate).toISOString()).toBe(isoDate);
     });
 
-    const modifyFn = mockCacheModify.mock.calls[0][0].fields.getUnreadNotificationCount;
+    const unreadCountCall = mockCacheModify.mock.calls.find(([arg]) => arg.fields?.getUnreadNotificationCount);
 
-    expect(modifyFn(5)).toBe(4);
+    expect(unreadCountCall).toBeDefined();
+
+    const unreadCountFn = unreadCountCall![0].fields.getUnreadNotificationCount;
+    expect(unreadCountFn()).toBe(0);
   });
 
-  it('should not modify the cache if notification is not Unread', async () => {
+  it('should not modify the cache if data is undefined or null', async () => {
     mockUseMutation.mockImplementationOnce(() => [jest.fn().mockResolvedValue({ data: null }), { loading: false }]);
 
     (useMutation as jest.Mock).mockImplementationOnce(mockUseMutation);
 
-    const { result } = hook([mockMarkNotificationAsReadResponse]);
+    const { result } = hook([mockMarkAllNotificationsAsReadResponse]);
 
     await act(async () => {
-      await result.current.onMarkNotificationAsRead(mockUrgentNotification.id, false);
+      await result.current.onMarkAllNotificationsAsRead();
     });
 
     expect(mockCacheModify).not.toHaveBeenCalled();
@@ -136,15 +151,15 @@ describe('useMarkNotificationAsRead', () => {
 
     (useMutation as jest.Mock).mockImplementation(mockUseMutation);
 
-    const { result } = hook([mockMarkNotificationAsReadGQLErrorResponse]);
+    const { result } = hook([mockMarkAllNotificationsAsReadGQLErrorResponse]);
 
     await act(async () => {
-      await result.current.onMarkNotificationAsRead(mockUrgentNotificationId, true);
+      await result.current.onMarkAllNotificationsAsRead();
     });
 
     expect(onHandleMutationErrors).toHaveBeenCalledWith({
       errors: [{ message: 'Simulated GQL error in result' }],
-      message: MARK_NOTIFICATION_AS_READ_ERROR_MESSAGE,
+      message: MARK_ALL_NOTIFICATIONS_AS_READ_ERROR_MESSAGE,
       onFailure: expect.any(Function),
     });
   });
@@ -157,15 +172,15 @@ describe('useMarkNotificationAsRead', () => {
 
     (useMutation as jest.Mock).mockImplementation(mockUseMutation);
 
-    const { result } = hook([mockMarkNotificationAsReadNetworkErrorResponse]);
+    const { result } = hook([mockMarkAllNotificationsAsReadNetworkErrorResponse]);
 
     await act(async () => {
-      await result.current.onMarkNotificationAsRead(mockUrgentNotificationId, true);
+      await result.current.onMarkAllNotificationsAsRead();
     });
 
     expect(onHandleMutationErrors).toHaveBeenCalledWith({
       error: expect.objectContaining({ message: 'Network Error' }),
-      message: MARK_NOTIFICATION_AS_READ_ERROR_MESSAGE,
+      message: MARK_ALL_NOTIFICATIONS_AS_READ_ERROR_MESSAGE,
       onFailure: expect.any(Function),
     });
   });

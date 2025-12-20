@@ -164,8 +164,17 @@ describe('RepairJobService', () => {
   });
 
   describe('getElevatorDetailsByBuildingName', () => {
-    it('should return elevator details by building name', async () => {
-      (repairJobServicePrismaMock.elevatorRecord.findMany as jest.Mock).mockResolvedValue([mockElevatorRecord]);
+    const mockedElevatorRecords = [
+      mockElevatorRecord,
+      {
+        ...mockElevatorRecord,
+        elevatorType: 'Freight Elevator',
+        elevatorLocation: 'Warehouse',
+      },
+    ];
+
+    it('should return all elevator details when no selectedElevatorType is provided', async () => {
+      (repairJobServicePrismaMock.elevatorRecord.findMany as jest.Mock).mockResolvedValue(mockedElevatorRecords);
 
       const result = await repairJobService.getElevatorDetailsByBuildingName(mockElevatorRecord.buildingName);
 
@@ -174,7 +183,40 @@ describe('RepairJobService', () => {
         where: { buildingName: mockElevatorRecord.buildingName },
       });
 
-      expect(result).toEqual({ elevatorLocations: ['Observation Deck'], elevatorTypes: ['Scenic Elevator'] });
+      expect(result).toEqual({
+        elevatorTypes: ['Scenic Elevator', 'Freight Elevator'],
+        elevatorLocations: ['Observation Deck', 'Warehouse'],
+      });
+    });
+
+    it('should return only locations for the selected elevator type', async () => {
+      (repairJobServicePrismaMock.elevatorRecord.findMany as jest.Mock).mockResolvedValue(mockedElevatorRecords);
+
+      const selectedElevatorType = 'Scenic Elevator';
+      const result = await repairJobService.getElevatorDetailsByBuildingName(
+        mockElevatorRecord.buildingName,
+        selectedElevatorType
+      );
+
+      expect(result).toEqual({
+        elevatorTypes: ['Scenic Elevator', 'Freight Elevator'],
+        elevatorLocations: ['Observation Deck'],
+      });
+    });
+
+    it('should return empty locations if selected type does not exist', async () => {
+      (repairJobServicePrismaMock.elevatorRecord.findMany as jest.Mock).mockResolvedValue(mockedElevatorRecords);
+
+      const selectedElevatorType = 'Nonexistent Elevator';
+      const result = await repairJobService.getElevatorDetailsByBuildingName(
+        mockElevatorRecord.buildingName,
+        selectedElevatorType
+      );
+
+      expect(result).toEqual({
+        elevatorTypes: ['Scenic Elevator', 'Freight Elevator'],
+        elevatorLocations: [],
+      });
     });
   });
 

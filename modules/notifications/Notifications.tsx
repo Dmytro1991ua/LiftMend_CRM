@@ -10,12 +10,20 @@ import { getDerivedDataLoadStatus } from '@/shared/utils';
 
 import { getNotificationsLoadStatusView } from './config';
 import { useGetNotifications } from './hooks';
-import { useMarkNotificationAsRead } from './hooks/useMarkNotificationAsRead';
+import NotificationControls from './notification-controls';
 import NotificationItem from './notification-item';
 
 const Notifications = () => {
-  const { notifications, isInitialLoading, isNotificationsEmpty, hasMore, totalNotificationsLength, error, onNext } =
-    useGetNotifications();
+  const {
+    notifications,
+    isInitialLoading,
+    isNotificationsEmpty,
+    hasMore,
+    totalNotificationsLength,
+    areAllNotificationsRead,
+    error,
+    onNext,
+  } = useGetNotifications();
 
   const notificationsLoadStatus = getDerivedDataLoadStatus(isNotificationsEmpty, isInitialLoading, error);
   const notificationsLoadStatusView = useMemo(() => getNotificationsLoadStatusView({ errorMessage: error }), [error]);
@@ -26,7 +34,11 @@ const Notifications = () => {
 
   return (
     <section>
-      <SectionHeader goBackButton={<GoBackButton />} title='Messages History' />
+      <SectionHeader
+        actionComponent={<NotificationControls areAllNotificationsRead={areAllNotificationsRead} />}
+        goBackButton={<GoBackButton />}
+        title='Messages History'
+      />
       <div className={cn('flex flex-column h-dvh content-wrapper')}>
         <div className='h-[60rem] w-full overflow-y-auto' id='scrollable-notifications'>
           <InfiniteScroll

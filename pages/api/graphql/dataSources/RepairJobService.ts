@@ -136,7 +136,10 @@ class RepairJobService {
     return repairJobScheduleData as RepairJobScheduleData;
   }
 
-  async getElevatorDetailsByBuildingName(buildingName: string): Promise<ElevatorDetails> {
+  async getElevatorDetailsByBuildingName(
+    buildingName: string,
+    selectedElevatorType?: Maybe<string>
+  ): Promise<ElevatorDetails> {
     const elevatorRecords = await this.prisma.elevatorRecord.findMany({
       where: { buildingName },
       select: { elevatorType: true, elevatorLocation: true },
@@ -144,11 +147,14 @@ class RepairJobService {
 
     const { elevatorTypes, elevatorLocations } = elevatorRecords.reduce(
       (acc, record) => {
+        const shouldIncludeLocationForSelectedType =
+          !selectedElevatorType || record.elevatorType === selectedElevatorType;
+
         if (record.elevatorType) {
           acc.elevatorTypes.push(record.elevatorType);
         }
 
-        if (record.elevatorLocation) {
+        if (record.elevatorLocation && shouldIncludeLocationForSelectedType) {
           acc.elevatorLocations.push(record.elevatorLocation);
         }
         return acc;

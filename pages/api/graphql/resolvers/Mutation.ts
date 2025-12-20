@@ -37,6 +37,11 @@ const Mutation: MutationResolvers = {
     // Validate the elevator record before repair job and calendar event creation
     const elevatorRecord = await dataSources.elevatorRecord.findElevatorRecordByRepairJob(repairJobInput);
 
+    if (!elevatorRecord) {
+      throw new Error(
+        `Elevator not found for ${repairJobInput.buildingName}, ${repairJobInput.elevatorLocation}, ${repairJobInput.elevatorType}`
+      );
+    }
     const elevatorStatusErrorMessage = getElevatorStatusErrorMessage(repairJobInput)[elevatorRecord?.status ?? ''];
 
     if (elevatorStatusErrorMessage) {
