@@ -13,14 +13,15 @@ import {
   mockUpcomingNotification,
 } from '@/mocks/notificationMocks';
 import { MockProviderHook } from '@/mocks/testMocks';
-import { UseGetNotifications, useGetNotifications } from '@/modules/notifications/hooks';
+import { useGetNotifications } from '@/modules/notifications/hooks';
+import { NotificationsState } from '@/modules/notifications/type';
 
 describe('useGetNotifications', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  const hook = (mocks: MockedResponse[] = []): RenderHookResult<unknown, UseGetNotifications> => {
+  const hook = (mocks: MockedResponse[] = []): RenderHookResult<unknown, NotificationsState> => {
     const cache = new InMemoryCache({
       addTypename: false,
       typePolicies,
@@ -70,7 +71,7 @@ describe('useGetNotifications', () => {
     await act(async () => await result.current.onNext());
 
     expect(fetchMoreMock).toHaveBeenCalledWith({
-      variables: { paginationOptions: { limit: 20, offset: 1 } },
+      variables: { paginationOptions: { limit: 20, offset: 1 }, filterOptions: {} },
     });
   });
 

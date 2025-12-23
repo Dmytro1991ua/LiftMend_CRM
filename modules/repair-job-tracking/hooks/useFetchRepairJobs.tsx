@@ -15,8 +15,8 @@ import {
   TABLE_STATE_STORAGE_KEY,
 } from '@/shared/constants';
 import useStoredTableState from '@/shared/storage/hooks';
-import { TableStorageState } from '@/shared/storage/hooks/useStoredState';
-import { RepairJob, StorageTableName } from '@/shared/types';
+import { EntityStorageState } from '@/shared/storage/hooks/useStoredEntityState';
+import { RepairJob, StorageEntityName } from '@/shared/types';
 import { getItemsFromQuery, removeTypeNamesFromArray } from '@/shared/utils';
 
 import { REPAIR_JOBS_TABLE_FILTER_KEY_MAP } from './constants';
@@ -27,8 +27,8 @@ export type UseFetchRepairJobs<T> = {
   error?: string;
   hasMore: boolean;
   onNext: () => Promise<void>;
-  tableStorageState: TableStorageState<SortingState, TableFilters<T>>;
-  onSetTableStorageState: Dispatch<SetStateAction<TableStorageState<SortingState, TableFilters<T>>>>;
+  tableStorageState: EntityStorageState<SortingState, TableFilters<T>>;
+  onSetTableStorageState: Dispatch<SetStateAction<EntityStorageState<SortingState, TableFilters<T>>>>;
   refetch: (variables?: Partial<QueryGetRepairJobsArgs>) => Promise<ApolloQueryResult<GetRepairJobsQuery>>;
 };
 
@@ -37,7 +37,7 @@ const useFetchRepairJobs = <T,>(): UseFetchRepairJobs<T> => {
     SortingState,
     TableFilters<T>,
     undefined
-  >(TABLE_STATE_STORAGE_KEY, StorageTableName.RepairJobTable, undefined);
+  >(TABLE_STATE_STORAGE_KEY, StorageEntityName.RepairJobTable, undefined);
 
   const { field, order } = useMemo(() => formatTableSortingToQueryFormat(tableStorageState), [tableStorageState]);
 

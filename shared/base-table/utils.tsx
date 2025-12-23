@@ -8,7 +8,7 @@ import { OrderOption } from '@/graphql/types/client/generated_types';
 import { AppRoutes } from '@/types/enums';
 
 import BaseAlert from '../base-alert/BaseAlert';
-import { TableStorageState } from '../storage/hooks/useStoredState';
+import { EntityStorageState } from '../storage/hooks/useStoredEntityState';
 
 import {
   DEFAULT_EMPTY_SEARCH_RESULT_TABLE_MESSAGE,
@@ -46,7 +46,7 @@ export const getTableStatusContent = (
 };
 
 export const formatTableSortingToQueryFormat = <T,>(
-  tableStorageState: TableStorageState<SortingState, TableFilters<T>>
+  tableStorageState: EntityStorageState<SortingState, TableFilters<T>>
 ) => {
   const sorting = tableStorageState?.sorting;
 

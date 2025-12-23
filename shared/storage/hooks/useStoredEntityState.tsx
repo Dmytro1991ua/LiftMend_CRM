@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { StorageEntity, sessionStorageWrapper } from '@/shared/storage/storageEntity';
 import { StorageEntityName } from '@/shared/types';
 
-export type TableStorageState<T = undefined, U = undefined, V = undefined> = {
+export type EntityStorageState<T = undefined, U = undefined, V = undefined> = {
   sorting?: T;
   filters?: U;
   dateFilter?: V;
@@ -14,26 +14,26 @@ export type TableStorageState<T = undefined, U = undefined, V = undefined> = {
  *
  * @param storageKey - The key used for storing and retrieving data from session storage.
  * @param initialValue - The default value for the state if no data is found in session storage.
- * @param tableName - The key for storing the value within an object structure (like `repairJobTable`).
+ * @param entityName - The key for storing the value within an object structure (like `repairJobTable`).
  * @returns An object containing the current state and a function to update it.
  */
-const useStoredTableState = <T, U, V>(
+const useStoredEntityState = <T, U, V>(
   storageKey: string,
-  tableName: StorageEntityName,
-  initialState?: TableStorageState<T, U, V>
+  entityName: StorageEntityName,
+  initialState?: EntityStorageState<T, U, V>
 ) => {
   const storage = useMemo(() => {
     if (typeof window !== 'undefined') {
-      return new StorageEntity<{ [key: string]: TableStorageState<T, U, V> }>(storageKey, sessionStorageWrapper);
+      return new StorageEntity<{ [key: string]: EntityStorageState<T, U, V> }>(storageKey, sessionStorageWrapper);
     }
     return null;
   }, [storageKey]);
 
   // Initialize state by checking if tableName data exists, or use initialState
-  const [storedState, setStoredState] = useState<TableStorageState<T, U, V>>(() => {
+  const [storedState, setStoredState] = useState<EntityStorageState<T, U, V>>(() => {
     if (typeof window !== 'undefined' && storage) {
       const storedData = storage.getData();
-      return storedData?.[tableName] || initialState || {};
+      return storedData?.[entityName] || initialState || {};
     }
     return initialState || {};
   });
@@ -44,10 +44,10 @@ const useStoredTableState = <T, U, V>(
       const currentData = storage.getData() || {};
       storage.setData({
         ...currentData,
-        [tableName]: storedState,
+        [entityName]: storedState,
       });
     }
-  }, [storedState, storage, tableName]);
+  }, [storedState, storage, entityName]);
 
   return {
     storedState,
@@ -55,4 +55,4 @@ const useStoredTableState = <T, U, V>(
   };
 };
 
-export default useStoredTableState;
+export default useStoredEntityState;

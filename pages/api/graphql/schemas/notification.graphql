@@ -66,8 +66,8 @@ type NotificationConnection implements Connection {
 }
 
 input NotificationFilterOptions {
-  category: String
-  status: String
+  category: [String!]
+  status: [String!]
 }
 
 input MarkNotificationAsReadInput {

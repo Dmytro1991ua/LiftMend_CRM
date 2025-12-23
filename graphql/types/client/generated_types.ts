@@ -373,8 +373,8 @@ export type NotificationEdge = Edge & {
 };
 
 export type NotificationFilterOptions = {
-  category?: InputMaybe<Scalars['String']['input']>;
-  status?: InputMaybe<Scalars['String']['input']>;
+  category?: InputMaybe<Array<Scalars['String']['input']>>;
+  status?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 export const OAuthProvider = {

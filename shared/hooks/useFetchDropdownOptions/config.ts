@@ -4,6 +4,7 @@ import { GET_REPAIR_JOB_FORM_DATA } from '@/graphql/schemas';
 import { GET_ELEVATOR_DETAILS_BY_BUILDING_NAME } from '@/graphql/schemas/getElevatorDetailsByBuildingName';
 import { GET_ELEVATOR_RECORD_FORM_DATA } from '@/graphql/schemas/getElevatorRecordFormData';
 import { GET_TECHNICIAN_RECORD_FORM_DATA } from '@/graphql/schemas/getTechnicianRecordFormData';
+import { DropdownOption } from '@/shared/base-select/types';
 
 export enum DropdownOptions {
   RepairJob,
@@ -12,11 +13,28 @@ export enum DropdownOptions {
   ElevatorDetails,
 }
 
+export enum PredefinedDropdownOptions {
+  NotificationsCategory,
+  NotificationsStatus,
+}
+
 export type DropdownOptionConfig = {
   fields: string[];
   schema: DocumentNode;
   queryName: string;
   requiresVariable?: boolean;
+};
+
+export const PREDEFINED_DROPDOWN_OPTIONS_CONFIG: Record<PredefinedDropdownOptions, DropdownOption[]> = {
+  [PredefinedDropdownOptions.NotificationsCategory]: [
+    { value: 'Overdue', label: 'Overdue' },
+    { value: 'Upcoming', label: 'Upcoming' },
+    { value: 'Urgent', label: 'Urgent' },
+  ],
+  [PredefinedDropdownOptions.NotificationsStatus]: [
+    { value: 'Read', label: 'Read' },
+    { value: 'Unread', label: 'Unread' },
+  ],
 };
 
 export const DROPDOWN_OPTIONS_CONFIG: Record<DropdownOptions, DropdownOptionConfig> = {

@@ -1,1 +1,1 @@
-export { default } from './useStoredState';
+export { default } from './useStoredEntityState';

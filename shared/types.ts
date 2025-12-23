@@ -3,11 +3,12 @@ import { NextPage } from 'next';
 
 import { Maybe, TechnicianPerformanceMetrics } from '@/graphql/types/client/generated_types';
 
-export enum StorageTableName {
+export enum StorageEntityName {
   RepairJobTable = 'repairJobTable',
   ElevatorManagementTable = 'elevatorManagementTable',
   TechnicianManagementTable = 'technicianManagementTable',
   DashboardPage = 'dashboardPage',
+  NotificationsPage = 'notificationsPage',
 }
 
 export enum TableNames {

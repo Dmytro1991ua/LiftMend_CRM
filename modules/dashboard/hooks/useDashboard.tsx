@@ -9,7 +9,7 @@ import { useUser } from '@/shared/contexts/UserContext';
 import { useBaseToast } from '@/shared/hooks';
 import { BaseToastVariant } from '@/shared/hooks/useBaseToast/types';
 import useStoredTableState from '@/shared/storage/hooks';
-import { StorageTableName } from '@/shared/types';
+import { StorageEntityName } from '@/shared/types';
 
 import { DEFAULT_DATE_FILTER } from '../constants';
 import { getSanitizeDateRange, validateDateRange } from '../utils';
@@ -31,7 +31,7 @@ export const useDashBoard = (): UseDashboard => {
 
   const { storedState, setStoredState } = useStoredTableState<undefined, undefined, DateRange>(
     DASHBOARD_STATE_STORAGE_KEY,
-    StorageTableName.DashboardPage,
+    StorageEntityName.DashboardPage,
     {
       dateFilter: DEFAULT_DATE_FILTER,
     }
