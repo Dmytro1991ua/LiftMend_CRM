@@ -22,23 +22,28 @@ const Notifications = () => {
     totalNotificationsLength,
     areAllNotificationsRead,
     error,
+    notificationsPageStoredState,
+    onSetNotificationsPageStoredState,
     onNext,
   } = useGetNotifications();
 
   const notificationsLoadStatus = getDerivedDataLoadStatus(isNotificationsEmpty, isInitialLoading, error);
   const notificationsLoadStatusView = useMemo(() => getNotificationsLoadStatusView({ errorMessage: error }), [error]);
 
-  if (notificationsLoadStatus) {
-    return notificationsLoadStatusView[notificationsLoadStatus];
-  }
-
   return (
     <section>
       <SectionHeader
-        actionComponent={<NotificationControls areAllNotificationsRead={areAllNotificationsRead} />}
+        actionComponent={
+          <NotificationControls
+            areAllNotificationsRead={areAllNotificationsRead}
+            notificationsPageStoredState={notificationsPageStoredState}
+            onSetNotificationsPageStoredState={onSetNotificationsPageStoredState}
+          />
+        }
         goBackButton={<GoBackButton />}
         title='Messages History'
       />
+      {notificationsLoadStatus && notificationsLoadStatusView[notificationsLoadStatus]}
       <div className={cn('flex flex-column h-dvh content-wrapper')}>
         <div className='h-[60rem] w-full overflow-y-auto' id='scrollable-notifications'>
           <InfiniteScroll

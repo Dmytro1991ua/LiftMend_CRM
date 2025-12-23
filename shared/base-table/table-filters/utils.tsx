@@ -12,3 +12,10 @@ export const getSelectedFilterCountLabel = (label: string, selectedFilterCount: 
     </>
   );
 };
+
+export const getAccordionHeight = (currentOpenedFilter: string | null, isAccordionAutoHeight: boolean) => {
+  if (currentOpenedFilter && isAccordionAutoHeight) return 'h-auto';
+  if (currentOpenedFilter) return 'h-[50rem] overflow-y-auto';
+
+  return 'h-auto';
+};

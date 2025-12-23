@@ -1,13 +1,13 @@
 import { act, renderHook } from '@testing-library/react-hooks';
 
 import { DASHBOARD_STATE_STORAGE_KEY } from '@/shared/constants';
-import useStoredTableState from '@/shared/storage/hooks';
-import { TableStorageState } from '@/shared/storage/hooks/useStoredState';
-import { StorageTableName } from '@/shared/types';
+import useStoredEntityState from '@/shared/storage/hooks';
+import { EntityStorageState } from '@/shared/storage/hooks/useStoredEntityState';
+import { StorageEntityName } from '@/shared/types';
 
-type TestInitialState = TableStorageState<undefined, undefined, undefined>;
+type TestInitialState = EntityStorageState<undefined, undefined, undefined>;
 
-describe('useStoredTableState', () => {
+describe('useStoredEntityState', () => {
   const mockSessionStorage: Record<string, string> = {};
 
   beforeEach(() => {
@@ -31,7 +31,7 @@ describe('useStoredTableState', () => {
   });
 
   const hook = (initialState?: TestInitialState) =>
-    renderHook(() => useStoredTableState(DASHBOARD_STATE_STORAGE_KEY, StorageTableName.DashboardPage, initialState));
+    renderHook(() => useStoredEntityState(DASHBOARD_STATE_STORAGE_KEY, StorageEntityName.DashboardPage, initialState));
 
   it('should initialize with initial state if sessionStorage has no data', () => {
     const mockInitialState = {
@@ -48,7 +48,7 @@ describe('useStoredTableState', () => {
       filters: { status: ['scheduled'] },
     } as unknown as TestInitialState;
 
-    const mockStoragePayload = JSON.stringify({ [StorageTableName.DashboardPage]: mockStoredValue });
+    const mockStoragePayload = JSON.stringify({ [StorageEntityName.DashboardPage]: mockStoredValue });
 
     mockSessionStorage[DASHBOARD_STATE_STORAGE_KEY] = mockStoragePayload;
 
@@ -68,6 +68,6 @@ describe('useStoredTableState', () => {
 
     const mockSavedValue = JSON.parse(mockSessionStorage[DASHBOARD_STATE_STORAGE_KEY]);
 
-    expect(mockSavedValue[StorageTableName.DashboardPage]).toEqual(mockNewStorageState);
+    expect(mockSavedValue[StorageEntityName.DashboardPage]).toEqual(mockNewStorageState);
   });
 });

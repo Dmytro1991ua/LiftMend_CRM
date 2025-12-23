@@ -5,22 +5,28 @@ import { FaFilter } from 'react-icons/fa';
 import { Accordion, AccordionItem } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { cn } from '@/lib/utils';
 import { DropdownOption } from '@/shared/base-select/types';
 
 import { FilterKey, TableFiltersConfig, TableFilters as TableFiltersType } from '../types';
 
 import FilterItem from './filter-item';
-import { getSelectedFilterCountLabel, getSelectedFiltersCount } from './utils';
+import { getAccordionHeight, getSelectedFilterCountLabel, getSelectedFiltersCount } from './utils';
 
 type TableFiltersProps<T> = {
   filtersConfig: TableFiltersConfig[];
   storedFilters: TableFiltersType<T>;
   onFilterChange: (key: FilterKey, selectedOption: DropdownOption) => void;
   onClearFilter: (key: FilterKey) => void;
+  isAccordionAutoHeight?: boolean;
 };
 
-const TableFilters = <T,>({ storedFilters, filtersConfig, onFilterChange, onClearFilter }: TableFiltersProps<T>) => {
+const TableFilters = <T,>({
+  storedFilters,
+  filtersConfig,
+  isAccordionAutoHeight = false,
+  onFilterChange,
+  onClearFilter,
+}: TableFiltersProps<T>) => {
   const [currentOpenedFilter, setCurrentOpenedFilter] = useState<string | null>(null);
 
   const handleAccordionChange = useCallback((value: string | null) => setCurrentOpenedFilter(value), []);
@@ -37,7 +43,7 @@ const TableFilters = <T,>({ storedFilters, filtersConfig, onFilterChange, onClea
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className='w-52 h-8 py-5 px-3 bg-primary text-white' size='sm' variant='outline'>
+        <Button className='w-52 h-8 py-5 px-3 bg-primary text-white' size='sm' variant='default'>
           <FaFilter className='mr-2 h-4 w-4' />
           <span className='uppercase font-bold'>{selectedFilterCountLabel}</span>
         </Button>
@@ -45,12 +51,10 @@ const TableFilters = <T,>({ storedFilters, filtersConfig, onFilterChange, onClea
       <DropdownMenuContent align='start' className='w-[30rem]'>
         <Accordion
           collapsible
-          className={cn(
-            'transition-all duration-300 ease-in-out',
-            currentOpenedFilter ? 'h-[50rem] overflow-y-auto' : 'h-auto'
-          )}
+          className={getAccordionHeight(currentOpenedFilter, isAccordionAutoHeight)}
           type='single'
-          onValueChange={handleAccordionChange}>
+          onValueChange={handleAccordionChange}
+        >
           {filtersConfig.map(({ filterKey, filterType, label, id, options }) => (
             <AccordionItem key={id} className='px-2 ' value={filterKey}>
               <FilterItem<T>

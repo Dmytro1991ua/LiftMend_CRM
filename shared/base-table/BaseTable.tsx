@@ -8,7 +8,7 @@ import { Bars } from 'react-loader-spinner';
 import { Table } from '@/components/ui/table';
 import { cn } from '@/lib/utils';
 
-import { TableStorageState } from '../storage/hooks/useStoredState';
+import { EntityStorageState } from '../storage/hooks/useStoredEntityState';
 import { TableNames } from '../types';
 
 import BaseTableBody from './base-table-body';
@@ -28,7 +28,7 @@ type BaseTableProps<T extends object, K, M> = {
   errorMessage?: string;
   className?: string;
   searchFieldPlaceholder?: string;
-  tableStorageState: TableStorageState<SortingState, TableFilters<T>>;
+  tableStorageState: EntityStorageState<SortingState, TableFilters<T>>;
   tableName: TableNames;
   filtersConfig: TableFiltersConfig[];
   rowTooltipMessage?: string | ((rowOriginal: T) => string);
@@ -38,7 +38,7 @@ type BaseTableProps<T extends object, K, M> = {
   isRowDisabled?: (rowOriginal: T) => boolean;
   getRowHighlightInfo?: (rowOriginal: T) => RowHighlightInfo;
   refetch: (variables: Partial<K>) => Promise<ApolloQueryResult<M>>;
-  onSetTableStorageState: Dispatch<SetStateAction<TableStorageState<SortingState, TableFilters<T>>>>;
+  onSetTableStorageState: Dispatch<SetStateAction<EntityStorageState<SortingState, TableFilters<T>>>>;
   onHandleRowClick: (rowData: Row<T>) => void;
 };
 
@@ -142,12 +142,14 @@ const BaseTable = <T extends object, K, M>({
           next={loadMore}
           scrollThreshold={0.99}
           scrollableTarget={SCROLL_WRAPPER_ID}
-          style={{ overflow: INFINITE_SCROLL_OVERFLOW }}>
+          style={{ overflow: INFINITE_SCROLL_OVERFLOW }}
+        >
           <div className={cn('relative w-fit rounded-[2rem] border')}>
             <Table
               className='w-full table-fixed'
               data-testid='base-table'
-              style={isCalculatedWidthEnabled ? { width: getTotalSize() } : undefined}>
+              style={isCalculatedWidthEnabled ? { width: getTotalSize() } : undefined}
+            >
               <BaseTableHeader columnVisibility={columnVisibility} headerGroups={getHeaderGroups()} />
               <BaseTableBody
                 className={className}

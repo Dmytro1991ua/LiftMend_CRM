@@ -23,6 +23,8 @@ export enum FilterLabel {
   TechnicianSkills = 'Technician skills',
   Certifications = 'Certifications',
   IsOverdue = 'Is Overdue?',
+  NotificationCategory = 'Category',
+  NotificationStatus = 'Status',
 }
 
 export enum FilterKey {
@@ -38,6 +40,8 @@ export enum FilterKey {
   TechnicianSkills = 'skills',
   Certifications = 'certifications',
   IsOverdue = 'isOverdue',
+  NotificationCategories = 'selectedCategory',
+  NotificationStatus = 'selectedStatus',
 }
 
 export type FilterType = 'checkbox' | 'radio';
@@ -56,6 +60,10 @@ export type TableFilters<T> = {
   rowSelectionState?: RowSelectionState;
   columnVisibility?: VisibilityState;
   columnResizingState?: ColumnSizingState;
+  filterValues?: FilterValues;
+};
+
+export type NotificationPageFilters = {
   filterValues?: FilterValues;
 };
 

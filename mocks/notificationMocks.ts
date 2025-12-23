@@ -109,6 +109,7 @@ export const mockNotifications: MockedResponse<GetNotificationsQuery> = {
         limit: 20,
         offset: 0,
       },
+      filterOptions: {},
     },
   },
   result: {
@@ -126,6 +127,7 @@ export const mockPaginatedNotifications: MockedResponse<GetNotificationsQuery>[]
           limit: 20,
           offset: 1,
         },
+        filterOptions: {},
       },
     },
     result: {

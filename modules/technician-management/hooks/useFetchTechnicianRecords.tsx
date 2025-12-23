@@ -18,8 +18,8 @@ import {
   TABLE_STATE_STORAGE_KEY,
 } from '@/shared/constants';
 import useStoredTableState from '@/shared/storage/hooks';
-import { TableStorageState } from '@/shared/storage/hooks/useStoredState';
-import { StorageTableName, TechnicianRecord } from '@/shared/types';
+import { EntityStorageState } from '@/shared/storage/hooks/useStoredEntityState';
+import { StorageEntityName, TechnicianRecord } from '@/shared/types';
 import { getItemsFromQuery, removeTypeNamesFromArray } from '@/shared/utils';
 
 import { TECHNICIAN_RECORDS_TABLE_FILTER_KEY_MAP } from '../constants';
@@ -33,8 +33,8 @@ export type UseFetchTechnicianRecords<T> = {
   refetch: (
     variables?: Partial<QueryGetTechnicianRecordsArgs>
   ) => Promise<ApolloQueryResult<GetTechnicianRecordsQuery>>;
-  tableStorageState: TableStorageState<SortingState, TableFilters<T>>;
-  onSetTableStorageState: Dispatch<SetStateAction<TableStorageState<SortingState, TableFilters<T>>>>;
+  tableStorageState: EntityStorageState<SortingState, TableFilters<T>>;
+  onSetTableStorageState: Dispatch<SetStateAction<EntityStorageState<SortingState, TableFilters<T>>>>;
 };
 
 export const useFetchTechnicianRecords = <T,>(): UseFetchTechnicianRecords<T> => {
@@ -42,7 +42,7 @@ export const useFetchTechnicianRecords = <T,>(): UseFetchTechnicianRecords<T> =>
     SortingState,
     TableFilters<T>,
     undefined
-  >(TABLE_STATE_STORAGE_KEY, StorageTableName.TechnicianManagementTable, undefined);
+  >(TABLE_STATE_STORAGE_KEY, StorageEntityName.TechnicianManagementTable, undefined);
 
   const { field, order } = useMemo(() => formatTableSortingToQueryFormat(tableStorageState), [tableStorageState]);
 
