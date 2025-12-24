@@ -52,6 +52,13 @@ type Notification implements Node {
   Null if the notification has not been read yet.
   """
   readAt: DateTime
+
+  """
+  Timestamp when the notification was archived.
+  Archived notifications are considered inactive and are excluded
+  from the default notifications list and unread counts.
+  """
+  archivedAt: DateTime
 }
 
 type NotificationEdge implements Edge {

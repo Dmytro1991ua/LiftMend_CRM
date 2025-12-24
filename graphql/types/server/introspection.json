@@ -2803,6 +2803,18 @@
         "isOneOf": null,
         "fields": [
           {
+            "name": "archivedAt",
+            "description": "Timestamp when the notification was archived.\nArchived notifications are considered inactive and are excluded\nfrom the default notifications list and unread counts.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "category",
             "description": "Type or category of the notification.\nExamples: 'Upcoming', 'Overdue', 'Urgent'.\nUsed by the UI to show appropriate icon or color.",
             "args": [],

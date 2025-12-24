@@ -812,6 +812,7 @@ describe('Mutation', () => {
         status: 'Read',
         readAt: new Date(),
         createdAt: new Date(mockUpcomingNotification.createdAt),
+        archivedAt: null,
       };
 
       mockDataSources.notification.markAsRead.mockResolvedValueOnce(mockResponse);

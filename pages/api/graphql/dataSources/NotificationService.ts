@@ -47,7 +47,7 @@ class NotificationService {
   }
 
   async unreadNotificationsCount(): Promise<number> {
-    return this.prisma.notification.count({ where: { status: 'Unread' } });
+    return this.prisma.notification.count({ where: { status: 'Unread', archivedAt: null } });
   }
 
   async markAsRead(notificationId: string): Promise<Notification> {

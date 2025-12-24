@@ -322,6 +322,12 @@ export type Node = {
 export type Notification = Node & {
   __typename?: 'Notification';
   /**
+   * Timestamp when the notification was archived.
+   * Archived notifications are considered inactive and are excluded
+   * from the default notifications list and unread counts.
+   */
+  archivedAt?: Maybe<Scalars['DateTime']['output']>;
+  /**
    * Type or category of the notification.
    * Examples: 'Upcoming', 'Overdue', 'Urgent'.
    * Used by the UI to show appropriate icon or color.
@@ -1307,6 +1313,7 @@ export type NotificationResolvers<
   ContextType = Context,
   ParentType extends ResolversParentTypes['Notification'] = ResolversParentTypes['Notification']
 > = ResolversObject<{
+  archivedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   category?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;

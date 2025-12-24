@@ -83,7 +83,9 @@ describe('NotificationService', () => {
 
       const result = await notificationService.unreadNotificationsCount();
 
-      expect(notificationServicePrismaMock.notification.count).toHaveBeenCalledWith({ where: { status: 'Unread' } });
+      expect(notificationServicePrismaMock.notification.count).toHaveBeenCalledWith({
+        where: { status: 'Unread', archivedAt: null },
+      });
       expect(result).toEqual(mockTotalItems);
     });
   });
