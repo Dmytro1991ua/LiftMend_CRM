@@ -867,27 +867,27 @@ describe('createNotificationFilterOptions', () => {
     {
       description: 'should return an empty object when no filter options are provided',
       input: undefined,
-      expected: {},
+      expected: { archivedAt: null },
     },
     {
       description: 'should return only status if status is provided',
       input: { status: ['Unread'] },
-      expected: { status: { in: ['Unread'] } },
+      expected: { archivedAt: null, status: { in: ['Unread'] } },
     },
     {
       description: 'should return only category if category is provided',
       input: { category: ['Urgent'] },
-      expected: { category: { in: ['Urgent'] } },
+      expected: { archivedAt: null, category: { in: ['Urgent'] } },
     },
     {
       description: 'should return both status and category if both are provided',
       input: { status: ['Unread'], category: ['Urgent'] },
-      expected: { status: { in: ['Unread'] }, category: { in: ['Urgent'] } },
+      expected: { archivedAt: null, status: { in: ['Unread'] }, category: { in: ['Urgent'] } },
     },
     {
       description: 'should ignore falsy values for status and category',
       input: { status: [], category: undefined },
-      expected: {},
+      expected: { archivedAt: null },
     },
   ];
 

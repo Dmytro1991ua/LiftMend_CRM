@@ -1,11 +1,12 @@
 model Notification {
-  id String @id @default(uuid())
-  userId String?
-  category String
+  id              String    @id @default(uuid())
+  userId          String?
+  category        String
   relatedEntityId String?
-  message String
-  priority String @default("medium")
-  status String @default("unread")
-  createdAt DateTime @default(now())
-  readAt DateTime?
+  message         String
+  priority        String    @default("medium")
+  status          String    @default("unread")
+  createdAt       DateTime  @default(now())
+  readAt          DateTime?
+  archivedAt      DateTime?
 }

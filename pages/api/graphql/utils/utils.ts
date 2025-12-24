@@ -269,6 +269,7 @@ export const createNotificationFilterOptions = (
   const { status, category } = filterOptions || {};
 
   return {
+    archivedAt: null, //always filter out only active notifications
     ...(status && status.length > 0 && { status: { in: status } }),
     ...(category && category.length > 0 && { category: { in: category } }),
   };
