@@ -50,6 +50,28 @@ export type CalendarEvent = {
   title: Scalars['String']['output'];
 };
 
+export type ChangeLog = Node & {
+  __typename?: 'ChangeLog';
+  /** Action type: create, update, delete */
+  action: Scalars['String']['output'];
+  /** Timestamp of when the change occurred */
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  /** ID of the specific entity instance that was changed */
+  entityId: Scalars['String']['output'];
+  /** Type of entity changed: RepairJob, ElevatorRecord, TechnicianRecord */
+  entityType: Scalars['String']['output'];
+  /** Name of the field that was changed */
+  field: Scalars['String']['output'];
+  /** Unique identifier of the audit record */
+  id: Scalars['ID']['output'];
+  /** New value of the field (stringified if complex) */
+  newValue?: Maybe<Scalars['String']['output']>;
+  /** Previous value of the field (stringified if complex) */
+  oldValue?: Maybe<Scalars['String']['output']>;
+  /** ID of the user who made the change. Null if system-generated */
+  userId?: Maybe<Scalars['String']['output']>;
+};
+
 export type Connection = {
   edges: Array<Edge>;
   pageInfo: PageInfo;
@@ -846,7 +868,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversInterfaceTypes<RefType extends Record<string, unknown>> = ResolversObject<{
   Connection: ElevatorRecordConnection | NotificationConnection | RepairJobConnection | TechnicianRecordConnection;
   Edge: ElevatorRecordEdge | NotificationEdge | RepairJobEdge | TechnicianRecordEdges;
-  Node: ElevatorRecord | Notification | RepairJob | TechnicianRecord;
+  Node: ChangeLog | ElevatorRecord | Notification | RepairJob | TechnicianRecord;
 }>;
 
 /** Mapping between all available schema types and the resolvers types */
@@ -855,6 +877,7 @@ export type ResolversTypes = ResolversObject<{
   AuthResponse: ResolverTypeWrapper<AuthResponse>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   CalendarEvent: ResolverTypeWrapper<CalendarEvent>;
+  ChangeLog: ResolverTypeWrapper<ChangeLog>;
   Connection: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Connection']>;
   CreateCalendarEventInput: CreateCalendarEventInput;
   CreateRepairJobInput: CreateRepairJobInput;
@@ -930,6 +953,7 @@ export type ResolversParentTypes = ResolversObject<{
   AuthResponse: AuthResponse;
   Boolean: Scalars['Boolean']['output'];
   CalendarEvent: CalendarEvent;
+  ChangeLog: ChangeLog;
   Connection: ResolversInterfaceTypes<ResolversParentTypes>['Connection'];
   CreateCalendarEventInput: CreateCalendarEventInput;
   CreateRepairJobInput: CreateRepairJobInput;
@@ -1029,6 +1053,22 @@ export type CalendarEventResolvers<
   repairJobId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   start?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type ChangeLogResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['ChangeLog'] = ResolversParentTypes['ChangeLog']
+> = ResolversObject<{
+  action?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  entityId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  entityType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  field?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  newValue?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  oldValue?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  userId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1302,7 +1342,7 @@ export type NodeResolvers<
   ParentType extends ResolversParentTypes['Node'] = ResolversParentTypes['Node']
 > = ResolversObject<{
   __resolveType: TypeResolveFn<
-    'ElevatorRecord' | 'Notification' | 'RepairJob' | 'TechnicianRecord',
+    'ChangeLog' | 'ElevatorRecord' | 'Notification' | 'RepairJob' | 'TechnicianRecord',
     ParentType,
     ContextType
   >;
@@ -1633,6 +1673,7 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   AppUser?: AppUserResolvers<ContextType>;
   AuthResponse?: AuthResponseResolvers<ContextType>;
   CalendarEvent?: CalendarEventResolvers<ContextType>;
+  ChangeLog?: ChangeLogResolvers<ContextType>;
   Connection?: ConnectionResolvers<ContextType>;
   DashboardMetrics?: DashboardMetricsResolvers<ContextType>;
   DateTime?: GraphQLScalarType;

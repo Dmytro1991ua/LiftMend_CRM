@@ -1,22 +1,43 @@
 import { PrismaClient } from '@prisma/client';
 
-declare global {
-  // eslint-disable-next-line no-var
-  var prismaGlobal: PrismaClient | undefined;
-}
+import { registerChangeLogMiddleware } from './middleware/registerChangeLogMiddleware';
 
-let prisma: PrismaClient;
+/**
+ * We intentionally use TWO Prisma clients.
+ *
+ * createAppPrismaClient():
+ * - Used by API, Apollo, and cron jobs
+ * - Has ChangeLog middleware attached
+ *
+ * changeLogPrismaClient:
+ * - Used only to write ChangeLog records
+ * - No middleware, otherwise ChangeLog writes would trigger
+ *   the middleware again and cause infinite recursion
+ */
 
-if (process.env.NODE_ENV === 'production') {
-  prisma = new PrismaClient();
-} else {
-  if (!globalThis.prismaGlobal) {
-    globalThis.prismaGlobal = new PrismaClient({
-      log: ['query', 'info', 'warn', 'error'],
-    });
+export const changeLogPrismaClient = new PrismaClient({
+  log: ['query', 'warn', 'info', 'error'],
+});
+
+// Singleton for app Prisma client in dev mode
+let appPrismaGlobal: PrismaClient | undefined;
+
+export const createAppPrismaClient = (userId?: string) => {
+  // Reuse the Prisma client in dev to prevent multiple connections
+  if (process.env.NODE_ENV !== 'production' && appPrismaGlobal) {
+    return appPrismaGlobal;
   }
 
-  prisma = globalThis.prismaGlobal;
-}
+  const prisma = new PrismaClient({
+    log: ['query', 'warn', 'info', 'error'],
+  });
 
-export default prisma;
+  registerChangeLogMiddleware(prisma, userId);
+
+  // Save the instance only in development
+  if (process.env.NODE_ENV !== 'production') {
+    appPrismaGlobal = prisma;
+  }
+
+  return prisma;
+};

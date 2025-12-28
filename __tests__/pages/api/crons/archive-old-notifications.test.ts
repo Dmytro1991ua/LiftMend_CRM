@@ -2,8 +2,11 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import { notificationServicePrismaMock } from '@/mocks/gql/prismaMocks';
 import handler from '@/pages/api/crons/archive-old-notifications';
+import { createAppPrismaClient } from '@/prisma/db';
 
-jest.mock('@/prisma/db', () => notificationServicePrismaMock);
+jest.mock('@/prisma/db', () => ({
+  createAppPrismaClient: jest.fn(),
+}));
 jest.mock('@/pages/api/graphql/utils/utils');
 
 describe('Archive Old Notifications Cron API', () => {
@@ -24,6 +27,8 @@ describe('Archive Old Notifications Cron API', () => {
       json: jest.fn().mockReturnThis(),
       end: jest.fn().mockReturnThis(),
     } as unknown as NextApiResponse;
+
+    (createAppPrismaClient as jest.Mock).mockReturnValue(notificationServicePrismaMock);
   });
 
   afterEach(() => {

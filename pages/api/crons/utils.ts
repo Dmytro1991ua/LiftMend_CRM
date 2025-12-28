@@ -1,14 +1,13 @@
-import prisma from '@/prisma/db';
+import { PrismaClient } from '@prisma/client';
 
 import { NotificationPayload } from './types';
 
-export const createNotificationIfNotExists = async ({
-  jobId,
-  category,
-  message,
-  priority,
-  userId,
-}: NotificationPayload): Promise<void> => {
+export const createNotificationIfNotExists = async (
+  prisma: PrismaClient,
+  payload: NotificationPayload
+): Promise<void> => {
+  const { jobId, category, message, priority, userId } = payload;
+
   const existNotification = await prisma.notification.findFirst({
     where: { relatedEntityId: jobId, category },
   });

@@ -1,0 +1,46 @@
+type ChangeLog implements Node {
+ """
+ Unique identifier of the audit record
+ """
+ id: ID!
+
+ """
+ ID of the user who made the change. Null if system-generated
+ """
+ userId: String
+
+ """
+ Type of entity changed: RepairJob, ElevatorRecord, TechnicianRecord
+ """
+ entityType: String!
+
+ """
+ ID of the specific entity instance that was changed
+ """
+ entityId: String!
+
+ """
+ Name of the field that was changed
+ """
+ field: String!
+
+ """
+ Previous value of the field (stringified if complex)
+ """
+ oldValue: String
+
+ """
+ New value of the field (stringified if complex)
+ """
+ newValue: String
+
+ """
+ Action type: create, update, delete
+ """
+ action: String!
+
+ """
+ Timestamp of when the change occurred
+ """
+ createdAt: DateTime
+}

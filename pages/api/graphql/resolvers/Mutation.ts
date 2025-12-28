@@ -26,7 +26,7 @@ const Mutation: MutationResolvers = {
   createRepairJobAndEvent: async (
     _,
     { repairJobInput, calendarEventInput },
-    { dataSources }
+    { dataSources, user }
   ): Promise<ScheduledEventAndRepairJobResponse> => {
     // Validate if the technician is available (not assigned to another job) before repair job and calendar event creation
     const technicianRecord = await dataSources.technicianRecord.validateTechnicianAssignment(
