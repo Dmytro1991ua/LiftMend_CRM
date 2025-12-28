@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { RepairJob } from '@/graphql/types/server/generated_types';
-import prisma from '@/prisma/db';
+import { createAppPrismaClient } from '@/prisma/db';
 
 import { isRepairJobOverdue } from '../graphql/utils/utils';
 
@@ -15,6 +15,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
+    const prisma = createAppPrismaClient();
+
     const repairJobs = await prisma.repairJob.findMany();
 
     const repairJobOverdueUpdates = repairJobs.reduce((acc, job) => {

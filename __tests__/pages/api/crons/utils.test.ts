@@ -20,7 +20,7 @@ describe('createNotificationIfNotExists', () => {
   it('should create a notification if one does not exist', async () => {
     (notificationServicePrismaMock.notification.findFirst as jest.Mock).mockResolvedValue(null);
 
-    await createNotificationIfNotExists(mockPayload);
+    await createNotificationIfNotExists(notificationServicePrismaMock, mockPayload);
 
     expect(notificationServicePrismaMock.notification.findFirst).toHaveBeenCalledWith({
       where: { relatedEntityId: mockPayload.jobId, category: mockPayload.category },
@@ -46,7 +46,7 @@ describe('createNotificationIfNotExists', () => {
       category: mockPayload.category,
     });
 
-    await createNotificationIfNotExists(mockPayload);
+    await createNotificationIfNotExists(notificationServicePrismaMock, mockPayload);
 
     expect(notificationServicePrismaMock.notification.findFirst).toHaveBeenCalledWith({
       where: { relatedEntityId: mockPayload.jobId, category: mockPayload.category },

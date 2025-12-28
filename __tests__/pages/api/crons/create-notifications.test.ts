@@ -7,8 +7,11 @@ import { mockRepairJob } from '@/mocks/repairJobTrackingMocks';
 import { NOTIFICATION_RULE_CONFIG } from '@/pages/api/crons/config';
 import handler from '@/pages/api/crons/create-notifications';
 import { createNotificationIfNotExists } from '@/pages/api/crons/utils';
+import { createAppPrismaClient } from '@/prisma/db';
 
-jest.mock('@/prisma/db', () => repairJobServicePrismaMock);
+jest.mock('@/prisma/db', () => ({
+  createAppPrismaClient: jest.fn(),
+}));
 jest.mock('@/pages/api/crons/utils', () => ({
   createNotificationIfNotExists: jest.fn(),
 }));
@@ -34,6 +37,8 @@ describe('Create Notifications Cron API', () => {
       json: jest.fn().mockReturnThis(),
       end: jest.fn().mockReturnThis(),
     } as unknown as NextApiResponse;
+
+    (createAppPrismaClient as jest.Mock).mockReturnValue(repairJobServicePrismaMock);
   });
 
   afterEach(() => {

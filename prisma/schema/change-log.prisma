@@ -1,0 +1,11 @@
+model ChangeLog {
+  id         String   @id @default(uuid())
+  userId     String?
+  entityType String
+  entityId   String
+  action     String
+  field      String
+  oldValue   String?
+  newValue   String?
+  createdAt  DateTime @default(now())
+}

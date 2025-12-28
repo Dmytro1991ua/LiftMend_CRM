@@ -2,8 +2,11 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import { repairJobServicePrismaMock } from '@/mocks/gql/prismaMocks';
 import handler from '@/pages/api/crons/repair-job-overdue';
+import { createAppPrismaClient } from '@/prisma/db';
 
-jest.mock('@/prisma/db', () => repairJobServicePrismaMock);
+jest.mock('@/prisma/db', () => ({
+  createAppPrismaClient: jest.fn(),
+}));
 jest.mock('@/pages/api/graphql/utils/utils');
 
 describe('Repair Job Overdue Cron API', () => {
@@ -24,6 +27,8 @@ describe('Repair Job Overdue Cron API', () => {
       json: jest.fn().mockReturnThis(),
       end: jest.fn().mockReturnThis(),
     } as unknown as NextApiResponse;
+
+    (createAppPrismaClient as jest.Mock).mockReturnValue(repairJobServicePrismaMock);
   });
 
   afterEach(() => {

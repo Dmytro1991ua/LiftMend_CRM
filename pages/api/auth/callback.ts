@@ -1,7 +1,7 @@
 import { createPagesServerClient } from '@supabase/auth-helpers-nextjs';
 import { NextApiHandler } from 'next';
 
-import prisma from '@/prisma/db';
+import { createAppPrismaClient } from '@/prisma/db';
 
 import { parseOAuthFullName } from '../graphql/utils/utils';
 
@@ -30,6 +30,8 @@ const handler: NextApiHandler = async (req, res) => {
 
   const { firstName, lastName } = parseOAuthFullName(user.user_metadata.full_name);
   const avatarUrl = user.user_metadata?.avatar_url || '';
+
+  const prisma = createAppPrismaClient(user.id);
 
   const existingUser = await prisma.user.findUnique({ where: { id: user.id } });
 

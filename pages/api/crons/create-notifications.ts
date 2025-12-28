@@ -1,7 +1,7 @@
 import { addDays } from 'date-fns';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import prisma from '@/prisma/db';
+import { createAppPrismaClient } from '@/prisma/db';
 
 import { NOTIFICATION_RULE_CONFIG } from './config';
 import { NotificationPayload } from './types';
@@ -14,6 +14,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(401).json({ error: 'Unauthorized' });
 
   try {
+    const prisma = createAppPrismaClient();
+
     const repairJobs = await prisma.repairJob.findMany();
     const tomorrow = addDays(new Date(), 1);
 
@@ -32,7 +34,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return acc;
     }, []);
 
-    await Promise.all(notificationsToCreate.map(createNotificationIfNotExists));
+    await Promise.all(notificationsToCreate.map((payload) => createNotificationIfNotExists(prisma, payload)));
 
     res.status(200).json({
       message: 'Notifications generated successfully',

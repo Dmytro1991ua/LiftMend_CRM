@@ -7,7 +7,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import getRawBody from 'raw-body';
 
 import { getSupabaseServer } from '@/lib/supabase-server';
-import prisma from '@/prisma/db';
+import { createAppPrismaClient } from '@/prisma/db';
 
 import { MAX_FILES, MAX_FILE_SIZE } from './constants';
 import { createDataSources } from './dataSources';
@@ -45,6 +45,8 @@ const handler = startServerAndCreateNextHandler(server, {
         user = data.user;
       }
     }
+
+    const prisma = createAppPrismaClient(user?.id);
 
     return {
       req,
