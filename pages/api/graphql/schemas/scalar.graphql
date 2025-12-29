@@ -1,3 +1,7 @@
 scalar DateTime
 scalar Void
 scalar Upload
+"""
+JSONDataType includes all possible JSON data types.
+"""
+scalar JSONDataType

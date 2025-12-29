@@ -1,5 +1,6 @@
 import GraphQLUpload from 'graphql-upload/GraphQLUpload.mjs';
 
+import ChangeLog from './ChangeLog';
 import ElevatorRecord from './ElevatorRecord';
 import Mutation from './Mutation';
 import Query from './Query';
@@ -11,6 +12,7 @@ const resolvers = {
   Mutation,
   ElevatorRecord,
   TechnicianRecord,
+  ChangeLog,
 };
 
 export default resolvers;

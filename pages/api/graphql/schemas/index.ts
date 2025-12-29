@@ -1,6 +1,7 @@
 import { mergeTypeDefs } from '@graphql-tools/merge';
 
 import calendarEventSchema from './calendarEvent.graphql';
+import changeLogSchema from './changeLog.graphql';
 import dashboardSchema from './dashboard.graphql';
 import elevatorRecordSchema from './elevatorRecord.graphql';
 import mutationSchema from './mutation.graphql';
@@ -24,6 +25,7 @@ const schemas = [
   mutationSchema,
   dashboardSchema,
   notificationSchema,
+  changeLogSchema,
 ];
 
 export const typeDefs = mergeTypeDefs(schemas);

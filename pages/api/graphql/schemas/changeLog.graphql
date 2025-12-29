@@ -1,46 +1,62 @@
 type ChangeLog implements Node {
- """
- Unique identifier of the audit record
- """
- id: ID!
+  """
+  Unique identifier of the audit record
+  """
+  id: ID!
 
- """
- ID of the user who made the change. Null if system-generated
- """
- userId: String
+  """
+  ID of the user who made the change. Null if system-generated
+  """
+  userId: String
 
- """
- Type of entity changed: RepairJob, ElevatorRecord, TechnicianRecord
- """
- entityType: String!
+  """
+  Type of entity changed: RepairJob, ElevatorRecord, TechnicianRecord
+  """
+  entityType: String!
 
- """
- ID of the specific entity instance that was changed
- """
- entityId: String!
+  """
+  ID of the specific entity instance that was changed
+  """
+  entityId: String!
 
- """
- Name of the field that was changed
- """
- field: String!
+  """
+  Name of the field that was changed
+  """
+  field: String!
 
- """
- Previous value of the field (stringified if complex)
- """
- oldValue: String
+  """
+  Previous value of the field (stringified if complex)
+  """
+  oldValue: JSONDataType
 
- """
- New value of the field (stringified if complex)
- """
- newValue: String
+  """
+  New value of the field (stringified if complex)
+  """
+  newValue: JSONDataType
 
- """
- Action type: create, update, delete
- """
- action: String!
+  """
+  Action type: create, update, delete
+  """
+  action: String!
 
- """
- Timestamp of when the change occurred
- """
- createdAt: DateTime
+  """
+  Timestamp of when the change occurred
+  """
+  createdAt: DateTime
+}
+
+type ChangeLogEdge implements Edge {
+  cursor: String!
+  node: ChangeLog!
+}
+
+type ChangeLogConnection implements Connection {
+  edges: [ChangeLogEdge!]!
+  pageInfo: PageInfo!
+  total: Int!
+}
+
+input ChangeLogFilterOptions {
+  action: [String!]
+  entityType: [String!]
 }
