@@ -204,3 +204,14 @@ export const getTechnicianPerformanceMetrics = (repairJobs: RepairJob[]) => {
     }),
   };
 };
+
+export const parseChangeLogValue = <T = unknown>(value?: string | null): T | string | null => {
+  if (!value) return null;
+
+  try {
+    return JSON.parse(value);
+  } catch (err) {
+    console.error((err as Error).message);
+    return value; // return original string if parsing fails
+  }
+};

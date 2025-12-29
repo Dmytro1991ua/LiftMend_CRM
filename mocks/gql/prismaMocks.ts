@@ -93,5 +93,7 @@ export const notificationServicePrismaMock = {
 export const changeLogPrismaMock = {
   changeLog: {
     create: jest.fn(),
+    findMany: jest.fn(),
+    count: jest.fn(),
   },
-};
+} as unknown as PrismaClient;

@@ -3,6 +3,7 @@ import { orderBy as _orderBy } from 'lodash';
 import {
   AppUser,
   CalendarEvent,
+  ChangeLogConnection,
   DashboardMetrics,
   ElevatorRecord,
   ElevatorRecordConnection,
@@ -89,6 +90,9 @@ const Query: QueryResolvers = {
   },
   getUnreadNotificationCount: async (_, __, { dataSources }): Promise<number> => {
     return dataSources.notification.unreadNotificationsCount();
+  },
+  getChangeLogs: async (_, args, { dataSources }): Promise<ChangeLogConnection> => {
+    return await dataSources.changeLog.changeLogs(args);
   },
 };
 

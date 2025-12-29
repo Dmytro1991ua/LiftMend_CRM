@@ -1,9 +1,11 @@
 import {
+  ChangeLogConnection,
   ElevatorRecordFormData,
   NotificationConnection,
   RepairJobConnection,
   TechnicianRecordConnection,
 } from '@/graphql/types/server/generated_types';
+import { mockedReturnedChangeLogsData } from '@/mocks/changeLogMocks';
 import { mockElevatorRecordMetrics, mockRepairJobMetrics, mockTechnicianRecordMetrics } from '@/mocks/dashboardMetrics';
 import { mockElevatorManagementDropdownOptions, mockTechnicalManagementDropdownOptions } from '@/mocks/dropdownOptions';
 import {
@@ -427,6 +429,35 @@ describe('Query', () => {
 
         expect(mockDataSources.notification.unreadNotificationsCount).toHaveBeenCalled();
         expect(result).toEqual(2);
+      });
+    });
+  });
+
+  describe('ChangeLogService', () => {
+    let mockDataSources: ReturnType<typeof createDataSourcesMock>;
+
+    let getChangeLogsResolver: TestResolver<typeof Query, 'getChangeLogs'>;
+
+    beforeEach(() => {
+      mockDataSources = createDataSourcesMock(notificationServicePrismaMock);
+
+      getChangeLogsResolver = getResolverToTest(Query, 'getChangeLogs', mockDataSources);
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    describe('getChangeLogs', () => {
+      it('should return changeLogs', async () => {
+        mockDataSources.changeLog.changeLogs.mockResolvedValue(
+          mockedReturnedChangeLogsData.getChangeLogs as ChangeLogConnection
+        );
+
+        const result = await getChangeLogsResolver();
+
+        expect(mockDataSources.changeLog.changeLogs).toHaveBeenCalled();
+        expect(result).toEqual(mockedReturnedChangeLogsData.getChangeLogs);
       });
     });
   });

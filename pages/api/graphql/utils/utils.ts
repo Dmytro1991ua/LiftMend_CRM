@@ -4,6 +4,7 @@ import { FieldNode } from 'graphql';
 import { first as _first, last as _last, orderBy as _orderBy, words as _words } from 'lodash';
 
 import {
+  ChangeLogFilterOptions,
   CreateRepairJobInput,
   ElevatorRecordFilterOptions,
   ElevatorRecordSortField,
@@ -272,5 +273,16 @@ export const createNotificationFilterOptions = (
     archivedAt: null, //always filter out only active notifications
     ...(status && status.length > 0 && { status: { in: status } }),
     ...(category && category.length > 0 && { category: { in: category } }),
+  };
+};
+
+export const createChangeLogFilterOptions = (
+  filterOptions: InputMaybe<ChangeLogFilterOptions>
+): Prisma.ChangeLogWhereInput => {
+  const { action, entityType } = filterOptions || {};
+
+  return {
+    ...(action && action.length > 0 && { action: { in: action } }),
+    ...(entityType && entityType.length > 0 && { entityType: { in: entityType } }),
   };
 };

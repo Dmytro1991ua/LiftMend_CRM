@@ -13,9 +13,11 @@ import {
 import { mockNewRepairJobInput } from '@/mocks/repairJobScheduling';
 import { mockRepairJob } from '@/mocks/repairJobTrackingMocks';
 import { INACTIVE_REPAIR_JOB_STATUSES } from '@/pages/api/graphql/constants';
+import { parseChangeLogValue } from '@/pages/api/graphql/resolvers/utils';
 import {
   boolToStringArray,
   convertStreamToBuffer,
+  createChangeLogFilterOptions,
   createElevatorRecordFilterOptions,
   createElevatorRecordSortOptions,
   createNotificationFilterOptions,
@@ -896,6 +898,102 @@ describe('createNotificationFilterOptions', () => {
       const result = createNotificationFilterOptions(input);
 
       expect(result).toEqual(expected);
+    });
+  });
+});
+
+describe('createChangeLogFilterOptions', () => {
+  const scenarios = [
+    {
+      description: 'should return an empty object when no filter options are provided',
+      input: undefined,
+      expected: {},
+    },
+    {
+      description: 'should return only action if action is provided',
+      input: { action: ['update'] },
+      expected: { action: { in: ['update'] } },
+    },
+    {
+      description: 'should return only entityType if entityType is provided',
+      input: { entityType: ['RepairJob'] },
+      expected: { entityType: { in: ['RepairJob'] } },
+    },
+    {
+      description: 'should return both action and entityType if both are provided',
+      input: { action: ['update'], entityType: ['RepairJob'] },
+      expected: { action: { in: ['update'] }, entityType: { in: ['RepairJob'] } },
+    },
+    {
+      description: 'should ignore falsy values for action and entityType',
+      input: { action: [], entityType: [] },
+      expected: {},
+    },
+  ];
+
+  scenarios.forEach(({ description, input, expected }) => {
+    it(description, () => {
+      const result = createChangeLogFilterOptions(input);
+
+      expect(result).toEqual(expected);
+    });
+  });
+});
+
+describe('parseChangeLogValue', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  const mockScenarios = [
+    {
+      description: 'should return null when value is undefined',
+      input: undefined,
+      expected: null,
+    },
+    {
+      description: 'should return null when value is null',
+      input: null,
+      expected: null,
+    },
+    {
+      description: 'should parse a JSON object string',
+      input: JSON.stringify({ a: 1, b: 'test' }),
+      expected: { a: 1, b: 'test' },
+    },
+    {
+      description: 'should parse a JSON array string',
+      input: JSON.stringify([1, 2, 3]),
+      expected: [1, 2, 3],
+    },
+    {
+      description: 'should parse a JSON primitive string',
+      input: JSON.stringify('hello'),
+      expected: 'hello',
+    },
+    {
+      description: 'should return original string if JSON parsing fails',
+      input: '{invalid-json',
+      expected: '{invalid-json',
+      expectConsoleError: true,
+    },
+  ];
+
+  mockScenarios.forEach(({ description, input, expected, expectConsoleError }) => {
+    it(description, () => {
+      let consoleSpy: jest.SpyInstance | undefined;
+
+      if (expectConsoleError) {
+        consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+      }
+
+      const result = parseChangeLogValue(input);
+
+      expect(result).toEqual(expected);
+
+      if (consoleSpy) {
+        expect(consoleSpy).toHaveBeenCalled();
+      }
     });
   });
 });
