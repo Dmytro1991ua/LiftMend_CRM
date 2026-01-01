@@ -9,6 +9,7 @@ generates:
       contextType: '@/pages/api/graphql/types#Context'
       mappers:
         User: '@prisma/client#User as UserModel'
+        ChangeLog: '@prisma/client#ChangeLog as ChangeLog'
     plugins:
       - 'typescript'
       - 'typescript-resolvers'

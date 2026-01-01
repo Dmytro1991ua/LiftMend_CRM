@@ -1,6 +1,7 @@
 import { RepairJob } from '@prisma/client';
+import { isEqual as _isEqual } from 'lodash';
 
-import { TechnicianPerformanceMetrics } from '@/graphql/types/server/generated_types';
+import { FieldChange, TechnicianPerformanceMetrics } from '@/graphql/types/server/generated_types';
 
 import {
   ACTIVE_REPAIR_JOB_STATUSES,
@@ -17,6 +18,9 @@ import {
   WORST_CASE_OVERDUE_REPAIR_JOB_THRESHOLD,
   WORST_CASE_RECENT_REPAIR_JOB_THRESHOLD,
 } from '../constants';
+import { JSONRecord } from '../types';
+
+import { getFieldChangeHandlersByAction } from './config';
 
 /**
  * Calculates the duration of a repair job in days between the start and end dates.
@@ -214,4 +218,68 @@ export const parseChangeLogValue = <T = unknown>(value?: string | null): T | str
     console.error((err as Error).message);
     return value; // return original string if parsing fails
   }
+};
+
+/**
+ * Computes a single field-level change for the change log.
+ * Returns null when the change is not meaningful (both values are null).
+ */
+export const createChangeLogField = (
+  field: string,
+  oldValue: unknown,
+  newValue: unknown,
+  action: FieldChange['action']
+): FieldChange | null => {
+  // Skip meaningless null → null transitions
+  if (oldValue === null && newValue === null) return null;
+
+  // For updates, skip unchanged values
+  if (action === 'update' && _isEqual(oldValue, newValue)) return null;
+
+  return { field, oldValue, newValue, action };
+};
+
+/**
+ * Builds a list of field-level change log changes for the provided list of keys.
+ *
+ * For each key:
+ * - reads previous and next values using provided accessors
+ * - creates a FieldChange entry if the change is meaningful
+ *
+ * Used by create / update / delete flows to avoid duplicated loops.
+ */
+export const computeFieldChangesForKeys = ({
+  action,
+  keys,
+  getOld,
+  getNew,
+}: {
+  action: string;
+  keys: string[];
+  getOld: (key: string) => unknown | null;
+  getNew: (key: string) => unknown | null;
+}): FieldChange[] =>
+  keys.reduce<FieldChange[]>((acc, key) => {
+    const field = createChangeLogField(key, getOld(key), getNew(key), action);
+
+    if (field) acc.push(field);
+
+    return acc;
+  }, []);
+
+export const computeChangeLogFieldChanges = ({
+  oldValue,
+  newValue,
+  action,
+}: {
+  oldValue?: string | null;
+  newValue?: string | null;
+  action: string;
+}): FieldChange[] => {
+  const previousState = (parseChangeLogValue<JSONRecord>(oldValue) ?? {}) as JSONRecord;
+  const nextState = (parseChangeLogValue<JSONRecord>(newValue) ?? {}) as JSONRecord;
+
+  const actionFieldHandlers = getFieldChangeHandlersByAction(previousState, nextState);
+
+  return actionFieldHandlers[action]?.() ?? [];
 };

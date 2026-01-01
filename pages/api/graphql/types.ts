@@ -40,3 +40,5 @@ export type Connection<T> = {
   pageInfo: PageInfo;
   total: number;
 };
+
+export type JSONRecord = Record<string, unknown>;
