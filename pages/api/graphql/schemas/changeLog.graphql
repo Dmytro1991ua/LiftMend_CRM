@@ -1,3 +1,25 @@
+type FieldChange {
+  """
+  Name of the field that was changed
+  """
+  field: String!
+
+  """
+  Previous value of the field (null if create)
+  """
+  oldValue: JSONDataType
+
+  """
+  New value of the field (null if delete)
+  """
+  newValue: JSONDataType
+
+  """
+  Action type: create, update, delete
+  """
+  action: String!
+}
+
 type ChangeLog implements Node {
   """
   Unique identifier of the audit record
@@ -5,9 +27,9 @@ type ChangeLog implements Node {
   id: ID!
 
   """
-  ID of the user who made the change. Null if system-generated
+  User who made the change. Null if system-generated
   """
-  userId: String
+  modifiedBy: String
 
   """
   Type of entity changed: RepairJob, ElevatorRecord, TechnicianRecord
@@ -20,29 +42,14 @@ type ChangeLog implements Node {
   entityId: String!
 
   """
-  Name of the field that was changed
-  """
-  field: String!
-
-  """
-  Previous value of the field (stringified if complex)
-  """
-  oldValue: JSONDataType
-
-  """
-  New value of the field (stringified if complex)
-  """
-  newValue: JSONDataType
-
-  """
-  Action type: create, update, delete
-  """
-  action: String!
-
-  """
   Timestamp of when the change occurred
   """
   createdAt: DateTime
+
+  """
+  Array of fields that actually changed
+  """
+  changeList: [FieldChange!]!
 }
 
 type ChangeLogEdge implements Edge {

@@ -3,17 +3,11 @@ import getResolverToTest, { TestResolver } from '@/mocks/gql/getResolverToTest';
 import createDataSourcesMock from '@/mocks/gql/mockedDataSources';
 import { repairJobServicePrismaMock } from '@/mocks/gql/prismaMocks';
 import TechnicianRecord from '@/pages/api/graphql/resolvers/TechnicianRecord';
-import { getTechnicianPerformanceMetrics } from '@/pages/api/graphql/resolvers/utils';
 import { loadWithDataLoader } from '@/pages/api/graphql/utils/utils';
 
 jest.mock('@/pages/api/graphql/utils/utils', () => ({
   ...jest.requireActual('@/pages/api/graphql/utils/utils'),
   loadWithDataLoader: jest.fn(),
-}));
-
-jest.mock('@/pages/api/graphql/resolvers/utils', () => ({
-  ...jest.requireActual('@/pages/api/graphql/resolvers/utils'),
-  getTechnicianPerformanceMetrics: jest.fn(),
 }));
 
 describe('TechnicianRecord', () => {
@@ -71,41 +65,36 @@ describe('TechnicianRecord', () => {
         },
       ];
 
-      const mockPerformanceMetrics = {
-        totalRepairJobs: 2,
-        overdueRepairJobs: 1,
-        averageDurationDays: 5,
-        onTimeCompletionRate: 50,
-      };
-
       (loadWithDataLoader as jest.Mock).mockResolvedValue(mockRepairJobs);
-      (getTechnicianPerformanceMetrics as jest.Mock).mockReturnValue(mockPerformanceMetrics);
 
       const result = await performanceMetricsResolver({ name: mockTechnicianName });
 
       expect(loadWithDataLoader).toHaveBeenCalled();
-      expect(getTechnicianPerformanceMetrics).toHaveBeenCalledWith(mockRepairJobs);
-      expect(result).toEqual(mockPerformanceMetrics);
+      expect(result).toEqual({
+        activeRepairJobs: 0,
+        averageDurationDays: 0,
+        completedRepairJobs: 2,
+        onTimeCompletionRate: 0,
+        overdueRepairJobs: 1,
+        performanceScore: 40,
+        totalRepairJobs: 2,
+      });
     });
 
     it('should return null metrics if no repair jobs are returned', async () => {
       (loadWithDataLoader as jest.Mock).mockResolvedValue([]);
-      (getTechnicianPerformanceMetrics as jest.Mock).mockReturnValue({
-        totalRepairJobs: 0,
-        overdueRepairJobs: 0,
-        averageDurationDays: 0,
-        onTimeCompletionRate: 0,
-      });
 
       const result = await performanceMetricsResolver({ name: mockTechnicianName });
 
       expect(loadWithDataLoader).toHaveBeenCalled();
-      expect(getTechnicianPerformanceMetrics).toHaveBeenCalledWith([]);
       expect(result).toEqual({
-        totalRepairJobs: 0,
-        overdueRepairJobs: 0,
+        activeRepairJobs: 0,
         averageDurationDays: 0,
+        completedRepairJobs: 0,
         onTimeCompletionRate: 0,
+        overdueRepairJobs: 0,
+        performanceScore: null,
+        totalRepairJobs: 0,
       });
     });
   });

@@ -3,44 +3,78 @@ import getResolverToTest, { TestResolver } from '@/mocks/gql/getResolverToTest';
 import createDataSourcesMock from '@/mocks/gql/mockedDataSources';
 import { changeLogPrismaMock } from '@/mocks/gql/prismaMocks';
 import ChangeLog from '@/pages/api/graphql/resolvers/ChangeLog';
-import { parseChangeLogValue } from '@/pages/api/graphql/resolvers/utils';
+import { computeChangeLogFieldChanges } from '@/pages/api/graphql/resolvers/utils';
 
 jest.mock('@/pages/api/graphql/resolvers/utils', () => ({
-  parseChangeLogValue: jest.fn(),
+  computeChangeLogFieldChanges: jest.fn(),
 }));
 
 describe('ChangeLog', () => {
   let mockDataSources: ReturnType<typeof createDataSourcesMock>;
 
-  let oldValueResolver: TestResolver<ChangeLogResolvers, 'oldValue'>;
-  let newValueResolver: TestResolver<ChangeLogResolvers, 'newValue'>;
+  let changeListResolver: TestResolver<ChangeLogResolvers, 'changeList'>;
+  let modifiedByResolver: TestResolver<ChangeLogResolvers, 'modifiedBy'>;
 
   beforeEach(() => {
     mockDataSources = createDataSourcesMock(changeLogPrismaMock);
 
-    oldValueResolver = getResolverToTest<ChangeLogResolvers, 'oldValue'>(ChangeLog, 'oldValue', mockDataSources);
-    newValueResolver = getResolverToTest<ChangeLogResolvers, 'newValue'>(ChangeLog, 'newValue', mockDataSources);
+    changeListResolver = getResolverToTest<ChangeLogResolvers, 'changeList'>(ChangeLog, 'changeList', mockDataSources);
+    modifiedByResolver = getResolverToTest<ChangeLogResolvers, 'modifiedBy'>(ChangeLog, 'modifiedBy', mockDataSources);
   });
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('should resolve oldValue', async () => {
-    (parseChangeLogValue as jest.Mock).mockReturnValue({ a: 1 });
+  describe('modifiedBy', () => {
+    it('should return "System" if userId is null', async () => {
+      const result = await modifiedByResolver({ userId: null });
 
-    const result = await oldValueResolver({ oldValue: '{"a":1}' });
+      expect(result).toBe('System');
+    });
 
-    expect(parseChangeLogValue).toHaveBeenCalledWith('{"a":1}');
-    expect(result).toEqual({ a: 1 });
+    it('should fetch user and return name if firstName and lastName exist', async () => {
+      const mockUser = { id: 'test-id', firstName: 'John', lastName: 'Doe', email: 'john@example.com' };
+      mockDataSources.user.user.mockResolvedValue(mockUser);
+
+      const result = await modifiedByResolver({ userId: '123' });
+
+      expect(mockDataSources.user.user).toHaveBeenCalledWith('123');
+      expect(result).toBe('John Doe');
+    });
+
+    it('should return email if firstName or lastName missing', async () => {
+      const mockUser = { id: 'test-id', firstName: '', lastName: '', email: 'no-name@example.com' };
+      mockDataSources.user.user.mockResolvedValue(mockUser);
+
+      const result = await modifiedByResolver({ userId: '456' });
+
+      expect(result).toBe('no-name@example.com');
+    });
   });
 
-  it('should resolve newValue', async () => {
-    (parseChangeLogValue as jest.Mock).mockReturnValue({ b: 2 });
+  describe('changeList', () => {
+    it('should return computed change log changes', async () => {
+      const mockChangeList = [{ field: 'name', oldValue: 'Old', newValue: 'New', action: 'update' }];
 
-    const result = await newValueResolver({ newValue: '{"b":2}' });
+      (computeChangeLogFieldChanges as jest.Mock).mockReturnValue(mockChangeList);
 
-    expect(parseChangeLogValue).toHaveBeenCalledWith('{"b":2}');
-    expect(result).toEqual({ b: 2 });
+      const args = { oldValue: '{"name":"Old"}', newValue: '{"name":"New"}', action: 'update' };
+
+      const result = await changeListResolver(args);
+
+      expect(computeChangeLogFieldChanges).toHaveBeenCalledWith(args);
+      expect(result).toEqual(mockChangeList);
+    });
+
+    it('should return empty array if no changes', async () => {
+      (computeChangeLogFieldChanges as jest.Mock).mockReturnValue([]);
+
+      const args = { oldValue: null, newValue: null, action: 'update' };
+
+      const result = await changeListResolver(args);
+
+      expect(result).toEqual([]);
+    });
   });
 });

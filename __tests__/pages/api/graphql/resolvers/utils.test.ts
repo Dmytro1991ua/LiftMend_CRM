@@ -16,6 +16,8 @@ import {
 } from '@/pages/api/graphql/constants';
 import {
   clampScoreToPercentage,
+  computeChangeLogFieldChanges,
+  computeFieldChangesForKeys,
   getAverageRepairJobDurationInDays,
   getCalculateTechnicianPerformanceScore,
   getCalculatedElevatorHealthScore,
@@ -394,5 +396,108 @@ describe('getTechnicianPerformanceMetrics', () => {
       performanceScore: null,
       totalRepairJobs: 0,
     });
+  });
+});
+
+describe('createChangeLogField', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should create field changes for meaningful updates', () => {
+    const mockKeys = ['a', 'b'];
+    const mockGetOld = (key: string) => (key === 'a' ? 1 : null);
+    const mockGetNew = (key: string) => (key === 'a' ? 2 : 3);
+
+    const result = computeFieldChangesForKeys({
+      action: 'update',
+      keys: mockKeys,
+      getOld: mockGetOld,
+      getNew: mockGetNew,
+    });
+
+    expect(result).toEqual([
+      { field: 'a', oldValue: 1, newValue: 2, action: 'update' },
+      { field: 'b', oldValue: null, newValue: 3, action: 'update' },
+    ]);
+  });
+
+  it('should skip fields where both old and new values are null', () => {
+    const mockKeys = ['a'];
+    const mockGetOld = () => null;
+    const mockGetNew = () => null;
+
+    const result = computeFieldChangesForKeys({
+      action: 'update',
+      keys: mockKeys,
+      getOld: mockGetOld,
+      getNew: mockGetNew,
+    });
+
+    expect(result).toEqual([]);
+  });
+
+  it('should skip unchanged fields for updates', () => {
+    const mockKeys = ['c'];
+    const mockGetOld = () => 'same';
+    const mockGetNew = () => 'same';
+
+    const result = computeFieldChangesForKeys({
+      action: 'update',
+      keys: mockKeys,
+      getOld: mockGetOld,
+      getNew: mockGetNew,
+    });
+
+    expect(result).toEqual([]);
+  });
+});
+
+describe('computeChangeLogFieldChanges', () => {
+  afterEach(() => jest.clearAllMocks());
+
+  it('should handle create action', () => {
+    const mockOldValue = null;
+    const mockNewValue = JSON.stringify({ a: 1, b: null });
+
+    const result = computeChangeLogFieldChanges({ oldValue: mockOldValue, newValue: mockNewValue, action: 'create' });
+
+    expect(result).toEqual([{ field: 'a', oldValue: null, newValue: 1, action: 'create' }]);
+  });
+
+  it('should handle update action', () => {
+    const mockOldValue = JSON.stringify({ a: 1, b: 2 });
+    const mockNewValue = JSON.stringify({ a: 1, b: 3, c: null });
+
+    const result = computeChangeLogFieldChanges({ oldValue: mockOldValue, newValue: mockNewValue, action: 'update' });
+
+    expect(result).toEqual([{ field: 'b', oldValue: 2, newValue: 3, action: 'update' }]);
+  });
+
+  it('should handle delete action', () => {
+    const mockOldValue = JSON.stringify({ a: 1, b: null });
+    const mockNewValue = null;
+
+    const result = computeChangeLogFieldChanges({ oldValue: mockOldValue, newValue: mockNewValue, action: 'delete' });
+
+    expect(result).toEqual([{ field: 'a', oldValue: 1, newValue: null, action: 'delete' }]);
+  });
+
+  it('should return empty array for unknown action', () => {
+    const mockOldValue = '{"a":1}';
+    const mockNewValue = '{"a":2}';
+
+    const result = computeChangeLogFieldChanges({ oldValue: mockOldValue, newValue: mockNewValue, action: 'unknown' });
+
+    expect(result).toEqual([]);
+  });
+
+  it('should skip null-only changes', () => {
+    const mockOldValue = JSON.stringify({ a: null });
+    const mockNewValue = JSON.stringify({ a: null });
+
+    const result = computeChangeLogFieldChanges({ oldValue: mockOldValue, newValue: mockNewValue, action: 'update' });
+
+    expect(result).toEqual([]);
   });
 });
