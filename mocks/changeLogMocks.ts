@@ -1,77 +1,127 @@
-export const mockRepairJobChangeLogUserId = 'test-change-log-user-id';
-export const mockRepairJobChangeLogId = 'test-change-log-id';
-export const mockRepairJobChangeLogEntityId = 'test-change-log-entity-id';
+import { FetchResult } from '@apollo/client';
+import { MockedResponse } from '@apollo/client/testing';
 
-export const mocCalendarEventChangeLogUserId = 'test-change-log-user-id-2';
-export const mocCalendarEventChangeLogId = 'test-change-log-id-2';
-export const mocCalendarEventChangeLogEntityId = 'test-change-log-entity-id-2';
+import { GET_CHANGE_LOGS } from '@/graphql/schemas/getChangeLogs';
+import { GetChangeLogsQuery } from '@/graphql/types/client/generated_types';
 
-export const mockRepairJobChangeLog = {
-  userId: mockRepairJobChangeLogUserId,
-  id: mockRepairJobChangeLogId,
+const mockSystemChangeLogId = 'test-system-change-log-id';
+const mockUserChangeLogId = 'test-user-change-log-id';
+
+export const mockSystemChangeLog = {
+  modifiedBy: 'System',
+  id: mockSystemChangeLogId,
   entityType: 'RepairJob',
-  entityId: mockRepairJobChangeLogEntityId,
-  field: '*',
-  oldValue: null,
-  newValue: {
-    id: mockRepairJobChangeLogEntityId,
-    jobType: 'Emergency',
-    jobDetails: 'sdadasdasasdas',
-    elevatorType: 'Ship Elevator',
-    buildingName: 'Bayview Condominiums',
-    elevatorLocation: 'Kitchen',
-    technicianName: 'Ava Young',
-    startDate: '2025-12-28T08:00:00.000Z',
-    endDate: '2025-12-28T11:00:00.000Z',
-    calendarEventId: null,
-    jobPriority: 'High',
-    status: 'Scheduled',
-    actualEndDate: null,
-    isOverdue: false,
-    createdAt: '2025-12-27T18:08:21.374Z',
-    updatedAt: '2025-12-27T18:08:21.374Z',
-    elevatorId: 'cdd361e9-53b7-486a-a0a9-465a43787f64',
-    technicianId: '31114b1d-eb1f-4c1f-9602-979f1e6d90cf',
-  },
+  entityId: 'f00442c5-ab22-445d-af55-b8012bf5fe6e',
+  changeList: [
+    {
+      field: 'isOverdue',
+      oldValue: false,
+      newValue: true,
+      action: 'update',
+      __typename: 'FieldChange',
+    },
+  ],
+  createdAt: '2025-12-28T11:00:05.069Z',
+  __typename: 'ChangeLog',
 };
 
-export const mockCalendarEventChangeLog = {
-  userId: mocCalendarEventChangeLogUserId,
-  id: mocCalendarEventChangeLogId,
-  entityType: 'CalendarEvent',
-  entityId: mocCalendarEventChangeLogEntityId,
-  field: '*',
-  oldValue: null,
-  newValue: {
-    id: mocCalendarEventChangeLogEntityId,
-    title: 'Emergency Repair Job',
-    start: '2025-12-28T08:00:00.000Z',
-    end: '2025-12-28T11:00:00.000Z',
-    description: 'Repair Job for Ship Elevator at Bayview Condominiums - Kitchen',
-    allDay: false,
-    repairJobId: 'f00442c5-ab22-445d-af55-b8012bf5fe6e',
-  },
-  action: 'create',
-  createdAt: '2025-12-27T18:08:22.199Z',
+export const mockUserChangeLog = {
+  modifiedBy: 'Alex Smith',
+  id: mockUserChangeLogId,
+  entityType: 'ElevatorRecord',
+  entityId: 'cdd361e9-53b7-486a-a0a9-465a43787f64',
+  changeList: [
+    {
+      field: 'status',
+      oldValue: 'Operational',
+      newValue: 'Under Maintenance',
+      action: 'update',
+      __typename: 'FieldChange',
+    },
+  ],
+  createdAt: '2025-12-27T18:08:23.303Z',
+  __typename: 'ChangeLog',
 };
 
 export const mockedReturnedChangeLogsData = {
   getChangeLogs: {
     edges: [
       {
-        cursor: mockRepairJobChangeLogUserId,
-        node: { ...mockRepairJobChangeLog, __typename: 'ChangeLog' },
+        cursor: mockSystemChangeLogId,
+        node: { ...mockSystemChangeLog, __typename: 'ChangeLog' },
         __typename: 'ChangeLogEdge',
       },
     ],
     pageInfo: {
       hasNextPage: true,
       hasPreviousPage: false,
-      startCursor: mockRepairJobChangeLogUserId,
-      endCursor: mockRepairJobChangeLogUserId,
+      startCursor: mockSystemChangeLogId,
+      endCursor: mockSystemChangeLogId,
       __typename: 'PageInfo',
     },
     total: 1,
     __typename: 'ChangeLogConnection',
   },
 };
+
+export const mockPaginatedChangeLogData = {
+  getChangeLogs: {
+    edges: [
+      {
+        cursor: mockUserChangeLogId,
+        node: { ...mockUserChangeLog, __typename: 'ChangeLog' },
+        __typename: 'ChangeLogEdge',
+      },
+    ],
+    pageInfo: {
+      hasNextPage: false,
+      hasPreviousPage: true,
+      startCursor: mockUserChangeLogId,
+      endCursor: mockUserChangeLogId,
+      __typename: 'PageInfo',
+    },
+    total: 1,
+    __typename: 'ChangeLogConnection',
+  },
+};
+
+export const mockChangeLogResponse: FetchResult<GetChangeLogsQuery> = {
+  data: { ...(mockedReturnedChangeLogsData as GetChangeLogsQuery) },
+};
+
+export const mockPaginatedChangeLogResponse: FetchResult<GetChangeLogsQuery> = {
+  data: { ...(mockPaginatedChangeLogData as GetChangeLogsQuery) },
+};
+
+export const mockChangeLogs: MockedResponse<GetChangeLogsQuery> = {
+  request: {
+    query: GET_CHANGE_LOGS,
+    variables: {
+      paginationOptions: {
+        limit: 20,
+        offset: 0,
+      },
+    },
+  },
+  result: {
+    ...mockChangeLogResponse,
+  },
+};
+
+export const mockPaginatedChangeLogs: MockedResponse<GetChangeLogsQuery>[] = [
+  mockChangeLogs,
+  {
+    request: {
+      query: GET_CHANGE_LOGS,
+      variables: {
+        paginationOptions: {
+          limit: 20,
+          offset: 1,
+        },
+      },
+    },
+    result: {
+      ...mockPaginatedChangeLogResponse,
+    },
+  },
+];

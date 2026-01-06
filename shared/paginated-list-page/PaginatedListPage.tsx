@@ -22,6 +22,7 @@ export type PaginatedListPageProps = {
   onNext: () => void;
   totalItems: number;
   children?: React.ReactNode;
+  sectionSubtitle?: string;
 };
 
 const PaginatedListPage = ({
@@ -35,6 +36,7 @@ const PaginatedListPage = ({
   errorTitle,
   emptyStateMessage,
   hasMore,
+  sectionSubtitle,
   onNext,
 }: PaginatedListPageProps) => {
   const dataLoadStatus = getDerivedDataLoadStatus(isEmpty, isInitialLoading, errorMessage);
@@ -46,10 +48,15 @@ const PaginatedListPage = ({
 
   return (
     <section>
-      <SectionHeader actionComponent={controls} goBackButton={<GoBackButton />} title={sectionTitle} />
+      <SectionHeader
+        actionComponent={controls}
+        goBackButton={<GoBackButton />}
+        subtitle={sectionSubtitle}
+        title={sectionTitle}
+      />
       {dataLoadStatus && dataLoadStatusView[dataLoadStatus]}
       <div className={cn('flex flex-column h-dvh content-wrapper')}>
-        <div className='h-[60rem] overflow-y-auto' id='scrollable-paginated-list'>
+        <div className='h-[60rem] overflow-y-auto w-full' id='scrollable-paginated-list'>
           <InfiniteScroll
             dataLength={totalItems}
             hasMore={hasMore}
@@ -65,7 +72,8 @@ const PaginatedListPage = ({
             }
             next={onNext}
             scrollThreshold={0.99}
-            scrollableTarget='scrollable-paginated-list'>
+            scrollableTarget='scrollable-paginated-list'
+          >
             {children}
           </InfiniteScroll>
         </div>

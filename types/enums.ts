@@ -14,6 +14,7 @@ export enum AppRoutes {
   ResetPassword = '/reset-password',
   SignOut = '/signout',
   Notifications = '/notifications',
+  ChangeLog = '/change-log',
 }
 
 export enum SectionHeaderTitle {

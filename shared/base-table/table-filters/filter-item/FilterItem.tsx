@@ -30,7 +30,7 @@ const FilterItem = <T,>({
 
   return (
     <>
-      <AccordionTrigger className=' py-1 hover:no-underline'>
+      <AccordionTrigger className='py-1 hover:no-underline'>
         <FilterHeader
           label={label}
           selectedFiltersCount={selectedFiltersCount}

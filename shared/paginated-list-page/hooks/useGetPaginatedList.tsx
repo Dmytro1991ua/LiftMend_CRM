@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { OperationVariables, useQuery } from '@apollo/client';
+import { OperationVariables, QueryHookOptions, useQuery } from '@apollo/client';
 import { DocumentNode } from 'graphql';
 
 import { DEFAULT_PAGINATION_LIMIT, DEFAULT_PAGINATION_OFFSET } from '@/shared/constants';
@@ -8,7 +8,7 @@ import { DEFAULT_PAGINATION_LIMIT, DEFAULT_PAGINATION_OFFSET } from '@/shared/co
 export type UseGetPaginatedListProps<TQueryResult, TData> = {
   query: DocumentNode;
   queryVariables: OperationVariables;
-  pollInterval?: number;
+  queryOptions?: QueryHookOptions<TQueryResult, OperationVariables>;
   getData: (data: TQueryResult) => TData[];
   getPageInfo: (data: TQueryResult) => { hasNextPage: boolean };
   getNextOffset?: (data: TQueryResult) => number;
@@ -26,7 +26,7 @@ export type UseGetPaginatedList<TData> = {
 export const useGetPaginatedList = <TQueryResult, TData>({
   query,
   queryVariables,
-  pollInterval,
+  queryOptions,
   getData,
   getPageInfo,
   getNextOffset,
@@ -34,7 +34,7 @@ export const useGetPaginatedList = <TQueryResult, TData>({
   const { data, loading, error, fetchMore } = useQuery(query, {
     variables: queryVariables,
     notifyOnNetworkStatusChange: true,
-    ...(pollInterval ? { pollInterval } : {}),
+    ...queryOptions,
   });
 
   const fetchedData = useMemo(() => getData(data) ?? [], [data, getData]);

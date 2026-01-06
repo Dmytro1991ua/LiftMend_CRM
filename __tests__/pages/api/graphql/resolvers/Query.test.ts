@@ -1,5 +1,6 @@
 import {
   ChangeLogConnection,
+  Connection,
   ElevatorRecordFormData,
   NotificationConnection,
   RepairJobConnection,
@@ -42,6 +43,7 @@ import {
 } from '@/mocks/technicianManagementMocks';
 import { mockUser } from '@/mocks/userMocks';
 import { DEFAULT_RECENT_JOBS_COUNT } from '@/pages/api/graphql/dataSources/constants';
+import { DAAPIChangeLog } from '@/pages/api/graphql/dataSources/models';
 import Query from '@/pages/api/graphql/resolvers/Query';
 
 jest.mock('@/lib/supabase-service-role', () => ({
@@ -450,9 +452,7 @@ describe('Query', () => {
 
     describe('getChangeLogs', () => {
       it('should return changeLogs', async () => {
-        mockDataSources.changeLog.changeLogs.mockResolvedValue(
-          mockedReturnedChangeLogsData.getChangeLogs as ChangeLogConnection
-        );
+        mockDataSources.changeLog.changeLogs.mockResolvedValue(mockedReturnedChangeLogsData.getChangeLogs as any);
 
         const result = await getChangeLogsResolver();
 

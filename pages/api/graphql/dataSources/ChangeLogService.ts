@@ -13,7 +13,7 @@ class ChangeLogService {
     this.prisma = prisma;
   }
 
-  async changeLogs(args: QueryGetChangeLogsArgs): Promise<ChangeLogConnection> {
+  async changeLogs(args: QueryGetChangeLogsArgs) {
     const { paginationOptions, filterOptions } = args;
 
     const filters = createChangeLogFilterOptions(filterOptions);

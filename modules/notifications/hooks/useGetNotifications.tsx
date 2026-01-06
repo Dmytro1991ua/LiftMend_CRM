@@ -41,7 +41,9 @@ export const useGetNotifications = (): NotificationsState => {
     Notification
   >({
     query: GET_NOTIFICATIONS,
-    pollInterval: DEFAULT_QUERY_POLL_INTERVAL,
+    queryOptions: {
+      pollInterval: DEFAULT_QUERY_POLL_INTERVAL,
+    },
     queryVariables: { paginationOptions: DEFAULT_PAGINATION, filterOptions: filters },
     getData: (data) => removeTypeNamesFromArray(getItemsFromQuery<Notification>(data?.getNotifications)),
     getPageInfo: (data) => data?.getNotifications?.pageInfo,
