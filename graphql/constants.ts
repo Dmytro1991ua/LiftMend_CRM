@@ -32,3 +32,5 @@ export const TECHNICIAN_RECORD_KEY_FIELDS = [
 export const ELEVATOR_MAINTENANCE_HISTORY_KEY_FIELDS = ['buildingName', 'elevatorLocation'];
 
 export const NOTIFICATIONS_KEY_FIELDS = ['filterOptions', ['category', 'status']];
+
+export const CHANGE_LOGS_KEY_FIELDS = ['filterOptions', ['action', 'entityType']];

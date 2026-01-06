@@ -13,6 +13,8 @@ export type Scalars = {
   Int: { input: number; output: number };
   Float: { input: number; output: number };
   DateTime: { input: any; output: any };
+  /** JSONDataType includes all possible JSON data types. */
+  JSONDataType: { input: any; output: any };
   Upload: { input: any; output: any };
   Void: { input: any; output: any };
 };
@@ -44,6 +46,40 @@ export type CalendarEvent = {
   repairJobId: Maybe<Scalars['String']['output']>;
   start: Scalars['DateTime']['output'];
   title: Scalars['String']['output'];
+};
+
+export type ChangeLog = Node & {
+  __typename?: 'ChangeLog';
+  /** Array of fields that actually changed */
+  changeList: Array<FieldChange>;
+  /** Timestamp of when the change occurred */
+  createdAt: Maybe<Scalars['DateTime']['output']>;
+  /** ID of the specific entity instance that was changed */
+  entityId: Scalars['String']['output'];
+  /** Type of entity changed: RepairJob, ElevatorRecord, TechnicianRecord */
+  entityType: Scalars['String']['output'];
+  /** Unique identifier of the audit record */
+  id: Scalars['ID']['output'];
+  /** User who made the change. Null if system-generated */
+  modifiedBy: Maybe<Scalars['String']['output']>;
+};
+
+export type ChangeLogConnection = Connection & {
+  __typename?: 'ChangeLogConnection';
+  edges: Array<ChangeLogEdge>;
+  pageInfo: PageInfo;
+  total: Scalars['Int']['output'];
+};
+
+export type ChangeLogEdge = Edge & {
+  __typename?: 'ChangeLogEdge';
+  cursor: Scalars['String']['output'];
+  node: ChangeLog;
+};
+
+export type ChangeLogFilterOptions = {
+  action?: InputMaybe<Array<Scalars['String']['input']>>;
+  entityType?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 export type Connection = {
@@ -198,6 +234,18 @@ export type ElevatorRecordsMetrics = {
   totalElevatorRecords: Scalars['Int']['output'];
   underMaintenanceElevators: Scalars['Int']['output'];
   vehicleParkingElevators: Scalars['Int']['output'];
+};
+
+export type FieldChange = {
+  __typename?: 'FieldChange';
+  /** Action type: create, update, delete */
+  action: Scalars['String']['output'];
+  /** Name of the field that was changed */
+  field: Scalars['String']['output'];
+  /** New value of the field (null if delete) */
+  newValue: Maybe<Scalars['JSONDataType']['output']>;
+  /** Previous value of the field (null if create) */
+  oldValue: Maybe<Scalars['JSONDataType']['output']>;
 };
 
 export type ForgotPasswordInput = {
@@ -432,6 +480,7 @@ export type Query = {
   __typename?: 'Query';
   getAvailableTechniciansForAssignment: Array<TechnicianRecord>;
   getCalendarEvents: Array<CalendarEvent>;
+  getChangeLogs: ChangeLogConnection;
   getDashboardMetrics: DashboardMetrics;
   getElevatorDetailsByBuildingName: ElevatorDetails;
   getElevatorMaintenanceHistory: RepairJobConnection;
@@ -448,6 +497,11 @@ export type Query = {
   getTechnicianRecords: TechnicianRecordConnection;
   getUnreadNotificationCount: Scalars['Int']['output'];
   getUser: AppUser;
+};
+
+export type QueryGetChangeLogsArgs = {
+  filterOptions?: InputMaybe<ChangeLogFilterOptions>;
+  paginationOptions?: InputMaybe<PaginationOptions>;
 };
 
 export type QueryGetDashboardMetricsArgs = {
@@ -781,6 +835,22 @@ export type CalendarEventFieldsFragment = {
   repairJobId: string | null;
 };
 
+export type ChangeLogFieldsFragment = {
+  __typename?: 'ChangeLog';
+  modifiedBy: string | null;
+  id: string;
+  entityType: string;
+  entityId: string;
+  createdAt: any | null;
+  changeList: Array<{
+    __typename?: 'FieldChange';
+    field: string;
+    oldValue: any | null;
+    newValue: any | null;
+    action: string;
+  }>;
+};
+
 export type ElevatorRecordFieldsFragment = {
   __typename?: 'ElevatorRecord';
   id: string;
@@ -992,6 +1062,45 @@ export type GetCalendarEventsQuery = {
     description: string | null;
     repairJobId: string | null;
   }>;
+};
+
+export type GetChangeLogsQueryVariables = Exact<{
+  paginationOptions?: InputMaybe<PaginationOptions>;
+  filterOptions?: InputMaybe<ChangeLogFilterOptions>;
+}>;
+
+export type GetChangeLogsQuery = {
+  __typename?: 'Query';
+  getChangeLogs: {
+    __typename?: 'ChangeLogConnection';
+    total: number;
+    edges: Array<{
+      __typename?: 'ChangeLogEdge';
+      cursor: string;
+      node: {
+        __typename?: 'ChangeLog';
+        modifiedBy: string | null;
+        id: string;
+        entityType: string;
+        entityId: string;
+        createdAt: any | null;
+        changeList: Array<{
+          __typename?: 'FieldChange';
+          field: string;
+          oldValue: any | null;
+          newValue: any | null;
+          action: string;
+        }>;
+      };
+    }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor: string | null;
+      endCursor: string | null;
+    };
+  };
 };
 
 export type GetDashboardMetricsQueryVariables = Exact<{

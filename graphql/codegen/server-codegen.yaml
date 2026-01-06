@@ -8,8 +8,7 @@ generates:
       maybeValue: 'T | undefined | null'
       contextType: '@/pages/api/graphql/types#Context'
       mappers:
-        User: '@prisma/client#User as UserModel'
-        ChangeLog: '@prisma/client#ChangeLog as ChangeLog'
+        ChangeLog: '@/pages/api/graphql/dataSources/models#DAAPIChangeLog'
     plugins:
       - 'typescript'
       - 'typescript-resolvers'

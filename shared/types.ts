@@ -126,6 +126,22 @@ export type Notification = {
   readAt: Maybe<Date>;
 };
 
+export type ChangeLogFieldChange = {
+  field: string;
+  oldValue: unknown;
+  newValue: unknown;
+  action: string;
+};
+
+export type ChangeLog = {
+  modifiedBy: string | null;
+  id: string;
+  entityType: string;
+  entityId: string;
+  changeList: ChangeLogFieldChange[];
+  createdAt: string | null;
+};
+
 export type TableModel = RepairJob & ElevatorRecord & TechnicianRecord;
 export type TableValue = string | Date | string[] | Maybe<string> | unknown;
 

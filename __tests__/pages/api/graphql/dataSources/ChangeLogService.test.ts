@@ -1,5 +1,5 @@
 import { QueryGetChangeLogsArgs } from '@/graphql/types/server/generated_types';
-import { mockCalendarEventChangeLog, mockRepairJobChangeLog } from '@/mocks/changeLogMocks';
+import { mockSystemChangeLog, mockUserChangeLog } from '@/mocks/changeLogMocks';
 import { changeLogPrismaMock } from '@/mocks/gql/prismaMocks';
 import ChangeLogService from '@/pages/api/graphql/dataSources/ChangeLogService';
 import { DEFAULT_SORTING_OPTION } from '@/pages/api/graphql/dataSources/constants';
@@ -26,7 +26,7 @@ describe('ChangeLogService', () => {
 
     const mockFilters = { action: 'update' };
     const mockOrderBy = { createdAt: DEFAULT_SORTING_OPTION };
-    const mockChangeLogs = [mockRepairJobChangeLog, mockCalendarEventChangeLog];
+    const mockChangeLogs = [mockSystemChangeLog, mockUserChangeLog];
     const mockTotalItems = 2;
     const mockConnection = {
       edges: [],
