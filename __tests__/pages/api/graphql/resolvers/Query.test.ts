@@ -439,11 +439,13 @@ describe('Query', () => {
     let mockDataSources: ReturnType<typeof createDataSourcesMock>;
 
     let getChangeLogsResolver: TestResolver<typeof Query, 'getChangeLogs'>;
+    let getChangeLogFilterDataResolver: TestResolver<typeof Query, 'getChangeLogFilterData'>;
 
     beforeEach(() => {
       mockDataSources = createDataSourcesMock(notificationServicePrismaMock);
 
       getChangeLogsResolver = getResolverToTest(Query, 'getChangeLogs', mockDataSources);
+      getChangeLogFilterDataResolver = getResolverToTest(Query, 'getChangeLogFilterData', mockDataSources);
     });
 
     afterEach(() => {
@@ -458,6 +460,30 @@ describe('Query', () => {
 
         expect(mockDataSources.changeLog.changeLogs).toHaveBeenCalled();
         expect(result).toEqual(mockedReturnedChangeLogsData.getChangeLogs);
+      });
+    });
+
+    describe('getChangeLogFilterData', () => {
+      it('should fetch change log and user filters data and combine them', async () => {
+        const mockUsers = ['Alice Smith', 'John Doe'];
+        const mockChangeLogFilters = {
+          actions: ['Create', 'Update', 'Delete'],
+          entityTypes: ['User', 'RepairJob'],
+          users: mockUsers,
+        };
+
+        mockDataSources.changeLog.changeLogFilterData.mockResolvedValue(mockChangeLogFilters);
+        mockDataSources.user.userFilterData.mockResolvedValue(mockUsers);
+
+        const result = await getChangeLogFilterDataResolver();
+
+        expect(mockDataSources.changeLog.changeLogFilterData).toHaveBeenCalledTimes(1);
+        expect(mockDataSources.user.userFilterData).toHaveBeenCalledTimes(1);
+
+        expect(result).toEqual({
+          ...mockChangeLogFilters,
+          users: mockUsers,
+        });
       });
     });
   });

@@ -1,6 +1,6 @@
 import { PassThrough } from 'stream';
 
-import { RepairJob } from '@prisma/client';
+import { RepairJob, User } from '@prisma/client';
 import DataLoader from 'dataloader';
 import { Kind } from 'graphql';
 
@@ -45,6 +45,8 @@ jest.mock('dataloader', () => {
   }));
 });
 
+jest.mock('@prisma/client');
+
 describe('utils', () => {
   describe('getSortedFormDropdownData', () => {
     afterEach(() => {
@@ -64,6 +66,22 @@ describe('utils', () => {
       expect(result).toEqual(['a', 'b', 'c', 'd', 'z']);
     });
 
+    it('should return sorted mapped values when mapper is provided', async () => {
+      const mockData = [
+        { firstName: 'John', lastName: 'Doe' },
+        { firstName: 'Alice', lastName: 'Smith' },
+      ];
+
+      const model = {
+        findMany: jest.fn().mockResolvedValue(mockData),
+      };
+
+      const result = await getSortedFormDropdownData(model, undefined, (u: User) => `${u.firstName} ${u.lastName}`);
+
+      expect(model.findMany).toHaveBeenCalled();
+      expect(result).toEqual(['Alice Smith', 'John Doe']);
+    });
+
     it('should return empty array if findMany returns empty', async () => {
       const model = {
         findMany: jest.fn().mockResolvedValue([]),
@@ -72,6 +90,16 @@ describe('utils', () => {
       const result = await getSortedFormDropdownData(model, 'tags');
 
       expect(model.findMany).toHaveBeenCalled();
+      expect(result).toEqual([]);
+    });
+
+    it('should return empty array if no field or mapper is provided', async () => {
+      const model = {
+        findMany: jest.fn().mockResolvedValue([{ foo: 'bar' }]),
+      };
+
+      const result = await getSortedFormDropdownData(model);
+
       expect(result).toEqual([]);
     });
   });
@@ -903,9 +931,16 @@ describe('createNotificationFilterOptions', () => {
 });
 
 describe('createChangeLogFilterOptions', () => {
-  const scenarios = [
+  const mockNow = new Date('2024-01-01T00:00:00.000Z');
+  const mockLater = new Date('2024-01-10T00:00:00.000Z');
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  const mockScenarios = [
     {
-      description: 'should return an empty object when no filter options are provided',
+      description: 'should return empty object when no filter options are provided',
       input: undefined,
       expected: {},
     },
@@ -920,18 +955,61 @@ describe('createChangeLogFilterOptions', () => {
       expected: { entityType: { in: ['RepairJob'] } },
     },
     {
-      description: 'should return both action and entityType if both are provided',
-      input: { action: ['update'], entityType: ['RepairJob'] },
-      expected: { action: { in: ['update'] }, entityType: { in: ['RepairJob'] } },
+      description: 'should return userId filter if userId is provided',
+      input: { userId: ['user-1'] },
+      expected: { userId: { in: ['user-1'] } },
     },
     {
-      description: 'should ignore falsy values for action and entityType',
-      input: { action: [], entityType: [] },
+      description: 'should return createdFrom filter',
+      input: { createdFrom: mockNow },
+      expected: { createdAt: { gte: mockNow } },
+    },
+    {
+      description: 'should return createdTo filter',
+      input: { createdTo: mockLater },
+      expected: { createdAt: { lte: mockLater } },
+    },
+    {
+      description: 'should return createdFrom and createdTo filter',
+      input: { createdFrom: mockNow, createdTo: mockLater },
+      expected: {
+        createdAt: {
+          gte: mockNow,
+          lte: mockLater,
+        },
+      },
+    },
+    {
+      description: 'should return all filters combined',
+      input: {
+        action: ['update'],
+        entityType: ['RepairJob'],
+        userId: ['user-1'],
+        createdFrom: mockNow,
+        createdTo: mockLater,
+      },
+      expected: {
+        action: { in: ['update'] },
+        entityType: { in: ['RepairJob'] },
+        userId: { in: ['user-1'] },
+        createdAt: {
+          gte: mockNow,
+          lte: mockLater,
+        },
+      },
+    },
+    {
+      description: 'should ignore empty arrays',
+      input: {
+        action: [],
+        entityType: [],
+        userId: [],
+      },
       expected: {},
     },
   ];
 
-  scenarios.forEach(({ description, input, expected }) => {
+  mockScenarios.forEach(({ description, input, expected }) => {
     it(description, () => {
       const result = createChangeLogFilterOptions(input);
 

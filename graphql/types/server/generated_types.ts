@@ -82,9 +82,19 @@ export type ChangeLogEdge = Edge & {
   node: ChangeLog;
 };
 
+export type ChangeLogFilterData = {
+  __typename?: 'ChangeLogFilterData';
+  actions: Array<Scalars['String']['output']>;
+  entityTypes: Array<Maybe<Scalars['String']['output']>>;
+  users: Array<Scalars['String']['output']>;
+};
+
 export type ChangeLogFilterOptions = {
   action?: InputMaybe<Array<Scalars['String']['input']>>;
+  createdFrom?: InputMaybe<Scalars['DateTime']['input']>;
+  createdTo?: InputMaybe<Scalars['DateTime']['input']>;
   entityType?: InputMaybe<Array<Scalars['String']['input']>>;
+  userId?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 export type Connection = {
@@ -482,6 +492,7 @@ export type Query = {
   __typename?: 'Query';
   getAvailableTechniciansForAssignment: Array<TechnicianRecord>;
   getCalendarEvents: Array<CalendarEvent>;
+  getChangeLogFilterData: ChangeLogFilterData;
   getChangeLogs: ChangeLogConnection;
   getDashboardMetrics: DashboardMetrics;
   getElevatorDetailsByBuildingName: ElevatorDetails;
@@ -925,6 +936,7 @@ export type ResolversTypes = ResolversObject<{
     Omit<ChangeLogConnection, 'edges'> & { edges: Array<ResolversTypes['ChangeLogEdge']> }
   >;
   ChangeLogEdge: ResolverTypeWrapper<Omit<ChangeLogEdge, 'node'> & { node: ResolversTypes['ChangeLog'] }>;
+  ChangeLogFilterData: ResolverTypeWrapper<ChangeLogFilterData>;
   ChangeLogFilterOptions: ChangeLogFilterOptions;
   Connection: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Connection']>;
   CreateCalendarEventInput: CreateCalendarEventInput;
@@ -1006,6 +1018,7 @@ export type ResolversParentTypes = ResolversObject<{
   ChangeLog: DAAPIChangeLog;
   ChangeLogConnection: Omit<ChangeLogConnection, 'edges'> & { edges: Array<ResolversParentTypes['ChangeLogEdge']> };
   ChangeLogEdge: Omit<ChangeLogEdge, 'node'> & { node: ResolversParentTypes['ChangeLog'] };
+  ChangeLogFilterData: ChangeLogFilterData;
   ChangeLogFilterOptions: ChangeLogFilterOptions;
   Connection: ResolversInterfaceTypes<ResolversParentTypes>['Connection'];
   CreateCalendarEventInput: CreateCalendarEventInput;
@@ -1140,6 +1153,16 @@ export type ChangeLogEdgeResolvers<
 > = ResolversObject<{
   cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   node?: Resolver<ResolversTypes['ChangeLog'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type ChangeLogFilterDataResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['ChangeLogFilterData'] = ResolversParentTypes['ChangeLogFilterData']
+> = ResolversObject<{
+  actions?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  entityTypes?: Resolver<Array<Maybe<ResolversTypes['String']>>, ParentType, ContextType>;
+  users?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1492,6 +1515,7 @@ export type QueryResolvers<
 > = ResolversObject<{
   getAvailableTechniciansForAssignment?: Resolver<Array<ResolversTypes['TechnicianRecord']>, ParentType, ContextType>;
   getCalendarEvents?: Resolver<Array<ResolversTypes['CalendarEvent']>, ParentType, ContextType>;
+  getChangeLogFilterData?: Resolver<ResolversTypes['ChangeLogFilterData'], ParentType, ContextType>;
   getChangeLogs?: Resolver<
     ResolversTypes['ChangeLogConnection'],
     ParentType,
@@ -1772,6 +1796,7 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   ChangeLog?: ChangeLogResolvers<ContextType>;
   ChangeLogConnection?: ChangeLogConnectionResolvers<ContextType>;
   ChangeLogEdge?: ChangeLogEdgeResolvers<ContextType>;
+  ChangeLogFilterData?: ChangeLogFilterDataResolvers<ContextType>;
   Connection?: ConnectionResolvers<ContextType>;
   DashboardMetrics?: DashboardMetricsResolvers<ContextType>;
   DateTime?: GraphQLScalarType;

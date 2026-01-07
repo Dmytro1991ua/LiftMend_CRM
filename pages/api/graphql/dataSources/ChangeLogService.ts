@@ -1,8 +1,14 @@
 import { ChangeLog, Prisma, PrismaClient } from '@prisma/client';
 
-import { ChangeLogConnection, QueryGetChangeLogsArgs } from '@/graphql/types/server/generated_types';
+import { ChangeLogFilterData, QueryGetChangeLogsArgs } from '@/graphql/types/server/generated_types';
 
-import { createChangeLogFilterOptions, makeConnectionObject } from '../utils/utils';
+import { CHANGE_LOG_ACTIONS } from '../constants';
+import {
+  createChangeLogFilterOptions,
+  fetchFormDropdownData,
+  getPrismaModelNames,
+  makeConnectionObject,
+} from '../utils/utils';
 
 import { DEFAULT_SORTING_OPTION } from './constants';
 
@@ -40,6 +46,16 @@ class ChangeLogService {
       paginationOptions,
       getCursor: (changeLog: ChangeLog) => changeLog.id,
     });
+  }
+
+  async changeLogFilterData(): Promise<ChangeLogFilterData> {
+    const changeLogFilterData: Partial<ChangeLogFilterData> = {};
+
+    changeLogFilterData.actions = await fetchFormDropdownData(async () => [...CHANGE_LOG_ACTIONS], 'actions');
+
+    changeLogFilterData.entityTypes = await fetchFormDropdownData(() => getPrismaModelNames(), 'entity types');
+
+    return changeLogFilterData as ChangeLogFilterData;
   }
 }
 

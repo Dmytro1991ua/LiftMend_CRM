@@ -11,11 +11,17 @@ import {
   DEFAULT_USER_NOT_FOUND_MESSAGE,
 } from '@/pages/api/graphql/dataSources/constants';
 import UserService from '@/pages/api/graphql/dataSources/UserService';
-import { convertStreamToBuffer } from '@/pages/api/graphql/utils/utils';
+import {
+  convertStreamToBuffer,
+  fetchFormDropdownData,
+  getSortedFormDropdownData,
+} from '@/pages/api/graphql/utils/utils';
 
 jest.mock('@/pages/api/graphql/utils/utils', () => ({
   ...jest.requireActual('@/pages/api/graphql/utils/utils'),
   convertStreamToBuffer: jest.fn(),
+  fetchFormDropdownData: jest.fn(),
+  getSortedFormDropdownData: jest.fn(),
 }));
 
 jest.mock('@/lib/supabase-service-role', () => ({
@@ -261,6 +267,27 @@ describe('UserService', () => {
 
         expect(supabaseServiceRole.auth.admin.deleteUser).toHaveBeenCalledWith(userId, false);
         expect(userServicePrismaMock.user.delete).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('userFilterData', () => {
+      beforeEach(() => {
+        (getSortedFormDropdownData as jest.Mock).mockResolvedValue(['John Doe', 'Alice Smith']);
+
+        (fetchFormDropdownData as jest.Mock).mockImplementation(async (cb) => {
+          return cb();
+        });
+      });
+
+      afterEach(() => {
+        jest.clearAllMocks();
+      });
+
+      it('should fetch and return all dropdown form data', async () => {
+        const result = await userService.userFilterData();
+
+        expect(fetchFormDropdownData).toHaveBeenCalledWith(expect.any(Function), 'users');
+        expect(result).toEqual(['John Doe', 'Alice Smith']);
       });
     });
   });

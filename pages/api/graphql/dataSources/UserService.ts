@@ -1,12 +1,12 @@
 import { PrismaClient } from '@prisma/client';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { GraphQLError } from 'graphql';
-import { isNull as _isNull, omitBy as _omitBy } from 'lodash';
+import { isNull as _isNull, omitBy as _omitBy, orderBy as _orderBy } from 'lodash';
 
 import { AppUser, UploadProfilePicturePayload, UserProfileInput } from '@/graphql/types/server/generated_types';
 import { supabaseServiceRole } from '@/lib/supabase-service-role';
 
-import { convertStreamToBuffer } from '../utils/utils';
+import { convertStreamToBuffer, fetchFormDropdownData, getSortedFormDropdownData } from '../utils/utils';
 
 import {
   DEFAULT_IMAGE_PUBLIC_URL_FAILED_MESSAGE,
@@ -82,6 +82,18 @@ class UserService {
     }
 
     return user;
+  }
+
+  async userFilterData(): Promise<string[]> {
+    return fetchFormDropdownData(
+      () =>
+        getSortedFormDropdownData(this.prisma.user, undefined, ({ firstName, lastName, email }) => {
+          const fullName = `${firstName} ${lastName}`.trim();
+
+          return fullName || email;
+        }),
+      'users'
+    );
   }
 
   async removeAccount(userId: string): Promise<void> {

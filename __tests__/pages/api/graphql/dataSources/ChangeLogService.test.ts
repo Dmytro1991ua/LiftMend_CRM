@@ -3,12 +3,19 @@ import { mockSystemChangeLog, mockUserChangeLog } from '@/mocks/changeLogMocks';
 import { changeLogPrismaMock } from '@/mocks/gql/prismaMocks';
 import ChangeLogService from '@/pages/api/graphql/dataSources/ChangeLogService';
 import { DEFAULT_SORTING_OPTION } from '@/pages/api/graphql/dataSources/constants';
-import { createChangeLogFilterOptions, makeConnectionObject } from '@/pages/api/graphql/utils/utils';
+import {
+  createChangeLogFilterOptions,
+  fetchFormDropdownData,
+  getSortedFormDropdownData,
+  makeConnectionObject,
+} from '@/pages/api/graphql/utils/utils';
 
 jest.mock('@/pages/api/graphql/utils/utils', () => ({
   ...jest.requireActual('@/pages/api/graphql/utils/utils'),
   makeConnectionObject: jest.fn(),
   createChangeLogFilterOptions: jest.fn(),
+  getSortedFormDropdownData: jest.fn(),
+  fetchFormDropdownData: jest.fn(),
 }));
 
 describe('ChangeLogService', () => {
@@ -64,6 +71,32 @@ describe('ChangeLogService', () => {
       });
 
       expect(result).toEqual(mockConnection);
+    });
+  });
+
+  describe('changeLogFilterData', () => {
+    beforeEach(() => {
+      (getSortedFormDropdownData as jest.Mock).mockImplementation((model) =>
+        Promise.resolve([`sorted data for ${model}`])
+      );
+
+      (fetchFormDropdownData as jest.Mock).mockImplementation(async (cb, label) => {
+        return `mocked dropdown for ${label}`;
+      });
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it('should fetch and return all dropdown form data', async () => {
+      const result = await changeLogService.changeLogFilterData();
+
+      expect(fetchFormDropdownData).toHaveBeenCalledTimes(2);
+      expect(result).toEqual({
+        actions: 'mocked dropdown for actions',
+        entityTypes: 'mocked dropdown for entity types',
+      });
     });
   });
 });
