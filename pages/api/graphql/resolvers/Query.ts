@@ -3,6 +3,7 @@ import { orderBy as _orderBy } from 'lodash';
 import {
   AppUser,
   CalendarEvent,
+  ChangeLogFilterData,
   DashboardMetrics,
   ElevatorRecord,
   ElevatorRecordConnection,
@@ -92,6 +93,17 @@ const Query: QueryResolvers = {
   },
   getChangeLogs: async (_, args, { dataSources }) => {
     return await dataSources.changeLog.changeLogs(args);
+  },
+  getChangeLogFilterData: async (_, __, { dataSources }): Promise<ChangeLogFilterData> => {
+    const [changeLogFilters, users] = await Promise.all([
+      dataSources.changeLog.changeLogFilterData(),
+      dataSources.user.userFilterData(),
+    ]);
+
+    return {
+      ...changeLogFilters,
+      users,
+    };
   },
 };
 

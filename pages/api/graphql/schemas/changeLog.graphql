@@ -66,4 +66,13 @@ type ChangeLogConnection implements Connection {
 input ChangeLogFilterOptions {
   action: [String!]
   entityType: [String!]
+  userId: [String!]
+  createdFrom: DateTime
+  createdTo: DateTime
+}
+
+type ChangeLogFilterData {
+  actions: [String!]!
+  entityTypes: [String]!
+  users: [String!]!
 }

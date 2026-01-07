@@ -36,4 +36,5 @@ type Query {
     paginationOptions: PaginationOptions
     filterOptions: ChangeLogFilterOptions
   ): ChangeLogConnection!
+  getChangeLogFilterData: ChangeLogFilterData!
 }

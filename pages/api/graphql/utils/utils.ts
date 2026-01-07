@@ -21,16 +21,41 @@ import {
 } from '@/graphql/types/server/generated_types';
 import { Nullable } from '@/shared/base-table/types';
 
-import { ACTIVE_REPAIR_JOB_STATUSES, DEFAULT_PAGINATION, INACTIVE_REPAIR_JOB_STATUSES } from '../constants';
+import {
+  ACTIVE_REPAIR_JOB_STATUSES,
+  CHANGE_LOG_ENTITY_TYPES,
+  DEFAULT_PAGINATION,
+  INACTIVE_REPAIR_JOB_STATUSES,
+} from '../constants';
 import { Connection, Edge, GraphQLDataLoaders, PageInfo } from '../types';
+
+/**
+ * Fetches data from a Prisma model and returns a sorted array of strings.
+ *
+ * @param model - Prisma model delegate with findMany()
+ * @param field - Field to extract from each item (used if mapper not provided)
+ * @param mapper - Optional function to map each item to a string
+ */
 
 export const getSortedFormDropdownData = async <T>(
   model: { findMany: () => Promise<T[]> },
-  field: keyof T
+  field?: keyof T,
+  mapper?: (item: T) => string
 ): Promise<string[]> => {
   const data = await model.findMany();
 
-  return _orderBy(data.flatMap((item) => item[field] as string[]));
+  if (!data || !data.length) return [];
+
+  if (mapper) {
+    return _orderBy(data.map(mapper));
+  }
+
+  if (field) {
+    return _orderBy(data.flatMap((item) => item[field] as string[]));
+  }
+
+  // No field or mapper → return empty array
+  return [];
 };
 
 export async function fetchFormDropdownData<T>(fetchFunction: () => Promise<T>, label: string): Promise<T> {
@@ -279,10 +304,32 @@ export const createNotificationFilterOptions = (
 export const createChangeLogFilterOptions = (
   filterOptions: InputMaybe<ChangeLogFilterOptions>
 ): Prisma.ChangeLogWhereInput => {
-  const { action, entityType } = filterOptions || {};
+  const { action, entityType, userId, createdFrom, createdTo } = filterOptions || {};
 
   return {
     ...(action && action.length > 0 && { action: { in: action } }),
     ...(entityType && entityType.length > 0 && { entityType: { in: entityType } }),
+    ...(userId &&
+      userId?.length > 0 && {
+        userId: { in: userId },
+      }),
+    ...((createdFrom || createdTo) && {
+      createdAt: {
+        ...(createdFrom && { gte: createdFrom }),
+        ...(createdTo && { lte: createdTo }),
+      },
+    }),
   };
+};
+
+/**
+ * Returns all Prisma model names dynamically.
+ * Used for ChangeLog entity type dropdowns.
+ */
+export const getPrismaModelNames = async (): Promise<string[]> => {
+  const prismaModelNames = new Set(Prisma.dmmf.datamodel.models.map((m) => m.name));
+
+  const changeLogEntityTypes = CHANGE_LOG_ENTITY_TYPES.filter((entity) => prismaModelNames.has(entity));
+
+  return _orderBy(changeLogEntityTypes);
 };
