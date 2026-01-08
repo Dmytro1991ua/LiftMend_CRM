@@ -270,27 +270,6 @@ class RepairJobService {
     });
   }
 
-  async recalculateOverdueStatus(repairJobs: RepairJob[]): Promise<void> {
-    // Compute and filter jobs that need overdue status updating
-    const updatedRepairJobs = repairJobs.reduce((acc, cur) => {
-      const isOverdue = isRepairJobOverdue(cur.endDate, cur.status);
-
-      // Only add jobs that need their overdue status updated
-      if (cur.isOverdue !== isOverdue) {
-        acc.push(
-          this.prisma.repairJob.update({
-            where: { id: cur.id },
-            data: { isOverdue },
-          })
-        );
-      }
-
-      return acc;
-    }, [] as Promise<RepairJob>[]);
-
-    await Promise.all(updatedRepairJobs);
-  }
-
   async deleteRepairJob(id: string): Promise<RepairJob> {
     return await this.prisma.repairJob.delete({
       where: { id },

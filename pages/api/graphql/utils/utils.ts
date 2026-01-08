@@ -37,11 +37,11 @@ import { Connection, Edge, GraphQLDataLoaders, PageInfo } from '../types';
  * @param mapper - Optional function to map each item to a string
  */
 
-export const getSortedFormDropdownData = async <T>(
+export const getSortedFormDropdownData = async <T, K = string>(
   model: { findMany: () => Promise<T[]> },
   field?: keyof T,
-  mapper?: (item: T) => string
-): Promise<string[]> => {
+  mapper?: (item: T) => K
+): Promise<K[]> => {
   const data = await model.findMany();
 
   if (!data || !data.length) return [];
@@ -51,7 +51,7 @@ export const getSortedFormDropdownData = async <T>(
   }
 
   if (field) {
-    return _orderBy(data.flatMap((item) => item[field] as string[]));
+    return _orderBy(data.flatMap((item) => item[field] as K[]));
   }
 
   // No field or mapper → return empty array

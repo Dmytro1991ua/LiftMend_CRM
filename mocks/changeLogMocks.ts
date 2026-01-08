@@ -101,6 +101,7 @@ export const mockChangeLogs: MockedResponse<GetChangeLogsQuery> = {
         limit: 20,
         offset: 0,
       },
+      filterOptions: {},
     },
   },
   result: {
@@ -118,6 +119,7 @@ export const mockPaginatedChangeLogs: MockedResponse<GetChangeLogsQuery>[] = [
           limit: 20,
           offset: 1,
         },
+        filterOptions: {},
       },
     },
     result: {

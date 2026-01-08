@@ -9,6 +9,7 @@ export enum StorageEntityName {
   TechnicianManagementTable = 'technicianManagementTable',
   DashboardPage = 'dashboardPage',
   NotificationsPage = 'notificationsPage',
+  ChangeLogPage = 'changeLogPage',
 }
 
 export enum TableNames {

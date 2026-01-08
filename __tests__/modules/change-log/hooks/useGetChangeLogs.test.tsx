@@ -70,7 +70,7 @@ describe('useGetChangeLogs', () => {
     await act(async () => await result.current.onNext());
 
     expect(fetchMoreMock).toHaveBeenCalledWith({
-      variables: { paginationOptions: { limit: 20, offset: 1 } },
+      variables: { paginationOptions: { limit: 20, offset: 1 }, filterOptions: {} },
     });
   });
 
