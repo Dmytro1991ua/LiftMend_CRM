@@ -86,7 +86,7 @@ export type ChangeLogFilterData = {
   __typename?: 'ChangeLogFilterData';
   actions: Array<Scalars['String']['output']>;
   entityTypes: Array<Maybe<Scalars['String']['output']>>;
-  users: Array<Scalars['String']['output']>;
+  users: Array<UserFilter>;
 };
 
 export type ChangeLogFilterOptions = {
@@ -827,6 +827,12 @@ export type UploadProfilePicturePayload = {
   id: Scalars['ID']['output'];
 };
 
+export type UserFilter = {
+  __typename?: 'UserFilter';
+  label: Scalars['String']['output'];
+  value: Scalars['String']['output'];
+};
+
 export type UserProfileInput = {
   firstName?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['ID']['input'];
@@ -1005,6 +1011,7 @@ export type ResolversTypes = ResolversObject<{
   UpdateTechnicianRecordInput: UpdateTechnicianRecordInput;
   Upload: ResolverTypeWrapper<Scalars['Upload']['output']>;
   UploadProfilePicturePayload: ResolverTypeWrapper<UploadProfilePicturePayload>;
+  UserFilter: ResolverTypeWrapper<UserFilter>;
   UserProfileInput: UserProfileInput;
   Void: ResolverTypeWrapper<Scalars['Void']['output']>;
 }>;
@@ -1082,6 +1089,7 @@ export type ResolversParentTypes = ResolversObject<{
   UpdateTechnicianRecordInput: UpdateTechnicianRecordInput;
   Upload: Scalars['Upload']['output'];
   UploadProfilePicturePayload: UploadProfilePicturePayload;
+  UserFilter: UserFilter;
   UserProfileInput: UserProfileInput;
   Void: Scalars['Void']['output'];
 }>;
@@ -1162,7 +1170,7 @@ export type ChangeLogFilterDataResolvers<
 > = ResolversObject<{
   actions?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   entityTypes?: Resolver<Array<Maybe<ResolversTypes['String']>>, ParentType, ContextType>;
-  users?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  users?: Resolver<Array<ResolversTypes['UserFilter']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1785,6 +1793,15 @@ export type UploadProfilePicturePayloadResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type UserFilterResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['UserFilter'] = ResolversParentTypes['UserFilter']
+> = ResolversObject<{
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export interface VoidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Void'], any> {
   name: 'Void';
 }
@@ -1835,5 +1852,6 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   TechnicianRecordsMetrics?: TechnicianRecordsMetricsResolvers<ContextType>;
   Upload?: GraphQLScalarType;
   UploadProfilePicturePayload?: UploadProfilePicturePayloadResolvers<ContextType>;
+  UserFilter?: UserFilterResolvers<ContextType>;
   Void?: GraphQLScalarType;
 }>;

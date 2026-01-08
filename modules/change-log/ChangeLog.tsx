@@ -2,24 +2,40 @@ import { Accordion } from '@/components/ui/accordion';
 import PaginatedListPage from '@/shared/paginated-list-page';
 
 import ChangeLogContent from './change-log-content';
+import ChangeLogControls from './change-log-controls';
 import ChangeLogItem from './change-log-item';
 import {
+  DEFAULT_CHANGE_LOG_FILTER_DATA_FETCH_ERROR_RESPONSE_MESSAGE,
   DEFAULT_CHANGE_LOG_PAGE_DESCRIPTION,
   DEFAULT_CHANGE_LOG_PAGE_TITLE,
   DEFAULT_EMPTY_CHANGE_LOG_PAGE_MESSAGE,
-  DEFAULT_ERROR_RESPONSE_MESSAGE,
 } from './constants';
 import { useGetChangeLogs } from './hooks/useGetChangeLogs';
 
 const ChangeLog = () => {
-  const { changeLogs, isInitialLoading, isChangeLogEmpty, hasMore, totalChangeLogsLength, error, onNext } =
-    useGetChangeLogs();
+  const {
+    changeLogs,
+    isInitialLoading,
+    isChangeLogEmpty,
+    hasMore,
+    totalChangeLogsLength,
+    error,
+    changeLogPageStoredState,
+    onSetChangeLogPageStoredState,
+    onNext,
+  } = useGetChangeLogs();
 
   return (
     <PaginatedListPage
+      controls={
+        <ChangeLogControls
+          changeLogPageStoredState={changeLogPageStoredState}
+          onSetChangeLogPageStoredState={onSetChangeLogPageStoredState}
+        />
+      }
       emptyStateMessage={DEFAULT_EMPTY_CHANGE_LOG_PAGE_MESSAGE}
       errorMessage={error}
-      errorTitle={DEFAULT_ERROR_RESPONSE_MESSAGE}
+      errorTitle={DEFAULT_CHANGE_LOG_FILTER_DATA_FETCH_ERROR_RESPONSE_MESSAGE}
       hasMore={hasMore}
       isEmpty={isChangeLogEmpty}
       isInitialLoading={isInitialLoading}

@@ -77,9 +77,19 @@ export type ChangeLogEdge = Edge & {
   node: ChangeLog;
 };
 
+export type ChangeLogFilterData = {
+  __typename?: 'ChangeLogFilterData';
+  actions: Array<Scalars['String']['output']>;
+  entityTypes: Array<Maybe<Scalars['String']['output']>>;
+  users: Array<UserFilter>;
+};
+
 export type ChangeLogFilterOptions = {
   action?: InputMaybe<Array<Scalars['String']['input']>>;
+  createdFrom?: InputMaybe<Scalars['DateTime']['input']>;
+  createdTo?: InputMaybe<Scalars['DateTime']['input']>;
   entityType?: InputMaybe<Array<Scalars['String']['input']>>;
+  userId?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 export type Connection = {
@@ -480,6 +490,7 @@ export type Query = {
   __typename?: 'Query';
   getAvailableTechniciansForAssignment: Array<TechnicianRecord>;
   getCalendarEvents: Array<CalendarEvent>;
+  getChangeLogFilterData: ChangeLogFilterData;
   getChangeLogs: ChangeLogConnection;
   getDashboardMetrics: DashboardMetrics;
   getElevatorDetailsByBuildingName: ElevatorDetails;
@@ -816,6 +827,12 @@ export type UploadProfilePicturePayload = {
   id: Scalars['ID']['output'];
 };
 
+export type UserFilter = {
+  __typename?: 'UserFilter';
+  label: Scalars['String']['output'];
+  value: Scalars['String']['output'];
+};
+
 export type UserProfileInput = {
   firstName?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['ID']['input'];
@@ -1062,6 +1079,18 @@ export type GetCalendarEventsQuery = {
     description: string | null;
     repairJobId: string | null;
   }>;
+};
+
+export type GetChangeLogFilterDataQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetChangeLogFilterDataQuery = {
+  __typename?: 'Query';
+  getChangeLogFilterData: {
+    __typename?: 'ChangeLogFilterData';
+    actions: Array<string>;
+    entityTypes: Array<string | null>;
+    users: Array<{ __typename?: 'UserFilter'; label: string; value: string }>;
+  };
 };
 
 export type GetChangeLogsQueryVariables = Exact<{

@@ -35,6 +35,11 @@ type AppUser {
   avatarUrl: String
 }
 
+type UserFilter {
+  label: String!
+  value: String!
+}
+
 input CreateUserInput {
   email: String!
   password: String!

@@ -1,6 +1,4 @@
 import {
-  ChangeLogConnection,
-  Connection,
   ElevatorRecordFormData,
   NotificationConnection,
   RepairJobConnection,
@@ -43,7 +41,6 @@ import {
 } from '@/mocks/technicianManagementMocks';
 import { mockUser } from '@/mocks/userMocks';
 import { DEFAULT_RECENT_JOBS_COUNT } from '@/pages/api/graphql/dataSources/constants';
-import { DAAPIChangeLog } from '@/pages/api/graphql/dataSources/models';
 import Query from '@/pages/api/graphql/resolvers/Query';
 
 jest.mock('@/lib/supabase-service-role', () => ({
@@ -465,7 +462,10 @@ describe('Query', () => {
 
     describe('getChangeLogFilterData', () => {
       it('should fetch change log and user filters data and combine them', async () => {
-        const mockUsers = ['Alice Smith', 'John Doe'];
+        const mockUsers = [
+          { value: 'test-id', label: 'Alice Smith' },
+          { label: 'John Doe', value: 'test-id-2' },
+        ];
         const mockChangeLogFilters = {
           actions: ['Create', 'Update', 'Delete'],
           entityTypes: ['User', 'RepairJob'],

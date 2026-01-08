@@ -4,7 +4,7 @@ import { SortingState } from '@tanstack/react-table';
 
 import { GET_NOTIFICATIONS } from '@/graphql/schemas/getNotifications';
 import { GetNotificationsQuery } from '@/graphql/types/client/generated_types';
-import { NotificationPageFilters } from '@/shared/base-table/types';
+import { PageFilters } from '@/shared/base-table/types';
 import { convertStoredFiltersToQueryFormat } from '@/shared/base-table/utils';
 import { DEFAULT_PAGINATION, DEFAULT_QUERY_POLL_INTERVAL, NOTIFICATIONS_STATE_STORAGE_KEY } from '@/shared/constants';
 import { useGetPaginatedList } from '@/shared/paginated-list-page/hooks';
@@ -18,7 +18,7 @@ import { groupNotificationsByDate } from '../utils';
 export const useGetNotifications = (): NotificationsState => {
   const { storedState: notificationsPageStoredState, setStoredState } = useStoredTableState<
     SortingState,
-    NotificationPageFilters,
+    PageFilters,
     undefined
   >(NOTIFICATIONS_STATE_STORAGE_KEY, StorageEntityName.NotificationsPage);
 

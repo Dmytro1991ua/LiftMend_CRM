@@ -102,7 +102,7 @@ export const TECHNICIAN_PERFORMANCE_WEIGHTS = {
 
 export const ACTIVE_REPAIR_JOB_STATUSES = ['Scheduled', 'In Progress', 'On Hold'];
 export const INACTIVE_REPAIR_JOB_STATUSES = ['Completed', 'Cancelled'];
-export const CHANGE_LOG_ACTIONS = ['Create', 'Update', 'Delete'];
+export const CHANGE_LOG_ACTIONS = ['create', 'update', 'delete'];
 export const CHANGE_LOG_ENTITY_TYPES = [
   'CalendarEvent',
   'ElevatorRecord',

@@ -74,5 +74,5 @@ input ChangeLogFilterOptions {
 type ChangeLogFilterData {
   actions: [String!]!
   entityTypes: [String]!
-  users: [String!]!
+  users: [UserFilter!]!
 }

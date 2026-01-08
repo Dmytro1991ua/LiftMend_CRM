@@ -25,6 +25,9 @@ export enum FilterLabel {
   IsOverdue = 'Is Overdue?',
   NotificationCategory = 'Category',
   NotificationStatus = 'Status',
+  ChangeLogAction = 'Action',
+  ChangeLogEntityType = 'Log Type',
+  ChangeLogUser = 'User',
 }
 
 export enum FilterKey {
@@ -42,6 +45,9 @@ export enum FilterKey {
   IsOverdue = 'isOverdue',
   NotificationCategories = 'selectedCategory',
   NotificationStatus = 'selectedStatus',
+  ChangeLogAction = 'selectedAction',
+  ChangeLogEntityType = 'selectedEntityType',
+  ChangeLogUserId = 'selectedUserId',
 }
 
 export type FilterType = 'checkbox' | 'radio';
@@ -63,7 +69,7 @@ export type TableFilters<T> = {
   filterValues?: FilterValues;
 };
 
-export type NotificationPageFilters = {
+export type PageFilters = {
   filterValues?: FilterValues;
 };
 

@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from 'react';
 
 import { SortingState } from '@tanstack/react-table';
 
-import { NotificationPageFilters } from '@/shared/base-table/types';
+import { PageFilters } from '@/shared/base-table/types';
 import { EntityStorageState } from '@/shared/storage/hooks/useStoredEntityState';
 import { Notification } from '@/shared/types';
 
@@ -19,9 +19,7 @@ export type NotificationsState = {
   error?: string;
   totalNotificationsLength: number;
   areAllNotificationsRead: boolean;
-  notificationsPageStoredState: EntityStorageState<SortingState, NotificationPageFilters, undefined>;
-  onSetNotificationsPageStoredState: Dispatch<
-    SetStateAction<EntityStorageState<SortingState, NotificationPageFilters, undefined>>
-  >;
+  notificationsPageStoredState: EntityStorageState<SortingState, PageFilters, undefined>;
+  onSetNotificationsPageStoredState: Dispatch<SetStateAction<EntityStorageState<SortingState, PageFilters, undefined>>>;
   onNext: () => Promise<void>;
 };

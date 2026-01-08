@@ -61,6 +61,8 @@ describe('ChangeLog', () => {
       totalChangeLogsLength: 0,
       error: undefined,
       onNext: jest.fn(),
+      changeLogPageStoredState: {},
+      onSetChangeLogPageStoredState: jest.fn(),
     });
   });
 
@@ -83,6 +85,8 @@ describe('ChangeLog', () => {
       hasMore: false,
       totalChangeLogsLength: 2,
       error: undefined,
+      changeLogPageStoredState: {},
+      onSetChangeLogPageStoredState: jest.fn(),
       onNext: jest.fn(),
     });
 

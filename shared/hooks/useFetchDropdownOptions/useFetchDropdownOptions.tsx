@@ -39,10 +39,19 @@ export const useFetchDropdownOptions = <T,>({
   });
 
   const dropdownOptions: MultiStepDropdownOption = useMemo(() => {
-    const queryNameData = _get(data, queryName, []) as Record<string, string[]>;
+    const queryNameData = _get(data, queryName, []) as Record<string, (string & DropdownOption)[]>;
 
     return fields.reduce((acc, field) => {
-      acc[field] = convertQueryResponseToDropdownOptions(queryNameData[field] ?? []);
+      const fieldData = queryNameData[field];
+
+      const isFieldAlreadyFormattedDropdownOptions =
+        Array.isArray(fieldData) && fieldData.length > 0 && typeof fieldData[0] === 'object';
+
+      if (isFieldAlreadyFormattedDropdownOptions) {
+        acc[field] = fieldData;
+      } else {
+        acc[field] = convertQueryResponseToDropdownOptions(fieldData ?? []);
+      }
 
       return acc;
     }, {} as MultiStepDropdownOption);

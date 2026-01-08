@@ -1,6 +1,7 @@
 import { DocumentNode } from 'graphql';
 
 import { GET_REPAIR_JOB_FORM_DATA } from '@/graphql/schemas';
+import { GET_CHANGE_LOG_FILTER_DATA } from '@/graphql/schemas/getChangeLogFilterData';
 import { GET_ELEVATOR_DETAILS_BY_BUILDING_NAME } from '@/graphql/schemas/getElevatorDetailsByBuildingName';
 import { GET_ELEVATOR_RECORD_FORM_DATA } from '@/graphql/schemas/getElevatorRecordFormData';
 import { GET_TECHNICIAN_RECORD_FORM_DATA } from '@/graphql/schemas/getTechnicianRecordFormData';
@@ -11,6 +12,7 @@ export enum DropdownOptions {
   ElevatorManagement,
   TechnicianManagement,
   ElevatorDetails,
+  ChangeLog,
 }
 
 export enum PredefinedDropdownOptions {
@@ -67,5 +69,10 @@ export const DROPDOWN_OPTIONS_CONFIG: Record<DropdownOptions, DropdownOptionConf
     queryName: 'getElevatorDetailsByBuildingName',
     fields: ['elevatorTypes', 'elevatorLocations'],
     requiresVariable: true,
+  },
+  [DropdownOptions.ChangeLog]: {
+    schema: GET_CHANGE_LOG_FILTER_DATA,
+    queryName: 'getChangeLogFilterData',
+    fields: ['actions', 'entityTypes', 'users'],
   },
 };
