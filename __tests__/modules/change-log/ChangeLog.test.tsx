@@ -6,6 +6,7 @@ import { ChangeLogItemProps } from '@/modules/change-log/change-log-item/ChangeL
 import ChangeLog from '@/modules/change-log/ChangeLog';
 import { DEFAULT_CHANGE_LOG_PAGE_DESCRIPTION, DEFAULT_CHANGE_LOG_PAGE_TITLE } from '@/modules/change-log/constants';
 import { useGetChangeLogs } from '@/modules/change-log/hooks/useGetChangeLogs';
+import { DEFAULT_DATE_FILTER } from '@/shared/base-date-range-filter/constants';
 import { PaginatedListPageProps } from '@/shared/paginated-list-page/PaginatedListPage';
 
 jest.mock('@/modules/change-log/hooks/useGetChangeLogs');
@@ -63,6 +64,9 @@ describe('ChangeLog', () => {
       onNext: jest.fn(),
       changeLogPageStoredState: {},
       onSetChangeLogPageStoredState: jest.fn(),
+      isCalendarOpen: false,
+      sanitizedDateRange: { from: DEFAULT_DATE_FILTER.from, to: DEFAULT_DATE_FILTER.to },
+      onHandleCalendarPopoverClose: jest.fn(),
     });
   });
 
@@ -88,6 +92,9 @@ describe('ChangeLog', () => {
       changeLogPageStoredState: {},
       onSetChangeLogPageStoredState: jest.fn(),
       onNext: jest.fn(),
+      isCalendarOpen: false,
+      sanitizedDateRange: { from: DEFAULT_DATE_FILTER.from, to: DEFAULT_DATE_FILTER.to },
+      onHandleCalendarPopoverClose: jest.fn(),
     });
 
     render(<ChangeLog />);

@@ -21,6 +21,9 @@ const ChangeLog = () => {
     totalChangeLogsLength,
     error,
     changeLogPageStoredState,
+    isCalendarOpen,
+    sanitizedDateRange,
+    onHandleCalendarPopoverClose,
     onSetChangeLogPageStoredState,
     onNext,
   } = useGetChangeLogs();
@@ -30,6 +33,9 @@ const ChangeLog = () => {
       controls={
         <ChangeLogControls
           changeLogPageStoredState={changeLogPageStoredState}
+          isCalendarOpen={isCalendarOpen}
+          sanitizedDateRange={sanitizedDateRange}
+          onHandleCalendarPopoverClose={onHandleCalendarPopoverClose}
           onSetChangeLogPageStoredState={onSetChangeLogPageStoredState}
         />
       }

@@ -12,11 +12,8 @@ import {
   subMonths,
 } from 'date-fns';
 
-import CustomDateRangeActions from '@/modules/dashboard/components/dashboard-date-range-filter/custom-date-range-actions';
-import {
-  DashboardDateRangeFilterProps,
-  DateRangeActionLabel,
-} from '@/modules/dashboard/components/dashboard-date-range-filter/types';
+import CustomDateRangeActions from '@/shared/base-date-range-filter/custom-date-range-actions';
+import { BaseDateRangeFilterProps, DateRangeActionLabel } from '@/shared/base-date-range-filter/types';
 
 describe('CustomDateRangeActions', () => {
   afterEach(() => {
@@ -34,7 +31,7 @@ describe('CustomDateRangeActions', () => {
     onHandleCalendarPopoverClose: mockOnHandleCalendarPopoverClose,
   };
 
-  const CustomDateRangeActionsComponent = (props?: Partial<DashboardDateRangeFilterProps>) => (
+  const CustomDateRangeActionsComponent = (props?: Partial<BaseDateRangeFilterProps>) => (
     <CustomDateRangeActions {...defaultProps} {...props} />
   );
 

@@ -1,29 +1,29 @@
 import { memo } from 'react';
 
-import InfoTooltip from '@/shared/base-tooltip/info-tooltip/InfoTooltip';
-import DatePicker from '@/shared/date-picker';
+import InfoTooltip from '../base-tooltip/info-tooltip/InfoTooltip';
+import DatePicker from '../date-picker';
 
 import CustomDateRangeActions from './custom-date-range-actions';
-import { DashboardDateRangeFilterProps } from './types';
+import { BaseDateRangeFilterProps } from './types';
 
-export const DEFAULT_INFO_TOOLTIP_MESSAGE =
-  'The selected date range highlights repair job metrics. Elevator and Technician data remain mostly unchanged, as they are tied to repair jobs.';
-
-const DashboardDateRangeFilter = ({
+const BaseDateRangeFilter = ({
   sanitizedDateRange,
   isCalendarOpen,
+  tooltipMessage,
   onHandleCalendarPopoverClose,
-}: DashboardDateRangeFilterProps) => {
+}: BaseDateRangeFilterProps) => {
   return (
     <section className='flex items-center justify-center gap-2'>
-      <InfoTooltip
-        className='w-[33rem]'
-        iconColor='#2563eb'
-        iconSize='18'
-        id={'elevatorLocation-field-id'}
-        message={DEFAULT_INFO_TOOLTIP_MESSAGE}
-        place='left'
-      />
+      {tooltipMessage && (
+        <InfoTooltip
+          className='w-[33rem]'
+          iconColor='#2563eb'
+          iconSize='18'
+          id='date-range-tooltip'
+          message={tooltipMessage}
+          place='left'
+        />
+      )}
       <DatePicker
         key={`${sanitizedDateRange?.from?.toString()}-${sanitizedDateRange?.to?.toString()}`}
         allowPastDates={true}
@@ -43,4 +43,4 @@ const DashboardDateRangeFilter = ({
   );
 };
 
-export default memo(DashboardDateRangeFilter);
+export default memo(BaseDateRangeFilter);

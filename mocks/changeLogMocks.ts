@@ -3,6 +3,7 @@ import { MockedResponse } from '@apollo/client/testing';
 
 import { GET_CHANGE_LOGS } from '@/graphql/schemas/getChangeLogs';
 import { GetChangeLogsQuery } from '@/graphql/types/client/generated_types';
+import { DEFAULT_DATE_FILTER } from '@/shared/base-date-range-filter/constants';
 
 const mockSystemChangeLogId = 'test-system-change-log-id';
 const mockUserChangeLogId = 'test-user-change-log-id';
@@ -101,7 +102,10 @@ export const mockChangeLogs: MockedResponse<GetChangeLogsQuery> = {
         limit: 20,
         offset: 0,
       },
-      filterOptions: {},
+      filterOptions: {
+        createdFrom: DEFAULT_DATE_FILTER.from,
+        createdTo: DEFAULT_DATE_FILTER.to,
+      },
     },
   },
   result: {

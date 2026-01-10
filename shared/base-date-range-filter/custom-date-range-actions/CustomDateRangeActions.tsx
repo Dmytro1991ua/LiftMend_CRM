@@ -12,13 +12,13 @@ import {
 
 import { cn } from '@/lib/utils';
 
-import { CustomDateRangeAction, DashboardDateRangeFilterProps, DateRangeActionLabel } from '../types';
-import { isActionButtonActive } from '../utils';
+import { BaseDateRangeFilterProps, CustomDateRangeAction, DateRangeActionLabel } from '../types';
+import { isCalendarActionButtonActive } from '../utils';
 
 const CustomDateRangeActions = ({
   sanitizedDateRange,
   onHandleCalendarPopoverClose,
-}: Pick<DashboardDateRangeFilterProps, 'sanitizedDateRange' | 'onHandleCalendarPopoverClose'>) => {
+}: Pick<BaseDateRangeFilterProps, 'sanitizedDateRange' | 'onHandleCalendarPopoverClose'>) => {
   const CUSTOM_DATE_RANGES_ACTIONS_CONFIG: CustomDateRangeAction[] = [
     {
       label: DateRangeActionLabel.Today,
@@ -65,11 +65,12 @@ const CustomDateRangeActions = ({
           key={label}
           className={cn(
             'px-4 py-2 text-white  rounded-lg text-sm',
-            isActionButtonActive(sanitizedDateRange, range)
+            isCalendarActionButtonActive(sanitizedDateRange, range)
               ? 'bg-blue-400 hover:bg-blue-400'
               : ' bg-primary hover:bg-blue-500'
           )}
-          onClick={() => onHandleCalendarPopoverClose(false, range)}>
+          onClick={() => onHandleCalendarPopoverClose(false, range)}
+        >
           {label}
         </button>
       ))}

@@ -89,10 +89,14 @@ export const convertStoredFiltersToQueryFormat = (
       // map stored filter key to query filter key
       const queryFilterKey = filterKeyMap[key] || key;
 
-      // transform dropdown value to array for GraphQL query format (e.g., ['value1', 'value2'])
-      const transformedValue = value.map?.((item) => item.value) || value;
+      // Dropdown values are stored as { value, label }[]
+      if (Array.isArray(value)) {
+        // transform dropdown value to array for GraphQL query format (e.g., ['value1', 'value2'])
+        return [queryFilterKey, value.map((item) => item.value)];
+      }
 
-      return [queryFilterKey, transformedValue];
+      // Non-dropdown values (e.g. dates) are passed as-is
+      return [queryFilterKey, value];
     })
   );
 

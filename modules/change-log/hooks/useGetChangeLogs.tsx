@@ -4,6 +4,7 @@ import { SortingState } from '@tanstack/react-table';
 
 import { GET_CHANGE_LOGS } from '@/graphql/schemas/getChangeLogs';
 import { GetChangeLogsQuery } from '@/graphql/types/client/generated_types';
+import { useBaseDateRangeFilter } from '@/shared/base-date-range-filter/hooks';
 import { PageFilters } from '@/shared/base-table/types';
 import { convertStoredFiltersToQueryFormat } from '@/shared/base-table/utils';
 import { CHANGE_LOG_ACTIONS_STATE_STORAGE_KEY, DEFAULT_PAGINATION } from '@/shared/constants';
@@ -21,19 +22,28 @@ export const useGetChangeLogs = (): ChangeLogState => {
     undefined
   >(CHANGE_LOG_ACTIONS_STATE_STORAGE_KEY, StorageEntityName.ChangeLogPage);
 
-  const filterValues = useMemo(
+  const { isCalendarOpen, sanitizedDateRange, onHandleCalendarPopoverClose } = useBaseDateRangeFilter({
+    storageKey: CHANGE_LOG_ACTIONS_STATE_STORAGE_KEY,
+    entityName: StorageEntityName.ChangeLogPage,
+  });
+
+  const commonFilterValues = useMemo(
     () => changeLogPageStoredState.filters?.filterValues || {},
     [changeLogPageStoredState.filters?.filterValues]
   );
 
   const filters = useMemo(
-    () =>
-      convertStoredFiltersToQueryFormat(filterValues, {
+    () => ({
+      ...convertStoredFiltersToQueryFormat(commonFilterValues, {
         selectedAction: 'action',
         selectedEntityType: 'entityType',
         selectedUserId: 'userId',
       }),
-    [filterValues]
+      ...(sanitizedDateRange?.from || sanitizedDateRange?.to
+        ? { createdFrom: sanitizedDateRange?.from, createdTo: sanitizedDateRange?.to }
+        : {}),
+    }),
+    [commonFilterValues, sanitizedDateRange]
   );
 
   const {
@@ -64,5 +74,8 @@ export const useGetChangeLogs = (): ChangeLogState => {
     isChangeLogEmpty: isEmpty,
     isInitialLoading,
     totalChangeLogsLength: changeLogs.length,
+    isCalendarOpen,
+    sanitizedDateRange,
+    onHandleCalendarPopoverClose,
   };
 };
