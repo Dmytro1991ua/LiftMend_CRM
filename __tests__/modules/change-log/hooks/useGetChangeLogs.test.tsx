@@ -14,6 +14,7 @@ import {
 import { MockProviderHook } from '@/mocks/testMocks';
 import { useGetChangeLogs } from '@/modules/change-log/hooks/useGetChangeLogs';
 import { ChangeLogState } from '@/modules/change-log/types';
+import { DEFAULT_DATE_FILTER } from '@/shared/base-date-range-filter/constants';
 import { removeTypeNamesFromArray } from '@/shared/utils';
 
 describe('useGetChangeLogs', () => {
@@ -70,7 +71,13 @@ describe('useGetChangeLogs', () => {
     await act(async () => await result.current.onNext());
 
     expect(fetchMoreMock).toHaveBeenCalledWith({
-      variables: { paginationOptions: { limit: 20, offset: 1 }, filterOptions: {} },
+      variables: {
+        paginationOptions: { limit: 20, offset: 1 },
+        filterOptions: {
+          createdFrom: DEFAULT_DATE_FILTER.from,
+          createdTo: DEFAULT_DATE_FILTER.to,
+        },
+      },
     });
   });
 

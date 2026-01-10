@@ -15,6 +15,16 @@ jest.mock('@/shared/hooks', () => ({
     baseToast: jest.fn(),
   })),
 }));
+jest.mock('@/shared/base-date-range-filter', () => ({
+  __esModule: true,
+  default: jest.fn(({ isCalendarOpen, sanitizedDateRange, onHandleCalendarPopoverClose }) => (
+    <div data-testid='base-date-range-filter'>
+      <button data-testid='date-range-toggle' onClick={() => onHandleCalendarPopoverClose(true)} />
+      <span>{String(isCalendarOpen)}</span>
+      <span>{sanitizedDateRange?.from?.toISOString()}</span>
+    </div>
+  )),
+}));
 
 describe('ChangeLogControls', () => {
   const mockChangeLogPageStoredState = { filters: {} };
@@ -22,6 +32,7 @@ describe('ChangeLogControls', () => {
   const mockOnFilterChange = jest.fn();
   const mockOnClearFilter = jest.fn();
   const mockBaseToast = jest.fn();
+  const mockOnHandleCalendarPopoverClose = jest.fn();
   const mockDropdownOptions = {
     actions: [
       { value: 'Create', label: 'Create' },
@@ -62,6 +73,12 @@ describe('ChangeLogControls', () => {
   });
 
   const defaultProps = {
+    isCalendarOpen: false,
+    sanitizedDateRange: {
+      from: new Date('2025-04-01T00:00:00.000Z'),
+      to: new Date('2025-04-30T23:59:59.999Z'),
+    },
+    onHandleCalendarPopoverClose: mockOnHandleCalendarPopoverClose,
     changeLogPageStoredState: mockChangeLogPageStoredState,
     onSetChangeLogPageStoredState: mockOnSetChangeLogPageStoredState,
   };
@@ -108,5 +125,15 @@ describe('ChangeLogControls', () => {
     expect(mockBaseToast).toHaveBeenCalledWith('Failed to fetch change log filter data', {
       message: 'Failed to fetch',
     });
+  });
+
+  it('should call onHandleCalendarPopoverClose on button click', async () => {
+    render(ChangeLogControlsComponent());
+
+    const toggleBtn = screen.getByTestId('date-range-toggle');
+
+    await userEvent.click(toggleBtn);
+
+    expect(mockOnHandleCalendarPopoverClose).toHaveBeenCalledWith(true);
   });
 });

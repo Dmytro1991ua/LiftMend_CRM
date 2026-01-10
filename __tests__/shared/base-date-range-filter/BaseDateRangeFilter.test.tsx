@@ -2,11 +2,11 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { DateRange } from 'react-day-picker';
 
-import DashboardDateRangeFilter from '@/modules/dashboard/components/dashboard-date-range-filter';
-import { DEFAULT_INFO_TOOLTIP_MESSAGE } from '@/modules/dashboard/components/dashboard-date-range-filter/DashboardDateRangeFilter';
-import { DashboardDateRangeFilterProps } from '@/modules/dashboard/components/dashboard-date-range-filter/types';
+import { DEFAULT_CHANGE_LOG_DATE_RANGE_INFO_TOOLTIP_MESSAGE } from '@/modules/change-log/constants';
+import BaseDateRangeFilter from '@/shared/base-date-range-filter';
+import { BaseDateRangeFilterProps } from '@/shared/base-date-range-filter/types';
 
-describe('DashboardDateRangeFilter', () => {
+describe('BaseDateRangeFilter', () => {
   const mockOnHandleCalendarPopoverClose = jest.fn();
 
   const defaultProps = {
@@ -18,12 +18,12 @@ describe('DashboardDateRangeFilter', () => {
     onHandleCalendarPopoverClose: mockOnHandleCalendarPopoverClose,
   };
 
-  const DashboardDateRangeFilterComponent = (props?: Partial<DashboardDateRangeFilterProps>) => (
-    <DashboardDateRangeFilter {...defaultProps} {...props} />
+  const BaseDateRangeFilterComponent = (props?: Partial<BaseDateRangeFilterProps>) => (
+    <BaseDateRangeFilter {...defaultProps} {...props} />
   );
 
   it('should render component without crashing', () => {
-    render(DashboardDateRangeFilterComponent());
+    render(BaseDateRangeFilterComponent());
 
     expect(screen.getByRole('button')).toBeInTheDocument();
   });
@@ -31,31 +31,31 @@ describe('DashboardDateRangeFilter', () => {
   it('should render even if sanitizedDateRange has undefined from and to', () => {
     const partialRange = { from: undefined, to: undefined } as unknown as DateRange;
 
-    render(DashboardDateRangeFilterComponent({ sanitizedDateRange: partialRange }));
+    render(BaseDateRangeFilterComponent({ sanitizedDateRange: partialRange }));
 
     expect(screen.getByRole('button')).toBeInTheDocument();
   });
 
   it('should show info tooltip message on info icon hover', async () => {
-    render(DashboardDateRangeFilterComponent());
+    render(BaseDateRangeFilterComponent({ tooltipMessage: DEFAULT_CHANGE_LOG_DATE_RANGE_INFO_TOOLTIP_MESSAGE }));
 
     const infoIcon = screen.getByTestId('info-icon');
 
     await userEvent.hover(infoIcon);
 
-    const tooltipText = await screen.findByText(DEFAULT_INFO_TOOLTIP_MESSAGE);
+    const tooltipText = await screen.findByText(DEFAULT_CHANGE_LOG_DATE_RANGE_INFO_TOOLTIP_MESSAGE);
 
     expect(tooltipText).toBeInTheDocument();
   });
 
   it('should render datepicker calendar', () => {
-    render(DashboardDateRangeFilterComponent({ isCalendarOpen: true }));
+    render(BaseDateRangeFilterComponent({ isCalendarOpen: true }));
 
     expect(screen.getByTestId('popover-content')).toBeInTheDocument();
   });
 
   it('should call onHandleCalendarPopoverClose when popover changes', async () => {
-    render(DashboardDateRangeFilterComponent());
+    render(BaseDateRangeFilterComponent());
 
     const button = screen.getByRole('button');
     await userEvent.click(button);
