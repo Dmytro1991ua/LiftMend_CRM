@@ -6,6 +6,7 @@ import { Accordion, AccordionItem } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { DropdownOption } from '@/shared/base-select/types';
+import { useDropdownState } from '@/shared/hooks';
 
 import { FilterKey, TableFiltersConfig, TableFilters as TableFiltersType } from '../types';
 
@@ -18,18 +19,19 @@ type TableFiltersProps<T> = {
   onFilterChange: (key: FilterKey, selectedOption: DropdownOption) => void;
   onClearFilter: (key: FilterKey) => void;
   isAccordionAutoHeight?: boolean;
+  isDisabled?: boolean;
 };
 
 const TableFilters = <T,>({
   storedFilters,
   filtersConfig,
   isAccordionAutoHeight = false,
+  isDisabled = false,
   onFilterChange,
   onClearFilter,
 }: TableFiltersProps<T>) => {
+  const { isDropdownOpen, onHandleDropdownOpenState } = useDropdownState({ isDisabled });
   const [currentOpenedFilter, setCurrentOpenedFilter] = useState<string | null>(null);
-
-  const handleAccordionChange = useCallback((value: string | null) => setCurrentOpenedFilter(value), []);
 
   const selectedFiltersCount = useMemo(
     () => getSelectedFiltersCount(storedFilters.filterValues),
@@ -40,10 +42,12 @@ const TableFilters = <T,>({
     [selectedFiltersCount]
   );
 
+  const handleAccordionChange = useCallback((value: string | null) => setCurrentOpenedFilter(value), []);
+
   return (
-    <DropdownMenu>
+    <DropdownMenu open={isDropdownOpen} onOpenChange={onHandleDropdownOpenState}>
       <DropdownMenuTrigger asChild>
-        <Button className='w-52 h-8 py-5 px-3 bg-primary text-white' size='sm' variant='default'>
+        <Button className='w-52 h-8 py-5 px-3 bg-primary text-white' disabled={isDisabled} size='sm' variant='default'>
           <FaFilter className='mr-2 h-4 w-4' />
           <span className='uppercase font-bold'>{selectedFilterCountLabel}</span>
         </Button>

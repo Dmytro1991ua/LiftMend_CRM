@@ -19,6 +19,7 @@ export type ChangeLogState = {
   changeLogPageStoredState: EntityStorageState<SortingState, PageFilters, undefined>;
   isCalendarOpen: boolean;
   sanitizedDateRange: DashboardDateFilter;
+  isDisabled?: boolean;
   onHandleCalendarPopoverClose: (open: boolean, range?: DateRange | undefined) => void;
   onSetChangeLogPageStoredState: Dispatch<SetStateAction<EntityStorageState<SortingState, PageFilters, undefined>>>;
   onNext: () => Promise<void>;

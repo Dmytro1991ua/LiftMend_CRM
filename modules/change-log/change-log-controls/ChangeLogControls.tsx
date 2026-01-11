@@ -20,6 +20,7 @@ const ChangeLogControls = ({
   changeLogPageStoredState,
   isCalendarOpen,
   sanitizedDateRange,
+  isDisabled,
   onHandleCalendarPopoverClose,
   onSetChangeLogPageStoredState,
 }: Pick<
@@ -29,6 +30,7 @@ const ChangeLogControls = ({
   | 'isCalendarOpen'
   | 'sanitizedDateRange'
   | 'onHandleCalendarPopoverClose'
+  | 'isDisabled'
 >) => {
   const { dropdownOptions, error } = useFetchDropdownOptions<GetChangeLogsQuery>({
     configKey: DropdownOptions.ChangeLog,
@@ -50,6 +52,7 @@ const ChangeLogControls = ({
       />
       <BaseDateRangeFilter
         isCalendarOpen={isCalendarOpen}
+        isDisabled={isDisabled}
         sanitizedDateRange={sanitizedDateRange}
         tooltipMessage={DEFAULT_CHANGE_LOG_DATE_RANGE_INFO_TOOLTIP_MESSAGE}
         onHandleCalendarPopoverClose={onHandleCalendarPopoverClose}
@@ -57,6 +60,7 @@ const ChangeLogControls = ({
       <PageFilters
         isAccordionAutoHeight
         filtersConfig={changeLogFilters}
+        isDisabled={isDisabled}
         storedFilters={filters}
         onClearFilter={onClearFilter}
         onFilterChange={onFilterChange}

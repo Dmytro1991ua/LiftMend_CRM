@@ -35,5 +35,6 @@ export type BaseDateRangeFilterProps = {
   sanitizedDateRange: DateRange;
   isCalendarOpen: boolean;
   tooltipMessage?: string;
+  isDisabled?: boolean;
   onHandleCalendarPopoverClose: (open: boolean, range?: DateRange) => void;
 };
