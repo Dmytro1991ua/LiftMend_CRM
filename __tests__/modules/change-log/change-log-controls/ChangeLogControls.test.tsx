@@ -11,6 +11,7 @@ import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions'
 jest.mock('@/shared/hooks/useFetchDropdownOptions');
 jest.mock('@/shared/base-table/hooks/useFilterInTable');
 jest.mock('@/shared/hooks', () => ({
+  ...jest.requireActual('@/shared/hooks'),
   useBaseToast: jest.fn(() => ({
     baseToast: jest.fn(),
   })),

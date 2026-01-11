@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useDropdownOpenState } from '@/shared/repair-job/hooks';
+import { useDropdownState } from '@/shared/hooks';
 
 import CustomizeColumnsContent from './CustomizeColumnsContent';
 
@@ -19,7 +19,7 @@ export type CustomizeColumnsProps<T> = {
 };
 
 const CustomizeColumns = <T,>({ columns, isDisabled }: CustomizeColumnsProps<T>) => {
-  const { isDropdownOpen, onHandleDropdownOpenState } = useDropdownOpenState({ isDisabled });
+  const { isDropdownOpen, onHandleDropdownOpenState } = useDropdownState({ isDisabled });
 
   return (
     <DropdownMenu open={isDropdownOpen} onOpenChange={onHandleDropdownOpenState}>

@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction, useCallback } from 'react';
 import { useRouter } from 'next/router';
 
 import { useSignOut } from '@/shared/auth/hooks';
-import { useDropdownOpenState } from '@/shared/repair-job/hooks';
+import { useDropdownState } from '@/shared/hooks';
 import { AppRoutes } from '@/types/enums';
 
 import { useGetUnreadNotificationsCount } from './useGetUnreadNotificationCount';
@@ -25,7 +25,7 @@ export const useHeader = (): UseHeader => {
   const { onSignOut } = useSignOut();
   const { loading: isUnreadNotificationCountLoading, unreadNotificationCount } = useGetUnreadNotificationsCount();
 
-  const { isDropdownOpen, onDropdownOpen, onDropdownClose, setIsDropdownOpen } = useDropdownOpenState({});
+  const { isDropdownOpen, onDropdownOpen, onDropdownClose, setIsDropdownOpen } = useDropdownState({});
 
   const onHandleSignOut = useCallback(async (): Promise<void> => {
     await onSignOut(AppRoutes.SignOut);

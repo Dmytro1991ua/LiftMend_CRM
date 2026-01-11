@@ -1,10 +1,10 @@
 import { Dispatch, SetStateAction, useCallback, useState } from 'react';
 
-export type UseDropdownOpenStateProps = {
+export type UseDropdownStateProps = {
   isDisabled?: boolean;
 };
 
-export type UseDropdownOpenState = {
+export type UseDropdownState = {
   isDropdownOpen: boolean;
   onDropdownOpen: () => void;
   onDropdownClose: () => void;
@@ -12,7 +12,7 @@ export type UseDropdownOpenState = {
   setIsDropdownOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-export const useDropdownOpenState = ({ isDisabled = false }: UseDropdownOpenStateProps): UseDropdownOpenState => {
+export const useDropdownState = ({ isDisabled = false }: UseDropdownStateProps): UseDropdownState => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const onHandleDropdownOpenState = useCallback(

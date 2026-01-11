@@ -6,7 +6,7 @@ import { Accordion, AccordionItem } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { DropdownOption } from '@/shared/base-select/types';
-import { useDropdownOpenState } from '@/shared/repair-job/hooks';
+import { useDropdownState } from '@/shared/hooks';
 
 import { FilterKey, TableFiltersConfig, TableFilters as TableFiltersType } from '../types';
 
@@ -30,7 +30,7 @@ const TableFilters = <T,>({
   onFilterChange,
   onClearFilter,
 }: TableFiltersProps<T>) => {
-  const { isDropdownOpen, onHandleDropdownOpenState } = useDropdownOpenState({ isDisabled });
+  const { isDropdownOpen, onHandleDropdownOpenState } = useDropdownState({ isDisabled });
   const [currentOpenedFilter, setCurrentOpenedFilter] = useState<string | null>(null);
 
   const selectedFiltersCount = useMemo(
