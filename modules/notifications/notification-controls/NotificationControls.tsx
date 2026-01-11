@@ -15,9 +15,10 @@ const NotificationControls = ({
   areAllNotificationsRead,
   notificationsPageStoredState,
   onSetNotificationsPageStoredState,
+  isDisabled,
 }: Pick<
   NotificationsState,
-  'areAllNotificationsRead' | 'notificationsPageStoredState' | 'onSetNotificationsPageStoredState'
+  'areAllNotificationsRead' | 'notificationsPageStoredState' | 'onSetNotificationsPageStoredState' | 'isDisabled'
 >) => {
   const { loading, onMarkAllNotificationsAsRead } = useMarkAllNotificationsAsRead();
 
@@ -33,7 +34,7 @@ const NotificationControls = ({
       <BaseButton
         className='h-10'
         icon={<FaCheck />}
-        isDisabled={areAllNotificationsRead || loading}
+        isDisabled={areAllNotificationsRead || loading || isDisabled}
         isLoading={loading}
         label='Mark All as Read'
         type='button'
@@ -43,6 +44,7 @@ const NotificationControls = ({
       <PageFilters
         isAccordionAutoHeight
         filtersConfig={NOTIFICATIONS_PAGE_FILTERS_CONFIG}
+        isDisabled={isDisabled}
         storedFilters={filters}
         onClearFilter={onClearFilter}
         onFilterChange={onFilterChange}

@@ -9,18 +9,27 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useDropdownOpenState } from '@/shared/repair-job/hooks';
 
 import CustomizeColumnsContent from './CustomizeColumnsContent';
 
 export type CustomizeColumnsProps<T> = {
   columns: Column<T, unknown>[];
+  isDisabled?: boolean;
 };
 
-const CustomizeColumns = <T,>({ columns }: CustomizeColumnsProps<T>) => {
+const CustomizeColumns = <T,>({ columns, isDisabled }: CustomizeColumnsProps<T>) => {
+  const { isDropdownOpen, onHandleDropdownOpenState } = useDropdownOpenState({ isDisabled });
+
   return (
-    <DropdownMenu>
+    <DropdownMenu open={isDropdownOpen} onOpenChange={onHandleDropdownOpenState}>
       <DropdownMenuTrigger asChild>
-        <Button className='ml-auto h-8 py-5 px-3 bg-primary text-white' size='sm' variant='outline'>
+        <Button
+          className='ml-auto h-8 py-5 px-3 bg-primary text-white'
+          disabled={isDisabled}
+          size='sm'
+          variant='default'
+        >
           <CiSettings className='mr-2 h-4 w-4' />
           Customize Columns
         </Button>

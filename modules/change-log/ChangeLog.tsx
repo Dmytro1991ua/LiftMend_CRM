@@ -34,6 +34,7 @@ const ChangeLog = () => {
         <ChangeLogControls
           changeLogPageStoredState={changeLogPageStoredState}
           isCalendarOpen={isCalendarOpen}
+          isDisabled={isChangeLogEmpty}
           sanitizedDateRange={sanitizedDateRange}
           onHandleCalendarPopoverClose={onHandleCalendarPopoverClose}
           onSetChangeLogPageStoredState={onSetChangeLogPageStoredState}

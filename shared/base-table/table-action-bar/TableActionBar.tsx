@@ -20,7 +20,7 @@ type TableActionBarProps<T> = {
   onClearFilter: (key: FilterKey) => void;
   rowModel?: RowModel<T>;
   tableName: TableNames;
-  isExportButtonDisabled?: boolean;
+  isActionButtonDisabled?: boolean;
   searchFieldPlaceholder?: string;
 };
 
@@ -31,7 +31,7 @@ const TableActionBar = <T,>({
   columns,
   rowModel,
   tableName,
-  isExportButtonDisabled,
+  isActionButtonDisabled,
   searchFieldPlaceholder,
   onClearSearch,
   onSearch,
@@ -43,26 +43,28 @@ const TableActionBar = <T,>({
       <div className='flex items-center gap-2'>
         <TableFilters
           filtersConfig={filtersConfig}
+          isDisabled={isActionButtonDisabled}
           storedFilters={storedFilters}
           onClearFilter={onClearFilter}
           onFilterChange={onFilterChange}
         />
         <ExportButton<T>
           columns={columns}
-          isDisabled={isExportButtonDisabled}
+          isDisabled={isActionButtonDisabled}
           rowModel={rowModel}
           tableName={tableName}
         />
       </div>
       <div className='flex items-center gap-2 ml-auto'>
         <SearchInput
+          isDisabled={isActionButtonDisabled}
           isLastElement={true}
           placeholder={searchFieldPlaceholder}
           value={searchTerm}
           onChange={onSearch}
           onClearSearch={onClearSearch}
         />
-        <CustomizeColumns columns={columns} />
+        <CustomizeColumns columns={columns} isDisabled={isActionButtonDisabled} />
       </div>
     </section>
   );

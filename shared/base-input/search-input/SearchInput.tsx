@@ -8,12 +8,14 @@ type SearchInputProps = {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isLastElement?: boolean;
   placeholder?: string;
+  isDisabled?: boolean;
   onClearSearch?: () => Promise<void>;
 };
 
-const SearchInput = ({ value, onChange, onClearSearch, isLastElement, placeholder }: SearchInputProps) => {
+const SearchInput = ({ value, onChange, onClearSearch, isLastElement, placeholder, isDisabled }: SearchInputProps) => {
   return (
     <BaseInput
+      disabled={isDisabled}
       endIcon={<IoIosCloseCircle className='text-gray-300' onClick={onClearSearch} />}
       isLastElement={isLastElement}
       name='search'

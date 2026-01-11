@@ -111,7 +111,7 @@ const BaseTable = <T extends object, K, M>({
         <TableActionBar<T>
           columns={getAllColumns() ?? []}
           filtersConfig={filtersConfig}
-          isExportButtonDisabled={!memoizedData.length}
+          isActionButtonDisabled={!memoizedData.length}
           rowModel={getRowModel()}
           searchFieldPlaceholder={searchFieldPlaceholder}
           searchTerm={searchTerm}

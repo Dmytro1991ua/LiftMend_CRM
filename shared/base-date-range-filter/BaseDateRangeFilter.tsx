@@ -10,6 +10,7 @@ const BaseDateRangeFilter = ({
   sanitizedDateRange,
   isCalendarOpen,
   tooltipMessage,
+  isDisabled,
   onHandleCalendarPopoverClose,
 }: BaseDateRangeFilterProps) => {
   return (
@@ -36,6 +37,7 @@ const BaseDateRangeFilter = ({
         dateRange={sanitizedDateRange}
         isCalendarOpen={isCalendarOpen}
         isDateRangeMode={true}
+        isDisabled={isDisabled}
         numberOfMonths={2}
         onHandlePopoverChange={onHandleCalendarPopoverClose}
       />

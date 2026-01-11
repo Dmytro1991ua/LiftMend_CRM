@@ -19,6 +19,7 @@ export type NotificationsState = {
   error?: string;
   totalNotificationsLength: number;
   areAllNotificationsRead: boolean;
+  isDisabled?: boolean;
   notificationsPageStoredState: EntityStorageState<SortingState, PageFilters, undefined>;
   onSetNotificationsPageStoredState: Dispatch<SetStateAction<EntityStorageState<SortingState, PageFilters, undefined>>>;
   onNext: () => Promise<void>;
