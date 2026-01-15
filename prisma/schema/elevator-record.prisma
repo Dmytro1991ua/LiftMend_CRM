@@ -8,5 +8,7 @@ model ElevatorRecord {
   capacity            Int
   status              String
   lastKnownStatus     String?
+  lastInspectionDate  DateTime?
+  nextInspectionDate  DateTime?
   repairJobs          RepairJob[]
 }

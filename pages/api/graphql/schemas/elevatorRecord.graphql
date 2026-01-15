@@ -21,6 +21,8 @@ type ElevatorRecord implements Node {
   Computed health score of the elevator (0–100)
   """
   healthScore: Int
+  lastInspectionDate: DateTime
+  nextInspectionDate: DateTime
 }
 
 type ElevatorRecordEdge implements Edge {

@@ -9,6 +9,7 @@ generates:
       contextType: '@/pages/api/graphql/types#Context'
       mappers:
         ChangeLog: '@/pages/api/graphql/dataSources/models#DAAPIChangeLog'
+        ElevatorRecord: '@/pages/api/graphql/dataSources/models#DAAPIElevatorRecord'
     plugins:
       - 'typescript'
       - 'typescript-resolvers'

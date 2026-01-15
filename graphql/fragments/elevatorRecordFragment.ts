@@ -12,5 +12,7 @@ export const ELEVATOR_RECORD_FRAGMENT = gql`
     status
     lastKnownStatus
     healthScore
+    lastInspectionDate
+    nextInspectionDate
   }
 `;

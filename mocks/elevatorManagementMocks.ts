@@ -36,6 +36,8 @@ export const mockElevatorRecord = {
   status: 'Operational',
   lastKnownStatus: null,
   healthScore: 75,
+  lastInspectionDate: new Date('2024-03-21T10:00:00.000Z'),
+  nextInspectionDate: new Date('2024-07-20T16:00:00.000Z'),
 };
 
 export const mockElevatorRecordsFormData: MockedResponse = {
@@ -68,6 +70,8 @@ export const mockGlassElevatorElevatorRecord = {
     status: 'Operational',
     lastKnownStatus: null,
     healthScore: 70,
+    lastInspectionDate: '2024-02-21T10:00:00.000Z',
+    nextInspectionDate: '2024-06-20T16:00:00.000Z',
   },
 };
 
@@ -84,6 +88,8 @@ export const mockServiceElevatorElevatorRecord = {
     status: 'Operational',
     lastKnownStatus: null,
     healthScore: 80,
+    lastInspectionDate: '2024-05-21T10:00:00.000Z',
+    nextInspectionDate: '2024-09-20T16:00:00.000Z',
   },
 };
 
@@ -100,6 +106,8 @@ export const mockWarehouseLiftElevatorRecord = {
     status: 'Operational',
     lastKnownStatus: null,
     healthScore: 90,
+    lastInspectionDate: '2024-02-21T10:00:00.000Z',
+    nextInspectionDate: '2024-04-20T16:00:00.000Z',
   },
 };
 
@@ -280,6 +288,8 @@ export const mockUpdatedElevatorRecord = {
   status: 'Out of Service',
   lastKnownStatus: 'Operational',
   healthScore: 72,
+  lastInspectionDate: new Date('2024-07-21T10:00:00.000Z'),
+  nextInspectionDate: new Date('2024-12-20T16:00:00.000Z'),
 };
 
 export const mockUpdateElevatorRecord: MockedResponse<UpdateElevatorRecordMutation> = {
