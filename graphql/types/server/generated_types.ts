@@ -1,5 +1,5 @@
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-import { DAAPIChangeLog } from '@/pages/api/graphql/dataSources/models';
+import { DAAPIChangeLog, DAAPIElevatorRecord } from '@/pages/api/graphql/dataSources/models';
 import { Context } from '@/pages/api/graphql/types';
 export type Maybe<T> = T | undefined | null;
 export type InputMaybe<T> = T | undefined | null;
@@ -185,8 +185,10 @@ export type ElevatorRecord = Node & {
   /** Computed health score of the elevator (0–100) */
   healthScore?: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
+  lastInspectionDate?: Maybe<Scalars['DateTime']['output']>;
   lastKnownStatus?: Maybe<Scalars['String']['output']>;
   lastMaintenanceDate: Scalars['DateTime']['output'];
+  nextInspectionDate?: Maybe<Scalars['DateTime']['output']>;
   nextMaintenanceDate: Scalars['DateTime']['output'];
   status: Scalars['String']['output'];
 };
@@ -918,17 +920,17 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversInterfaceTypes<RefType extends Record<string, unknown>> = ResolversObject<{
   Connection:
     | (Omit<ChangeLogConnection, 'edges'> & { edges: Array<RefType['ChangeLogEdge']> })
-    | ElevatorRecordConnection
+    | (Omit<ElevatorRecordConnection, 'edges'> & { edges: Array<RefType['ElevatorRecordEdge']> })
     | NotificationConnection
     | RepairJobConnection
     | TechnicianRecordConnection;
   Edge:
     | (Omit<ChangeLogEdge, 'node'> & { node: RefType['ChangeLog'] })
-    | ElevatorRecordEdge
+    | (Omit<ElevatorRecordEdge, 'node'> & { node: RefType['ElevatorRecord'] })
     | NotificationEdge
     | RepairJobEdge
     | TechnicianRecordEdges;
-  Node: DAAPIChangeLog | ElevatorRecord | Notification | RepairJob | TechnicianRecord;
+  Node: DAAPIChangeLog | DAAPIElevatorRecord | Notification | RepairJob | TechnicianRecord;
 }>;
 
 /** Mapping between all available schema types and the resolvers types */
@@ -956,9 +958,13 @@ export type ResolversTypes = ResolversObject<{
   DeleteTechnicianRecordResponse: ResolverTypeWrapper<DeleteTechnicianRecordResponse>;
   Edge: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Edge']>;
   ElevatorDetails: ResolverTypeWrapper<ElevatorDetails>;
-  ElevatorRecord: ResolverTypeWrapper<ElevatorRecord>;
-  ElevatorRecordConnection: ResolverTypeWrapper<ElevatorRecordConnection>;
-  ElevatorRecordEdge: ResolverTypeWrapper<ElevatorRecordEdge>;
+  ElevatorRecord: ResolverTypeWrapper<DAAPIElevatorRecord>;
+  ElevatorRecordConnection: ResolverTypeWrapper<
+    Omit<ElevatorRecordConnection, 'edges'> & { edges: Array<ResolversTypes['ElevatorRecordEdge']> }
+  >;
+  ElevatorRecordEdge: ResolverTypeWrapper<
+    Omit<ElevatorRecordEdge, 'node'> & { node: ResolversTypes['ElevatorRecord'] }
+  >;
   ElevatorRecordFilterOptions: ElevatorRecordFilterOptions;
   ElevatorRecordFormData: ResolverTypeWrapper<ElevatorRecordFormData>;
   ElevatorRecordSortField: ElevatorRecordSortField;
@@ -1039,9 +1045,11 @@ export type ResolversParentTypes = ResolversObject<{
   DeleteTechnicianRecordResponse: DeleteTechnicianRecordResponse;
   Edge: ResolversInterfaceTypes<ResolversParentTypes>['Edge'];
   ElevatorDetails: ElevatorDetails;
-  ElevatorRecord: ElevatorRecord;
-  ElevatorRecordConnection: ElevatorRecordConnection;
-  ElevatorRecordEdge: ElevatorRecordEdge;
+  ElevatorRecord: DAAPIElevatorRecord;
+  ElevatorRecordConnection: Omit<ElevatorRecordConnection, 'edges'> & {
+    edges: Array<ResolversParentTypes['ElevatorRecordEdge']>;
+  };
+  ElevatorRecordEdge: Omit<ElevatorRecordEdge, 'node'> & { node: ResolversParentTypes['ElevatorRecord'] };
   ElevatorRecordFilterOptions: ElevatorRecordFilterOptions;
   ElevatorRecordFormData: ElevatorRecordFormData;
   ElevatorRecordSortInput: ElevatorRecordSortInput;
@@ -1263,8 +1271,10 @@ export type ElevatorRecordResolvers<
   elevatorType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   healthScore?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  lastInspectionDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   lastKnownStatus?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   lastMaintenanceDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  nextInspectionDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   nextMaintenanceDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

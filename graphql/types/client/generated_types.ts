@@ -180,8 +180,10 @@ export type ElevatorRecord = Node & {
   /** Computed health score of the elevator (0–100) */
   healthScore: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
+  lastInspectionDate: Maybe<Scalars['DateTime']['output']>;
   lastKnownStatus: Maybe<Scalars['String']['output']>;
   lastMaintenanceDate: Scalars['DateTime']['output'];
+  nextInspectionDate: Maybe<Scalars['DateTime']['output']>;
   nextMaintenanceDate: Scalars['DateTime']['output'];
   status: Scalars['String']['output'];
 };
@@ -880,6 +882,8 @@ export type ElevatorRecordFieldsFragment = {
   status: string;
   lastKnownStatus: string | null;
   healthScore: number | null;
+  lastInspectionDate: any | null;
+  nextInspectionDate: any | null;
 };
 
 export type NotificationFieldsFragment = {
@@ -1269,6 +1273,8 @@ export type GetElevatorRecordByIdQuery = {
     status: string;
     lastKnownStatus: string | null;
     healthScore: number | null;
+    lastInspectionDate: any | null;
+    nextInspectionDate: any | null;
   };
 };
 
@@ -1311,6 +1317,8 @@ export type GetElevatorRecordsQuery = {
         status: string;
         lastKnownStatus: string | null;
         healthScore: number | null;
+        lastInspectionDate: any | null;
+        nextInspectionDate: any | null;
       };
     }>;
     pageInfo: {
@@ -1685,6 +1693,8 @@ export type UpdateElevatorRecordMutation = {
     status: string;
     lastKnownStatus: string | null;
     healthScore: number | null;
+    lastInspectionDate: any | null;
+    nextInspectionDate: any | null;
   };
 };
 
