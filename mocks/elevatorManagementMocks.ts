@@ -15,6 +15,7 @@ import {
   GetElevatorMaintenanceHistoryQuery,
   GetElevatorRecordByIdQuery,
   GetElevatorRecordsQuery,
+  InspectionSeverity,
   UpdateElevatorRecordMutation,
 } from '@/graphql/types/client/generated_types';
 
@@ -38,6 +39,10 @@ export const mockElevatorRecord = {
   healthScore: 75,
   lastInspectionDate: new Date('2024-03-21T10:00:00.000Z'),
   nextInspectionDate: new Date('2024-07-20T16:00:00.000Z'),
+  inspectionStatus: {
+    label: 'Inspection overdue',
+    severity: InspectionSeverity.Error,
+  },
 };
 
 export const mockElevatorRecordsFormData: MockedResponse = {

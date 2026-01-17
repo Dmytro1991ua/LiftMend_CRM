@@ -30,7 +30,7 @@ class ElevatorService {
     this.prisma = prisma;
   }
 
-  async getElevatorRecords(args: QueryGetElevatorRecordsArgs): Promise<ElevatorRecordConnection> {
+  async getElevatorRecords(args: QueryGetElevatorRecordsArgs) {
     const { paginationOptions, sortOptions, filterOptions } = args;
 
     const filters = createElevatorRecordFilterOptions(filterOptions);
@@ -57,7 +57,7 @@ class ElevatorService {
       totalItems,
       paginationOptions,
       getCursor: (elevatorRecord: ElevatorRecord) => elevatorRecord.id,
-    }) as ElevatorRecordConnection;
+    });
   }
 
   async findElevatorRecordById(id: Maybe<string>): Promise<ElevatorRecord | null> {
@@ -124,7 +124,7 @@ class ElevatorService {
       specialtyElevators: 0,
     };
 
-    const metrics = elevatorRecords.edges.reduce((acc, elevatorRecord: ElevatorRecordEdge) => {
+    const metrics = elevatorRecords.edges.reduce((acc, elevatorRecord) => {
       const statusKey = ELEVATOR_STATUS_MAP.get(elevatorRecord.node.status ?? '');
       const typeKey = ELEVATOR_TYPE_MAP.get(elevatorRecord.node.elevatorType);
 

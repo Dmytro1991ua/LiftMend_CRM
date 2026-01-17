@@ -180,6 +180,7 @@ export type ElevatorRecord = Node & {
   /** Computed health score of the elevator (0–100) */
   healthScore: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
+  inspectionStatus: Maybe<InspectionStatus>;
   lastInspectionDate: Maybe<Scalars['DateTime']['output']>;
   lastKnownStatus: Maybe<Scalars['String']['output']>;
   lastMaintenanceDate: Scalars['DateTime']['output'];
@@ -263,6 +264,20 @@ export type FieldChange = {
 export type ForgotPasswordInput = {
   email: Scalars['String']['input'];
   redirectTo: Scalars['String']['input'];
+};
+
+export const InspectionSeverity = {
+  Error: 'ERROR',
+  Info: 'INFO',
+  Success: 'SUCCESS',
+  Warning: 'WARNING',
+} as const;
+
+export type InspectionSeverity = (typeof InspectionSeverity)[keyof typeof InspectionSeverity];
+export type InspectionStatus = {
+  __typename?: 'InspectionStatus';
+  label: Scalars['String']['output'];
+  severity: InspectionSeverity;
 };
 
 export type MarkAllNotificationsAsReadResult = {

@@ -1,3 +1,5 @@
+import { clamp as _clamp, isFinite as _isFinite } from 'lodash';
+
 import { ChartData } from '../base-charts/types';
 
 import { ScoreThreshold, ScoreTooltipMessageParams } from './types';
@@ -21,9 +23,9 @@ export const getScoreTooltipMessage = <TLabel extends string, TDescription exten
 }: ScoreTooltipMessageParams<TLabel, TDescription>) => `${title}: ${score} – ${label}. ${description}`;
 
 export const getScoreGaugeChartData = (score?: number | null): ChartData[] => {
-  if (score == null) return [];
+  if (!_isFinite(score)) return [];
 
-  return [{ name: 'Score', value: score }];
+  return [{ name: 'Score', value: score as number }];
 };
 
 export const getScoreGaugeChartConfig = <TLabel extends string>(

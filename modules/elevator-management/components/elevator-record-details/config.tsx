@@ -56,6 +56,32 @@ export const elevatorRecordSectionsConfig = (elevatorRecord: ElevatorRecord): De
       },
       {
         id: 9,
+        label: 'Last Inspection Date:',
+        value: (
+          <DatePicker
+            key={`${elevatorRecord.lastInspectionDate}`}
+            isDisabled
+            isDateRangeMode={false}
+            numberOfMonths={1}
+            singleDate={elevatorRecord.lastInspectionDate}
+          />
+        ),
+      },
+      {
+        id: 10,
+        label: 'Next Inspection Date:',
+        value: (
+          <DatePicker
+            key={`${elevatorRecord.nextInspectionDate}`}
+            isDisabled
+            isDateRangeMode={false}
+            numberOfMonths={1}
+            singleDate={elevatorRecord.nextInspectionDate}
+          />
+        ),
+      },
+      {
+        id: 11,
         label: 'Status:',
         value: <Pill status={elevatorRecord.status as PillStatus} />,
         fieldClassName: 'items-center',
