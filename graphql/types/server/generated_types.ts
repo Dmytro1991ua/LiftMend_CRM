@@ -185,6 +185,7 @@ export type ElevatorRecord = Node & {
   /** Computed health score of the elevator (0–100) */
   healthScore?: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
+  inspectionStatus?: Maybe<InspectionStatus>;
   lastInspectionDate?: Maybe<Scalars['DateTime']['output']>;
   lastKnownStatus?: Maybe<Scalars['String']['output']>;
   lastMaintenanceDate: Scalars['DateTime']['output'];
@@ -267,6 +268,19 @@ export type FieldChange = {
 export type ForgotPasswordInput = {
   email: Scalars['String']['input'];
   redirectTo: Scalars['String']['input'];
+};
+
+export enum InspectionSeverity {
+  Error = 'ERROR',
+  Info = 'INFO',
+  Success = 'SUCCESS',
+  Warning = 'WARNING',
+}
+
+export type InspectionStatus = {
+  __typename?: 'InspectionStatus';
+  label: Scalars['String']['output'];
+  severity: InspectionSeverity;
 };
 
 export type MarkAllNotificationsAsReadResult = {
@@ -974,6 +988,8 @@ export type ResolversTypes = ResolversObject<{
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   ForgotPasswordInput: ForgotPasswordInput;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
+  InspectionSeverity: InspectionSeverity;
+  InspectionStatus: ResolverTypeWrapper<InspectionStatus>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   JSONDataType: ResolverTypeWrapper<Scalars['JSONDataType']['output']>;
   MarkAllNotificationsAsReadResult: ResolverTypeWrapper<MarkAllNotificationsAsReadResult>;
@@ -1058,6 +1074,7 @@ export type ResolversParentTypes = ResolversObject<{
   Float: Scalars['Float']['output'];
   ForgotPasswordInput: ForgotPasswordInput;
   ID: Scalars['ID']['output'];
+  InspectionStatus: InspectionStatus;
   Int: Scalars['Int']['output'];
   JSONDataType: Scalars['JSONDataType']['output'];
   MarkAllNotificationsAsReadResult: MarkAllNotificationsAsReadResult;
@@ -1271,6 +1288,7 @@ export type ElevatorRecordResolvers<
   elevatorType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   healthScore?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  inspectionStatus?: Resolver<Maybe<ResolversTypes['InspectionStatus']>, ParentType, ContextType>;
   lastInspectionDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   lastKnownStatus?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   lastMaintenanceDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
@@ -1337,6 +1355,15 @@ export type FieldChangeResolvers<
   field?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   newValue?: Resolver<Maybe<ResolversTypes['JSONDataType']>, ParentType, ContextType>;
   oldValue?: Resolver<Maybe<ResolversTypes['JSONDataType']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type InspectionStatusResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['InspectionStatus'] = ResolversParentTypes['InspectionStatus']
+> = ResolversObject<{
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  severity?: Resolver<ResolversTypes['InspectionSeverity'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1838,6 +1865,7 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   ElevatorRecordFormData?: ElevatorRecordFormDataResolvers<ContextType>;
   ElevatorRecordsMetrics?: ElevatorRecordsMetricsResolvers<ContextType>;
   FieldChange?: FieldChangeResolvers<ContextType>;
+  InspectionStatus?: InspectionStatusResolvers<ContextType>;
   JSONDataType?: GraphQLScalarType;
   MarkAllNotificationsAsReadResult?: MarkAllNotificationsAsReadResultResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;

@@ -1,6 +1,6 @@
 import { RepairJob } from '@prisma/client';
 
-import { TechnicianPerformanceMetrics } from '@/graphql/types/server/generated_types';
+import { InspectionSeverity, TechnicianPerformanceMetrics } from '@/graphql/types/server/generated_types';
 import {
   mockCalendarEventId,
   mockMastLiftRepairJob,
@@ -22,7 +22,9 @@ import {
   getCalculateTechnicianPerformanceScore,
   getCalculatedElevatorHealthScore,
   getDaysSinceLastMaintenance,
+  getDaysUntilInspection,
   getElevatorHealthImpact,
+  getInspectionStatus,
   getOnTimeCompletionRate,
   getPerformanceScoreFromRatio,
   getRepairJobDurationInDays,
@@ -499,5 +501,82 @@ describe('computeChangeLogFieldChanges', () => {
     const result = computeChangeLogFieldChanges({ oldValue: mockOldValue, newValue: mockNewValue, action: 'update' });
 
     expect(result).toEqual([]);
+  });
+});
+
+describe('getDaysUntilInspection', () => {
+  const mockScenarios = [
+    {
+      name: 'should return 0 for inspection today',
+      input: new Date(),
+      expected: 0,
+    },
+    {
+      name: 'should return positive days for future inspection',
+      input: new Date(Date.now() + 5 * MILLISECONDS_IN_DAY),
+      expected: 5,
+    },
+    {
+      name: 'should return negative days for overdue inspection',
+      input: new Date(Date.now() - 3 * MILLISECONDS_IN_DAY),
+      expected: -3,
+    },
+  ];
+
+  mockScenarios.forEach(({ name, input, expected }) => {
+    it(name, () => {
+      expect(getDaysUntilInspection(input)).toEqual(expected);
+    });
+  });
+});
+
+describe('getInspectionStatus', () => {
+  const mockScenarios = [
+    {
+      name: 'should return OVERDUE config for past inspection',
+      input: new Date(Date.now() - 2 * MILLISECONDS_IN_DAY),
+      expected: {
+        label: 'Inspection overdue',
+        severity: InspectionSeverity.Error,
+      },
+    },
+    {
+      name: 'should return DUE_TODAY config for inspection today',
+      input: new Date(),
+      expected: {
+        label: 'Inspection due today',
+        severity: InspectionSeverity.Warning,
+      },
+    },
+    {
+      name: 'should return CRITICAL for for 1-7 days until inspection',
+      input: new Date(Date.now() + 5 * MILLISECONDS_IN_DAY),
+      expected: {
+        label: 'Inspection due in 5 days',
+        severity: InspectionSeverity.Warning,
+      },
+    },
+    {
+      name: 'should return UPCOMING config for 8-30 days until inspection',
+      input: new Date(Date.now() + 20 * MILLISECONDS_IN_DAY),
+      expected: {
+        label: 'Inspection due within 30 days',
+        severity: InspectionSeverity.Info,
+      },
+    },
+    {
+      name: 'should return UP_TO_DATE config for inspection more than 30 days away',
+      input: new Date(Date.now() + 45 * MILLISECONDS_IN_DAY),
+      expected: {
+        label: 'Inspection up to date',
+        severity: InspectionSeverity.Success,
+      },
+    },
+  ];
+
+  mockScenarios.forEach(({ name, input, expected }) => {
+    it(name, () => {
+      expect(getInspectionStatus(input)).toEqual(expected);
+    });
   });
 });
