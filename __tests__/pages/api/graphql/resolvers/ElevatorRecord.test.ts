@@ -1,4 +1,4 @@
-import { ElevatorRecordResolvers } from '@/graphql/types/server/generated_types';
+import { ElevatorRecordResolvers, InspectionSeverity } from '@/graphql/types/server/generated_types';
 import getResolverToTest, { TestResolver } from '@/mocks/gql/getResolverToTest';
 import createDataSourcesMock from '@/mocks/gql/mockedDataSources';
 import { elevatorRecordServicePrismaMock } from '@/mocks/gql/prismaMocks';
@@ -12,28 +12,34 @@ jest.mock('@/pages/api/graphql/utils/utils', () => ({
 }));
 
 describe('ElevatorRecord', () => {
+  let mockDataSources: ReturnType<typeof createDataSourcesMock>;
+
+  let healthScoreResolver: TestResolver<ElevatorRecordResolvers, 'healthScore'>;
+  let inspectionStatusResolver: TestResolver<ElevatorRecordResolvers, 'inspectionStatus'>;
+
+  beforeEach(() => {
+    mockDataSources = createDataSourcesMock(elevatorRecordServicePrismaMock);
+
+    healthScoreResolver = getResolverToTest<ElevatorRecordResolvers, 'healthScore'>(
+      ElevatorRecord,
+      'healthScore',
+      mockDataSources
+    );
+    inspectionStatusResolver = getResolverToTest<ElevatorRecordResolvers, 'inspectionStatus'>(
+      ElevatorRecord,
+      'inspectionStatus',
+      mockDataSources
+    );
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('healthScore', () => {
-    let mockDataSources: ReturnType<typeof createDataSourcesMock>;
-
-    let healthScoreResolver: TestResolver<ElevatorRecordResolvers, 'healthScore'>;
-
     const mockBuildingName = 'Building A';
     const mockElevatorLocation = 'Elevator 1';
     const mockLastMaintenanceDate = new Date();
-
-    beforeEach(() => {
-      mockDataSources = createDataSourcesMock(elevatorRecordServicePrismaMock);
-
-      healthScoreResolver = getResolverToTest<ElevatorRecordResolvers, 'healthScore'>(
-        ElevatorRecord,
-        'healthScore',
-        mockDataSources
-      );
-    });
-
-    afterEach(() => {
-      jest.clearAllMocks();
-    });
 
     it('should return 100 health score when no repair jobs and recent maintenance', async () => {
       const result = await healthScoreResolver({
@@ -122,6 +128,54 @@ describe('ElevatorRecord', () => {
       });
 
       expect(result).toBe(30);
+    });
+  });
+
+  describe('inspectionStatus', () => {
+    const mockScenarios = [
+      {
+        name: 'should return null when nextInspectionDate is undefined',
+        input: undefined,
+        expected: null,
+      },
+      {
+        name: 'should return null when nextInspectionDate is null',
+        input: null,
+        expected: null,
+      },
+      {
+        name: 'should return OVERDUE config for past inspection',
+        input: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5 days ago
+        expected: { label: 'Inspection overdue', severity: InspectionSeverity.Error },
+      },
+      {
+        name: 'should return DUE_TODAY config for inspection today',
+        input: new Date(), // today
+        expected: { label: 'Inspection due today', severity: InspectionSeverity.Warning },
+      },
+      {
+        name: 'should return CRITICAL config for inspection in 3 days',
+        input: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+        expected: { label: 'Inspection due in 3 days', severity: InspectionSeverity.Warning },
+      },
+      {
+        name: 'should return UPCOMING config for inspection in 20 days',
+        input: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000),
+        expected: { label: 'Inspection due within 30 days', severity: InspectionSeverity.Info },
+      },
+      {
+        name: 'should return UP_TO_DATE config for inspection in 60 days',
+        input: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000),
+        expected: { label: 'Inspection up to date', severity: InspectionSeverity.Success },
+      },
+    ];
+
+    mockScenarios.forEach(({ name, input, expected }) => {
+      it(name, async () => {
+        const result = await inspectionStatusResolver({ nextInspectionDate: input });
+
+        expect(result).toEqual(expected);
+      });
     });
   });
 });

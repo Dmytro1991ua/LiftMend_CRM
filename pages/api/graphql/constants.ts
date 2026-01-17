@@ -111,3 +111,9 @@ export const CHANGE_LOG_ENTITY_TYPES = [
   'TechnicianRecord',
   'User',
 ];
+
+export const ELEVATOR_INSPECTION_THRESHOLDS = {
+  DUE_TODAY: 0,
+  CRITICAL_WINDOW_DAYS: 7,
+  UPCOMING_WINDOW_DAYS: 30,
+} as const;

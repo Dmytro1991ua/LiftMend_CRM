@@ -1,11 +1,17 @@
 import { RepairJob } from '@prisma/client';
 import { isEqual as _isEqual } from 'lodash';
 
-import { FieldChange, TechnicianPerformanceMetrics } from '@/graphql/types/server/generated_types';
+import {
+  FieldChange,
+  InspectionSeverity,
+  InspectionStatus,
+  TechnicianPerformanceMetrics,
+} from '@/graphql/types/server/generated_types';
 
 import {
   ACTIVE_REPAIR_JOB_STATUSES,
   ELEVATOR_HEALTH_IMPACTING_JOB_TYPES,
+  ELEVATOR_INSPECTION_THRESHOLDS,
   MAX_ELEVATOR_HEALTH_SCORE,
   MAX_MAINTENANCE_DELAY_IMPACT,
   MAX_OVERDUE_REPAIR_JOB_IMPACT,
@@ -21,6 +27,7 @@ import {
 import { JSONRecord } from '../types';
 
 import { getFieldChangeHandlersByAction } from './config';
+import { InspectionStatusConfig } from './types';
 
 /**
  * Calculates the duration of a repair job in days between the start and end dates.
@@ -282,4 +289,76 @@ export const computeChangeLogFieldChanges = ({
   const actionFieldHandlers = getFieldChangeHandlersByAction(previousState, nextState);
 
   return actionFieldHandlers[action]?.() ?? [];
+};
+
+// Returns the number of full days until the next inspection.
+// Negative numbers indicate the inspection is overdue.
+export const getDaysUntilInspection = (nextInspectionDate: Date | string): number => {
+  const inspectionDate = new Date(nextInspectionDate);
+  const today = new Date();
+
+  const millisecondsUntilInspection = inspectionDate.getTime() - today.getTime();
+
+  const daysUntilInspection = Math.ceil(millisecondsUntilInspection / MILLISECONDS_IN_DAY);
+
+  // Math.ceil can sometimes return -0 when the date is today due to floating-point precision.
+  // We normalize -0 to 0 to avoid confusing results
+  return Object.is(daysUntilInspection, -0) ? 0 : daysUntilInspection;
+};
+
+// Returns a full inspection status config object for a given number of days until inspection.
+const getInspectionStatusConfigForNextInspection = (daysLeftUntilInspection: number): InspectionStatusConfig => {
+  return {
+    OVERDUE: {
+      condition: daysLeftUntilInspection < ELEVATOR_INSPECTION_THRESHOLDS.DUE_TODAY,
+      label: 'Inspection overdue',
+      severity: InspectionSeverity.Error,
+    },
+    DUE_TODAY: {
+      condition: daysLeftUntilInspection === ELEVATOR_INSPECTION_THRESHOLDS.DUE_TODAY,
+      label: 'Inspection due today',
+      severity: InspectionSeverity.Warning,
+    },
+    CRITICAL: {
+      condition:
+        daysLeftUntilInspection > 0 && daysLeftUntilInspection <= ELEVATOR_INSPECTION_THRESHOLDS.CRITICAL_WINDOW_DAYS,
+      label: `Inspection due in ${daysLeftUntilInspection} days`,
+      severity: InspectionSeverity.Warning,
+    },
+    UPCOMING: {
+      condition:
+        daysLeftUntilInspection > ELEVATOR_INSPECTION_THRESHOLDS.CRITICAL_WINDOW_DAYS &&
+        daysLeftUntilInspection <= ELEVATOR_INSPECTION_THRESHOLDS.UPCOMING_WINDOW_DAYS,
+      label: 'Inspection due within 30 days',
+      severity: InspectionSeverity.Info,
+    },
+    UP_TO_DATE: {
+      condition: daysLeftUntilInspection > ELEVATOR_INSPECTION_THRESHOLDS.UPCOMING_WINDOW_DAYS,
+      label: 'Inspection up to date',
+      severity: InspectionSeverity.Success,
+    },
+  };
+};
+
+// Returns the active inspection status based on the next inspection date.
+// Output: { label: string, severity: InspectionSeverity } or null if no match.
+export const getInspectionStatus = (nextInspectionDate: string | Date): InspectionStatus | null => {
+  const daysLeftUntilInspection = getDaysUntilInspection(nextInspectionDate);
+  const inspectionStatusFromDays = getInspectionStatusConfigForNextInspection(daysLeftUntilInspection);
+
+  return Object.values(inspectionStatusFromDays).reduce<InspectionStatus | null>(
+    (acc, { condition, label, severity }) => {
+      if (acc) return acc;
+
+      if (condition) {
+        return {
+          label: label,
+          severity: severity,
+        };
+      }
+
+      return acc;
+    },
+    null
+  );
 };
