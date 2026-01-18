@@ -2,7 +2,9 @@ import { ElevatorRecord } from '@/shared/types';
 
 import { ElevatorRecordFormValues } from './types';
 
-export const convertElevatorRecordToFormValues = (elevatorRecord: ElevatorRecord): ElevatorRecordFormValues => ({
+export const convertElevatorRecordToFormValues = (
+  elevatorRecord: Omit<ElevatorRecord, 'inspectionStatus'>
+): ElevatorRecordFormValues => ({
   elevatorType: elevatorRecord ? elevatorRecord.elevatorType : null,
   capacity: elevatorRecord ? elevatorRecord.capacity : null,
   buildingName: elevatorRecord ? elevatorRecord.buildingName : null,

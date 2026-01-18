@@ -3,7 +3,6 @@ import { addMonths } from 'date-fns';
 import { Maybe } from 'graphql/jsutils/Maybe';
 import { isNull as _isNull, omitBy as _omitBy } from 'lodash';
 
-import { ElevatorRecordConnection, ElevatorRecordEdge } from '@/graphql/types/client/generated_types';
 import {
   CreateRepairJobInput,
   ElevatorRecordFormData,

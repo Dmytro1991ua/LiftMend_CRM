@@ -1,4 +1,4 @@
-import { clamp as _clamp, isFinite as _isFinite } from 'lodash';
+import { isFinite as _isFinite } from 'lodash';
 
 import { ChartData } from '../base-charts/types';
 

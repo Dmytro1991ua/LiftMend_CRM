@@ -63,7 +63,7 @@ const BasicInformation = () => {
           clearErrors={clearErrors}
           infoTooltip={
             <InfoTooltip
-              className='w-[33rem]'
+              className='w-[33rem] !shadow-none'
               iconColor='#2563eb'
               iconSize='14'
               id={'availabilityStatus-field-id'}
@@ -88,7 +88,7 @@ const BasicInformation = () => {
           clearErrors={clearErrors}
           infoTooltip={
             <InfoTooltip
-              className='w-[32rem]'
+              className='w-[32rem] !shadow-none'
               iconColor='#2563eb'
               iconSize='14'
               id={'employmentStatus-field-id'}

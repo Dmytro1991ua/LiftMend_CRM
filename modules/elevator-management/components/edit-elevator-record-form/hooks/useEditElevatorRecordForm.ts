@@ -5,7 +5,7 @@ import { ElevatorRecordFormValues } from '@/modules/elevator-management/types';
 import { ElevatorRecord } from '@/shared/types';
 
 type UseEditElevatorRecordFormProps = {
-  elevatorRecord: ElevatorRecord;
+  elevatorRecord: Omit<ElevatorRecord, 'inspectionStatus'>;
   onReset: () => void;
 };
 

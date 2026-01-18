@@ -176,6 +176,8 @@ export const createElevatorRecordSortOptions = (
     [ElevatorRecordSortField.ElevatorType]: 'elevatorType',
     [ElevatorRecordSortField.BuildingName]: 'buildingName',
     [ElevatorRecordSortField.ElevatorLocation]: 'elevatorLocation',
+    [ElevatorRecordSortField.LastInspectionDate]: 'lastInspectionDate',
+    [ElevatorRecordSortField.NextInspectionDate]: 'nextInspectionDate',
   };
 
   return sortOptions?.field && sortOptions?.order

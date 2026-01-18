@@ -2140,7 +2140,19 @@
             "deprecationReason": null
           },
           {
+            "name": "LAST_INSPECTION_DATE",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "LAST_MAINTENANCE_DATE",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "NEXT_INSPECTION_DATE",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null

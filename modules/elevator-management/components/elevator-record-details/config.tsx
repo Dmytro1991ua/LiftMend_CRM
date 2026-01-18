@@ -8,6 +8,7 @@ import { PillStatus } from '@/shared/pill/config';
 
 import { ELEVATOR_HEALTH_SCORE_THRESHOLDS } from '../../config';
 import { ElevatorMaintenanceHistoryTable } from '../elevator-maintenance-history-table';
+import InspectionStatus from '../inspection-status';
 
 export const elevatorRecordSectionsConfig = (elevatorRecord: ElevatorRecord): DetailsPageSectionsConfig[] => [
   {
@@ -82,6 +83,12 @@ export const elevatorRecordSectionsConfig = (elevatorRecord: ElevatorRecord): De
       },
       {
         id: 11,
+        label: 'Inspection Status:',
+        value: <InspectionStatus inspectionStatus={elevatorRecord.inspectionStatus!} />,
+        fieldClassName: 'items-center',
+      },
+      {
+        id: 12,
         label: 'Status:',
         value: <Pill status={elevatorRecord.status as PillStatus} />,
         fieldClassName: 'items-center',

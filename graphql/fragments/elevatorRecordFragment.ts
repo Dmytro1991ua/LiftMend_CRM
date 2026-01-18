@@ -14,5 +14,9 @@ export const ELEVATOR_RECORD_FRAGMENT = gql`
     healthScore
     lastInspectionDate
     nextInspectionDate
+    inspectionStatus {
+      label
+      severity
+    }
   }
 `;

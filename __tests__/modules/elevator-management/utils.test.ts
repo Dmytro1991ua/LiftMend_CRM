@@ -22,7 +22,7 @@ describe('convertElevatorRecordToFormValues', () => {
   });
 
   it('should handle null input gracefully', () => {
-    const result = convertElevatorRecordToFormValues(null as unknown as ElevatorRecord);
+    const result = convertElevatorRecordToFormValues(null!);
 
     const mockExpectedOutput = {
       elevatorType: null,

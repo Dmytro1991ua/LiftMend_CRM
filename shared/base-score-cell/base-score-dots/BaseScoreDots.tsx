@@ -25,7 +25,7 @@ const BaseScoreDots = <TLabel extends string>({
   const tooltipMessage = tooltipProps?.getTooltipMessage ? tooltipProps.getTooltipMessage(value) : '';
 
   return (
-    <BaseTooltip shouldRenderInPortal className='shadow-none w-[33rem]' id={tooltipId} message={tooltipMessage}>
+    <BaseTooltip shouldRenderInPortal className='!shadow-none w-[33rem]' id={tooltipId} message={tooltipMessage}>
       <div className='flex items-center justify-center gap-1 cursor-pointer p-2' data-testid='score-dot-container'>
         {Array.from({ length: totalDots }).map((_, index) => {
           const isDotActive = index < activeDots;

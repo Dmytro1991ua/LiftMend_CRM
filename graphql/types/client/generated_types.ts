@@ -222,7 +222,9 @@ export const ElevatorRecordSortField = {
   BuildingName: 'BUILDING_NAME',
   ElevatorLocation: 'ELEVATOR_LOCATION',
   ElevatorType: 'ELEVATOR_TYPE',
+  LastInspectionDate: 'LAST_INSPECTION_DATE',
   LastMaintenanceDate: 'LAST_MAINTENANCE_DATE',
+  NextInspectionDate: 'NEXT_INSPECTION_DATE',
   NextMaintenanceDate: 'NEXT_MAINTENANCE_DATE',
   Status: 'STATUS',
 } as const;
@@ -899,6 +901,7 @@ export type ElevatorRecordFieldsFragment = {
   healthScore: number | null;
   lastInspectionDate: any | null;
   nextInspectionDate: any | null;
+  inspectionStatus: { __typename?: 'InspectionStatus'; label: string; severity: InspectionSeverity } | null;
 };
 
 export type NotificationFieldsFragment = {
@@ -1290,6 +1293,7 @@ export type GetElevatorRecordByIdQuery = {
     healthScore: number | null;
     lastInspectionDate: any | null;
     nextInspectionDate: any | null;
+    inspectionStatus: { __typename?: 'InspectionStatus'; label: string; severity: InspectionSeverity } | null;
   };
 };
 
@@ -1334,6 +1338,7 @@ export type GetElevatorRecordsQuery = {
         healthScore: number | null;
         lastInspectionDate: any | null;
         nextInspectionDate: any | null;
+        inspectionStatus: { __typename?: 'InspectionStatus'; label: string; severity: InspectionSeverity } | null;
       };
     }>;
     pageInfo: {
@@ -1710,6 +1715,7 @@ export type UpdateElevatorRecordMutation = {
     healthScore: number | null;
     lastInspectionDate: any | null;
     nextInspectionDate: any | null;
+    inspectionStatus: { __typename?: 'InspectionStatus'; label: string; severity: InspectionSeverity } | null;
   };
 };
 
