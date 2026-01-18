@@ -72,7 +72,7 @@ export const getFieldsToUpdateForMutation = <T extends object>(updatedObject: T,
   return fieldsToUpdate;
 };
 
-export const getElevatorRecordInfo = (elevatorRecord: ElevatorRecord): CalendarEventInfo => {
+export const getElevatorRecordInfo = (elevatorRecord: Omit<ElevatorRecord, 'inspectionStatus'>): CalendarEventInfo => {
   const { elevatorLocation, elevatorType, buildingName } = elevatorRecord;
 
   return {

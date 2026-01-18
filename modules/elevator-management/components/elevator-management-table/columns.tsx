@@ -13,6 +13,7 @@ import { ElevatorStatus, HealthScoreLabel } from '../../types';
 import DeleteActionCell from '../delete-action-cell';
 import EditActionCell from '../edit-action-cell';
 import ElevatorStatusToggleCell from '../elevator-status-toggle-cell';
+import InspectionStatus from '../inspection-status';
 
 export const ELEVATOR_MANAGEMENT_COLUMNS: ColumnDef<ElevatorRecord>[] = [
   {
@@ -150,6 +151,64 @@ export const ELEVATOR_MANAGEMENT_COLUMNS: ColumnDef<ElevatorRecord>[] = [
     size: 300,
     minSize: 300,
     maxSize: 500,
+  },
+  {
+    accessorKey: 'lastInspectionDate',
+    header: 'Last Inspection Date',
+    enableResizing: true,
+    enableSorting: true,
+    cell: ({
+      row: {
+        original: { lastInspectionDate },
+      },
+    }) => (
+      <DatePicker
+        key={`${lastInspectionDate}`}
+        isDisabled
+        isDateRangeMode={false}
+        numberOfMonths={1}
+        singleDate={lastInspectionDate ?? undefined}
+      />
+    ),
+    size: 300,
+    minSize: 300,
+    maxSize: 500,
+  },
+  {
+    accessorKey: 'nextInspectionDate',
+    header: 'Next Inspection Date',
+    enableResizing: true,
+    enableSorting: true,
+    cell: ({
+      row: {
+        original: { nextInspectionDate },
+      },
+    }) => (
+      <DatePicker
+        key={`${nextInspectionDate}`}
+        isDisabled
+        isDateRangeMode={false}
+        numberOfMonths={1}
+        singleDate={nextInspectionDate ?? undefined}
+      />
+    ),
+    size: 300,
+    minSize: 300,
+    maxSize: 500,
+  },
+  {
+    accessorKey: 'inspectionStatus',
+    header: 'Inspection Status',
+    enableResizing: true,
+    enableSorting: false,
+    cell: ({
+      row: {
+        original: { inspectionStatus },
+      },
+    }) => <InspectionStatus inspectionStatus={inspectionStatus} />,
+    size: 300,
+    minSize: 220,
+    maxSize: 250,
   },
   {
     accessorKey: 'edit',

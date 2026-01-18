@@ -227,7 +227,9 @@ export enum ElevatorRecordSortField {
   BuildingName = 'BUILDING_NAME',
   ElevatorLocation = 'ELEVATOR_LOCATION',
   ElevatorType = 'ELEVATOR_TYPE',
+  LastInspectionDate = 'LAST_INSPECTION_DATE',
   LastMaintenanceDate = 'LAST_MAINTENANCE_DATE',
+  NextInspectionDate = 'NEXT_INSPECTION_DATE',
   NextMaintenanceDate = 'NEXT_MAINTENANCE_DATE',
   Status = 'STATUS',
 }

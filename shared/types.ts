@@ -1,7 +1,12 @@
 import { Cell } from '@tanstack/react-table';
 import { NextPage } from 'next';
 
-import { Maybe, TechnicianPerformanceMetrics } from '@/graphql/types/client/generated_types';
+import {
+  InspectionSeverity,
+  InspectionStatus,
+  Maybe,
+  TechnicianPerformanceMetrics,
+} from '@/graphql/types/client/generated_types';
 
 export enum StorageEntityName {
   RepairJobTable = 'repairJobTable',
@@ -90,6 +95,11 @@ export type RepairJob = {
   isOverdue?: Maybe<boolean>;
 };
 
+export type ElevatorInspectionStatus = {
+  label: string;
+  severity: InspectionSeverity;
+};
+
 export type ElevatorRecord = {
   id: string;
   elevatorType: string;
@@ -101,6 +111,9 @@ export type ElevatorRecord = {
   capacity: number | null;
   lastKnownStatus?: string | null;
   healthScore?: number | null;
+  lastInspectionDate?: Date | null;
+  nextInspectionDate?: Date | null;
+  inspectionStatus?: ElevatorInspectionStatus | null;
 };
 
 export type TechnicianRecord = {

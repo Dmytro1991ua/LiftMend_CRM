@@ -34,13 +34,15 @@ const ElevatorStatusToggleCell = ({ status, elevatorRecordId, lastKnownStatus }:
           e.stopPropagation();
 
           onOpenModal();
-        }}>
+        }}
+      >
         <BaseTooltip
-          className='w-[30rem] shadow-none'
+          className='w-[30rem] !shadow-none'
           disable={isTooltipShown}
           id='elevator-toggle-status-cell-tooltip'
           message={STATUS_ICON_TOOLTIP_MESSAGE}
-          place='left'>
+          place='left'
+        >
           <div data-testid={config.dataTestId}>{config.icon}</div>
         </BaseTooltip>
       </Button>
@@ -58,7 +60,8 @@ const ElevatorStatusToggleCell = ({ status, elevatorRecordId, lastKnownStatus }:
           />
         }
         title={config.modalTitle}
-        onClose={onCloseModal}>
+        onClose={onCloseModal}
+      >
         {config.modalMessage}
       </BaseModal>
     </section>

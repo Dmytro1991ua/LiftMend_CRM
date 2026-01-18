@@ -17,7 +17,7 @@ const BaseDateRangeFilter = ({
     <section className='flex items-center justify-center gap-2'>
       {tooltipMessage && (
         <InfoTooltip
-          className='w-[33rem]'
+          className='w-[33rem] !shadow-none'
           iconColor='#2563eb'
           iconSize='18'
           id='date-range-tooltip'

@@ -50,7 +50,7 @@ const EditElevatorRecordForm = ({ elevatorRecordFormValues }: EditElevatorRecord
           hasSearchInput={true}
           infoTooltip={
             <InfoTooltip
-              className='w-[33rem]'
+              className='w-[33rem] !shadow-none'
               iconColor='#2563eb'
               iconSize='14'
               id={'buildingName-field-id'}
@@ -80,7 +80,7 @@ const EditElevatorRecordForm = ({ elevatorRecordFormValues }: EditElevatorRecord
           hasSearchInput={true}
           infoTooltip={
             <InfoTooltip
-              className='w-[33rem]'
+              className='w-[33rem] !shadow-none'
               iconColor='#2563eb'
               iconSize='14'
               id={'elevatorType-field-id'}
@@ -111,7 +111,7 @@ const EditElevatorRecordForm = ({ elevatorRecordFormValues }: EditElevatorRecord
           hasSearchInput={true}
           infoTooltip={
             <InfoTooltip
-              className='w-[33rem]'
+              className='w-[33rem] !shadow-none'
               iconColor='#2563eb'
               iconSize='14'
               id={'elevatorLocation-field-id'}
@@ -139,7 +139,7 @@ const EditElevatorRecordForm = ({ elevatorRecordFormValues }: EditElevatorRecord
           defaultValue={status}
           infoTooltip={
             <InfoTooltip
-              className='w-[33rem]'
+              className='w-[33rem] !shadow-none'
               iconColor='#2563eb'
               iconSize='14'
               id={'status-field-id'}
@@ -166,7 +166,7 @@ const EditElevatorRecordForm = ({ elevatorRecordFormValues }: EditElevatorRecord
           id='capacity'
           infoTooltip={
             <InfoTooltip
-              className='w-[33rem]'
+              className='w-[33rem] !shadow-none'
               iconColor='#2563eb'
               iconSize='14'
               id={'capacity-field-id'}
@@ -195,7 +195,7 @@ const EditElevatorRecordForm = ({ elevatorRecordFormValues }: EditElevatorRecord
           defaultValue={new Date(lastMaintenanceDate ?? '')}
           infoTooltip={
             <InfoTooltip
-              className='w-[33rem]'
+              className='w-[33rem] !shadow-none'
               iconColor='#2563eb'
               iconSize='14'
               id={'lastMaintenanceDate-field-id'}

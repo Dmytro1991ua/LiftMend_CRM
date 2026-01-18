@@ -41,7 +41,7 @@ const EditRepairJobForm = ({ repairJobFormValues }: EditRepairJobFormProps) => {
           defaultValue={jobType}
           infoTooltip={
             <InfoTooltip
-              className='w-[33rem]'
+              className='w-[33rem] !shadow-none'
               iconColor='#2563eb'
               iconSize='14'
               id={'job-type-field-id'}
@@ -126,7 +126,7 @@ const EditRepairJobForm = ({ repairJobFormValues }: EditRepairJobFormProps) => {
           defaultValue={elevatorType}
           infoTooltip={
             <InfoTooltip
-              className='w-[33rem]'
+              className='w-[33rem] !shadow-none'
               iconColor='#2563eb'
               iconSize='14'
               id={'elevator-type-field-id'}
@@ -154,7 +154,7 @@ const EditRepairJobForm = ({ repairJobFormValues }: EditRepairJobFormProps) => {
           defaultValue={buildingName}
           infoTooltip={
             <InfoTooltip
-              className='w-[33rem]'
+              className='w-[33rem] !shadow-none'
               iconColor='#2563eb'
               iconSize='14'
               id={'building-name-field-id'}
@@ -182,7 +182,7 @@ const EditRepairJobForm = ({ repairJobFormValues }: EditRepairJobFormProps) => {
           defaultValue={elevatorLocation}
           infoTooltip={
             <InfoTooltip
-              className='w-[33rem]'
+              className='w-[33rem] !shadow-none'
               iconColor='#2563eb'
               iconSize='14'
               id={'elevator-location-field-id'}
