@@ -255,6 +255,9 @@ const Mutation: MutationResolvers = {
   markAllNotificationsAsRead: async (_, __, { dataSources }) => {
     return await dataSources.notification.markAllAsRead();
   },
+  completeElevatorInspection: async (_, { elevatorId }, { dataSources }) => {
+    return await dataSources.elevatorRecord.completeElevatorInspection(elevatorId);
+  },
 };
 
 export default Mutation;

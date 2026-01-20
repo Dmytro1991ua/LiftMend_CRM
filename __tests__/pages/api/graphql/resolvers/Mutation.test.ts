@@ -55,6 +55,7 @@ describe('Mutation', () => {
   let removeAccountResolver: TestResolver<typeof Mutation, 'removeAccount'>;
   let markNotificationAsReadResolver: TestResolver<typeof Mutation, 'markNotificationAsRead'>;
   let markAllNotificationsAsReadResolver: TestResolver<typeof Mutation, 'markAllNotificationsAsRead'>;
+  let completeElevatorInspectionResolver: TestResolver<typeof Mutation, 'completeElevatorInspection'>;
 
   beforeEach(() => {
     mockDataSources = createDataSourcesMock(repairJobServicePrismaMock, userServiceSupabaseMock);
@@ -79,6 +80,7 @@ describe('Mutation', () => {
     removeAccountResolver = getResolverToTest(Mutation, 'removeAccount', mockDataSources);
     markNotificationAsReadResolver = getResolverToTest(Mutation, 'markNotificationAsRead', mockDataSources);
     markAllNotificationsAsReadResolver = getResolverToTest(Mutation, 'markAllNotificationsAsRead', mockDataSources);
+    completeElevatorInspectionResolver = getResolverToTest(Mutation, 'completeElevatorInspection', mockDataSources);
 
     (getElevatorStatusErrorMessage as jest.Mock).mockReturnValue({});
   });
@@ -854,6 +856,25 @@ describe('Mutation', () => {
       mockDataSources.notification.markAllAsRead.mockRejectedValueOnce(new Error(mockError));
 
       await expect(markAllNotificationsAsReadResolver()).rejects.toThrow(mockError);
+    });
+  });
+
+  describe('completeElevatorInspection', () => {
+    it('should complete elevator inspection', async () => {
+      mockDataSources.elevatorRecord.completeElevatorInspection.mockResolvedValueOnce(mockElevatorRecord);
+
+      const result = await completeElevatorInspectionResolver();
+
+      expect(mockDataSources.elevatorRecord.completeElevatorInspection).toHaveBeenCalledTimes(1);
+      expect(result).toEqual(mockElevatorRecord);
+    });
+
+    it('should throw an error if completeElevatorInspection fails', async () => {
+      const mockError = 'Failed to complete elevator inspection';
+
+      mockDataSources.elevatorRecord.completeElevatorInspection.mockRejectedValueOnce(new Error(mockError));
+
+      await expect(completeElevatorInspectionResolver()).rejects.toThrow(mockError);
     });
   });
 });

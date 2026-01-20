@@ -12,6 +12,7 @@ import {
   getSortedFormDropdownData,
   makeConnectionObject,
 } from '@/pages/api/graphql/utils/utils';
+import { DEFAULT_ELEVATOR_SCHEDULED_INTERVAL_MONTHS } from '@/shared/constants';
 
 jest.mock('@/pages/api/graphql/utils/utils', () => ({
   createElevatorRecordFilterOptions: jest.fn(),
@@ -302,6 +303,33 @@ describe('ElevatorService', () => {
         data: {
           lastMaintenanceDate: mockDate,
           nextMaintenanceDate: expectedNextMaintenanceDate,
+        },
+      });
+    });
+  });
+
+  describe('completeElevatorInspection', () => {
+    const mockDate = new Date('2025-02-02T10:00:00.000Z');
+
+    beforeEach(() => {
+      jest.useFakeTimers().setSystemTime(mockDate);
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+      jest.useRealTimers();
+    });
+
+    it('should complete elevator inspection and update inspection dates', async () => {
+      await elevatorService.completeElevatorInspection(mockElevatorRecordId);
+
+      const expectedNextInspectionDate = addMonths(mockDate, DEFAULT_ELEVATOR_SCHEDULED_INTERVAL_MONTHS);
+
+      expect(elevatorRecordServicePrismaMock.elevatorRecord.update).toHaveBeenCalledWith({
+        where: { id: mockElevatorRecordId },
+        data: {
+          lastInspectionDate: mockDate,
+          nextInspectionDate: expectedNextInspectionDate,
         },
       });
     });

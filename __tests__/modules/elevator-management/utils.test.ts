@@ -1,4 +1,3 @@
-import { ElevatorRecord } from '@/graphql/types/client/generated_types';
 import { mockElevatorRecord } from '@/mocks/elevatorManagementMocks';
 import {
   convertElevatorRecordToFormValues,
