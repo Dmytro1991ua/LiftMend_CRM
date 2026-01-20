@@ -296,6 +296,7 @@ export type MarkNotificationAsReadInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  completeElevatorInspection: ElevatorRecord;
   createRepairJobAndEvent: ScheduledEventAndRepairJobResponse;
   createTechnicianRecord: TechnicianRecord;
   deleteElevatorRecord: DeleteElevatorRecordResponse;
@@ -316,6 +317,10 @@ export type Mutation = {
   updateTechnicianRecord: TechnicianRecord;
   updateUserProfile: AppUser;
   uploadProfilePicture: UploadProfilePicturePayload;
+};
+
+export type MutationCompleteElevatorInspectionArgs = {
+  elevatorId: Scalars['ID']['input'];
 };
 
 export type MutationCreateRepairJobAndEventArgs = {
@@ -1385,6 +1390,12 @@ export type MutationResolvers<
   ContextType = Context,
   ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
 > = ResolversObject<{
+  completeElevatorInspection?: Resolver<
+    ResolversTypes['ElevatorRecord'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCompleteElevatorInspectionArgs, 'elevatorId'>
+  >;
   createRepairJobAndEvent?: Resolver<
     ResolversTypes['ScheduledEventAndRepairJobResponse'],
     ParentType,

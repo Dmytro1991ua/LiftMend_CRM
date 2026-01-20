@@ -49,4 +49,5 @@ type Mutation {
   removeAccount(userId: ID!): RemoveAccountResponse!
   markNotificationAsRead(input: MarkNotificationAsReadInput!): Notification!
   markAllNotificationsAsRead: MarkAllNotificationsAsReadResult!
+  completeElevatorInspection(elevatorId: ID!): ElevatorRecord!
 }

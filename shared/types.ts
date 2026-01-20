@@ -1,12 +1,7 @@
 import { Cell } from '@tanstack/react-table';
 import { NextPage } from 'next';
 
-import {
-  InspectionSeverity,
-  InspectionStatus,
-  Maybe,
-  TechnicianPerformanceMetrics,
-} from '@/graphql/types/client/generated_types';
+import { InspectionSeverity, Maybe, TechnicianPerformanceMetrics } from '@/graphql/types/client/generated_types';
 
 export enum StorageEntityName {
   RepairJobTable = 'repairJobTable',

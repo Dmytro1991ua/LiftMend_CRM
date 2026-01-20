@@ -10,7 +10,7 @@ import {
   QueryGetElevatorRecordsArgs,
   UpdateElevatorRecordInput,
 } from '@/graphql/types/server/generated_types';
-import { DEFAULT_ELEVATOR_MAINTENANCE_INTERVAL, ELEVATOR_MAINTENANCE_INTERVALS } from '@/shared/constants';
+import { DEFAULT_ELEVATOR_SCHEDULED_INTERVAL_MONTHS, ELEVATOR_MAINTENANCE_INTERVALS } from '@/shared/constants';
 
 import {
   createElevatorRecordFilterOptions,
@@ -170,7 +170,7 @@ class ElevatorService {
 
     // Determine maintenance interval in months based on elevator type
     const maintenanceIntervalMonths =
-      ELEVATOR_MAINTENANCE_INTERVALS[elevatorType] ?? DEFAULT_ELEVATOR_MAINTENANCE_INTERVAL;
+      ELEVATOR_MAINTENANCE_INTERVALS[elevatorType] ?? DEFAULT_ELEVATOR_SCHEDULED_INTERVAL_MONTHS;
 
     // Calculate next maintenance date based on interval
     const nextMaintenanceDate = addMonths(currentDate, maintenanceIntervalMonths);
@@ -180,6 +180,20 @@ class ElevatorService {
       data: {
         lastMaintenanceDate: currentDate,
         nextMaintenanceDate,
+      },
+    });
+  }
+
+  async completeElevatorInspection(elevatorId: string): Promise<ElevatorRecord> {
+    const currentDate = new Date();
+
+    const nextInspectionDate = addMonths(currentDate, DEFAULT_ELEVATOR_SCHEDULED_INTERVAL_MONTHS);
+
+    return this.prisma.elevatorRecord.update({
+      where: { id: elevatorId },
+      data: {
+        lastInspectionDate: currentDate,
+        nextInspectionDate,
       },
     });
   }
