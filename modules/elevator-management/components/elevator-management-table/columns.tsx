@@ -10,6 +10,7 @@ import { ElevatorRecord } from '@/shared/types';
 import Pill from '../../../../shared/pill/Pill';
 import { ELEVATOR_HEALTH_SCORE_THRESHOLDS } from '../../config';
 import { ElevatorStatus, HealthScoreLabel } from '../../types';
+import CompleteElevatorInspectionCell from '../complete-elevator-inspection-cell';
 import DeleteActionCell from '../delete-action-cell';
 import EditActionCell from '../edit-action-cell';
 import ElevatorStatusToggleCell from '../elevator-status-toggle-cell';
@@ -209,6 +210,20 @@ export const ELEVATOR_MANAGEMENT_COLUMNS: ColumnDef<ElevatorRecord>[] = [
     size: 300,
     minSize: 220,
     maxSize: 250,
+  },
+  {
+    accessorKey: 'completeInspection',
+    header: ' Complete Inspection',
+    cell: ({
+      row: {
+        original: { id },
+      },
+    }) => <CompleteElevatorInspectionCell elevatorId={id} />,
+    enableSorting: false,
+    size: 80,
+    enableResizing: false,
+    minSize: 180,
+    maxSize: 200,
   },
   {
     accessorKey: 'edit',

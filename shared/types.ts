@@ -38,6 +38,8 @@ export enum FormFieldLabel {
   Status = 'Status',
   FullName = 'Technician Full Name',
   Certifications = 'Certifications',
+  LastInspectionDate = 'Last Inspection Date',
+  NextInspectionDate = 'Next Inspection Date',
 }
 
 export enum DataLoadStatus {

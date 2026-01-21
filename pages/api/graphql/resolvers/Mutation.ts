@@ -125,7 +125,9 @@ const Mutation: MutationResolvers = {
 
     await dataSources.elevatorRecord.updateElevatorStatus(elevatorRecord.id, updatedElevatorStatus);
 
-    await dataSources.elevatorRecord.updateElevatorMaintenanceDates(elevatorRecord.id, elevatorRecord.elevatorType);
+    if (updatedRepairJob.status === 'Completed') {
+      await dataSources.elevatorRecord.updateElevatorMaintenanceDates(elevatorRecord.id, elevatorRecord.elevatorType);
+    }
 
     return updatedRepairJob;
   },

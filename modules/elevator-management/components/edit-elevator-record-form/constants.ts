@@ -8,5 +8,7 @@ export const ELEVATOR_CAPACITY_TOOLTIP_MESSAGE =
   'Elevator capacity is defined by the manufacturer and cannot be edited.';
 export const ELEVATOR_STATUS_TOOLTIP_MESSAGE =
   'Elevator status is managed through the activation and deactivation workflows and updates on associated repair job.';
-export const LAST_MAINTENANCE_DATE_TOOLTIP_MESSAGE =
+export const ELEVATOR_MAINTENANCE_DATE_TOOLTIP_MESSAGE =
   'This field is automatically updated after the repair job associated with the currently editing elevator record is completed.';
+export const ELEVATOR_INSPECTION_DATE_TOOLTIP_MESSAGE =
+  'This field is automatically updated when an elevator inspection is completed.';

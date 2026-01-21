@@ -22,7 +22,7 @@ import { EntityStorageState } from '@/shared/storage/hooks/useStoredEntityState'
 import { ElevatorRecord, StorageEntityName } from '@/shared/types';
 import { getItemsFromQuery, removeTypeNamesFromArray } from '@/shared/utils';
 
-import { ELEVATOR_RECORDS_TABLE_FILTER_KEY_MAP } from './constants';
+import { ELEVATOR_RECORDS_TABLE_FILTER_KEY_MAP } from '../constants';
 
 export type UseGetElevatorRecords<T> = {
   elevatorRecords: ElevatorRecord[];

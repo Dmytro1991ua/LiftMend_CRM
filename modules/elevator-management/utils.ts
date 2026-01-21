@@ -13,6 +13,8 @@ export const convertElevatorRecordToFormValues = (
   status: elevatorRecord ? elevatorRecord.status : null,
   lastMaintenanceDate: elevatorRecord ? elevatorRecord.lastMaintenanceDate : undefined,
   nextMaintenanceDate: elevatorRecord ? elevatorRecord.nextMaintenanceDate : undefined,
+  lastInspectionDate: elevatorRecord ? elevatorRecord.lastInspectionDate : undefined,
+  nextInspectionDate: elevatorRecord ? elevatorRecord.nextInspectionDate : undefined,
 });
 
 export const convertFormFieldsToElevatorRecord = (formFields: ElevatorRecordFormValues): ElevatorRecord => ({

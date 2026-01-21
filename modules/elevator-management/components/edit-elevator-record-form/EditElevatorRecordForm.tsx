@@ -15,10 +15,11 @@ import { ElevatorRecordFormValues } from '../../types';
 import {
   BUILDING_NAME_TOOLTIP_MESSAGE,
   ELEVATOR_CAPACITY_TOOLTIP_MESSAGE,
+  ELEVATOR_INSPECTION_DATE_TOOLTIP_MESSAGE,
   ELEVATOR_LOCATION_TOOLTIP_MESSAGE,
+  ELEVATOR_MAINTENANCE_DATE_TOOLTIP_MESSAGE,
   ELEVATOR_STATUS_TOOLTIP_MESSAGE,
   ELEVATOR_TYPE_TOOLTIP_MESSAGE,
-  LAST_MAINTENANCE_DATE_TOOLTIP_MESSAGE,
 } from './constants';
 
 export type EditElevatorRecordFormProps = {
@@ -34,8 +35,17 @@ const EditElevatorRecordForm = ({ elevatorRecordFormValues }: EditElevatorRecord
 
   const { clearErrors } = useFormContext<ElevatorRecordFormValues>();
 
-  const { elevatorType, buildingName, elevatorLocation, status, lastMaintenanceDate, nextMaintenanceDate, capacity } =
-    elevatorRecordFormValues;
+  const {
+    elevatorType,
+    buildingName,
+    elevatorLocation,
+    status,
+    lastMaintenanceDate,
+    nextMaintenanceDate,
+    capacity,
+    lastInspectionDate,
+    nextInspectionDate,
+  } = elevatorRecordFormValues;
 
   const ELEVATOR_RECORD_FORM_FIELD_CONFIG: ItemConfig[] = [
     {
@@ -199,7 +209,7 @@ const EditElevatorRecordForm = ({ elevatorRecordFormValues }: EditElevatorRecord
               iconColor='#2563eb'
               iconSize='14'
               id={'lastMaintenanceDate-field-id'}
-              message={LAST_MAINTENANCE_DATE_TOOLTIP_MESSAGE}
+              message={ELEVATOR_MAINTENANCE_DATE_TOOLTIP_MESSAGE}
               place='right'
             />
           }
@@ -215,9 +225,20 @@ const EditElevatorRecordForm = ({ elevatorRecordFormValues }: EditElevatorRecord
       id: 7,
       content: (
         <ControlledSingleDatePicker<ElevatorRecordFormValues>
+          isDisabled
           className='mb-4'
           clearErrors={clearErrors}
           defaultValue={new Date(nextMaintenanceDate ?? '')}
+          infoTooltip={
+            <InfoTooltip
+              className='w-[33rem] !shadow-none'
+              iconColor='#2563eb'
+              iconSize='14'
+              id={'nextMaintenanceDate-field-id'}
+              message={ELEVATOR_MAINTENANCE_DATE_TOOLTIP_MESSAGE}
+              place='right'
+            />
+          }
           isDateRangeMode={false}
           label={FormFieldLabel.NextMaintenanceDate}
           name='nextMaintenanceDate'
@@ -225,6 +246,60 @@ const EditElevatorRecordForm = ({ elevatorRecordFormValues }: EditElevatorRecord
         />
       ),
       className: 'row-start-4 row-end-5 col-start-4 col-end-7',
+    },
+    {
+      id: 8,
+      content: (
+        <ControlledSingleDatePicker<ElevatorRecordFormValues>
+          isDisabled
+          allowPastDates={true}
+          className='mb-4'
+          clearErrors={clearErrors}
+          defaultValue={new Date(lastInspectionDate ?? '')}
+          infoTooltip={
+            <InfoTooltip
+              className='w-[33rem] !shadow-none'
+              iconColor='#2563eb'
+              iconSize='14'
+              id={'lastInspectionDate-field-id'}
+              message={ELEVATOR_INSPECTION_DATE_TOOLTIP_MESSAGE}
+              place='right'
+            />
+          }
+          isDateRangeMode={false}
+          label={FormFieldLabel.LastInspectionDate}
+          name='lastInspectionDate'
+          numberOfMonths={1}
+        />
+      ),
+      className: 'row-start-5 row-end-6 col-start-1 col-end-4',
+    },
+    {
+      id: 9,
+      content: (
+        <ControlledSingleDatePicker<ElevatorRecordFormValues>
+          isDisabled
+          allowPastDates={true}
+          className='mb-4'
+          clearErrors={clearErrors}
+          defaultValue={new Date(nextInspectionDate ?? '')}
+          infoTooltip={
+            <InfoTooltip
+              className='w-[33rem] !shadow-none'
+              iconColor='#2563eb'
+              iconSize='14'
+              id={'nextInspectionDate-field-id'}
+              message={ELEVATOR_INSPECTION_DATE_TOOLTIP_MESSAGE}
+              place='right'
+            />
+          }
+          isDateRangeMode={false}
+          label={FormFieldLabel.NextInspectionDate}
+          name='nextInspectionDate'
+          numberOfMonths={1}
+        />
+      ),
+      className: 'row-start-5 row-end-6 col-start-4 col-end-7',
     },
   ];
 

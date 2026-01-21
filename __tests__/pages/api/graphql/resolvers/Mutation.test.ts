@@ -357,11 +357,27 @@ describe('Mutation', () => {
         mockElevatorRecord.id,
         'Under Maintenance'
       );
+      expect(mockDataSources.elevatorRecord.updateElevatorMaintenanceDates).not.toHaveBeenCalled();
+      expect(result).toEqual(mockUpdatedRepairJob);
+    });
+
+    it('should update maintenance dates when repair job is completed', async () => {
+      const updatedStatus = 'Completed';
+      const mockUpdatedRepairJob = { ...mockRepairJob, status: updatedStatus };
+
+      mockDataSources.repairJob.updateRepairJob.mockResolvedValue(mockUpdatedRepairJob);
+      mockDataSources.technicianRecord.findTechnicianRecordById.mockResolvedValue(mockBenjaminHallRecord);
+      mockDataSources.technicianRecord.updateTechnicianStatus.mockResolvedValue();
+      mockDataSources.elevatorRecord.findElevatorRecordById.mockResolvedValue(mockElevatorRecord);
+      mockDataSources.elevatorRecord.updateElevatorStatus.mockResolvedValue(mockElevatorRecord);
+      mockDataSources.elevatorRecord.updateElevatorMaintenanceDates.mockResolvedValue();
+
+      await updateRepairJobResolver({}, { input: mockUpdatedRepairJob });
+
       expect(mockDataSources.elevatorRecord.updateElevatorMaintenanceDates).toHaveBeenCalledWith(
         mockElevatorRecord.id,
-        'Scenic Elevator'
+        mockElevatorRecord.elevatorType
       );
-      expect(result).toEqual(mockUpdatedRepairJob);
     });
   });
 
