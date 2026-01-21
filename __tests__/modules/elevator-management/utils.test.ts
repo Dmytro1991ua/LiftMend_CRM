@@ -14,6 +14,8 @@ describe('convertElevatorRecordToFormValues', () => {
       id: 'test_id',
       lastMaintenanceDate: new Date('2024-05-20T10:00:00.000Z'),
       nextMaintenanceDate: new Date('2024-08-30T16:00:00.000Z'),
+      lastInspectionDate: new Date('2024-03-21T10:00:00.000Z'),
+      nextInspectionDate: new Date('2024-07-20T16:00:00.000Z'),
       status: 'Operational',
     };
 

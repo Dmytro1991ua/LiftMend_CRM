@@ -35,7 +35,7 @@ describe('ElevatorManagementTable', () => {
 
     const columnHeaders = screen.getAllByRole('columnheader');
 
-    expect(columnHeaders).toHaveLength(16);
+    expect(columnHeaders).toHaveLength(17);
 
     expect(columnHeaders[0]).toHaveTextContent('');
     expect(columnHeaders[1]).toHaveTextContent('Elevator Type');
@@ -50,9 +50,10 @@ describe('ElevatorManagementTable', () => {
     expect(columnHeaders[10]).toHaveTextContent('Last Inspection Date');
     expect(columnHeaders[11]).toHaveTextContent('Next Inspection Date');
     expect(columnHeaders[12]).toHaveTextContent('Inspection Status');
-    expect(columnHeaders[13]).toHaveTextContent('Edit');
-    expect(columnHeaders[14]).toHaveTextContent('Delete');
-    expect(columnHeaders[15]).toHaveTextContent('Elevator Visibility');
+    expect(columnHeaders[13]).toHaveTextContent('Complete Inspection');
+    expect(columnHeaders[14]).toHaveTextContent('Edit');
+    expect(columnHeaders[15]).toHaveTextContent('Delete');
+    expect(columnHeaders[16]).toHaveTextContent('Elevator Visibility');
   });
 
   it('should render correct table cells', async () => {
@@ -73,8 +74,9 @@ describe('ElevatorManagementTable', () => {
     const healthScoreCells = screen.getAllByTestId('health-score-cell');
     const firstRowDots = within(healthScoreCells[0]).getAllByTestId('score-dot');
     const secondRowDots = within(healthScoreCells[1]).getAllByTestId('score-dot');
+    const completeElevatorInspectionIcons = screen.getAllByTestId('complete-inspection-icon');
 
-    expect(cells).toHaveLength(32);
+    expect(cells).toHaveLength(34);
 
     // === First Row ===
     expect(cells[0]).toBeInTheDocument(); // checkbox
@@ -90,27 +92,29 @@ describe('ElevatorManagementTable', () => {
     expect(cells[10]).toHaveTextContent('Feb 21, 2024 12:00 PM');
     expect(cells[11]).toHaveTextContent('Jun 20, 2024 19:00 PM');
     expect(cells[12]).toHaveTextContent('Inspection overdue');
+    expect(completeElevatorInspectionIcons[0]).toBeInTheDocument();
     expect(editIcons[0]).toBeInTheDocument(); // First row edit icon
-    expect(cells[14]).toBeInTheDocument();
     expect(cells[15]).toBeInTheDocument();
+    expect(cells[16]).toBeInTheDocument();
 
     // === Second Row ===
-    expect(cells[16]).toBeInTheDocument();
-    expect(cells[17]).toHaveTextContent('Service Elevator');
-    expect(cells[18]).toHaveTextContent('Oceanview Condos');
-    expect(cells[19]).toHaveTextContent('Sky Bridge');
-    expect(cells[20]).toHaveTextContent('test-id-2');
-    expect(cells[21]).toHaveTextContent('Operational');
+    expect(cells[17]).toBeInTheDocument();
+    expect(cells[18]).toHaveTextContent('Service Elevator');
+    expect(cells[19]).toHaveTextContent('Oceanview Condos');
+    expect(cells[20]).toHaveTextContent('Sky Bridge');
+    expect(cells[21]).toHaveTextContent('test-id-2');
+    expect(cells[22]).toHaveTextContent('Operational');
     expect(secondRowDots).toHaveLength(DEFAULT_TOTAL_DOTS);
-    expect(cells[23]).toHaveTextContent('3500');
-    expect(cells[24]).toHaveTextContent('Apr 05, 2024 13:00 PM');
-    expect(cells[25]).toHaveTextContent('Jul 28, 2024 18:00 PM');
-    expect(cells[26]).toHaveTextContent('May 21, 2024 13:00 PM');
-    expect(cells[27]).toHaveTextContent('Sep 20, 2024 19:00 PM');
-    expect(cells[28]).toHaveTextContent('Inspection overdue');
+    expect(cells[24]).toHaveTextContent('3500');
+    expect(cells[25]).toHaveTextContent('Apr 05, 2024 13:00 PM');
+    expect(cells[26]).toHaveTextContent('Jul 28, 2024 18:00 PM');
+    expect(cells[27]).toHaveTextContent('May 21, 2024 13:00 PM');
+    expect(cells[28]).toHaveTextContent('Sep 20, 2024 19:00 PM');
+    expect(cells[29]).toHaveTextContent('Inspection overdue');
+    expect(completeElevatorInspectionIcons[1]).toBeInTheDocument();
     expect(editIcons[1]).toBeInTheDocument();
-    expect(cells[30]).toBeInTheDocument();
-    expect(cells[31]).toBeInTheDocument();
+    expect(cells[32]).toBeInTheDocument();
+    expect(cells[33]).toBeInTheDocument();
   });
 
   it('should show alert message when no data available for a table', () => {

@@ -9,8 +9,10 @@ import {
   GET_ELEVATOR_RECORD_FORM_DATA,
   UPDATE_ELEVATOR_RECORD,
 } from '@/graphql/schemas';
+import { COMPLETE_ELEVATOR_INSPECTION } from '@/graphql/schemas/completeElevatorInspection';
 import { GET_ELEVATOR_MAINTENANCE_HISTORY } from '@/graphql/schemas/getElevatorMaintenanceHistory';
 import {
+  CompleteElevatorInspectionMutation,
   DeleteElevatorRecordMutation,
   GetElevatorMaintenanceHistoryQuery,
   GetElevatorRecordByIdQuery,
@@ -447,3 +449,47 @@ export const mockPaginatedElevatorMaintenanceHistoryData: MockedResponse<GetElev
     },
   },
 ];
+
+export const mockCompleteElevatorInspectionResponse: MockedResponse<CompleteElevatorInspectionMutation> = {
+  request: {
+    query: COMPLETE_ELEVATOR_INSPECTION,
+    variables: {
+      elevatorId: mockElevatorId,
+    },
+  },
+  result: {
+    data: {
+      completeElevatorInspection: {
+        ...mockUpdatedElevatorRecord,
+        __typename: 'ElevatorRecord',
+      },
+    },
+    errors: [],
+  },
+};
+
+export const mockCompleteElevatorInspectionGQLError = {
+  request: {
+    query: COMPLETE_ELEVATOR_INSPECTION,
+    variables: {
+      elevatorId: mockElevatorId,
+    },
+  },
+  result: {
+    data: undefined,
+    errors: [new GraphQLError('Test error')],
+  },
+};
+
+export const mockCompleteElevatorInspectionNetworkError = {
+  request: {
+    query: COMPLETE_ELEVATOR_INSPECTION,
+    variables: {
+      elevatorId: mockElevatorId,
+    },
+  },
+  result: {
+    data: undefined,
+    error: new Error('Error occurs'),
+  },
+};

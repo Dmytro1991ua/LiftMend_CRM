@@ -26,6 +26,8 @@ export type ElevatorRecordFormValues = {
   lastMaintenanceDate?: Date;
   nextMaintenanceDate?: Date;
   capacity: number | null;
+  lastInspectionDate?: Date | null;
+  nextInspectionDate?: Date | null;
 };
 
 export type ElevatorStatus = 'Operational' | 'Out of Service';

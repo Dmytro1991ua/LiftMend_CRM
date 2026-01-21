@@ -36,4 +36,6 @@ export const elevatorRecordEditFormSchema = z.object({
   elevatorLocation: z.string().optional().nullable(),
   id: z.string().optional(),
   status: z.string().optional().nullable(),
+  lastInspectionDate: createDateField('Last Inspection date is required'),
+  nextInspectionDate: createDateField('Next maintenance date is required'),
 });

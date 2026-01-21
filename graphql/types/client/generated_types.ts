@@ -293,6 +293,7 @@ export type MarkNotificationAsReadInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  completeElevatorInspection: ElevatorRecord;
   createRepairJobAndEvent: ScheduledEventAndRepairJobResponse;
   createTechnicianRecord: TechnicianRecord;
   deleteElevatorRecord: DeleteElevatorRecordResponse;
@@ -313,6 +314,10 @@ export type Mutation = {
   updateTechnicianRecord: TechnicianRecord;
   updateUserProfile: AppUser;
   uploadProfilePicture: UploadProfilePicturePayload;
+};
+
+export type MutationCompleteElevatorInspectionArgs = {
+  elevatorId: Scalars['ID']['input'];
 };
 
 export type MutationCreateRepairJobAndEventArgs = {
@@ -956,6 +961,30 @@ export type TechnicianRecordFieldsFragment = {
     averageDurationDays: number;
     performanceScore: number | null;
   } | null;
+};
+
+export type CompleteElevatorInspectionMutationVariables = Exact<{
+  elevatorId: Scalars['ID']['input'];
+}>;
+
+export type CompleteElevatorInspectionMutation = {
+  __typename?: 'Mutation';
+  completeElevatorInspection: {
+    __typename?: 'ElevatorRecord';
+    id: string;
+    elevatorType: string;
+    buildingName: string;
+    elevatorLocation: string;
+    lastMaintenanceDate: any;
+    nextMaintenanceDate: any;
+    capacity: number;
+    status: string;
+    lastKnownStatus: string | null;
+    healthScore: number | null;
+    lastInspectionDate: any | null;
+    nextInspectionDate: any | null;
+    inspectionStatus: { __typename?: 'InspectionStatus'; label: string; severity: InspectionSeverity } | null;
+  };
 };
 
 export type CreateRepairJobAndCalendarEventMutationVariables = Exact<{
