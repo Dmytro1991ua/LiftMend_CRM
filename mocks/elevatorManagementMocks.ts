@@ -14,10 +14,10 @@ import { GET_ELEVATOR_MAINTENANCE_HISTORY } from '@/graphql/schemas/getElevatorM
 import {
   CompleteElevatorInspectionMutation,
   DeleteElevatorRecordMutation,
+  ElevatorSeverityLevel,
   GetElevatorMaintenanceHistoryQuery,
   GetElevatorRecordByIdQuery,
   GetElevatorRecordsQuery,
-  InspectionSeverity,
   UpdateElevatorRecordMutation,
 } from '@/graphql/types/client/generated_types';
 
@@ -43,7 +43,7 @@ export const mockElevatorRecord = {
   nextInspectionDate: new Date('2024-07-20T16:00:00.000Z'),
   inspectionStatus: {
     label: 'Inspection overdue',
-    severity: InspectionSeverity.Error,
+    severity: ElevatorSeverityLevel.Error,
   },
 };
 
@@ -81,7 +81,7 @@ export const mockGlassElevatorElevatorRecord = {
     nextInspectionDate: '2024-06-20T16:00:00.000Z',
     inspectionStatus: {
       label: 'Inspection overdue',
-      severity: InspectionSeverity.Error,
+      severity: ElevatorSeverityLevel.Error,
     },
   },
 };
@@ -103,7 +103,7 @@ export const mockServiceElevatorElevatorRecord = {
     nextInspectionDate: '2024-09-20T16:00:00.000Z',
     inspectionStatus: {
       label: 'Inspection overdue',
-      severity: InspectionSeverity.Error,
+      severity: ElevatorSeverityLevel.Error,
     },
   },
 };
@@ -125,7 +125,7 @@ export const mockWarehouseLiftElevatorRecord = {
     nextInspectionDate: '2024-04-20T16:00:00.000Z',
     inspectionStatus: {
       label: 'Inspection overdue',
-      severity: InspectionSeverity.Error,
+      severity: ElevatorSeverityLevel.Error,
     },
   },
 };
@@ -311,7 +311,7 @@ export const mockUpdatedElevatorRecord = {
   nextInspectionDate: new Date('2024-12-20T16:00:00.000Z'),
   inspectionStatus: {
     label: 'Inspection overdue',
-    severity: InspectionSeverity.Error,
+    severity: ElevatorSeverityLevel.Error,
   },
 };
 

@@ -1,6 +1,7 @@
 import { RepairJob } from '@prisma/client';
+import { subDays } from 'date-fns';
 
-import { InspectionSeverity, TechnicianPerformanceMetrics } from '@/graphql/types/server/generated_types';
+import { ElevatorSeverityLevel, TechnicianPerformanceMetrics } from '@/graphql/types/server/generated_types';
 import {
   mockCalendarEventId,
   mockMastLiftRepairJob,
@@ -9,6 +10,7 @@ import {
   mockShipElevatorRepairJpb,
 } from '@/mocks/repairJobTrackingMocks';
 import {
+  ELEVATOR_REPAIR_FREQUENCY_THRESHOLDS,
   MAX_MAINTENANCE_DELAY_IMPACT,
   MAX_REPAIR_JOB_DURATION_IN_DAYS,
   MILLISECONDS_IN_DAY,
@@ -23,7 +25,9 @@ import {
   getCalculatedElevatorHealthScore,
   getDaysSinceLastMaintenance,
   getDaysUntilInspection,
+  getElevatorFailureRelatedJobsCount,
   getElevatorHealthImpact,
+  getElevatorRepairFrequencyStatus,
   getInspectionStatus,
   getOnTimeCompletionRate,
   getPerformanceScoreFromRatio,
@@ -537,7 +541,7 @@ describe('getInspectionStatus', () => {
       input: new Date(Date.now() - 2 * MILLISECONDS_IN_DAY),
       expected: {
         label: 'Inspection overdue',
-        severity: InspectionSeverity.Error,
+        severity: ElevatorSeverityLevel.Error,
       },
     },
     {
@@ -545,7 +549,7 @@ describe('getInspectionStatus', () => {
       input: new Date(),
       expected: {
         label: 'Inspection due today',
-        severity: InspectionSeverity.Warning,
+        severity: ElevatorSeverityLevel.Warning,
       },
     },
     {
@@ -553,7 +557,7 @@ describe('getInspectionStatus', () => {
       input: new Date(Date.now() + 5 * MILLISECONDS_IN_DAY),
       expected: {
         label: 'Inspection due in 5 days',
-        severity: InspectionSeverity.Warning,
+        severity: ElevatorSeverityLevel.Warning,
       },
     },
     {
@@ -561,7 +565,7 @@ describe('getInspectionStatus', () => {
       input: new Date(Date.now() + 20 * MILLISECONDS_IN_DAY),
       expected: {
         label: 'Inspection due within 30 days',
-        severity: InspectionSeverity.Info,
+        severity: ElevatorSeverityLevel.Info,
       },
     },
     {
@@ -569,7 +573,7 @@ describe('getInspectionStatus', () => {
       input: new Date(Date.now() + 45 * MILLISECONDS_IN_DAY),
       expected: {
         label: 'Inspection up to date',
-        severity: InspectionSeverity.Success,
+        severity: ElevatorSeverityLevel.Success,
       },
     },
   ];
@@ -577,6 +581,93 @@ describe('getInspectionStatus', () => {
   mockScenarios.forEach(({ name, input, expected }) => {
     it(name, () => {
       expect(getInspectionStatus(input)).toEqual(expected);
+    });
+  });
+});
+
+describe('getElevatorRepairFrequencyStatus', () => {
+  const mockScenarios = [
+    {
+      name: 'should return SUCCESS config',
+      input: 0,
+      expected: {
+        label: 'Stable',
+        severity: ElevatorSeverityLevel.Success,
+      },
+    },
+    {
+      name: 'should return INFO config',
+      input: ELEVATOR_REPAIR_FREQUENCY_THRESHOLDS.INFO,
+      expected: {
+        label: 'Minor',
+        severity: ElevatorSeverityLevel.Info,
+      },
+    },
+    {
+      name: 'should return WARNING config',
+      input: ELEVATOR_REPAIR_FREQUENCY_THRESHOLDS.INFO + 1,
+      expected: {
+        label: 'Occasional',
+        severity: ElevatorSeverityLevel.Warning,
+      },
+    },
+    {
+      name: 'should return ERROR config',
+      input: ELEVATOR_REPAIR_FREQUENCY_THRESHOLDS.WARNING + 1,
+      expected: {
+        label: 'Frequent',
+        severity: ElevatorSeverityLevel.Error,
+      },
+    },
+  ];
+
+  mockScenarios.forEach(({ name, input, expected }) => {
+    it(name, () => {
+      const status = getElevatorRepairFrequencyStatus(input);
+
+      expect(status.label).toBe(expected.label);
+      expect(status.severity).toBe(expected.severity);
+    });
+  });
+});
+
+describe('getElevatorFailureRelatedJobsCount', () => {
+  const today = new Date();
+
+  const mockScenarios = [
+    {
+      name: 'should count only elevator failure-related jobs within last 30 days and not cancelled',
+      input: [
+        { ...mockRepairJob, jobType: 'Repair', status: 'Completed', createdAt: subDays(today, 5) },
+        { ...mockRepairJob, jobType: 'Routine', status: 'Completed', createdAt: subDays(today, 10) },
+        { ...mockRepairJob, jobType: 'Emergency', status: 'Cancelled', createdAt: subDays(today, 1) },
+        { ...mockRepairJob, jobType: 'Maintenance', status: 'Completed', createdAt: subDays(today, 1) },
+        { ...mockRepairJob, jobType: 'Repair', status: 'Completed', createdAt: subDays(today, 31) },
+      ],
+      expected: 2,
+    },
+    {
+      name: 'should exclude jobs older than 30 days',
+      input: [{ ...mockRepairJob, jobType: 'Repair', status: 'Completed', createdAt: subDays(today, 40) }],
+      expected: 0,
+    },
+    {
+      name: 'should exclude Cancelled jobs even if type is elevator failure-related and within 30 days',
+      input: [{ ...mockRepairJob, jobType: 'Emergency', status: 'Cancelled', createdAt: subDays(today, 5) }],
+      expected: 0,
+    },
+    {
+      name: 'should return 0 if no jobs match failure-related types',
+      input: [{ ...mockRepairJob, jobType: 'Inspection', status: 'Completed', createdAt: subDays(today, 5) }],
+      expected: 0,
+    },
+  ];
+
+  mockScenarios.forEach(({ name, input, expected }) => {
+    it(name, () => {
+      const mockCount = getElevatorFailureRelatedJobsCount(input as unknown as RepairJob[]);
+
+      expect(mockCount).toBe(expected);
     });
   });
 });

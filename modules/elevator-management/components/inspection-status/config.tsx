@@ -1,7 +1,7 @@
 import { FaCheckCircle, FaExclamationCircle, FaExclamationTriangle } from 'react-icons/fa';
 import { GrInfo } from 'react-icons/gr';
 
-import { InspectionSeverity } from '@/graphql/types/client/generated_types';
+import { ElevatorSeverityLevel } from '@/graphql/types/client/generated_types';
 
 export enum ElevatorInspectionStatusMessages {
   ERROR = 'The next inspection date has already passed.',
@@ -18,8 +18,8 @@ export type ElevatorInspectionStatusConfig = {
 
 const COMMON_ELEVATOR_INSPECTION_STATUS_ICON_STYLES = 'w-4 h-4';
 
-export const ELEVATOR_INSPECTION_STATUS_CONFIG: Record<InspectionSeverity, ElevatorInspectionStatusConfig> = {
-  [InspectionSeverity.Error]: {
+export const ELEVATOR_INSPECTION_STATUS_CONFIG: Record<ElevatorSeverityLevel, ElevatorInspectionStatusConfig> = {
+  [ElevatorSeverityLevel.Error]: {
     icon: (
       <FaExclamationCircle
         className={COMMON_ELEVATOR_INSPECTION_STATUS_ICON_STYLES}
@@ -30,7 +30,7 @@ export const ELEVATOR_INSPECTION_STATUS_CONFIG: Record<InspectionSeverity, Eleva
     tooltipMessage: ElevatorInspectionStatusMessages.ERROR,
     textColor: 'text-red-600',
   },
-  [InspectionSeverity.Warning]: {
+  [ElevatorSeverityLevel.Warning]: {
     icon: (
       <FaExclamationTriangle
         className={COMMON_ELEVATOR_INSPECTION_STATUS_ICON_STYLES}
@@ -41,7 +41,7 @@ export const ELEVATOR_INSPECTION_STATUS_CONFIG: Record<InspectionSeverity, Eleva
     tooltipMessage: ElevatorInspectionStatusMessages.WARNING,
     textColor: 'text-orange-600',
   },
-  [InspectionSeverity.Info]: {
+  [ElevatorSeverityLevel.Info]: {
     icon: (
       <GrInfo
         className={COMMON_ELEVATOR_INSPECTION_STATUS_ICON_STYLES}
@@ -52,7 +52,7 @@ export const ELEVATOR_INSPECTION_STATUS_CONFIG: Record<InspectionSeverity, Eleva
     tooltipMessage: ElevatorInspectionStatusMessages.INFO,
     textColor: 'text-blue-600',
   },
-  [InspectionSeverity.Success]: {
+  [ElevatorSeverityLevel.Success]: {
     icon: (
       <FaCheckCircle
         className={COMMON_ELEVATOR_INSPECTION_STATUS_ICON_STYLES}

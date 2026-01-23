@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { InspectionSeverity } from '@/graphql/types/client/generated_types';
+import { ElevatorSeverityLevel } from '@/graphql/types/client/generated_types';
 import { ElevatorInspectionStatusMessages } from '@/modules/elevator-management/components/inspection-status/config';
 import InspectionStatus, {
   InspectionStatusProps,
@@ -13,7 +13,7 @@ describe('InspectionStatus', () => {
   });
 
   const defaultProps = {
-    inspectionStatus: { severity: InspectionSeverity.Error, label: 'Inspection overdue' },
+    inspectionStatus: { severity: ElevatorSeverityLevel.Error, label: 'Inspection overdue' },
   };
 
   const InspectionStatusComponent = (props?: Partial<InspectionStatusProps>) => (
@@ -37,7 +37,7 @@ describe('InspectionStatus', () => {
   it('should display the correct label, icon, and tooltip for WARNING severity', async () => {
     render(
       InspectionStatusComponent({
-        inspectionStatus: { severity: InspectionSeverity.Warning, label: 'Inspection due soon' },
+        inspectionStatus: { severity: ElevatorSeverityLevel.Warning, label: 'Inspection due soon' },
       })
     );
 
@@ -56,7 +56,7 @@ describe('InspectionStatus', () => {
     render(
       InspectionStatusComponent({
         inspectionStatus: {
-          severity: InspectionSeverity.Info,
+          severity: ElevatorSeverityLevel.Info,
           label: 'Inspection scheduled',
         },
       })
@@ -77,7 +77,7 @@ describe('InspectionStatus', () => {
     render(
       InspectionStatusComponent({
         inspectionStatus: {
-          severity: InspectionSeverity.Success,
+          severity: ElevatorSeverityLevel.Success,
           label: 'Inspection up to date',
         },
       })
