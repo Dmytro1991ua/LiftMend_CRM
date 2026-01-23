@@ -9,7 +9,7 @@ enum ElevatorRecordSortField {
   NEXT_INSPECTION_DATE
 }
 
-enum InspectionSeverity {
+enum ElevatorSeverityLevel {
   ERROR
   WARNING
   INFO
@@ -18,8 +18,15 @@ enum InspectionSeverity {
 
 type InspectionStatus {
   label: String!
-  severity: InspectionSeverity!
+  severity: ElevatorSeverityLevel!
 }
+
+type ElevatorRepairFrequencyStatus {
+  label: String!
+  description: String!
+  severity: ElevatorSeverityLevel!
+}
+
 
 type ElevatorRecord implements Node {
   id: ID!
@@ -38,6 +45,7 @@ type ElevatorRecord implements Node {
   lastInspectionDate: DateTime
   nextInspectionDate: DateTime
   inspectionStatus: InspectionStatus
+  repairFrequencyStatus: ElevatorRepairFrequencyStatus
 }
 
 type ElevatorRecordEdge implements Edge {

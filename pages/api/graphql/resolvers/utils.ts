@@ -1,17 +1,22 @@
 import { RepairJob } from '@prisma/client';
+import { isAfter, subDays } from 'date-fns';
 import { isEqual as _isEqual } from 'lodash';
 
 import {
+  ElevatorRepairFrequencyStatus,
+  ElevatorSeverityLevel,
   FieldChange,
-  InspectionSeverity,
   InspectionStatus,
   TechnicianPerformanceMetrics,
 } from '@/graphql/types/server/generated_types';
 
 import {
   ACTIVE_REPAIR_JOB_STATUSES,
+  ELEVATOR_FAILURE_RELATED_JOB_TYPES,
   ELEVATOR_HEALTH_IMPACTING_JOB_TYPES,
   ELEVATOR_INSPECTION_THRESHOLDS,
+  ELEVATOR_REPAIRS_LAST_30_DAYS,
+  ELEVATOR_REPAIR_FREQUENCY_THRESHOLDS,
   MAX_ELEVATOR_HEALTH_SCORE,
   MAX_MAINTENANCE_DELAY_IMPACT,
   MAX_OVERDUE_REPAIR_JOB_IMPACT,
@@ -27,7 +32,7 @@ import {
 import { JSONRecord } from '../types';
 
 import { getFieldChangeHandlersByAction } from './config';
-import { InspectionStatusConfig } from './types';
+import { ElevatorRepairFrequencyStatusConfig, InspectionStatusConfig } from './types';
 
 /**
  * Calculates the duration of a repair job in days between the start and end dates.
@@ -312,36 +317,36 @@ const getInspectionStatusConfigForNextInspection = (daysLeftUntilInspection: num
     OVERDUE: {
       condition: daysLeftUntilInspection < ELEVATOR_INSPECTION_THRESHOLDS.DUE_TODAY,
       label: 'Inspection overdue',
-      severity: InspectionSeverity.Error,
+      severity: ElevatorSeverityLevel.Error,
     },
     DUE_TODAY: {
       condition: daysLeftUntilInspection === ELEVATOR_INSPECTION_THRESHOLDS.DUE_TODAY,
       label: 'Inspection due today',
-      severity: InspectionSeverity.Warning,
+      severity: ElevatorSeverityLevel.Warning,
     },
     CRITICAL: {
       condition:
         daysLeftUntilInspection > 0 && daysLeftUntilInspection <= ELEVATOR_INSPECTION_THRESHOLDS.CRITICAL_WINDOW_DAYS,
       label: `Inspection due in ${daysLeftUntilInspection} days`,
-      severity: InspectionSeverity.Warning,
+      severity: ElevatorSeverityLevel.Warning,
     },
     UPCOMING: {
       condition:
         daysLeftUntilInspection > ELEVATOR_INSPECTION_THRESHOLDS.CRITICAL_WINDOW_DAYS &&
         daysLeftUntilInspection <= ELEVATOR_INSPECTION_THRESHOLDS.UPCOMING_WINDOW_DAYS,
       label: 'Inspection due within 30 days',
-      severity: InspectionSeverity.Info,
+      severity: ElevatorSeverityLevel.Info,
     },
     UP_TO_DATE: {
       condition: daysLeftUntilInspection > ELEVATOR_INSPECTION_THRESHOLDS.UPCOMING_WINDOW_DAYS,
       label: 'Inspection up to date',
-      severity: InspectionSeverity.Success,
+      severity: ElevatorSeverityLevel.Success,
     },
   };
 };
 
 // Returns the active inspection status based on the next inspection date.
-// Output: { label: string, severity: InspectionSeverity } or null if no match.
+// Output: { label: string, severity: ElevatorSeverityLevel } or null if no match.
 export const getInspectionStatus = (nextInspectionDate: string | Date): InspectionStatus | null => {
   const daysLeftUntilInspection = getDaysUntilInspection(nextInspectionDate);
   const inspectionStatusFromDays = getInspectionStatusConfigForNextInspection(daysLeftUntilInspection);
@@ -361,4 +366,68 @@ export const getInspectionStatus = (nextInspectionDate: string | Date): Inspecti
     },
     null
   );
+};
+
+export const getElevatorRepairFrequencyConfig = (failureJobCount: number): ElevatorRepairFrequencyStatusConfig => {
+  return {
+    SUCCESS: {
+      condition: failureJobCount <= ELEVATOR_REPAIR_FREQUENCY_THRESHOLDS.SUCCESS,
+      label: 'Stable',
+      description: `No significant repairs in the last ${ELEVATOR_REPAIRS_LAST_30_DAYS} days — elevator is stable.`,
+      severity: ElevatorSeverityLevel.Success,
+    },
+    INFO: {
+      condition: failureJobCount === ELEVATOR_REPAIR_FREQUENCY_THRESHOLDS.INFO,
+      label: 'Minor',
+      description: `This elevator has been repaired ${failureJobCount} times in the last ${ELEVATOR_REPAIRS_LAST_30_DAYS} days — minor issues observed.`,
+      severity: ElevatorSeverityLevel.Info,
+    },
+    WARNING: {
+      condition:
+        failureJobCount > ELEVATOR_REPAIR_FREQUENCY_THRESHOLDS.INFO &&
+        failureJobCount <= ELEVATOR_REPAIR_FREQUENCY_THRESHOLDS.WARNING,
+      label: 'Occasional',
+      description: `This elevator has been repaired ${failureJobCount} times in the last ${ELEVATOR_REPAIRS_LAST_30_DAYS} days — occasional failures observed, monitor closely.`,
+      severity: ElevatorSeverityLevel.Warning,
+    },
+    ERROR: {
+      condition: failureJobCount > ELEVATOR_REPAIR_FREQUENCY_THRESHOLDS.WARNING,
+      label: 'Frequent',
+      description: `This elevator has been repaired ${failureJobCount} times in the last ${ELEVATOR_REPAIRS_LAST_30_DAYS} days — repeated failures detected, consider immediate maintenance.`,
+      severity: ElevatorSeverityLevel.Error,
+    },
+  };
+};
+
+// Returns the active elevator repair frequency status
+// Output: { label: string, description: string, severity: ElevatorSeverityLevel } or null if no match.
+export const getElevatorRepairFrequencyStatus = (failureJobCount: number): ElevatorRepairFrequencyStatus => {
+  const elevatorRepairFrequencyConfig = getElevatorRepairFrequencyConfig(failureJobCount);
+
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  return Object.values(elevatorRepairFrequencyConfig).reduce<ElevatorRepairFrequencyStatus | null>(
+    (acc, { condition, label, description, severity }) => {
+      if (acc) return acc;
+
+      if (condition) {
+        return { label, description, severity };
+      }
+
+      return acc;
+    },
+    null
+  )!;
+};
+
+// Returns elevator failure-related jobs count within specific time window (30 days)
+// Indicates how often the elevator required corrective intervention.
+export const getElevatorFailureRelatedJobsCount = (repairJobs: RepairJob[]): number => {
+  const repairFrequencyFromDate = subDays(new Date(), ELEVATOR_REPAIRS_LAST_30_DAYS);
+
+  return repairJobs.filter(
+    ({ jobType, status, createdAt }) =>
+      ELEVATOR_FAILURE_RELATED_JOB_TYPES.includes(jobType) &&
+      status !== 'Cancelled' &&
+      isAfter(createdAt as Date, repairFrequencyFromDate)
+  ).length;
 };

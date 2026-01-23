@@ -1,7 +1,7 @@
 import { Cell } from '@tanstack/react-table';
 import { NextPage } from 'next';
 
-import { InspectionSeverity, Maybe, TechnicianPerformanceMetrics } from '@/graphql/types/client/generated_types';
+import { ElevatorSeverityLevel, Maybe, TechnicianPerformanceMetrics } from '@/graphql/types/client/generated_types';
 
 export enum StorageEntityName {
   RepairJobTable = 'repairJobTable',
@@ -94,7 +94,7 @@ export type RepairJob = {
 
 export type ElevatorInspectionStatus = {
   label: string;
-  severity: InspectionSeverity;
+  severity: ElevatorSeverityLevel;
 };
 
 export type ElevatorRecord = {

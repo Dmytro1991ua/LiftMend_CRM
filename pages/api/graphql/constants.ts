@@ -117,3 +117,32 @@ export const ELEVATOR_INSPECTION_THRESHOLDS = {
   CRITICAL_WINDOW_DAYS: 7,
   UPCOMING_WINDOW_DAYS: 30,
 } as const;
+
+/**
+ * Thresholds for Elevator Repair Frequency Status (last 30 days)
+ *
+ * These numbers define how many repairs in the last 30 days map to a severity:
+ *
+ * - SUCCESS: 0–1 repairs → stable, no action needed
+ * - INFO: 2 repairs → minor, note but not urgent
+ * - WARNING: 3–4 repairs → occasional failures, monitor closely
+ *
+ * Note:
+ * Numbers are tunable and based on typical real-world elevator maintenance experience.
+ */
+export const ELEVATOR_REPAIR_FREQUENCY_THRESHOLDS = {
+  SUCCESS: 1,
+  INFO: 2,
+  WARNING: 4,
+};
+
+export const ELEVATOR_REPAIRS_LAST_30_DAYS = 30;
+
+/**
+ * Job types that indicate elevator failures requiring corrective action.
+ * Used to calculate repair frequency and reliability indicators.
+ * Excludes planned or preventive work.
+ */
+export const ELEVATOR_FAILURE_RELATED_JOB_TYPES = ['Repair', 'Emergency', 'Routine', 'Compliance'];
+
+const ELEVATOR_FAILURE_RELEVANT_STATUSES = ['Scheduled', 'In Progress', 'Completed', 'On Hold'];

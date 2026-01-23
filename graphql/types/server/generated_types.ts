@@ -191,6 +191,7 @@ export type ElevatorRecord = Node & {
   lastMaintenanceDate: Scalars['DateTime']['output'];
   nextInspectionDate?: Maybe<Scalars['DateTime']['output']>;
   nextMaintenanceDate: Scalars['DateTime']['output'];
+  repairFrequencyStatus?: Maybe<ElevatorRepairFrequencyStatus>;
   status: Scalars['String']['output'];
 };
 
@@ -255,6 +256,20 @@ export type ElevatorRecordsMetrics = {
   vehicleParkingElevators: Scalars['Int']['output'];
 };
 
+export type ElevatorRepairFrequencyStatus = {
+  __typename?: 'ElevatorRepairFrequencyStatus';
+  description: Scalars['String']['output'];
+  label: Scalars['String']['output'];
+  severity: ElevatorSeverityLevel;
+};
+
+export enum ElevatorSeverityLevel {
+  Error = 'ERROR',
+  Info = 'INFO',
+  Success = 'SUCCESS',
+  Warning = 'WARNING',
+}
+
 export type FieldChange = {
   __typename?: 'FieldChange';
   /** Action type: create, update, delete */
@@ -272,17 +287,10 @@ export type ForgotPasswordInput = {
   redirectTo: Scalars['String']['input'];
 };
 
-export enum InspectionSeverity {
-  Error = 'ERROR',
-  Info = 'INFO',
-  Success = 'SUCCESS',
-  Warning = 'WARNING',
-}
-
 export type InspectionStatus = {
   __typename?: 'InspectionStatus';
   label: Scalars['String']['output'];
-  severity: InspectionSeverity;
+  severity: ElevatorSeverityLevel;
 };
 
 export type MarkAllNotificationsAsReadResult = {
@@ -991,11 +999,12 @@ export type ResolversTypes = ResolversObject<{
   ElevatorRecordSortField: ElevatorRecordSortField;
   ElevatorRecordSortInput: ElevatorRecordSortInput;
   ElevatorRecordsMetrics: ResolverTypeWrapper<ElevatorRecordsMetrics>;
+  ElevatorRepairFrequencyStatus: ResolverTypeWrapper<ElevatorRepairFrequencyStatus>;
+  ElevatorSeverityLevel: ElevatorSeverityLevel;
   FieldChange: ResolverTypeWrapper<FieldChange>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   ForgotPasswordInput: ForgotPasswordInput;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
-  InspectionSeverity: InspectionSeverity;
   InspectionStatus: ResolverTypeWrapper<InspectionStatus>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   JSONDataType: ResolverTypeWrapper<Scalars['JSONDataType']['output']>;
@@ -1077,6 +1086,7 @@ export type ResolversParentTypes = ResolversObject<{
   ElevatorRecordFormData: ElevatorRecordFormData;
   ElevatorRecordSortInput: ElevatorRecordSortInput;
   ElevatorRecordsMetrics: ElevatorRecordsMetrics;
+  ElevatorRepairFrequencyStatus: ElevatorRepairFrequencyStatus;
   FieldChange: FieldChange;
   Float: Scalars['Float']['output'];
   ForgotPasswordInput: ForgotPasswordInput;
@@ -1301,6 +1311,7 @@ export type ElevatorRecordResolvers<
   lastMaintenanceDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   nextInspectionDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   nextMaintenanceDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  repairFrequencyStatus?: Resolver<Maybe<ResolversTypes['ElevatorRepairFrequencyStatus']>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
@@ -1354,6 +1365,16 @@ export type ElevatorRecordsMetricsResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type ElevatorRepairFrequencyStatusResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['ElevatorRepairFrequencyStatus'] = ResolversParentTypes['ElevatorRepairFrequencyStatus']
+> = ResolversObject<{
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  severity?: Resolver<ResolversTypes['ElevatorSeverityLevel'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type FieldChangeResolvers<
   ContextType = Context,
   ParentType extends ResolversParentTypes['FieldChange'] = ResolversParentTypes['FieldChange']
@@ -1370,7 +1391,7 @@ export type InspectionStatusResolvers<
   ParentType extends ResolversParentTypes['InspectionStatus'] = ResolversParentTypes['InspectionStatus']
 > = ResolversObject<{
   label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  severity?: Resolver<ResolversTypes['InspectionSeverity'], ParentType, ContextType>;
+  severity?: Resolver<ResolversTypes['ElevatorSeverityLevel'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1877,6 +1898,7 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   ElevatorRecordEdge?: ElevatorRecordEdgeResolvers<ContextType>;
   ElevatorRecordFormData?: ElevatorRecordFormDataResolvers<ContextType>;
   ElevatorRecordsMetrics?: ElevatorRecordsMetricsResolvers<ContextType>;
+  ElevatorRepairFrequencyStatus?: ElevatorRepairFrequencyStatusResolvers<ContextType>;
   FieldChange?: FieldChangeResolvers<ContextType>;
   InspectionStatus?: InspectionStatusResolvers<ContextType>;
   JSONDataType?: GraphQLScalarType;

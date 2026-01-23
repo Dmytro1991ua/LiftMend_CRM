@@ -186,6 +186,7 @@ export type ElevatorRecord = Node & {
   lastMaintenanceDate: Scalars['DateTime']['output'];
   nextInspectionDate: Maybe<Scalars['DateTime']['output']>;
   nextMaintenanceDate: Scalars['DateTime']['output'];
+  repairFrequencyStatus: Maybe<RepairFrequencyStatus>;
   status: Scalars['String']['output'];
 };
 
@@ -251,6 +252,14 @@ export type ElevatorRecordsMetrics = {
   vehicleParkingElevators: Scalars['Int']['output'];
 };
 
+export const ElevatorSeverityLevel = {
+  Error: 'ERROR',
+  Info: 'INFO',
+  Success: 'SUCCESS',
+  Warning: 'WARNING',
+} as const;
+
+export type ElevatorSeverityLevel = (typeof ElevatorSeverityLevel)[keyof typeof ElevatorSeverityLevel];
 export type FieldChange = {
   __typename?: 'FieldChange';
   /** Action type: create, update, delete */
@@ -268,18 +277,10 @@ export type ForgotPasswordInput = {
   redirectTo: Scalars['String']['input'];
 };
 
-export const InspectionSeverity = {
-  Error: 'ERROR',
-  Info: 'INFO',
-  Success: 'SUCCESS',
-  Warning: 'WARNING',
-} as const;
-
-export type InspectionSeverity = (typeof InspectionSeverity)[keyof typeof InspectionSeverity];
 export type InspectionStatus = {
   __typename?: 'InspectionStatus';
   label: Scalars['String']['output'];
-  severity: InspectionSeverity;
+  severity: ElevatorSeverityLevel;
 };
 
 export type MarkAllNotificationsAsReadResult = {
@@ -602,6 +603,13 @@ export type RemoveAccountResponse = {
   userId: Scalars['ID']['output'];
 };
 
+export type RepairFrequencyStatus = {
+  __typename?: 'RepairFrequencyStatus';
+  description: Scalars['String']['output'];
+  label: Scalars['String']['output'];
+  severity: ElevatorSeverityLevel;
+};
+
 export type RepairJob = Node & {
   __typename?: 'RepairJob';
   actualEndDate: Maybe<Scalars['DateTime']['output']>;
@@ -906,7 +914,7 @@ export type ElevatorRecordFieldsFragment = {
   healthScore: number | null;
   lastInspectionDate: any | null;
   nextInspectionDate: any | null;
-  inspectionStatus: { __typename?: 'InspectionStatus'; label: string; severity: InspectionSeverity } | null;
+  inspectionStatus: { __typename?: 'InspectionStatus'; label: string; severity: ElevatorSeverityLevel } | null;
 };
 
 export type NotificationFieldsFragment = {
@@ -983,7 +991,7 @@ export type CompleteElevatorInspectionMutation = {
     healthScore: number | null;
     lastInspectionDate: any | null;
     nextInspectionDate: any | null;
-    inspectionStatus: { __typename?: 'InspectionStatus'; label: string; severity: InspectionSeverity } | null;
+    inspectionStatus: { __typename?: 'InspectionStatus'; label: string; severity: ElevatorSeverityLevel } | null;
   };
 };
 
@@ -1322,7 +1330,7 @@ export type GetElevatorRecordByIdQuery = {
     healthScore: number | null;
     lastInspectionDate: any | null;
     nextInspectionDate: any | null;
-    inspectionStatus: { __typename?: 'InspectionStatus'; label: string; severity: InspectionSeverity } | null;
+    inspectionStatus: { __typename?: 'InspectionStatus'; label: string; severity: ElevatorSeverityLevel } | null;
   };
 };
 
@@ -1367,7 +1375,7 @@ export type GetElevatorRecordsQuery = {
         healthScore: number | null;
         lastInspectionDate: any | null;
         nextInspectionDate: any | null;
-        inspectionStatus: { __typename?: 'InspectionStatus'; label: string; severity: InspectionSeverity } | null;
+        inspectionStatus: { __typename?: 'InspectionStatus'; label: string; severity: ElevatorSeverityLevel } | null;
       };
     }>;
     pageInfo: {
@@ -1744,7 +1752,7 @@ export type UpdateElevatorRecordMutation = {
     healthScore: number | null;
     lastInspectionDate: any | null;
     nextInspectionDate: any | null;
-    inspectionStatus: { __typename?: 'InspectionStatus'; label: string; severity: InspectionSeverity } | null;
+    inspectionStatus: { __typename?: 'InspectionStatus'; label: string; severity: ElevatorSeverityLevel } | null;
   };
 };
 
