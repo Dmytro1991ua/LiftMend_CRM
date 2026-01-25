@@ -18,5 +18,10 @@ export const ELEVATOR_RECORD_FRAGMENT = gql`
       label
       severity
     }
+    repairFrequencyStatus {
+      label
+      description
+      severity
+    }
   }
 `;

@@ -15,6 +15,7 @@ import DeleteActionCell from '../delete-action-cell';
 import EditActionCell from '../edit-action-cell';
 import ElevatorStatusToggleCell from '../elevator-status-toggle-cell';
 import InspectionStatus from '../inspection-status';
+import RepairFrequencyStatus from '../repair-frequency-status';
 
 export const ELEVATOR_MANAGEMENT_COLUMNS: ColumnDef<ElevatorRecord>[] = [
   {
@@ -210,6 +211,20 @@ export const ELEVATOR_MANAGEMENT_COLUMNS: ColumnDef<ElevatorRecord>[] = [
     size: 300,
     minSize: 220,
     maxSize: 250,
+  },
+  {
+    accessorKey: 'repairFrequencyStatus',
+    header: 'Repair Frequency Status',
+    enableResizing: true,
+    enableSorting: false,
+    cell: ({
+      row: {
+        original: { repairFrequencyStatus },
+      },
+    }) => <RepairFrequencyStatus repairFrequencyStatus={repairFrequencyStatus} />,
+    size: 200,
+    minSize: 200,
+    maxSize: 220,
   },
   {
     accessorKey: 'completeInspection',
