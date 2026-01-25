@@ -16,9 +16,22 @@ const accessors = {
   nextMaintenanceDate: (cell: Cell<TableModel, TableValue>): string =>
     formatDate(cell.row.original.nextMaintenanceDate),
   isOverdue: (cell: Cell<TableModel, TableValue>): string => boolToString(cell.row.original.isOverdue),
+  inspectionStatus: (cell: Cell<TableModel, TableValue>): string => cell.row.original.inspectionStatus?.label ?? '',
+  repairFrequencyStatus: (cell: Cell<TableModel, TableValue>): string =>
+    cell.row.original.repairFrequencyStatus?.label ?? '',
 };
 
-const { startDate, endDate, actualEndDate, skills, lastMaintenanceDate, nextMaintenanceDate, isOverdue } = accessors;
+const {
+  startDate,
+  endDate,
+  actualEndDate,
+  skills,
+  lastMaintenanceDate,
+  nextMaintenanceDate,
+  isOverdue,
+  repairFrequencyStatus,
+  inspectionStatus,
+} = accessors;
 
 export const columnsValueAccessors: ColumnsValueAccessors = {
   actualEndDate,
@@ -28,4 +41,6 @@ export const columnsValueAccessors: ColumnsValueAccessors = {
   lastMaintenanceDate,
   nextMaintenanceDate,
   isOverdue,
+  repairFrequencyStatus,
+  inspectionStatus,
 };

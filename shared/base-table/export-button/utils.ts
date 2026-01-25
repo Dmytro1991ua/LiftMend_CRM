@@ -7,7 +7,7 @@ import { TableNames } from '@/shared/types';
 
 import { columnsValueAccessors } from './config';
 
-const headerColumnsToIgnore = ['edit', 'delete', 'reassignTechnician', 'visibility'];
+const headerColumnsToIgnore = ['edit', 'delete', 'reassignTechnician', 'visibility', 'completeInspection'];
 const rowCellsToIgnore = [...headerColumnsToIgnore, 'select'];
 
 export const convertCurrentDateToExportFileNameDate = (date: Date): string => {
