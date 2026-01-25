@@ -2,6 +2,7 @@ import { FaCheckCircle, FaExclamationCircle, FaExclamationTriangle } from 'react
 import { GrInfo } from 'react-icons/gr';
 
 import { ElevatorSeverityLevel } from '@/graphql/types/client/generated_types';
+import { SeverityStatusBadgeConfig } from '@/shared/severity-status-badge/types';
 
 export enum ElevatorInspectionStatusMessages {
   ERROR = 'The next inspection date has already passed.',
@@ -10,15 +11,9 @@ export enum ElevatorInspectionStatusMessages {
   SUCCESS = 'The next inspection is more than 30 days away.',
 }
 
-export type ElevatorInspectionStatusConfig = {
-  icon: JSX.Element;
-  tooltipMessage: ElevatorInspectionStatusMessages;
-  textColor: string;
-};
-
 const COMMON_ELEVATOR_INSPECTION_STATUS_ICON_STYLES = 'w-4 h-4';
 
-export const ELEVATOR_INSPECTION_STATUS_CONFIG: Record<ElevatorSeverityLevel, ElevatorInspectionStatusConfig> = {
+export const ELEVATOR_INSPECTION_STATUS_CONFIG: SeverityStatusBadgeConfig = {
   [ElevatorSeverityLevel.Error]: {
     icon: (
       <FaExclamationCircle

@@ -9,6 +9,7 @@ import { PillStatus } from '@/shared/pill/config';
 import { ELEVATOR_HEALTH_SCORE_THRESHOLDS } from '../../config';
 import { ElevatorMaintenanceHistoryTable } from '../elevator-maintenance-history-table';
 import InspectionStatus from '../inspection-status';
+import RepairFrequencyStatus from '../repair-frequency-status';
 
 export const elevatorRecordSectionsConfig = (elevatorRecord: ElevatorRecord): DetailsPageSectionsConfig[] => [
   {
@@ -31,6 +32,12 @@ export const elevatorRecordSectionsConfig = (elevatorRecord: ElevatorRecord): De
     fields: [
       {
         id: 7,
+        label: 'Status:',
+        value: <Pill status={elevatorRecord.status as PillStatus} />,
+        fieldClassName: 'items-center',
+      },
+      {
+        id: 8,
         label: 'Last Maintenance Date:',
         value: (
           <DatePicker
@@ -43,7 +50,7 @@ export const elevatorRecordSectionsConfig = (elevatorRecord: ElevatorRecord): De
         ),
       },
       {
-        id: 8,
+        id: 9,
         label: 'Next Maintenance Date:',
         value: (
           <DatePicker
@@ -56,7 +63,7 @@ export const elevatorRecordSectionsConfig = (elevatorRecord: ElevatorRecord): De
         ),
       },
       {
-        id: 9,
+        id: 10,
         label: 'Last Inspection Date:',
         value: (
           <DatePicker
@@ -69,7 +76,7 @@ export const elevatorRecordSectionsConfig = (elevatorRecord: ElevatorRecord): De
         ),
       },
       {
-        id: 10,
+        id: 11,
         label: 'Next Inspection Date:',
         value: (
           <DatePicker
@@ -82,15 +89,15 @@ export const elevatorRecordSectionsConfig = (elevatorRecord: ElevatorRecord): De
         ),
       },
       {
-        id: 11,
+        id: 12,
         label: 'Inspection Status:',
-        value: <InspectionStatus inspectionStatus={elevatorRecord.inspectionStatus!} />,
+        value: <InspectionStatus inspectionStatus={elevatorRecord.inspectionStatus} />,
         fieldClassName: 'items-center',
       },
       {
-        id: 12,
-        label: 'Status:',
-        value: <Pill status={elevatorRecord.status as PillStatus} />,
+        id: 13,
+        label: 'Repair Frequency Status:',
+        value: <RepairFrequencyStatus repairFrequencyStatus={elevatorRecord.repairFrequencyStatus} />,
         fieldClassName: 'items-center',
       },
     ],

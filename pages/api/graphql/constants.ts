@@ -144,5 +144,3 @@ export const ELEVATOR_REPAIRS_LAST_30_DAYS = 30;
  * Excludes planned or preventive work.
  */
 export const ELEVATOR_FAILURE_RELATED_JOB_TYPES = ['Repair', 'Emergency', 'Routine', 'Compliance'];
-
-const ELEVATOR_FAILURE_RELEVANT_STATUSES = ['Scheduled', 'In Progress', 'Completed', 'On Hold'];

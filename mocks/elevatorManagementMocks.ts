@@ -45,6 +45,12 @@ export const mockElevatorRecord = {
     label: 'Inspection overdue',
     severity: ElevatorSeverityLevel.Error,
   },
+  repairFrequencyStatus: {
+    label: 'Frequent',
+    severity: ElevatorSeverityLevel.Error,
+    description:
+      'This elevator has been repaired 5 times in the last $30} days — repeated failures detected, consider immediate maintenance.',
+  },
 };
 
 export const mockElevatorRecordsFormData: MockedResponse = {
@@ -83,6 +89,12 @@ export const mockGlassElevatorElevatorRecord = {
       label: 'Inspection overdue',
       severity: ElevatorSeverityLevel.Error,
     },
+    repairFrequencyStatus: {
+      label: 'Frequent',
+      severity: ElevatorSeverityLevel.Error,
+      description:
+        'This elevator has been repaired 5 times in the last $30} days — repeated failures detected, consider immediate maintenance.',
+    },
   },
 };
 
@@ -105,6 +117,12 @@ export const mockServiceElevatorElevatorRecord = {
       label: 'Inspection overdue',
       severity: ElevatorSeverityLevel.Error,
     },
+    repairFrequencyStatus: {
+      label: 'Frequent',
+      severity: ElevatorSeverityLevel.Error,
+      description:
+        'This elevator has been repaired 5 times in the last $30} days — repeated failures detected, consider immediate maintenance.',
+    },
   },
 };
 
@@ -126,6 +144,12 @@ export const mockWarehouseLiftElevatorRecord = {
     inspectionStatus: {
       label: 'Inspection overdue',
       severity: ElevatorSeverityLevel.Error,
+    },
+    repairFrequencyStatus: {
+      label: 'Frequent',
+      severity: ElevatorSeverityLevel.Error,
+      description:
+        'This elevator has been repaired 5 times in the last $30} days — repeated failures detected, consider immediate maintenance.',
     },
   },
 };
@@ -312,6 +336,12 @@ export const mockUpdatedElevatorRecord = {
   inspectionStatus: {
     label: 'Inspection overdue',
     severity: ElevatorSeverityLevel.Error,
+  },
+  repairFrequencyStatus: {
+    label: 'Frequent',
+    severity: ElevatorSeverityLevel.Error,
+    description:
+      'This elevator has been repaired 5 times in the last $30} days — repeated failures detected, consider immediate maintenance.',
   },
 };
 
