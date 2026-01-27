@@ -1,6 +1,11 @@
 import { subDays } from 'date-fns';
 
-import { ElevatorRecordResolvers, ElevatorSeverityLevel } from '@/graphql/types/server/generated_types';
+import {
+  ElevatorRecordResolvers,
+  ElevatorRecurringFailureStatus,
+  ElevatorSeverityLevel,
+  RepairJob,
+} from '@/graphql/types/server/generated_types';
 import getResolverToTest, { TestResolver } from '@/mocks/gql/getResolverToTest';
 import createDataSourcesMock from '@/mocks/gql/mockedDataSources';
 import { elevatorRecordServicePrismaMock } from '@/mocks/gql/prismaMocks';
@@ -20,6 +25,7 @@ describe('ElevatorRecord', () => {
   let healthScoreResolver: TestResolver<ElevatorRecordResolvers, 'healthScore'>;
   let inspectionStatusResolver: TestResolver<ElevatorRecordResolvers, 'inspectionStatus'>;
   let repairFrequencyStatusResolver: TestResolver<ElevatorRecordResolvers, 'repairFrequencyStatus'>;
+  let recurringFailureStatusResolver: TestResolver<ElevatorRecordResolvers, 'recurringFailureStatus'>;
 
   beforeEach(() => {
     mockDataSources = createDataSourcesMock(elevatorRecordServicePrismaMock);
@@ -37,6 +43,11 @@ describe('ElevatorRecord', () => {
     repairFrequencyStatusResolver = getResolverToTest<ElevatorRecordResolvers, 'repairFrequencyStatus'>(
       ElevatorRecord,
       'repairFrequencyStatus',
+      mockDataSources
+    );
+    recurringFailureStatusResolver = getResolverToTest<ElevatorRecordResolvers, 'recurringFailureStatus'>(
+      ElevatorRecord,
+      'recurringFailureStatus',
       mockDataSources
     );
   });
@@ -277,6 +288,99 @@ describe('ElevatorRecord', () => {
         (loadWithDataLoader as jest.Mock).mockResolvedValueOnce(repairJobs);
 
         const result = await repairFrequencyStatusResolver({ id: mockElevatorId });
+
+        expect(result).toEqual(expected);
+      });
+    });
+  });
+
+  describe('recurringFailureStatus', () => {
+    const today = new Date();
+
+    const mockBaseRepairJob = {
+      ...mockRepairJob,
+      id: 'job-1',
+      jobType: 'Repair',
+      status: 'Completed',
+      actualEndDate: new Date(),
+      createdAt: new Date('2026-01-01T10:00:00Z'),
+      updatedAt: new Date('2026-01-01T10:00:00Z'),
+      startDate: new Date('2026-01-01T08:00:00Z'),
+      endDate: new Date('2026-01-01T09:00:00Z'),
+    };
+
+    const mockScenarios: Array<{
+      name: string;
+      repairJobs: RepairJob[];
+      expected: ElevatorRecurringFailureStatus | null;
+    }> = [
+      {
+        name: 'should return null when no repair jobs',
+        repairJobs: [],
+        expected: null,
+      },
+      {
+        name: 'should return null when only one completed repair',
+        repairJobs: [mockBaseRepairJob],
+        expected: null,
+      },
+      {
+        name: 'should return null when completed jobs are not failure-related',
+        repairJobs: [
+          { ...mockBaseRepairJob, jobType: 'Inspection' },
+          { ...mockBaseRepairJob, jobType: 'Inspection', actualEndDate: subDays(today, 1) },
+        ],
+        expected: null,
+      },
+      {
+        name: 'should return null when repairs are outside recurring threshold',
+        repairJobs: [mockBaseRepairJob, { ...mockBaseRepairJob, actualEndDate: subDays(today, 60) }],
+        expected: null,
+      },
+      {
+        name: 'should return recurring issue when two repairs are within threshold',
+        repairJobs: [mockBaseRepairJob, { ...mockBaseRepairJob, actualEndDate: subDays(today, 2) }],
+        expected: {
+          label: 'Potential recurring issue',
+          description:
+            'The elevator had another repair just 2 days after the previous repair, indicating a recurring issue.',
+          severity: ElevatorSeverityLevel.Warning,
+        },
+      },
+      {
+        name: 'should return recurring issue for same-day repairs',
+        repairJobs: [
+          { ...mockBaseRepairJob, actualEndDate: today },
+          { ...mockBaseRepairJob, actualEndDate: today },
+        ],
+        expected: {
+          label: 'Potential recurring issue',
+          description:
+            'The elevator had another repair on the same day as the previous repair, indicating a recurring issue.',
+          severity: ElevatorSeverityLevel.Warning,
+        },
+      },
+      {
+        name: 'should pick two most recent repairs when more than two exist',
+        repairJobs: [
+          { ...mockBaseRepairJob, actualEndDate: subDays(today, 10) },
+          { ...mockBaseRepairJob, actualEndDate: subDays(today, 2) },
+          { ...mockBaseRepairJob, actualEndDate: today },
+        ],
+        expected: {
+          label: 'Potential recurring issue',
+          description:
+            'The elevator had another repair just 2 days after the previous repair, indicating a recurring issue.',
+          severity: ElevatorSeverityLevel.Warning,
+        },
+      },
+    ];
+
+    mockScenarios.forEach(({ name, repairJobs: jobs, expected }) => {
+      it(name, async () => {
+        (loadWithDataLoader as jest.Mock).mockResolvedValueOnce(jobs);
+
+        const result = await recurringFailureStatusResolver({ id: mockElevatorId });
 
         expect(result).toEqual(expected);
       });

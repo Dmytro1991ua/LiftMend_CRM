@@ -1,8 +1,9 @@
 import { RepairJob } from '@prisma/client';
-import { isAfter, subDays } from 'date-fns';
-import { isEqual as _isEqual } from 'lodash';
+import { differenceInDays, isAfter, subDays } from 'date-fns';
+import { isEqual as _isEqual, orderBy as _orderBy } from 'lodash';
 
 import {
+  ElevatorRecurringFailureStatus,
   ElevatorRepairFrequencyStatus,
   ElevatorSeverityLevel,
   FieldChange,
@@ -23,6 +24,8 @@ import {
   MAX_RECENT_REPAIRS_JOB_IMPACT,
   MAX_REPAIR_JOB_DURATION_IN_DAYS,
   MILLISECONDS_IN_DAY,
+  MIN_COMPLETED_REPAIRS_FOR_RECURRING_FAILURE,
+  RECURRING_FAILURE_THRESHOLD_DAYS,
   REPAIR_JOB_TYPE_WEIGHTS,
   TECHNICIAN_PERFORMANCE_WEIGHTS,
   WORST_CASE_DAYS_SINCE_LAST_MAINTENANCE_THRESHOLD,
@@ -430,4 +433,58 @@ export const getElevatorFailureRelatedJobsCount = (repairJobs: RepairJob[]): num
       status !== 'Cancelled' &&
       isAfter(createdAt as Date, repairFrequencyFromDate)
   ).length;
+};
+
+const getElevatorRecurringFailureDescription = (days: number) => {
+  if (days === 0) {
+    return 'The elevator had another repair on the same day as the previous repair, indicating a recurring issue.';
+  }
+
+  return `The elevator had another repair just ${days} day${
+    days !== 1 ? 's' : ''
+  } after the previous repair, indicating a recurring issue.`;
+};
+
+/**
+ * Determines if the elevator has a recurring failure based on repair history.
+ *
+ * 1. Consider only completed repair-type jobs.
+ * 2. Identify the two most recent completed repairs:
+ *      - latestCompletedRepairJob: newest repair
+ *      - priorCompletedRepairJob: second newest repair
+ * 3. Calculate full days between them.
+ * 4. If the difference is within RECURRING_FAILURE_THRESHOLD_DAYS, return a recurring failure status.
+ */
+export const getRecurringFailureStatus = (repairJobs: RepairJob[]): ElevatorRecurringFailureStatus | null => {
+  // Keep only completed, failure-related repair jobs with a valid completion date
+  const completedRepairJobs = repairJobs.filter(
+    (job): job is RepairJob & { actualEndDate: Date } =>
+      job.status === 'Completed' && ELEVATOR_FAILURE_RELATED_JOB_TYPES.includes(job.jobType) && !!job.actualEndDate
+  );
+
+  // If fewer than 2 repair jobs, cannot have a recurring failure
+  if (completedRepairJobs.length < MIN_COMPLETED_REPAIRS_FOR_RECURRING_FAILURE) return null;
+
+  // Sort descending by actualEndDate (newest repair job first) and pick the first two repairs
+  const [latestCompletedRepairJob, priorCompletedRepairJob] = _orderBy(
+    completedRepairJobs,
+    [(job) => job.actualEndDate.getTime()],
+    ['desc']
+  );
+
+  // Calculate full days between the two most recent repair jobs
+  const daysBetweenRepairs = differenceInDays(
+    latestCompletedRepairJob.actualEndDate,
+    priorCompletedRepairJob.actualEndDate
+  );
+
+  if (daysBetweenRepairs <= RECURRING_FAILURE_THRESHOLD_DAYS) {
+    return {
+      label: 'Potential recurring issue',
+      description: getElevatorRecurringFailureDescription(daysBetweenRepairs),
+      severity: ElevatorSeverityLevel.Warning,
+    };
+  }
+
+  return null;
 };

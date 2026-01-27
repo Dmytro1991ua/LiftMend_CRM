@@ -144,3 +144,8 @@ export const ELEVATOR_REPAIRS_LAST_30_DAYS = 30;
  * Excludes planned or preventive work.
  */
 export const ELEVATOR_FAILURE_RELATED_JOB_TYPES = ['Repair', 'Emergency', 'Routine', 'Compliance'];
+
+// Threshold in days to consider a failure “recurring” after last repair.
+// Industry-realistic value: if elevator fails within 14 days of last repair → recurring failure.
+export const RECURRING_FAILURE_THRESHOLD_DAYS = 14;
+export const MIN_COMPLETED_REPAIRS_FOR_RECURRING_FAILURE = 2;
