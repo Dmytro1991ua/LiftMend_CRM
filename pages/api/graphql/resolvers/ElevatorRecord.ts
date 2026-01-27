@@ -8,6 +8,7 @@ import {
   getElevatorFailureRelatedJobsCount,
   getElevatorRepairFrequencyStatus,
   getInspectionStatus,
+  getRecurringFailureStatus,
 } from './utils';
 
 const ElevatorRecord: ElevatorRecordResolvers = {
@@ -27,6 +28,11 @@ const ElevatorRecord: ElevatorRecordResolvers = {
     const failureJobCount = getElevatorFailureRelatedJobsCount(repairJobs);
 
     return getElevatorRepairFrequencyStatus(failureJobCount);
+  },
+  recurringFailureStatus: async ({ id }, _, { prisma, dataLoaders }, info) => {
+    const repairJobs = await loadWithDataLoader(dataLoaders, info.fieldNodes, getBatchRepairJobsByElevator(prisma), id);
+
+    return getRecurringFailureStatus(repairJobs);
   },
 };
 

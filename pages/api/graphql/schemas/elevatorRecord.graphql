@@ -27,6 +27,11 @@ type ElevatorRepairFrequencyStatus {
   severity: ElevatorSeverityLevel!
 }
 
+type ElevatorRecurringFailureStatus {
+  label: String!
+  description: String!
+  severity: ElevatorSeverityLevel!
+}
 
 type ElevatorRecord implements Node {
   id: ID!
@@ -46,6 +51,7 @@ type ElevatorRecord implements Node {
   nextInspectionDate: DateTime
   inspectionStatus: InspectionStatus
   repairFrequencyStatus: ElevatorRepairFrequencyStatus
+  recurringFailureStatus: ElevatorRecurringFailureStatus
 }
 
 type ElevatorRecordEdge implements Edge {

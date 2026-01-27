@@ -191,6 +191,7 @@ export type ElevatorRecord = Node & {
   lastMaintenanceDate: Scalars['DateTime']['output'];
   nextInspectionDate?: Maybe<Scalars['DateTime']['output']>;
   nextMaintenanceDate: Scalars['DateTime']['output'];
+  recurringFailureStatus?: Maybe<ElevatorRecurringFailureStatus>;
   repairFrequencyStatus?: Maybe<ElevatorRepairFrequencyStatus>;
   status: Scalars['String']['output'];
 };
@@ -254,6 +255,13 @@ export type ElevatorRecordsMetrics = {
   totalElevatorRecords: Scalars['Int']['output'];
   underMaintenanceElevators: Scalars['Int']['output'];
   vehicleParkingElevators: Scalars['Int']['output'];
+};
+
+export type ElevatorRecurringFailureStatus = {
+  __typename?: 'ElevatorRecurringFailureStatus';
+  description: Scalars['String']['output'];
+  label: Scalars['String']['output'];
+  severity: ElevatorSeverityLevel;
 };
 
 export type ElevatorRepairFrequencyStatus = {
@@ -999,6 +1007,7 @@ export type ResolversTypes = ResolversObject<{
   ElevatorRecordSortField: ElevatorRecordSortField;
   ElevatorRecordSortInput: ElevatorRecordSortInput;
   ElevatorRecordsMetrics: ResolverTypeWrapper<ElevatorRecordsMetrics>;
+  ElevatorRecurringFailureStatus: ResolverTypeWrapper<ElevatorRecurringFailureStatus>;
   ElevatorRepairFrequencyStatus: ResolverTypeWrapper<ElevatorRepairFrequencyStatus>;
   ElevatorSeverityLevel: ElevatorSeverityLevel;
   FieldChange: ResolverTypeWrapper<FieldChange>;
@@ -1086,6 +1095,7 @@ export type ResolversParentTypes = ResolversObject<{
   ElevatorRecordFormData: ElevatorRecordFormData;
   ElevatorRecordSortInput: ElevatorRecordSortInput;
   ElevatorRecordsMetrics: ElevatorRecordsMetrics;
+  ElevatorRecurringFailureStatus: ElevatorRecurringFailureStatus;
   ElevatorRepairFrequencyStatus: ElevatorRepairFrequencyStatus;
   FieldChange: FieldChange;
   Float: Scalars['Float']['output'];
@@ -1311,6 +1321,7 @@ export type ElevatorRecordResolvers<
   lastMaintenanceDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   nextInspectionDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   nextMaintenanceDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  recurringFailureStatus?: Resolver<Maybe<ResolversTypes['ElevatorRecurringFailureStatus']>, ParentType, ContextType>;
   repairFrequencyStatus?: Resolver<Maybe<ResolversTypes['ElevatorRepairFrequencyStatus']>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -1362,6 +1373,16 @@ export type ElevatorRecordsMetricsResolvers<
   totalElevatorRecords?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   underMaintenanceElevators?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   vehicleParkingElevators?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type ElevatorRecurringFailureStatusResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['ElevatorRecurringFailureStatus'] = ResolversParentTypes['ElevatorRecurringFailureStatus']
+> = ResolversObject<{
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  severity?: Resolver<ResolversTypes['ElevatorSeverityLevel'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1898,6 +1919,7 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   ElevatorRecordEdge?: ElevatorRecordEdgeResolvers<ContextType>;
   ElevatorRecordFormData?: ElevatorRecordFormDataResolvers<ContextType>;
   ElevatorRecordsMetrics?: ElevatorRecordsMetricsResolvers<ContextType>;
+  ElevatorRecurringFailureStatus?: ElevatorRecurringFailureStatusResolvers<ContextType>;
   ElevatorRepairFrequencyStatus?: ElevatorRepairFrequencyStatusResolvers<ContextType>;
   FieldChange?: FieldChangeResolvers<ContextType>;
   InspectionStatus?: InspectionStatusResolvers<ContextType>;

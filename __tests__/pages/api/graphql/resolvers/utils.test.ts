@@ -1,7 +1,11 @@
 import { RepairJob } from '@prisma/client';
 import { subDays } from 'date-fns';
 
-import { ElevatorSeverityLevel, TechnicianPerformanceMetrics } from '@/graphql/types/server/generated_types';
+import {
+  ElevatorRecurringFailureStatus,
+  ElevatorSeverityLevel,
+  TechnicianPerformanceMetrics,
+} from '@/graphql/types/server/generated_types';
 import {
   mockCalendarEventId,
   mockMastLiftRepairJob,
@@ -31,6 +35,7 @@ import {
   getInspectionStatus,
   getOnTimeCompletionRate,
   getPerformanceScoreFromRatio,
+  getRecurringFailureStatus,
   getRepairJobDurationInDays,
   getTechnicianPerformanceMetrics,
 } from '@/pages/api/graphql/resolvers/utils';
@@ -668,6 +673,119 @@ describe('getElevatorFailureRelatedJobsCount', () => {
       const mockCount = getElevatorFailureRelatedJobsCount(input as unknown as RepairJob[]);
 
       expect(mockCount).toBe(expected);
+    });
+  });
+});
+
+describe('getRecurringFailureStatus', () => {
+  const mockBaseRepairJob = {
+    ...mockRepairJob,
+    id: 'job-1',
+    jobType: 'Repair',
+    status: 'Completed',
+    actualEndDate: new Date(),
+    createdAt: new Date('2026-01-01T10:00:00Z'),
+    updatedAt: new Date('2026-01-01T10:00:00Z'),
+    startDate: new Date('2026-01-01T08:00:00Z'),
+    endDate: new Date('2026-01-01T09:00:00Z'),
+  };
+
+  const mockScenarios: Array<{
+    name: string;
+    repairJobs: RepairJob[];
+    expected: ElevatorRecurringFailureStatus | null;
+  }> = [
+    {
+      name: 'should return null when there are no repair jobs',
+      repairJobs: [],
+      expected: null,
+    },
+    {
+      name: 'should return null when there is only one completed repair',
+      repairJobs: [{ ...mockBaseRepairJob, actualEndDate: new Date('2026-01-27T10:00:00Z') }],
+      expected: null,
+    },
+    {
+      name: 'should return null when completed repair jobs are not failure-related',
+      repairJobs: [
+        { ...mockBaseRepairJob, jobType: 'Inspection', actualEndDate: new Date('2026-01-27T10:00:00Z') },
+        { ...mockBaseRepairJob, jobType: 'Inspection', actualEndDate: new Date('2026-01-25T10:00:00Z') },
+      ],
+      expected: null,
+    },
+    {
+      name: 'should return null when repair jobs are outside recurring threshold',
+      repairJobs: [
+        { ...mockBaseRepairJob, actualEndDate: new Date('2026-01-27T10:00:00Z') },
+        { ...mockBaseRepairJob, actualEndDate: new Date('2025-10-01T10:00:00Z') },
+      ],
+      expected: null,
+    },
+    {
+      name: 'should return null when only one completed failure-related repair has actualEndDate',
+      repairJobs: [
+        { ...mockBaseRepairJob, actualEndDate: new Date('2026-01-27T10:00:00Z') },
+        { ...mockBaseRepairJob, status: 'Completed', jobType: 'Repair', actualEndDate: null },
+        {
+          ...mockBaseRepairJob,
+          status: 'Cancelled',
+          jobType: 'Repair',
+          actualEndDate: new Date('2026-01-26T10:00:00Z'),
+        },
+      ],
+      expected: null,
+    },
+    {
+      name: 'should return recurring failure when two repairs are within threshold',
+      repairJobs: [
+        { ...mockBaseRepairJob, actualEndDate: new Date('2026-01-27T10:00:00Z') },
+        { ...mockBaseRepairJob, actualEndDate: new Date('2026-01-25T10:00:00Z') },
+      ],
+      expected: {
+        label: 'Potential recurring issue',
+        description:
+          'The elevator had another repair just 2 days after the previous repair, indicating a recurring issue.',
+        severity: ElevatorSeverityLevel.Warning,
+      },
+    },
+    {
+      name: 'should return recurring failure when repairs happen on the same day',
+      repairJobs: [
+        { ...mockBaseRepairJob, actualEndDate: new Date('2026-01-27T10:00:00Z') },
+        { ...mockBaseRepairJob, actualEndDate: new Date('2026-01-27T15:00:00Z') },
+      ],
+      expected: {
+        label: 'Potential recurring issue',
+        description:
+          'The elevator had another repair on the same day as the previous repair, indicating a recurring issue.',
+        severity: ElevatorSeverityLevel.Warning,
+      },
+    },
+    {
+      name: 'should return more than two repairs, pick two most recent',
+      repairJobs: [
+        { ...mockBaseRepairJob, actualEndDate: new Date('2026-01-10T10:00:00Z') },
+        { ...mockBaseRepairJob, actualEndDate: new Date('2026-01-25T10:00:00Z') },
+        { ...mockBaseRepairJob, actualEndDate: new Date('2026-01-27T10:00:00Z') },
+      ],
+      expected: {
+        label: 'Potential recurring issue',
+        description:
+          'The elevator had another repair just 2 days after the previous repair, indicating a recurring issue.',
+        severity: ElevatorSeverityLevel.Warning,
+      },
+    },
+  ];
+
+  mockScenarios.forEach(({ name, repairJobs: jobs, expected }) => {
+    it(name, () => {
+      const result = getRecurringFailureStatus(jobs);
+
+      if (expected === null) {
+        expect(result).toBeNull();
+      } else {
+        expect(result).toMatchObject(expected);
+      }
     });
   });
 });
