@@ -5,7 +5,7 @@ import InfoTooltip from '../base-tooltip/info-tooltip/InfoTooltip';
 import { SeverityStatus, SeverityStatusBadgeConfig } from './types';
 
 export type SeverityStatusBadgeProps = {
-  config: SeverityStatusBadgeConfig;
+  config: Partial<SeverityStatusBadgeConfig>;
   severityStatusItem?: SeverityStatus | null;
   isTooltipIconShown?: boolean;
 };

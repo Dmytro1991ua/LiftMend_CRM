@@ -99,6 +99,10 @@ export type ElevatorInspectionStatus = {
 
 export type ElevatorRepairFrequencyStatus = ElevatorInspectionStatus & { description: string };
 
+export type ElevatorRecurringFailureStatus = ElevatorInspectionStatus & {
+  description: string;
+};
+
 export type ElevatorRecord = {
   id: string;
   elevatorType: string;
@@ -114,6 +118,7 @@ export type ElevatorRecord = {
   nextInspectionDate?: Date | null;
   inspectionStatus?: ElevatorInspectionStatus | null;
   repairFrequencyStatus?: ElevatorRepairFrequencyStatus | null;
+  recurringFailureStatus?: ElevatorRecurringFailureStatus | null;
 };
 
 export type TechnicianRecord = {

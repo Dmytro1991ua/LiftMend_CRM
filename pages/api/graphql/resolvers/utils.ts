@@ -436,13 +436,12 @@ export const getElevatorFailureRelatedJobsCount = (repairJobs: RepairJob[]): num
 };
 
 const getElevatorRecurringFailureDescription = (days: number) => {
-  if (days === 0) {
-    return 'The elevator had another repair on the same day as the previous repair, indicating a recurring issue.';
-  }
+  const timeSinceLastRepair =
+    days === 0
+      ? 'on the same day as the last repair'
+      : `only ${days} day${days === 1 ? '' : 's'} after the last repair`;
 
-  return `The elevator had another repair just ${days} day${
-    days !== 1 ? 's' : ''
-  } after the previous repair, indicating a recurring issue.`;
+  return `This elevator failed again ${timeSinceLastRepair}. This may indicate that the previous fix did not address the root cause.`;
 };
 
 /**
@@ -480,7 +479,7 @@ export const getRecurringFailureStatus = (repairJobs: RepairJob[]): ElevatorRecu
 
   if (daysBetweenRepairs <= RECURRING_FAILURE_THRESHOLD_DAYS) {
     return {
-      label: 'Potential recurring issue',
+      label: 'Recurring Failure',
       description: getElevatorRecurringFailureDescription(daysBetweenRepairs),
       severity: ElevatorSeverityLevel.Warning,
     };

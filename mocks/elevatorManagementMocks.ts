@@ -51,6 +51,12 @@ export const mockElevatorRecord = {
     description:
       'This elevator has been repaired 5 times in the last $30} days — repeated failures detected, consider immediate maintenance.',
   },
+  recurringFailureStatus: {
+    description:
+      'The elevator had another repair on the same day as the previous repair, indicating a recurring issue.',
+    label: 'Potential recurring issue',
+    severity: ElevatorSeverityLevel.Warning,
+  },
 };
 
 export const mockElevatorRecordsFormData: MockedResponse = {
@@ -95,6 +101,12 @@ export const mockGlassElevatorElevatorRecord = {
       description:
         'This elevator has been repaired 5 times in the last $30} days — repeated failures detected, consider immediate maintenance.',
     },
+    recurringFailureStatus: {
+      description:
+        'The elevator had another repair on the same day as the previous repair, indicating a recurring issue.',
+      label: 'Potential recurring issue',
+      severity: ElevatorSeverityLevel.Warning,
+    },
   },
 };
 
@@ -123,6 +135,12 @@ export const mockServiceElevatorElevatorRecord = {
       description:
         'This elevator has been repaired 5 times in the last $30} days — repeated failures detected, consider immediate maintenance.',
     },
+    recurringFailureStatus: {
+      description:
+        'The elevator had another repair on the same day as the previous repair, indicating a recurring issue.',
+      label: 'Potential recurring issue',
+      severity: ElevatorSeverityLevel.Warning,
+    },
   },
 };
 
@@ -150,6 +168,12 @@ export const mockWarehouseLiftElevatorRecord = {
       severity: ElevatorSeverityLevel.Error,
       description:
         'This elevator has been repaired 5 times in the last $30} days — repeated failures detected, consider immediate maintenance.',
+    },
+    recurringFailureStatus: {
+      description:
+        'The elevator had another repair on the same day as the previous repair, indicating a recurring issue.',
+      label: 'Potential recurring issue',
+      severity: ElevatorSeverityLevel.Warning,
     },
   },
 };
@@ -342,6 +366,12 @@ export const mockUpdatedElevatorRecord = {
     severity: ElevatorSeverityLevel.Error,
     description:
       'This elevator has been repaired 5 times in the last $30} days — repeated failures detected, consider immediate maintenance.',
+  },
+  recurringFailureStatus: {
+    description:
+      'The elevator had another repair on the same day as the previous repair, indicating a recurring issue.',
+    label: 'Potential recurring issue',
+    severity: ElevatorSeverityLevel.Warning,
   },
 };
 

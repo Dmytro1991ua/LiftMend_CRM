@@ -186,6 +186,7 @@ export type ElevatorRecord = Node & {
   lastMaintenanceDate: Scalars['DateTime']['output'];
   nextInspectionDate: Maybe<Scalars['DateTime']['output']>;
   nextMaintenanceDate: Scalars['DateTime']['output'];
+  recurringFailureStatus: Maybe<ElevatorRecurringFailureStatus>;
   repairFrequencyStatus: Maybe<ElevatorRepairFrequencyStatus>;
   status: Scalars['String']['output'];
 };
@@ -250,6 +251,13 @@ export type ElevatorRecordsMetrics = {
   totalElevatorRecords: Scalars['Int']['output'];
   underMaintenanceElevators: Scalars['Int']['output'];
   vehicleParkingElevators: Scalars['Int']['output'];
+};
+
+export type ElevatorRecurringFailureStatus = {
+  __typename?: 'ElevatorRecurringFailureStatus';
+  description: Scalars['String']['output'];
+  label: Scalars['String']['output'];
+  severity: ElevatorSeverityLevel;
 };
 
 export type ElevatorRepairFrequencyStatus = {
@@ -921,6 +929,12 @@ export type ElevatorRecordFieldsFragment = {
     description: string;
     severity: ElevatorSeverityLevel;
   } | null;
+  recurringFailureStatus: {
+    __typename?: 'ElevatorRecurringFailureStatus';
+    label: string;
+    description: string;
+    severity: ElevatorSeverityLevel;
+  } | null;
 };
 
 export type NotificationFieldsFragment = {
@@ -1000,6 +1014,12 @@ export type CompleteElevatorInspectionMutation = {
     inspectionStatus: { __typename?: 'InspectionStatus'; label: string; severity: ElevatorSeverityLevel } | null;
     repairFrequencyStatus: {
       __typename?: 'ElevatorRepairFrequencyStatus';
+      label: string;
+      description: string;
+      severity: ElevatorSeverityLevel;
+    } | null;
+    recurringFailureStatus: {
+      __typename?: 'ElevatorRecurringFailureStatus';
       label: string;
       description: string;
       severity: ElevatorSeverityLevel;
@@ -1349,6 +1369,12 @@ export type GetElevatorRecordByIdQuery = {
       description: string;
       severity: ElevatorSeverityLevel;
     } | null;
+    recurringFailureStatus: {
+      __typename?: 'ElevatorRecurringFailureStatus';
+      label: string;
+      description: string;
+      severity: ElevatorSeverityLevel;
+    } | null;
   };
 };
 
@@ -1396,6 +1422,12 @@ export type GetElevatorRecordsQuery = {
         inspectionStatus: { __typename?: 'InspectionStatus'; label: string; severity: ElevatorSeverityLevel } | null;
         repairFrequencyStatus: {
           __typename?: 'ElevatorRepairFrequencyStatus';
+          label: string;
+          description: string;
+          severity: ElevatorSeverityLevel;
+        } | null;
+        recurringFailureStatus: {
+          __typename?: 'ElevatorRecurringFailureStatus';
           label: string;
           description: string;
           severity: ElevatorSeverityLevel;
@@ -1779,6 +1811,12 @@ export type UpdateElevatorRecordMutation = {
     inspectionStatus: { __typename?: 'InspectionStatus'; label: string; severity: ElevatorSeverityLevel } | null;
     repairFrequencyStatus: {
       __typename?: 'ElevatorRepairFrequencyStatus';
+      label: string;
+      description: string;
+      severity: ElevatorSeverityLevel;
+    } | null;
+    recurringFailureStatus: {
+      __typename?: 'ElevatorRecurringFailureStatus';
       label: string;
       description: string;
       severity: ElevatorSeverityLevel;
