@@ -15,6 +15,7 @@ import DeleteActionCell from '../delete-action-cell';
 import EditActionCell from '../edit-action-cell';
 import ElevatorStatusToggleCell from '../elevator-status-toggle-cell';
 import InspectionStatus from '../inspection-status';
+import RecurringFailureStatus from '../recurring-failure-status';
 import RepairFrequencyStatus from '../repair-frequency-status';
 
 export const ELEVATOR_MANAGEMENT_COLUMNS: ColumnDef<ElevatorRecord>[] = [
@@ -225,6 +226,20 @@ export const ELEVATOR_MANAGEMENT_COLUMNS: ColumnDef<ElevatorRecord>[] = [
     size: 200,
     minSize: 200,
     maxSize: 220,
+  },
+  {
+    accessorKey: 'recurringFailureStatus',
+    header: 'Recurring Failure Status',
+    enableResizing: true,
+    enableSorting: false,
+    cell: ({
+      row: {
+        original: { recurringFailureStatus },
+      },
+    }) => <RecurringFailureStatus recurringFailureStatus={recurringFailureStatus} />,
+    size: 200,
+    minSize: 200,
+    maxSize: 230,
   },
   {
     accessorKey: 'completeInspection',

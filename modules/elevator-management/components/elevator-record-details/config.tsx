@@ -9,6 +9,7 @@ import { PillStatus } from '@/shared/pill/config';
 import { ELEVATOR_HEALTH_SCORE_THRESHOLDS } from '../../config';
 import { ElevatorMaintenanceHistoryTable } from '../elevator-maintenance-history-table';
 import InspectionStatus from '../inspection-status';
+import RecurringFailureStatus from '../recurring-failure-status';
 import RepairFrequencyStatus from '../repair-frequency-status';
 
 export const elevatorRecordSectionsConfig = (elevatorRecord: ElevatorRecord): DetailsPageSectionsConfig[] => [
@@ -98,6 +99,12 @@ export const elevatorRecordSectionsConfig = (elevatorRecord: ElevatorRecord): De
         id: 13,
         label: 'Repair Frequency Status:',
         value: <RepairFrequencyStatus repairFrequencyStatus={elevatorRecord.repairFrequencyStatus} />,
+        fieldClassName: 'items-center',
+      },
+      {
+        id: 14,
+        label: 'Recurring Failure Status',
+        value: <RecurringFailureStatus recurringFailureStatus={elevatorRecord.recurringFailureStatus} />,
         fieldClassName: 'items-center',
       },
     ],

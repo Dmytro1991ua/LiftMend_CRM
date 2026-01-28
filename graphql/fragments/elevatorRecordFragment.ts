@@ -23,5 +23,10 @@ export const ELEVATOR_RECORD_FRAGMENT = gql`
       description
       severity
     }
+    recurringFailureStatus {
+      label
+      description
+      severity
+    }
   }
 `;

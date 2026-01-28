@@ -742,9 +742,9 @@ describe('getRecurringFailureStatus', () => {
         { ...mockBaseRepairJob, actualEndDate: new Date('2026-01-25T10:00:00Z') },
       ],
       expected: {
-        label: 'Potential recurring issue',
+        label: 'Recurring Failure',
         description:
-          'The elevator had another repair just 2 days after the previous repair, indicating a recurring issue.',
+          'This elevator failed again only 2 days after the last repair. This may indicate that the previous fix did not address the root cause.',
         severity: ElevatorSeverityLevel.Warning,
       },
     },
@@ -755,9 +755,9 @@ describe('getRecurringFailureStatus', () => {
         { ...mockBaseRepairJob, actualEndDate: new Date('2026-01-27T15:00:00Z') },
       ],
       expected: {
-        label: 'Potential recurring issue',
+        label: 'Recurring Failure',
         description:
-          'The elevator had another repair on the same day as the previous repair, indicating a recurring issue.',
+          'This elevator failed again on the same day as the last repair. This may indicate that the previous fix did not address the root cause.',
         severity: ElevatorSeverityLevel.Warning,
       },
     },
@@ -769,9 +769,9 @@ describe('getRecurringFailureStatus', () => {
         { ...mockBaseRepairJob, actualEndDate: new Date('2026-01-27T10:00:00Z') },
       ],
       expected: {
-        label: 'Potential recurring issue',
+        label: 'Recurring Failure',
         description:
-          'The elevator had another repair just 2 days after the previous repair, indicating a recurring issue.',
+          'This elevator failed again only 2 days after the last repair. This may indicate that the previous fix did not address the root cause.',
         severity: ElevatorSeverityLevel.Warning,
       },
     },

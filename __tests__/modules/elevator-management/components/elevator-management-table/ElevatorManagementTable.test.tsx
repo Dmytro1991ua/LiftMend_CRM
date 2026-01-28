@@ -35,7 +35,7 @@ describe('ElevatorManagementTable', () => {
 
     const columnHeaders = screen.getAllByRole('columnheader');
 
-    expect(columnHeaders).toHaveLength(18);
+    expect(columnHeaders).toHaveLength(19);
 
     expect(columnHeaders[0]).toHaveTextContent('');
     expect(columnHeaders[1]).toHaveTextContent('Elevator Type');
@@ -51,10 +51,11 @@ describe('ElevatorManagementTable', () => {
     expect(columnHeaders[11]).toHaveTextContent('Next Inspection Date');
     expect(columnHeaders[12]).toHaveTextContent('Inspection Status');
     expect(columnHeaders[13]).toHaveTextContent('Repair Frequency Status');
-    expect(columnHeaders[14]).toHaveTextContent('Complete Inspection');
-    expect(columnHeaders[15]).toHaveTextContent('Edit');
-    expect(columnHeaders[16]).toHaveTextContent('Delete');
-    expect(columnHeaders[17]).toHaveTextContent('Elevator Visibility');
+    expect(columnHeaders[14]).toHaveTextContent('Recurring Failure Status');
+    expect(columnHeaders[15]).toHaveTextContent('Complete Inspection');
+    expect(columnHeaders[16]).toHaveTextContent('Edit');
+    expect(columnHeaders[17]).toHaveTextContent('Delete');
+    expect(columnHeaders[18]).toHaveTextContent('Elevator Visibility');
   });
 
   it('should render correct table cells', async () => {
@@ -77,7 +78,7 @@ describe('ElevatorManagementTable', () => {
     const secondRowDots = within(healthScoreCells[1]).getAllByTestId('score-dot');
     const completeElevatorInspectionIcons = screen.getAllByTestId('complete-inspection-icon');
 
-    expect(cells).toHaveLength(36);
+    expect(cells).toHaveLength(38);
 
     // === First Row ===
     expect(cells[0]).toBeInTheDocument(); // checkbox
@@ -94,30 +95,32 @@ describe('ElevatorManagementTable', () => {
     expect(cells[11]).toHaveTextContent('Jun 20, 2024 19:00 PM');
     expect(cells[12]).toHaveTextContent('Inspection overdue');
     expect(cells[13]).toHaveTextContent('Frequent');
+    expect(cells[14]).toHaveTextContent('Potential recurring issue');
     expect(completeElevatorInspectionIcons[0]).toBeInTheDocument();
     expect(editIcons[0]).toBeInTheDocument(); // First row edit icon
-    expect(cells[16]).toBeInTheDocument();
     expect(cells[17]).toBeInTheDocument();
+    expect(cells[18]).toBeInTheDocument();
 
     // === Second Row ===
-    expect(cells[18]).toBeInTheDocument();
-    expect(cells[19]).toHaveTextContent('Service Elevator');
-    expect(cells[20]).toHaveTextContent('Oceanview Condos');
-    expect(cells[21]).toHaveTextContent('Sky Bridge');
-    expect(cells[22]).toHaveTextContent('test-id-2');
-    expect(cells[23]).toHaveTextContent('Operational');
+    expect(cells[19]).toBeInTheDocument();
+    expect(cells[20]).toHaveTextContent('Service Elevator');
+    expect(cells[21]).toHaveTextContent('Oceanview Condos');
+    expect(cells[22]).toHaveTextContent('Sky Bridge');
+    expect(cells[23]).toHaveTextContent('test-id-2');
+    expect(cells[24]).toHaveTextContent('Operational');
     expect(secondRowDots).toHaveLength(DEFAULT_TOTAL_DOTS);
-    expect(cells[25]).toHaveTextContent('3500');
-    expect(cells[26]).toHaveTextContent('Apr 05, 2024 13:00 PM');
-    expect(cells[27]).toHaveTextContent('Jul 28, 2024 18:00 PM');
-    expect(cells[28]).toHaveTextContent('May 21, 2024 13:00 PM');
-    expect(cells[29]).toHaveTextContent('Sep 20, 2024 19:00 PM');
-    expect(cells[30]).toHaveTextContent('Inspection overdue');
-    expect(cells[31]).toHaveTextContent('Frequent');
+    expect(cells[26]).toHaveTextContent('3500');
+    expect(cells[27]).toHaveTextContent('Apr 05, 2024 13:00 PM');
+    expect(cells[28]).toHaveTextContent('Jul 28, 2024 18:00 PM');
+    expect(cells[29]).toHaveTextContent('May 21, 2024 13:00 PM');
+    expect(cells[30]).toHaveTextContent('Sep 20, 2024 19:00 PM');
+    expect(cells[31]).toHaveTextContent('Inspection overdue');
+    expect(cells[32]).toHaveTextContent('Frequent');
+    expect(cells[33]).toHaveTextContent('Potential recurring issue');
     expect(completeElevatorInspectionIcons[1]).toBeInTheDocument();
     expect(editIcons[1]).toBeInTheDocument();
-    expect(cells[34]).toBeInTheDocument();
-    expect(cells[35]).toBeInTheDocument();
+    expect(cells[36]).toBeInTheDocument();
+    expect(cells[37]).toBeInTheDocument();
   });
 
   it('should show alert message when no data available for a table', () => {
