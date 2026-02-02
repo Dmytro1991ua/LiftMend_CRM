@@ -2,7 +2,10 @@ import { AiFillEdit } from 'react-icons/ai';
 import { FaEye } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
 
+import CompleteRepairJob from '@/modules/repair-job-tracking/components/complete-repair-job/CompleteRepairJob';
+
 import { getEditButtonDisabledState } from '../repair-job/config';
+import { RepairJob } from '../types';
 
 import { ActionButtonLabel, DetailsPageActionButtonConfig } from './types';
 
@@ -67,6 +70,24 @@ export const getTechnicianDetailsPageActionButtonsConfig = ({
       label: ActionButtonLabel.UPDATE_EMPLOYMENT_STATUS,
       icon: <FaEye />,
       onClick: () => onOpenUpdateEmploymentStatusModal(),
+    },
+  ];
+};
+
+export const getRepairJobDetailsPageActionButtonsConfig = ({
+  onOpenDeleteModal,
+  onOpenEditModal,
+  repairJob,
+}: {
+  onOpenEditModal: () => void;
+  onOpenDeleteModal: () => void;
+  repairJob: RepairJob;
+}): DetailsPageActionButtonConfig[] => {
+  return [
+    ...getCommonDetailsPageActionButtonsConfig({ onOpenDeleteModal, onOpenEditModal, status: repairJob.status }),
+    {
+      id: 3,
+      render: () => <CompleteRepairJob repairJob={repairJob} variant='button' />,
     },
   ];
 };

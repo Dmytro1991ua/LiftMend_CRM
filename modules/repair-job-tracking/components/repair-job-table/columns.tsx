@@ -8,6 +8,7 @@ import { PillStatus } from '@/shared/pill/config';
 import OverdueRepairJob from '@/shared/repair-job/overdue-repair-job';
 import { RepairJob } from '@/shared/types';
 
+import CompleteRepairJob from '../complete-repair-job/CompleteRepairJob';
 import DeleteActionCell from '../delete-action-cell';
 import EditActionCell from '../edit-action-cell/EditActionCell';
 import ReassignTechnicianActionCell from '../reassign-technician-action-cell';
@@ -208,6 +209,16 @@ export const REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
     size: 180,
     minSize: 120,
     maxSize: 350,
+  },
+  {
+    accessorKey: 'complete',
+    header: 'Complete',
+    cell: ({ row: { original } }) => <CompleteRepairJob repairJob={original} />,
+    enableSorting: false,
+    size: 100,
+    enableResizing: false,
+    minSize: 100,
+    maxSize: 120,
   },
   {
     accessorKey: 'edit',

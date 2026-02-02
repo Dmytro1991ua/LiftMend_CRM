@@ -137,8 +137,12 @@ describe('RepairJobService', () => {
         Promise.resolve([`sorted data for ${model}`])
       );
 
-      (fetchFormDropdownData as jest.Mock).mockImplementation(async (cb, label) => {
-        return `mocked dropdown for ${label}`;
+      (fetchFormDropdownData as jest.Mock).mockImplementation(async (_cb, label) => {
+        if (label === 'repair job statutes') {
+          return ['Scheduled', 'In Progress', 'Completed'];
+        }
+
+        return [`mocked dropdown for ${label}`];
       });
     });
 
@@ -151,14 +155,14 @@ describe('RepairJobService', () => {
 
       expect(fetchFormDropdownData).toHaveBeenCalledTimes(8);
       expect(result).toEqual({
-        buildingNames: 'mocked dropdown for building names',
-        elevatorLocations: 'mocked dropdown for elevator locations',
-        elevatorTypes: 'mocked dropdown for elevator types',
-        priorities: 'mocked dropdown for repair job priorities',
-        repairJobTypes: 'mocked dropdown for repair job types',
-        statuses: 'mocked dropdown for repair job statutes',
-        technicianNames: 'mocked dropdown for technician names',
-        technicianSkills: 'mocked dropdown for technician skills',
+        buildingNames: ['mocked dropdown for building names'],
+        elevatorLocations: ['mocked dropdown for elevator locations'],
+        elevatorTypes: ['mocked dropdown for elevator types'],
+        priorities: ['mocked dropdown for repair job priorities'],
+        repairJobTypes: ['mocked dropdown for repair job types'],
+        statuses: ['Scheduled', 'In Progress'],
+        technicianNames: ['mocked dropdown for technician names'],
+        technicianSkills: ['mocked dropdown for technician skills'],
       });
     });
   });
