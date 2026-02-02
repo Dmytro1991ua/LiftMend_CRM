@@ -7,7 +7,7 @@ import { FormProvider } from 'react-hook-form';
 import BaseAlert from '@/shared/base-alert/BaseAlert';
 import BaseDetailsPage from '@/shared/base-details-page';
 import useDetailsPageModals from '@/shared/base-details-page/hooks/useDetailsPageModals';
-import { getCommonDetailsPageActionButtonsConfig } from '@/shared/base-details-page/utils';
+import { getRepairJobDetailsPageActionButtonsConfig } from '@/shared/base-details-page/utils';
 import DeleteModal from '@/shared/base-modal/delete-modal';
 import EditModal from '@/shared/base-modal/edit-modal';
 import { getModalTitle } from '@/shared/base-modal/edit-modal/utils';
@@ -69,8 +69,8 @@ const RepairJobDetails = () => {
   });
 
   const actionButtonsConfig = useMemo(
-    () => getCommonDetailsPageActionButtonsConfig({ onOpenDeleteModal, onOpenEditModal, status: repairJob.status }),
-    [onOpenDeleteModal, onOpenEditModal, repairJob.status]
+    () => getRepairJobDetailsPageActionButtonsConfig({ repairJob, onOpenDeleteModal, onOpenEditModal }),
+    [onOpenDeleteModal, onOpenEditModal, repairJob]
   );
 
   const alertMessage = useMemo(() => {
@@ -90,7 +90,8 @@ const RepairJobDetails = () => {
           isOpen={isEditModalOpen}
           title={getModalTitle(title, true)}
           onClose={onReset}
-          onSubmit={formState.handleSubmit(onEditRepairJob)}>
+          onSubmit={formState.handleSubmit(onEditRepairJob)}
+        >
           <EditRepairJobForm repairJobFormValues={currentRepairJob} />
         </EditModal>
       ),

@@ -46,7 +46,7 @@ describe('RepairJobTable', () => {
 
     const columnHeaders = screen.getAllByRole('columnheader');
 
-    expect(columnHeaders).toHaveLength(17);
+    expect(columnHeaders).toHaveLength(18);
 
     expect(columnHeaders[0]).toHaveTextContent('');
     expect(columnHeaders[1]).toHaveTextContent('Job Type↑↓');
@@ -63,8 +63,9 @@ describe('RepairJobTable', () => {
     expect(columnHeaders[12]).toHaveTextContent('Elevator Location↑↓');
     expect(columnHeaders[13]).toHaveTextContent('Technician Name↑↓');
     expect(columnHeaders[14]).toHaveTextContent('Reassign Technician');
-    expect(columnHeaders[15]).toHaveTextContent('Edit');
-    expect(columnHeaders[16]).toHaveTextContent('Delete');
+    expect(columnHeaders[15]).toHaveTextContent('Complete');
+    expect(columnHeaders[16]).toHaveTextContent('Edit');
+    expect(columnHeaders[17]).toHaveTextContent('Delete');
   });
 
   it('should render correct table cells', async () => {
@@ -75,8 +76,9 @@ describe('RepairJobTable', () => {
     const checkIcons = screen.getAllByTestId('check-icon');
     const technicianReassignmentIcons = screen.getAllByTestId('technician-reassignment-icon');
     const trashIcons = screen.getAllByTestId('trash-icon');
+    const completeIcons = screen.getAllByTestId('complete-icon');
 
-    expect(cells).toHaveLength(34);
+    expect(cells).toHaveLength(36);
 
     // === First Row ===
     expect(cells[0]).toBeInTheDocument(); // checkbox
@@ -94,27 +96,29 @@ describe('RepairJobTable', () => {
     expect(cells[12]).toHaveTextContent('Lobby');
     expect(cells[13]).toHaveTextContent('Sophia Martinez');
     expect(technicianReassignmentIcons[0]).toBeInTheDocument();
+    expect(completeIcons[0]).toBeInTheDocument();
     expect(editIcons[0]).toBeInTheDocument();
     expect(trashIcons[0]).toBeInTheDocument();
 
     // === Second Row ===
-    expect(cells[17]).toBeInTheDocument();
-    expect(cells[18]).toHaveTextContent('Upgrade');
-    expect(cells[19]).toHaveTextContent('test-repair-job-id-2');
-    expect(cells[20]).toHaveTextContent('asdasdasdasd');
-    expect(cells[21]).toHaveTextContent('Medium');
-    expect(cells[22]).toHaveTextContent('Completed');
-    expect(cells[23]).toHaveTextContent('Jan 23, 2025 00:00 AM');
-    expect(cells[24]).toHaveTextContent('Jan 24, 2025 23:59 PM');
-    expect(cells[25]).toHaveTextContent('Jan 28, 2025 13:16 PM');
+    expect(cells[18]).toBeInTheDocument();
+    expect(cells[19]).toHaveTextContent('Upgrade');
+    expect(cells[20]).toHaveTextContent('test-repair-job-id-2');
+    expect(cells[21]).toHaveTextContent('asdasdasdasd');
+    expect(cells[22]).toHaveTextContent('Medium');
+    expect(cells[23]).toHaveTextContent('Completed');
+    expect(cells[24]).toHaveTextContent('Jan 23, 2025 00:00 AM');
+    expect(cells[25]).toHaveTextContent('Jan 24, 2025 23:59 PM');
+    expect(cells[26]).toHaveTextContent('Jan 28, 2025 13:16 PM');
     expect(checkIcons[1]).toBeInTheDocument();
-    expect(cells[27]).toHaveTextContent('Mast Lift');
-    expect(cells[28]).toHaveTextContent('Cedar Ridge Apartments');
-    expect(cells[29]).toHaveTextContent('Warehouse Level');
-    expect(cells[30]).toHaveTextContent('Chloe Carter');
-    expect(technicianReassignmentIcons[0]).toBeInTheDocument();
-    expect(editIcons[0]).toBeInTheDocument();
-    expect(trashIcons[0]).toBeInTheDocument();
+    expect(cells[28]).toHaveTextContent('Mast Lift');
+    expect(cells[29]).toHaveTextContent('Cedar Ridge Apartments');
+    expect(cells[30]).toHaveTextContent('Warehouse Level');
+    expect(cells[31]).toHaveTextContent('Chloe Carter');
+    expect(technicianReassignmentIcons[1]).toBeInTheDocument();
+    expect(completeIcons[1]).toBeInTheDocument();
+    expect(editIcons[1]).toBeInTheDocument();
+    expect(trashIcons[1]).toBeInTheDocument();
   });
 
   it('should show alert message when no data available for a table', () => {

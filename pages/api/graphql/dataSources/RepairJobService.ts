@@ -128,10 +128,13 @@ class RepairJobService {
       () => getSortedFormDropdownData(this.prisma.priorities, 'priorities'),
       'repair job priorities'
     );
-    repairJobScheduleData.statuses = await fetchFormDropdownData(
+
+    const allStatuses = await fetchFormDropdownData(
       () => getSortedFormDropdownData(this.prisma.statuses, 'statuses'),
       'repair job statutes'
     );
+
+    repairJobScheduleData.statuses = allStatuses.filter((status) => status !== 'Completed');
 
     return repairJobScheduleData as RepairJobScheduleData;
   }

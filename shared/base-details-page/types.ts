@@ -23,10 +23,11 @@ export type DetailsPageSectionsConfig = {
 
 export type DetailsPageActionButtonConfig = {
   id: number;
-  label: ActionButtonLabel;
-  icon: JSX.Element;
-  variant: ButtonVariant;
+  label?: ActionButtonLabel;
+  icon?: JSX.Element;
+  variant?: ButtonVariant;
   tooltipData?: Partial<BaseTooltipProps>;
   isDisabled?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
+  render?: () => React.ReactNode;
 };

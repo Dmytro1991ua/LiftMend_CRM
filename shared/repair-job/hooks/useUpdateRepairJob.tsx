@@ -1,4 +1,4 @@
-import { ApolloError, useMutation } from '@apollo/client';
+import { ApolloError, FetchResult, useMutation } from '@apollo/client';
 
 import { CALENDAR_EVENT_FRAGMENT } from '@/graphql/fragments';
 import { UPDATE_REPAIR_JOB } from '@/graphql/schemas/updateRepairJob';
@@ -18,6 +18,7 @@ import { convertFormFieldsToRepairJob } from '../repair-job-details/utils';
 export type UseUpdateRepairJob = {
   isLoading: boolean;
   onUpdateRepairJob: (formFields: RepairJobFormValues, originalRepairJob?: RepairJob) => Promise<void>;
+  onCompleteRepairJob: (repairJob: RepairJob) => Promise<FetchResult<UpdateRepairJobMutation> | undefined>;
 };
 
 export const useUpdateRepairJob = (): UseUpdateRepairJob => {
@@ -86,8 +87,41 @@ export const useUpdateRepairJob = (): UseUpdateRepairJob => {
     }
   };
 
+  const onCompleteRepairJob = async (repairJob: RepairJob) => {
+    try {
+      const result = await updateRepairJob({
+        variables: {
+          input: {
+            id: repairJob.id,
+            status: 'Completed',
+          },
+        },
+      });
+
+      if (result.errors?.length) {
+        onHandleMutationErrors({
+          message: 'Fail to complete repair job',
+          errors: result.errors,
+          onFailure: onError,
+        });
+        return;
+      }
+
+      onSuccess?.('Repair job completed', STATUS_CHANGE_MESSAGES.Completed?.(repairJob.elevatorType));
+
+      return result;
+    } catch (e) {
+      onHandleMutationErrors({
+        message: 'Complete Repair Job Fail',
+        error: e as ApolloError,
+        onFailure: onError,
+      });
+    }
+  };
+
   return {
     isLoading: loading,
     onUpdateRepairJob,
+    onCompleteRepairJob,
   };
 };

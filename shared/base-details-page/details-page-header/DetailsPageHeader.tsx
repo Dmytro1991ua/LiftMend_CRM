@@ -17,20 +17,26 @@ export type DetailsPageHeaderProps = {
 const DetailsPageHeader = ({ loading, description, title, actionButtonsConfig }: DetailsPageHeaderProps) => {
   const renderActionButtons = (
     <div className='flex gap-2'>
-      {actionButtonsConfig.map(({ id, label, icon, variant, tooltipData, isDisabled, onClick }) => (
-        <BaseTooltip
-          key={id}
-          className={tooltipData?.className}
-          disable={!tooltipData?.disable}
-          id={tooltipData?.id ?? ''}
-          message={tooltipData?.message ?? ''}
-        >
-          <Button disabled={isDisabled} variant={variant} onClick={onClick}>
-            {icon}
-            <span className='ml-2'>{label}</span>
-          </Button>
-        </BaseTooltip>
-      ))}
+      {actionButtonsConfig.map(({ id, label, icon, variant, tooltipData, isDisabled, onClick, render }) => {
+        if (render) {
+          return <div key={id}>{render()}</div>;
+        }
+
+        return (
+          <BaseTooltip
+            key={id}
+            className={tooltipData?.className}
+            disable={!tooltipData?.disable}
+            id={tooltipData?.id ?? ''}
+            message={tooltipData?.message ?? ''}
+          >
+            <Button disabled={isDisabled} variant={variant} onClick={onClick}>
+              {icon}
+              <span className='ml-2'>{label}</span>
+            </Button>
+          </BaseTooltip>
+        );
+      })}
     </div>
   );
 

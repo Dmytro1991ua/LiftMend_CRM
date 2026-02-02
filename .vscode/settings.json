@@ -9,5 +9,6 @@
   "[prisma]": {
     "editor.formatOnSave": false,
     "editor.defaultFormatter": null
-  }
+  },
+  "cSpell.words": ["mentainance"]
 }
