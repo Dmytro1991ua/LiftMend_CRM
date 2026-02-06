@@ -10,6 +10,7 @@ generates:
       mappers:
         ChangeLog: '@/pages/api/graphql/dataSources/models#DAAPIChangeLog'
         ElevatorRecord: '@/pages/api/graphql/dataSources/models#DAAPIElevatorRecord'
+        RepairJob: '@/pages/api/graphql/dataSources/models#DAAPIRepairJob'
     plugins:
       - 'typescript'
       - 'typescript-resolvers'

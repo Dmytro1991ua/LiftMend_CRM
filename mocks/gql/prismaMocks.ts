@@ -50,6 +50,10 @@ export const repairJobServicePrismaMock = {
   elevatorRecord: {
     findMany: jest.fn(),
   },
+  repairJobChecklistItem: {
+    findMany: jest.fn(),
+    createMany: jest.fn(),
+  },
 } as unknown as PrismaClient;
 
 export const technicianRecordPrismaMock = {

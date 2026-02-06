@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient, RepairJobChecklistItem } from '@prisma/client';
 import { Maybe } from 'graphql/jsutils/Maybe';
 import { isNull as _isNull, omitBy as _omitBy } from 'lodash';
 
@@ -9,6 +9,7 @@ import {
   QueryGetElevatorMaintenanceHistoryArgs,
   QueryGetRepairJobsArgs,
   RepairJob,
+  RepairJobChecklistItemInput,
   RepairJobConnection,
   RepairJobEdge,
   RepairJobScheduleData,
@@ -250,27 +251,77 @@ class RepairJobService {
     });
   }
 
+  async createChecklist({
+    prisma,
+    repairJobId,
+    checklist,
+    checkedBy,
+  }: {
+    prisma: PrismaClient;
+    repairJobId: string;
+    checklist: RepairJobChecklistItemInput[];
+    checkedBy: string;
+  }) {
+    const hasUnchecked = checklist.some((item) => !item.checked);
+
+    if (hasUnchecked) throw new Error('Checklist is incomplete');
+
+    await prisma.repairJobChecklistItem.createMany({
+      data: checklist.map(({ label, checked, comment }) => ({
+        repairJobId,
+        label,
+        checked,
+        comment,
+        checkedAt: new Date(),
+        checkedBy,
+      })),
+    });
+  }
+
+  async getChecklist(prisma: PrismaClient, repairJobId: string): Promise<RepairJobChecklistItem[]> {
+    return prisma.repairJobChecklistItem.findMany({
+      where: { repairJobId },
+      orderBy: { checkedAt: 'asc' },
+    });
+  }
+
   async updateRepairJob(input: UpdateRepairJobInput): Promise<RepairJob> {
-    const { id, ...fieldsToUpdate } = input;
+    const { id, checklist, ...fieldsToUpdate } = input;
 
     const existingJob = await this.prisma.repairJob.findUnique({ where: { id } });
 
     const newPlannedEndDate = fieldsToUpdate.endDate || existingJob?.endDate;
     const newStatus = fieldsToUpdate.status || existingJob?.status;
 
-    const shouldUpdateActualEndDate = fieldsToUpdate.status === 'Completed' || fieldsToUpdate.status === 'Cancelled';
+    const shouldUpdateActualEndDate = newStatus === 'Completed' || newStatus === 'Cancelled';
     const isOverdue = isRepairJobOverdue(newPlannedEndDate, newStatus ?? '');
 
-    const updatedRepairJob = {
+    const updatedRepairJobData = {
       ..._omitBy(fieldsToUpdate, _isNull),
       ...(shouldUpdateActualEndDate && { actualEndDate: new Date() }),
       isOverdue,
     };
 
-    return this.prisma.repairJob.update({
+    if (newStatus === 'Completed' && checklist?.length) {
+      await this.createChecklist({
+        prisma: this.prisma,
+        repairJobId: id,
+        checklist,
+        checkedBy: existingJob?.technicianId ?? '',
+      });
+    }
+
+    const updatedRepairJob = await this.prisma.repairJob.update({
       where: { id },
-      data: updatedRepairJob,
+      data: updatedRepairJobData,
     });
+
+    const checklistItems = newStatus === 'Completed' ? await this.getChecklist(this.prisma, id) : [];
+
+    return {
+      ...updatedRepairJob,
+      checklist: checklistItems,
+    };
   }
 
   async deleteRepairJob(id: string): Promise<RepairJob> {
