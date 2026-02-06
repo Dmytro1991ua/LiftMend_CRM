@@ -1,5 +1,5 @@
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-import { DAAPIChangeLog, DAAPIElevatorRecord } from '@/pages/api/graphql/dataSources/models';
+import { DAAPIChangeLog, DAAPIElevatorRecord, DAAPIRepairJob } from '@/pages/api/graphql/dataSources/models';
 import { Context } from '@/pages/api/graphql/types';
 export type Maybe<T> = T | undefined | null;
 export type InputMaybe<T> = T | undefined | null;
@@ -624,6 +624,7 @@ export type RepairJob = Node & {
   actualEndDate?: Maybe<Scalars['DateTime']['output']>;
   buildingName: Scalars['String']['output'];
   calendarEventId?: Maybe<Scalars['String']['output']>;
+  checklist?: Maybe<Array<RepairJobChecklistItem>>;
   elevatorId?: Maybe<Scalars['ID']['output']>;
   elevatorLocation: Scalars['String']['output'];
   elevatorType: Scalars['String']['output'];
@@ -637,6 +638,19 @@ export type RepairJob = Node & {
   status: Scalars['String']['output'];
   technicianId?: Maybe<Scalars['ID']['output']>;
   technicianName: Scalars['String']['output'];
+};
+
+export type RepairJobChecklistItem = {
+  __typename?: 'RepairJobChecklistItem';
+  checked: Scalars['Boolean']['output'];
+  comment?: Maybe<Scalars['String']['output']>;
+  label: Scalars['String']['output'];
+};
+
+export type RepairJobChecklistItemInput = {
+  checked: Scalars['Boolean']['input'];
+  comment?: InputMaybe<Scalars['String']['input']>;
+  label: Scalars['String']['input'];
 };
 
 export type RepairJobConnection = Connection & {
@@ -836,6 +850,7 @@ export type UpdateElevatorRecordInput = {
 
 export type UpdateRepairJobInput = {
   buildingName?: InputMaybe<Scalars['String']['input']>;
+  checklist?: InputMaybe<Array<RepairJobChecklistItemInput>>;
   elevatorLocation?: InputMaybe<Scalars['String']['input']>;
   elevatorType?: InputMaybe<Scalars['String']['input']>;
   endDate?: InputMaybe<Scalars['DateTime']['input']>;
@@ -959,15 +974,15 @@ export type ResolversInterfaceTypes<RefType extends Record<string, unknown>> = R
     | (Omit<ChangeLogConnection, 'edges'> & { edges: Array<RefType['ChangeLogEdge']> })
     | (Omit<ElevatorRecordConnection, 'edges'> & { edges: Array<RefType['ElevatorRecordEdge']> })
     | NotificationConnection
-    | RepairJobConnection
+    | (Omit<RepairJobConnection, 'edges'> & { edges: Array<RefType['RepairJobEdge']> })
     | TechnicianRecordConnection;
   Edge:
     | (Omit<ChangeLogEdge, 'node'> & { node: RefType['ChangeLog'] })
     | (Omit<ElevatorRecordEdge, 'node'> & { node: RefType['ElevatorRecord'] })
     | NotificationEdge
-    | RepairJobEdge
+    | (Omit<RepairJobEdge, 'node'> & { node: RefType['RepairJob'] })
     | TechnicianRecordEdges;
-  Node: DAAPIChangeLog | DAAPIElevatorRecord | Notification | RepairJob | TechnicianRecord;
+  Node: DAAPIChangeLog | DAAPIElevatorRecord | Notification | DAAPIRepairJob | TechnicianRecord;
 }>;
 
 /** Mapping between all available schema types and the resolvers types */
@@ -1031,16 +1046,22 @@ export type ResolversTypes = ResolversObject<{
   PaginationOptions: PaginationOptions;
   Query: ResolverTypeWrapper<{}>;
   RemoveAccountResponse: ResolverTypeWrapper<RemoveAccountResponse>;
-  RepairJob: ResolverTypeWrapper<RepairJob>;
-  RepairJobConnection: ResolverTypeWrapper<RepairJobConnection>;
-  RepairJobEdge: ResolverTypeWrapper<RepairJobEdge>;
+  RepairJob: ResolverTypeWrapper<DAAPIRepairJob>;
+  RepairJobChecklistItem: ResolverTypeWrapper<RepairJobChecklistItem>;
+  RepairJobChecklistItemInput: RepairJobChecklistItemInput;
+  RepairJobConnection: ResolverTypeWrapper<
+    Omit<RepairJobConnection, 'edges'> & { edges: Array<ResolversTypes['RepairJobEdge']> }
+  >;
+  RepairJobEdge: ResolverTypeWrapper<Omit<RepairJobEdge, 'node'> & { node: ResolversTypes['RepairJob'] }>;
   RepairJobFilterOptions: RepairJobFilterOptions;
   RepairJobScheduleData: ResolverTypeWrapper<RepairJobScheduleData>;
   RepairJobSortField: RepairJobSortField;
   RepairJobSortInput: RepairJobSortInput;
   RepairJobsMetrics: ResolverTypeWrapper<RepairJobsMetrics>;
   ResetPasswordInput: ResetPasswordInput;
-  ScheduledEventAndRepairJobResponse: ResolverTypeWrapper<ScheduledEventAndRepairJobResponse>;
+  ScheduledEventAndRepairJobResponse: ResolverTypeWrapper<
+    Omit<ScheduledEventAndRepairJobResponse, 'repairJob'> & { repairJob: ResolversTypes['RepairJob'] }
+  >;
   SignInUserInput: SignInUserInput;
   SignInWithOAuthInput: SignInWithOAuthInput;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
@@ -1116,15 +1137,19 @@ export type ResolversParentTypes = ResolversObject<{
   PaginationOptions: PaginationOptions;
   Query: {};
   RemoveAccountResponse: RemoveAccountResponse;
-  RepairJob: RepairJob;
-  RepairJobConnection: RepairJobConnection;
-  RepairJobEdge: RepairJobEdge;
+  RepairJob: DAAPIRepairJob;
+  RepairJobChecklistItem: RepairJobChecklistItem;
+  RepairJobChecklistItemInput: RepairJobChecklistItemInput;
+  RepairJobConnection: Omit<RepairJobConnection, 'edges'> & { edges: Array<ResolversParentTypes['RepairJobEdge']> };
+  RepairJobEdge: Omit<RepairJobEdge, 'node'> & { node: ResolversParentTypes['RepairJob'] };
   RepairJobFilterOptions: RepairJobFilterOptions;
   RepairJobScheduleData: RepairJobScheduleData;
   RepairJobSortInput: RepairJobSortInput;
   RepairJobsMetrics: RepairJobsMetrics;
   ResetPasswordInput: ResetPasswordInput;
-  ScheduledEventAndRepairJobResponse: ScheduledEventAndRepairJobResponse;
+  ScheduledEventAndRepairJobResponse: Omit<ScheduledEventAndRepairJobResponse, 'repairJob'> & {
+    repairJob: ResolversParentTypes['RepairJob'];
+  };
   SignInUserInput: SignInUserInput;
   SignInWithOAuthInput: SignInWithOAuthInput;
   String: Scalars['String']['output'];
@@ -1710,6 +1735,7 @@ export type RepairJobResolvers<
   actualEndDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   buildingName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   calendarEventId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  checklist?: Resolver<Maybe<Array<ResolversTypes['RepairJobChecklistItem']>>, ParentType, ContextType>;
   elevatorId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   elevatorLocation?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   elevatorType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -1723,6 +1749,16 @@ export type RepairJobResolvers<
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   technicianId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   technicianName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type RepairJobChecklistItemResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['RepairJobChecklistItem'] = ResolversParentTypes['RepairJobChecklistItem']
+> = ResolversObject<{
+  checked?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  comment?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1934,6 +1970,7 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   Query?: QueryResolvers<ContextType>;
   RemoveAccountResponse?: RemoveAccountResponseResolvers<ContextType>;
   RepairJob?: RepairJobResolvers<ContextType>;
+  RepairJobChecklistItem?: RepairJobChecklistItemResolvers<ContextType>;
   RepairJobConnection?: RepairJobConnectionResolvers<ContextType>;
   RepairJobEdge?: RepairJobEdgeResolvers<ContextType>;
   RepairJobScheduleData?: RepairJobScheduleDataResolvers<ContextType>;

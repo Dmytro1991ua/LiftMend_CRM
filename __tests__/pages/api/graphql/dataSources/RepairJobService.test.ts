@@ -15,6 +15,7 @@ import {
   mockRepairJob,
   mockRepairJobId,
   mockShipElevatorRepairJpb,
+  mockTechnicianId,
 } from '@/mocks/repairJobTrackingMocks';
 import { DEFAULT_RECENT_JOBS_COUNT, DEFAULT_SORTING_OPTION } from '@/pages/api/graphql/dataSources/constants';
 import RepairJobService from '@/pages/api/graphql/dataSources/RepairJobService';
@@ -371,6 +372,88 @@ describe('RepairJobService', () => {
     });
   });
 
+  describe('createChecklist', () => {
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    const mockChecklistItem = {
+      label: 'Test Label',
+      checked: true,
+      comment: 'Test comment',
+    };
+
+    it('should throw an error if any checklist item is unchecked', async () => {
+      const mockChecklist = [{ ...mockChecklistItem }, { ...mockChecklistItem, checked: false }];
+
+      await expect(
+        repairJobService.createChecklist({
+          prisma: repairJobServicePrismaMock,
+          repairJobId: mockRepairJobId,
+          checklist: mockChecklist,
+          checkedBy: mockTechnicianId,
+        })
+      ).rejects.toThrow('Checklist is incomplete');
+
+      expect(repairJobServicePrismaMock.repairJobChecklistItem.createMany).not.toHaveBeenCalled();
+    });
+
+    it('should call create checklist with correct data if all items are checked', async () => {
+      const mockChecklist = [
+        { ...mockChecklistItem, comment: 'Good' },
+        { ...mockChecklistItem, label: 'Item 2', comment: 'Checked' },
+      ];
+
+      await repairJobService.createChecklist({
+        prisma: repairJobServicePrismaMock,
+        repairJobId: mockRepairJobId,
+        checklist: mockChecklist,
+        checkedBy: mockTechnicianId,
+      });
+
+      expect(repairJobServicePrismaMock.repairJobChecklistItem.createMany).toHaveBeenCalledWith({
+        data: mockChecklist.map((item) => ({
+          repairJobId: mockRepairJobId,
+          label: item.label,
+          checked: item.checked,
+          comment: item.comment,
+          checkedAt: mockNowDate,
+          checkedBy: mockTechnicianId,
+        })),
+      });
+    });
+  });
+
+  describe('getChecklist', () => {
+    const mockChecklistItem = {
+      label: 'Test Label',
+      checked: true,
+      comment: 'Test comment',
+    };
+
+    const mockChecklist = [
+      { ...mockChecklistItem, checkedAt: mockNowDate },
+      { ...mockChecklistItem, checkedAt: mockNowDate },
+    ];
+
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it('should return checklist', async () => {
+      repairJobServicePrismaMock.repairJobChecklistItem.findMany = jest.fn().mockResolvedValue(mockChecklist);
+
+      const result = await repairJobService.getChecklist(repairJobServicePrismaMock, mockRepairJobId);
+
+      expect(repairJobServicePrismaMock.repairJobChecklistItem.findMany).toHaveBeenCalledWith({
+        where: { repairJobId: mockRepairJobId },
+        orderBy: { checkedAt: 'asc' },
+      });
+
+      expect(result).toEqual(mockChecklist);
+    });
+  });
+
   describe('updateRepairJob', () => {
     const mockUpdatedJobDetails = 'Updated jobDetails';
 
@@ -382,7 +465,37 @@ describe('RepairJobService', () => {
     const mockUpdatedRepairJob = {
       ...mockRepairJob,
       jobDetails: mockUpdatedJobDetails,
+      checklist: [],
     };
+
+    const mockChecklist = [
+      {
+        label: 'Test',
+        checked: true,
+        comment: 'Test comment',
+      },
+    ];
+
+    const mockChecklistItemsFromDb = [
+      {
+        id: 'check-1',
+        repairJobId: mockRepairJobId,
+        label: 'Test',
+        checked: true,
+        comment: 'Test comment',
+        checkedAt: mockNowDate,
+        checkedBy: mockTechnicianId,
+      },
+    ];
+
+    beforeEach(() => {
+      jest.spyOn(repairJobService, 'createChecklist').mockResolvedValue(undefined);
+      jest.spyOn(repairJobService, 'getChecklist').mockResolvedValue(mockChecklistItemsFromDb);
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
 
     it('should update repair job with only jobDetails and compute isOverdue as false', async () => {
       (repairJobServicePrismaMock.repairJob.update as jest.Mock).mockResolvedValue(mockUpdatedRepairJob);
@@ -485,6 +598,53 @@ describe('RepairJobService', () => {
           isOverdue: false,
         },
       });
+    });
+
+    it('should create checklist items when job is completed with checklist', async () => {
+      const mockInput = {
+        id: mockRepairJobId,
+        status: 'Completed',
+        checklist: mockChecklist,
+      };
+
+      (repairJobServicePrismaMock.repairJob.update as jest.Mock).mockResolvedValue({
+        ...mockRepairJob,
+        status: 'Completed',
+        isOverdue: false,
+      });
+
+      const result = await repairJobService.updateRepairJob(mockInput);
+
+      expect(repairJobService.createChecklist).toHaveBeenCalledWith({
+        prisma: repairJobServicePrismaMock,
+        repairJobId: mockRepairJobId,
+        checklist: mockChecklist,
+        checkedBy: mockTechnicianId,
+      });
+
+      expect(repairJobService.getChecklist).toHaveBeenCalledWith(repairJobServicePrismaMock, mockRepairJobId);
+
+      expect(result.checklist).toEqual(mockChecklistItemsFromDb);
+    });
+
+    it('should NOT create checklist if status is not Completed', async () => {
+      const mockInput = {
+        id: mockRepairJobId,
+        status: 'Scheduled',
+        checklist: mockChecklist,
+      };
+
+      (repairJobServicePrismaMock.repairJob.update as jest.Mock).mockResolvedValue({
+        ...mockRepairJob,
+        status: 'Scheduled',
+        isOverdue: false,
+      });
+
+      const result = await repairJobService.updateRepairJob(mockInput);
+
+      expect(repairJobService.createChecklist).not.toHaveBeenCalled();
+      expect(repairJobService.getChecklist).not.toHaveBeenCalled();
+      expect(result.checklist).toEqual([]);
     });
   });
 

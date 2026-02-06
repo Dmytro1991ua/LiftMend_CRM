@@ -22,6 +22,11 @@ type RepairJobScheduleData {
   priorities: [String!]!
   statuses: [String!]
 }
+type RepairJobChecklistItem {
+  label: String!
+  checked: Boolean!
+  comment: String
+}
 
 type RepairJob implements Node {
   id: ID!
@@ -40,6 +45,7 @@ type RepairJob implements Node {
   isOverdue: Boolean
   elevatorId: ID
   technicianId: ID
+  checklist: [RepairJobChecklistItem!]
 }
 
 type RepairJobEdge implements Edge {
@@ -79,6 +85,7 @@ input UpdateRepairJobInput {
   technicianName: String
   technicianId: ID
   status: String
+  checklist: [RepairJobChecklistItemInput!]
 }
 
 input RepairJobSortInput {
@@ -98,4 +105,10 @@ input RepairJobFilterOptions {
   isOverdue: [String!]
   startDate: String
   endDate: String
+}
+
+input RepairJobChecklistItemInput {
+  label: String!
+  checked: Boolean!
+  comment: String
 }
