@@ -379,6 +379,8 @@ describe('getTechnicianPerformanceMetrics', () => {
     startDate: new Date(job.startDate),
     endDate: new Date(job.endDate),
     actualEndDate: job.actualEndDate ? new Date(job.actualEndDate) : undefined,
+    createdAt: new Date('2025-01-12T22:00:00.000Z'),
+    updatedAt: new Date('2025-03-12T22:00:00.000Z'),
   })) as RepairJob[];
 
   it('should calculate metrics correctly', () => {

@@ -623,6 +623,7 @@ export type RepairJob = Node & {
   actualEndDate: Maybe<Scalars['DateTime']['output']>;
   buildingName: Scalars['String']['output'];
   calendarEventId: Maybe<Scalars['String']['output']>;
+  checklist: Maybe<Array<RepairJobChecklistItem>>;
   elevatorId: Maybe<Scalars['ID']['output']>;
   elevatorLocation: Scalars['String']['output'];
   elevatorType: Scalars['String']['output'];
@@ -636,6 +637,19 @@ export type RepairJob = Node & {
   status: Scalars['String']['output'];
   technicianId: Maybe<Scalars['ID']['output']>;
   technicianName: Scalars['String']['output'];
+};
+
+export type RepairJobChecklistItem = {
+  __typename?: 'RepairJobChecklistItem';
+  checked: Scalars['Boolean']['output'];
+  comment: Maybe<Scalars['String']['output']>;
+  label: Scalars['String']['output'];
+};
+
+export type RepairJobChecklistItemInput = {
+  checked: Scalars['Boolean']['input'];
+  comment?: InputMaybe<Scalars['String']['input']>;
+  label: Scalars['String']['input'];
 };
 
 export type RepairJobConnection = Connection & {
@@ -837,6 +851,7 @@ export type UpdateElevatorRecordInput = {
 
 export type UpdateRepairJobInput = {
   buildingName?: InputMaybe<Scalars['String']['input']>;
+  checklist?: InputMaybe<Array<RepairJobChecklistItemInput>>;
   elevatorLocation?: InputMaybe<Scalars['String']['input']>;
   elevatorType?: InputMaybe<Scalars['String']['input']>;
   endDate?: InputMaybe<Scalars['DateTime']['input']>;
@@ -967,6 +982,12 @@ export type RepairJobFieldsFragment = {
   isOverdue: boolean | null;
   elevatorId: string | null;
   technicianId: string | null;
+  checklist: Array<{
+    __typename?: 'RepairJobChecklistItem';
+    label: string;
+    checked: boolean;
+    comment: string | null;
+  }> | null;
 };
 
 export type TechnicianRecordFieldsFragment = {
@@ -1053,6 +1074,12 @@ export type CreateRepairJobAndCalendarEventMutation = {
       isOverdue: boolean | null;
       elevatorId: string | null;
       technicianId: string | null;
+      checklist: Array<{
+        __typename?: 'RepairJobChecklistItem';
+        label: string;
+        checked: boolean;
+        comment: string | null;
+      }> | null;
     };
     calendarEvent: {
       __typename?: 'CalendarEvent';
@@ -1330,6 +1357,12 @@ export type GetElevatorMaintenanceHistoryQuery = {
         isOverdue: boolean | null;
         elevatorId: string | null;
         technicianId: string | null;
+        checklist: Array<{
+          __typename?: 'RepairJobChecklistItem';
+          label: string;
+          checked: boolean;
+          comment: string | null;
+        }> | null;
       };
     }>;
     pageInfo: {
@@ -1504,6 +1537,12 @@ export type GetRecentRepairJobsQuery = {
     isOverdue: boolean | null;
     elevatorId: string | null;
     technicianId: string | null;
+    checklist: Array<{
+      __typename?: 'RepairJobChecklistItem';
+      label: string;
+      checked: boolean;
+      comment: string | null;
+    }> | null;
   }>;
 };
 
@@ -1531,6 +1570,12 @@ export type GetRepairJobByIdQuery = {
     isOverdue: boolean | null;
     elevatorId: string | null;
     technicianId: string | null;
+    checklist: Array<{
+      __typename?: 'RepairJobChecklistItem';
+      label: string;
+      checked: boolean;
+      comment: string | null;
+    }> | null;
   };
 };
 
@@ -1583,6 +1628,12 @@ export type GetRepairJobsQuery = {
         isOverdue: boolean | null;
         elevatorId: string | null;
         technicianId: string | null;
+        checklist: Array<{
+          __typename?: 'RepairJobChecklistItem';
+          label: string;
+          checked: boolean;
+          comment: string | null;
+        }> | null;
       };
     }>;
     pageInfo: {
@@ -1766,6 +1817,12 @@ export type ReassignTechnicianMutation = {
     isOverdue: boolean | null;
     elevatorId: string | null;
     technicianId: string | null;
+    checklist: Array<{
+      __typename?: 'RepairJobChecklistItem';
+      label: string;
+      checked: boolean;
+      comment: string | null;
+    }> | null;
   };
 };
 
@@ -1857,6 +1914,12 @@ export type UpdateRepairJobMutation = {
     isOverdue: boolean | null;
     elevatorId: string | null;
     technicianId: string | null;
+    checklist: Array<{
+      __typename?: 'RepairJobChecklistItem';
+      label: string;
+      checked: boolean;
+      comment: string | null;
+    }> | null;
   };
 };
 

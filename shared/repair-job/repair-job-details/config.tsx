@@ -1,9 +1,12 @@
+import { Checkbox } from '@/components/ui/checkbox';
 import { RepairJob } from '@/graphql/types/client/generated_types';
 import { DetailsPageSectionsConfig } from '@/shared/base-details-page/types';
+import BaseInput from '@/shared/base-input';
 import DatePicker from '@/shared/date-picker';
 import Pill from '@/shared/pill';
 import { PillStatus } from '@/shared/pill/config';
 
+import BaseChecklistItem from '../base-checklist-item';
 import OverdueRepairJob from '../overdue-repair-job';
 
 export const repairJobSectionsConfig = (repairJob: RepairJob): DetailsPageSectionsConfig[] => [
@@ -75,4 +78,31 @@ export const repairJobSectionsConfig = (repairJob: RepairJob): DetailsPageSectio
     title: 'Technician Information',
     fields: [{ id: 10, label: 'Name:', value: repairJob.technicianName }],
   },
+  ...(repairJob.checklist?.length && repairJob.status === 'Completed'
+    ? [
+        {
+          id: 4,
+          title: 'Completion Checklist',
+          fields: [
+            {
+              id: 11,
+              label: '',
+              value: (
+                <>
+                  {repairJob.checklist.map(({ label, checked, comment }, index) => (
+                    <BaseChecklistItem
+                      key={index}
+                      label={label}
+                      renderCheckbox={<Checkbox disabled checked={checked} />}
+                      renderInput={<BaseInput disabled name='checklist' value={comment as string} />}
+                    />
+                  ))}
+                </>
+              ),
+              fieldClassName: 'block w-full',
+            },
+          ],
+        },
+      ]
+    : []),
 ];

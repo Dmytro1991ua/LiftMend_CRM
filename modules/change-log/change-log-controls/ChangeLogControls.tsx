@@ -52,7 +52,6 @@ const ChangeLogControls = ({
       />
       <BaseDateRangeFilter
         isCalendarOpen={isCalendarOpen}
-        isDisabled={isDisabled}
         sanitizedDateRange={sanitizedDateRange}
         tooltipMessage={DEFAULT_CHANGE_LOG_DATE_RANGE_INFO_TOOLTIP_MESSAGE}
         onHandleCalendarPopoverClose={onHandleCalendarPopoverClose}

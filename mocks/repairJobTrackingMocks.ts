@@ -42,6 +42,13 @@ export const mockRepairJob = {
   isOverdue: false,
   elevatorId: mockElevatorId,
   technicianId: mockTechnicianId,
+  checklist: [
+    {
+      label: 'Routine inspection completed',
+      checked: false,
+      comment: '',
+    },
+  ],
 };
 
 export const mockUpdatedRepairJob = {
@@ -79,6 +86,13 @@ export const mockPassengerElevatorRepairJob = {
     isOverdue: false,
     elevatorId: mockElevatorId,
     technicianId: mockTechnicianId,
+    checklist: [
+      {
+        label: 'Routine inspection completed',
+        checked: false,
+        comment: null,
+      },
+    ],
   },
 };
 
@@ -101,6 +115,13 @@ export const mockMastLiftRepairJob = {
     isOverdue: false,
     elevatorId: mockElevatorId,
     technicianId: mockTechnicianId,
+    checklist: [
+      {
+        label: 'Routine inspection completed',
+        checked: false,
+        comment: null,
+      },
+    ],
   },
 };
 
@@ -123,6 +144,13 @@ export const mockShipElevatorRepairJpb = {
     isOverdue: true,
     elevatorId: mockElevatorId,
     technicianId: mockTechnicianId,
+    checklist: [
+      {
+        label: 'Routine inspection completed',
+        checked: false,
+        comment: null,
+      },
+    ],
   },
 };
 
