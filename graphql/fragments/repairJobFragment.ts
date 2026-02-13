@@ -17,5 +17,10 @@ export const REPAIR_JOB_FRAGMENT = gql`
     isOverdue
     elevatorId
     technicianId
+    checklist {
+      label
+      checked
+      comment
+    }
   }
 `;

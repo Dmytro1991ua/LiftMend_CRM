@@ -75,6 +75,12 @@ export interface AppStorage {
   removeData(key: string): void;
 }
 
+export type RepairJobChecklistItem = {
+  label: string;
+  checked: boolean;
+  comment?: string | null;
+};
+
 export type RepairJob = {
   id: string;
   jobType: string;
@@ -90,6 +96,7 @@ export type RepairJob = {
   status: string;
   actualEndDate?: Maybe<Date>;
   isOverdue?: Maybe<boolean>;
+  checklist?: RepairJobChecklistItem[] | null;
 };
 
 export type ElevatorInspectionStatus = {

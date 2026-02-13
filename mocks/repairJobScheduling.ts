@@ -226,6 +226,13 @@ export const mockRepairJob = {
   calendarEventId: mockCalendarEventId,
   actualEndDate: null,
   isOverdue: false,
+  checklist: [
+    {
+      label: 'Routine inspection completed',
+      checked: false,
+      comment: null,
+    },
+  ],
 };
 export const mockCalendarEvent = {
   id: mockCalendarEventId,

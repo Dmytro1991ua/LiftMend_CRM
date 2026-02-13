@@ -94,6 +94,7 @@ export const useUpdateRepairJob = (): UseUpdateRepairJob => {
           input: {
             id: repairJob.id,
             status: 'Completed',
+            checklist: repairJob.checklist,
           },
         },
       });

@@ -7,7 +7,7 @@ import { ActiveRoute } from '@/types/type';
 
 import { CalendarEventInfo, CalendarEventInfoPayload, DataLoadStatus, ElevatorRecord } from './types';
 
-export const getCommonFormLabelErrorStyles = (hasError: boolean): string =>
+export const getCommonFormLabelErrorStyles = (hasError?: boolean): string =>
   `text-sm font-bold ${hasError ? 'text-red-400' : ''}`;
 
 export const removeTypeNamesFromObject = <T>(data: Record<string, unknown> | T[]): T => {

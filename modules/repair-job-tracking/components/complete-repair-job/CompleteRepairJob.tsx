@@ -1,15 +1,16 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 
+import { FormProvider } from 'react-hook-form';
 import { FaCheck } from 'react-icons/fa';
 
 import { Button } from '@/components/ui/button';
 import EditModal from '@/shared/base-modal/edit-modal/EditModal';
 import BaseTooltip from '@/shared/base-tooltip';
-import { useModal } from '@/shared/hooks';
-import { useUpdateRepairJob } from '@/shared/repair-job/hooks';
 import { RepairJob } from '@/shared/types';
 
 import { COMPLETE_REPAIR_JOB_MODAL_DESCRIPTION } from './constant';
+import ControlledChecklist from './controlled-checklist';
+import { useCompleteRepairJob } from './hooks';
 import { getCompleteButtonDisabledState } from './utils';
 
 export type CompleteRepairJobProps = {
@@ -18,7 +19,8 @@ export type CompleteRepairJobProps = {
 };
 
 const CompleteRepairJob = ({ repairJob, variant = 'icon' }: CompleteRepairJobProps) => {
-  const { isModalOpen, onOpenModal, onCloseModal } = useModal();
+  const { formState, isModalOpen, onHandleCompleteButtonClick, onHandleCloseModal, onHandleComplete, isLoading } =
+    useCompleteRepairJob(repairJob);
 
   const isIconOnly = variant === 'icon';
   const buttonVariant = isIconOnly ? 'ghost' : 'default';
@@ -27,23 +29,6 @@ const CompleteRepairJob = ({ repairJob, variant = 'icon' }: CompleteRepairJobPro
 
   const { isCompleteButtonDisabled, tooltipMessage } =
     getCompleteButtonDisabledState(repairJob.status)[repairJob.status] || {};
-
-  const { onCompleteRepairJob, isLoading } = useUpdateRepairJob();
-
-  const onHandleCompleteButtonClick = useCallback(
-    (event: React.MouseEvent) => {
-      event.stopPropagation();
-
-      onOpenModal();
-    },
-    [onOpenModal]
-  );
-
-  const onHandleComplete = useCallback(async () => {
-    const result = await onCompleteRepairJob(repairJob);
-
-    if (!result?.errors?.length) onCloseModal();
-  }, [repairJob, onCompleteRepairJob, onCloseModal]);
 
   return (
     <section className='flex justify-center items-center'>
@@ -65,17 +50,20 @@ const CompleteRepairJob = ({ repairJob, variant = 'icon' }: CompleteRepairJobPro
           {shouldShowText && <span className='ml-2'>Complete</span>}
         </Button>
       </BaseTooltip>
-      <EditModal
-        isDisabled={isLoading}
-        isLoading={isLoading}
-        isOpen={isModalOpen}
-        submitButtonLabel='Complete'
-        title='Complete repair job'
-        onClose={onCloseModal}
-        onSubmit={onHandleComplete}
-      >
-        <p className='text-sm text-muted-foreground'>{COMPLETE_REPAIR_JOB_MODAL_DESCRIPTION}</p>
-      </EditModal>
+      <FormProvider {...formState}>
+        <EditModal
+          isDisabled={isLoading}
+          isLoading={isLoading}
+          isOpen={isModalOpen}
+          submitButtonLabel='Complete'
+          title='Complete repair job'
+          onClose={onHandleCloseModal}
+          onSubmit={formState.handleSubmit(onHandleComplete)}
+        >
+          <p className='mb-4 text-sm text-muted-foreground'>{COMPLETE_REPAIR_JOB_MODAL_DESCRIPTION}</p>
+          <ControlledChecklist isDisabled={isLoading} name='checklist' />
+        </EditModal>
+      </FormProvider>
     </section>
   );
 };

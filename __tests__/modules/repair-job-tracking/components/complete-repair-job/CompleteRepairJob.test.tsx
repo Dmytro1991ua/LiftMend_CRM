@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { mockRepairJob } from '@/mocks/repairJobTrackingMocks';
-import { withApolloProvider } from '@/mocks/testMocks';
+import { withApolloAndFormProvider } from '@/mocks/testMocks';
 import CompleteRepairJob, {
   CompleteRepairJobProps,
 } from '@/modules/repair-job-tracking/components/complete-repair-job/CompleteRepairJob';
@@ -12,6 +12,7 @@ import { useModal } from '@/shared/hooks';
 import { useUpdateRepairJob } from '@/shared/repair-job/hooks';
 
 jest.mock('@/shared/hooks', () => ({
+  ...jest.requireActual('@/shared/hooks'),
   useModal: jest.fn(),
 }));
 
@@ -50,7 +51,7 @@ describe('CompleteRepairJob', () => {
   });
 
   const CompleteRepairJobComponent = (props?: Partial<CompleteRepairJobProps>) =>
-    withApolloProvider(<CompleteRepairJob repairJob={mockRepairJob} {...props} />);
+    withApolloAndFormProvider(<CompleteRepairJob repairJob={{ ...mockRepairJob, checklist: [] }} {...props} />);
 
   it('should render icon variant by default', () => {
     render(CompleteRepairJobComponent());
@@ -86,7 +87,7 @@ describe('CompleteRepairJob', () => {
   });
 
   it('should open Complete Repair Job modal', async () => {
-    render(CompleteRepairJobComponent({ repairJob: { ...mockRepairJob, status: 'In Progress' } }));
+    render(CompleteRepairJobComponent({ repairJob: { ...mockRepairJob, checklist: [], status: 'In Progress' } }));
 
     const button = screen.getByRole('button');
 
@@ -144,7 +145,7 @@ describe('CompleteRepairJob', () => {
     await userEvent.click(completeBtn);
 
     await waitFor(() => {
-      expect(mockOnCompleteRepairJob).toHaveBeenCalledWith(mockRepairJob);
+      expect(mockOnCompleteRepairJob).toHaveBeenCalledWith({ ...mockRepairJob, checklist: [] });
     });
     expect(mockOnCloseModal).not.toHaveBeenCalled();
   });
