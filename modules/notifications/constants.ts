@@ -14,3 +14,5 @@ export const NOTIFICATION_BADGE_STYLES: Record<string, string> = {
   Upcoming: 'bg-blue-100 text-blue-700',
   Urgent: 'bg-yellow-100 text-yellow-800',
 };
+export const DEFAULT_NOTIFICATIONS_DATE_RANGE_INFO_TOOLTIP_MESSAGE =
+  'By default, the Notifications page shows entries from the current month. Use the date range to filter logs for other periods.';

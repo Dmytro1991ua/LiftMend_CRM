@@ -6,8 +6,20 @@ import { withApolloProvider } from '@/mocks/testMocks';
 import NotificationControls from '@/modules/notifications/notification-controls';
 import { NotificationsState } from '@/modules/notifications/type';
 
+jest.mock('@/shared/base-date-range-filter', () => ({
+  __esModule: true,
+  default: jest.fn(({ isCalendarOpen, sanitizedDateRange, onHandleCalendarPopoverClose }) => (
+    <div data-testid='base-date-range-filter'>
+      <button data-testid='date-range-toggle' onClick={() => onHandleCalendarPopoverClose(true)} />
+      <span>{String(isCalendarOpen)}</span>
+      <span>{sanitizedDateRange?.from?.toISOString()}</span>
+    </div>
+  )),
+}));
+
 describe('NotificationControls', () => {
   const mockOnSetNotificationsPageStoredState = jest.fn();
+  const mockOnHandleCalendarPopoverClose = jest.fn();
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -15,6 +27,12 @@ describe('NotificationControls', () => {
 
   const defaultProps = {
     areAllNotificationsRead: false,
+    isCalendarOpen: false,
+    sanitizedDateRange: {
+      from: new Date('2025-04-01T00:00:00.000Z'),
+      to: new Date('2025-04-30T23:59:59.999Z'),
+    },
+    onHandleCalendarPopoverClose: mockOnHandleCalendarPopoverClose,
     notificationsPageStoredState: {},
     onSetNotificationsPageStoredState: mockOnSetNotificationsPageStoredState,
   };
@@ -74,5 +92,15 @@ describe('NotificationControls', () => {
     await userEvent.click(overdueOption);
 
     expect(mockOnSetNotificationsPageStoredState).toHaveBeenCalled();
+  });
+
+  it('should call onHandleCalendarPopoverClose on button click', async () => {
+    render(NotificationControlsComponent());
+
+    const toggleBtn = screen.getByTestId('date-range-toggle');
+
+    await userEvent.click(toggleBtn);
+
+    expect(mockOnHandleCalendarPopoverClose).toHaveBeenCalledWith(true);
   });
 });

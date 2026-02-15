@@ -4,6 +4,7 @@ import { mockUpcomingNotification } from '@/mocks/notificationMocks';
 import Notifications from '@/modules/notifications';
 import { useGetNotifications } from '@/modules/notifications/hooks';
 import { NotificationItemProps } from '@/modules/notifications/notification-item/NotificationItem';
+import { DEFAULT_DATE_FILTER } from '@/shared/base-date-range-filter/constants';
 import { Notification } from '@/shared/types';
 
 jest.mock('@/modules/notifications/hooks');
@@ -48,6 +49,9 @@ describe('Notifications', () => {
       areAllNotificationsRead: false,
       notificationsPageStoredState: {},
       onSetNotificationsPageStoredState: jest.fn(),
+      isCalendarOpen: false,
+      sanitizedDateRange: { from: DEFAULT_DATE_FILTER.from, to: DEFAULT_DATE_FILTER.to },
+      onHandleCalendarPopoverClose: jest.fn(),
     });
   });
 
@@ -74,6 +78,9 @@ describe('Notifications', () => {
       areAllNotificationsRead: false,
       notificationsPageStoredState: {},
       onSetNotificationsPageStoredState: jest.fn(),
+      isCalendarOpen: false,
+      sanitizedDateRange: { from: DEFAULT_DATE_FILTER.from, to: DEFAULT_DATE_FILTER.to },
+      onHandleCalendarPopoverClose: jest.fn(),
     });
 
     render(<Notifications />);

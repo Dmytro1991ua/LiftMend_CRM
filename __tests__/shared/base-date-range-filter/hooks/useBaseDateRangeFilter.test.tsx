@@ -124,7 +124,7 @@ describe('useBaseDateRangeFilter', () => {
 
     expect(updateFn(prevState)).toEqual({
       filters: { selectedAction: 'Update' },
-      dateFilter: validRange,
+      dateFilter: { ...validRange, isCustomSelection: true },
     });
   });
 

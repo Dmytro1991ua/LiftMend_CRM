@@ -6,7 +6,6 @@ import ControlledChecklist from '@/modules/repair-job-tracking/components/comple
 import { ControlledChecklistProps } from '@/modules/repair-job-tracking/components/complete-repair-job/controlled-checklist/ControlledChecklist';
 import { ControlledChecklistItemProps } from '@/modules/repair-job-tracking/components/complete-repair-job/controlled-checklist-Item/ControlledChecklistItem';
 import { CompleteRepairJobFormValues } from '@/modules/repair-job-tracking/components/complete-repair-job/types';
-import { RepairJobChecklistItem } from '@/shared/types';
 
 jest.mock('react-hook-form', () => ({
   useFormContext: jest.fn(),
