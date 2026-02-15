@@ -19,7 +19,7 @@ export enum DateRangeActionLabel {
   NextMonth = 'Next Month',
 }
 
-export type DashboardDateFilter = {
+export type BaseDateFilter = {
   from: Date;
   to: Date;
 };
@@ -38,3 +38,5 @@ export type BaseDateRangeFilterProps = {
   isDisabled?: boolean;
   onHandleCalendarPopoverClose: (open: boolean, range?: DateRange) => void;
 };
+
+export type StoredDateRange = DateRange & { isCustomSelection?: boolean };

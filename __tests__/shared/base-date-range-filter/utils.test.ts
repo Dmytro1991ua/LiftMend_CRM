@@ -17,13 +17,14 @@ describe('getSanitizeDateRange', () => {
     jest.clearAllMocks();
   });
 
-  it('should return provided valid dates', () => {
-    const mockFromDate = new Date('2025-01-01');
-    const mockToDate = new Date('2025-01-10');
+  it('should fall back to default dates if dates are from a past month and NOT custom', () => {
+    const mockFromDate = new Date('2026-01-01');
+    const mockToDate = new Date('2026-01-10');
 
     const result = getSanitizeDateRange({ from: mockFromDate, to: mockToDate });
 
-    expect(result).toEqual({ from: mockFromDate, to: mockToDate });
+    expect(result.from).toEqual(DEFAULT_DATE_FILTER.from);
+    expect(result.to).toEqual(DEFAULT_DATE_FILTER.to);
   });
 
   it('should fall back to default dates when input is undefined', () => {
@@ -33,24 +34,22 @@ describe('getSanitizeDateRange', () => {
     expect(result.to).toEqual(DEFAULT_DATE_FILTER.to);
   });
 
-  it('should fall back to default "from" when from date is invalid', () => {
+  it('should fall back to defaults when from date is invalid', () => {
     const result = getSanitizeDateRange({
       from: new Date('invalid'),
-      to: new Date('2025-01-10'),
+      to: new Date('2026-02-10T00:00:00.000Z'),
     });
 
-    expect(result.from).toEqual(DEFAULT_DATE_FILTER.from);
-    expect(result.to).toEqual(new Date('2025-01-10'));
+    expect(result).toEqual(DEFAULT_DATE_FILTER);
   });
 
-  it('should fall back to default "to" when to date is invalid', () => {
+  it('should fall back to defaults when to date is invalid', () => {
     const result = getSanitizeDateRange({
-      from: new Date('2025-01-01'),
+      from: new Date('2026-02-01T00:00:00.000Z'),
       to: new Date('invalid'),
     });
 
-    expect(result.from).toEqual(new Date('2025-01-01'));
-    expect(result.to).toEqual(DEFAULT_DATE_FILTER.to);
+    expect(result).toEqual(DEFAULT_DATE_FILTER);
   });
 
   it('should fall back to defaults when both dates are invalid', () => {
@@ -60,6 +59,28 @@ describe('getSanitizeDateRange', () => {
     });
 
     expect(result).toEqual(DEFAULT_DATE_FILTER);
+  });
+
+  it('should return provided valid dates if they are in the current month', () => {
+    const mockFromDate = new Date('2026-02-01');
+    const mockToDate = new Date('2026-02-10');
+
+    const result = getSanitizeDateRange({ from: mockFromDate, to: mockToDate });
+
+    expect(result).toEqual({ from: mockFromDate, to: mockToDate });
+  });
+
+  it('should return old dates if isCustomSelection is true', () => {
+    const mockFromDate = new Date('2026-01-01');
+    const mockToDate = new Date('2026-01-10');
+
+    const result = getSanitizeDateRange({
+      from: mockFromDate,
+      to: mockToDate,
+      isCustomSelection: true,
+    });
+
+    expect(result).toEqual({ from: mockFromDate, to: mockToDate });
   });
 });
 

@@ -3,9 +3,11 @@ import { useCallback } from 'react';
 import { FaCheck } from 'react-icons/fa';
 
 import BaseButton from '@/shared/base-button';
+import BaseDateRangeFilter from '@/shared/base-date-range-filter';
 import usePageFilters from '@/shared/base-table/hooks/useFilterInTable';
 import PageFilters from '@/shared/base-table/table-filters';
 
+import { DEFAULT_NOTIFICATIONS_DATE_RANGE_INFO_TOOLTIP_MESSAGE } from '../constants';
 import { useMarkAllNotificationsAsRead } from '../hooks/useMarkAllNotificationsAsRead';
 import { NotificationsState } from '../type';
 
@@ -16,9 +18,18 @@ const NotificationControls = ({
   notificationsPageStoredState,
   onSetNotificationsPageStoredState,
   isDisabled,
+  isCalendarOpen,
+  sanitizedDateRange,
+  onHandleCalendarPopoverClose,
 }: Pick<
   NotificationsState,
-  'areAllNotificationsRead' | 'notificationsPageStoredState' | 'onSetNotificationsPageStoredState' | 'isDisabled'
+  | 'areAllNotificationsRead'
+  | 'notificationsPageStoredState'
+  | 'onSetNotificationsPageStoredState'
+  | 'isDisabled'
+  | 'isCalendarOpen'
+  | 'sanitizedDateRange'
+  | 'onHandleCalendarPopoverClose'
 >) => {
   const { loading, onMarkAllNotificationsAsRead } = useMarkAllNotificationsAsRead();
 
@@ -31,6 +42,12 @@ const NotificationControls = ({
 
   return (
     <section className='flex items-center gap-2' data-testid='notification-controls'>
+      <BaseDateRangeFilter
+        isCalendarOpen={isCalendarOpen}
+        sanitizedDateRange={sanitizedDateRange}
+        tooltipMessage={DEFAULT_NOTIFICATIONS_DATE_RANGE_INFO_TOOLTIP_MESSAGE}
+        onHandleCalendarPopoverClose={onHandleCalendarPopoverClose}
+      />
       <BaseButton
         className='h-10'
         icon={<FaCheck />}

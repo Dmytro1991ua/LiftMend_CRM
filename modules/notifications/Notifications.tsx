@@ -15,6 +15,9 @@ const Notifications = () => {
     areAllNotificationsRead,
     error,
     notificationsPageStoredState,
+    sanitizedDateRange,
+    isCalendarOpen,
+    onHandleCalendarPopoverClose,
     onSetNotificationsPageStoredState,
     onNext,
   } = useGetNotifications();
@@ -24,8 +27,11 @@ const Notifications = () => {
       controls={
         <NotificationControls
           areAllNotificationsRead={areAllNotificationsRead}
+          isCalendarOpen={isCalendarOpen}
           isDisabled={isNotificationsEmpty}
           notificationsPageStoredState={notificationsPageStoredState}
+          sanitizedDateRange={sanitizedDateRange}
+          onHandleCalendarPopoverClose={onHandleCalendarPopoverClose}
           onSetNotificationsPageStoredState={onSetNotificationsPageStoredState}
         />
       }

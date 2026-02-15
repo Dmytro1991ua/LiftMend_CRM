@@ -4,6 +4,7 @@ import { SortingState } from '@tanstack/react-table';
 
 import { GET_NOTIFICATIONS } from '@/graphql/schemas/getNotifications';
 import { GetNotificationsQuery } from '@/graphql/types/client/generated_types';
+import { useBaseDateRangeFilter } from '@/shared/base-date-range-filter/hooks';
 import { PageFilters } from '@/shared/base-table/types';
 import { convertStoredFiltersToQueryFormat } from '@/shared/base-table/utils';
 import { DEFAULT_PAGINATION, DEFAULT_QUERY_POLL_INTERVAL, NOTIFICATIONS_STATE_STORAGE_KEY } from '@/shared/constants';
@@ -21,6 +22,11 @@ export const useGetNotifications = (): NotificationsState => {
     PageFilters,
     undefined
   >(NOTIFICATIONS_STATE_STORAGE_KEY, StorageEntityName.NotificationsPage);
+
+  const { isCalendarOpen, sanitizedDateRange, onHandleCalendarPopoverClose } = useBaseDateRangeFilter({
+    storageKey: NOTIFICATIONS_STATE_STORAGE_KEY,
+    entityName: StorageEntityName.NotificationsPage,
+  });
 
   const filterValues = useMemo(
     () => notificationsPageStoredState.filters?.filterValues || {},
@@ -65,6 +71,9 @@ export const useGetNotifications = (): NotificationsState => {
     areAllNotificationsRead,
     error,
     notificationsPageStoredState,
+    sanitizedDateRange,
+    isCalendarOpen,
+    onHandleCalendarPopoverClose,
     onSetNotificationsPageStoredState: setStoredState,
     onNext,
   };

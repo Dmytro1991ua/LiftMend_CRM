@@ -1,8 +1,8 @@
 import { endOfMonth, startOfMonth } from 'date-fns';
 
-import { DashboardDateFilter, DateRangeErrorVariant } from './types';
+import { BaseDateFilter, DateRangeErrorVariant } from './types';
 
-export const DEFAULT_DATE_FILTER: DashboardDateFilter = {
+export const DEFAULT_DATE_FILTER: BaseDateFilter = {
   from: startOfMonth(new Date()),
   to: endOfMonth(new Date()),
 };

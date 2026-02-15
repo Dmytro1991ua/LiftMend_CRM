@@ -7,7 +7,7 @@ import { BaseToastVariant } from '@/shared/hooks/useBaseToast/types';
 import useStoredTableState from '@/shared/storage/hooks/useStoredState';
 import { StorageEntityName } from '@/shared/types';
 
-import { DashboardDateFilter } from '../types';
+import { BaseDateFilter } from '../types';
 import { getSanitizeDateRange, validateDateRange } from '../utils';
 
 export type UseBaseDateRangeFilterProps = {
@@ -17,7 +17,7 @@ export type UseBaseDateRangeFilterProps = {
 
 export type UseBaseDateRangeFilter = {
   isCalendarOpen: boolean;
-  sanitizedDateRange: DashboardDateFilter;
+  sanitizedDateRange: BaseDateFilter;
   onHandleCalendarPopoverClose: (open: boolean, range?: DateRange) => void;
 };
 
@@ -48,7 +48,10 @@ export const useBaseDateRangeFilter = ({
     if (!open && range) {
       setStoredState((prevState) => ({
         ...prevState,
-        dateFilter: range,
+        dateFilter: {
+          ...range,
+          isCustomSelection: true,
+        },
       }));
     }
   };
