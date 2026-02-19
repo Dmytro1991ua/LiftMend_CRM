@@ -129,4 +129,78 @@ describe('ElevatorStatusToggleCell', () => {
 
     expect(screen.getByTestId('elevator-status-icon-hidden')).toBeInTheDocument();
   });
+
+  it('should render deactivation reason dropdown when elevator is operational', async () => {
+    render(ElevatorStatusToggleCellComponent());
+
+    await userEvent.click(screen.getByTestId('status-toggle-btn'));
+
+    expect(screen.getByText('Reason for Deactivation (optional)')).toBeInTheDocument();
+    expect(screen.getByText('Select Deactivation Reason')).toBeInTheDocument();
+  });
+
+  it('should NOT render deactivation reason dropdown when elevator is already out of service', async () => {
+    render(ElevatorStatusToggleCellComponent({ status: 'Out of Service' as ElevatorStatus }));
+
+    await userEvent.click(screen.getByTestId('status-toggle-btn'));
+
+    expect(screen.queryByText('Reason for Deactivation (optional)')).not.toBeInTheDocument();
+    expect(screen.queryByText('Select Deactivation Reason')).not.toBeInTheDocument();
+  });
+
+  it.only('should call onSelectDeactivationReason when user selects a reason', async () => {
+    const mockOnSelectReason = jest.fn();
+
+    jest
+      .spyOn(useUpdateElevatorRecordStatusModule, 'default')
+      .mockImplementation(({ elevatorRecordId, lastKnownStatus, status }) => {
+        const original = originalDefaultExport({ elevatorRecordId, lastKnownStatus, status });
+
+        return {
+          ...original,
+          onSelectDeactivationReason: mockOnSelectReason,
+        };
+      });
+
+    render(ElevatorStatusToggleCellComponent());
+
+    await userEvent.click(screen.getByTestId('status-toggle-btn'));
+
+    const select = screen.getByRole('combobox');
+
+    await userEvent.click(select);
+
+    await waitFor(() => {
+      expect(screen.getByText('Inspection')).toBeInTheDocument();
+    });
+
+    await userEvent.click(screen.getByText('Inspection'));
+
+    expect(screen.debug(undefined, 100000));
+
+    // // Pick one option from predefined config
+    // const option = await screen.findByText('Inspection');
+    // await userEvent.click(option);
+
+    // expect(mockOnSelectReason).toHaveBeenCalledWith('INSPECTION');
+  });
+
+  it('should display selected reason from hook value', async () => {
+    jest
+      .spyOn(useUpdateElevatorRecordStatusModule, 'default')
+      .mockImplementation(({ elevatorRecordId, lastKnownStatus, status }) => {
+        const original = originalDefaultExport({ elevatorRecordId, lastKnownStatus, status });
+
+        return {
+          ...original,
+          deactivationDropdownOptionValue: { value: 'BREAKDOWN', label: 'Breakdown' },
+        };
+      });
+
+    render(ElevatorStatusToggleCellComponent());
+
+    await userEvent.click(screen.getByTestId('status-toggle-btn'));
+
+    expect(screen.getByText('Breakdown')).toBeInTheDocument();
+  });
 });

@@ -55,12 +55,13 @@ describe('useUpdateElevatorRecordStatus', () => {
   it('should trigger onHandleElevatorRecordStatusChange, close modal and redirect', async () => {
     const { result } = hook(defaultProps, [mockUpdateElevatorRecord]);
 
-    await act(async () => result.current.onHandleElevatorRecordStatusChange());
+    await act(async () => result.current.onHandleElevatorRecordStatusChange({ deactivationReason: 'Inspection' }));
 
     expect(mockOnUpdateElevatorRecordStatus).toHaveBeenCalledWith({
       currentStatus: 'Operational',
       id: 'test-id-1',
       newStatus: 'Out of Service',
+      deactivationReason: 'Inspection',
     });
     expect(mockOnRedirect).toHaveBeenCalled();
   });
@@ -70,7 +71,7 @@ describe('useUpdateElevatorRecordStatus', () => {
 
     const { result } = hook({}, [mockUpdateElevatorRecordGQLError]);
 
-    await act(async () => result.current.onHandleElevatorRecordStatusChange());
+    await act(async () => result.current.onHandleElevatorRecordStatusChange({ deactivationReason: 'Inspection' }));
 
     expect(mockOnRedirect).not.toHaveBeenCalled();
   });
@@ -79,7 +80,7 @@ describe('useUpdateElevatorRecordStatus', () => {
     const { result } = hook({ ...defaultProps, onRedirect: undefined }, [mockUpdateElevatorRecord]);
 
     await act(async () => {
-      await result.current.onHandleElevatorRecordStatusChange();
+      await result.current.onHandleElevatorRecordStatusChange({ deactivationReason: 'Inspection' });
     });
 
     expect(mockOnUpdateElevatorRecordStatus).toHaveBeenCalled();
