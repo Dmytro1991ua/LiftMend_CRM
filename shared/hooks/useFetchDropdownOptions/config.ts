@@ -18,6 +18,7 @@ export enum DropdownOptions {
 export enum PredefinedDropdownOptions {
   NotificationsCategory,
   NotificationsStatus,
+  ElevatorDeactivationReason,
 }
 
 export type DropdownOptionConfig = {
@@ -36,6 +37,13 @@ export const PREDEFINED_DROPDOWN_OPTIONS_CONFIG: Record<PredefinedDropdownOption
   [PredefinedDropdownOptions.NotificationsStatus]: [
     { value: 'Read', label: 'Read' },
     { value: 'Unread', label: 'Unread' },
+  ],
+  [PredefinedDropdownOptions.ElevatorDeactivationReason]: [
+    { value: 'Awaiting Parts', label: 'Awaiting Parts' },
+    { value: 'Breakdown', label: 'Breakdown' },
+    { value: 'Inspection', label: 'Inspection' },
+    { value: 'Manual Shutdown', label: 'Manual Shutdown' },
+    { value: 'Safety Lock', label: 'Safety Lock' },
   ],
 };
 

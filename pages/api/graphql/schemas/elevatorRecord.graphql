@@ -82,6 +82,7 @@ input UpdateElevatorRecordInput {
   capacity: Int
   status: String
   lastKnownStatus: String
+  deactivationReason: String
 }
 
 type DeleteElevatorRecordResponse {

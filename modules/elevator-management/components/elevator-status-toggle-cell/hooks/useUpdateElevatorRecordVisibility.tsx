@@ -12,6 +12,7 @@ type UpdateElevatorStatus = {
   id: string;
   newStatus: string;
   currentStatus: string;
+  deactivationReason?: string | null;
 };
 
 export type UseUpdateElevatorRecordVisibility = {
@@ -32,7 +33,12 @@ export const useUpdateElevatorRecordVisibility = (): UseUpdateElevatorRecordVisi
     UpdateElevatorRecordMutationVariables
   >(UPDATE_ELEVATOR_RECORD);
 
-  const onUpdateElevatorRecordStatus = async ({ id, newStatus, currentStatus }: UpdateElevatorStatus) => {
+  const onUpdateElevatorRecordStatus = async ({
+    id,
+    newStatus,
+    currentStatus,
+    deactivationReason,
+  }: UpdateElevatorStatus) => {
     try {
       const result = await updateElevatorRecord({
         variables: {
@@ -40,6 +46,7 @@ export const useUpdateElevatorRecordVisibility = (): UseUpdateElevatorRecordVisi
             id,
             status: newStatus,
             lastKnownStatus: currentStatus,
+            deactivationReason,
           },
         },
       });

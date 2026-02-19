@@ -839,6 +839,7 @@ export type TechnicianRecordsMetrics = {
 export type UpdateElevatorRecordInput = {
   buildingName?: InputMaybe<Scalars['String']['input']>;
   capacity?: InputMaybe<Scalars['Int']['input']>;
+  deactivationReason?: InputMaybe<Scalars['String']['input']>;
   elevatorLocation?: InputMaybe<Scalars['String']['input']>;
   elevatorType?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['ID']['input'];

@@ -1,9 +1,14 @@
 import { useCallback } from 'react';
 
+import { zodResolver } from '@hookform/resolvers/zod';
+import { UseFormReturn } from 'react-hook-form';
+
 import { ElevatorStatus, ElevatorStatusConfig } from '@/modules/elevator-management/types';
-import { useModal } from '@/shared/hooks';
+import { useFormState, useModal } from '@/shared/hooks';
 
 import { getElevatorStatusUpdateConfig } from '../config';
+import { ElevatorStatusFormValues } from '../types';
+import { createElevatorStatusToggleSchema } from '../validation';
 
 import { useUpdateElevatorRecordVisibility } from './useUpdateElevatorRecordVisibility';
 
@@ -15,11 +20,12 @@ export type UseUpdateElevatorStatusProps = {
 };
 
 export type UseUpdateElevatorStatus = {
+  formState: UseFormReturn<ElevatorStatusFormValues>;
   config: ElevatorStatusConfig;
   isModalOpen: boolean;
   onOpenModal: () => void;
   onCloseModal: () => void;
-  onHandleElevatorRecordStatusChange: () => Promise<void>;
+  onHandleElevatorRecordStatusChange: (values: ElevatorStatusFormValues) => Promise<void>;
   loading: boolean;
 };
 
@@ -29,29 +35,47 @@ export default function useUpdateElevatorRecordStatus({
   lastKnownStatus,
   onRedirect,
 }: UseUpdateElevatorStatusProps): UseUpdateElevatorStatus {
+  const isElevatorOperational = status !== 'Out of Service';
+
   const { isModalOpen, onCloseModal, onOpenModal } = useModal();
 
   const { loading, onUpdateElevatorRecordStatus } = useUpdateElevatorRecordVisibility();
 
+  const { formState, onReset } = useFormState<ElevatorStatusFormValues>({
+    initialValues: { deactivationReason: '' },
+    resolver: zodResolver(createElevatorStatusToggleSchema(isElevatorOperational)),
+    onCloseModal,
+  });
+
   const config = getElevatorStatusUpdateConfig(status, lastKnownStatus ?? '') || {};
 
-  const onHandleElevatorRecordStatusChange = useCallback(async () => {
-    const result = await onUpdateElevatorRecordStatus({
-      id: elevatorRecordId,
-      newStatus: config.newElevatorStatus,
-      currentStatus: status,
-    });
+  const onHandleElevatorRecordStatusChange = useCallback(
+    async ({ deactivationReason }: ElevatorStatusFormValues) => {
+      const result = await onUpdateElevatorRecordStatus({
+        id: elevatorRecordId,
+        newStatus: config.newElevatorStatus,
+        currentStatus: status,
+        deactivationReason,
+      });
 
+      onReset();
+
+      if (!result?.errors?.length) onRedirect && onRedirect();
+    },
+    [elevatorRecordId, config.newElevatorStatus, onReset, status, onUpdateElevatorRecordStatus, onRedirect]
+  );
+
+  const onHandleCloseModal = useCallback(() => {
+    onReset();
     onCloseModal();
-
-    if (!result?.errors?.length) onRedirect && onRedirect();
-  }, [elevatorRecordId, config.newElevatorStatus, onCloseModal, status, onUpdateElevatorRecordStatus, onRedirect]);
+  }, [onReset, onCloseModal]);
 
   return {
     config,
     isModalOpen,
+    formState,
     onOpenModal,
-    onCloseModal,
+    onCloseModal: onHandleCloseModal,
     onHandleElevatorRecordStatusChange,
     loading,
   };

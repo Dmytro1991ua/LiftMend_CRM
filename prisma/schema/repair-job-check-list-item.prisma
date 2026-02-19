@@ -1,10 +1,10 @@
 model RepairJobChecklistItem {
-  id          String   @id @default(uuid())
+  id          String    @id @default(uuid())
   repairJobId String
   label       String
   checked     Boolean
   comment     String?
   checkedAt   DateTime
   checkedBy   String
-  repairJob RepairJob @relation(fields: [repairJobId], references: [id])
+  repairJob   RepairJob @relation(fields: [repairJobId], references: [id])
 }
