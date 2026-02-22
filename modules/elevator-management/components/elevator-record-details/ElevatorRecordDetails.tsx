@@ -4,9 +4,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/router';
 import { FormProvider } from 'react-hook-form';
 
+import BaseAlert from '@/shared/base-alert/BaseAlert';
 import BaseDetailsPage from '@/shared/base-details-page';
 import useDetailsPageModals from '@/shared/base-details-page/hooks/useDetailsPageModals';
-import { getCommonDetailsPageActionButtonsConfig } from '@/shared/base-details-page/utils';
+import { getElevatorDetailsPageActionButtonsConfig } from '@/shared/base-details-page/utils';
 import DeleteModal from '@/shared/base-modal/delete-modal';
 import EditModal from '@/shared/base-modal/edit-modal';
 import { getModalTitle } from '@/shared/base-modal/edit-modal/utils';
@@ -21,7 +22,7 @@ import EditElevatorRecordForm from '../edit-elevator-record-form';
 import useEditElevatorRecordForm from '../edit-elevator-record-form/hooks/useEditElevatorRecordForm';
 import { elevatorRecordEditFormSchema } from '../edit-elevator-record-form/validation';
 
-import { elevatorRecordSectionsConfig } from './config';
+import { ELEVATOR_DETAILS_STATUS_MESSAGE_CONFIG, elevatorRecordSectionsConfig } from './config';
 import useFetchElevatorRecordById from './hooks/useFetchElevatorRecordById';
 
 const ElevatorRecordDetails = () => {
@@ -70,7 +71,8 @@ const ElevatorRecordDetails = () => {
           isOpen={isEditModalOpen}
           title={getModalTitle(title, true)}
           onClose={onReset}
-          onSubmit={formState.handleSubmit(onEditElevatorRecord)}>
+          onSubmit={formState.handleSubmit(onEditElevatorRecord)}
+        >
           <EditElevatorRecordForm elevatorRecordFormValues={elevatorRecord} />
         </EditModal>
       ),
@@ -92,14 +94,21 @@ const ElevatorRecordDetails = () => {
   ];
 
   const actionButtonsConfig = useMemo(
-    () => getCommonDetailsPageActionButtonsConfig({ onOpenDeleteModal, onOpenEditModal }),
-    [onOpenDeleteModal, onOpenEditModal]
+    () => getElevatorDetailsPageActionButtonsConfig({ onOpenDeleteModal, onOpenEditModal, elevatorRecord }),
+    [onOpenDeleteModal, onOpenEditModal, elevatorRecord]
   );
+
+  const alertMessage = useMemo(() => {
+    const statusConfig = ELEVATOR_DETAILS_STATUS_MESSAGE_CONFIG[elevatorRecord.status];
+
+    return statusConfig && <BaseAlert description={statusConfig.message} variant={statusConfig.variant} />;
+  }, [elevatorRecord.status]);
 
   return (
     <FormProvider {...formState}>
       <BaseDetailsPage
         actionButtonsConfig={actionButtonsConfig}
+        alertMessage={alertMessage}
         description={description}
         detailsPageSections={elevatorRecordSections}
         error={error}

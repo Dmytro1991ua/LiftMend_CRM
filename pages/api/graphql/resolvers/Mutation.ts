@@ -172,9 +172,7 @@ const Mutation: MutationResolvers = {
     return updatedRepairJob;
   },
   updateElevatorRecord: async (_, { input }, { dataSources }): Promise<ElevatorRecord> => {
-    const { deactivationReason, ...rest } = input;
-
-    const updatedElevatorRecord = await dataSources.elevatorRecord.updateElevatorRecord(rest);
+    const updatedElevatorRecord = await dataSources.elevatorRecord.updateElevatorRecord(input);
 
     return updatedElevatorRecord;
   },

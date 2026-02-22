@@ -1,30 +1,12 @@
 import { SUCCESSFULLY_CANCELLED_REPAIR_JOB_STATUS_CHANGE } from '@/modules/repair-job-scheduling/constants';
+
+import BaseAlert from '../base-alert/BaseAlert';
 import {
   EDIT_BUTTON_CANCELLED_STATUS_TOOLTIP_MESSAGE,
   EDIT_BUTTON_COMPLETED_STATUS_TOOLTIP_MESSAGE,
-} from '@/shared/repair-job/constants';
-
-import BaseAlert from '../base-alert/BaseAlert';
+} from '../base-details-page/constants';
 
 import { getCompletedRepairJobMessage } from './hooks/utils';
-
-type EditButtonDisabledSate = {
-  isEditButtonDisabled: boolean;
-  tooltipMessage: string;
-};
-
-export const getEditButtonDisabledState = (status: string): Record<string, EditButtonDisabledSate> => {
-  return {
-    Completed: {
-      isEditButtonDisabled: status === 'Completed',
-      tooltipMessage: EDIT_BUTTON_COMPLETED_STATUS_TOOLTIP_MESSAGE,
-    },
-    Cancelled: {
-      isEditButtonDisabled: status === 'Cancelled',
-      tooltipMessage: EDIT_BUTTON_CANCELLED_STATUS_TOOLTIP_MESSAGE,
-    },
-  };
-};
 
 export const DETAILS_PAGE_ALERT_MESSAGE: Record<string, React.JSX.Element> = {
   Completed: <BaseAlert description={EDIT_BUTTON_COMPLETED_STATUS_TOOLTIP_MESSAGE} variant='info' />,

@@ -10,5 +10,6 @@ model ElevatorRecord {
   lastKnownStatus     String?
   lastInspectionDate  DateTime?
   nextInspectionDate  DateTime?
+  deactivationReason  String?
   repairJobs          RepairJob[]
 }

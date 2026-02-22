@@ -1,4 +1,5 @@
 import { ElevatorRecord } from '@/graphql/types/client/generated_types';
+import { Variant } from '@/shared/base-alert/BaseAlert';
 import { DetailsPageSectionsConfig } from '@/shared/base-details-page/types';
 import BaseScoreGaugeChart from '@/shared/base-score-cell/base-score-gauge-chart/BaseScoreGaugeChart';
 import { getScoreGaugeChartConfig, getScoreGaugeChartData } from '@/shared/base-score-cell/utils';
@@ -25,6 +26,15 @@ export const elevatorRecordSectionsConfig = (elevatorRecord: ElevatorRecord): De
         label: 'Capacity:',
         value: elevatorRecord.capacity,
       },
+      ...(elevatorRecord?.deactivationReason
+        ? [
+            {
+              id: 7,
+              label: 'Deactivation Reason',
+              value: elevatorRecord.deactivationReason,
+            },
+          ]
+        : []),
     ],
   },
   {
@@ -141,3 +151,18 @@ export const elevatorRecordSectionsConfig = (elevatorRecord: ElevatorRecord): De
     ],
   },
 ];
+
+export const ELEVATOR_DETAILS_STATUS_MESSAGE_CONFIG: Record<string, { message: string; variant: Variant }> = {
+  'Out of Service': {
+    message: 'This elevator is currently Out of Service and cannot be modified until it is reactivated.',
+    variant: 'warning',
+  },
+  'Under Maintenance': {
+    message: 'This elevator is undergoing maintenance due to an active repair job.',
+    variant: 'info',
+  },
+  Paused: {
+    message: 'This elevator is paused because the corresponding repair job is currently on hold.',
+    variant: 'info',
+  },
+};

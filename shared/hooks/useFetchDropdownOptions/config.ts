@@ -39,11 +39,12 @@ export const PREDEFINED_DROPDOWN_OPTIONS_CONFIG: Record<PredefinedDropdownOption
     { value: 'Unread', label: 'Unread' },
   ],
   [PredefinedDropdownOptions.ElevatorDeactivationReason]: [
-    { value: 'Awaiting Parts', label: 'Awaiting Parts' },
-    { value: 'Breakdown', label: 'Breakdown' },
-    { value: 'Inspection', label: 'Inspection' },
-    { value: 'Manual Shutdown', label: 'Manual Shutdown' },
-    { value: 'Safety Lock', label: 'Safety Lock' },
+    { value: 'Technical Issue', label: 'Technical Issue' },
+    { value: 'Scheduled Service', label: 'Scheduled Service' },
+    { value: 'Safety Restriction', label: 'Safety Restriction' },
+    { value: 'Modernization Work', label: 'Modernization Work' },
+    { value: 'Installation Phase', label: 'Installation Phase' },
+    { value: 'Administrative Hold', label: 'Administrative Hold' },
   ],
 };
 

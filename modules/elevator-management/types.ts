@@ -30,11 +30,11 @@ export type ElevatorRecordFormValues = {
   nextInspectionDate?: Date | null;
 };
 
-export type ElevatorStatus = 'Operational' | 'Out of Service';
 export type ElevatorStatusConfig = {
   icon: JSX.Element;
-  newElevatorStatus: ElevatorStatus | string;
+  newElevatorStatus: string;
   modalTitle: string;
   modalMessage: string;
   dataTestId?: string;
+  label: string;
 };

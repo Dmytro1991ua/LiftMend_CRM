@@ -9,7 +9,7 @@ import { ElevatorRecord } from '@/shared/types';
 
 import Pill from '../../../../shared/pill/Pill';
 import { ELEVATOR_HEALTH_SCORE_THRESHOLDS } from '../../config';
-import { ElevatorStatus, HealthScoreLabel } from '../../types';
+import { HealthScoreLabel } from '../../types';
 import CompleteElevatorInspectionCell from '../complete-elevator-inspection-cell';
 import DeleteActionCell from '../delete-action-cell';
 import EditActionCell from '../edit-action-cell';
@@ -246,9 +246,9 @@ export const ELEVATOR_MANAGEMENT_COLUMNS: ColumnDef<ElevatorRecord>[] = [
     header: ' Complete Inspection',
     cell: ({
       row: {
-        original: { id },
+        original: { id, status },
       },
-    }) => <CompleteElevatorInspectionCell elevatorId={id} />,
+    }) => <CompleteElevatorInspectionCell elevatorId={id} status={status} />,
     enableSorting: false,
     size: 80,
     enableResizing: false,
@@ -278,17 +278,7 @@ export const ELEVATOR_MANAGEMENT_COLUMNS: ColumnDef<ElevatorRecord>[] = [
   {
     accessorKey: 'visibility',
     header: 'Elevator Visibility',
-    cell: ({
-      row: {
-        original: { status, id, lastKnownStatus },
-      },
-    }) => (
-      <ElevatorStatusToggleCell
-        elevatorRecordId={id}
-        lastKnownStatus={lastKnownStatus}
-        status={status as ElevatorStatus}
-      />
-    ),
+    cell: ({ row: { original } }) => <ElevatorStatusToggleCell elevatorRecord={original} />,
     enableResizing: true,
     enableSorting: true,
     size: 200,

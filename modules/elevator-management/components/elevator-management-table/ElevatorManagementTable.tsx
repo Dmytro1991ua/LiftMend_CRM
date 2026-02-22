@@ -7,7 +7,8 @@ import { GetElevatorRecordsQuery, QueryGetElevatorRecordsArgs } from '@/graphql/
 import { DEFAULT_ELEVATOR_RECORD_TABLE_ROW_TOOLTIP_MESSAGE } from '@/modules/repair-job-scheduling/constants';
 import BaseTable from '@/shared/base-table/BaseTable';
 import { useSearchInTable } from '@/shared/base-table/hooks';
-import { getEmptyTableMessage, onHandleRowClick } from '@/shared/base-table/utils';
+import { RowHighlightInfo } from '@/shared/base-table/types';
+import { getEmptyTableMessage, getRowHighlightInfo, onHandleRowClick } from '@/shared/base-table/utils';
 import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions';
 import { DropdownOptions } from '@/shared/hooks/useFetchDropdownOptions/config';
 import QueryResponse from '@/shared/query-response';
@@ -22,7 +23,6 @@ import { useGetElevatorRecords } from '../../hooks';
 
 import { ELEVATOR_MANAGEMENT_COLUMNS } from './columns';
 import { getElevatorRecordFilterConfig } from './config';
-import { isElevatorRecordRowDisabled } from './utils';
 
 const ElevatorManagementTable = () => {
   const router = useRouter();
@@ -47,6 +47,18 @@ const ElevatorManagementTable = () => {
       getEmptyTableMessage(searchTerm, !!elevatorRecords.length, DEFAULT_ELEVATOR_RECORDS_TABLE_EMPTY_TABLE_MESSAGE),
     [searchTerm, elevatorRecords.length]
   );
+
+  const getElevatorRowHighlightInfo = (rowData: ElevatorRecord): RowHighlightInfo => {
+    const highlightInfoStateMap: Record<string, RowHighlightInfo> = {
+      'Out of Service': getRowHighlightInfo(
+        rowData,
+        (data) => data.status === 'Out of Service',
+        'bg-amber-50 hover:bg-amber-100'
+      ),
+    };
+
+    return highlightInfoStateMap[rowData.status] || {};
+  };
 
   const onElevatorRecordRowClick = useCallback(
     (rowData: Row<ElevatorRecord>) => {
@@ -73,8 +85,9 @@ const ElevatorManagementTable = () => {
         emptyTableMessage={emptyTableMessage}
         errorMessage={error}
         filtersConfig={filtersConfig}
+        getRowHighlightInfo={getElevatorRowHighlightInfo}
         hasMore={hasMore}
-        isRowDisabled={isElevatorRecordRowDisabled}
+        isRowDisabled={() => false}
         loadMore={onNext}
         loading={loading}
         refetch={refetch}

@@ -46,7 +46,7 @@ describe('CompleteElevatorInspectionCell', () => {
   });
 
   const CompleteElevatorInspectionCellComponent = (mocks: MockedResponse[] = []) =>
-    withApolloProvider(<CompleteElevatorInspectionCell elevatorId={mockElevatorId} />, mocks);
+    withApolloProvider(<CompleteElevatorInspectionCell elevatorId={mockElevatorId} status='Operational' />, mocks);
 
   it('should render component without crashing', () => {
     render(CompleteElevatorInspectionCellComponent());

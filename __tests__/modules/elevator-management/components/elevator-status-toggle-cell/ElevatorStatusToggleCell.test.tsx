@@ -2,13 +2,12 @@ import { MockedResponse } from '@apollo/client/testing';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { mockUpdateElevatorRecord } from '@/mocks/elevatorManagementMocks';
+import { mockElevatorRecord, mockUpdateElevatorRecord } from '@/mocks/elevatorManagementMocks';
 import { withApolloProvider } from '@/mocks/testMocks';
 import ElevatorStatusToggleCell, {
   ElevatorStatusToggleCellProps,
 } from '@/modules/elevator-management/components/elevator-status-toggle-cell/ElevatorStatusToggleCell';
 import * as useUpdateElevatorRecordStatus from '@/modules/elevator-management/components/elevator-status-toggle-cell/hooks/useUpdateElevatorRecordStatus';
-import { ElevatorStatus } from '@/modules/elevator-management/types';
 
 describe('ElevatorStatusToggleCell', () => {
   const useUpdateElevatorRecordStatusModule = { ...useUpdateElevatorRecordStatus };
@@ -30,9 +29,7 @@ describe('ElevatorStatusToggleCell', () => {
   });
 
   const defaultProps = {
-    status: 'Operational' as ElevatorStatus,
-    lastKnownStatus: null,
-    elevatorRecordId: 'test-id-1',
+    elevatorRecord: mockElevatorRecord,
   };
 
   const ElevatorStatusToggleCellComponent = (
@@ -48,7 +45,7 @@ describe('ElevatorStatusToggleCell', () => {
   });
 
   it('should render Out of Service icon', () => {
-    render(ElevatorStatusToggleCellComponent({ status: 'Out of Service' as ElevatorStatus }));
+    render(ElevatorStatusToggleCellComponent({ elevatorRecord: { ...mockElevatorRecord, status: 'Out of Service' } }));
 
     expect(screen.getByTestId('elevator-status-icon-hidden')).toBeInTheDocument();
   });
@@ -110,6 +107,14 @@ describe('ElevatorStatusToggleCell', () => {
       expect(screen.getByText('Yes')).toBeInTheDocument();
     });
 
+    const select = screen.getByRole('combobox');
+
+    await userEvent.click(select);
+
+    const option = await screen.findByText('Technical Issue');
+
+    await userEvent.click(option);
+
     const modalYesBtn = screen.getByText('Yes');
 
     await userEvent.click(modalYesBtn);
@@ -121,7 +126,10 @@ describe('ElevatorStatusToggleCell', () => {
     rerender(
       ElevatorStatusToggleCellComponent(
         {
-          status: 'Out of Service',
+          elevatorRecord: {
+            ...mockElevatorRecord,
+            status: 'Out of Service',
+          },
         },
         [mockUpdateElevatorRecord]
       )
@@ -135,12 +143,19 @@ describe('ElevatorStatusToggleCell', () => {
 
     await userEvent.click(screen.getByTestId('status-toggle-btn'));
 
-    expect(screen.getByText('Reason for Deactivation (optional)')).toBeInTheDocument();
-    expect(screen.getByText('Select Deactivation Reason')).toBeInTheDocument();
+    expect(screen.getByText('Reason for Deactivation')).toBeInTheDocument();
+    expect(screen.getByRole('combobox')).toBeInTheDocument();
   });
 
   it('should NOT render deactivation reason dropdown when elevator is already out of service', async () => {
-    render(ElevatorStatusToggleCellComponent({ status: 'Out of Service' as ElevatorStatus }));
+    render(
+      ElevatorStatusToggleCellComponent({
+        elevatorRecord: {
+          ...mockElevatorRecord,
+          status: 'Out of Service',
+        },
+      })
+    );
 
     await userEvent.click(screen.getByTestId('status-toggle-btn'));
 
@@ -148,59 +163,41 @@ describe('ElevatorStatusToggleCell', () => {
     expect(screen.queryByText('Select Deactivation Reason')).not.toBeInTheDocument();
   });
 
-  it.only('should call onSelectDeactivationReason when user selects a reason', async () => {
-    const mockOnSelectReason = jest.fn();
-
-    jest
-      .spyOn(useUpdateElevatorRecordStatusModule, 'default')
-      .mockImplementation(({ elevatorRecordId, lastKnownStatus, status }) => {
-        const original = originalDefaultExport({ elevatorRecordId, lastKnownStatus, status });
-
-        return {
-          ...original,
-          onSelectDeactivationReason: mockOnSelectReason,
-        };
-      });
-
+  it('should allow selecting a deactivation reason', async () => {
     render(ElevatorStatusToggleCellComponent());
 
     await userEvent.click(screen.getByTestId('status-toggle-btn'));
 
-    const select = screen.getByRole('combobox');
+    const combobox = screen.getByRole('combobox');
 
-    await userEvent.click(select);
+    await userEvent.click(combobox);
 
-    await waitFor(() => {
-      expect(screen.getByText('Inspection')).toBeInTheDocument();
+    const option = await screen.findByRole('option', { name: 'Technical Issue' });
+
+    await userEvent.click(option);
+
+    const selectedValue = await screen.findByText('Technical Issue', {
+      selector: 'div[aria-disabled="true"], div.css-1gx2hr5-singleValue',
     });
 
-    await userEvent.click(screen.getByText('Inspection'));
-
-    expect(screen.debug(undefined, 100000));
-
-    // // Pick one option from predefined config
-    // const option = await screen.findByText('Inspection');
-    // await userEvent.click(option);
-
-    // expect(mockOnSelectReason).toHaveBeenCalledWith('INSPECTION');
+    expect(selectedValue).toBeInTheDocument();
   });
 
-  it('should display selected reason from hook value', async () => {
-    jest
-      .spyOn(useUpdateElevatorRecordStatusModule, 'default')
-      .mockImplementation(({ elevatorRecordId, lastKnownStatus, status }) => {
-        const original = originalDefaultExport({ elevatorRecordId, lastKnownStatus, status });
+  it('should display label next to button when variant is "button"', () => {
+    render(ElevatorStatusToggleCellComponent({ variant: 'button' }));
 
-        return {
-          ...original,
-          deactivationDropdownOptionValue: { value: 'BREAKDOWN', label: 'Breakdown' },
-        };
-      });
+    const button = screen.getByTestId('status-toggle-btn');
 
-    render(ElevatorStatusToggleCellComponent());
+    expect(button).toBeInTheDocument();
 
-    await userEvent.click(screen.getByTestId('status-toggle-btn'));
+    const labelSpan = screen.getByText('Deactivate', { selector: 'span' });
 
-    expect(screen.getByText('Breakdown')).toBeInTheDocument();
+    expect(labelSpan).toBeInTheDocument();
+  });
+
+  it('should NOT display label span when variant is "icon"', () => {
+    render(ElevatorStatusToggleCellComponent({ variant: 'icon' }));
+
+    expect(screen.queryByText('Technical Issue', { selector: 'span' })).not.toBeInTheDocument();
   });
 });

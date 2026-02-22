@@ -28,5 +28,6 @@ export const ELEVATOR_RECORD_FRAGMENT = gql`
       description
       severity
     }
+    deactivationReason
   }
 `;

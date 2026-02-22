@@ -1613,6 +1613,18 @@
             "deprecationReason": null
           },
           {
+            "name": "deactivationReason",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "elevatorLocation",
             "description": null,
             "args": [],

@@ -126,6 +126,7 @@ export type ElevatorRecord = {
   inspectionStatus?: ElevatorInspectionStatus | null;
   repairFrequencyStatus?: ElevatorRepairFrequencyStatus | null;
   recurringFailureStatus?: ElevatorRecurringFailureStatus | null;
+  deactivationReason?: string | null;
 };
 
 export type TechnicianRecord = {
