@@ -31,3 +31,5 @@ export type DetailsPageActionButtonConfig = {
   onClick?: () => void;
   render?: () => React.ReactNode;
 };
+
+export type ElevatorRecordStatus = 'Out Of Service' | 'Operational';

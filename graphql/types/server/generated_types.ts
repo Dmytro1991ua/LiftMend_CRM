@@ -180,6 +180,7 @@ export type ElevatorRecord = Node & {
   __typename?: 'ElevatorRecord';
   buildingName: Scalars['String']['output'];
   capacity: Scalars['Int']['output'];
+  deactivationReason?: Maybe<Scalars['String']['output']>;
   elevatorLocation: Scalars['String']['output'];
   elevatorType: Scalars['String']['output'];
   /** Computed health score of the elevator (0–100) */
@@ -1337,6 +1338,7 @@ export type ElevatorRecordResolvers<
 > = ResolversObject<{
   buildingName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   capacity?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  deactivationReason?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   elevatorLocation?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   elevatorType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   healthScore?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;

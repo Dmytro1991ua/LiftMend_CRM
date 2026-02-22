@@ -52,6 +52,7 @@ type ElevatorRecord implements Node {
   inspectionStatus: InspectionStatus
   repairFrequencyStatus: ElevatorRepairFrequencyStatus
   recurringFailureStatus: ElevatorRecurringFailureStatus
+  deactivationReason: String
 }
 
 type ElevatorRecordEdge implements Edge {

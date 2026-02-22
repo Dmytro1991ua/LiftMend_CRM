@@ -10,53 +10,59 @@ import {
   PREDEFINED_DROPDOWN_OPTIONS_CONFIG,
   PredefinedDropdownOptions,
 } from '@/shared/hooks/useFetchDropdownOptions/config';
-
-import { ElevatorStatus } from '../../types';
+import { ElevatorRecord } from '@/shared/types';
 
 import { STATUS_ICON_TOOLTIP_MESSAGE } from './constants';
 import useUpdateElevatorRecordStatus from './hooks/useUpdateElevatorRecordStatus';
 import { ElevatorStatusFormValues } from './types';
 
 export type ElevatorStatusToggleCellProps = {
-  status: ElevatorStatus;
-  lastKnownStatus?: string | null;
-  elevatorRecordId: string;
+  elevatorRecord: ElevatorRecord;
+  variant?: 'icon' | 'button';
 };
 
-const ElevatorStatusToggleCell = ({ status, elevatorRecordId, lastKnownStatus }: ElevatorStatusToggleCellProps) => {
+const ElevatorStatusToggleCell = ({ variant = 'icon', elevatorRecord }: ElevatorStatusToggleCellProps) => {
+  const { status, id, lastKnownStatus } = elevatorRecord;
+
+  const isElevatorOperational = status !== 'Out of Service';
+  const isIconOnly = variant === 'icon';
+  const buttonVariant = isIconOnly ? 'ghost' : 'default';
+  const shouldShowText = variant === 'button';
+  const iconColorClass = isIconOnly ? 'h-6 w-6 text-primary' : 'h-3 w-3 text-white';
+
   const { loading, isModalOpen, config, formState, onCloseModal, onOpenModal, onHandleElevatorRecordStatusChange } =
     useUpdateElevatorRecordStatus({
-      elevatorRecordId,
+      elevatorRecordId: id,
       lastKnownStatus,
       status,
+      iconColorClass,
     });
 
   const { clearErrors, handleSubmit } = formState;
 
-  const isElevatorOperational = status !== 'Out of Service';
-
   return (
     <section>
-      <Button
-        className='relative hover:bg-transparent'
-        data-testid='status-toggle-btn'
-        variant='ghost'
-        onClick={(e) => {
-          e.stopPropagation();
-
-          onOpenModal();
-        }}
+      <BaseTooltip
+        className='w-[30rem] !shadow-none'
+        disable={isElevatorOperational}
+        id='elevator-toggle-status-cell-tooltip'
+        message={STATUS_ICON_TOOLTIP_MESSAGE}
+        place='left'
       >
-        <BaseTooltip
-          className='w-[30rem] !shadow-none'
-          disable={isElevatorOperational}
-          id='elevator-toggle-status-cell-tooltip'
-          message={STATUS_ICON_TOOLTIP_MESSAGE}
-          place='left'
+        <Button
+          className={isIconOnly ? 'hover:bg-transparent' : ''}
+          data-testid='status-toggle-btn'
+          variant={buttonVariant}
+          onClick={(e) => {
+            e.stopPropagation();
+
+            onOpenModal();
+          }}
         >
           <div data-testid={config.dataTestId}>{config.icon}</div>
-        </BaseTooltip>
-      </Button>
+          {shouldShowText && <span className='ml-2'>{config.label}</span>}
+        </Button>
+      </BaseTooltip>
       <BaseModal
         isOpen={isModalOpen}
         modalFooter={

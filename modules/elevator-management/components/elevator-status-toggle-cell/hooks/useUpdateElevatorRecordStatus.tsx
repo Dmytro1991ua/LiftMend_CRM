@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UseFormReturn } from 'react-hook-form';
 
-import { ElevatorStatus, ElevatorStatusConfig } from '@/modules/elevator-management/types';
+import { ElevatorStatusConfig } from '@/modules/elevator-management/types';
 import { useFormState, useModal } from '@/shared/hooks';
 
 import { getElevatorStatusUpdateConfig } from '../config';
@@ -13,9 +13,10 @@ import { createElevatorStatusToggleSchema } from '../validation';
 import { useUpdateElevatorRecordVisibility } from './useUpdateElevatorRecordVisibility';
 
 export type UseUpdateElevatorStatusProps = {
-  status: ElevatorStatus;
+  status: string;
   elevatorRecordId: string;
   lastKnownStatus?: string | null;
+  iconColorClass?: string;
   onRedirect?: () => void;
 };
 
@@ -33,6 +34,7 @@ export default function useUpdateElevatorRecordStatus({
   status,
   elevatorRecordId,
   lastKnownStatus,
+  iconColorClass,
   onRedirect,
 }: UseUpdateElevatorStatusProps): UseUpdateElevatorStatus {
   const isElevatorOperational = status !== 'Out of Service';
@@ -47,7 +49,9 @@ export default function useUpdateElevatorRecordStatus({
     onCloseModal,
   });
 
-  const config = getElevatorStatusUpdateConfig(status, lastKnownStatus ?? '') || {};
+  const config =
+    getElevatorStatusUpdateConfig({ currentStatus: status, lastKnownStatus: lastKnownStatus ?? '', iconColorClass }) ||
+    {};
 
   const onHandleElevatorRecordStatusChange = useCallback(
     async ({ deactivationReason }: ElevatorStatusFormValues) => {

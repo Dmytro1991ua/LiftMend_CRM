@@ -9,22 +9,32 @@ import {
   DEFAULT_DEACTIVATION_MODAL_TITLE,
 } from './constants';
 
-export const getElevatorStatusUpdateConfig = (currentStatus: string, lastKnownStatus: string): ElevatorStatusConfig => {
+export const getElevatorStatusUpdateConfig = ({
+  currentStatus,
+  lastKnownStatus,
+  iconColorClass,
+}: {
+  currentStatus: string;
+  lastKnownStatus: string;
+  iconColorClass?: string;
+}): ElevatorStatusConfig => {
   if (currentStatus === 'Out of Service') {
     return {
-      icon: <FaEyeSlash color='#6b7280' size={25} />,
+      icon: <FaEyeSlash className={iconColorClass} />,
       newElevatorStatus: lastKnownStatus,
       modalTitle: DEFAULT_ACTIVATION_MODAL_TITLE,
       modalMessage: DEFAULT_ACTIVATION_MODAL_MESSAGE,
       dataTestId: 'elevator-status-icon-hidden',
+      label: 'Activate',
     };
   }
 
   return {
-    icon: <FaEye color='#2563eb' size={25} />,
+    icon: <FaEye className={iconColorClass} />,
     newElevatorStatus: 'Out of Service',
     modalTitle: DEFAULT_DEACTIVATION_MODAL_TITLE,
     modalMessage: DEFAULT_DEACTIVATION_MODAL_MESSAGE,
     dataTestId: 'elevator-status-icon-visible',
+    label: 'Deactivate',
   };
 };

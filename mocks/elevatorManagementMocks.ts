@@ -57,6 +57,7 @@ export const mockElevatorRecord = {
     label: 'Potential recurring issue',
     severity: ElevatorSeverityLevel.Warning,
   },
+  deactivationReason: 'Technical issue',
 };
 
 export const mockElevatorRecordsFormData: MockedResponse = {
@@ -107,6 +108,7 @@ export const mockGlassElevatorElevatorRecord = {
       label: 'Potential recurring issue',
       severity: ElevatorSeverityLevel.Warning,
     },
+    deactivationReason: 'Technical issue',
   },
 };
 
@@ -175,6 +177,7 @@ export const mockWarehouseLiftElevatorRecord = {
       label: 'Potential recurring issue',
       severity: ElevatorSeverityLevel.Warning,
     },
+    deactivationReason: 'Technical issue',
   },
 };
 
@@ -373,6 +376,7 @@ export const mockUpdatedElevatorRecord = {
     label: 'Potential recurring issue',
     severity: ElevatorSeverityLevel.Warning,
   },
+  deactivationReason: 'Technical issue',
 };
 
 export const mockUpdateElevatorRecord: MockedResponse<UpdateElevatorRecordMutation> = {

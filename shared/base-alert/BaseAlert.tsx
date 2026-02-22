@@ -2,7 +2,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 import { ALERT_VARIANT } from './types';
 
-type Variant = 'default' | 'destructive' | 'info' | 'success' | 'warning';
+export type Variant = 'default' | 'destructive' | 'info' | 'success' | 'warning';
 
 type BaseAlertProps = {
   title?: string;

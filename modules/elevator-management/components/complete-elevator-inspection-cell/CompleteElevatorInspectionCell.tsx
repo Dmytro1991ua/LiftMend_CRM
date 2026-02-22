@@ -11,14 +11,17 @@ import { useCompleteElevatorInspection } from '../../hooks';
 
 export type CompleteElevatorInspectionCellProps = {
   elevatorId: string;
+  status: string;
 };
 
 export const COMPLETE_ELEVATOR_INSPECTION_MODAL_MESSAGE =
   'Mark this elevator as inspected today?. Last inspection will be set to today, next inspection scheduled in 6 months, and inspection status will be updated accordingly.';
 
-const CompleteElevatorInspectionCell = ({ elevatorId }: CompleteElevatorInspectionCellProps) => {
+const CompleteElevatorInspectionCell = ({ elevatorId, status }: CompleteElevatorInspectionCellProps) => {
   const { isModalOpen, onCloseModal, onOpenModal } = useModal();
   const { isLoading, onCompleteElevatorInspection } = useCompleteElevatorInspection();
+
+  const isElevatorOperational = status !== 'Out of Service';
 
   const onHandleCompleteElevatorInspection = useCallback(async () => {
     const result = await onCompleteElevatorInspection?.(elevatorId);
@@ -40,6 +43,7 @@ const CompleteElevatorInspectionCell = ({ elevatorId }: CompleteElevatorInspecti
       <Button
         className='hover:bg-transparent'
         data-testid='complete-elevator-inspection-btn'
+        disabled={!isElevatorOperational}
         variant='ghost'
         onClick={onHandleCompleteInspectionIconClick}
       >

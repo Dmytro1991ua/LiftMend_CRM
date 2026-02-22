@@ -2,11 +2,12 @@ import { AiFillEdit } from 'react-icons/ai';
 import { FaEye } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
 
+import ElevatorStatusToggleCell from '@/modules/elevator-management/components/elevator-status-toggle-cell';
 import CompleteRepairJob from '@/modules/repair-job-tracking/components/complete-repair-job/CompleteRepairJob';
 
-import { getEditButtonDisabledState } from '../repair-job/config';
-import { RepairJob } from '../types';
+import { ElevatorRecord, RepairJob } from '../types';
 
+import { getEditButtonDisabledState } from './config';
 import { ActionButtonLabel, DetailsPageActionButtonConfig } from './types';
 
 export const getCommonDetailsPageActionButtonsConfig = ({
@@ -88,6 +89,24 @@ export const getRepairJobDetailsPageActionButtonsConfig = ({
     {
       id: 3,
       render: () => <CompleteRepairJob repairJob={repairJob} variant='button' />,
+    },
+  ];
+};
+
+export const getElevatorDetailsPageActionButtonsConfig = ({
+  onOpenDeleteModal,
+  onOpenEditModal,
+  elevatorRecord,
+}: {
+  onOpenEditModal: () => void;
+  onOpenDeleteModal: () => void;
+  elevatorRecord: ElevatorRecord;
+}) => {
+  return [
+    ...getCommonDetailsPageActionButtonsConfig({ onOpenDeleteModal, onOpenEditModal, status: elevatorRecord.status }),
+    {
+      id: 3,
+      render: () => <ElevatorStatusToggleCell elevatorRecord={elevatorRecord} variant='button' />,
     },
   ];
 };

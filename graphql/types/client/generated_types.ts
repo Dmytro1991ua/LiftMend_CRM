@@ -175,6 +175,7 @@ export type ElevatorRecord = Node & {
   __typename?: 'ElevatorRecord';
   buildingName: Scalars['String']['output'];
   capacity: Scalars['Int']['output'];
+  deactivationReason: Maybe<Scalars['String']['output']>;
   elevatorLocation: Scalars['String']['output'];
   elevatorType: Scalars['String']['output'];
   /** Computed health score of the elevator (0–100) */
@@ -938,6 +939,7 @@ export type ElevatorRecordFieldsFragment = {
   healthScore: number | null;
   lastInspectionDate: any | null;
   nextInspectionDate: any | null;
+  deactivationReason: string | null;
   inspectionStatus: { __typename?: 'InspectionStatus'; label: string; severity: ElevatorSeverityLevel } | null;
   repairFrequencyStatus: {
     __typename?: 'ElevatorRepairFrequencyStatus';
@@ -1033,6 +1035,7 @@ export type CompleteElevatorInspectionMutation = {
     healthScore: number | null;
     lastInspectionDate: any | null;
     nextInspectionDate: any | null;
+    deactivationReason: string | null;
     inspectionStatus: { __typename?: 'InspectionStatus'; label: string; severity: ElevatorSeverityLevel } | null;
     repairFrequencyStatus: {
       __typename?: 'ElevatorRepairFrequencyStatus';
@@ -1396,6 +1399,7 @@ export type GetElevatorRecordByIdQuery = {
     healthScore: number | null;
     lastInspectionDate: any | null;
     nextInspectionDate: any | null;
+    deactivationReason: string | null;
     inspectionStatus: { __typename?: 'InspectionStatus'; label: string; severity: ElevatorSeverityLevel } | null;
     repairFrequencyStatus: {
       __typename?: 'ElevatorRepairFrequencyStatus';
@@ -1453,6 +1457,7 @@ export type GetElevatorRecordsQuery = {
         healthScore: number | null;
         lastInspectionDate: any | null;
         nextInspectionDate: any | null;
+        deactivationReason: string | null;
         inspectionStatus: { __typename?: 'InspectionStatus'; label: string; severity: ElevatorSeverityLevel } | null;
         repairFrequencyStatus: {
           __typename?: 'ElevatorRepairFrequencyStatus';
@@ -1866,6 +1871,7 @@ export type UpdateElevatorRecordMutation = {
     healthScore: number | null;
     lastInspectionDate: any | null;
     nextInspectionDate: any | null;
+    deactivationReason: string | null;
     inspectionStatus: { __typename?: 'InspectionStatus'; label: string; severity: ElevatorSeverityLevel } | null;
     repairFrequencyStatus: {
       __typename?: 'ElevatorRepairFrequencyStatus';

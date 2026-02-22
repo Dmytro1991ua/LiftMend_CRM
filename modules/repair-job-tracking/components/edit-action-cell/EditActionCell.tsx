@@ -5,11 +5,11 @@ import { FormProvider } from 'react-hook-form';
 import { FaEdit } from 'react-icons/fa';
 
 import { Button } from '@/components/ui/button';
+import { getEditButtonDisabledState } from '@/shared/base-details-page/config';
 import EditModal from '@/shared/base-modal/edit-modal/EditModal';
 import { getModalTitle } from '@/shared/base-modal/edit-modal/utils';
 import BaseTooltip from '@/shared/base-tooltip';
 import { useFormState, useModal } from '@/shared/hooks';
-import { getEditButtonDisabledState } from '@/shared/repair-job/config';
 import EditRepairJobForm from '@/shared/repair-job/edit-repair-job-form';
 import { RepairJobFormValues } from '@/shared/repair-job/edit-repair-job-form/types';
 import { repairJobEditFormSchema } from '@/shared/repair-job/edit-repair-job-form/validation';

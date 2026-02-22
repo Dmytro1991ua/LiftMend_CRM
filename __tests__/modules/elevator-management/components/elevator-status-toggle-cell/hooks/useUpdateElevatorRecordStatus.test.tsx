@@ -8,7 +8,6 @@ import useUpdateElevatorRecordStatus, {
   UseUpdateElevatorStatusProps,
 } from '@/modules/elevator-management/components/elevator-status-toggle-cell/hooks/useUpdateElevatorRecordStatus';
 import { useUpdateElevatorRecordVisibility } from '@/modules/elevator-management/components/elevator-status-toggle-cell/hooks/useUpdateElevatorRecordVisibility';
-import { ElevatorStatus } from '@/modules/elevator-management/types';
 
 jest.mock(
   '@/modules/elevator-management/components/elevator-status-toggle-cell/hooks/useUpdateElevatorRecordVisibility'
@@ -30,7 +29,7 @@ describe('useUpdateElevatorRecordStatus', () => {
   });
 
   const defaultProps = {
-    status: 'Operational' as ElevatorStatus,
+    status: 'Operational',
     elevatorRecordId: 'test-id-1',
     lastKnownStatus: null,
     onRedirect: mockOnRedirect,
