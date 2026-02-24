@@ -492,30 +492,102 @@ describe('Mutation', () => {
 
   describe('updateElevatorRecord', () => {
     const mockError = 'Failed to update elevator record';
-    const mockInput = {
+
+    const baseInput = {
       id: mockElevatorRecord.id,
-      status: 'Out of Service',
-      lastKnownStatus: 'Operational',
-    };
-    const mockUpdatedElevatorRecord = {
-      ...mockElevatorRecord,
-      status: 'Out of Service',
-      lastKnownStatus: 'Operational',
     };
 
-    it('should update elevator record', async () => {
-      mockDataSources.elevatorRecord.updateElevatorRecord.mockResolvedValue(mockUpdatedElevatorRecord);
+    it('should update elevator record without downtime change when status does not change', async () => {
+      const mockInput = {
+        ...baseInput,
+        capacity: 500,
+      };
+      const mockUpdatedElevatorRecord = {
+        ...mockElevatorRecord,
+        capacity: 500,
+      };
+
+      mockDataSources.elevatorRecord.findElevatorRecordById.mockResolvedValue(mockElevatorRecord);
+      mockDataSources.elevatorRecord.updateElevatorRecord.mockResolvedValue({
+        ...mockElevatorRecord,
+        capacity: 500,
+      });
 
       const result = await updateElevatorRecordResolver({}, { input: mockInput });
 
       expect(mockDataSources.elevatorRecord.updateElevatorRecord).toHaveBeenCalledWith(mockInput);
+      expect(mockDataSources.elevatorRecord.startDowntime).not.toHaveBeenCalled();
+      expect(mockDataSources.elevatorRecord.endDowntime).not.toHaveBeenCalled();
+      expect(result).toEqual(mockUpdatedElevatorRecord);
+    });
+
+    it('should start downtime when elevator is deactivated', async () => {
+      const mockInput = {
+        ...baseInput,
+        status: 'Out of Service',
+        deactivationReason: 'Technical issue',
+      };
+
+      const mockUpdatedElevatorRecord = {
+        ...mockElevatorRecord,
+        status: 'Out of Service',
+        deactivationReason: 'Technical issue',
+      };
+
+      mockDataSources.elevatorRecord.findElevatorRecordById.mockResolvedValue({
+        ...mockElevatorRecord,
+        status: 'Operational',
+      });
+
+      mockDataSources.elevatorRecord.updateElevatorRecord.mockResolvedValue({
+        ...mockElevatorRecord,
+        status: 'Out of Service',
+      });
+
+      const result = await updateElevatorRecordResolver({}, { input: mockInput });
+
+      expect(mockDataSources.elevatorRecord.updateElevatorRecord).toHaveBeenCalledWith(mockInput);
+      expect(mockDataSources.elevatorRecord.startDowntime).toHaveBeenCalledWith(
+        mockInput.id,
+        mockInput.deactivationReason
+      );
+      expect(mockDataSources.elevatorRecord.endDowntime).not.toHaveBeenCalled();
+      expect(result).toEqual(mockUpdatedElevatorRecord);
+    });
+
+    it('should end downtime when elevator is activated again', async () => {
+      const mockInput = {
+        ...baseInput,
+        status: 'Operational',
+      };
+
+      const mockUpdatedElevatorRecord = {
+        ...mockElevatorRecord,
+        status: 'Operational',
+      };
+
+      mockDataSources.elevatorRecord.findElevatorRecordById.mockResolvedValue({
+        ...mockElevatorRecord,
+        status: 'Out of Service',
+      });
+
+      mockDataSources.elevatorRecord.updateElevatorRecord.mockResolvedValue({
+        ...mockElevatorRecord,
+        status: 'Operational',
+      });
+
+      const result = await updateElevatorRecordResolver({}, { input: mockInput });
+
+      expect(mockDataSources.elevatorRecord.endDowntime).toHaveBeenCalledWith(mockInput.id);
+
+      expect(mockDataSources.elevatorRecord.startDowntime).not.toHaveBeenCalled();
       expect(result).toEqual(mockUpdatedElevatorRecord);
     });
 
     it('should throw an error when failed to update elevator record', async () => {
       mockDataSources.elevatorRecord.updateElevatorRecord.mockRejectedValueOnce(new Error(mockError));
 
-      await expect(updateElevatorRecordResolver({}, { input: mockInput })).rejects.toThrow(mockError);
+      await expect(updateElevatorRecordResolver({}, { input: baseInput })).rejects.toThrow(mockError);
     });
   });
 

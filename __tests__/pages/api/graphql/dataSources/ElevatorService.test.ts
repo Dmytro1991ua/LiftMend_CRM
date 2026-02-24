@@ -334,4 +334,75 @@ describe('ElevatorService', () => {
       });
     });
   });
+
+  describe('Elevator Downtime', () => {
+    const mockNow = new Date('2025-10-01T12:00:00.000Z');
+
+    beforeEach(() => {
+      jest.useFakeTimers().setSystemTime(mockNow);
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+      jest.useRealTimers();
+    });
+
+    describe('startDowntime', () => {
+      it('should create a downtime record with current timestamp and reason', async () => {
+        const reason = 'Routine maintenance';
+
+        const prismaResponse = {
+          id: 'downtime-1',
+          elevatorRecordId: mockElevatorRecordId,
+          startedAt: mockNow,
+          endedAt: null,
+          reason,
+        };
+
+        (elevatorRecordServicePrismaMock.elevatorDowntime.create as jest.Mock).mockResolvedValue(prismaResponse);
+
+        const result = await elevatorService.startDowntime(mockElevatorRecordId, reason);
+
+        expect(elevatorRecordServicePrismaMock.elevatorDowntime.create).toHaveBeenCalledWith({
+          data: {
+            elevatorRecordId: mockElevatorRecordId,
+            startedAt: mockNow,
+            reason,
+          },
+        });
+
+        expect(result).toEqual(prismaResponse);
+      });
+    });
+
+    describe('endDowntime', () => {
+      it('should close all active downtimes for the elevator', async () => {
+        const prismaResponse = { count: 2 };
+
+        (elevatorRecordServicePrismaMock.elevatorDowntime.updateMany as jest.Mock).mockResolvedValue(prismaResponse);
+
+        const result = await elevatorService.endDowntime(mockElevatorRecordId);
+
+        expect(elevatorRecordServicePrismaMock.elevatorDowntime.updateMany).toHaveBeenCalledWith({
+          where: {
+            elevatorRecordId: mockElevatorRecordId,
+            endedAt: null,
+          },
+          data: {
+            endedAt: mockNow,
+          },
+        });
+
+        expect(result).toEqual(prismaResponse);
+      });
+
+      it('should still succeed when no active downtime exists', async () => {
+        (elevatorRecordServicePrismaMock.elevatorDowntime.updateMany as jest.Mock).mockResolvedValue({ count: 0 });
+
+        const result = await elevatorService.endDowntime(mockElevatorRecordId);
+
+        expect(result).toEqual({ count: 0 });
+      });
+    });
+  });
 });

@@ -197,6 +197,19 @@ class ElevatorService {
       },
     });
   }
+
+  async startDowntime(elevatorRecordId: string, deactivationReason: string) {
+    return this.prisma.elevatorDowntime.create({
+      data: { elevatorRecordId, startedAt: new Date(), reason: deactivationReason },
+    });
+  }
+
+  async endDowntime(elevatorRecordId: string) {
+    return this.prisma.elevatorDowntime.updateMany({
+      where: { elevatorRecordId, endedAt: null },
+      data: { endedAt: new Date() },
+    });
+  }
 }
 
 export default ElevatorService;

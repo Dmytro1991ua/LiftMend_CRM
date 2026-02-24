@@ -26,6 +26,7 @@ describe('ElevatorRecord', () => {
   let inspectionStatusResolver: TestResolver<ElevatorRecordResolvers, 'inspectionStatus'>;
   let repairFrequencyStatusResolver: TestResolver<ElevatorRecordResolvers, 'repairFrequencyStatus'>;
   let recurringFailureStatusResolver: TestResolver<ElevatorRecordResolvers, 'recurringFailureStatus'>;
+  let downtimeHistoryResolver: TestResolver<ElevatorRecordResolvers, 'downtimeHistory'>;
 
   beforeEach(() => {
     mockDataSources = createDataSourcesMock(elevatorRecordServicePrismaMock);
@@ -48,6 +49,11 @@ describe('ElevatorRecord', () => {
     recurringFailureStatusResolver = getResolverToTest<ElevatorRecordResolvers, 'recurringFailureStatus'>(
       ElevatorRecord,
       'recurringFailureStatus',
+      mockDataSources
+    );
+    downtimeHistoryResolver = getResolverToTest<ElevatorRecordResolvers, 'downtimeHistory'>(
+      ElevatorRecord,
+      'downtimeHistory',
       mockDataSources
     );
   });
@@ -384,6 +390,33 @@ describe('ElevatorRecord', () => {
 
         expect(result).toEqual(expected);
       });
+    });
+  });
+
+  describe('downtimeHistory', () => {
+    it('should return elevator downtime data', async () => {
+      const mockElevatorDowntime = [
+        {
+          id: 'test-id-1',
+          elevatorRecordId: 'test-elevator-record-id',
+          startedAt: new Date('2025-04-01T00:00:00.000Z'),
+          endedAt: new Date('2025-04-12T00:00:00.000Z'),
+          reason: 'Technical issues',
+        },
+        {
+          id: 'test-id-1',
+          elevatorRecordId: 'test-elevator-record-id',
+          startedAt: new Date('2025-06-01T00:00:00.000Z'),
+          endedAt: null,
+          reason: 'Technical issues',
+        },
+      ];
+
+      (loadWithDataLoader as jest.Mock).mockResolvedValueOnce(mockElevatorDowntime);
+
+      const result = await downtimeHistoryResolver({ id: 'test-elevator-record-id' });
+
+      expect(result).toEqual(mockElevatorDowntime);
     });
   });
 });

@@ -172,7 +172,18 @@ const Mutation: MutationResolvers = {
     return updatedRepairJob;
   },
   updateElevatorRecord: async (_, { input }, { dataSources }): Promise<ElevatorRecord> => {
+    const existingElevatorRecord = await dataSources.elevatorRecord.findElevatorRecordById(input.id);
     const updatedElevatorRecord = await dataSources.elevatorRecord.updateElevatorRecord(input);
+
+    // Elevator went down (deactivated) → start new downtime
+    if (existingElevatorRecord?.status !== 'Out of Service' && input.status === 'Out of Service') {
+      await dataSources.elevatorRecord.startDowntime(input.id, input.deactivationReason ?? '');
+    }
+
+    // Elevator is activated → end downtime
+    if (existingElevatorRecord?.status === 'Out of Service' && input.status !== 'Out of Service') {
+      await dataSources.elevatorRecord.endDowntime(input.id);
+    }
 
     return updatedElevatorRecord;
   },

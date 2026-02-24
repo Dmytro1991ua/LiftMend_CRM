@@ -1,6 +1,7 @@
 import { ElevatorRecordResolvers } from '@/graphql/types/server/generated_types';
 
 import { getBatchRepairJobsByElevator } from '../utils/batches/getBatchRepairJobsByElevator';
+import { getElevatorDowntimeByElevatorId } from '../utils/batches/getElevatorDowntimeByElevatorId';
 import { loadWithDataLoader } from '../utils/utils';
 
 import {
@@ -33,6 +34,9 @@ const ElevatorRecord: ElevatorRecordResolvers = {
     const repairJobs = await loadWithDataLoader(dataLoaders, info.fieldNodes, getBatchRepairJobsByElevator(prisma), id);
 
     return getRecurringFailureStatus(repairJobs);
+  },
+  downtimeHistory: async ({ id }, _, { prisma, dataLoaders }, info) => {
+    return loadWithDataLoader(dataLoaders, info.fieldNodes, getElevatorDowntimeByElevatorId(prisma), id);
   },
 };
 

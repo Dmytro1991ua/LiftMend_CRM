@@ -176,11 +176,20 @@ export type ElevatorDetails = {
   elevatorTypes: Array<Scalars['String']['output']>;
 };
 
+export type ElevatorDowntime = {
+  __typename?: 'ElevatorDowntime';
+  endedAt?: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['ID']['output'];
+  reason?: Maybe<Scalars['String']['output']>;
+  startedAt: Scalars['DateTime']['output'];
+};
+
 export type ElevatorRecord = Node & {
   __typename?: 'ElevatorRecord';
   buildingName: Scalars['String']['output'];
   capacity: Scalars['Int']['output'];
   deactivationReason?: Maybe<Scalars['String']['output']>;
+  downtimeHistory?: Maybe<Array<ElevatorDowntime>>;
   elevatorLocation: Scalars['String']['output'];
   elevatorType: Scalars['String']['output'];
   /** Computed health score of the elevator (0–100) */
@@ -1012,6 +1021,7 @@ export type ResolversTypes = ResolversObject<{
   DeleteTechnicianRecordResponse: ResolverTypeWrapper<DeleteTechnicianRecordResponse>;
   Edge: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Edge']>;
   ElevatorDetails: ResolverTypeWrapper<ElevatorDetails>;
+  ElevatorDowntime: ResolverTypeWrapper<ElevatorDowntime>;
   ElevatorRecord: ResolverTypeWrapper<DAAPIElevatorRecord>;
   ElevatorRecordConnection: ResolverTypeWrapper<
     Omit<ElevatorRecordConnection, 'edges'> & { edges: Array<ResolversTypes['ElevatorRecordEdge']> }
@@ -1109,6 +1119,7 @@ export type ResolversParentTypes = ResolversObject<{
   DeleteTechnicianRecordResponse: DeleteTechnicianRecordResponse;
   Edge: ResolversInterfaceTypes<ResolversParentTypes>['Edge'];
   ElevatorDetails: ElevatorDetails;
+  ElevatorDowntime: ElevatorDowntime;
   ElevatorRecord: DAAPIElevatorRecord;
   ElevatorRecordConnection: Omit<ElevatorRecordConnection, 'edges'> & {
     edges: Array<ResolversParentTypes['ElevatorRecordEdge']>;
@@ -1332,6 +1343,17 @@ export type ElevatorDetailsResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type ElevatorDowntimeResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['ElevatorDowntime'] = ResolversParentTypes['ElevatorDowntime']
+> = ResolversObject<{
+  endedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  reason?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  startedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type ElevatorRecordResolvers<
   ContextType = Context,
   ParentType extends ResolversParentTypes['ElevatorRecord'] = ResolversParentTypes['ElevatorRecord']
@@ -1339,6 +1361,7 @@ export type ElevatorRecordResolvers<
   buildingName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   capacity?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   deactivationReason?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  downtimeHistory?: Resolver<Maybe<Array<ResolversTypes['ElevatorDowntime']>>, ParentType, ContextType>;
   elevatorLocation?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   elevatorType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   healthScore?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
@@ -1953,6 +1976,7 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   DeleteTechnicianRecordResponse?: DeleteTechnicianRecordResponseResolvers<ContextType>;
   Edge?: EdgeResolvers<ContextType>;
   ElevatorDetails?: ElevatorDetailsResolvers<ContextType>;
+  ElevatorDowntime?: ElevatorDowntimeResolvers<ContextType>;
   ElevatorRecord?: ElevatorRecordResolvers<ContextType>;
   ElevatorRecordConnection?: ElevatorRecordConnectionResolvers<ContextType>;
   ElevatorRecordEdge?: ElevatorRecordEdgeResolvers<ContextType>;
