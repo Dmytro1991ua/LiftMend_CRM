@@ -28,6 +28,11 @@ export const elevatorRecordServicePrismaMock = {
   buildingNames: {},
   elevatorLocations: {},
   elevatorStatuses: {},
+  elevatorDowntime: {
+    create: jest.fn(),
+    findMany: jest.fn(),
+    updateMany: jest.fn(),
+  },
 } as unknown as PrismaClient;
 
 export const repairJobServicePrismaMock = {

@@ -1,0 +1,9 @@
+model ElevatorDowntime {
+  id               String         @id @default(uuid())
+  elevatorRecordId String
+  startedAt        DateTime
+  endedAt          DateTime?
+  reason           String
+  createdAt        DateTime       @default(now())
+  elevatorRecord   ElevatorRecord @relation(fields: [elevatorRecordId], references: [id])
+}

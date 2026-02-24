@@ -33,6 +33,13 @@ type ElevatorRecurringFailureStatus {
   severity: ElevatorSeverityLevel!
 }
 
+type ElevatorDowntime {
+  id: ID!
+  startedAt: DateTime!
+  endedAt: DateTime
+  reason: String
+}
+
 type ElevatorRecord implements Node {
   id: ID!
   elevatorType: String!
@@ -53,6 +60,7 @@ type ElevatorRecord implements Node {
   repairFrequencyStatus: ElevatorRepairFrequencyStatus
   recurringFailureStatus: ElevatorRecurringFailureStatus
   deactivationReason: String
+  downtimeHistory: [ElevatorDowntime!]
 }
 
 type ElevatorRecordEdge implements Edge {
