@@ -18,6 +18,7 @@ export enum TableNames {
   TechnicianManagementTable = 'TechnicianManagement',
   RecentRepairJobs = 'RecentRepairJobs',
   ElevatorMentainanceHistory = 'ElevatorMentainanceHistory',
+  ElevatorDowntimeHistory = 'ElevatorDowntimeHistory',
 }
 
 export enum FormFieldLabel {
@@ -110,6 +111,13 @@ export type ElevatorRecurringFailureStatus = ElevatorInspectionStatus & {
   description: string;
 };
 
+export type ElevatorDowntime = {
+  id: string;
+  startedAt: Date;
+  endedAt?: Date | null;
+  reason?: string | null;
+};
+
 export type ElevatorRecord = {
   id: string;
   elevatorType: string;
@@ -127,6 +135,7 @@ export type ElevatorRecord = {
   repairFrequencyStatus?: ElevatorRepairFrequencyStatus | null;
   recurringFailureStatus?: ElevatorRecurringFailureStatus | null;
   deactivationReason?: string | null;
+  downtimeHistory?: ElevatorDowntime[] | null;
 };
 
 export type TechnicianRecord = {

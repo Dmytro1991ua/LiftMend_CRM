@@ -3,7 +3,7 @@ import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { mockElevatorManagementDropdownOptions } from '@/mocks/dropdownOptions';
-import { mockElevatorRecord } from '@/mocks/elevatorManagementMocks';
+import { mockElevatorDowntime, mockElevatorRecord } from '@/mocks/elevatorManagementMocks';
 import { withApolloAndFormProvider } from '@/mocks/testMocks';
 import EditActionCell from '@/modules/elevator-management/components/edit-action-cell';
 import { EditActionCellProps } from '@/modules/elevator-management/components/edit-action-cell/EditActionCell';
@@ -39,7 +39,20 @@ describe('EditActionCell', () => {
   });
 
   const EditActionCellComponent = (props?: Partial<EditActionCellProps>) =>
-    withApolloAndFormProvider(<EditActionCell elevatorRecord={mockElevatorRecord} {...props} />);
+    withApolloAndFormProvider(
+      <EditActionCell
+        elevatorRecord={{
+          ...mockElevatorRecord,
+          downtimeHistory: [
+            {
+              ...mockElevatorDowntime,
+              startedAt: new Date('2026-02-24T10:36:15.654Z'),
+            },
+          ],
+        }}
+        {...props}
+      />
+    );
 
   it('should render component without crashing', () => {
     render(EditActionCellComponent());
@@ -51,7 +64,16 @@ describe('EditActionCell', () => {
   it('should disable edit icon if elevator record status is Out of Service', () => {
     render(
       EditActionCellComponent({
-        elevatorRecord: { ...mockElevatorRecord, status: 'Out of Service' },
+        elevatorRecord: {
+          ...mockElevatorRecord,
+          status: 'Out of Service',
+          downtimeHistory: [
+            {
+              ...mockElevatorDowntime,
+              startedAt: new Date('2026-02-24T10:36:15.654Z'),
+            },
+          ],
+        },
       })
     );
 

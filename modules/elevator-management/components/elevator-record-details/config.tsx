@@ -8,6 +8,7 @@ import Pill from '@/shared/pill';
 import { PillStatus } from '@/shared/pill/config';
 
 import { ELEVATOR_HEALTH_SCORE_THRESHOLDS } from '../../config';
+import ElevatorDowntimeHistoryTable from '../elevator-downtime-history-table';
 import { ElevatorMaintenanceHistoryTable } from '../elevator-maintenance-history-table';
 import InspectionStatus from '../inspection-status';
 import RecurringFailureStatus from '../recurring-failure-status';
@@ -146,6 +147,18 @@ export const elevatorRecordSectionsConfig = (elevatorRecord: ElevatorRecord): De
         id: 1,
         label: '',
         value: <ElevatorMaintenanceHistoryTable elevatorRecord={elevatorRecord} />,
+        valueClassName: 'overflow-x-auto',
+      },
+    ],
+  },
+  {
+    id: 5,
+    title: 'Downtime History',
+    fields: [
+      {
+        id: 1,
+        label: '',
+        value: <ElevatorDowntimeHistoryTable elevatorDowntimeList={elevatorRecord?.downtimeHistory ?? []} />,
         valueClassName: 'overflow-x-auto',
       },
     ],

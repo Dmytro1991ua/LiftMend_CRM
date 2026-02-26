@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
-import { mockElevatorRecord } from '@/mocks/elevatorManagementMocks';
+import { mockElevatorDowntime, mockElevatorRecord } from '@/mocks/elevatorManagementMocks';
 import { withApolloProvider } from '@/mocks/testMocks';
 import DeleteActionCell from '@/modules/elevator-management/components/delete-action-cell';
 
@@ -9,7 +9,20 @@ describe('DeleteActionCell', () => {
     jest.clearAllMocks();
   });
 
-  const DeleteActionCellComponent = () => withApolloProvider(<DeleteActionCell elevatorRecord={mockElevatorRecord} />);
+  const DeleteActionCellComponent = () =>
+    withApolloProvider(
+      <DeleteActionCell
+        elevatorRecord={{
+          ...mockElevatorRecord,
+          downtimeHistory: [
+            {
+              ...mockElevatorDowntime,
+              startedAt: new Date('2026-02-24T10:36:15.654Z'),
+            },
+          ],
+        }}
+      />
+    );
 
   it('should render component without crashing', () => {
     render(DeleteActionCellComponent());

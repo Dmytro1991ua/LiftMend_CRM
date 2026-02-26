@@ -2,7 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { mockElevatorRecord, mockUpdateElevatorRecord } from '@/mocks/elevatorManagementMocks';
+import { mockElevatorDowntime, mockElevatorRecord, mockUpdateElevatorRecord } from '@/mocks/elevatorManagementMocks';
 import { withApolloProvider } from '@/mocks/testMocks';
 import ElevatorStatusToggleCell, {
   ElevatorStatusToggleCellProps,
@@ -29,7 +29,15 @@ describe('ElevatorStatusToggleCell', () => {
   });
 
   const defaultProps = {
-    elevatorRecord: mockElevatorRecord,
+    elevatorRecord: {
+      ...mockElevatorRecord,
+      downtimeHistory: [
+        {
+          ...mockElevatorDowntime,
+          startedAt: new Date('2026-02-24T10:36:15.654Z'),
+        },
+      ],
+    },
   };
 
   const ElevatorStatusToggleCellComponent = (
@@ -45,7 +53,20 @@ describe('ElevatorStatusToggleCell', () => {
   });
 
   it('should render Out of Service icon', () => {
-    render(ElevatorStatusToggleCellComponent({ elevatorRecord: { ...mockElevatorRecord, status: 'Out of Service' } }));
+    render(
+      ElevatorStatusToggleCellComponent({
+        elevatorRecord: {
+          ...mockElevatorRecord,
+          status: 'Out of Service',
+          downtimeHistory: [
+            {
+              ...mockElevatorDowntime,
+              startedAt: new Date('2026-02-24T10:36:15.654Z'),
+            },
+          ],
+        },
+      })
+    );
 
     expect(screen.getByTestId('elevator-status-icon-hidden')).toBeInTheDocument();
   });
@@ -129,6 +150,12 @@ describe('ElevatorStatusToggleCell', () => {
           elevatorRecord: {
             ...mockElevatorRecord,
             status: 'Out of Service',
+            downtimeHistory: [
+              {
+                ...mockElevatorDowntime,
+                startedAt: new Date('2026-02-24T10:36:15.654Z'),
+              },
+            ],
           },
         },
         [mockUpdateElevatorRecord]
@@ -153,6 +180,12 @@ describe('ElevatorStatusToggleCell', () => {
         elevatorRecord: {
           ...mockElevatorRecord,
           status: 'Out of Service',
+          downtimeHistory: [
+            {
+              ...mockElevatorDowntime,
+              startedAt: new Date('2026-02-24T10:36:15.654Z'),
+            },
+          ],
         },
       })
     );
