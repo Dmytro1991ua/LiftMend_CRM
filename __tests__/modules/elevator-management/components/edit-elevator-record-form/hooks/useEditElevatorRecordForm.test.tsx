@@ -1,6 +1,6 @@
 import { RenderHookResult, act, renderHook } from '@testing-library/react-hooks';
 
-import { mockElevatorRecord } from '@/mocks/elevatorManagementMocks';
+import { mockElevatorDowntime, mockElevatorRecord } from '@/mocks/elevatorManagementMocks';
 import { MockProviderHook } from '@/mocks/testMocks';
 import { UseEditElevatorRecordForm } from '@/modules/elevator-management/components/edit-elevator-record-form/hooks';
 import useEditElevatorRecordForm from '@/modules/elevator-management/components/edit-elevator-record-form/hooks/useEditElevatorRecordForm';
@@ -31,7 +31,15 @@ describe('useEditElevatorRecordForm', () => {
   });
 
   const defaultProps = {
-    elevatorRecord: mockElevatorRecord,
+    elevatorRecord: {
+      ...mockElevatorRecord,
+      downtimeHistory: [
+        {
+          ...mockElevatorDowntime,
+          startedAt: new Date('2026-02-24T10:36:15.654Z'),
+        },
+      ],
+    },
     onReset: mockOnReset,
   };
 
@@ -60,7 +68,15 @@ describe('useEditElevatorRecordForm', () => {
         ...mockFormValues,
         id: mockElevatorRecord.id,
       },
-      mockElevatorRecord
+      {
+        ...mockElevatorRecord,
+        downtimeHistory: [
+          {
+            ...mockElevatorDowntime,
+            startedAt: new Date('2026-02-24T10:36:15.654Z'),
+          },
+        ],
+      }
     );
   });
 });

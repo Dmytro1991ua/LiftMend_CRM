@@ -28,6 +28,13 @@ export const mockBuildingName = 'Skyline Plaza';
 export const mockElevatorLocation = 'Observation Deck';
 export const mockElevatorId = 'test_elevator_id_1';
 
+export const mockElevatorDowntime = {
+  id: 'test-elevator-downtime-id',
+  startedAt: '2026-02-24T10:36:15.654Z',
+  endedAt: null,
+  reason: 'Safety Restriction',
+};
+
 export const mockElevatorRecord = {
   id: mockElevatorRecordId,
   elevatorType: 'Scenic Elevator',
@@ -58,6 +65,7 @@ export const mockElevatorRecord = {
     severity: ElevatorSeverityLevel.Warning,
   },
   deactivationReason: 'Technical issue',
+  downtimeHistory: [mockElevatorDowntime],
 };
 
 export const mockElevatorRecordsFormData: MockedResponse = {
@@ -109,6 +117,7 @@ export const mockGlassElevatorElevatorRecord = {
       severity: ElevatorSeverityLevel.Warning,
     },
     deactivationReason: 'Technical issue',
+    downtimeHistory: [mockElevatorDowntime],
   },
 };
 
@@ -143,6 +152,7 @@ export const mockServiceElevatorElevatorRecord = {
       label: 'Potential recurring issue',
       severity: ElevatorSeverityLevel.Warning,
     },
+    downtimeHistory: [mockElevatorDowntime],
   },
 };
 
@@ -178,6 +188,7 @@ export const mockWarehouseLiftElevatorRecord = {
       severity: ElevatorSeverityLevel.Warning,
     },
     deactivationReason: 'Technical issue',
+    downtimeHistory: [mockElevatorDowntime],
   },
 };
 
@@ -377,6 +388,7 @@ export const mockUpdatedElevatorRecord = {
     severity: ElevatorSeverityLevel.Warning,
   },
   deactivationReason: 'Technical issue',
+  downtimeHistory: [mockElevatorDowntime],
 };
 
 export const mockUpdateElevatorRecord: MockedResponse<UpdateElevatorRecordMutation> = {

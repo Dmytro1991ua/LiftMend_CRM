@@ -1,4 +1,4 @@
-import { mockElevatorRecord } from '@/mocks/elevatorManagementMocks';
+import { mockElevatorDowntime, mockElevatorRecord } from '@/mocks/elevatorManagementMocks';
 import {
   convertElevatorRecordToFormValues,
   convertFormFieldsToElevatorRecord,
@@ -19,7 +19,17 @@ describe('convertElevatorRecordToFormValues', () => {
       status: 'Operational',
     };
 
-    expect(convertElevatorRecordToFormValues(mockElevatorRecord)).toEqual(mockExpectedOutput);
+    expect(
+      convertElevatorRecordToFormValues({
+        ...mockElevatorRecord,
+        downtimeHistory: [
+          {
+            ...mockElevatorDowntime,
+            startedAt: new Date('2026-02-24T10:36:15.654Z'),
+          },
+        ],
+      })
+    ).toEqual(mockExpectedOutput);
   });
 
   it('should handle null input gracefully', () => {

@@ -29,5 +29,11 @@ export const ELEVATOR_RECORD_FRAGMENT = gql`
       severity
     }
     deactivationReason
+    downtimeHistory {
+      id
+      startedAt
+      endedAt
+      reason
+    }
   }
 `;

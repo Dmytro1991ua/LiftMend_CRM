@@ -100,7 +100,7 @@ export const getElevatorDetailsPageActionButtonsConfig = ({
 }: {
   onOpenEditModal: () => void;
   onOpenDeleteModal: () => void;
-  elevatorRecord: ElevatorRecord;
+  elevatorRecord: Omit<ElevatorRecord, 'downtimeHistory'>;
 }) => {
   return [
     ...getCommonDetailsPageActionButtonsConfig({ onOpenDeleteModal, onOpenEditModal, status: elevatorRecord.status }),

@@ -171,11 +171,20 @@ export type ElevatorDetails = {
   elevatorTypes: Array<Scalars['String']['output']>;
 };
 
+export type ElevatorDowntime = {
+  __typename?: 'ElevatorDowntime';
+  endedAt: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['ID']['output'];
+  reason: Maybe<Scalars['String']['output']>;
+  startedAt: Scalars['DateTime']['output'];
+};
+
 export type ElevatorRecord = Node & {
   __typename?: 'ElevatorRecord';
   buildingName: Scalars['String']['output'];
   capacity: Scalars['Int']['output'];
   deactivationReason: Maybe<Scalars['String']['output']>;
+  downtimeHistory: Maybe<Array<ElevatorDowntime>>;
   elevatorLocation: Scalars['String']['output'];
   elevatorType: Scalars['String']['output'];
   /** Computed health score of the elevator (0–100) */
@@ -953,6 +962,13 @@ export type ElevatorRecordFieldsFragment = {
     description: string;
     severity: ElevatorSeverityLevel;
   } | null;
+  downtimeHistory: Array<{
+    __typename?: 'ElevatorDowntime';
+    id: string;
+    startedAt: any;
+    endedAt: any | null;
+    reason: string | null;
+  }> | null;
 };
 
 export type NotificationFieldsFragment = {
@@ -1049,6 +1065,13 @@ export type CompleteElevatorInspectionMutation = {
       description: string;
       severity: ElevatorSeverityLevel;
     } | null;
+    downtimeHistory: Array<{
+      __typename?: 'ElevatorDowntime';
+      id: string;
+      startedAt: any;
+      endedAt: any | null;
+      reason: string | null;
+    }> | null;
   };
 };
 
@@ -1413,6 +1436,13 @@ export type GetElevatorRecordByIdQuery = {
       description: string;
       severity: ElevatorSeverityLevel;
     } | null;
+    downtimeHistory: Array<{
+      __typename?: 'ElevatorDowntime';
+      id: string;
+      startedAt: any;
+      endedAt: any | null;
+      reason: string | null;
+    }> | null;
   };
 };
 
@@ -1471,6 +1501,13 @@ export type GetElevatorRecordsQuery = {
           description: string;
           severity: ElevatorSeverityLevel;
         } | null;
+        downtimeHistory: Array<{
+          __typename?: 'ElevatorDowntime';
+          id: string;
+          startedAt: any;
+          endedAt: any | null;
+          reason: string | null;
+        }> | null;
       };
     }>;
     pageInfo: {
@@ -1885,6 +1922,13 @@ export type UpdateElevatorRecordMutation = {
       description: string;
       severity: ElevatorSeverityLevel;
     } | null;
+    downtimeHistory: Array<{
+      __typename?: 'ElevatorDowntime';
+      id: string;
+      startedAt: any;
+      endedAt: any | null;
+      reason: string | null;
+    }> | null;
   };
 };
 
