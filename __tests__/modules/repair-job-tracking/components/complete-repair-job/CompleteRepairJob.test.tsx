@@ -104,7 +104,7 @@ describe('CompleteRepairJob', () => {
 
     render(CompleteRepairJobComponent());
 
-    const cancelButtonClick = screen.getByText('Cancel');
+    const cancelButtonClick = screen.getByText('No');
 
     await userEvent.click(cancelButtonClick);
 
@@ -119,7 +119,7 @@ describe('CompleteRepairJob', () => {
 
     render(CompleteRepairJobComponent());
 
-    const completeBtn = screen.getByText('Complete');
+    const completeBtn = screen.getByText('Yes');
 
     await userEvent.click(completeBtn);
 
@@ -140,7 +140,7 @@ describe('CompleteRepairJob', () => {
 
     render(CompleteRepairJobComponent());
 
-    const completeBtn = screen.getByText('Complete');
+    const completeBtn = screen.getByText('Yes');
 
     await userEvent.click(completeBtn);
 

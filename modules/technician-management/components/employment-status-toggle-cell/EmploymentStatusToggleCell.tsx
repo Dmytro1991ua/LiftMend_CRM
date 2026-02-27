@@ -1,7 +1,4 @@
-import { Button } from '@/components/ui/button';
-import BaseModal from '@/shared/base-modal';
-import ModalFooter from '@/shared/base-modal/modal-footer';
-import BaseTooltip from '@/shared/base-tooltip';
+import BaseEntityStatusTrigger from '@/shared/base-entity-status-trigger';
 
 import { useUpdateEmploymentStatus } from '../../hooks';
 import { EmploymentStatus } from '../../types';
@@ -12,6 +9,7 @@ export type EmploymentStatusToggleCellProps = {
   technicianId: string;
   availabilityStatus: string | null;
   lastKnownAvailabilityStatus?: string | null;
+  variant?: 'icon' | 'button';
 };
 
 const EmploymentStatusToggleCell = ({
@@ -19,55 +17,35 @@ const EmploymentStatusToggleCell = ({
   availabilityStatus,
   technicianId,
   lastKnownAvailabilityStatus,
+  variant = 'icon',
 }: EmploymentStatusToggleCellProps) => {
+  const isTooltipShown = employmentStatus !== 'Inactive';
+  const iconColorClass = variant === 'icon' ? 'h-5 w-5 text-primary' : 'h-3 w-3 text-white';
+
   const { loading, config, isModalOpen, onHandleEmploymentStatusChange, onOpenModal, onCloseModal } =
     useUpdateEmploymentStatus({
       employmentStatus,
       technicianId,
       availabilityStatus,
       lastKnownAvailabilityStatus,
+      iconColorClass,
     });
 
-  const isTooltipShown = employmentStatus !== 'Inactive';
-
   return (
-    <section>
-      <Button
-        className='hover:bg-transparent'
-        variant='ghost'
-        onClick={(e) => {
-          e.stopPropagation();
-          onOpenModal();
-        }}
-      >
-        <BaseTooltip
-          className='w-[30rem] !shadow-none'
-          disable={isTooltipShown}
-          id='employment-toggle-status-cell-tooltip'
-          message={STATUS_ICON_TOOLTIP_MESSAGE}
-          place='left'
-        >
-          {config.icon}
-        </BaseTooltip>
-      </Button>
-      <BaseModal
-        isOpen={isModalOpen}
-        modalFooter={
-          <ModalFooter
-            cancelButtonLabel='No'
-            isDisabled={loading}
-            isLoading={loading}
-            submitButtonLabel='Yes'
-            onCancel={onCloseModal}
-            onSubmit={onHandleEmploymentStatusChange}
-          />
-        }
-        title={config.modalTitle}
-        onClose={onCloseModal}
-      >
-        {config.modalMessage}
-      </BaseModal>
-    </section>
+    <BaseEntityStatusTrigger
+      buttonIcon={config.icon}
+      buttonLabel='Complete'
+      isLoading={loading}
+      isModalOpen={isModalOpen}
+      isTooltipShown={isTooltipShown}
+      modalMessage={config.modalMessage}
+      modalTitle={config.modalTitle}
+      tooltipMessage={STATUS_ICON_TOOLTIP_MESSAGE}
+      variant={variant}
+      onCloseModal={onCloseModal}
+      onConfirm={onHandleEmploymentStatusChange}
+      onOpenModal={onOpenModal}
+    />
   );
 };
 
