@@ -60,15 +60,10 @@ describe('useCompleteRepairJob', () => {
   it('should opens modal when complete button clicked', () => {
     const { result } = hook();
 
-    const stopPropagation = jest.fn();
-
     act(() => {
-      result.current.onHandleCompleteButtonClick({
-        stopPropagation,
-      } as unknown as React.MouseEvent);
+      result.current.onOpenModal();
     });
 
-    expect(stopPropagation).toHaveBeenCalled();
     expect(mockOnOpenModal).toHaveBeenCalled();
   });
 

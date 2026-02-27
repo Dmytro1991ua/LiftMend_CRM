@@ -22,18 +22,19 @@ import {
 } from './types';
 
 export const getEmploymentStatusUpdateConfig = (
-  lastKnownAvailabilityStatus: string
+  lastKnownAvailabilityStatus: string,
+  iconColorClass?: string
 ): Record<EmploymentStatus, EmploymentStatusConfig> => {
   return {
     Active: {
-      icon: <FaEye color='#2563eb' data-testid='active-technician-icon' size={25} />,
+      icon: <FaEye className={iconColorClass} data-testid='active-technician-icon' />,
       newEmploymentStatus: 'Inactive',
       newAvailabilityStatus: 'Unavailable',
       modalTitle: DEFAULT_DEACTIVATION_MODAL_TITLE,
       modalMessage: DEFAULT_DEACTIVATION_MODAL_MESSAGE,
     },
     Inactive: {
-      icon: <FaEyeSlash color='#6b7280' data-testid='inactive-technician-icon' size={25} />,
+      icon: <FaEyeSlash className={iconColorClass} data-testid='inactive-technician-icon' />,
       newEmploymentStatus: 'Active',
       newAvailabilityStatus: lastKnownAvailabilityStatus,
       modalTitle: DEFAULT_ACTIVATION_MODAL_TITLE,

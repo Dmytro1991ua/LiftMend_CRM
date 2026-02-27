@@ -12,6 +12,7 @@ export type UseUpdateEmploymentStatusProps = {
   technicianId: string;
   availabilityStatus: string | null;
   lastKnownAvailabilityStatus?: string | null;
+  iconColorClass?: string;
   onRedirect?: () => void;
 };
 
@@ -30,13 +31,15 @@ export const useUpdateEmploymentStatus = ({
   technicianId,
   availabilityStatus,
   lastKnownAvailabilityStatus,
+  iconColorClass,
   onRedirect,
 }: UseUpdateEmploymentStatusProps): UseUpdateEmploymentStatus => {
   const { isModalOpen, onCloseModal, onOpenModal } = useModal();
 
   const { loading, onUpdateEmploymentStatus } = useUpdateTechnicianVisibility();
 
-  const config = getEmploymentStatusUpdateConfig(lastKnownAvailabilityStatus ?? '')[employmentStatus] || {};
+  const config =
+    getEmploymentStatusUpdateConfig(lastKnownAvailabilityStatus ?? '', iconColorClass)[employmentStatus] || {};
 
   const onHandleEmploymentStatusChange = useCallback(async () => {
     const result = await onUpdateEmploymentStatus({

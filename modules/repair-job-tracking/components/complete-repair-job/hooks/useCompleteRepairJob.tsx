@@ -13,7 +13,7 @@ import { completeRepairJobSchema } from '../validation';
 export type UseCompleteRepairJob = {
   formState: UseFormReturn<CompleteRepairJobFormValues>;
   isModalOpen: boolean;
-  onHandleCompleteButtonClick: () => void;
+  onOpenModal: () => void;
   onHandleCloseModal: () => void;
   onHandleComplete: (values: CompleteRepairJobFormValues) => Promise<void>;
   isLoading: boolean;
@@ -27,15 +27,6 @@ export const useCompleteRepairJob = (repairJob: RepairJob) => {
 
   const { onCompleteRepairJob, isLoading } = useUpdateRepairJob();
   const { isModalOpen, onOpenModal, onCloseModal } = useModal();
-
-  const onHandleCompleteButtonClick = useCallback(
-    (event: React.MouseEvent) => {
-      event.stopPropagation();
-
-      onOpenModal();
-    },
-    [onOpenModal]
-  );
 
   const onHandleCloseModal = useCallback(() => {
     onCloseModal();
@@ -57,9 +48,9 @@ export const useCompleteRepairJob = (repairJob: RepairJob) => {
   return {
     formState,
     isModalOpen,
-    onHandleCompleteButtonClick,
     onHandleCloseModal,
     onHandleComplete,
+    onOpenModal,
     isLoading,
   };
 };
