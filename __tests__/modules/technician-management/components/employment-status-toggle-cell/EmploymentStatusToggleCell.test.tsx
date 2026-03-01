@@ -66,4 +66,64 @@ describe('EmploymentStatusToggleCell', () => {
     expect(screen.getByText(DEFAULT_ACTIVATION_MODAL_TITLE)).toBeInTheDocument();
     expect(screen.getByText(DEFAULT_ACTIVATION_MODAL_MESSAGE)).toBeInTheDocument();
   });
+
+  it('should render deactivation reason dropdown when technician is active', async () => {
+    render(EmploymentStatusToggleCellComponent());
+
+    await userEvent.click(screen.getByTestId('status-toggle-btn'));
+
+    expect(screen.getByText('Reason for Deactivation')).toBeInTheDocument();
+    expect(screen.getByRole('combobox')).toBeInTheDocument();
+  });
+
+  it('should NOT render deactivation reason dropdown when technician is inactive', async () => {
+    render(
+      EmploymentStatusToggleCellComponent({
+        employmentStatus: 'Inactive',
+      })
+    );
+
+    await userEvent.click(screen.getByTestId('status-toggle-btn'));
+
+    expect(screen.queryByText('Reason for Deactivation (optional)')).not.toBeInTheDocument();
+    expect(screen.queryByText('Select Technician Deactivation Reason')).not.toBeInTheDocument();
+  });
+
+  it('should allow selecting a deactivation reason', async () => {
+    render(EmploymentStatusToggleCellComponent());
+
+    await userEvent.click(screen.getByTestId('status-toggle-btn'));
+
+    const combobox = screen.getByRole('combobox');
+
+    await userEvent.click(combobox);
+
+    const option = await screen.findByRole('option', { name: 'Contract or Engagement Completed' });
+
+    await userEvent.click(option);
+
+    const selectedValue = await screen.findByText('Contract or Engagement Completed', {
+      selector: 'div[aria-disabled="true"], div.css-1gx2hr5-singleValue',
+    });
+
+    expect(selectedValue).toBeInTheDocument();
+  });
+
+  it('should display label next to button when variant is "button"', () => {
+    render(EmploymentStatusToggleCellComponent({ variant: 'button' }));
+
+    const button = screen.getByTestId('status-toggle-btn');
+
+    expect(button).toBeInTheDocument();
+
+    const labelSpan = screen.getByText('Deactivate', { selector: 'span' });
+
+    expect(labelSpan).toBeInTheDocument();
+  });
+
+  it('should NOT display label span when variant is "icon"', () => {
+    render(EmploymentStatusToggleCellComponent({ variant: 'icon' }));
+
+    expect(screen.queryByText('Contract or Engagement Completed', { selector: 'span' })).not.toBeInTheDocument();
+  });
 });

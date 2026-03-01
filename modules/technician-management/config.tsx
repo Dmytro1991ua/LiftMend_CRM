@@ -32,6 +32,7 @@ export const getEmploymentStatusUpdateConfig = (
       newAvailabilityStatus: 'Unavailable',
       modalTitle: DEFAULT_DEACTIVATION_MODAL_TITLE,
       modalMessage: DEFAULT_DEACTIVATION_MODAL_MESSAGE,
+      label: 'Deactivate',
     },
     Inactive: {
       icon: <FaEyeSlash className={iconColorClass} data-testid='inactive-technician-icon' />,
@@ -39,6 +40,7 @@ export const getEmploymentStatusUpdateConfig = (
       newAvailabilityStatus: lastKnownAvailabilityStatus,
       modalTitle: DEFAULT_ACTIVATION_MODAL_TITLE,
       modalMessage: DEFAULT_ACTIVATION_MODAL_MESSAGE,
+      label: 'Activate',
     },
   };
 };

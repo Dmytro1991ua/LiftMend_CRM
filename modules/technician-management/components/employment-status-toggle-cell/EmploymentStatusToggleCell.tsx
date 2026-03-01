@@ -1,8 +1,17 @@
+import { FormProvider } from 'react-hook-form';
+
 import BaseEntityStatusTrigger from '@/shared/base-entity-status-trigger';
+import ControlledSingleSelect from '@/shared/base-select/components/controlled-single-select';
+import {
+  PREDEFINED_DROPDOWN_OPTIONS_CONFIG,
+  PredefinedDropdownOptions,
+} from '@/shared/hooks/useFetchDropdownOptions/config';
 
 import { useUpdateEmploymentStatus } from '../../hooks';
 import { EmploymentStatus } from '../../types';
 import { STATUS_ICON_TOOLTIP_MESSAGE } from '../technician-management-table/constants';
+
+import { TechnicianStatusFormValues } from './types';
 
 export type EmploymentStatusToggleCellProps = {
   employmentStatus: EmploymentStatus;
@@ -19,10 +28,10 @@ const EmploymentStatusToggleCell = ({
   lastKnownAvailabilityStatus,
   variant = 'icon',
 }: EmploymentStatusToggleCellProps) => {
-  const isTooltipShown = employmentStatus !== 'Inactive';
+  const isTechnicianActive = employmentStatus !== 'Inactive';
   const iconColorClass = variant === 'icon' ? 'h-5 w-5 text-primary' : 'h-3 w-3 text-white';
 
-  const { loading, config, isModalOpen, onHandleEmploymentStatusChange, onOpenModal, onCloseModal } =
+  const { loading, config, isModalOpen, formState, onHandleEmploymentStatusChange, onOpenModal, onCloseModal } =
     useUpdateEmploymentStatus({
       employmentStatus,
       technicianId,
@@ -31,21 +40,38 @@ const EmploymentStatusToggleCell = ({
       iconColorClass,
     });
 
+  const { clearErrors, handleSubmit } = formState;
+
   return (
     <BaseEntityStatusTrigger
       buttonIcon={config.icon}
-      buttonLabel='Complete'
+      buttonLabel={config.label}
       isLoading={loading}
       isModalOpen={isModalOpen}
-      isTooltipShown={isTooltipShown}
+      isTooltipShown={isTechnicianActive}
       modalMessage={config.modalMessage}
       modalTitle={config.modalTitle}
       tooltipMessage={STATUS_ICON_TOOLTIP_MESSAGE}
       variant={variant}
       onCloseModal={onCloseModal}
-      onConfirm={onHandleEmploymentStatusChange}
+      onConfirm={handleSubmit(onHandleEmploymentStatusChange)}
       onOpenModal={onOpenModal}
-    />
+    >
+      {isTechnicianActive && (
+        <FormProvider {...formState}>
+          <ControlledSingleSelect<TechnicianStatusFormValues>
+            captureMenuScroll={false}
+            className='mb-6'
+            clearErrors={clearErrors}
+            isMultiSelect={false}
+            label='Reason for Deactivation'
+            name='deactivationReason'
+            options={PREDEFINED_DROPDOWN_OPTIONS_CONFIG[PredefinedDropdownOptions.TechnicianInactivationReason]}
+            placeholder='Select Technician Deactivation Reason'
+          />
+        </FormProvider>
+      )}
+    </BaseEntityStatusTrigger>
   );
 };
 
