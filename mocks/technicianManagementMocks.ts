@@ -26,6 +26,7 @@ export const mockAvailableTechnicianStatuses = ['Active', 'Inactive'];
 export const mockBenjaminHallRecordId = 'test-technician-id-1';
 export const mockOliviaLewisRecordId = 'test-technician-id-2';
 export const mockJamesAndersonRecordId = 'test-technician-id-3';
+export const mockDeactivationReason = 'Contract or Engagement Completed';
 
 export const mockBenjaminHallRecord = {
   id: mockBenjaminHallRecordId,
@@ -45,6 +46,7 @@ export const mockBenjaminHallRecord = {
     onTimeCompletionRate: 0,
     performanceScore: 70,
   },
+  deactivationReason: mockDeactivationReason,
 };
 
 export const mockOliviaLewisRecord = {
@@ -65,6 +67,7 @@ export const mockOliviaLewisRecord = {
     onTimeCompletionRate: 0,
     performanceScore: 60,
   },
+  deactivationReason: mockDeactivationReason,
 };
 
 export const mockJamesAndersonRecord = {
@@ -85,6 +88,7 @@ export const mockJamesAndersonRecord = {
     onTimeCompletionRate: 0,
     performanceScore: 30,
   },
+  deactivationReason: mockDeactivationReason,
 };
 
 export const mockUpdatedBenjaminHallRecord = {
@@ -101,6 +105,7 @@ export const mockUpdatedBenjaminHallRecord = {
     onTimeCompletionRate: 0,
     performanceScore: 40,
   },
+  deactivationReason: mockDeactivationReason,
 };
 
 export const mockedReturnedTechnicianRecordsData = {

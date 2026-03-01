@@ -35,4 +35,5 @@ export type EmploymentStatusConfig = {
   newAvailabilityStatus: string;
   modalTitle: string;
   modalMessage: string;
+  label: string;
 };

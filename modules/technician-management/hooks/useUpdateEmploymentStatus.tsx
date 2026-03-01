@@ -1,7 +1,12 @@
 import { useCallback } from 'react';
 
-import { useModal } from '@/shared/hooks';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { UseFormReturn } from 'react-hook-form';
 
+import { useFormState, useModal } from '@/shared/hooks';
+
+import { TechnicianStatusFormValues } from '../components/employment-status-toggle-cell/types';
+import { createTechnicianStatusChangeSchema } from '../components/employment-status-toggle-cell/validation';
 import { getEmploymentStatusUpdateConfig } from '../config';
 import { EmploymentStatus, EmploymentStatusConfig } from '../types';
 
@@ -21,6 +26,7 @@ export type UseUpdateEmploymentStatus = {
   config: EmploymentStatusConfig;
   isModalOpen: boolean;
   error?: string;
+  formState: UseFormReturn<TechnicianStatusFormValues>;
   onOpenModal: () => void;
   onHandleEmploymentStatusChange: () => void;
   onCloseModal: () => void;
@@ -38,6 +44,12 @@ export const useUpdateEmploymentStatus = ({
 
   const { loading, onUpdateEmploymentStatus } = useUpdateTechnicianVisibility();
 
+  const { formState, onReset } = useFormState<TechnicianStatusFormValues>({
+    initialValues: { deactivationReason: '' },
+    resolver: zodResolver(createTechnicianStatusChangeSchema(employmentStatus !== 'Inactive')),
+    onCloseModal,
+  });
+
   const config =
     getEmploymentStatusUpdateConfig(lastKnownAvailabilityStatus ?? '', iconColorClass)[employmentStatus] || {};
 
@@ -49,25 +61,31 @@ export const useUpdateEmploymentStatus = ({
       currentAvailabilityStatus: availabilityStatus,
     });
 
-    onCloseModal();
+    onReset();
 
     if (!result?.errors?.length) onRedirect && onRedirect();
   }, [
     config.newEmploymentStatus,
     config.newAvailabilityStatus,
-    onCloseModal,
+    onReset,
     onUpdateEmploymentStatus,
     technicianId,
     availabilityStatus,
     onRedirect,
   ]);
 
+  const onHandleCloseModal = useCallback(() => {
+    onReset();
+    onCloseModal();
+  }, [onReset, onCloseModal]);
+
   return {
     loading,
     config,
     isModalOpen,
+    formState,
     onOpenModal,
-    onCloseModal,
+    onCloseModal: onHandleCloseModal,
     onHandleEmploymentStatusChange,
   };
 };

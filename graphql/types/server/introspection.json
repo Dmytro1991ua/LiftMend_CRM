@@ -6758,6 +6758,18 @@
             "deprecationReason": null
           },
           {
+            "name": "deactivationReason",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "employmentStatus",
             "description": null,
             "args": [],
@@ -7744,6 +7756,18 @@
           },
           {
             "name": "contactInformation",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "deactivationReason",
             "description": null,
             "type": {
               "kind": "SCALAR",

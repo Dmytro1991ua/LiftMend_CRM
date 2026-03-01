@@ -787,6 +787,7 @@ export type TechnicianRecord = Node & {
   availabilityStatus?: Maybe<Scalars['String']['output']>;
   certifications: Array<Scalars['String']['output']>;
   contactInformation: Scalars['String']['output'];
+  deactivationReason?: Maybe<Scalars['String']['output']>;
   employmentStatus?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   lastKnownAvailabilityStatus?: Maybe<Scalars['String']['output']>;
@@ -879,6 +880,7 @@ export type UpdateTechnicianRecordInput = {
   availabilityStatus?: InputMaybe<Scalars['String']['input']>;
   certifications?: InputMaybe<Array<Scalars['String']['input']>>;
   contactInformation?: InputMaybe<Scalars['String']['input']>;
+  deactivationReason?: InputMaybe<Scalars['String']['input']>;
   employmentStatus?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['ID']['input'];
   lastKnownAvailabilityStatus?: InputMaybe<Scalars['String']['input']>;
@@ -1881,6 +1883,7 @@ export type TechnicianRecordResolvers<
   availabilityStatus?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   certifications?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   contactInformation?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  deactivationReason?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   employmentStatus?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   lastKnownAvailabilityStatus?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;

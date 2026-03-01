@@ -19,5 +19,6 @@ export const TECHNICIAN_RECORD_FRAGMENT = gql`
       averageDurationDays
       performanceScore
     }
+    deactivationReason
   }
 `;

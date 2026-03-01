@@ -9,5 +9,6 @@ model TechnicianRecord {
   createdAt                   DateTime?   @default(now()) @db.Timestamp(6)
   updatedAt                   DateTime?   @default(now()) @updatedAt @db.Timestamp(6)
   lastKnownAvailabilityStatus String?
+  deactivationReason          String?
   repairJobs                  RepairJob[]
 }

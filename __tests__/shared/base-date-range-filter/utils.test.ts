@@ -13,6 +13,11 @@ import {
 } from '@/shared/base-date-range-filter/utils';
 
 describe('getSanitizeDateRange', () => {
+  beforeAll(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2026-02-15T12:00:00Z'));
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });

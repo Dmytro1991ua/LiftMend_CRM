@@ -19,6 +19,7 @@ export enum PredefinedDropdownOptions {
   NotificationsCategory,
   NotificationsStatus,
   ElevatorDeactivationReason,
+  TechnicianInactivationReason,
 }
 
 export type DropdownOptionConfig = {
@@ -45,6 +46,16 @@ export const PREDEFINED_DROPDOWN_OPTIONS_CONFIG: Record<PredefinedDropdownOption
     { value: 'Modernization Work', label: 'Modernization Work' },
     { value: 'Installation Phase', label: 'Installation Phase' },
     { value: 'Administrative Hold', label: 'Administrative Hold' },
+  ],
+  [PredefinedDropdownOptions.TechnicianInactivationReason]: [
+    { value: 'No Longer with Organization', label: 'No Longer with Organization' },
+    { value: 'Contract or Engagement Completed', label: 'Contract or Engagement Completed' },
+    { value: 'Transferred to Another Location', label: 'Transferred to Another Location' },
+    { value: 'Moved to Non-Field Role', label: 'Moved to Non-Field Role' },
+    { value: 'No Longer Assigned to This Service Area', label: 'No Longer Assigned to This Service Area' },
+    { value: 'Vendor No Longer Active', label: 'Vendor No Longer Active' },
+    { value: 'Compliance Requirements Not Met', label: 'Compliance Requirements Not Met' },
+    { value: 'Record Deactivated for Data Cleanup', label: 'Record Deactivated for Data Cleanup' },
   ],
 };
 

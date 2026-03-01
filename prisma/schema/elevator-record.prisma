@@ -11,6 +11,6 @@ model ElevatorRecord {
   lastInspectionDate  DateTime?
   nextInspectionDate  DateTime?
   deactivationReason  String?
-  repairJobs          RepairJob[]
   elevatorDowntime    ElevatorDowntime[]
+  repairJobs          RepairJob[]
 }

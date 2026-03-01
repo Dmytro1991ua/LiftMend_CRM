@@ -787,6 +787,7 @@ export type TechnicianRecord = Node & {
   availabilityStatus: Maybe<Scalars['String']['output']>;
   certifications: Array<Scalars['String']['output']>;
   contactInformation: Scalars['String']['output'];
+  deactivationReason: Maybe<Scalars['String']['output']>;
   employmentStatus: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   lastKnownAvailabilityStatus: Maybe<Scalars['String']['output']>;
@@ -880,6 +881,7 @@ export type UpdateTechnicianRecordInput = {
   availabilityStatus?: InputMaybe<Scalars['String']['input']>;
   certifications?: InputMaybe<Array<Scalars['String']['input']>>;
   contactInformation?: InputMaybe<Scalars['String']['input']>;
+  deactivationReason?: InputMaybe<Scalars['String']['input']>;
   employmentStatus?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['ID']['input'];
   lastKnownAvailabilityStatus?: InputMaybe<Scalars['String']['input']>;
@@ -1019,6 +1021,7 @@ export type TechnicianRecordFieldsFragment = {
   availabilityStatus: string | null;
   employmentStatus: string | null;
   lastKnownAvailabilityStatus: string | null;
+  deactivationReason: string | null;
   performanceMetrics: {
     __typename?: 'TechnicianPerformanceMetrics';
     activeRepairJobs: number | null;
@@ -1137,6 +1140,7 @@ export type CreateTechnicianRecordMutation = {
     availabilityStatus: string | null;
     employmentStatus: string | null;
     lastKnownAvailabilityStatus: string | null;
+    deactivationReason: string | null;
     performanceMetrics: {
       __typename?: 'TechnicianPerformanceMetrics';
       activeRepairJobs: number | null;
@@ -1705,6 +1709,7 @@ export type GetTechnicianRecordByIdQuery = {
     availabilityStatus: string | null;
     employmentStatus: string | null;
     lastKnownAvailabilityStatus: string | null;
+    deactivationReason: string | null;
     performanceMetrics: {
       __typename?: 'TechnicianPerformanceMetrics';
       activeRepairJobs: number | null;
@@ -1755,6 +1760,7 @@ export type GetTechnicianRecordsQuery = {
         availabilityStatus: string | null;
         employmentStatus: string | null;
         lastKnownAvailabilityStatus: string | null;
+        deactivationReason: string | null;
         performanceMetrics: {
           __typename?: 'TechnicianPerformanceMetrics';
           activeRepairJobs: number | null;
@@ -1990,6 +1996,7 @@ export type UpdateTechnicianRecordMutation = {
     availabilityStatus: string | null;
     employmentStatus: string | null;
     lastKnownAvailabilityStatus: string | null;
+    deactivationReason: string | null;
     performanceMetrics: {
       __typename?: 'TechnicianPerformanceMetrics';
       activeRepairJobs: number | null;
