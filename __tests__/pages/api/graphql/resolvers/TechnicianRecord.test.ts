@@ -2,6 +2,7 @@ import { TechnicianRecordResolvers } from '@/graphql/types/server/generated_type
 import getResolverToTest, { TestResolver } from '@/mocks/gql/getResolverToTest';
 import createDataSourcesMock from '@/mocks/gql/mockedDataSources';
 import { repairJobServicePrismaMock } from '@/mocks/gql/prismaMocks';
+import { mockTechnicianId } from '@/mocks/repairJobTrackingMocks';
 import TechnicianRecord from '@/pages/api/graphql/resolvers/TechnicianRecord';
 import { loadWithDataLoader } from '@/pages/api/graphql/utils/utils';
 
@@ -11,26 +12,33 @@ jest.mock('@/pages/api/graphql/utils/utils', () => ({
 }));
 
 describe('TechnicianRecord', () => {
+  let mockDataSources: ReturnType<typeof createDataSourcesMock>;
+  let performanceMetricsResolver: TestResolver<TechnicianRecordResolvers, 'performanceMetrics'>;
+  let employmentHistoryResolver: TestResolver<TechnicianRecordResolvers, 'employmentHistory'>;
+
+  const mockTechnicianName = 'Alice';
+
+  beforeEach(() => {
+    mockDataSources = createDataSourcesMock(repairJobServicePrismaMock);
+
+    performanceMetricsResolver = getResolverToTest<TechnicianRecordResolvers, 'performanceMetrics'>(
+      TechnicianRecord,
+      'performanceMetrics',
+      mockDataSources
+    );
+
+    employmentHistoryResolver = getResolverToTest<TechnicianRecordResolvers, 'employmentHistory'>(
+      TechnicianRecord,
+      'employmentHistory',
+      mockDataSources
+    );
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('performanceMetrics', () => {
-    let mockDataSources: ReturnType<typeof createDataSourcesMock>;
-    let performanceMetricsResolver: TestResolver<TechnicianRecordResolvers, 'performanceMetrics'>;
-
-    const mockTechnicianName = 'Alice';
-
-    beforeEach(() => {
-      mockDataSources = createDataSourcesMock(repairJobServicePrismaMock);
-
-      performanceMetricsResolver = getResolverToTest<TechnicianRecordResolvers, 'performanceMetrics'>(
-        TechnicianRecord,
-        'performanceMetrics',
-        mockDataSources
-      );
-    });
-
-    afterEach(() => {
-      jest.clearAllMocks();
-    });
-
     it('should call loadWithDataLoader and return performance metrics', async () => {
       const mockRepairJobs = [
         {
@@ -96,6 +104,39 @@ describe('TechnicianRecord', () => {
         performanceScore: null,
         totalRepairJobs: 0,
       });
+    });
+  });
+
+  describe('employmentHistory', () => {
+    it('should call loadWithDataLoader and return employment history', async () => {
+      const mockEmploymentHistory = [
+        {
+          id: '1',
+          technicianId: mockTechnicianId,
+          previousEmploymentStatus: 'Active',
+          newEmploymentStatus: 'Inactive',
+          previousAvailabilityStatus: 'Available',
+          newAvailabilityStatus: 'Unavailable',
+          reason: 'Retired',
+          createdAt: new Date(),
+        },
+      ];
+
+      (loadWithDataLoader as jest.Mock).mockResolvedValue(mockEmploymentHistory);
+
+      const result = await employmentHistoryResolver({ id: mockTechnicianId });
+
+      expect(loadWithDataLoader).toHaveBeenCalled();
+      expect(result).toEqual(mockEmploymentHistory);
+    });
+
+    it('should return empty array when no employment history exists', async () => {
+      (loadWithDataLoader as jest.Mock).mockResolvedValue([]);
+
+      const result = await employmentHistoryResolver({ id: mockTechnicianId });
+
+      expect(loadWithDataLoader).toHaveBeenCalled();
+      expect(result).toEqual([]);
     });
   });
 });

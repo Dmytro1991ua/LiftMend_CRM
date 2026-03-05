@@ -40,8 +40,7 @@ const CompleteRepairJob = ({ repairJob, variant = 'icon' }: CompleteRepairJobPro
       wrapperClassName='flex justify-center items-center'
       onCloseModal={onHandleCloseModal}
       onConfirm={formState.handleSubmit(onHandleComplete)}
-      onOpenModal={onOpenModal}
-    >
+      onOpenModal={onOpenModal}>
       <FormProvider {...formState}>
         <ControlledChecklist isDisabled={isLoading} name='checklist' />
       </FormProvider>

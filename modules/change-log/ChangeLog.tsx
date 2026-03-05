@@ -49,8 +49,7 @@ const ChangeLog = () => {
       sectionSubtitle={DEFAULT_CHANGE_LOG_PAGE_DESCRIPTION}
       sectionTitle={DEFAULT_CHANGE_LOG_PAGE_TITLE}
       totalItems={totalChangeLogsLength}
-      onNext={onNext}
-    >
+      onNext={onNext}>
       <Accordion collapsible type='single'>
         {changeLogs.map(({ id, createdAt, modifiedBy, entityType, changeList }) => (
           <ChangeLogItem key={id} createdAt={createdAt} entityType={entityType} id={id} modifiedBy={modifiedBy}>

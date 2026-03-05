@@ -48,8 +48,7 @@ const ElevatorStatusToggleCell = ({ variant = 'icon', elevatorRecord }: Elevator
       variant={variant}
       onCloseModal={onCloseModal}
       onConfirm={handleSubmit(onHandleElevatorRecordStatusChange)}
-      onOpenModal={onOpenModal}
-    >
+      onOpenModal={onOpenModal}>
       {isElevatorOperational && (
         <FormProvider {...formState}>
           <ControlledSingleSelect<ElevatorStatusFormValues>

@@ -57,8 +57,7 @@ const TableFilters = <T,>({
           collapsible
           className={getAccordionHeight(currentOpenedFilter, isAccordionAutoHeight)}
           type='single'
-          onValueChange={handleAccordionChange}
-        >
+          onValueChange={handleAccordionChange}>
           {filtersConfig.map(({ filterKey, filterType, label, id, options }) => (
             <AccordionItem key={id} className='px-2 ' value={filterKey}>
               <FilterItem<T>

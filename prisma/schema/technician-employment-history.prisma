@@ -1,0 +1,11 @@
+model TechnicianEmploymentHistory {
+  id               String           @id @default(uuid())
+  technicianId     String
+  previousEmploymentStatus   String
+  newEmploymentStatus        String
+  previousAvailabilityStatus String
+  newAvailabilityStatus      String
+  reason           String?
+  createdAt        DateTime         @default(now())
+  technicianRecord TechnicianRecord @relation(fields: [technicianId], references: [id])
+}

@@ -55,8 +55,7 @@ const EmploymentStatusToggleCell = ({
       variant={variant}
       onCloseModal={onCloseModal}
       onConfirm={handleSubmit(onHandleEmploymentStatusChange)}
-      onOpenModal={onOpenModal}
-    >
+      onOpenModal={onOpenModal}>
       {isTechnicianActive && (
         <FormProvider {...formState}>
           <ControlledSingleSelect<TechnicianStatusFormValues>

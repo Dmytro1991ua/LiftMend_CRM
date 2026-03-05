@@ -24,8 +24,7 @@ const BaseChecklistItem = ({
         'rounded-md border p-3 space-y-2 transition-colors',
         hasError && 'border-destructive bg-destructive/5',
         wrapperClassName
-      )}
-    >
+      )}>
       <div className='flex items-center gap-3'>
         {renderCheckbox}
         <span className={labelErrorStyles}>{label}</span>

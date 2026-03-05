@@ -68,15 +68,13 @@ const BaseTableBody = <T,>({
 
               if (isRowDisabled && !isRowDisabled(row.original)) onHandleRowClick(row);
             }}
-            onMouseDown={(e) => e.stopPropagation()}
-          >
+            onMouseDown={(e) => e.stopPropagation()}>
             {row.getVisibleCells().map((cell) => (
               <TableCell
                 key={cell.id}
                 style={{
                   width: `calc(var(--col-${cell.column.id}-size) * 1px)`,
-                }}
-              >
+                }}>
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </TableCell>
             ))}

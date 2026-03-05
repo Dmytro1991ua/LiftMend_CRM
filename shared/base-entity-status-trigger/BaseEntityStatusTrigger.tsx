@@ -53,8 +53,7 @@ const BaseEntityStatusTrigger = ({
         disable={isTooltipShown}
         id='base-entity-status-transition-tooltip'
         message={tooltipMessage}
-        place='left'
-      >
+        place='left'>
         <Button
           className={isIconOnly ? 'hover:bg-transparent' : ''}
           data-testid='status-toggle-btn'
@@ -63,8 +62,7 @@ const BaseEntityStatusTrigger = ({
           onClick={(e) => {
             e.stopPropagation();
             onOpenModal?.();
-          }}
-        >
+          }}>
           <div data-testid={buttonIconTestId}>{buttonIcon}</div>
           {shouldShowText && <span className='ml-2'>{buttonLabel}</span>}
         </Button>
@@ -82,8 +80,7 @@ const BaseEntityStatusTrigger = ({
           />
         }
         title={modalTitle}
-        onClose={onCloseModal}
-      >
+        onClose={onCloseModal}>
         <h3 className={cn('text-sm text-muted-foreground', children ? 'mb-4' : 'mb-0')}>{modalMessage}</h3>
         {children}
       </BaseModal>

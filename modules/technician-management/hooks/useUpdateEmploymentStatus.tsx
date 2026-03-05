@@ -28,7 +28,7 @@ export type UseUpdateEmploymentStatus = {
   error?: string;
   formState: UseFormReturn<TechnicianStatusFormValues>;
   onOpenModal: () => void;
-  onHandleEmploymentStatusChange: () => void;
+  onHandleEmploymentStatusChange: ({ deactivationReason }: TechnicianStatusFormValues) => Promise<void>;
   onCloseModal: () => void;
 };
 
@@ -53,26 +53,30 @@ export const useUpdateEmploymentStatus = ({
   const config =
     getEmploymentStatusUpdateConfig(lastKnownAvailabilityStatus ?? '', iconColorClass)[employmentStatus] || {};
 
-  const onHandleEmploymentStatusChange = useCallback(async () => {
-    const result = await onUpdateEmploymentStatus({
-      id: technicianId,
-      newEmploymentStatus: config.newEmploymentStatus,
-      newAvailabilityStatus: config.newAvailabilityStatus,
-      currentAvailabilityStatus: availabilityStatus,
-    });
+  const onHandleEmploymentStatusChange = useCallback(
+    async ({ deactivationReason }: TechnicianStatusFormValues) => {
+      const result = await onUpdateEmploymentStatus({
+        id: technicianId,
+        newEmploymentStatus: config.newEmploymentStatus,
+        newAvailabilityStatus: config.newAvailabilityStatus,
+        currentAvailabilityStatus: availabilityStatus,
+        deactivationReason,
+      });
 
-    onReset();
+      onReset();
 
-    if (!result?.errors?.length) onRedirect && onRedirect();
-  }, [
-    config.newEmploymentStatus,
-    config.newAvailabilityStatus,
-    onReset,
-    onUpdateEmploymentStatus,
-    technicianId,
-    availabilityStatus,
-    onRedirect,
-  ]);
+      if (!result?.errors?.length) onRedirect && onRedirect();
+    },
+    [
+      config.newEmploymentStatus,
+      config.newAvailabilityStatus,
+      onReset,
+      onUpdateEmploymentStatus,
+      technicianId,
+      availabilityStatus,
+      onRedirect,
+    ]
+  );
 
   const onHandleCloseModal = useCallback(() => {
     onReset();

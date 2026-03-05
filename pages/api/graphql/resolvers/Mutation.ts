@@ -203,7 +203,22 @@ const Mutation: MutationResolvers = {
   },
 
   updateTechnicianRecord: async (_, { input }, { dataSources }): Promise<TechnicianRecord> => {
+    const existingTechnician = await dataSources.technicianRecord.findTechnicianRecordById(input.id);
     const updatedTechnician = await dataSources.technicianRecord.updateTechnicianRecord(input);
+
+    const isEmploymentStatusChanged = existingTechnician?.employmentStatus !== input.employmentStatus;
+    const isAvailabilityStatusChanged = existingTechnician?.availabilityStatus !== input.availabilityStatus;
+
+    if (isEmploymentStatusChanged || isAvailabilityStatusChanged) {
+      await dataSources.technicianRecord.createEmploymentHistory({
+        technicianId: input.id,
+        previousEmploymentStatus: existingTechnician?.employmentStatus ?? '',
+        newEmploymentStatus: input.employmentStatus ?? '',
+        previousAvailabilityStatus: existingTechnician?.availabilityStatus ?? '',
+        newAvailabilityStatus: input.availabilityStatus ?? '',
+        reason: input.employmentStatus === 'Inactive' ? input.deactivationReason : null,
+      });
+    }
 
     return updatedTechnician;
   },

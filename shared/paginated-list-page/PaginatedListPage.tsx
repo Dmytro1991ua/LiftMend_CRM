@@ -72,8 +72,7 @@ const PaginatedListPage = ({
             }
             next={onNext}
             scrollThreshold={0.99}
-            scrollableTarget='scrollable-paginated-list'
-          >
+            scrollableTarget='scrollable-paginated-list'>
             {children}
           </InfiniteScroll>
         </div>

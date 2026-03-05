@@ -13,6 +13,7 @@ type UpdateEmploymentStatus = {
   newEmploymentStatus: string;
   newAvailabilityStatus: string;
   currentAvailabilityStatus?: string | null;
+  deactivationReason?: string | null;
 };
 
 export type UseUpdateTechnicianVisibility = {
@@ -39,6 +40,7 @@ export const useUpdateTechnicianVisibility = (): UseUpdateTechnicianVisibility =
     newAvailabilityStatus,
     newEmploymentStatus,
     currentAvailabilityStatus,
+    deactivationReason,
   }: UpdateEmploymentStatus) => {
     try {
       const result = await updateTechnicianRecord({
@@ -48,6 +50,7 @@ export const useUpdateTechnicianVisibility = (): UseUpdateTechnicianVisibility =
             employmentStatus: newEmploymentStatus,
             availabilityStatus: newAvailabilityStatus,
             lastKnownAvailabilityStatus: currentAvailabilityStatus,
+            deactivationReason,
           },
         },
       });
