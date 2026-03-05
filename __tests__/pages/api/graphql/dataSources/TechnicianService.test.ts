@@ -107,13 +107,11 @@ describe('TechnicianService', () => {
     });
 
     it('should throw an error if id is undefined', async () => {
-      await expect(technicianService.findTechnicianRecordById(undefined)).rejects.toThrow(
-        'RepairJob missing technicianId'
-      );
+      await expect(technicianService.findTechnicianRecordById(undefined)).rejects.toThrow('Technician not found');
     });
 
     it('should throw an error if id is null', async () => {
-      await expect(technicianService.findTechnicianRecordById(null)).rejects.toThrow('RepairJob missing technicianId');
+      await expect(technicianService.findTechnicianRecordById(null)).rejects.toThrow('Technician not found');
     });
   });
 
@@ -349,6 +347,41 @@ describe('TechnicianService', () => {
       await expect(technicianService.validateTechnicianAssignment(technicianId, technicianName)).rejects.toThrow(
         `Technician ${technicianName} is already assigned to another job. Please check the Repair Job Tracking page to see current assignments o select a different technician.`
       );
+    });
+  });
+
+  describe('createEmploymentHistory', () => {
+    const mockEmploymentHistory = {
+      technicianId: mockBenjaminHallRecord.id,
+      previousEmploymentStatus: 'Active',
+      newEmploymentStatus: 'Inactive',
+      previousAvailabilityStatus: 'Available',
+      newAvailabilityStatus: 'Unavailable',
+      reason: 'No Longer with Organization',
+    };
+
+    const mockCreatedHistoryRecord = {
+      id: 'history-id-1',
+      createdAt: new Date(),
+      ...mockEmploymentHistory,
+    };
+
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it('should create technician employment history record', async () => {
+      (technicianRecordPrismaMock.technicianEmploymentHistory.create as jest.Mock).mockResolvedValue(
+        mockCreatedHistoryRecord
+      );
+
+      const result = await technicianService.createEmploymentHistory(mockEmploymentHistory);
+
+      expect(technicianRecordPrismaMock.technicianEmploymentHistory.create).toHaveBeenCalledWith({
+        data: mockEmploymentHistory,
+      });
+
+      expect(result).toEqual(mockCreatedHistoryRecord);
     });
   });
 });

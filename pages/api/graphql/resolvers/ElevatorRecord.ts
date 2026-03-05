@@ -1,7 +1,6 @@
 import { ElevatorRecordResolvers } from '@/graphql/types/server/generated_types';
 
-import { getBatchRepairJobsByElevator } from '../utils/batches/getBatchRepairJobsByElevator';
-import { getElevatorDowntimeByElevatorId } from '../utils/batches/getElevatorDowntimeByElevatorId';
+import { getBatchRepairJobsByElevator, getElevatorDowntimeByElevatorId } from '../utils/batches';
 import { loadWithDataLoader } from '../utils/utils';
 
 import {

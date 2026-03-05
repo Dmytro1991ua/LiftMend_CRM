@@ -45,8 +45,7 @@ const CompleteElevatorInspectionCell = ({ elevatorId, status }: CompleteElevator
         data-testid='complete-elevator-inspection-btn'
         disabled={!isElevatorOperational}
         variant='ghost'
-        onClick={onHandleCompleteInspectionIconClick}
-      >
+        onClick={onHandleCompleteInspectionIconClick}>
         <HiClipboardCheck className='h-6 w-6 text-primary' data-testid='complete-inspection-icon' />
       </Button>
       <BaseModal
@@ -62,8 +61,7 @@ const CompleteElevatorInspectionCell = ({ elevatorId, status }: CompleteElevator
           />
         }
         title='Complete Inspection'
-        onClose={onCloseModal}
-      >
+        onClose={onCloseModal}>
         <h3>{COMPLETE_ELEVATOR_INSPECTION_MODAL_MESSAGE}</h3>
       </BaseModal>
     </section>

@@ -26,7 +26,7 @@ export const getElevatorDowntimeByElevatorId = (prisma: PrismaClient) =>
     /**
      * How to read grouping key from fetched entity
      */
-    groupByFn: (downtime) => ({
-      elevatorRecordId: downtime.elevatorRecordId,
+    groupByFn: ({ elevatorRecordId }) => ({
+      elevatorRecordId,
     }),
   });

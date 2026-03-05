@@ -39,11 +39,9 @@ const NotificationItem = ({ notification }: NotificationItemProps) => {
         notificationStyle
       )}
       data-testid='notification-item'
-      onClick={onMarkAsRed}
-    >
+      onClick={onMarkAsRed}>
       <span
-        className={cn('mr-3 px-3 py-2 text-xs font-bold rounded-full uppercase flex-shrink-0', notificationBadgeStyle)}
-      >
+        className={cn('mr-3 px-3 py-2 text-xs font-bold rounded-full uppercase flex-shrink-0', notificationBadgeStyle)}>
         {category}
       </span>
       <p className='text-sm md:text-base'>{message}</p>

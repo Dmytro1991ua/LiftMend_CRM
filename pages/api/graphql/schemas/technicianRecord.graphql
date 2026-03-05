@@ -4,6 +4,17 @@ enum TechnicianRecordSortField {
   EMPLOYMENT_STATUS
 }
 
+type TechnicianEmploymentHistory {
+  id: ID!
+  technicianId: String!
+  previousEmploymentStatus: String!
+  newEmploymentStatus: String!
+  previousAvailabilityStatus: String!
+  newAvailabilityStatus: String!
+  reason: String
+  createdAt: DateTime!
+}
+
 type TechnicianRecord implements Node {
   id: ID!
   name: String!
@@ -15,6 +26,7 @@ type TechnicianRecord implements Node {
   lastKnownAvailabilityStatus: String
   performanceMetrics: TechnicianPerformanceMetrics
   deactivationReason: String
+  employmentHistory: [TechnicianEmploymentHistory!]
 }
 
 type TechnicianRecordEdges implements Edge {

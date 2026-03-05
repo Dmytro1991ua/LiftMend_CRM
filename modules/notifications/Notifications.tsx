@@ -43,8 +43,7 @@ const Notifications = () => {
       isInitialLoading={isInitialLoading}
       sectionTitle='Messages History'
       totalItems={totalNotificationsLength}
-      onNext={onNext}
-    >
+      onNext={onNext}>
       {notifications.map(({ label, items }) => (
         <div key={label} className='mb-4'>
           <h4 className='text-gray-400 text-sm uppercase mb-4 pb-1 border-b-2 font-bold'>{label}</h4>

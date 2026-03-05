@@ -640,6 +640,7 @@ describe('Mutation', () => {
   describe('updateTechnicianRecord', () => {
     const mockError = 'Failed to update technician record';
     const mockInput = {
+      ...mockBenjaminHallRecord,
       id: mockBenjaminHallRecord.id,
       skills: ['New Test Skill'],
     };
@@ -648,12 +649,44 @@ describe('Mutation', () => {
       skills: ['New Test Skill'],
     };
 
-    it('should update elevator record', async () => {
+    it('should update technician record without creating employment history when status did not change', async () => {
+      mockDataSources.technicianRecord.findTechnicianRecordById.mockResolvedValue(mockBenjaminHallRecord);
+
       mockDataSources.technicianRecord.updateTechnicianRecord.mockResolvedValue(mockUpdatedTechnicianRecord);
 
       const result = await updateTechnicianRecordResolver({}, { input: mockInput });
 
+      expect(mockDataSources.technicianRecord.findTechnicianRecordById).toHaveBeenCalledWith(mockInput.id);
+
       expect(mockDataSources.technicianRecord.updateTechnicianRecord).toHaveBeenCalledWith(mockInput);
+
+      expect(mockDataSources.technicianRecord.createEmploymentHistory).not.toHaveBeenCalled();
+
+      expect(result).toEqual(mockUpdatedTechnicianRecord);
+    });
+
+    it('should create employment history when employment status changes', async () => {
+      const inputWithStatusChange = {
+        ...mockInput,
+        employmentStatus: 'Inactive',
+        deactivationReason: 'Retired',
+      };
+
+      mockDataSources.technicianRecord.findTechnicianRecordById.mockResolvedValue(mockBenjaminHallRecord);
+
+      mockDataSources.technicianRecord.updateTechnicianRecord.mockResolvedValue(mockUpdatedTechnicianRecord);
+
+      const result = await updateTechnicianRecordResolver({}, { input: inputWithStatusChange });
+
+      expect(mockDataSources.technicianRecord.createEmploymentHistory).toHaveBeenCalledWith({
+        technicianId: inputWithStatusChange.id,
+        previousEmploymentStatus: mockBenjaminHallRecord.employmentStatus ?? '',
+        newEmploymentStatus: inputWithStatusChange.employmentStatus ?? '',
+        previousAvailabilityStatus: mockBenjaminHallRecord.availabilityStatus ?? '',
+        newAvailabilityStatus: inputWithStatusChange.availabilityStatus ?? '',
+        reason: inputWithStatusChange.deactivationReason,
+      });
+
       expect(result).toEqual(mockUpdatedTechnicianRecord);
     });
 

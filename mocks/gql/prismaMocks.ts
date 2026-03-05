@@ -75,6 +75,10 @@ export const technicianRecordPrismaMock = {
   certifications: {},
   technicianSkills: {},
   employmentStatuses: {},
+  technicianEmploymentHistory: {
+    create: jest.fn(),
+    findMany: jest.fn(),
+  },
 } as unknown as PrismaClient;
 
 export const userServicePrismaMock = {

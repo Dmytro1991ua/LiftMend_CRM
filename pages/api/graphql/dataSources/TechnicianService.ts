@@ -23,6 +23,15 @@ import {
 
 import { TECHNICIAN_ASSIGNMENT_BLOCKING_STATUSES, TECHNICIAN_AVAILABILITY_STATUS_MAP } from './constants';
 
+type TechnicianEmploymentHistory = {
+  technicianId: string;
+  previousEmploymentStatus: string;
+  newEmploymentStatus: string;
+  previousAvailabilityStatus: string;
+  newAvailabilityStatus: string;
+  reason?: string | null;
+};
+
 class TechnicianService {
   private prisma;
 
@@ -62,7 +71,7 @@ class TechnicianService {
 
   async findTechnicianRecordById(id: Maybe<string>): Promise<TechnicianRecord | null> {
     if (!id) {
-      throw new Error('RepairJob missing technicianId');
+      throw new Error('Technician not found');
     }
 
     return await this.prisma.technicianRecord.findUnique({
@@ -183,6 +192,12 @@ class TechnicianService {
     }
 
     return technicianRecord;
+  }
+
+  async createEmploymentHistory(data: TechnicianEmploymentHistory) {
+    return this.prisma.technicianEmploymentHistory.create({
+      data,
+    });
   }
 }
 

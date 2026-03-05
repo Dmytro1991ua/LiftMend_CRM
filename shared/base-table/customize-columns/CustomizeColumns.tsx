@@ -28,8 +28,7 @@ const CustomizeColumns = <T,>({ columns, isDisabled }: CustomizeColumnsProps<T>)
           className='ml-auto h-8 py-5 px-3 bg-primary text-white'
           disabled={isDisabled}
           size='sm'
-          variant='default'
-        >
+          variant='default'>
           <CiSettings className='mr-2 h-4 w-4' />
           Customize Columns
         </Button>

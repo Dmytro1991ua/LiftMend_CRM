@@ -65,13 +65,16 @@ describe('useUpdateEmploymentStatus', () => {
   it('should trigger onHandleEmploymentStatusChange, close modal and redirect', async () => {
     const { result } = hook(defaultProps, [mockUpdateTechnicianRecord]);
 
-    await act(async () => result.current.onHandleEmploymentStatusChange());
+    await act(async () =>
+      result.current.onHandleEmploymentStatusChange({ deactivationReason: 'No Longer with Organization' })
+    );
 
     expect(mockOnUpdateEmploymentStatus).toHaveBeenCalledWith({
       id: mockBenjaminHallRecordId,
       newEmploymentStatus: 'Inactive',
       newAvailabilityStatus: 'Unavailable',
       currentAvailabilityStatus: 'Available',
+      deactivationReason: 'No Longer with Organization',
     });
     expect(mockOnRedirect).toHaveBeenCalled();
   });
@@ -81,7 +84,9 @@ describe('useUpdateEmploymentStatus', () => {
 
     const { result } = hook({}, [mockUpdateTechnicianRecordGQLError]);
 
-    await act(async () => result.current.onHandleEmploymentStatusChange());
+    await act(async () =>
+      result.current.onHandleEmploymentStatusChange({ deactivationReason: 'No Longer with Organization' })
+    );
 
     expect(mockOnRedirect).not.toHaveBeenCalled();
   });
@@ -89,7 +94,9 @@ describe('useUpdateEmploymentStatus', () => {
   it('should skip calling onRedirect if it is not provided and update succeeds', async () => {
     const { result } = hook({ ...defaultProps, onRedirect: undefined }, [mockUpdateTechnicianRecord]);
 
-    await act(async () => result.current.onHandleEmploymentStatusChange());
+    await act(async () =>
+      result.current.onHandleEmploymentStatusChange({ deactivationReason: 'No Longer with Organization' })
+    );
 
     expect(mockOnUpdateEmploymentStatus).toHaveBeenCalled();
     expect(mockOnRedirect).not.toHaveBeenCalled();
