@@ -2,6 +2,7 @@ import {
   EDIT_BUTTON_CANCELLED_STATUS_TOOLTIP_MESSAGE,
   EDIT_BUTTON_COMPLETED_STATUS_TOOLTIP_MESSAGE,
   EDIT_BUTTON_OUT_OF_SERVICE_STATUS_TOOLTIP_MESSAGE,
+  EDIT_BUTTON_UNAVAILABLE_STATUS_TOOLTIP_MESSAGE,
 } from './constants';
 
 type EditButtonDisabledSate = {
@@ -22,6 +23,10 @@ export const getEditButtonDisabledState = (status: string): Record<string, EditB
     'Out of Service': {
       isEditButtonDisabled: status === 'Out of Service',
       tooltipMessage: EDIT_BUTTON_OUT_OF_SERVICE_STATUS_TOOLTIP_MESSAGE,
+    },
+    Unavailable: {
+      isEditButtonDisabled: status === 'Unavailable',
+      tooltipMessage: EDIT_BUTTON_UNAVAILABLE_STATUS_TOOLTIP_MESSAGE,
     },
   };
 };

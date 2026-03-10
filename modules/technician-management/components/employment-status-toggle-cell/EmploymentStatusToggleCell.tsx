@@ -8,13 +8,12 @@ import {
 } from '@/shared/hooks/useFetchDropdownOptions/config';
 
 import { useUpdateEmploymentStatus } from '../../hooks';
-import { EmploymentStatus } from '../../types';
 import { STATUS_ICON_TOOLTIP_MESSAGE } from '../technician-management-table/constants';
 
 import { TechnicianStatusFormValues } from './types';
 
 export type EmploymentStatusToggleCellProps = {
-  employmentStatus: EmploymentStatus;
+  employmentStatus: string;
   technicianId: string;
   availabilityStatus: string | null;
   lastKnownAvailabilityStatus?: string | null;
@@ -55,7 +54,8 @@ const EmploymentStatusToggleCell = ({
       variant={variant}
       onCloseModal={onCloseModal}
       onConfirm={handleSubmit(onHandleEmploymentStatusChange)}
-      onOpenModal={onOpenModal}>
+      onOpenModal={onOpenModal}
+    >
       {isTechnicianActive && (
         <FormProvider {...formState}>
           <ControlledSingleSelect<TechnicianStatusFormValues>

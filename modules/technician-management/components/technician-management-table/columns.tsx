@@ -10,7 +10,7 @@ import { PillStatus } from '@/shared/pill/config';
 import { TechnicianRecord } from '@/shared/types';
 
 import { TECHNICIAN_PERFORMANCE_SCORE_THRESHOLDS } from '../../config';
-import { EmploymentStatus, TechnicianScoreLabel } from '../../types';
+import { TechnicianScoreLabel } from '../../types';
 import DeleteActionCell from '../delete-action-cell';
 import EditActionCell from '../edit-action-cell';
 import EmploymentStatusToggleCell from '../employment-status-toggle-cell';
@@ -162,7 +162,7 @@ export const TECHNICIAN_RECORD_COLUMNS: ColumnDef<TechnicianRecord>[] = [
     }) => (
       <EmploymentStatusToggleCell
         availabilityStatus={availabilityStatus}
-        employmentStatus={employmentStatus as EmploymentStatus}
+        employmentStatus={employmentStatus ?? ''}
         lastKnownAvailabilityStatus={lastKnownAvailabilityStatus}
         technicianId={id}
       />

@@ -8,12 +8,12 @@ import { useFormState, useModal } from '@/shared/hooks';
 import { TechnicianStatusFormValues } from '../components/employment-status-toggle-cell/types';
 import { createTechnicianStatusChangeSchema } from '../components/employment-status-toggle-cell/validation';
 import { getEmploymentStatusUpdateConfig } from '../config';
-import { EmploymentStatus, EmploymentStatusConfig } from '../types';
+import { EmploymentStatusConfig } from '../types';
 
 import { useUpdateTechnicianVisibility } from './useUpdateTechnicianVisibility';
 
 export type UseUpdateEmploymentStatusProps = {
-  employmentStatus: EmploymentStatus;
+  employmentStatus: string;
   technicianId: string;
   availabilityStatus: string | null;
   lastKnownAvailabilityStatus?: string | null;

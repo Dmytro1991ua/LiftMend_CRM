@@ -19,7 +19,6 @@ import {
   useUpdateEmploymentStatus,
   useUpdateTechnicianVisibility,
 } from '@/modules/technician-management/hooks';
-import { EmploymentStatus } from '@/modules/technician-management/types';
 
 jest.mock('@/modules/technician-management/hooks/useUpdateTechnicianVisibility');
 
@@ -39,7 +38,7 @@ describe('useUpdateEmploymentStatus', () => {
   });
 
   const defaultProps = {
-    employmentStatus: 'Active' as EmploymentStatus,
+    employmentStatus: 'Active',
     technicianId: mockBenjaminHallRecordId,
     availabilityStatus: 'Available',
     lastKnownAvailabilityStatus: null,

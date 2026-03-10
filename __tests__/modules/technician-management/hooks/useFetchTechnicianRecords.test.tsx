@@ -48,7 +48,26 @@ describe('useFetchTechnicianRecords', () => {
 
     await waitForNextUpdate();
 
-    expect(result.current.technicianRecords).toEqual([mockBenjaminHallRecord, mockOliviaLewisRecord]);
+    expect(result.current.technicianRecords).toEqual([
+      {
+        ...mockBenjaminHallRecord,
+        employmentHistory: [
+          {
+            ...mockBenjaminHallRecord.employmentHistory[0],
+            createdAt: '2026-03-09T10:11:04.335Z',
+          },
+        ],
+      },
+      {
+        ...mockOliviaLewisRecord,
+        employmentHistory: [
+          {
+            ...mockOliviaLewisRecord.employmentHistory[0],
+            createdAt: '2026-03-09T10:11:04.335Z',
+          },
+        ],
+      },
+    ]);
   });
 
   it('should fetch next page when onNext is triggered', async () => {

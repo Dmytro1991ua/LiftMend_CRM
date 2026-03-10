@@ -14,7 +14,6 @@ import SkillsAndCertifications from './components/technician-record-form/steps/s
 import { TechnicianRecordFormFields } from './components/technician-record-form/validation';
 import { TECHNICIAN_PERFORMANCE_SCORE_TOOLTIP_TITLE } from './constants';
 import {
-  EmploymentStatus,
   EmploymentStatusConfig,
   TechnicianRecordSteps,
   TechnicianScoreLabel,
@@ -24,7 +23,7 @@ import {
 export const getEmploymentStatusUpdateConfig = (
   lastKnownAvailabilityStatus: string,
   iconColorClass?: string
-): Record<EmploymentStatus, EmploymentStatusConfig> => {
+): Record<string, EmploymentStatusConfig> => {
   return {
     Active: {
       icon: <FaEye className={iconColorClass} data-testid='active-technician-icon' />,

@@ -1,11 +1,11 @@
 import { AiFillEdit } from 'react-icons/ai';
-import { FaEye } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
 
 import ElevatorStatusToggleCell from '@/modules/elevator-management/components/elevator-status-toggle-cell';
 import CompleteRepairJob from '@/modules/repair-job-tracking/components/complete-repair-job/CompleteRepairJob';
+import EmploymentStatusToggleCell from '@/modules/technician-management/components/employment-status-toggle-cell';
 
-import { ElevatorRecord, RepairJob } from '../types';
+import { ElevatorRecord, RepairJob, TechnicianRecord } from '../types';
 
 import { getEditButtonDisabledState } from './config';
 import { ActionButtonLabel, DetailsPageActionButtonConfig } from './types';
@@ -57,20 +57,29 @@ export const getCommonDetailsPageActionButtonsConfig = ({
 export const getTechnicianDetailsPageActionButtonsConfig = ({
   onOpenEditModal,
   onOpenDeleteModal,
-  onOpenUpdateEmploymentStatusModal,
+  technicianRecord,
 }: {
   onOpenEditModal: () => void;
   onOpenDeleteModal: () => void;
-  onOpenUpdateEmploymentStatusModal: () => void;
+  technicianRecord: TechnicianRecord;
 }): DetailsPageActionButtonConfig[] => {
   return [
-    ...getCommonDetailsPageActionButtonsConfig({ onOpenDeleteModal, onOpenEditModal }),
+    ...getCommonDetailsPageActionButtonsConfig({
+      onOpenDeleteModal,
+      onOpenEditModal,
+      status: technicianRecord.availabilityStatus ?? '',
+    }),
     {
       id: 3,
-      variant: 'default',
-      label: ActionButtonLabel.UPDATE_EMPLOYMENT_STATUS,
-      icon: <FaEye />,
-      onClick: () => onOpenUpdateEmploymentStatusModal(),
+      render: () => (
+        <EmploymentStatusToggleCell
+          availabilityStatus={technicianRecord.availabilityStatus}
+          employmentStatus={technicianRecord.employmentStatus ?? ''}
+          lastKnownAvailabilityStatus={technicianRecord.lastKnownAvailabilityStatus}
+          technicianId={technicianRecord.id}
+          variant='button'
+        />
+      ),
     },
   ];
 };

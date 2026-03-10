@@ -766,6 +766,18 @@ export type SignInWithOAuthInput = {
   provider: OAuthProvider;
 };
 
+export type TechnicianEmploymentHistory = {
+  __typename?: 'TechnicianEmploymentHistory';
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  newAvailabilityStatus: Scalars['String']['output'];
+  newEmploymentStatus: Scalars['String']['output'];
+  previousAvailabilityStatus: Scalars['String']['output'];
+  previousEmploymentStatus: Scalars['String']['output'];
+  reason: Maybe<Scalars['String']['output']>;
+  technicianId: Scalars['String']['output'];
+};
+
 export type TechnicianPerformanceMetrics = {
   __typename?: 'TechnicianPerformanceMetrics';
   /** Currently ongoing jobs for a particular technician */
@@ -788,6 +800,7 @@ export type TechnicianRecord = Node & {
   certifications: Array<Scalars['String']['output']>;
   contactInformation: Scalars['String']['output'];
   deactivationReason: Maybe<Scalars['String']['output']>;
+  employmentHistory: Maybe<Array<TechnicianEmploymentHistory>>;
   employmentStatus: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   lastKnownAvailabilityStatus: Maybe<Scalars['String']['output']>;
@@ -1032,6 +1045,17 @@ export type TechnicianRecordFieldsFragment = {
     averageDurationDays: number;
     performanceScore: number | null;
   } | null;
+  employmentHistory: Array<{
+    __typename?: 'TechnicianEmploymentHistory';
+    id: string;
+    technicianId: string;
+    previousEmploymentStatus: string;
+    newEmploymentStatus: string;
+    previousAvailabilityStatus: string;
+    newAvailabilityStatus: string;
+    reason: string | null;
+    createdAt: any;
+  }> | null;
 };
 
 export type CompleteElevatorInspectionMutationVariables = Exact<{
@@ -1151,6 +1175,17 @@ export type CreateTechnicianRecordMutation = {
       averageDurationDays: number;
       performanceScore: number | null;
     } | null;
+    employmentHistory: Array<{
+      __typename?: 'TechnicianEmploymentHistory';
+      id: string;
+      technicianId: string;
+      previousEmploymentStatus: string;
+      newEmploymentStatus: string;
+      previousAvailabilityStatus: string;
+      newAvailabilityStatus: string;
+      reason: string | null;
+      createdAt: any;
+    }> | null;
   };
 };
 
@@ -1720,6 +1755,17 @@ export type GetTechnicianRecordByIdQuery = {
       averageDurationDays: number;
       performanceScore: number | null;
     } | null;
+    employmentHistory: Array<{
+      __typename?: 'TechnicianEmploymentHistory';
+      id: string;
+      technicianId: string;
+      previousEmploymentStatus: string;
+      newEmploymentStatus: string;
+      previousAvailabilityStatus: string;
+      newAvailabilityStatus: string;
+      reason: string | null;
+      createdAt: any;
+    }> | null;
   };
 };
 
@@ -1771,6 +1817,17 @@ export type GetTechnicianRecordsQuery = {
           averageDurationDays: number;
           performanceScore: number | null;
         } | null;
+        employmentHistory: Array<{
+          __typename?: 'TechnicianEmploymentHistory';
+          id: string;
+          technicianId: string;
+          previousEmploymentStatus: string;
+          newEmploymentStatus: string;
+          previousAvailabilityStatus: string;
+          newAvailabilityStatus: string;
+          reason: string | null;
+          createdAt: any;
+        }> | null;
       };
     }>;
     pageInfo: {
@@ -2007,6 +2064,17 @@ export type UpdateTechnicianRecordMutation = {
       averageDurationDays: number;
       performanceScore: number | null;
     } | null;
+    employmentHistory: Array<{
+      __typename?: 'TechnicianEmploymentHistory';
+      id: string;
+      technicianId: string;
+      previousEmploymentStatus: string;
+      newEmploymentStatus: string;
+      previousAvailabilityStatus: string;
+      newAvailabilityStatus: string;
+      reason: string | null;
+      createdAt: any;
+    }> | null;
   };
 };
 

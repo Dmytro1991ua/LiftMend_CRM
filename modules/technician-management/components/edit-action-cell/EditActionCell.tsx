@@ -6,6 +6,7 @@ import { FaEdit } from 'react-icons/fa';
 
 import { Button } from '@/components/ui/button';
 import EditModal from '@/shared/base-modal/edit-modal';
+import BaseTooltip from '@/shared/base-tooltip';
 import { useFormState, useModal } from '@/shared/hooks';
 import { TechnicianRecord } from '@/shared/types';
 
@@ -35,7 +36,7 @@ const EditActionCell = ({ technicianRecord }: EditActionCellProps) => {
 
   const { isUpdateRecordLoading, onEditTechnicianRecord } = useEditTechnicianRecordForm({ onReset, technicianRecord });
 
-  const isDeleteButtonDisabled = technicianRecord.employmentStatus !== 'Active';
+  const isEditButtonDisabled = technicianRecord.employmentStatus !== 'Active';
 
   const onHandleEditClick = (event: React.MouseEvent) => {
     event.stopPropagation();
@@ -46,19 +47,28 @@ const EditActionCell = ({ technicianRecord }: EditActionCellProps) => {
   return (
     <FormProvider {...formState}>
       <section className='flex justify-center items-center'>
-        <Button
-          className='hover:bg-transparent'
-          disabled={isDeleteButtonDisabled}
-          variant='ghost'
-          onClick={onHandleEditClick}>
-          <FaEdit className='h-5 w-5 text-primary' data-testid='edit-icon' />
-        </Button>
+        <BaseTooltip
+          shouldRenderInPortal
+          className='w-[33rem] !shadow-none'
+          id='delete-button-tooltip'
+          message='This technician is currently unavailable and inactive, and cannot be modified.'
+        >
+          <Button
+            className='hover:bg-transparent'
+            disabled={isEditButtonDisabled}
+            variant='ghost'
+            onClick={onHandleEditClick}
+          >
+            <FaEdit className='h-5 w-5 text-primary' data-testid='edit-icon' />
+          </Button>
+        </BaseTooltip>
         <EditModal
           isDisabled={!formState.formState.isDirty || isUpdateRecordLoading}
           isOpen={isModalOpen}
           title={`${technicianRecord.name} record`}
           onClose={onCloseModal}
-          onSubmit={formState.handleSubmit(onEditTechnicianRecord)}>
+          onSubmit={formState.handleSubmit(onEditTechnicianRecord)}
+        >
           <EditTechnicianRecordForm technicianRecordFormValues={currentTechnicianRecord} />
         </EditModal>
       </section>

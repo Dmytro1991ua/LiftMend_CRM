@@ -28,6 +28,17 @@ export const mockOliviaLewisRecordId = 'test-technician-id-2';
 export const mockJamesAndersonRecordId = 'test-technician-id-3';
 export const mockDeactivationReason = 'Contract or Engagement Completed';
 
+export const mockEmploymentHistory = {
+  id: 'test-id-1',
+  technicianId: 'test-technician-id-1',
+  previousEmploymentStatus: 'Active',
+  newEmploymentStatus: 'Inactive',
+  previousAvailabilityStatus: 'Available',
+  newAvailabilityStatus: 'Unavailable',
+  reason: 'Contract or Engagement Completed',
+  createdAt: new Date('2026-03-09T10:11:04.335Z'),
+};
+
 export const mockBenjaminHallRecord = {
   id: mockBenjaminHallRecordId,
   name: 'Benjamin Hall',
@@ -47,6 +58,7 @@ export const mockBenjaminHallRecord = {
     performanceScore: 70,
   },
   deactivationReason: mockDeactivationReason,
+  employmentHistory: [mockEmploymentHistory],
 };
 
 export const mockOliviaLewisRecord = {
@@ -68,6 +80,7 @@ export const mockOliviaLewisRecord = {
     performanceScore: 60,
   },
   deactivationReason: mockDeactivationReason,
+  employmentHistory: [mockEmploymentHistory],
 };
 
 export const mockJamesAndersonRecord = {
@@ -89,6 +102,7 @@ export const mockJamesAndersonRecord = {
     performanceScore: 30,
   },
   deactivationReason: mockDeactivationReason,
+  employmentHistory: [mockEmploymentHistory],
 };
 
 export const mockUpdatedBenjaminHallRecord = {
@@ -106,6 +120,7 @@ export const mockUpdatedBenjaminHallRecord = {
     performanceScore: 40,
   },
   deactivationReason: mockDeactivationReason,
+  employmentHistory: [mockEmploymentHistory],
 };
 
 export const mockedReturnedTechnicianRecordsData = {
