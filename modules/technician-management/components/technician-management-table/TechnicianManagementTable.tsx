@@ -6,7 +6,8 @@ import { useRouter } from 'next/router';
 import { GetTechnicianRecordsQuery, QueryGetTechnicianRecordsArgs } from '@/graphql/types/client/generated_types';
 import BaseTable from '@/shared/base-table';
 import { useSearchInTable } from '@/shared/base-table/hooks';
-import { getEmptyTableMessage, onHandleRowClick } from '@/shared/base-table/utils';
+import { RowHighlightInfo } from '@/shared/base-table/types';
+import { getEmptyTableMessage, getRowHighlightInfo, onHandleRowClick } from '@/shared/base-table/utils';
 import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions';
 import { DropdownOptions } from '@/shared/hooks/useFetchDropdownOptions/config';
 import QueryResponse from '@/shared/query-response';
@@ -18,7 +19,7 @@ import { useFetchTechnicianRecords } from '../../hooks';
 import { TECHNICIAN_RECORD_COLUMNS } from './columns';
 import { getTechnicianRecordFilterConfig } from './config';
 import { DEFAULT_SEARCH_INPUT_PLACEHOLDER, DEFAULT_TECHNICIAN_RECORDS_TABLE_EMPTY_TABLE_MESSAGE } from './constants';
-import { getRowTooltipMessage, isTechnicianRecordRowDisabled } from './utils';
+import { getRowTooltipMessage } from './utils';
 
 const TechnicianManagementTable = () => {
   const router = useRouter();
@@ -59,6 +60,18 @@ const TechnicianManagementTable = () => {
     [router]
   );
 
+  const getTechnicianRowHighlightInfo = (rowData: TechnicianRecord): RowHighlightInfo => {
+    const highlightInfoStateMap: Record<string, RowHighlightInfo> = {
+      Unavailable: getRowHighlightInfo(
+        rowData,
+        (data) => data.availabilityStatus === 'Unavailable',
+        'bg-amber-50 hover:bg-amber-100'
+      ),
+    };
+
+    return highlightInfoStateMap[rowData.availabilityStatus ?? ''] || {};
+  };
+
   return (
     <>
       <QueryResponse
@@ -73,8 +86,9 @@ const TechnicianManagementTable = () => {
         emptyTableMessage={emptyTableMessage}
         errorMessage={error}
         filtersConfig={filtersConfig}
+        getRowHighlightInfo={getTechnicianRowHighlightInfo}
         hasMore={hasMore}
-        isRowDisabled={isTechnicianRecordRowDisabled}
+        isRowDisabled={() => false}
         loadMore={onNext}
         loading={loading}
         refetch={refetch}

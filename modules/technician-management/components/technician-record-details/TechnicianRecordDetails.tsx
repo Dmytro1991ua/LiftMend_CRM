@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/router';
 import { FormProvider } from 'react-hook-form';
 
+import BaseAlert from '@/shared/base-alert/BaseAlert';
 import BaseDetailsPage from '@/shared/base-details-page';
 import useDetailsPageModals from '@/shared/base-details-page/hooks/useDetailsPageModals';
 import { getTechnicianDetailsPageActionButtonsConfig } from '@/shared/base-details-page/utils';
@@ -14,15 +15,14 @@ import { useFormState } from '@/shared/hooks';
 import { getDeleteModalDescription } from '@/shared/utils';
 
 import { DEFAULT_DELETE_TECHNICIAN_MODAL_TITLE } from '../../constants';
-import { useUpdateEmploymentStatus } from '../../hooks';
-import { EmploymentStatus, TechnicianRecordFormValues } from '../../types';
+import { TechnicianRecordFormValues } from '../../types';
 import { convertTechnicianRecordToFormValues } from '../../utils';
 import useTechnicianRecordDeletion from '../delete-action-cell/hooks/useTechnicianRecordDeletion';
 import EditTechnicianRecordForm from '../edit-technician-record-form';
 import { technicianRecordEditFormSchema } from '../edit-technician-record-form/validation';
 import { useEditTechnicianRecordForm } from '../technician-record-form/hooks';
 
-import { technicianRecordSectionsConfig } from './config';
+import { TECHNICIAN_DETAILS_STATUS_MESSAGE_CONFIG, technicianRecordSectionsConfig } from './config';
 import { useFetchTechnicianRecordById } from './hooks';
 
 const TechnicianRecordDetails = () => {
@@ -57,21 +57,6 @@ const TechnicianRecordDetails = () => {
 
   const { isUpdateRecordLoading, onEditTechnicianRecord } = useEditTechnicianRecordForm({ onReset, technicianRecord });
 
-  const {
-    loading: isEmploymentStatusUpdate,
-    config,
-    isModalOpen,
-    onHandleEmploymentStatusChange,
-    onOpenModal,
-    onCloseModal,
-  } = useUpdateEmploymentStatus({
-    employmentStatus: technicianRecord.employmentStatus as EmploymentStatus,
-    technicianId: technicianRecord.id,
-    availabilityStatus: technicianRecord?.availabilityStatus,
-    lastKnownAvailabilityStatus: technicianRecord.lastKnownAvailabilityStatus,
-    onRedirect: () => back(),
-  });
-
   const { isDeleteTechnicianRecordLoading, onHandleDeleteTechnicianRecord } = useTechnicianRecordDeletion({
     onCloseModal: onCloseDeleteModal,
     id: technicianRecord.id,
@@ -87,11 +72,17 @@ const TechnicianRecordDetails = () => {
     () =>
       getTechnicianDetailsPageActionButtonsConfig({
         onOpenEditModal,
-        onOpenUpdateEmploymentStatusModal: onOpenModal,
         onOpenDeleteModal,
+        technicianRecord,
       }),
-    [onOpenEditModal, onOpenModal, onOpenDeleteModal]
+    [onOpenEditModal, technicianRecord, onOpenDeleteModal]
   );
+
+  const alertMessage = useMemo(() => {
+    const statusConfig = TECHNICIAN_DETAILS_STATUS_MESSAGE_CONFIG[technicianRecord.availabilityStatus ?? ''];
+
+    return statusConfig && <BaseAlert description={statusConfig.message} variant={statusConfig.variant} />;
+  }, [technicianRecord.availabilityStatus]);
 
   const TECHNICIAN_RECORD_DETAILS_MODALS_CONFIG = [
     {
@@ -102,7 +93,8 @@ const TechnicianRecordDetails = () => {
           isOpen={isEditModalOpen}
           title={getModalTitle(technicianRecordDetailsTitle, true)}
           onClose={onReset}
-          onSubmit={formState.handleSubmit(onEditTechnicianRecord)}>
+          onSubmit={formState.handleSubmit(onEditTechnicianRecord)}
+        >
           <EditTechnicianRecordForm technicianRecordFormValues={technicianRecord} />
         </EditModal>
       ),
@@ -121,27 +113,13 @@ const TechnicianRecordDetails = () => {
         />
       ),
     },
-    {
-      id: 3,
-      content: (
-        <EditModal
-          cancelButtonLabel='No'
-          isDisabled={isEmploymentStatusUpdate}
-          isOpen={isModalOpen}
-          submitButtonLabel='Yes'
-          title={config.modalTitle}
-          onClose={onCloseModal}
-          onSubmit={onHandleEmploymentStatusChange}>
-          {config.modalMessage}
-        </EditModal>
-      ),
-    },
   ];
 
   return (
     <FormProvider {...formState}>
       <BaseDetailsPage
         actionButtonsConfig={actionButtonsConfig}
+        alertMessage={alertMessage}
         detailsPageSections={technicianRecordDetailsSections}
         error={error}
         errorMessage={`Failed to fetch Technician Record Details by ${technicianRecordId}`}

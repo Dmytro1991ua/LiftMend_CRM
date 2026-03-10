@@ -20,5 +20,15 @@ export const TECHNICIAN_RECORD_FRAGMENT = gql`
       performanceScore
     }
     deactivationReason
+    employmentHistory {
+      id
+      technicianId
+      previousEmploymentStatus
+      newEmploymentStatus
+      previousAvailabilityStatus
+      newAvailabilityStatus
+      reason
+      createdAt
+    }
   }
 `;

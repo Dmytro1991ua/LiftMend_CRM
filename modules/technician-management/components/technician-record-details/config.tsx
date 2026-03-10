@@ -1,4 +1,5 @@
 import Badge from '@/shared/badge';
+import { Variant } from '@/shared/base-alert/BaseAlert';
 import { DetailsPageSectionsConfig } from '@/shared/base-details-page/types';
 import BaseScoreGaugeChart from '@/shared/base-score-cell/base-score-gauge-chart/BaseScoreGaugeChart';
 import { getScoreGaugeChartConfig, getScoreGaugeChartData } from '@/shared/base-score-cell/utils';
@@ -7,6 +8,7 @@ import { PillStatus } from '@/shared/pill/config';
 import { TechnicianRecord } from '@/shared/types';
 
 import { TECHNICIAN_PERFORMANCE_SCORE_THRESHOLDS } from '../../config';
+import TechnicianEmploymentHistoryTable from '../technician-employment-history-table';
 import { TechnicianPerformanceMetrics } from '../technician-performance-metrics';
 
 export const technicianRecordSectionsConfig = (technicianRecord: TechnicianRecord): DetailsPageSectionsConfig[] => [
@@ -90,4 +92,31 @@ export const technicianRecordSectionsConfig = (technicianRecord: TechnicianRecor
       },
     ],
   },
+  {
+    id: 5,
+    title: 'Availability and Employment History',
+    fields: [
+      {
+        id: 11,
+        label: '',
+        value: <TechnicianEmploymentHistoryTable employmentHistory={technicianRecord.employmentHistory ?? []} />,
+        valueClassName: 'overflow-x-auto',
+      },
+    ],
+  },
 ];
+
+export const TECHNICIAN_DETAILS_STATUS_MESSAGE_CONFIG: Record<string, { message: string; variant: Variant }> = {
+  Busy: {
+    message: 'This technician is currently working on an active repair job.',
+    variant: 'info',
+  },
+  Reserved: {
+    message: 'This technician is reserved for a scheduled or on-hold repair job.',
+    variant: 'info',
+  },
+  Unavailable: {
+    message: 'This technician unavailable and inactive and cannot be modified until it is reactivated.',
+    variant: 'warning',
+  },
+};

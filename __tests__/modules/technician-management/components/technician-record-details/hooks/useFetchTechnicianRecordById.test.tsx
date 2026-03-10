@@ -42,7 +42,15 @@ describe('useFetchTechnicianRecordById', () => {
 
     expect(result.current.loading).toBeFalsy();
     expect(result.current.error).toBeUndefined();
-    expect(result.current.technicianRecord).toEqual(mockBenjaminHallRecord);
+    expect(result.current.technicianRecord).toEqual({
+      ...mockBenjaminHallRecord,
+      employmentHistory: [
+        {
+          ...mockBenjaminHallRecord.employmentHistory[0],
+          createdAt: '2026-03-09T10:11:04.335Z',
+        },
+      ],
+    });
   });
 
   it('should handle error when query fails', async () => {

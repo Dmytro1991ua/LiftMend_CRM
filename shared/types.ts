@@ -19,6 +19,7 @@ export enum TableNames {
   RecentRepairJobs = 'RecentRepairJobs',
   ElevatorMentainanceHistory = 'ElevatorMentainanceHistory',
   ElevatorDowntimeHistory = 'ElevatorDowntimeHistory',
+  TechnicianEmploymentHistory = 'TechnicianEmploymentHistory',
 }
 
 export enum FormFieldLabel {
@@ -118,6 +119,17 @@ export type ElevatorDowntime = {
   reason?: string | null;
 };
 
+export type TechnicianEmploymentHistory = {
+  id: string;
+  technicianId: string;
+  previousEmploymentStatus: string;
+  newEmploymentStatus: string;
+  previousAvailabilityStatus: string;
+  newAvailabilityStatus: string;
+  reason?: string | null;
+  createdAt: Date;
+};
+
 export type ElevatorRecord = {
   id: string;
   elevatorType: string;
@@ -148,6 +160,7 @@ export type TechnicianRecord = {
   skills: string[];
   lastKnownAvailabilityStatus?: string | null;
   performanceMetrics?: Maybe<TechnicianPerformanceMetrics>;
+  employmentHistory?: TechnicianEmploymentHistory[] | null;
 };
 
 export type Notification = {
