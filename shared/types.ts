@@ -160,6 +160,7 @@ export type TechnicianRecord = {
   skills: string[];
   lastKnownAvailabilityStatus?: string | null;
   performanceMetrics?: Maybe<TechnicianPerformanceMetrics>;
+  deactivationReason?: string | null;
   employmentHistory?: TechnicianEmploymentHistory[] | null;
 };
 

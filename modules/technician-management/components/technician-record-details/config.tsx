@@ -30,6 +30,15 @@ export const technicianRecordSectionsConfig = (technicianRecord: TechnicianRecor
         value: <Pill status={technicianRecord.employmentStatus as PillStatus} />,
         fieldClassName: 'items-center',
       },
+      ...(technicianRecord?.deactivationReason
+        ? [
+            {
+              id: 7,
+              label: 'Deactivation Reason',
+              value: technicianRecord.deactivationReason,
+            },
+          ]
+        : []),
     ],
   },
   {
@@ -71,27 +80,31 @@ export const technicianRecordSectionsConfig = (technicianRecord: TechnicianRecor
       },
     ],
   },
-  {
-    id: 4,
-    title: 'Performance Score',
-    fields: [
-      {
-        id: 10,
-        label: '',
-        value: (
-          <BaseScoreGaugeChart
-            getChartConfig={(activeColor) =>
-              getScoreGaugeChartConfig(TECHNICIAN_PERFORMANCE_SCORE_THRESHOLDS, activeColor)
-            }
-            getChartData={getScoreGaugeChartData}
-            score={technicianRecord.performanceMetrics?.performanceScore}
-            thresholds={TECHNICIAN_PERFORMANCE_SCORE_THRESHOLDS}
-          />
-        ),
-        fieldClassName: 'justify-center',
-      },
-    ],
-  },
+  ...(technicianRecord.performanceMetrics?.performanceScore
+    ? [
+        {
+          id: 4,
+          title: 'Performance Score',
+          fields: [
+            {
+              id: 10,
+              label: '',
+              value: (
+                <BaseScoreGaugeChart
+                  getChartConfig={(activeColor) =>
+                    getScoreGaugeChartConfig(TECHNICIAN_PERFORMANCE_SCORE_THRESHOLDS, activeColor)
+                  }
+                  getChartData={getScoreGaugeChartData}
+                  score={technicianRecord.performanceMetrics?.performanceScore}
+                  thresholds={TECHNICIAN_PERFORMANCE_SCORE_THRESHOLDS}
+                />
+              ),
+              fieldClassName: 'justify-center',
+            },
+          ],
+        },
+      ]
+    : []),
   {
     id: 5,
     title: 'Availability and Employment History',
