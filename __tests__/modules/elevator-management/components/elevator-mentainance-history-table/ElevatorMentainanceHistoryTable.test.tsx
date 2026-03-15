@@ -47,14 +47,15 @@ describe('ElevatorMaintenanceHistoryTable', () => {
 
     const columnHeaders = screen.getAllByRole('columnheader');
 
-    expect(columnHeaders).toHaveLength(6);
+    expect(columnHeaders).toHaveLength(7);
 
     expect(columnHeaders[0]).toHaveTextContent('Job Type');
-    expect(columnHeaders[1]).toHaveTextContent('Status');
-    expect(columnHeaders[2]).toHaveTextContent('Start Date');
-    expect(columnHeaders[3]).toHaveTextContent('Planned End Date');
-    expect(columnHeaders[4]).toHaveTextContent('Actual End Date');
-    expect(columnHeaders[5]).toHaveTextContent('Technician Name');
+    expect(columnHeaders[1]).toHaveTextContent('Job Details');
+    expect(columnHeaders[2]).toHaveTextContent('Status');
+    expect(columnHeaders[3]).toHaveTextContent('Start Date');
+    expect(columnHeaders[4]).toHaveTextContent('Planned End Date');
+    expect(columnHeaders[5]).toHaveTextContent('Actual End Date');
+    expect(columnHeaders[6]).toHaveTextContent('Technician Name');
   });
 
   it('should render correct table cells', async () => {
@@ -62,14 +63,15 @@ describe('ElevatorMaintenanceHistoryTable', () => {
 
     const cells = screen.getAllByRole('cell');
 
-    expect(cells).toHaveLength(6);
+    expect(cells).toHaveLength(7);
 
     expect(cells[0]).toHaveTextContent('Routine');
-    expect(cells[1]).toHaveTextContent('Scheduled');
-    expect(cells[2]).toHaveTextContent('Jan 19, 2025 00:00 AM');
-    expect(cells[3]).toHaveTextContent('Jan 20, 2025 23:59 PM');
-    expect(cells[4]).toHaveTextContent('Jan 19, 2025 13:17 PM');
-    expect(cells[5]).toHaveTextContent('Sophia Martinez');
+    expect(cells[1]).toHaveTextContent('asdasdasdasd');
+    expect(cells[2]).toHaveTextContent('Scheduled');
+    expect(cells[3]).toHaveTextContent('Jan 19, 2025 00:00 AM');
+    expect(cells[4]).toHaveTextContent('Jan 20, 2025 23:59 PM');
+    expect(cells[5]).toHaveTextContent('Jan 19, 2025 13:17 PM');
+    expect(cells[6]).toHaveTextContent('Sophia Martinez');
   });
 
   it('should show alert message when no data available for a table', () => {

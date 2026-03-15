@@ -16,6 +16,15 @@ export const ElEVATOR_MAINTENANCE_HISTORY_COLUMNS: ColumnDef<RepairJob>[] = [
     maxSize: 350,
   },
   {
+    accessorKey: 'jobDetails',
+    header: 'Job Details',
+    enableResizing: true,
+    enableSorting: false,
+    size: 250,
+    minSize: 120,
+    maxSize: 350,
+  },
+  {
     accessorKey: 'status',
     header: 'Status',
     cell: ({
