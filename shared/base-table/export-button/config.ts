@@ -19,6 +19,8 @@ const accessors = {
   inspectionStatus: (cell: Cell<TableModel, TableValue>): string => cell.row.original.inspectionStatus?.label ?? '',
   repairFrequencyStatus: (cell: Cell<TableModel, TableValue>): string =>
     cell.row.original.repairFrequencyStatus?.label ?? '',
+  recurringFailureStatus: (cell: Cell<TableModel, TableValue>): string =>
+    cell.row.original.recurringFailureStatus?.label ?? '',
 };
 
 const {
@@ -31,6 +33,7 @@ const {
   isOverdue,
   repairFrequencyStatus,
   inspectionStatus,
+  recurringFailureStatus,
 } = accessors;
 
 export const columnsValueAccessors: ColumnsValueAccessors = {
@@ -43,4 +46,5 @@ export const columnsValueAccessors: ColumnsValueAccessors = {
   isOverdue,
   repairFrequencyStatus,
   inspectionStatus,
+  recurringFailureStatus,
 };
