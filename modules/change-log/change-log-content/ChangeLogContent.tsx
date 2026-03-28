@@ -31,7 +31,7 @@ const ChangeLogContent = ({ changeList }: ChangeLogContent) => {
             <tr key={index} className='border-b last:border-b-0  text-muted-foreground '>
               <td className='py-3 pr-4 font-medium'>{field}</td>
               <td className='py-3 pr-4 break-words'>{formatChangeLogValue(oldValue)}</td>
-              <td className='py-3 break-words'>{formatChangeLogValue(newValue)}</td>
+              <td className='py-3 pr-4 break-words'>{formatChangeLogValue(newValue)}</td>
               <td className='py-3'>{_upperFirst(action)}</td>
             </tr>
           ))}
