@@ -6,6 +6,14 @@ import { RepairJob } from '@/shared/types';
 
 export const RECENT_REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
   {
+    accessorKey: 'id',
+    header: 'Job Id',
+    enableResizing: false,
+    enableSorting: false,
+    size: 320,
+    maxSize: 320,
+  },
+  {
     accessorKey: 'jobType',
     header: 'Job Type',
     enableResizing: false,
@@ -15,12 +23,13 @@ export const RECENT_REPAIR_JOB_COLUMNS: ColumnDef<RepairJob>[] = [
     maxSize: 350,
   },
   {
-    accessorKey: 'id',
-    header: 'Job Id',
-    enableResizing: false,
+    accessorKey: 'jobDetails',
+    header: 'Job Details',
+    enableResizing: true,
     enableSorting: false,
-    size: 320,
-    maxSize: 320,
+    size: 250,
+    minSize: 120,
+    maxSize: 350,
   },
   {
     accessorKey: 'status',
