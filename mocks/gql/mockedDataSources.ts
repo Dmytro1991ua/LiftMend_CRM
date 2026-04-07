@@ -7,6 +7,7 @@ import ChangeLogService from '@/pages/api/graphql/dataSources/ChangeLogService';
 import ElevatorService from '@/pages/api/graphql/dataSources/ElevatorService';
 import NotificationService from '@/pages/api/graphql/dataSources/NotificationService';
 import RepairJobService from '@/pages/api/graphql/dataSources/RepairJobService';
+import StorageService from '@/pages/api/graphql/dataSources/StorageService';
 import TechnicianService from '@/pages/api/graphql/dataSources/TechnicianService';
 import UserService from '@/pages/api/graphql/dataSources/UserService';
 
@@ -18,6 +19,7 @@ jest.mock('@/pages/api/graphql/dataSources/TechnicianService');
 jest.mock('@/pages/api/graphql/dataSources/UserService');
 jest.mock('@/pages/api/graphql/dataSources/NotificationService');
 jest.mock('@/pages/api/graphql/dataSources/ChangeLogService');
+jest.mock('@/pages/api/graphql/dataSources/StorageService');
 
 export const createDataSourcesMock = (prisma: PrismaClient, supabase?: SupabaseClient) => ({
   repairJob: new RepairJobService(prisma) as jest.Mocked<RepairJobService>,
@@ -28,6 +30,7 @@ export const createDataSourcesMock = (prisma: PrismaClient, supabase?: SupabaseC
   user: new UserService(prisma, supabase) as jest.Mocked<UserService>,
   notification: new NotificationService(prisma) as jest.Mocked<NotificationService>,
   changeLog: new ChangeLogService(prisma) as jest.Mocked<ChangeLogService>,
+  storageService: new StorageService(supabase) as jest.Mocked<StorageService>,
 });
 
 export default createDataSourcesMock;

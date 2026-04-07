@@ -32,9 +32,6 @@ type Query {
     filterOptions: NotificationFilterOptions
   ): NotificationConnection!
   getUnreadNotificationCount: Int!
-  getChangeLogs(
-    paginationOptions: PaginationOptions
-    filterOptions: ChangeLogFilterOptions
-  ): ChangeLogConnection!
+  getChangeLogs(paginationOptions: PaginationOptions, filterOptions: ChangeLogFilterOptions): ChangeLogConnection!
   getChangeLogFilterData: ChangeLogFilterData!
 }

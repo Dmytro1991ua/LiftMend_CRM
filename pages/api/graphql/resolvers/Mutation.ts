@@ -12,6 +12,7 @@ import {
   RepairJob,
   TechnicianRecord,
   UploadProfilePicturePayload,
+  UploadRepairJobEvidencePhotoPayload,
 } from '@/graphql/types/server/generated_types';
 
 import {
@@ -285,6 +286,13 @@ const Mutation: MutationResolvers = {
   },
   completeElevatorInspection: async (_, { elevatorId }, { dataSources }) => {
     return await dataSources.elevatorRecord.completeElevatorInspection(elevatorId);
+  },
+  uploadRepairJobEvidencePhoto: async (
+    _,
+    { repairJobId, file, photoEvidencePhase },
+    { dataSources }
+  ): Promise<UploadRepairJobEvidencePhotoPayload> => {
+    return await dataSources.repairJob.uploadRepairJobEvidencePhoto(repairJobId, file, photoEvidencePhase);
   },
 };
 

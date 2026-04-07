@@ -49,6 +49,8 @@ export const mockRepairJob = {
       comment: '',
     },
   ],
+  beforePhotoUrl: null,
+  afterPhotoUrl: null,
 };
 
 export const mockUpdatedRepairJob = {
@@ -93,6 +95,8 @@ export const mockPassengerElevatorRepairJob = {
         comment: null,
       },
     ],
+    beforePhotoUrl: null,
+    afterPhotoUrl: null,
   },
 };
 
@@ -122,6 +126,8 @@ export const mockMastLiftRepairJob = {
         comment: null,
       },
     ],
+    beforePhotoUrl: null,
+    afterPhotoUrl: null,
   },
 };
 
@@ -151,6 +157,8 @@ export const mockShipElevatorRepairJpb = {
         comment: null,
       },
     ],
+    beforePhotoUrl: null,
+    afterPhotoUrl: null,
   },
 };
 

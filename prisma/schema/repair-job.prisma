@@ -17,6 +17,8 @@ model RepairJob {
   updatedAt        DateTime?                @default(now()) @db.Timestamp(6)
   elevatorId       String?
   technicianId     String?
+  beforePhotoUrl   String?
+  afterPhotoUrl    String?
   calendarEvent    CalendarEvent?
   elevatorRecord   ElevatorRecord?          @relation(fields: [elevatorId], references: [id])
   technicianRecord TechnicianRecord?        @relation(fields: [technicianId], references: [id])
