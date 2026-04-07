@@ -1,4 +1,6 @@
 import { Prisma, PrismaClient, RepairJobChecklistItem } from '@prisma/client';
+import { SupabaseClient } from '@supabase/supabase-js';
+import { GraphQLError } from 'graphql';
 import { Maybe } from 'graphql/jsutils/Maybe';
 import { isNull as _isNull, omitBy as _omitBy } from 'lodash';
 
@@ -15,9 +17,11 @@ import {
   RepairJobScheduleData,
   RepairJobsMetrics,
   UpdateRepairJobInput,
+  UploadRepairJobEvidencePhotoPayload,
 } from '@/graphql/types/server/generated_types';
 
 import {
+  convertStreamToBuffer,
   createRepairJobFilterOptions,
   createRepairJobSortOptions,
   fetchFormDropdownData,
@@ -34,12 +38,16 @@ import {
   REPAIR_JOB_STATUS_MAP,
   REPAIR_JOB_TYPE_MAP,
 } from './constants';
+import StorageService from './StorageService';
+import { GraphQLUploadFile } from './types';
 
 class RepairJobService {
   private prisma;
+  private storageService;
 
-  constructor(prisma: PrismaClient) {
+  constructor(prisma: PrismaClient, supabase?: SupabaseClient) {
     this.prisma = prisma;
+    this.storageService = new StorageService(supabase);
   }
 
   async getRepairJobs(args: QueryGetRepairJobsArgs): Promise<RepairJobConnection> {
@@ -365,6 +373,29 @@ class RepairJobService {
       totalItems,
       paginationOptions,
       getCursor: (repairJobRecord: RepairJob) => repairJobRecord.id,
+    });
+  }
+
+  async uploadRepairJobEvidencePhoto(
+    repairJobId: string,
+    file: GraphQLUploadFile,
+    photoEvidencePhase: string
+  ): Promise<UploadRepairJobEvidencePhotoPayload> {
+    const { createReadStream, filename } = await file;
+
+    const userId = await this.storageService.getAuthenticatedUserId();
+    const buffer = await convertStreamToBuffer(createReadStream());
+    const extension = filename.split('.').pop()?.toLowerCase() || 'jpg';
+
+    const filePath = `repair-jobs/${userId}/${repairJobId}/${photoEvidencePhase.toLowerCase()}.${extension}`;
+
+    await this.storageService.uploadBufferToSupabase(buffer, filePath, 'repair-job-photos');
+
+    const newImageUrl = this.storageService.getPublicFileUrl(filePath, 'repair-job-photos');
+
+    return await this.prisma.repairJob.update({
+      where: { id: repairJobId },
+      data: photoEvidencePhase === 'BEFORE' ? { beforePhotoUrl: newImageUrl } : { afterPhotoUrl: newImageUrl },
     });
   }
 }

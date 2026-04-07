@@ -46,6 +46,8 @@ type RepairJob implements Node {
   elevatorId: ID
   technicianId: ID
   checklist: [RepairJobChecklistItem!]
+  beforePhotoUrl: String
+  afterPhotoUrl: String
 }
 
 type RepairJobEdge implements Edge {

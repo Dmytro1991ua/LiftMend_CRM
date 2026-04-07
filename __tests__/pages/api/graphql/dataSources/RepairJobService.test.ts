@@ -1,9 +1,12 @@
+import { Readable } from 'stream';
+
+import { RepairJob } from '@prisma/client';
+
 import { UpdateRepairJobInput } from '@/graphql/types/client/generated_types';
 import {
   CreateRepairJobInput,
   OrderOption,
   QueryGetElevatorMaintenanceHistoryArgs,
-  RepairJob,
   RepairJobSortField,
 } from '@/graphql/types/server/generated_types';
 import { mockElevatorRecord } from '@/mocks/elevatorManagementMocks';
@@ -19,6 +22,7 @@ import {
 } from '@/mocks/repairJobTrackingMocks';
 import { DEFAULT_RECENT_JOBS_COUNT, DEFAULT_SORTING_OPTION } from '@/pages/api/graphql/dataSources/constants';
 import RepairJobService from '@/pages/api/graphql/dataSources/RepairJobService';
+import { GraphQLUploadFile } from '@/pages/api/graphql/dataSources/types';
 import {
   createRepairJobFilterOptions,
   createRepairJobSortOptions,
@@ -737,6 +741,99 @@ describe('RepairJobService', () => {
       expect(getCursorFn({ id: 'abc-123' } as RepairJob)).toBe('abc-123');
 
       expect(result).toEqual(mockConnection);
+    });
+  });
+
+  describe('uploadRepairJobEvidencePhoto', () => {
+    const createMockUploadFile = (filename = 'evidence-photo.png', content = 'fake-image-content') =>
+      Promise.resolve({
+        filename,
+        mimetype: 'image/png',
+        encoding: '7bit',
+        createReadStream: () => Readable.from(Buffer.from(content)),
+      });
+
+    const mockRepairJobId = 'repair-job-123';
+    const mockUserId = 'test-user-id-1';
+    const mockBeforeUrl = 'https://cdn.supabase.com/repair-jobs/test-user-id-1/repair-job-123/before.png';
+    const mockAfterUrl = 'https://cdn.supabase.com/repair-jobs/test-user-id-1/repair-job-123/after.jpg';
+
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it('should upload BEFORE repair job evidence photo and update beforePhotoUrl', async () => {
+      const mockFile = createMockUploadFile('before-photo.png') as unknown as GraphQLUploadFile;
+
+      jest.spyOn(repairJobService['storageService'], 'getAuthenticatedUserId').mockResolvedValue(mockUserId);
+      jest.spyOn(repairJobService['storageService'], 'uploadBufferToSupabase').mockResolvedValue(undefined);
+      jest.spyOn(repairJobService['storageService'], 'getPublicFileUrl').mockReturnValue(mockBeforeUrl);
+      jest.spyOn(repairJobServicePrismaMock.repairJob, 'update').mockResolvedValue({
+        ...mockRepairJob,
+        id: mockRepairJobId,
+        beforePhotoUrl: mockBeforeUrl,
+        afterPhotoUrl: null,
+      } as unknown as RepairJob);
+
+      const result = await repairJobService.uploadRepairJobEvidencePhoto(mockRepairJobId, mockFile, 'BEFORE');
+
+      expect(repairJobService['storageService'].getAuthenticatedUserId).toHaveBeenCalled();
+      expect(repairJobService['storageService'].uploadBufferToSupabase).toHaveBeenCalledWith(
+        expect.any(Buffer),
+        `repair-jobs/${mockUserId}/${mockRepairJobId}/before.png`,
+        'repair-job-photos'
+      );
+
+      expect(repairJobService['storageService'].getPublicFileUrl).toHaveBeenCalledWith(
+        `repair-jobs/${mockUserId}/${mockRepairJobId}/before.png`,
+        'repair-job-photos'
+      );
+      expect(repairJobServicePrismaMock.repairJob.update).toHaveBeenCalledWith({
+        where: { id: mockRepairJobId },
+        data: { beforePhotoUrl: mockBeforeUrl },
+      });
+      expect(result).toEqual({
+        ...mockRepairJob,
+        id: mockRepairJobId,
+        beforePhotoUrl: mockBeforeUrl,
+        afterPhotoUrl: null,
+      });
+    });
+
+    it('should upload AFTER repair job evidence photo and update afterPhotoUrl', async () => {
+      const mockFile = createMockUploadFile('after-photo.jpg') as unknown as GraphQLUploadFile;
+
+      jest.spyOn(repairJobService['storageService'], 'getAuthenticatedUserId').mockResolvedValue(mockUserId);
+      jest.spyOn(repairJobService['storageService'], 'uploadBufferToSupabase').mockResolvedValue(undefined);
+      jest.spyOn(repairJobService['storageService'], 'getPublicFileUrl').mockReturnValue(mockAfterUrl);
+      jest.spyOn(repairJobServicePrismaMock.repairJob, 'update').mockResolvedValue({
+        ...mockRepairJob,
+        id: mockRepairJobId,
+        beforePhotoUrl: null,
+        afterPhotoUrl: mockAfterUrl,
+      } as unknown as RepairJob);
+
+      const result = await repairJobService.uploadRepairJobEvidencePhoto(mockRepairJobId, mockFile, 'AFTER');
+
+      expect(repairJobService['storageService'].uploadBufferToSupabase).toHaveBeenCalledWith(
+        expect.any(Buffer),
+        `repair-jobs/${mockUserId}/${mockRepairJobId}/after.jpg`,
+        'repair-job-photos'
+      );
+      expect(repairJobService['storageService'].getPublicFileUrl).toHaveBeenCalledWith(
+        `repair-jobs/${mockUserId}/${mockRepairJobId}/after.jpg`,
+        'repair-job-photos'
+      );
+      expect(repairJobServicePrismaMock.repairJob.update).toHaveBeenCalledWith({
+        where: { id: mockRepairJobId },
+        data: { afterPhotoUrl: mockAfterUrl },
+      });
+      expect(result).toEqual({
+        ...mockRepairJob,
+        id: mockRepairJobId,
+        beforePhotoUrl: null,
+        afterPhotoUrl: mockAfterUrl,
+      });
     });
   });
 });
