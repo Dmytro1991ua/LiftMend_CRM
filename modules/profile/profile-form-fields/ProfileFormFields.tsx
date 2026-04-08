@@ -19,11 +19,19 @@ const ProfileFormFields = ({ config, selectedCountry, onSelectCountry }: Profile
 
   return (
     <div className='flex-1 w-full' data-testid='profile-form-fields'>
-      {config.map(({ id, name, type, placeholder, disabled, label, isLastElement }) => {
+      {config.map(({ id, name, type, placeholder, disabled, label, isLastElement, isVisible }) => {
+        if (!isVisible) return;
+
         if (type === 'phone') {
           return (
             <div key={id}>
-              <PhoneNumberInput name={name} selectedCountry={selectedCountry} onSelectCountry={onSelectCountry} />
+              <PhoneNumberInput
+                label={label}
+                name={name}
+                placeholder={placeholder}
+                selectedCountry={selectedCountry}
+                onSelectCountry={onSelectCountry}
+              />
             </div>
           );
         }

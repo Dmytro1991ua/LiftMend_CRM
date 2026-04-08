@@ -1,6 +1,5 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 
-import { userServicePrismaMock } from '@/mocks/gql/prismaMocks';
 import { userServiceSupabaseMock } from '@/mocks/gql/supabaseMocks';
 import { mockUser } from '@/mocks/userMocks';
 import {

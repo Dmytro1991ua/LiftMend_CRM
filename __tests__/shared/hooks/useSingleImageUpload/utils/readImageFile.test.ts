@@ -4,8 +4,8 @@ import {
   INCOMPATIBLE_FILE_DIMENSION_MESSAGE,
   INCOMPATIBLE_FILE_FORMAT_MESSAGE,
   INCOMPATIBLE_FILE_SIZE_MESSAGE,
-} from '@/modules/profile/constants';
-import { readImageFile } from '@/modules/profile/utils';
+} from '@/shared/hooks/useSingleImageUpload/constants';
+import { readImageFile } from '@/shared/hooks/useSingleImageUpload/utils';
 
 describe('readImageFile', () => {
   const mockFile: File = new File(['dummy file'], 'image.png', {

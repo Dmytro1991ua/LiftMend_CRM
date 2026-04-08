@@ -1,4 +1,4 @@
-import { validateImageDimensions } from '@/modules/profile/utils';
+import { validateImageDimensions } from '@/shared/hooks/useSingleImageUpload/utils';
 
 jest.mock('react-image-file-resizer', () => ({
   imageFileResizer: jest.fn(),

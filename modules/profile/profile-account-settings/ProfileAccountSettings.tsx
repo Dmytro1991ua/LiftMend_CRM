@@ -1,12 +1,14 @@
+import { useMemo } from 'react';
+
 import { useDropzone } from 'react-dropzone';
 import { Bars } from 'react-loader-spinner';
 
 import { GetUserQuery } from '@/graphql/types/client/generated_types';
 import { cn } from '@/lib/utils';
+import { ACCEPTABLE_FILE_IMAGE_TYPES } from '@/shared/hooks/useSingleImageUpload/constants';
 import UserAvatar from '@/shared/user-avatar';
 
-import { PROFILE_ACCOUNT_SETTINGS_CONFIG } from '../configs';
-import { ACCEPTABLE_FILE_IMAGE_TYPES } from '../constants';
+import { getProfileAccountSettingsConfig } from '../configs';
 import { useUpdateProfilePicture } from '../hooks';
 import ProfileDropzone from '../profile-dropzone';
 import ProfileFormFields from '../profile-form-fields';
@@ -26,6 +28,8 @@ const ProfileAccountSettings = ({ user, isLoading, selectedCountry, onSelectCoun
     multiple: false,
     accept: ACCEPTABLE_FILE_IMAGE_TYPES,
   });
+
+  const profileAccountSettingsConfig = useMemo(() => getProfileAccountSettingsConfig(user), [user]);
 
   return (
     <div className={cn('flex flex-col items-center justify-center gap-2 xl:gap-6 lg:flex-row lg:items-start')}>
@@ -51,7 +55,7 @@ const ProfileAccountSettings = ({ user, isLoading, selectedCountry, onSelectCoun
             />
           </ProfileDropzone>
           <ProfileFormFields
-            config={PROFILE_ACCOUNT_SETTINGS_CONFIG}
+            config={profileAccountSettingsConfig}
             selectedCountry={selectedCountry}
             onSelectCountry={onSelectCountry}
           />

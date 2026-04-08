@@ -44,6 +44,7 @@ export type FromInputConfig = {
   disabled?: boolean;
   isLastElement?: boolean;
   defaultValue?: string;
+  isVisible?: boolean;
 };
 
 export type ProfileActionButtonConfig = {

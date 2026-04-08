@@ -1,6 +1,6 @@
 import Resizer from 'react-image-file-resizer';
 
-import { resizeImage } from '@/modules/profile/utils';
+import { resizeImage } from '@/shared/hooks/useSingleImageUpload/utils';
 
 jest.mock('react-image-file-resizer', () => ({
   imageFileResizer: jest.fn(),
