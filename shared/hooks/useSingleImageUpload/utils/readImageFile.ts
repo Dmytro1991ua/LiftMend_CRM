@@ -6,7 +6,8 @@ import {
   INCOMPATIBLE_FILE_FORMAT_MESSAGE,
   INCOMPATIBLE_FILE_SIZE_MESSAGE,
 } from '../constants';
-import { validateImageDimensions } from '../utils';
+
+import { validateImageDimensions } from './utils';
 
 export const readImageFile = (file: File[]): Promise<string | ArrayBuffer | null> => {
   return new Promise<string | ArrayBuffer | null>((resolve, reject) => {

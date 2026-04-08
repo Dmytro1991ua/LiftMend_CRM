@@ -13,9 +13,10 @@ import {
 } from '@/mocks/profileMocks';
 import { MockProviderHook } from '@/mocks/testMocks';
 import { mockUser } from '@/mocks/userMocks';
-import { UseUpdateProfilePicture, useUpdateProfilePicture } from '@/modules/profile/hooks';
-import { handleImageDrop } from '@/modules/profile/utils';
+import { useUpdateProfilePicture } from '@/modules/profile/hooks';
 import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
+import { UseSingleImageUpload } from '@/shared/hooks/useSingleImageUpload/types';
+import { handleImageDrop } from '@/shared/hooks/useSingleImageUpload/utils';
 import { onHandleMutationErrors } from '@/shared/utils';
 
 jest.mock('@apollo/client', () => {
@@ -35,8 +36,8 @@ jest.mock('@/shared/hooks/useMutationResultToasts', () => ({
   })),
 }));
 
-jest.mock('@/modules/profile/utils', () => ({
-  ...jest.requireActual('@/modules/profile/utils'),
+jest.mock('@/shared/hooks/useSingleImageUpload/utils', () => ({
+  ...jest.requireActual('@/shared/hooks/useSingleImageUpload/utils'),
   handleImageDrop: jest.fn(),
 }));
 
@@ -69,7 +70,7 @@ describe('useUpdateProfilePicture', () => {
     jest.clearAllMocks();
   });
 
-  const hook = (mocks: MockedResponse[] = []): RenderHookResult<unknown, UseUpdateProfilePicture> => {
+  const hook = (mocks: MockedResponse[] = []): RenderHookResult<unknown, UseSingleImageUpload> => {
     const cache = new InMemoryCache({
       addTypename: false,
       typePolicies,

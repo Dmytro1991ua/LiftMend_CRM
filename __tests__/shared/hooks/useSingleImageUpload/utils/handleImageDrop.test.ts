@@ -4,15 +4,16 @@ import {
   INVALID_IMAGE_ERROR,
   RESIZE_IMAGE_ERROR_MESSAGE,
   UPLOAD_FILE_ERROR,
-} from '@/modules/profile/constants';
-import { readImageFile, resizeImage } from '@/modules/profile/utils';
-import { handleImageDrop } from '@/modules/profile/utils/handleImageDrop';
+} from '@/shared/hooks/useSingleImageUpload/constants';
+import { handleImageDrop } from '@/shared/hooks/useSingleImageUpload/utils/handleImageDrop';
+import { readImageFile } from '@/shared/hooks/useSingleImageUpload/utils/readImageFile';
+import { resizeImage } from '@/shared/hooks/useSingleImageUpload/utils/resizeImage';
 
-jest.mock('@/modules/profile/utils/readImageFile', () => ({
+jest.mock('@/shared/hooks/useSingleImageUpload/utils/readImageFile', () => ({
   readImageFile: jest.fn(),
 }));
 
-jest.mock('@/modules/profile/utils/resizeImage', () => ({
+jest.mock('@/shared/hooks/useSingleImageUpload/utils/resizeImage', () => ({
   resizeImage: jest.fn(),
 }));
 

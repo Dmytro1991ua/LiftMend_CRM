@@ -1,6 +1,5 @@
 import { Prisma, PrismaClient, RepairJobChecklistItem } from '@prisma/client';
 import { SupabaseClient } from '@supabase/supabase-js';
-import { GraphQLError } from 'graphql';
 import { Maybe } from 'graphql/jsutils/Maybe';
 import { isNull as _isNull, omitBy as _omitBy } from 'lodash';
 

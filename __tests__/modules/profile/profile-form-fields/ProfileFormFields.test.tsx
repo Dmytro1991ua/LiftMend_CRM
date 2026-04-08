@@ -44,6 +44,7 @@ describe('ProfileFormFields', () => {
             label: 'Phone Number',
             placeholder: 'Enter your phone number',
             isLastElement: true,
+            isVisible: true,
             type: 'phone',
           },
         ],

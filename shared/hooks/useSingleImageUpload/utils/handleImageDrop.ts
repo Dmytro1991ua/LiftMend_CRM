@@ -5,7 +5,9 @@ import {
   RESIZE_IMAGE_ERROR_MESSAGE,
   UPLOAD_FILE_ERROR,
 } from '../constants';
-import { readImageFile, resizeImage } from '../utils';
+
+import { readImageFile } from './readImageFile';
+import { resizeImage } from './resizeImage';
 
 export const handleImageDrop = async ({
   files,
