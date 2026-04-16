@@ -233,6 +233,8 @@ export const mockRepairJob = {
       comment: null,
     },
   ],
+  beforePhotoUrl: null,
+  afterPhotoUrl: null,
 };
 export const mockCalendarEvent = {
   id: mockCalendarEventId,

@@ -7,4 +7,5 @@ export type CompleteButtonDisabledSate = {
 
 export type CompleteRepairJobFormValues = {
   checklist: RepairJobChecklistItem[];
+  evidencePhoto: File | null;
 };

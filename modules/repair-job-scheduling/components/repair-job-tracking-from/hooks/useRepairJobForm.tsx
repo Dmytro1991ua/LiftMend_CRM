@@ -2,6 +2,7 @@ import { SubmitHandler, UseFormHandleSubmit, useFormContext } from 'react-hook-f
 
 import { REPAIR_JOB_TRACKING_STEPS, STEP_VALIDATION_CONFIG } from '@/modules/repair-job-scheduling/config';
 import { useCreateRepairJobAndCalendarEvent } from '@/modules/repair-job-scheduling/hooks/useCreateRepairJobAndCalendarEvent';
+import { useUploadRepairJobEvidencePhoto } from '@/shared/repair-job/hooks';
 
 import { RepairJobFormProps } from '../RepairJobForm';
 import { RepairJobFromFields } from '../validation';
@@ -18,6 +19,8 @@ export const useRepairJobForm = ({ selectedDateRange, onReset }: RepairJobFormPr
 
   const { onCreateRepairJobAndEvent, isLoading } = useCreateRepairJobAndCalendarEvent();
 
+  const { onFileUpload } = useUploadRepairJobEvidencePhoto();
+
   const onHandleNext = async (activeStep: number): Promise<boolean> => {
     const stepId = REPAIR_JOB_TRACKING_STEPS[activeStep].id;
     const stepKey = STEP_VALIDATION_CONFIG[stepId];
@@ -29,9 +32,21 @@ export const useRepairJobForm = ({ selectedDateRange, onReset }: RepairJobFormPr
   };
 
   const onSubmit: SubmitHandler<RepairJobFromFields> = async (data) => {
-    const isRepairJobAndEventCreated = await onCreateRepairJobAndEvent(data, selectedDateRange);
+    const result = await onCreateRepairJobAndEvent(data, selectedDateRange);
 
-    if (!isRepairJobAndEventCreated) return;
+    const repairJobId = result?.data?.createRepairJobAndEvent?.repairJob?.id;
+
+    if (!repairJobId) return;
+
+    const file = data.jobDetails.evidencePhoto;
+
+    if (file) {
+      await onFileUpload([file], (file) => ({
+        repairJobId,
+        file,
+        photoEvidencePhase: 'BEFORE',
+      }));
+    }
 
     onReset();
   };

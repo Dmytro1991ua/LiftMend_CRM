@@ -22,5 +22,7 @@ export const REPAIR_JOB_FRAGMENT = gql`
       checked
       comment
     }
+    beforePhotoUrl
+    afterPhotoUrl
   }
 `;

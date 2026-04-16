@@ -1,7 +1,7 @@
 import {
   ALLOWED_IMAGE_FORMATS,
-  DEFAULT_MAX_FILE_SIZE,
   DEFAULT_MAX_IMAGE_DIMENSION,
+  DEFAULT_MAX_PROFILE_FILE_SIZE,
   INCOMPATIBLE_FILE_DIMENSION_MESSAGE,
   INCOMPATIBLE_FILE_FORMAT_MESSAGE,
   INCOMPATIBLE_FILE_SIZE_MESSAGE,
@@ -9,7 +9,10 @@ import {
 
 import { validateImageDimensions } from './utils';
 
-export const readImageFile = (file: File[]): Promise<string | ArrayBuffer | null> => {
+export const readImageFile = (
+  file: File[],
+  defaultFileSize = DEFAULT_MAX_PROFILE_FILE_SIZE
+): Promise<string | ArrayBuffer | null> => {
   return new Promise<string | ArrayBuffer | null>((resolve, reject) => {
     const fileReader = new FileReader();
 
@@ -39,7 +42,7 @@ export const readImageFile = (file: File[]): Promise<string | ArrayBuffer | null
       return;
     }
 
-    if (file[0].size > DEFAULT_MAX_FILE_SIZE) {
+    if (file[0].size > defaultFileSize) {
       reject(new Error(INCOMPATIBLE_FILE_SIZE_MESSAGE));
       return;
     }

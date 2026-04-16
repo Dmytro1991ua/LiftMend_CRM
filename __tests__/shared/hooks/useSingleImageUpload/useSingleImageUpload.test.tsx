@@ -55,7 +55,7 @@ describe('useSingleImageUpload', () => {
     jest.clearAllMocks();
   });
 
-  const hook = (): RenderHookResult<unknown, UseSingleImageUpload> =>
+  const hook = (): RenderHookResult<unknown, UseSingleImageUpload<{ file: File }>> =>
     renderHook(() => useSingleImageUpload<UploadProfilePictureMutationVariables>(defaultProps));
 
   it('should return initial hook data', () => {
@@ -70,7 +70,7 @@ describe('useSingleImageUpload', () => {
     const { result } = hook();
 
     await act(async () => {
-      await result.current.onImageUpload([mockFile]);
+      await result.current.onFileUpload([mockFile], mockGetVariables);
     });
 
     expect(handleImageDrop).toHaveBeenCalledWith(expect.objectContaining({ files: [mockUploadFile] }));
@@ -86,7 +86,7 @@ describe('useSingleImageUpload', () => {
     const { result } = hook();
 
     await act(async () => {
-      await result.current.onImageUpload([mockFile]);
+      await result.current.onFileUpload([mockFile], mockGetVariables);
     });
 
     expect(onHandleMutationErrors).toHaveBeenCalledWith({
@@ -104,7 +104,7 @@ describe('useSingleImageUpload', () => {
     const { result } = hook();
 
     await act(async () => {
-      await result.current.onImageUpload([mockFile]);
+      await result.current.onFileUpload([mockFile], mockGetVariables);
     });
 
     expect(onHandleMutationErrors).toHaveBeenCalledWith({
@@ -120,7 +120,7 @@ describe('useSingleImageUpload', () => {
     const { result } = hook();
 
     await act(async () => {
-      await result.current.onImageUpload([]);
+      await result.current.onFileUpload([], mockGetVariables);
     });
 
     expect(mockMutationFn).not.toHaveBeenCalled();

@@ -1,3 +1,5 @@
+import { Readable } from 'stream';
+
 import { act, renderHook } from '@testing-library/react-hooks';
 
 import { mockFormState } from '@/mocks/formStateMock';
@@ -5,7 +7,7 @@ import { mockRepairJob } from '@/mocks/repairJobTrackingMocks';
 import { MockProviderHook } from '@/mocks/testMocks';
 import { useCompleteRepairJob } from '@/modules/repair-job-tracking/components/complete-repair-job/hooks';
 import { useFormState, useModal } from '@/shared/hooks';
-import { useUpdateRepairJob } from '@/shared/repair-job/hooks';
+import { useUpdateRepairJob, useUploadRepairJobEvidencePhoto } from '@/shared/repair-job/hooks';
 
 jest.mock('@/shared/hooks', () => ({
   ...jest.requireActual('@/shared/hooks'),
@@ -14,7 +16,9 @@ jest.mock('@/shared/hooks', () => ({
 }));
 
 jest.mock('@/shared/repair-job/hooks', () => ({
+  ...jest.requireActual('@/shared/repair-job/hooks'),
   useUpdateRepairJob: jest.fn(),
+  useUploadRepairJobEvidencePhoto: jest.fn(),
 }));
 
 describe('useCompleteRepairJob', () => {
@@ -22,6 +26,19 @@ describe('useCompleteRepairJob', () => {
   const mockOnOpenModal = jest.fn();
   const mockOnCloseModal = jest.fn();
   const mockOnCompleteRepairJob = jest.fn();
+  const mockOnFileUpload = jest.fn().mockImplementation(async (files, cb) => {
+    files.forEach((file: File) => cb(file));
+  });
+
+  const createMockUploadFile = (filename = 'evidence-photo.png', content = 'fake-image-content') =>
+    Promise.resolve({
+      filename,
+      mimetype: 'image/png',
+      encoding: '7bit',
+      createReadStream: () => Readable.from(Buffer.from(content)),
+    });
+
+  const mockFile = createMockUploadFile('before-photo.png') as unknown as File;
 
   beforeEach(() => {
     (useFormState as jest.Mock).mockReturnValue({
@@ -38,6 +55,10 @@ describe('useCompleteRepairJob', () => {
     (useUpdateRepairJob as jest.Mock).mockReturnValue({
       onCompleteRepairJob: mockOnCompleteRepairJob,
       isLoading: false,
+    });
+
+    (useUploadRepairJobEvidencePhoto as jest.Mock).mockReturnValue({
+      onFileUpload: mockOnFileUpload,
     });
   });
 
@@ -78,13 +99,19 @@ describe('useCompleteRepairJob', () => {
     expect(mockOnReset).toHaveBeenCalled();
   });
 
-  it('should submit checklist and closes modal on success', async () => {
-    mockOnCompleteRepairJob.mockResolvedValue({});
+  it('should submit checklist and photo evidence and closes modal on success', async () => {
+    mockOnCompleteRepairJob.mockResolvedValue({
+      data: {
+        updateRepairJob: mockRepairJob,
+      },
+      errors: [],
+    });
 
     const { result } = hook();
 
     const values = {
       checklist: [{ id: 'a', label: 'Check motor', checked: true }],
+      evidencePhoto: mockFile,
     };
 
     await act(async () => {
@@ -98,6 +125,7 @@ describe('useCompleteRepairJob', () => {
 
     expect(mockOnCloseModal).toHaveBeenCalled();
     expect(mockOnReset).toHaveBeenCalled();
+    expect(mockOnFileUpload).toHaveBeenCalled();
   });
 
   it('should not close modal if API returns errors', async () => {
@@ -108,7 +136,7 @@ describe('useCompleteRepairJob', () => {
     const { result } = hook();
 
     await act(async () => {
-      await result.current.onHandleComplete({ checklist: [] });
+      await result.current.onHandleComplete({ checklist: [], evidencePhoto: null });
     });
 
     expect(mockOnCompleteRepairJob).toHaveBeenCalled();

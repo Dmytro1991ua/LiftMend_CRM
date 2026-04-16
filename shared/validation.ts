@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { DEFAULT_MAX_REPAIR_JOB_FILE_SIZE } from './hooks/useSingleImageUpload/constants';
+import { readImageFile } from './hooks/useSingleImageUpload/utils';
 import { formatPhoneNumber } from './utils';
 
 export const passwordMatchValidation = <T extends z.ZodRawShape>(schema: z.ZodObject<T>) =>
@@ -58,3 +60,27 @@ export const baseJobDescriptionSchema = z
   .string()
   .min(10, 'Job description must be at least 10 characters long')
   .max(300, 'Job description cannot exceed 300 characters');
+
+export const baseEvidencePhotoSchema = z
+  .custom<File | null>((val) => {
+    // On the server, we can't check 'instanceof File', so we just
+    // check if the value exists. The actual File check happens in the browser.
+    if (typeof window === 'undefined') return true;
+
+    return val instanceof File || val === null;
+  })
+  .refine((file) => file !== null, {
+    message: 'Photo evidence is required',
+  })
+  .superRefine(async (file, ctx) => {
+    if (!file) return;
+
+    try {
+      await readImageFile([file], DEFAULT_MAX_REPAIR_JOB_FILE_SIZE);
+    } catch (error) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: error instanceof Error ? error.message : 'Invalid image file',
+      });
+    }
+  });

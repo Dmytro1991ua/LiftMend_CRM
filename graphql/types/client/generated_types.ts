@@ -340,6 +340,7 @@ export type Mutation = {
   updateTechnicianRecord: TechnicianRecord;
   updateUserProfile: AppUser;
   uploadProfilePicture: UploadProfilePicturePayload;
+  uploadRepairJobEvidencePhoto: UploadRepairJobEvidencePhotoPayload;
 };
 
 export type MutationCompleteElevatorInspectionArgs = {
@@ -418,6 +419,12 @@ export type MutationUpdateUserProfileArgs = {
 
 export type MutationUploadProfilePictureArgs = {
   file: Scalars['Upload']['input'];
+};
+
+export type MutationUploadRepairJobEvidencePhotoArgs = {
+  file: Scalars['Upload']['input'];
+  photoEvidencePhase: Scalars['String']['input'];
+  repairJobId: Scalars['ID']['input'];
 };
 
 export type Node = {
@@ -631,6 +638,8 @@ export type RemoveAccountResponse = {
 export type RepairJob = Node & {
   __typename?: 'RepairJob';
   actualEndDate: Maybe<Scalars['DateTime']['output']>;
+  afterPhotoUrl: Maybe<Scalars['String']['output']>;
+  beforePhotoUrl: Maybe<Scalars['String']['output']>;
   buildingName: Scalars['String']['output'];
   calendarEventId: Maybe<Scalars['String']['output']>;
   checklist: Maybe<Array<RepairJobChecklistItem>>;
@@ -908,6 +917,13 @@ export type UploadProfilePicturePayload = {
   id: Scalars['ID']['output'];
 };
 
+export type UploadRepairJobEvidencePhotoPayload = {
+  __typename?: 'UploadRepairJobEvidencePhotoPayload';
+  afterPhotoUrl: Maybe<Scalars['String']['output']>;
+  beforePhotoUrl: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+};
+
 export type UserFilter = {
   __typename?: 'UserFilter';
   label: Scalars['String']['output'];
@@ -1016,6 +1032,8 @@ export type RepairJobFieldsFragment = {
   isOverdue: boolean | null;
   elevatorId: string | null;
   technicianId: string | null;
+  beforePhotoUrl: string | null;
+  afterPhotoUrl: string | null;
   checklist: Array<{
     __typename?: 'RepairJobChecklistItem';
     label: string;
@@ -1128,6 +1146,8 @@ export type CreateRepairJobAndCalendarEventMutation = {
       isOverdue: boolean | null;
       elevatorId: string | null;
       technicianId: string | null;
+      beforePhotoUrl: string | null;
+      afterPhotoUrl: string | null;
       checklist: Array<{
         __typename?: 'RepairJobChecklistItem';
         label: string;
@@ -1423,6 +1443,8 @@ export type GetElevatorMaintenanceHistoryQuery = {
         isOverdue: boolean | null;
         elevatorId: string | null;
         technicianId: string | null;
+        beforePhotoUrl: string | null;
+        afterPhotoUrl: string | null;
         checklist: Array<{
           __typename?: 'RepairJobChecklistItem';
           label: string;
@@ -1619,6 +1641,8 @@ export type GetRecentRepairJobsQuery = {
     isOverdue: boolean | null;
     elevatorId: string | null;
     technicianId: string | null;
+    beforePhotoUrl: string | null;
+    afterPhotoUrl: string | null;
     checklist: Array<{
       __typename?: 'RepairJobChecklistItem';
       label: string;
@@ -1652,6 +1676,8 @@ export type GetRepairJobByIdQuery = {
     isOverdue: boolean | null;
     elevatorId: string | null;
     technicianId: string | null;
+    beforePhotoUrl: string | null;
+    afterPhotoUrl: string | null;
     checklist: Array<{
       __typename?: 'RepairJobChecklistItem';
       label: string;
@@ -1710,6 +1736,8 @@ export type GetRepairJobsQuery = {
         isOverdue: boolean | null;
         elevatorId: string | null;
         technicianId: string | null;
+        beforePhotoUrl: string | null;
+        afterPhotoUrl: string | null;
         checklist: Array<{
           __typename?: 'RepairJobChecklistItem';
           label: string;
@@ -1923,6 +1951,8 @@ export type ReassignTechnicianMutation = {
     isOverdue: boolean | null;
     elevatorId: string | null;
     technicianId: string | null;
+    beforePhotoUrl: string | null;
+    afterPhotoUrl: string | null;
     checklist: Array<{
       __typename?: 'RepairJobChecklistItem';
       label: string;
@@ -2028,6 +2058,8 @@ export type UpdateRepairJobMutation = {
     isOverdue: boolean | null;
     elevatorId: string | null;
     technicianId: string | null;
+    beforePhotoUrl: string | null;
+    afterPhotoUrl: string | null;
     checklist: Array<{
       __typename?: 'RepairJobChecklistItem';
       label: string;
@@ -2085,4 +2117,20 @@ export type UploadProfilePictureMutationVariables = Exact<{
 export type UploadProfilePictureMutation = {
   __typename?: 'Mutation';
   uploadProfilePicture: { __typename?: 'UploadProfilePicturePayload'; id: string; avatarUrl: string };
+};
+
+export type UploadRepairJobEvidencePhotoMutationVariables = Exact<{
+  repairJobId: Scalars['ID']['input'];
+  file: Scalars['Upload']['input'];
+  photoEvidencePhase: Scalars['String']['input'];
+}>;
+
+export type UploadRepairJobEvidencePhotoMutation = {
+  __typename?: 'Mutation';
+  uploadRepairJobEvidencePhoto: {
+    __typename?: 'UploadRepairJobEvidencePhotoPayload';
+    id: string;
+    beforePhotoUrl: string | null;
+    afterPhotoUrl: string | null;
+  };
 };

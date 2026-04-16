@@ -781,12 +781,12 @@ describe('RepairJobService', () => {
       expect(repairJobService['storageService'].uploadBufferToSupabase).toHaveBeenCalledWith(
         expect.any(Buffer),
         `repair-jobs/${mockUserId}/${mockRepairJobId}/before.png`,
-        'repair-job-photos'
+        'repair_job_photos'
       );
 
       expect(repairJobService['storageService'].getPublicFileUrl).toHaveBeenCalledWith(
         `repair-jobs/${mockUserId}/${mockRepairJobId}/before.png`,
-        'repair-job-photos'
+        'repair_job_photos'
       );
       expect(repairJobServicePrismaMock.repairJob.update).toHaveBeenCalledWith({
         where: { id: mockRepairJobId },
@@ -818,11 +818,11 @@ describe('RepairJobService', () => {
       expect(repairJobService['storageService'].uploadBufferToSupabase).toHaveBeenCalledWith(
         expect.any(Buffer),
         `repair-jobs/${mockUserId}/${mockRepairJobId}/after.jpg`,
-        'repair-job-photos'
+        'repair_job_photos'
       );
       expect(repairJobService['storageService'].getPublicFileUrl).toHaveBeenCalledWith(
         `repair-jobs/${mockUserId}/${mockRepairJobId}/after.jpg`,
-        'repair-job-photos'
+        'repair_job_photos'
       );
       expect(repairJobServicePrismaMock.repairJob.update).toHaveBeenCalledWith({
         where: { id: mockRepairJobId },

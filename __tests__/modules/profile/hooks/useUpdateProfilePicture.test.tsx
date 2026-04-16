@@ -53,6 +53,7 @@ describe('useUpdateProfilePicture', () => {
   const mockOnSuccess = jest.fn();
   const mockOnError = jest.fn();
   const mockCacheModify = jest.fn();
+  const mockGetVariables = jest.fn((file) => ({ file }));
   const mockCacheIdentify = jest.fn().mockReturnValue('AppUser:test-user-id-1');
   const mockUpdatedProfilePictureResponse = {
     id: 'test-user-id-1',
@@ -70,7 +71,7 @@ describe('useUpdateProfilePicture', () => {
     jest.clearAllMocks();
   });
 
-  const hook = (mocks: MockedResponse[] = []): RenderHookResult<unknown, UseSingleImageUpload> => {
+  const hook = (mocks: MockedResponse[] = []): RenderHookResult<unknown, UseSingleImageUpload<{ file: File }>> => {
     const cache = new InMemoryCache({
       addTypename: false,
       typePolicies,
@@ -109,7 +110,7 @@ describe('useUpdateProfilePicture', () => {
 
     const { result } = hook([mockUpdateProfilePictureResponse]);
 
-    await act(async () => await result.current.onImageUpload([mockUploadFile as unknown as File]));
+    await act(async () => await result.current.onFileUpload([mockUploadFile as unknown as File], mockGetVariables));
 
     expect(mockOnSuccess).toHaveBeenCalledWith('Successfully uploaded profile picture');
     expect(onHandleMutationErrors).not.toHaveBeenCalledWith();
@@ -135,7 +136,7 @@ describe('useUpdateProfilePicture', () => {
 
     const { result } = hook([mockUpdateProfilePictureResponse]);
 
-    await act(async () => await result.current.onImageUpload([mockUploadFile as unknown as File]));
+    await act(async () => await result.current.onFileUpload([mockUploadFile as unknown as File], mockGetVariables));
 
     expect(mockCacheModify).toHaveBeenCalledWith({
       id: 'AppUser:test-user-id-1',
@@ -167,7 +168,7 @@ describe('useUpdateProfilePicture', () => {
 
     const { result } = hook([mockUpdateProfilePictureResponse]);
 
-    await act(async () => await result.current.onImageUpload([mockUploadFile as unknown as File]));
+    await act(async () => await result.current.onFileUpload([mockUploadFile as unknown as File], mockGetVariables));
 
     expect(mockCacheModify).not.toHaveBeenCalled();
   });
@@ -182,7 +183,7 @@ describe('useUpdateProfilePicture', () => {
 
     const { result } = hook([mockUpdateProfilePictureGQLErrorResponse]);
 
-    await act(async () => await result.current.onImageUpload([mockUploadFile as unknown as File]));
+    await act(async () => await result.current.onFileUpload([mockUploadFile as unknown as File], mockGetVariables));
 
     expect(mockOnSuccess).not.toHaveBeenCalled();
     expect(onHandleMutationErrors).toHaveBeenCalledWith({
@@ -202,7 +203,7 @@ describe('useUpdateProfilePicture', () => {
 
     const { result } = hook([mockUpdateProfilePictureNetworkErrorResponse]);
 
-    await act(async () => await result.current.onImageUpload([mockUploadFile as unknown as File]));
+    await act(async () => await result.current.onFileUpload([mockUploadFile as unknown as File], mockGetVariables));
 
     expect(mockOnSuccess).not.toHaveBeenCalled();
     expect(onHandleMutationErrors).toHaveBeenCalledWith({

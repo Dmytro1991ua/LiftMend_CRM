@@ -99,6 +99,8 @@ export type RepairJob = {
   actualEndDate?: Maybe<Date>;
   isOverdue?: Maybe<boolean>;
   checklist?: RepairJobChecklistItem[] | null;
+  beforePhotoUrl?: string | null;
+  afterPhotoUrl?: string | null;
 };
 
 export type ElevatorInspectionStatus = {

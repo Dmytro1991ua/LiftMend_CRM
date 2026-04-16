@@ -1,11 +1,12 @@
 import { z } from 'zod';
 
-import { baseJobDescriptionSchema } from '@/shared/validation';
+import { baseEvidencePhotoSchema, baseJobDescriptionSchema } from '@/shared/validation';
 
 export const INITIAL_REPAIR_JOB_VALUES = {
   jobDetails: {
     jobType: '',
     jobDescription: '',
+    evidencePhoto: undefined,
     priority: '',
   },
   elevatorInformation: {
@@ -25,6 +26,7 @@ export const INITIAL_REPAIR_JOB_VALUES = {
 export const jobDetailsSchema = z.object({
   jobType: z.string().min(1, 'Job Type is required'),
   jobDescription: baseJobDescriptionSchema,
+  evidencePhoto: baseEvidencePhotoSchema,
   priority: z.string().min(1, 'Priority is required'),
 });
 
@@ -37,12 +39,12 @@ export const elevatorInformationSchema = z.object({
 export const technicianAssignmentSchema = z.object({
   selectedTechnician: z
     .object({
-      id: z.string().min(1, 'Technician is required'), // ensures a valid id
+      id: z.string().min(1, 'Technician is required'),
       value: z.string(),
       label: z.string(),
     })
     .nullable()
-    .refine((val) => val !== null, 'Technician is required'), // ensure not null
+    .refine((val) => val !== null, 'Technician is required'),
 });
 
 export const repairJobFormSchema = z.object({

@@ -5,10 +5,12 @@ import { UseFormReturn } from 'react-hook-form';
 
 import { mockFormState } from '@/mocks/formStateMock';
 import { mockSelectedDateRange } from '@/mocks/repairJobScheduling';
+import { mockRepairJob } from '@/mocks/repairJobTrackingMocks';
 import { MockProviderHook } from '@/mocks/testMocks';
 import { useRepairJobForm } from '@/modules/repair-job-scheduling/components/repair-job-tracking-from/hooks';
 import { useCreateRepairJobAndCalendarEvent } from '@/modules/repair-job-scheduling/hooks/useCreateRepairJobAndCalendarEvent';
 import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
+import { useUploadRepairJobEvidencePhoto } from '@/shared/repair-job/hooks';
 
 jest.mock('@/shared/hooks/useMutationResultToasts', () => ({
   __esModule: true,
@@ -19,6 +21,9 @@ jest.mock('@/shared/hooks/useMutationResultToasts', () => ({
 }));
 
 jest.mock('@/modules/repair-job-scheduling/hooks/useCreateRepairJobAndCalendarEvent');
+jest.mock('@/shared/repair-job/hooks', () => ({
+  useUploadRepairJobEvidencePhoto: jest.fn(),
+}));
 
 describe('useRepairJobForm', () => {
   const mockOnSuccess = jest.fn();
@@ -27,11 +32,18 @@ describe('useRepairJobForm', () => {
   const mockFormTrigger = jest.fn();
   const mockOnCreateRepairJobAndEvent = jest.fn();
   const mockOnReset = jest.fn();
+  const mockOnFileUpload = jest.fn().mockImplementation(async (files, cb) => {
+    files.forEach((file: File) => cb(file));
+  });
+  const mockFile = new File(['fake'], 'before-photo.png', {
+    type: 'image/png',
+  });
   const mockFromValues = {
     jobDetails: {
       jobType: 'Emergency',
       jobDescription: 'test description here',
       priority: 'Low',
+      evidencePhoto: mockFile,
     },
     elevatorInformation: {
       elevatorType: 'Stadium Lift',
@@ -58,6 +70,10 @@ describe('useRepairJobForm', () => {
     (useCreateRepairJobAndCalendarEvent as jest.Mock).mockReturnValue({
       onCreateRepairJobAndEvent: mockOnCreateRepairJobAndEvent,
       isLoading: false,
+    });
+
+    (useUploadRepairJobEvidencePhoto as jest.Mock).mockReturnValue({
+      onFileUpload: mockOnFileUpload,
     });
 
     jest.spyOn(form, 'useFormContext').mockReturnValue({
@@ -104,7 +120,13 @@ describe('useRepairJobForm', () => {
   });
 
   it('should trigger onSubmit and reset form', async () => {
-    mockOnCreateRepairJobAndEvent.mockResolvedValue(true);
+    mockOnCreateRepairJobAndEvent.mockResolvedValue({
+      data: {
+        createRepairJobAndEvent: {
+          repairJob: mockRepairJob,
+        },
+      },
+    });
 
     const { result } = hook();
 
@@ -114,10 +136,13 @@ describe('useRepairJobForm', () => {
 
     expect(mockOnCreateRepairJobAndEvent).toHaveBeenCalled();
     expect(mockOnReset).toHaveBeenCalled();
+    expect(mockOnFileUpload).toHaveBeenCalled();
   });
 
   it('should not reset form if mutation fails', async () => {
-    mockOnCreateRepairJobAndEvent.mockResolvedValue(false);
+    mockOnCreateRepairJobAndEvent.mockResolvedValue({
+      data: null,
+    });
 
     const { result } = hook();
 

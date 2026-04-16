@@ -1,6 +1,6 @@
 import {
-  DEFAULT_MAX_FILE_SIZE,
   DEFAULT_MAX_IMAGE_DIMENSION,
+  DEFAULT_MAX_PROFILE_FILE_SIZE,
   INCOMPATIBLE_FILE_DIMENSION_MESSAGE,
   INCOMPATIBLE_FILE_FORMAT_MESSAGE,
   INCOMPATIBLE_FILE_SIZE_MESSAGE,
@@ -140,7 +140,7 @@ describe('readImageFile', () => {
     });
 
     Object.defineProperty(largeFile, 'size', {
-      value: DEFAULT_MAX_FILE_SIZE + 1,
+      value: DEFAULT_MAX_PROFILE_FILE_SIZE + 1,
     });
 
     const mockFileReader = {
