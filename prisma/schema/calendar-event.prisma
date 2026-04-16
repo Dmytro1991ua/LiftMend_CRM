@@ -6,5 +6,5 @@ model CalendarEvent {
   description String?
   allDay      Boolean    @default(false)
   repairJobId String?    @unique
-  repairJob   RepairJob? @relation(fields: [repairJobId], references: [id])
+  repairJob   RepairJob? @relation(fields: [repairJobId], references: [id], onDelete: Cascade)
 }

@@ -1,4 +1,4 @@
-import { ApolloError, useMutation } from '@apollo/client';
+import { ApolloError, FetchResult, useMutation } from '@apollo/client';
 import { DateSelectArg } from '@fullcalendar/core';
 
 import { CREATE_REPAIR_JOB_AND_CALENDAR_EVENT, GET_CALENDAR_EVENTS } from '@/graphql/schemas';
@@ -18,7 +18,7 @@ export type UseCreateRepairJobAndCalendarEvent = {
   onCreateRepairJobAndEvent: (
     formFields: RepairJobFromFields,
     selectedDateRange: DateSelectArg | null
-  ) => Promise<boolean>;
+  ) => Promise<FetchResult<CreateRepairJobAndCalendarEventMutation> | undefined>;
 };
 
 export const useCreateRepairJobAndCalendarEvent = (): UseCreateRepairJobAndCalendarEvent => {
@@ -49,7 +49,7 @@ export const useCreateRepairJobAndCalendarEvent = (): UseCreateRepairJobAndCalen
   const onCreateRepairJobAndEvent = async (
     formFields: RepairJobFromFields,
     selectedDateRange: DateSelectArg | null
-  ): Promise<boolean> => {
+  ): Promise<FetchResult<CreateRepairJobAndCalendarEventMutation> | undefined> => {
     try {
       const {
         jobDetails: { jobType, jobDescription, priority },
@@ -106,12 +106,10 @@ export const useCreateRepairJobAndCalendarEvent = (): UseCreateRepairJobAndCalen
           errors: result.errors,
           onFailure: onError,
         });
-
-        return false;
       } else {
         onSuccess?.(DEFAULT_SCHEDULE_REPAIR_JOB_SUCCESS_MESSAGE);
 
-        return true;
+        return result;
       }
     } catch (e) {
       onHandleMutationErrors({
@@ -119,8 +117,6 @@ export const useCreateRepairJobAndCalendarEvent = (): UseCreateRepairJobAndCalen
         error: e as ApolloError,
         onFailure: onError,
       });
-
-      return false;
     }
   };
 

@@ -1,5 +1,6 @@
 import { ArrayPath, useFieldArray, useFormContext } from 'react-hook-form';
 
+import { cn } from '@/lib/utils';
 import { getNestedError } from '@/modules/repair-job-scheduling/utils';
 
 import ControlledChecklistItem from '../controlled-checklist-Item';
@@ -8,9 +9,10 @@ import { CompleteRepairJobFormValues } from '../types';
 export type ControlledChecklistProps = {
   name: ArrayPath<CompleteRepairJobFormValues>;
   isDisabled?: boolean;
+  wrapperClassname?: string;
 };
 
-const ControlledChecklist = ({ name, isDisabled }: ControlledChecklistProps) => {
+const ControlledChecklist = ({ name, isDisabled, wrapperClassname }: ControlledChecklistProps) => {
   const {
     control,
     formState: { errors },
@@ -25,7 +27,7 @@ const ControlledChecklist = ({ name, isDisabled }: ControlledChecklistProps) => 
   const hasError = !!rootError;
 
   return (
-    <div className='space-y-4'>
+    <div className={cn('space-y-4', wrapperClassname)}>
       {fields.map((field, index) => (
         <ControlledChecklistItem
           key={field.id}

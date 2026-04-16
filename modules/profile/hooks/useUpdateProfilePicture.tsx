@@ -14,7 +14,7 @@ import {
   UPLOAD_PROFILE_PICTURE_SUCCESS_MESSAGE,
 } from '../constants';
 
-export const useUpdateProfilePicture = (): UseSingleImageUpload => {
+export const useUpdateProfilePicture = (): UseSingleImageUpload<UploadProfilePictureMutationVariables> => {
   const [uploadProfilePicture, { loading }] = useMutation<
     UploadProfilePictureMutation,
     UploadProfilePictureMutationVariables
@@ -33,9 +33,8 @@ export const useUpdateProfilePicture = (): UseSingleImageUpload => {
     },
   });
 
-  const { previewImage, onImageUpload } = useSingleImageUpload<UploadProfilePictureMutationVariables>({
+  const { previewImage, onFileUpload } = useSingleImageUpload<UploadProfilePictureMutationVariables>({
     mutationFn: uploadProfilePicture,
-    getVariables: (file) => ({ file }),
     successMessage: UPLOAD_PROFILE_PICTURE_SUCCESS_MESSAGE,
     gqlErrorMessage: UPLOAD_PROFILE_PICTURE_FAILED_GQL_MESSAGE,
     apolloErrorMessage: UPLOAD_PROFILE_PICTURE_FAILED_APOLLO_MESSAGE,
@@ -43,7 +42,7 @@ export const useUpdateProfilePicture = (): UseSingleImageUpload => {
 
   return {
     previewImage,
-    onImageUpload,
+    onFileUpload,
     loading,
   };
 };

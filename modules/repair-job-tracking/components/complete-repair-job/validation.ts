@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { baseEvidencePhotoSchema } from '@/shared/validation';
+
 export const checklistItemSchema = z.object({
   label: z.string(),
   checked: z.boolean(),
@@ -18,4 +20,5 @@ export const completeRepairJobSchema = z.object({
     .refine((items) => items.every((item) => item.checked), {
       message: 'All checklist items must be completed',
     }),
+  evidencePhoto: baseEvidencePhotoSchema,
 });

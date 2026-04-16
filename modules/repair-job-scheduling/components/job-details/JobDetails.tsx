@@ -1,10 +1,12 @@
-import { Fragment } from 'react';
+import { Fragment, useMemo } from 'react';
 
 import { useFormContext } from 'react-hook-form';
 import { Bars } from 'react-loader-spinner';
 
 import { GetRepairJobFromDataQuery } from '@/graphql/types/client/generated_types';
 import BaseAlert from '@/shared/base-alert/BaseAlert';
+import ControlledSingleFileUpload from '@/shared/base-file-upload/controlled-single-file-upload';
+import FileUploadPreview from '@/shared/base-file-upload/file-upload-preview';
 import ControlledSingleSelect from '@/shared/base-select/components/controlled-single-select/ControlledSingleSelect';
 import BaseTextarea from '@/shared/base-textarea';
 import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions';
@@ -15,13 +17,20 @@ import { ItemConfig } from '@/shared/types';
 import { RepairJobFromFields } from '../repair-job-tracking-from/validation';
 
 const JobDetails = () => {
-  const { clearErrors } = useFormContext<RepairJobFromFields>();
+  const { clearErrors, watch, resetField } = useFormContext<RepairJobFromFields>();
 
   const {
     dropdownOptions: { repairJobTypes, priorities },
     loading,
     error,
   } = useFetchDropdownOptions<GetRepairJobFromDataQuery>({ configKey: DropdownOptions.RepairJob });
+
+  const file = watch('jobDetails.evidencePhoto');
+  const previewImage = useMemo(() => {
+    if (!file) return null;
+
+    return URL.createObjectURL(file);
+  }, [file]);
 
   const JOB_DETAILS_FORM_FIELDS_CONFIG: ItemConfig[] = [
     {
@@ -54,6 +63,19 @@ const JobDetails = () => {
     },
     {
       id: 3,
+      content: (
+        <ControlledSingleFileUpload
+          className='mb-8'
+          clearErrors={clearErrors}
+          label='Photo Evidence (Before)'
+          name='jobDetails.evidencePhoto'
+        >
+          <FileUploadPreview previewImage={previewImage} onRemove={() => resetField('jobDetails.evidencePhoto')} />
+        </ControlledSingleFileUpload>
+      ),
+    },
+    {
+      id: 4,
       content: (
         <ControlledSingleSelect<RepairJobFromFields>
           clearErrors={clearErrors}

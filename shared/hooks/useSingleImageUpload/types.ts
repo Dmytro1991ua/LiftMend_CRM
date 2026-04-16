@@ -20,14 +20,13 @@ type MutationResult = {
 
 export type UseSingleImageUploadParams<TVariables> = {
   mutationFn: (options: { variables: TVariables }) => Promise<MutationResult>;
-  getVariables: (file: File) => TVariables;
   successMessage: string;
   gqlErrorMessage: string;
   apolloErrorMessage: string;
 };
 
-export type UseSingleImageUpload = {
+export type UseSingleImageUpload<T> = {
   previewImage: string | null;
-  onImageUpload: (files: File[]) => Promise<void>;
+  onFileUpload: (files: File[], getVariables: (file: File) => T) => Promise<void>;
   loading?: boolean;
 };

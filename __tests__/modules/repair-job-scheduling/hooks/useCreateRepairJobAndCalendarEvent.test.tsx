@@ -48,12 +48,15 @@ describe('useCreateRepairJobAndCalendarEvent', () => {
   const mockOnError = jest.fn();
   const mockWriteQuery = jest.fn();
   const mockReadQuery = jest.fn();
-
+  const mockFile = new File(['fake'], 'before-photo.png', {
+    type: 'image/png',
+  });
   const mockFormValues = {
     jobDetails: {
       jobType: 'Consultation',
       jobDescription: 'asdasdadasdasdasd',
       priority: 'High',
+      evidencePhoto: mockFile,
     },
     elevatorInformation: {
       elevatorType: 'Ship Elevator',

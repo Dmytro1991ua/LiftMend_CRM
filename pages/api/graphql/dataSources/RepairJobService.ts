@@ -388,9 +388,9 @@ class RepairJobService {
 
     const filePath = `repair-jobs/${userId}/${repairJobId}/${photoEvidencePhase.toLowerCase()}.${extension}`;
 
-    await this.storageService.uploadBufferToSupabase(buffer, filePath, 'repair-job-photos');
+    await this.storageService.uploadBufferToSupabase(buffer, filePath, 'repair_job_photos');
 
-    const newImageUrl = this.storageService.getPublicFileUrl(filePath, 'repair-job-photos');
+    const newImageUrl = this.storageService.getPublicFileUrl(filePath, 'repair_job_photos');
 
     return await this.prisma.repairJob.update({
       where: { id: repairJobId },

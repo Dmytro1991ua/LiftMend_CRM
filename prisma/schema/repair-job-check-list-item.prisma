@@ -6,5 +6,5 @@ model RepairJobChecklistItem {
   comment     String?
   checkedAt   DateTime
   checkedBy   String
-  repairJob   RepairJob @relation(fields: [repairJobId], references: [id])
+  repairJob   RepairJob @relation(fields: [repairJobId], references: [id], onDelete: Cascade)
 }

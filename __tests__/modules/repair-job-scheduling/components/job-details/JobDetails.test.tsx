@@ -7,11 +7,23 @@ import { mockRepairJobPriorities, mockRepairJobTypes } from '@/mocks/dropdownOpt
 import { mockFormState } from '@/mocks/formStateMock';
 import { withApolloAndFormProvider } from '@/mocks/testMocks';
 import JobDetails from '@/modules/repair-job-scheduling/components/job-details';
+import { FileUploadPreviewProps } from '@/shared/base-file-upload/file-upload-preview/types';
 import { useFetchDropdownOptions } from '@/shared/hooks/useFetchDropdownOptions';
 
 jest.mock('@/shared/hooks/useFetchDropdownOptions');
 
+jest.mock('@/shared/base-file-upload/file-upload-preview', () => ({
+  __esModule: true,
+  default: ({ previewImage }: FileUploadPreviewProps) => (
+    <div data-testid='preview'>{previewImage || 'no-preview'}</div>
+  ),
+}));
+
 describe('JobDetails', () => {
+  const mockFile = new File(['fake'], 'before-photo.png', {
+    type: 'image/png',
+  });
+
   beforeEach(() => {
     (useFetchDropdownOptions as jest.Mock).mockImplementation(() => {
       return {
@@ -23,6 +35,8 @@ describe('JobDetails', () => {
         error: undefined,
       };
     });
+
+    global.URL.createObjectURL = jest.fn(() => 'mock-url');
   });
 
   afterEach(() => {
@@ -79,6 +93,8 @@ describe('JobDetails', () => {
       },
       clearErrors: mockOnClearErrors,
       register: jest.fn().mockReturnValue({ onChange: mockOnClearErrors }),
+      watch: jest.fn().mockReturnValue(null),
+      resetField: jest.fn(),
     } as unknown as UseFormReturn);
 
     render(JobDetailsComponent());
@@ -89,5 +105,20 @@ describe('JobDetails', () => {
 
     expect(currentPasswordInput.value).toBe(mockDescriptionFieldValue);
     expect(mockOnClearErrors).toHaveBeenCalled();
+  });
+
+  it('should show preview when file exists', () => {
+    jest.spyOn(form, 'useFormContext').mockReturnValue({
+      formState: { ...mockFormState.formState },
+      clearErrors: jest.fn(),
+      register: jest.fn(),
+
+      watch: jest.fn().mockReturnValue(mockFile),
+      resetField: jest.fn(),
+    } as unknown as UseFormReturn);
+
+    render(JobDetailsComponent());
+
+    expect(screen.getByTestId('preview')).toHaveTextContent('mock-url');
   });
 });

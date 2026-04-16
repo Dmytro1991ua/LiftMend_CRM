@@ -1,6 +1,7 @@
 import { Dimensions } from './types';
 
-export const DEFAULT_MAX_FILE_SIZE = 200 * 1024;
+export const DEFAULT_MAX_PROFILE_FILE_SIZE = 200 * 1024;
+export const DEFAULT_MAX_REPAIR_JOB_FILE_SIZE = 5 * 1024 * 1024;
 export const DEFAULT_MAX_IMAGE_DIMENSION: Dimensions = {
   width: 500,
   height: 500,

@@ -1,16 +1,15 @@
 import { useMemo } from 'react';
 
-import { useDropzone } from 'react-dropzone';
 import { Bars } from 'react-loader-spinner';
 
 import { GetUserQuery } from '@/graphql/types/client/generated_types';
 import { cn } from '@/lib/utils';
-import { ACCEPTABLE_FILE_IMAGE_TYPES } from '@/shared/hooks/useSingleImageUpload/constants';
+import FileDropzone from '@/shared/file-dropzone';
 import UserAvatar from '@/shared/user-avatar';
 
 import { getProfileAccountSettingsConfig } from '../configs';
+import { PROFILE_DROPZONE_TOOLTIP_MESSAGE } from '../constants';
 import { useUpdateProfilePicture } from '../hooks';
-import ProfileDropzone from '../profile-dropzone';
 import ProfileFormFields from '../profile-form-fields';
 
 export type ProfileAccountSettingsProps = {
@@ -21,15 +20,11 @@ export type ProfileAccountSettingsProps = {
 };
 
 const ProfileAccountSettings = ({ user, isLoading, selectedCountry, onSelectCountry }: ProfileAccountSettingsProps) => {
-  const { loading: uploadFileLoading, previewImage, onImageUpload } = useUpdateProfilePicture();
-
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop: onImageUpload,
-    multiple: false,
-    accept: ACCEPTABLE_FILE_IMAGE_TYPES,
-  });
+  const { loading: uploadFileLoading, previewImage, onFileUpload: upload } = useUpdateProfilePicture();
 
   const profileAccountSettingsConfig = useMemo(() => getProfileAccountSettingsConfig(user), [user]);
+
+  const onFileUpload = (files: File[]) => upload(files, (file) => ({ file }));
 
   return (
     <div className={cn('flex flex-col items-center justify-center gap-2 xl:gap-6 lg:flex-row lg:items-start')}>
@@ -44,7 +39,12 @@ const ProfileAccountSettings = ({ user, isLoading, selectedCountry, onSelectCoun
         />
       ) : (
         <>
-          <ProfileDropzone getInputProps={getInputProps} getRootProps={getRootProps}>
+          <FileDropzone
+            isUploadDisabled={uploadFileLoading}
+            testId='profile-dropzone'
+            tooltip={PROFILE_DROPZONE_TOOLTIP_MESSAGE}
+            onFileUpload={onFileUpload}
+          >
             <UserAvatar
               className='h-22 w-22 md:h-60 md:w-60'
               imageHeight={150}
@@ -53,7 +53,7 @@ const ProfileAccountSettings = ({ user, isLoading, selectedCountry, onSelectCoun
               isLoading={isLoading || uploadFileLoading}
               previewImage={previewImage}
             />
-          </ProfileDropzone>
+          </FileDropzone>
           <ProfileFormFields
             config={profileAccountSettingsConfig}
             selectedCountry={selectedCountry}

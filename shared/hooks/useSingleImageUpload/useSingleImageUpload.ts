@@ -10,16 +10,15 @@ import { handleImageDrop } from './utils';
 
 export const useSingleImageUpload = <TVariables>({
   mutationFn,
-  getVariables,
   successMessage,
   gqlErrorMessage,
   apolloErrorMessage,
-}: UseSingleImageUploadParams<TVariables>): UseSingleImageUpload => {
+}: UseSingleImageUploadParams<TVariables>): UseSingleImageUpload<TVariables> => {
   const { onError, onSuccess } = useMutationResultToasts();
 
   const [previewImage, setPreviewImage] = useState<string | null>(null);
 
-  const onImageUpload = async (files: File[]) => {
+  const onFileUpload = async (files: File[], getVariables: (file: File) => TVariables) => {
     try {
       const file = await handleImageDrop({
         files,
@@ -55,6 +54,6 @@ export const useSingleImageUpload = <TVariables>({
 
   return {
     previewImage,
-    onImageUpload,
+    onFileUpload,
   };
 };
