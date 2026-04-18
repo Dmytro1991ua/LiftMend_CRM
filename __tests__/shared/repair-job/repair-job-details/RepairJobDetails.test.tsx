@@ -87,4 +87,47 @@ describe('RepairJobDetails', () => {
 
     expect(editButton).toHaveClass('disabled:pointer-events-all');
   });
+
+  it('should render Photo Evidence section when beforePhotoUrl exists', () => {
+    jest.spyOn(apollo, 'useQuery').mockImplementation(() => {
+      return {
+        data: {
+          getRepairJobById: {
+            ...mockRepairJob,
+            beforePhotoUrl: 'https://example.com/before.jpg',
+            afterPhotoUrl: 'https://example.com/after.jpg',
+          },
+        },
+      } as apollo.QueryResult;
+    });
+
+    render(RepairJobDetailsComponent());
+
+    expect(screen.getByText('Photo Evidence')).toBeInTheDocument();
+    expect(screen.getByText('Before')).toBeInTheDocument();
+    expect(screen.getByText('After')).toBeInTheDocument();
+  });
+
+  it('should render Completion Checklist when job is completed and checklist exists', () => {
+    jest.spyOn(apollo, 'useQuery').mockImplementation(() => {
+      return {
+        data: {
+          getRepairJobById: {
+            ...mockRepairJob,
+            status: 'Completed',
+            checklist: [
+              { label: 'Check motor', checked: true, comment: 'OK' },
+              { label: 'Check cables', checked: false, comment: 'Needs replacement' },
+            ],
+          },
+        },
+      } as apollo.QueryResult;
+    });
+
+    render(RepairJobDetailsComponent());
+
+    expect(screen.getByText('Completion Checklist')).toBeInTheDocument();
+    expect(screen.getByText('Check motor')).toBeInTheDocument();
+    expect(screen.getByText('Check cables')).toBeInTheDocument();
+  });
 });

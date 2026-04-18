@@ -8,6 +8,7 @@ import { PillStatus } from '@/shared/pill/config';
 
 import BaseChecklistItem from '../base-checklist-item';
 import OverdueRepairJob from '../overdue-repair-job';
+import PhotoEvidenceComparison from '../photo-evidence-comparison';
 
 export const repairJobSectionsConfig = (repairJob: RepairJob): DetailsPageSectionsConfig[] => [
   {
@@ -78,10 +79,31 @@ export const repairJobSectionsConfig = (repairJob: RepairJob): DetailsPageSectio
     title: 'Technician Information',
     fields: [{ id: 10, label: 'Name:', value: repairJob.technicianName }],
   },
-  ...(repairJob.checklist?.length && repairJob.status === 'Completed'
+  ...(repairJob.beforePhotoUrl
     ? [
         {
           id: 4,
+          title: 'Photo Evidence',
+          fields: [
+            {
+              id: 12,
+              label: '',
+              value: (
+                <PhotoEvidenceComparison
+                  afterPhotoUrl={repairJob.afterPhotoUrl}
+                  beforePhotoUrl={repairJob.beforePhotoUrl}
+                />
+              ),
+              fieldClassName: 'block w-full',
+            },
+          ],
+        },
+      ]
+    : []),
+  ...(repairJob.checklist?.length && repairJob.status === 'Completed'
+    ? [
+        {
+          id: 5,
           title: 'Completion Checklist',
           fields: [
             {
