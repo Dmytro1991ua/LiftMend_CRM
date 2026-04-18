@@ -79,7 +79,7 @@ describe('CompleteRepairJob', () => {
   const mockFile = new File(['fake'], 'before-photo.png', {
     type: 'image/png',
   });
-  const mockHandleSubmit = <T,>(fn: SubmitHandler<{ evidencePhoto: File | null }>) => {
+  const mockHandleSubmit = (fn: SubmitHandler<{ evidencePhoto: File | null }>) => {
     return () => fn({} as { evidencePhoto: File | null });
   };
   const mockForm = {
