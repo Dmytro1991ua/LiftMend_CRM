@@ -5,3 +5,4 @@ scalar Upload
 JSONDataType includes all possible JSON data types.
 """
 scalar JSONDataType
+scalar Decimal

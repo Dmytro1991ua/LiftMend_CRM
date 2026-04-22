@@ -4,6 +4,7 @@ import calendarEventSchema from './calendarEvent.graphql';
 import changeLogSchema from './changeLog.graphql';
 import dashboardSchema from './dashboard.graphql';
 import elevatorRecordSchema from './elevatorRecord.graphql';
+import inventoryPartSchema from './inventoryPart.graphql';
 import mutationSchema from './mutation.graphql';
 import notificationSchema from './notification.graphql';
 import paginationSchema from './pagination.graphql';
@@ -26,6 +27,7 @@ const schemas = [
   dashboardSchema,
   notificationSchema,
   changeLogSchema,
+  inventoryPartSchema,
 ];
 
 export const typeDefs = mergeTypeDefs(schemas);

@@ -1,0 +1,10 @@
+model InventoryPart {
+  id                 String               @id(map: "InventoryParts_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name               String
+  stock              Int                  @default(0)
+  minStock           Int                  @default(0)
+  unitPrice          Decimal?             @db.Decimal(10, 2)
+  createdAt          DateTime?            @default(now()) @db.Timestamp(6)
+  status             String
+  inventoryPartUsage InventoryPartUsage[]
+}
