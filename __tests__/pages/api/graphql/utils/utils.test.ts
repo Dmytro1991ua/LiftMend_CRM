@@ -20,6 +20,7 @@ import {
   createChangeLogFilterOptions,
   createElevatorRecordFilterOptions,
   createElevatorRecordSortOptions,
+  createInventoryPartFilterOptions,
   createNotificationFilterOptions,
   createRepairJobFilterOptions,
   createRepairJobSortOptions,
@@ -28,6 +29,7 @@ import {
   fetchFormDropdownData,
   getDataLoader,
   getElevatorStatusErrorMessage,
+  getInventoryPartStatus,
   getSortedFormDropdownData,
   isRepairJobOverdue,
   isRepairJobUpcoming,
@@ -1072,6 +1074,84 @@ describe('parseChangeLogValue', () => {
       if (consoleSpy) {
         expect(consoleSpy).toHaveBeenCalled();
       }
+    });
+  });
+});
+
+describe('createInventoryPartFilterOptions', () => {
+  const scenarios = [
+    {
+      description: 'should return an empty object when no filter options are provided',
+      input: undefined,
+      expected: {},
+    },
+    {
+      description: 'should return an empty object when status is empty',
+      input: { status: [] },
+      expected: {},
+    },
+    {
+      description: 'should return status filter when status is provided',
+      input: { status: ['Out of Stock'] },
+      expected: { status: { in: ['Out of Stock'] } },
+    },
+    {
+      description: 'should return multiple statuses when provided',
+      input: { status: ['Out of Stock', 'Low Stock'] },
+      expected: {
+        status: { in: ['Out of Stock', 'Low Stock'] },
+      },
+    },
+    {
+      description: 'should ignore undefined status',
+      input: { status: undefined },
+      expected: {},
+    },
+  ];
+
+  scenarios.forEach(({ description, input, expected }) => {
+    it(description, () => {
+      const result = createInventoryPartFilterOptions(input);
+
+      expect(result).toEqual(expected);
+    });
+  });
+});
+
+describe('getInventoryPartStatus', () => {
+  const scenarios = [
+    {
+      description: 'should return "Out of Stock" when stock is 0',
+      input: { stock: 0, minStock: 5 },
+      expected: 'Out of Stock',
+    },
+    {
+      description: 'should return "Low Stock" when stock is less than minStock',
+      input: { stock: 2, minStock: 5 },
+      expected: 'Low Stock',
+    },
+    {
+      description: 'should return "Low Stock" when stock equals minStock',
+      input: { stock: 5, minStock: 5 },
+      expected: 'Low Stock',
+    },
+    {
+      description: 'should return "In Stock" when stock is greater than minStock',
+      input: { stock: 10, minStock: 5 },
+      expected: 'In Stock',
+    },
+    {
+      description: 'should prioritize "Out of Stock" over "Low Stock"',
+      input: { stock: 0, minStock: 0 },
+      expected: 'Out of Stock',
+    },
+  ];
+
+  scenarios.forEach(({ description, input, expected }) => {
+    it(description, () => {
+      const result = getInventoryPartStatus(input.stock, input.minStock);
+
+      expect(result).toBe(expected);
     });
   });
 });

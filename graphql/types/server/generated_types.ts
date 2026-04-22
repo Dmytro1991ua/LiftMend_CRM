@@ -18,6 +18,7 @@ export type Scalars = {
   Int: { input: number; output: number };
   Float: { input: number; output: number };
   DateTime: { input: any; output: any };
+  Decimal: { input: any; output: any };
   /** JSONDataType includes all possible JSON data types. */
   JSONDataType: { input: any; output: any };
   Upload: { input: any; output: any };
@@ -311,6 +312,34 @@ export type InspectionStatus = {
   severity: ElevatorSeverityLevel;
 };
 
+export type InventoryPart = Node & {
+  __typename?: 'InventoryPart';
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  minStock: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
+  status: Scalars['String']['output'];
+  stock: Scalars['Int']['output'];
+  unitPrice: Scalars['Decimal']['output'];
+};
+
+export type InventoryPartConnection = Connection & {
+  __typename?: 'InventoryPartConnection';
+  edges: Array<InventoryPartEdge>;
+  pageInfo: PageInfo;
+  total: Scalars['Int']['output'];
+};
+
+export type InventoryPartEdge = Edge & {
+  __typename?: 'InventoryPartEdge';
+  cursor: Scalars['String']['output'];
+  node: InventoryPart;
+};
+
+export type InventoryPartFilterOptions = {
+  status?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
 export type MarkAllNotificationsAsReadResult = {
   __typename?: 'MarkAllNotificationsAsReadResult';
   updatedNotificationIds?: Maybe<Array<Scalars['String']['output']>>;
@@ -556,6 +585,7 @@ export type Query = {
   getElevatorRecordById: ElevatorRecord;
   getElevatorRecordFormData: ElevatorRecordFormData;
   getElevatorRecords: ElevatorRecordConnection;
+  getInventoryParts: InventoryPartConnection;
   getNotifications: NotificationConnection;
   getRecentRepairJobs: Array<RepairJob>;
   getRepairJobById: RepairJob;
@@ -596,6 +626,11 @@ export type QueryGetElevatorRecordsArgs = {
   filterOptions?: InputMaybe<ElevatorRecordFilterOptions>;
   paginationOptions?: InputMaybe<PaginationOptions>;
   sortOptions?: InputMaybe<ElevatorRecordSortInput>;
+};
+
+export type QueryGetInventoryPartsArgs = {
+  filterOptions?: InputMaybe<InventoryPartFilterOptions>;
+  paginationOptions?: InputMaybe<PaginationOptions>;
 };
 
 export type QueryGetNotificationsArgs = {
@@ -1015,16 +1050,18 @@ export type ResolversInterfaceTypes<RefType extends Record<string, unknown>> = R
   Connection:
     | (Omit<ChangeLogConnection, 'edges'> & { edges: Array<RefType['ChangeLogEdge']> })
     | (Omit<ElevatorRecordConnection, 'edges'> & { edges: Array<RefType['ElevatorRecordEdge']> })
+    | InventoryPartConnection
     | NotificationConnection
     | (Omit<RepairJobConnection, 'edges'> & { edges: Array<RefType['RepairJobEdge']> })
     | TechnicianRecordConnection;
   Edge:
     | (Omit<ChangeLogEdge, 'node'> & { node: RefType['ChangeLog'] })
     | (Omit<ElevatorRecordEdge, 'node'> & { node: RefType['ElevatorRecord'] })
+    | InventoryPartEdge
     | NotificationEdge
     | (Omit<RepairJobEdge, 'node'> & { node: RefType['RepairJob'] })
     | TechnicianRecordEdges;
-  Node: DAAPIChangeLog | DAAPIElevatorRecord | Notification | DAAPIRepairJob | TechnicianRecord;
+  Node: DAAPIChangeLog | DAAPIElevatorRecord | InventoryPart | Notification | DAAPIRepairJob | TechnicianRecord;
 }>;
 
 /** Mapping between all available schema types and the resolvers types */
@@ -1047,6 +1084,7 @@ export type ResolversTypes = ResolversObject<{
   CreateUserInput: CreateUserInput;
   DashboardMetrics: ResolverTypeWrapper<DashboardMetrics>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
+  Decimal: ResolverTypeWrapper<Scalars['Decimal']['output']>;
   DeleteCalendarAndRepairJobResponse: ResolverTypeWrapper<DeleteCalendarAndRepairJobResponse>;
   DeleteElevatorRecordResponse: ResolverTypeWrapper<DeleteElevatorRecordResponse>;
   DeleteTechnicianRecordResponse: ResolverTypeWrapper<DeleteTechnicianRecordResponse>;
@@ -1074,6 +1112,10 @@ export type ResolversTypes = ResolversObject<{
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   InspectionStatus: ResolverTypeWrapper<InspectionStatus>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
+  InventoryPart: ResolverTypeWrapper<InventoryPart>;
+  InventoryPartConnection: ResolverTypeWrapper<InventoryPartConnection>;
+  InventoryPartEdge: ResolverTypeWrapper<InventoryPartEdge>;
+  InventoryPartFilterOptions: InventoryPartFilterOptions;
   JSONDataType: ResolverTypeWrapper<Scalars['JSONDataType']['output']>;
   MarkAllNotificationsAsReadResult: ResolverTypeWrapper<MarkAllNotificationsAsReadResult>;
   MarkNotificationAsReadInput: MarkNotificationAsReadInput;
@@ -1147,6 +1189,7 @@ export type ResolversParentTypes = ResolversObject<{
   CreateUserInput: CreateUserInput;
   DashboardMetrics: DashboardMetrics;
   DateTime: Scalars['DateTime']['output'];
+  Decimal: Scalars['Decimal']['output'];
   DeleteCalendarAndRepairJobResponse: DeleteCalendarAndRepairJobResponse;
   DeleteElevatorRecordResponse: DeleteElevatorRecordResponse;
   DeleteTechnicianRecordResponse: DeleteTechnicianRecordResponse;
@@ -1170,6 +1213,10 @@ export type ResolversParentTypes = ResolversObject<{
   ID: Scalars['ID']['output'];
   InspectionStatus: InspectionStatus;
   Int: Scalars['Int']['output'];
+  InventoryPart: InventoryPart;
+  InventoryPartConnection: InventoryPartConnection;
+  InventoryPartEdge: InventoryPartEdge;
+  InventoryPartFilterOptions: InventoryPartFilterOptions;
   JSONDataType: Scalars['JSONDataType']['output'];
   MarkAllNotificationsAsReadResult: MarkAllNotificationsAsReadResult;
   MarkNotificationAsReadInput: MarkNotificationAsReadInput;
@@ -1306,6 +1353,7 @@ export type ConnectionResolvers<
   __resolveType: TypeResolveFn<
     | 'ChangeLogConnection'
     | 'ElevatorRecordConnection'
+    | 'InventoryPartConnection'
     | 'NotificationConnection'
     | 'RepairJobConnection'
     | 'TechnicianRecordConnection',
@@ -1329,6 +1377,10 @@ export type DashboardMetricsResolvers<
 
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
   name: 'DateTime';
+}
+
+export interface DecimalScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Decimal'], any> {
+  name: 'Decimal';
 }
 
 export type DeleteCalendarAndRepairJobResponseResolvers<
@@ -1361,7 +1413,12 @@ export type EdgeResolvers<
   ParentType extends ResolversParentTypes['Edge'] = ResolversParentTypes['Edge']
 > = ResolversObject<{
   __resolveType: TypeResolveFn<
-    'ChangeLogEdge' | 'ElevatorRecordEdge' | 'NotificationEdge' | 'RepairJobEdge' | 'TechnicianRecordEdges',
+    | 'ChangeLogEdge'
+    | 'ElevatorRecordEdge'
+    | 'InventoryPartEdge'
+    | 'NotificationEdge'
+    | 'RepairJobEdge'
+    | 'TechnicianRecordEdges',
     ParentType,
     ContextType
   >;
@@ -1499,6 +1556,39 @@ export type InspectionStatusResolvers<
 > = ResolversObject<{
   label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   severity?: Resolver<ResolversTypes['ElevatorSeverityLevel'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type InventoryPartResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['InventoryPart'] = ResolversParentTypes['InventoryPart']
+> = ResolversObject<{
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  minStock?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  stock?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  unitPrice?: Resolver<ResolversTypes['Decimal'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type InventoryPartConnectionResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['InventoryPartConnection'] = ResolversParentTypes['InventoryPartConnection']
+> = ResolversObject<{
+  edges?: Resolver<Array<ResolversTypes['InventoryPartEdge']>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
+  total?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type InventoryPartEdgeResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['InventoryPartEdge'] = ResolversParentTypes['InventoryPartEdge']
+> = ResolversObject<{
+  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  node?: Resolver<ResolversTypes['InventoryPart'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1647,7 +1737,7 @@ export type NodeResolvers<
   ParentType extends ResolversParentTypes['Node'] = ResolversParentTypes['Node']
 > = ResolversObject<{
   __resolveType: TypeResolveFn<
-    'ChangeLog' | 'ElevatorRecord' | 'Notification' | 'RepairJob' | 'TechnicianRecord',
+    'ChangeLog' | 'ElevatorRecord' | 'InventoryPart' | 'Notification' | 'RepairJob' | 'TechnicianRecord',
     ParentType,
     ContextType
   >;
@@ -1744,6 +1834,12 @@ export type QueryResolvers<
     ParentType,
     ContextType,
     Partial<QueryGetElevatorRecordsArgs>
+  >;
+  getInventoryParts?: Resolver<
+    ResolversTypes['InventoryPartConnection'],
+    ParentType,
+    ContextType,
+    Partial<QueryGetInventoryPartsArgs>
   >;
   getNotifications?: Resolver<
     ResolversTypes['NotificationConnection'],
@@ -2041,6 +2137,7 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   Connection?: ConnectionResolvers<ContextType>;
   DashboardMetrics?: DashboardMetricsResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
+  Decimal?: GraphQLScalarType;
   DeleteCalendarAndRepairJobResponse?: DeleteCalendarAndRepairJobResponseResolvers<ContextType>;
   DeleteElevatorRecordResponse?: DeleteElevatorRecordResponseResolvers<ContextType>;
   DeleteTechnicianRecordResponse?: DeleteTechnicianRecordResponseResolvers<ContextType>;
@@ -2056,6 +2153,9 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   ElevatorRepairFrequencyStatus?: ElevatorRepairFrequencyStatusResolvers<ContextType>;
   FieldChange?: FieldChangeResolvers<ContextType>;
   InspectionStatus?: InspectionStatusResolvers<ContextType>;
+  InventoryPart?: InventoryPartResolvers<ContextType>;
+  InventoryPartConnection?: InventoryPartConnectionResolvers<ContextType>;
+  InventoryPartEdge?: InventoryPartEdgeResolvers<ContextType>;
   JSONDataType?: GraphQLScalarType;
   MarkAllNotificationsAsReadResult?: MarkAllNotificationsAsReadResultResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;

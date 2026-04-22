@@ -10,6 +10,7 @@ import {
   ElevatorRecordSortField,
   ElevatorRecordSortInput,
   InputMaybe,
+  InventoryPartFilterOptions,
   NotificationFilterOptions,
   PaginationOptions,
   RepairJobFilterOptions,
@@ -324,6 +325,16 @@ export const createChangeLogFilterOptions = (
   };
 };
 
+export const createInventoryPartFilterOptions = (
+  filterOptions: InputMaybe<InventoryPartFilterOptions>
+): Prisma.InventoryPartWhereInput => {
+  const { status } = filterOptions || {};
+
+  return {
+    ...(status && status.length > 0 && { status: { in: status } }),
+  };
+};
+
 /**
  * Returns all Prisma model names dynamically.
  * Used for ChangeLog entity type dropdowns.
@@ -334,4 +345,12 @@ export const getPrismaModelNames = async (): Promise<string[]> => {
   const changeLogEntityTypes = CHANGE_LOG_ENTITY_TYPES.filter((entity) => prismaModelNames.has(entity));
 
   return _orderBy(changeLogEntityTypes);
+};
+
+export const getInventoryPartStatus = (stock: number, minStock: number) => {
+  if (stock === 0) return 'Out of Stock';
+
+  if (stock <= minStock) return 'Low Stock';
+
+  return 'In Stock';
 };

@@ -5,6 +5,7 @@ import AuthService from './AuthService';
 import CalendarEventService from './CalendarEventService';
 import ChangeLogService from './ChangeLogService';
 import ElevatorService from './ElevatorService';
+import InventoryPartService from './InventoryPartService';
 import NotificationService from './NotificationService';
 import RepairJobService from './RepairJobService';
 import StorageService from './StorageService';
@@ -21,6 +22,7 @@ export const createDataSources = (prisma: PrismaClient, supabase?: SupabaseClien
   notification: new NotificationService(prisma),
   changeLog: new ChangeLogService(prisma),
   storageService: new StorageService(supabase),
+  inventoryPart: new InventoryPartService(prisma),
 });
 
 export type DataSources = ReturnType<typeof createDataSources>;

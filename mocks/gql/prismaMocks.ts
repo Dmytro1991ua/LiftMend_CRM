@@ -110,3 +110,10 @@ export const changeLogPrismaMock = {
     count: jest.fn(),
   },
 } as unknown as PrismaClient;
+
+export const inventoryPartServicePrismaMock = {
+  inventoryPart: {
+    findMany: jest.fn(),
+    count: jest.fn(),
+  },
+} as unknown as PrismaClient;

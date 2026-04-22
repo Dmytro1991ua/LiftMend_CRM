@@ -8,6 +8,7 @@ import {
   ElevatorRecord,
   ElevatorRecordConnection,
   ElevatorRecordFormData,
+  InventoryPartConnection,
   NotificationConnection,
   QueryResolvers,
   RepairJob,
@@ -104,6 +105,9 @@ const Query: QueryResolvers = {
       ...changeLogFilters,
       users,
     };
+  },
+  getInventoryParts: async (_, args, { dataSources }): Promise<InventoryPartConnection> => {
+    return await dataSources.inventoryPart.inventoryParts(args);
   },
 };
 

@@ -34,4 +34,8 @@ type Query {
   getUnreadNotificationCount: Int!
   getChangeLogs(paginationOptions: PaginationOptions, filterOptions: ChangeLogFilterOptions): ChangeLogConnection!
   getChangeLogFilterData: ChangeLogFilterData!
+  getInventoryParts(
+    paginationOptions: PaginationOptions
+    filterOptions: InventoryPartFilterOptions
+  ): InventoryPartConnection!
 }

@@ -1,5 +1,6 @@
 import {
   ElevatorRecordFormData,
+  InventoryPartConnection,
   NotificationConnection,
   RepairJobConnection,
   TechnicianRecordConnection,
@@ -23,6 +24,7 @@ import {
   userServicePrismaMock,
 } from '@/mocks/gql/prismaMocks';
 import { userServiceSupabaseMock } from '@/mocks/gql/supabaseMocks';
+import { mockedReturnedInventoryPartsData } from '@/mocks/inventoryPartMocks';
 import { mockedReturnedNotificationsData } from '@/mocks/notificationMocks';
 import { mockCalendarEvent, mockRepairJobScheduledData } from '@/mocks/repairJobScheduling';
 import {
@@ -484,6 +486,35 @@ describe('Query', () => {
           ...mockChangeLogFilters,
           users: mockUsers,
         });
+      });
+    });
+  });
+
+  describe('InventoryPartService', () => {
+    let mockDataSources: ReturnType<typeof createDataSourcesMock>;
+
+    let getInventoryPartsResolver: TestResolver<typeof Query, 'getInventoryParts'>;
+
+    beforeEach(() => {
+      mockDataSources = createDataSourcesMock(notificationServicePrismaMock);
+
+      getInventoryPartsResolver = getResolverToTest(Query, 'getInventoryParts', mockDataSources);
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    describe('getInventoryParts', () => {
+      it('should return notifications', async () => {
+        mockDataSources.inventoryPart.inventoryParts.mockResolvedValue(
+          mockedReturnedInventoryPartsData.getInventoryParts
+        );
+
+        const result = await getInventoryPartsResolver();
+
+        expect(mockDataSources.inventoryPart.inventoryParts).toHaveBeenCalled();
+        expect(result).toEqual(mockedReturnedInventoryPartsData.getInventoryParts);
       });
     });
   });

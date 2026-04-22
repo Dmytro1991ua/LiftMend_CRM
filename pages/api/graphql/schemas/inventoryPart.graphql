@@ -1,0 +1,24 @@
+type InventoryPart implements Node {
+  id: ID!
+  name: String!
+  stock: Int!
+  minStock: Int!
+  unitPrice: Decimal!
+  createdAt: DateTime!
+  status: String!
+}
+
+type InventoryPartEdge implements Edge {
+  cursor: String!
+  node: InventoryPart!
+}
+
+type InventoryPartConnection implements Connection {
+  edges: [InventoryPartEdge!]!
+  pageInfo: PageInfo!
+  total: Int!
+}
+
+input InventoryPartFilterOptions {
+  status: [String!]
+}
