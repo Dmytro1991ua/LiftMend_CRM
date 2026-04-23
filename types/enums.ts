@@ -15,6 +15,7 @@ export enum AppRoutes {
   SignOut = '/signout',
   Notifications = '/notifications',
   ChangeLog = '/change-log',
+  InventoryManagement = '/inventory-management',
 }
 
 export enum SectionHeaderTitle {
@@ -24,6 +25,7 @@ export enum SectionHeaderTitle {
   RepairJobScheduling = 'Repair Job Scheduling',
   RepairJobTracking = 'Repair Job Tracking',
   TechnicianManagement = 'Technician Management',
+  InventoryManagement = 'Inventory Management',
 }
 
 export enum SectionHeaderDescription {
@@ -31,4 +33,5 @@ export enum SectionHeaderDescription {
   RepairJobTracking = 'Track, Update, and Review Repair Job Progress',
   ElevatorManagement = 'View, Update, and Manage Elevator Information',
   TechnicianManagement = 'Manage technician profiles, including skills, certifications, and availability to ensure effective job assignments',
+  InventoryManagement = 'Monitor stock levels, manage spare parts, and track unit pricing to ensure maintenance readiness',
 }

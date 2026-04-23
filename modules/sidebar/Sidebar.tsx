@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { BiLogOut, BiSolidUser } from 'react-icons/bi';
 import { BsTools } from 'react-icons/bs';
 import { FaCalendarAlt, FaChevronLeft, FaChevronRight, FaHistory } from 'react-icons/fa';
+import { FaWarehouse } from 'react-icons/fa6';
 import { GrUserWorker } from 'react-icons/gr';
 import { MdElevator } from 'react-icons/md';
 import { RiDashboardFill } from 'react-icons/ri';
@@ -73,12 +74,18 @@ const Sidebar = ({ isMobileNavOpen, onCloseMobileNav }: SidebarProps) => {
     },
     {
       id: 6,
+      url: AppRoutes.InventoryManagement,
+      icon: <FaWarehouse className={commonIconClasses} />,
+      label: NavigationLinkLabel.InventoryManagement,
+    },
+    {
+      id: 7,
       url: AppRoutes.Profile,
       icon: <BiSolidUser className={commonIconClasses} />,
       label: NavigationLinkLabel.Profile,
     },
     {
-      id: 7,
+      id: 8,
       url: AppRoutes.ChangeLog,
       icon: <FaHistory className={commonIconClasses} />,
       label: NavigationLinkLabel.ChangeLog,
@@ -100,7 +107,8 @@ const Sidebar = ({ isMobileNavOpen, onCloseMobileNav }: SidebarProps) => {
           'sidebar absolute z-50 transition-all duration-300 md:translate-x-0 md:relative',
           isExpanded ? 'w-[32rem]' : 'w-21',
           isMobileNavOpen ? '-translate-x-5 rounded-none' : 'translate-x-[-110%]'
-        )}>
+        )}
+      >
         <Logo
           labelClassName={cn(
             'inline-block whitespace-nowrap overflow-hidden transition-all duration-300 ease-in-out',
@@ -109,7 +117,8 @@ const Sidebar = ({ isMobileNavOpen, onCloseMobileNav }: SidebarProps) => {
         />
         <button
           className='absolute tra top-5 -right-3 p-2 bg-primary rounded-xl cursor-pointer text-white hover:bg-blue-500 hidden md:block'
-          onClick={onToggleCollapse}>
+          onClick={onToggleCollapse}
+        >
           {isExpanded ? (
             <FaChevronLeft className='w-3 h-3' data-testid='chevron-left' />
           ) : (
@@ -133,7 +142,8 @@ const Sidebar = ({ isMobileNavOpen, onCloseMobileNav }: SidebarProps) => {
         <Link passHref href={AppRoutes.SignIn}>
           <a
             className='flex items-center mt-auto py-4 px-2 text-link group border-t-2 border-slate'
-            onClick={() => onSignOut(AppRoutes.SignOut)}>
+            onClick={() => onSignOut(AppRoutes.SignOut)}
+          >
             <UserAvatar className='border-2 border-primary' imageSrc={user?.avatarUrl ?? ''} isLoading={userLoading} />
             <UserName
               firstName={user?.firstName}
