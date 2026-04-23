@@ -9,4 +9,5 @@ export enum NavigationLinkLabel {
   Signup = 'Signup',
   Logout = 'Log Out',
   ChangeLog = 'Change Log',
+  InventoryManagement = 'Inventory Management',
 }
