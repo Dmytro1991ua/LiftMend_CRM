@@ -1,6 +1,7 @@
+import { Decimal } from '@prisma/client/runtime/library';
+
 import {
   ElevatorRecordFormData,
-  InventoryPartConnection,
   NotificationConnection,
   RepairJobConnection,
   TechnicianRecordConnection,
@@ -507,14 +508,25 @@ describe('Query', () => {
 
     describe('getInventoryParts', () => {
       it('should return notifications', async () => {
-        mockDataSources.inventoryPart.inventoryParts.mockResolvedValue(
-          mockedReturnedInventoryPartsData.getInventoryParts
-        );
-
+        mockDataSources.inventoryPart.inventoryParts.mockResolvedValue({
+          ...mockedReturnedInventoryPartsData.getInventoryParts,
+          edges: mockedReturnedInventoryPartsData.getInventoryParts.edges.map((edge) => ({
+            ...edge,
+            node: {
+              ...edge.node,
+              unitPrice: new Decimal(edge.node.unitPrice as string),
+              createdAt: new Date('2026-04-21T16:59:33.716Z'),
+            },
+          })),
+        });
         const result = await getInventoryPartsResolver();
 
         expect(mockDataSources.inventoryPart.inventoryParts).toHaveBeenCalled();
-        expect(result).toEqual(mockedReturnedInventoryPartsData.getInventoryParts);
+
+        const mockInput = JSON.parse(JSON.stringify(result));
+        const mockOutput = JSON.parse(JSON.stringify(mockedReturnedInventoryPartsData.getInventoryParts));
+
+        expect(mockInput).toEqual(mockOutput);
       });
     });
   });

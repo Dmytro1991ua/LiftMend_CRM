@@ -13,6 +13,7 @@ export type Scalars = {
   Int: { input: number; output: number };
   Float: { input: number; output: number };
   DateTime: { input: any; output: any };
+  Decimal: { input: any; output: any };
   /** JSONDataType includes all possible JSON data types. */
   JSONDataType: { input: any; output: any };
   Upload: { input: any; output: any };
@@ -308,6 +309,34 @@ export type InspectionStatus = {
   severity: ElevatorSeverityLevel;
 };
 
+export type InventoryPart = Node & {
+  __typename?: 'InventoryPart';
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  minStock: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
+  status: Scalars['String']['output'];
+  stock: Scalars['Int']['output'];
+  unitPrice: Scalars['Decimal']['output'];
+};
+
+export type InventoryPartConnection = Connection & {
+  __typename?: 'InventoryPartConnection';
+  edges: Array<InventoryPartEdge>;
+  pageInfo: PageInfo;
+  total: Scalars['Int']['output'];
+};
+
+export type InventoryPartEdge = Edge & {
+  __typename?: 'InventoryPartEdge';
+  cursor: Scalars['String']['output'];
+  node: InventoryPart;
+};
+
+export type InventoryPartFilterOptions = {
+  status?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
 export type MarkAllNotificationsAsReadResult = {
   __typename?: 'MarkAllNotificationsAsReadResult';
   updatedNotificationIds: Maybe<Array<Scalars['String']['output']>>;
@@ -555,6 +584,7 @@ export type Query = {
   getElevatorRecordById: ElevatorRecord;
   getElevatorRecordFormData: ElevatorRecordFormData;
   getElevatorRecords: ElevatorRecordConnection;
+  getInventoryParts: InventoryPartConnection;
   getNotifications: NotificationConnection;
   getRecentRepairJobs: Array<RepairJob>;
   getRepairJobById: RepairJob;
@@ -595,6 +625,11 @@ export type QueryGetElevatorRecordsArgs = {
   filterOptions?: InputMaybe<ElevatorRecordFilterOptions>;
   paginationOptions?: InputMaybe<PaginationOptions>;
   sortOptions?: InputMaybe<ElevatorRecordSortInput>;
+};
+
+export type QueryGetInventoryPartsArgs = {
+  filterOptions?: InputMaybe<InventoryPartFilterOptions>;
+  paginationOptions?: InputMaybe<PaginationOptions>;
 };
 
 export type QueryGetNotificationsArgs = {
@@ -1000,6 +1035,17 @@ export type ElevatorRecordFieldsFragment = {
     endedAt: any | null;
     reason: string | null;
   }> | null;
+};
+
+export type InventoryPartFieldsFragment = {
+  __typename?: 'InventoryPart';
+  id: string;
+  name: string;
+  stock: number;
+  minStock: number;
+  unitPrice: any;
+  createdAt: any;
+  status: string;
 };
 
 export type NotificationFieldsFragment = {
@@ -1569,6 +1615,40 @@ export type GetElevatorRecordsQuery = {
           endedAt: any | null;
           reason: string | null;
         }> | null;
+      };
+    }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor: string | null;
+      endCursor: string | null;
+    };
+  };
+};
+
+export type GetInventoryPartsQueryVariables = Exact<{
+  paginationOptions?: InputMaybe<PaginationOptions>;
+  filterOptions?: InputMaybe<InventoryPartFilterOptions>;
+}>;
+
+export type GetInventoryPartsQuery = {
+  __typename?: 'Query';
+  getInventoryParts: {
+    __typename?: 'InventoryPartConnection';
+    total: number;
+    edges: Array<{
+      __typename?: 'InventoryPartEdge';
+      cursor: string;
+      node: {
+        __typename?: 'InventoryPart';
+        id: string;
+        name: string;
+        stock: number;
+        minStock: number;
+        unitPrice: any;
+        createdAt: any;
+        status: string;
       };
     }>;
     pageInfo: {

@@ -1,11 +1,12 @@
 import { ApolloError } from '@apollo/client';
 import { GraphQLError } from 'graphql';
-import { isEqual as _isEqual } from 'lodash';
+import { isEqual as _isEqual, isNil as _isNil, memoize as _memoize, toNumber as _toNumber } from 'lodash';
 
 import { getErrorMessageFromGraphQlErrors, getGraphQLErrorExtensionsMessage } from '@/graphql/utils';
 import { ActiveRoute } from '@/types/type';
 
-import { CalendarEventInfo, CalendarEventInfoPayload, DataLoadStatus, ElevatorRecord } from './types';
+import { DEFAULT_NUMBER_CURRENCY, DEFAULT_NUMBER_LOCALE } from './constants';
+import { CalendarEventInfo, CalendarEventInfoPayload, CurrencyValue, DataLoadStatus, ElevatorRecord } from './types';
 
 export const getCommonFormLabelErrorStyles = (hasError?: boolean): string =>
   `text-sm font-bold ${hasError ? 'text-red-400' : ''}`;
@@ -162,4 +163,35 @@ export const getDerivedDataLoadStatus = (
   if (empty) return DataLoadStatus.Empty;
 
   return null;
+};
+
+/**
+ * Caches Intl.NumberFormat instances by locale-currency pair.
+ * Constructing Intl.NumberFormat is expensive — reusing instances
+ * avoids unnecessary overhead on repeated calls.
+ */
+const createCurrencyFormatter = _memoize(
+  (locale: string, currency: string) => new Intl.NumberFormat(locale, { style: 'currency', currency }),
+  (locale, currency) => `${locale}-${currency}`
+);
+
+/**
+ * Formats a value as a localized currency string.
+ * Returns null for null or undefined values.
+ *
+ * @example
+ * formatCurrency(1234.5)                   // "$1,234.50"
+ * formatCurrency('99.9', 'de-DE', 'EUR')   // "99,90 €"
+ * formatCurrency(500, 'uk-UA', 'UAH')      // "₴500.00"
+ * formatCurrency(0)                        // "$0.00"
+ * formatCurrency(null)                     // null
+ */
+export const formatCurrency = (
+  value: CurrencyValue,
+  locale = DEFAULT_NUMBER_LOCALE,
+  currency = DEFAULT_NUMBER_CURRENCY
+): string | null => {
+  if (_isNil(value)) return null;
+
+  return createCurrencyFormatter(locale, currency).format(_toNumber(value));
 };

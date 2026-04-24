@@ -12,5 +12,6 @@ describe('InventoryManagement', () => {
 
     expect(screen.getByText(SectionHeaderTitle.InventoryManagement)).toBeInTheDocument();
     expect(screen.getByText(SectionHeaderDescription.InventoryManagement)).toBeInTheDocument();
+    expect(screen.getByTestId('base-table')).toBeInTheDocument();
   });
 });

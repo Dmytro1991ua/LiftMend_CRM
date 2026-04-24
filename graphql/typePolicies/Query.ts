@@ -2,6 +2,7 @@ import {
   CHANGE_LOGS_KEY_FIELDS,
   ELEVATOR_MAINTENANCE_HISTORY_KEY_FIELDS,
   ELEVATOR_RECORD_KEY_FIELDS,
+  INVENTORY_PART_KEY_FIELDS,
   NOTIFICATIONS_KEY_FIELDS,
   REPAIR_JOB_KEY_FIELDS,
   TECHNICIAN_RECORD_KEY_FIELDS,
@@ -16,5 +17,6 @@ export const Query = {
     getElevatorMaintenanceHistory: concatPaginationWithEdges(ELEVATOR_MAINTENANCE_HISTORY_KEY_FIELDS),
     getNotifications: concatPaginationWithEdges(NOTIFICATIONS_KEY_FIELDS),
     getChangeLogs: concatPaginationWithEdges(CHANGE_LOGS_KEY_FIELDS),
+    getInventoryParts: concatPaginationWithEdges(INVENTORY_PART_KEY_FIELDS),
   },
 };

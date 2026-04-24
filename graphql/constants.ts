@@ -34,3 +34,5 @@ export const ELEVATOR_MAINTENANCE_HISTORY_KEY_FIELDS = ['buildingName', 'elevato
 export const NOTIFICATIONS_KEY_FIELDS = ['filterOptions', ['category', 'status']];
 
 export const CHANGE_LOGS_KEY_FIELDS = ['filterOptions', ['action', 'entityType']];
+
+export const INVENTORY_PART_KEY_FIELDS = ['filterOptions', ['status']];
