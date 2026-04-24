@@ -1,3 +1,4 @@
+import { Decimal } from '@prisma/client/runtime/library';
 import { Cell } from '@tanstack/react-table';
 import { NextPage } from 'next';
 
@@ -20,6 +21,7 @@ export enum TableNames {
   ElevatorMentainanceHistory = 'ElevatorMentainanceHistory',
   ElevatorDowntimeHistory = 'ElevatorDowntimeHistory',
   TechnicianEmploymentHistory = 'TechnicianEmploymentHistory',
+  InventoryPartManagementTable = 'InventoryManagement',
 }
 
 export enum FormFieldLabel {
@@ -194,6 +196,15 @@ export type ChangeLog = {
   createdAt: string | null;
 };
 
+export type InventoryPart = {
+  id: string;
+  name: string;
+  stock: number;
+  unitPrice: number;
+  createdAt: string;
+  status: string;
+};
+
 export type TableModel = RepairJob & ElevatorRecord & TechnicianRecord;
 export type TableValue = string | Date | string[] | Maybe<string> | unknown;
 
@@ -206,3 +217,5 @@ export type NextPageWithLayout = NextPage & {
 };
 
 export type DataLoadStatusView = Record<DataLoadStatus, JSX.Element>;
+
+export type CurrencyValue = number | string | Decimal | null | undefined;

@@ -29,6 +29,9 @@ export enum PillStatus {
   Unavailable = 'Unavailable',
   Reserved = 'Reserved',
   Paused = 'Paused',
+  InStock = 'In Stock',
+  LowStock = 'Low Stock',
+  OutOfStock = 'Out of Stock',
 }
 
 type PillConfig = {
@@ -137,5 +140,20 @@ export const PILL_CONFIG: Record<PillStatus, PillConfig> = {
     icon: <FaPause className='h-6 w-6 text-blue-500' data-testid='paused-status' />,
     label: PillStatus.Paused,
     className: 'text-blue-500',
+  },
+  [PillStatus.InStock]: {
+    icon: <IoIosCheckmarkCircle className='h-6 w-6 text-green-500' data-testid='in-stock-status' />,
+    label: PillStatus.InStock,
+    className: 'text-green-500',
+  },
+  [PillStatus.LowStock]: {
+    icon: <BsFillExclamationCircleFill className='h-6 w-6 text-yellow-500' data-testid='low-stock-status' />,
+    label: PillStatus.LowStock,
+    className: 'text-yellow-500',
+  },
+  [PillStatus.OutOfStock]: {
+    icon: <BsFillExclamationOctagonFill className='h-6 w-6 text-red-500' data-testid='out-of-stock-status' />,
+    label: PillStatus.OutOfStock,
+    className: 'text-red-500',
   },
 };

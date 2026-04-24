@@ -1,6 +1,6 @@
 import { QueryGetInventoryPartsArgs } from '@/graphql/types/server/generated_types';
 import { inventoryPartServicePrismaMock } from '@/mocks/gql/prismaMocks';
-import { mockInventoryPart } from '@/mocks/inventoryPartMocks';
+import { mockDoorSensorInventoryPart } from '@/mocks/inventoryPartMocks';
 import { DEFAULT_SORTING_OPTION } from '@/pages/api/graphql/dataSources/constants';
 import InventoryPartService from '@/pages/api/graphql/dataSources/InventoryPartService';
 import { createInventoryPartFilterOptions, makeConnectionObject } from '@/pages/api/graphql/utils/utils';
@@ -27,9 +27,9 @@ describe('InventoryPartService', () => {
     const mockFilters = { status: 'In Stock' };
     const mockOrderBy = { createdAt: DEFAULT_SORTING_OPTION };
     const mockInventoryParts = [
-      mockInventoryPart,
+      mockDoorSensorInventoryPart,
       {
-        ...mockInventoryPart,
+        ...mockDoorSensorInventoryPart,
         id: 'test-inventory-part-id-2',
         message: 'test-message',
         priority: 'Out of Stock',
