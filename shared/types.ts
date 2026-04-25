@@ -11,6 +11,7 @@ export enum StorageEntityName {
   DashboardPage = 'dashboardPage',
   NotificationsPage = 'notificationsPage',
   ChangeLogPage = 'changeLogPage',
+  InventoryPartsPage = 'inventoryPartsPage',
 }
 
 export enum TableNames {
@@ -200,6 +201,7 @@ export type InventoryPart = {
   id: string;
   name: string;
   stock: number;
+  minStock: number;
   unitPrice: number;
   createdAt: string;
   status: string;

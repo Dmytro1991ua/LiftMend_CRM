@@ -1,6 +1,5 @@
 import { FetchResult } from '@apollo/client';
 import { MockedResponse } from '@apollo/client/testing';
-import { Decimal } from '@prisma/client/runtime/library';
 
 import { GET_INVENTORY_PARTS } from '@/graphql/schemas/getInventoryParts';
 import { GetInventoryPartsQuery } from '@/graphql/types/client/generated_types';
@@ -84,6 +83,13 @@ export const mockInventoryParts: MockedResponse<GetInventoryPartsQuery> = {
         limit: 20,
         offset: 0,
       },
+      sortOptions: {
+        field: null,
+        order: null,
+      },
+      filterOptions: {
+        searchTerm: '',
+      },
     },
   },
   result: {
@@ -100,6 +106,13 @@ export const mockPaginatedInventoryParts: MockedResponse<GetInventoryPartsQuery>
         paginationOptions: {
           limit: 20,
           offset: 1,
+        },
+        sortOptions: {
+          field: null,
+          order: null,
+        },
+        filterOptions: {
+          searchTerm: '',
         },
       },
     },

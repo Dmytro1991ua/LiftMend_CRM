@@ -3,12 +3,17 @@ import { inventoryPartServicePrismaMock } from '@/mocks/gql/prismaMocks';
 import { mockDoorSensorInventoryPart } from '@/mocks/inventoryPartMocks';
 import { DEFAULT_SORTING_OPTION } from '@/pages/api/graphql/dataSources/constants';
 import InventoryPartService from '@/pages/api/graphql/dataSources/InventoryPartService';
-import { createInventoryPartFilterOptions, makeConnectionObject } from '@/pages/api/graphql/utils/utils';
+import {
+  createInventoryPartFilterOptions,
+  createInventoryPartSortOptions,
+  makeConnectionObject,
+} from '@/pages/api/graphql/utils/utils';
 
 jest.mock('@/pages/api/graphql/utils/utils', () => ({
   ...jest.requireActual('@/pages/api/graphql/utils/utils'),
   makeConnectionObject: jest.fn(),
   createInventoryPartFilterOptions: jest.fn(),
+  createInventoryPartSortOptions: jest.fn(),
 }));
 
 describe('InventoryPartService', () => {
@@ -44,6 +49,8 @@ describe('InventoryPartService', () => {
 
     beforeEach(() => {
       (createInventoryPartFilterOptions as jest.Mock).mockReturnValue(mockFilters);
+      (createInventoryPartSortOptions as jest.Mock).mockReturnValue(mockOrderBy);
+
       (makeConnectionObject as jest.Mock).mockReturnValue(mockConnection);
     });
 

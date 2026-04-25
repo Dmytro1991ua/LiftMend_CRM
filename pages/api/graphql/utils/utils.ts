@@ -11,6 +11,8 @@ import {
   ElevatorRecordSortInput,
   InputMaybe,
   InventoryPartFilterOptions,
+  InventoryPartSortField,
+  InventoryPartSortInput,
   NotificationFilterOptions,
   PaginationOptions,
   RepairJobFilterOptions,
@@ -328,11 +330,25 @@ export const createChangeLogFilterOptions = (
 export const createInventoryPartFilterOptions = (
   filterOptions: InputMaybe<InventoryPartFilterOptions>
 ): Prisma.InventoryPartWhereInput => {
-  const { status } = filterOptions || {};
+  const { status, searchTerm } = filterOptions || {};
 
   return {
+    ...(searchTerm && { id: searchTerm }),
     ...(status && status.length > 0 && { status: { in: status } }),
   };
+};
+
+export const createInventoryPartSortOptions = (
+  sortOptions: InputMaybe<InventoryPartSortInput>
+): Record<string, string> => {
+  const fieldMap: { [key in InventoryPartSortField]: string } = {
+    [InventoryPartSortField.Status]: 'status',
+    [InventoryPartSortField.UnitPrice]: 'unitPrice',
+  };
+
+  return sortOptions?.field && sortOptions?.order
+    ? { [fieldMap[sortOptions.field]]: sortOptions.order.toLowerCase() }
+    : {};
 };
 
 /**

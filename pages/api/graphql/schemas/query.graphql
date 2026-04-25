@@ -37,5 +37,6 @@ type Query {
   getInventoryParts(
     paginationOptions: PaginationOptions
     filterOptions: InventoryPartFilterOptions
+    sortOptions: InventoryPartSortInput
   ): InventoryPartConnection!
 }

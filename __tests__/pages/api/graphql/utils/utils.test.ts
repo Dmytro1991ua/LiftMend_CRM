@@ -6,6 +6,7 @@ import { Kind } from 'graphql';
 
 import {
   ElevatorRecordSortField,
+  InventoryPartSortField,
   OrderOption,
   RepairJobSortField,
   TechnicianRecordSortField,
@@ -21,6 +22,7 @@ import {
   createElevatorRecordFilterOptions,
   createElevatorRecordSortOptions,
   createInventoryPartFilterOptions,
+  createInventoryPartSortOptions,
   createNotificationFilterOptions,
   createRepairJobFilterOptions,
   createRepairJobSortOptions,
@@ -673,6 +675,7 @@ describe('utils', () => {
       });
     });
   });
+
   describe('getElevatorStatusErrorMessage', () => {
     afterEach(() => {
       jest.clearAllMocks();
@@ -1091,6 +1094,12 @@ describe('createInventoryPartFilterOptions', () => {
       expected: {},
     },
     {
+      description: 'should include id when searchTerm is provided',
+      input: { searchTerm: 'tech123' },
+      expected: { id: 'tech123' },
+    },
+
+    {
       description: 'should return status filter when status is provided',
       input: { status: ['Out of Stock'] },
       expected: { status: { in: ['Out of Stock'] } },
@@ -1152,6 +1161,47 @@ describe('getInventoryPartStatus', () => {
       const result = getInventoryPartStatus(input.stock, input.minStock);
 
       expect(result).toBe(expected);
+    });
+  });
+});
+
+describe('createInventoryPartSortOptions', () => {
+  const mockScenarios = [
+    {
+      name: 'should return empty object when called with undefined',
+      input: undefined,
+      expected: {},
+    },
+    {
+      name: 'should return empty object when called with null',
+      input: null,
+      expected: {},
+    },
+    {
+      name: 'should return empty object when field is missing',
+      input: { order: OrderOption.Asc },
+      expected: {},
+    },
+    {
+      name: 'should return empty object when order is missing',
+      input: { field: InventoryPartSortField.Status },
+      expected: {},
+    },
+    {
+      name: 'should map field and order correctly when both provided (Status, ASC)',
+      input: { field: InventoryPartSortField.Status, order: OrderOption.Asc },
+      expected: { status: 'asc' },
+    },
+    {
+      name: 'should map field and order correctly when both provided (Status, DESC)',
+      input: { field: InventoryPartSortField.Status, order: OrderOption.Desc },
+      expected: { status: 'desc' },
+    },
+  ];
+
+  mockScenarios.forEach(({ name, input, expected }) => {
+    it(name, () => {
+      expect(createInventoryPartSortOptions(input)).toEqual(expected);
     });
   });
 });

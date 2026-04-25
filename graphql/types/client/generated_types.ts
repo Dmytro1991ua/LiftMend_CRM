@@ -334,7 +334,19 @@ export type InventoryPartEdge = Edge & {
 };
 
 export type InventoryPartFilterOptions = {
+  searchTerm?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+export const InventoryPartSortField = {
+  Status: 'STATUS',
+  UnitPrice: 'UNIT_PRICE',
+} as const;
+
+export type InventoryPartSortField = (typeof InventoryPartSortField)[keyof typeof InventoryPartSortField];
+export type InventoryPartSortInput = {
+  field?: InputMaybe<InventoryPartSortField>;
+  order?: InputMaybe<OrderOption>;
 };
 
 export type MarkAllNotificationsAsReadResult = {
@@ -630,6 +642,7 @@ export type QueryGetElevatorRecordsArgs = {
 export type QueryGetInventoryPartsArgs = {
   filterOptions?: InputMaybe<InventoryPartFilterOptions>;
   paginationOptions?: InputMaybe<PaginationOptions>;
+  sortOptions?: InputMaybe<InventoryPartSortInput>;
 };
 
 export type QueryGetNotificationsArgs = {
@@ -1630,6 +1643,7 @@ export type GetElevatorRecordsQuery = {
 export type GetInventoryPartsQueryVariables = Exact<{
   paginationOptions?: InputMaybe<PaginationOptions>;
   filterOptions?: InputMaybe<InventoryPartFilterOptions>;
+  sortOptions?: InputMaybe<InventoryPartSortInput>;
 }>;
 
 export type GetInventoryPartsQuery = {
