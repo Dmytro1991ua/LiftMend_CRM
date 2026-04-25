@@ -1,3 +1,8 @@
+enum InventoryPartSortField {
+  STATUS
+  UNIT_PRICE
+}
+
 type InventoryPart implements Node {
   id: ID!
   name: String!
@@ -20,5 +25,11 @@ type InventoryPartConnection implements Connection {
 }
 
 input InventoryPartFilterOptions {
+  searchTerm: String
   status: [String!]
+}
+
+input InventoryPartSortInput {
+  field: InventoryPartSortField
+  order: OrderOption
 }

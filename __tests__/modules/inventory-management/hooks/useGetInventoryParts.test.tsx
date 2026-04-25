@@ -13,13 +13,14 @@ import {
 } from '@/mocks/inventoryPartMocks';
 import { MockProviderHook } from '@/mocks/testMocks';
 import { UseGetInventoryParts, useGetInventoryParts } from '@/modules/inventory-management/hooks';
+import { InventoryPart } from '@/shared/types';
 
 describe('useGetInventoryParts', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  const hook = (mocks: MockedResponse[] = []): RenderHookResult<unknown, UseGetInventoryParts> => {
+  const hook = (mocks: MockedResponse[] = []): RenderHookResult<unknown, UseGetInventoryParts<InventoryPart>> => {
     const cache = new InMemoryCache({
       addTypename: false,
       typePolicies,
@@ -67,7 +68,12 @@ describe('useGetInventoryParts', () => {
     await act(async () => await result.current.onNext());
 
     expect(fetchMoreMock).toHaveBeenCalledWith({
-      variables: { paginationOptions: { limit: 20, offset: 1 } },
+      variables: {
+        paginationOptions: { limit: 20, offset: 1 },
+        filterOptions: {
+          searchTerm: '',
+        },
+      },
     });
   });
 

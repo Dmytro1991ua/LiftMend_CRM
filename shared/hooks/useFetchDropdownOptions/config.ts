@@ -20,6 +20,7 @@ export enum PredefinedDropdownOptions {
   NotificationsStatus,
   ElevatorDeactivationReason,
   TechnicianInactivationReason,
+  InventoryPartStatus,
 }
 
 export type DropdownOptionConfig = {
@@ -56,6 +57,11 @@ export const PREDEFINED_DROPDOWN_OPTIONS_CONFIG: Record<PredefinedDropdownOption
     { value: 'Vendor No Longer Active', label: 'Vendor No Longer Active' },
     { value: 'Compliance Requirements Not Met', label: 'Compliance Requirements Not Met' },
     { value: 'Record Deactivated for Data Cleanup', label: 'Record Deactivated for Data Cleanup' },
+  ],
+  [PredefinedDropdownOptions.InventoryPartStatus]: [
+    { value: 'In Stock', label: 'In Stock' },
+    { value: 'Low Stock', label: 'Low Stock' },
+    { value: 'Out of Stock', label: 'Out of Stock' },
   ],
 };
 

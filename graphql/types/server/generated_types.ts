@@ -337,7 +337,18 @@ export type InventoryPartEdge = Edge & {
 };
 
 export type InventoryPartFilterOptions = {
+  searchTerm?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+export enum InventoryPartSortField {
+  Status = 'STATUS',
+  UnitPrice = 'UNIT_PRICE',
+}
+
+export type InventoryPartSortInput = {
+  field?: InputMaybe<InventoryPartSortField>;
+  order?: InputMaybe<OrderOption>;
 };
 
 export type MarkAllNotificationsAsReadResult = {
@@ -631,6 +642,7 @@ export type QueryGetElevatorRecordsArgs = {
 export type QueryGetInventoryPartsArgs = {
   filterOptions?: InputMaybe<InventoryPartFilterOptions>;
   paginationOptions?: InputMaybe<PaginationOptions>;
+  sortOptions?: InputMaybe<InventoryPartSortInput>;
 };
 
 export type QueryGetNotificationsArgs = {
@@ -1116,6 +1128,8 @@ export type ResolversTypes = ResolversObject<{
   InventoryPartConnection: ResolverTypeWrapper<InventoryPartConnection>;
   InventoryPartEdge: ResolverTypeWrapper<InventoryPartEdge>;
   InventoryPartFilterOptions: InventoryPartFilterOptions;
+  InventoryPartSortField: InventoryPartSortField;
+  InventoryPartSortInput: InventoryPartSortInput;
   JSONDataType: ResolverTypeWrapper<Scalars['JSONDataType']['output']>;
   MarkAllNotificationsAsReadResult: ResolverTypeWrapper<MarkAllNotificationsAsReadResult>;
   MarkNotificationAsReadInput: MarkNotificationAsReadInput;
@@ -1217,6 +1231,7 @@ export type ResolversParentTypes = ResolversObject<{
   InventoryPartConnection: InventoryPartConnection;
   InventoryPartEdge: InventoryPartEdge;
   InventoryPartFilterOptions: InventoryPartFilterOptions;
+  InventoryPartSortInput: InventoryPartSortInput;
   JSONDataType: Scalars['JSONDataType']['output'];
   MarkAllNotificationsAsReadResult: MarkAllNotificationsAsReadResult;
   MarkNotificationAsReadInput: MarkNotificationAsReadInput;

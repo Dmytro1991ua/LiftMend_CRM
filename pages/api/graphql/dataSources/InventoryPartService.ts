@@ -2,9 +2,7 @@ import { InventoryPart, Prisma, PrismaClient } from '@prisma/client';
 
 import { QueryGetInventoryPartsArgs } from '@/graphql/types/server/generated_types';
 
-import { createInventoryPartFilterOptions, makeConnectionObject } from '../utils/utils';
-
-import { DEFAULT_SORTING_OPTION } from './constants';
+import { createInventoryPartFilterOptions, createInventoryPartSortOptions, makeConnectionObject } from '../utils/utils';
 
 class InventoryPartService {
   private prisma;
@@ -14,13 +12,14 @@ class InventoryPartService {
   }
 
   async inventoryParts(args: QueryGetInventoryPartsArgs) {
-    const { paginationOptions, filterOptions } = args;
+    const { paginationOptions, filterOptions, sortOptions } = args;
 
     const filters = createInventoryPartFilterOptions(filterOptions);
+    const orderBy = createInventoryPartSortOptions(sortOptions);
 
     const queryOptions: Prisma.InventoryPartFindManyArgs = {
       where: filters,
-      orderBy: { createdAt: DEFAULT_SORTING_OPTION },
+      orderBy,
     };
 
     if (paginationOptions) {
