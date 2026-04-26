@@ -3,7 +3,8 @@ import { useMemo } from 'react';
 import { GetInventoryPartsQuery, GetInventoryPartsQueryVariables } from '@/graphql/types/client/generated_types';
 import BaseTable from '@/shared/base-table';
 import { useSearchInTable } from '@/shared/base-table/hooks';
-import { getEmptyTableMessage } from '@/shared/base-table/utils';
+import { RowHighlightInfo } from '@/shared/base-table/types';
+import { getEmptyTableMessage, getRowHighlightInfo } from '@/shared/base-table/utils';
 import QueryResponse from '@/shared/query-response';
 import { InventoryPart, TableNames } from '@/shared/types';
 import { NOOP } from '@/shared/utils';
@@ -32,6 +33,24 @@ const InventoryPartsTable = () => {
     [searchTerm, inventoryParts.length]
   );
 
+  const getInventoryPartRowHighlightInfo = (rowData: InventoryPart): RowHighlightInfo => {
+    const highlightInfoStateMap: Record<string, RowHighlightInfo> = {
+      'In Stock': getRowHighlightInfo(rowData, (data) => data.status === 'In Stock', 'bg-green-50 hover:bg-green-50'),
+      'Low Stock': getRowHighlightInfo(
+        rowData,
+        (data) => data.status === 'Low Stock',
+        'bg-yellow-50 hover:bg-yellow-50'
+      ),
+      'Out of Stock': getRowHighlightInfo(
+        rowData,
+        (data) => data.status === 'Out of Stock',
+        'bg-red-50 hover:bg-red-50'
+      ),
+    };
+
+    return highlightInfoStateMap[rowData.status] || {};
+  };
+
   return (
     <>
       <QueryResponse
@@ -46,6 +65,7 @@ const InventoryPartsTable = () => {
         emptyTableMessage={emptyTableMessage}
         errorMessage={error}
         filtersConfig={INVENTORY_PART_FILTER_CONFIG}
+        getRowHighlightInfo={getInventoryPartRowHighlightInfo}
         hasMore={hasMore}
         isCalculatedWidthEnabled={false}
         isRowDisabled={() => false}

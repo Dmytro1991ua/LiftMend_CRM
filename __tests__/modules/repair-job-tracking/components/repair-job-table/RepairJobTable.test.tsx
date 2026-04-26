@@ -181,7 +181,7 @@ describe('RepairJobTable', () => {
     expect(row).toHaveClass('bg-green-50 hover:bg-green-50');
   });
 
-  it('should highlight table row in yellow when repair job is Canceled', () => {
+  it('should highlight table row in red when repair job is Canceled', () => {
     jest.spyOn(apollo, 'useQuery').mockImplementation(() => {
       return {
         data: {
