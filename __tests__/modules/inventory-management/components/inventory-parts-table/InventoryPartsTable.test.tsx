@@ -83,4 +83,73 @@ describe('InventoryPartsTable', () => {
     expect(cells[12]).toHaveTextContent('$85.00');
     expect(cells[13]).toHaveTextContent('Low Stock');
   });
+
+  it('should highlight table row in green color when inventory part is In Stock', () => {
+    jest.spyOn(apollo, 'useQuery').mockImplementation(() => {
+      return {
+        data: {
+          getInventoryParts: {
+            edges: [
+              {
+                cursor: mockRubberBufferInventoryPartId,
+                node: { ...mockRubberBufferInventoryPart, status: 'In Stock' },
+              },
+            ],
+          },
+        },
+      } as apollo.QueryResult;
+    });
+
+    render(InventoryPartsTableComponent());
+
+    const row = screen.getByRole('row', { name: /rubber buffer/i });
+
+    expect(row).toHaveClass('bg-green-50 hover:bg-green-50');
+  });
+
+  it('should highlight table row in red when inventory part is Out of Stock', () => {
+    jest.spyOn(apollo, 'useQuery').mockImplementation(() => {
+      return {
+        data: {
+          getInventoryParts: {
+            edges: [
+              {
+                cursor: mockRubberBufferInventoryPartId,
+                node: { ...mockRubberBufferInventoryPart, status: 'Out of Stock' },
+              },
+            ],
+          },
+        },
+      } as apollo.QueryResult;
+    });
+
+    render(InventoryPartsTableComponent());
+
+    const row = screen.getByRole('row', { name: /rubber buffer/i });
+
+    expect(row).toHaveClass('bg-red-50 hover:bg-red-50');
+  });
+
+  it('should highlight table row in yellow when inventory part is Low Stock', () => {
+    jest.spyOn(apollo, 'useQuery').mockImplementation(() => {
+      return {
+        data: {
+          getInventoryParts: {
+            edges: [
+              {
+                cursor: mockRubberBufferInventoryPartId,
+                node: { ...mockRubberBufferInventoryPart, status: 'Low Stock' },
+              },
+            ],
+          },
+        },
+      } as apollo.QueryResult;
+    });
+
+    render(InventoryPartsTableComponent());
+
+    const row = screen.getByRole('row', { name: /rubber buffer/i });
+
+    expect(row).toHaveClass('bg-yellow-50 hover:bg-yellow-50');
+  });
 });
