@@ -31,6 +31,7 @@ describe('InventoryPartService', () => {
 
     const mockFilters = { status: 'In Stock' };
     const mockOrderBy = { createdAt: DEFAULT_SORTING_OPTION };
+    const mockTotalItems = 2;
     const mockInventoryParts = [
       mockDoorSensorInventoryPart,
       {
@@ -40,7 +41,6 @@ describe('InventoryPartService', () => {
         priority: 'Out of Stock',
       },
     ];
-    const mockTotalItems = 2;
     const mockConnection = {
       edges: [],
       pageInfo: {},
@@ -79,6 +79,36 @@ describe('InventoryPartService', () => {
       });
 
       expect(result).toEqual(mockConnection);
+    });
+  });
+
+  describe('inventoryPartDropdownOptions', () => {
+    it('should return correctly mapped inventory parts dropdown options', async () => {
+      const mockInventoryParts = [
+        mockDoorSensorInventoryPart,
+        {
+          ...mockDoorSensorInventoryPart,
+          id: 'test-inventory-part-id-2',
+          message: 'test-message',
+          priority: 'Out of Stock',
+          stock: 0,
+        },
+      ];
+      const mockOutput = [
+        { disabledReason: null, isDisabled: false, label: 'Door Sensor (Infrared)', value: 'test_inventory_part_id' },
+        {
+          disabledReason: 'This part is currently out of stock',
+          isDisabled: true,
+          label: 'Door Sensor (Infrared)',
+          value: 'test-inventory-part-id-2',
+        },
+      ];
+
+      (inventoryPartServicePrismaMock.inventoryPart.findMany as jest.Mock).mockResolvedValue(mockInventoryParts);
+
+      const result = await inventoryPartService.inventoryPartDropdownOptions();
+
+      expect(result).toEqual(mockOutput);
     });
   });
 });

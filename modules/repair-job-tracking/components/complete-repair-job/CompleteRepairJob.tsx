@@ -28,7 +28,6 @@ const CompleteRepairJob = ({ repairJob, variant = 'icon' }: CompleteRepairJobPro
 
     return URL.createObjectURL(file);
   }, [file]);
-  console.log(formState.formState.errors, file, previewImage);
 
   const iconColorClass = variant === 'icon' ? 'h-5 w-5 text-primary' : 'h-3 w-3 text-white';
 
@@ -61,7 +60,12 @@ const CompleteRepairJob = ({ repairJob, variant = 'icon' }: CompleteRepairJobPro
         >
           <FileUploadPreview previewImage={previewImage} onRemove={() => formState.resetField('evidencePhoto')} />
         </ControlledSingleFileUpload>
-        <ControlledChecklist isDisabled={isLoading} name='checklist' wrapperClassname='h-[32rem] overflow-auto' />
+        <ControlledChecklist
+          isDisabled={isLoading}
+          label='Completion Checklist'
+          name='checklist'
+          wrapperClassname='h-[33rem] overflow-auto'
+        />
       </FormProvider>
     </BaseEntityStatusTrigger>
   );

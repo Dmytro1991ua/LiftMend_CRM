@@ -24,6 +24,13 @@ type InventoryPartConnection implements Connection {
   total: Int!
 }
 
+type InventoryPartDropdownOption {
+  value: ID!
+  label: String!
+  isDisabled: Boolean!
+  disabledReason: String
+}
+
 input InventoryPartFilterOptions {
   searchTerm: String
   status: [String!]

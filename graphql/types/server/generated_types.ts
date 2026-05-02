@@ -330,6 +330,13 @@ export type InventoryPartConnection = Connection & {
   total: Scalars['Int']['output'];
 };
 
+export type InventoryPartDropdownOption = {
+  __typename?: 'InventoryPartDropdownOption';
+  isDisabled: Scalars['Boolean']['output'];
+  label: Scalars['String']['output'];
+  value: Scalars['ID']['output'];
+};
+
 export type InventoryPartEdge = Edge & {
   __typename?: 'InventoryPartEdge';
   cursor: Scalars['String']['output'];
@@ -597,6 +604,7 @@ export type Query = {
   getElevatorRecordFormData: ElevatorRecordFormData;
   getElevatorRecords: ElevatorRecordConnection;
   getInventoryParts: InventoryPartConnection;
+  getInventoryPartsDropdownOptions: Array<InventoryPartDropdownOption>;
   getNotifications: NotificationConnection;
   getRecentRepairJobs: Array<RepairJob>;
   getRepairJobById: RepairJob;
@@ -1126,6 +1134,7 @@ export type ResolversTypes = ResolversObject<{
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   InventoryPart: ResolverTypeWrapper<InventoryPart>;
   InventoryPartConnection: ResolverTypeWrapper<InventoryPartConnection>;
+  InventoryPartDropdownOption: ResolverTypeWrapper<InventoryPartDropdownOption>;
   InventoryPartEdge: ResolverTypeWrapper<InventoryPartEdge>;
   InventoryPartFilterOptions: InventoryPartFilterOptions;
   InventoryPartSortField: InventoryPartSortField;
@@ -1229,6 +1238,7 @@ export type ResolversParentTypes = ResolversObject<{
   Int: Scalars['Int']['output'];
   InventoryPart: InventoryPart;
   InventoryPartConnection: InventoryPartConnection;
+  InventoryPartDropdownOption: InventoryPartDropdownOption;
   InventoryPartEdge: InventoryPartEdge;
   InventoryPartFilterOptions: InventoryPartFilterOptions;
   InventoryPartSortInput: InventoryPartSortInput;
@@ -1598,6 +1608,16 @@ export type InventoryPartConnectionResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type InventoryPartDropdownOptionResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['InventoryPartDropdownOption'] = ResolversParentTypes['InventoryPartDropdownOption']
+> = ResolversObject<{
+  isDisabled?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  value?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type InventoryPartEdgeResolvers<
   ContextType = Context,
   ParentType extends ResolversParentTypes['InventoryPartEdge'] = ResolversParentTypes['InventoryPartEdge']
@@ -1855,6 +1875,11 @@ export type QueryResolvers<
     ParentType,
     ContextType,
     Partial<QueryGetInventoryPartsArgs>
+  >;
+  getInventoryPartsDropdownOptions?: Resolver<
+    Array<ResolversTypes['InventoryPartDropdownOption']>,
+    ParentType,
+    ContextType
   >;
   getNotifications?: Resolver<
     ResolversTypes['NotificationConnection'],
@@ -2170,6 +2195,7 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   InspectionStatus?: InspectionStatusResolvers<ContextType>;
   InventoryPart?: InventoryPartResolvers<ContextType>;
   InventoryPartConnection?: InventoryPartConnectionResolvers<ContextType>;
+  InventoryPartDropdownOption?: InventoryPartDropdownOptionResolvers<ContextType>;
   InventoryPartEdge?: InventoryPartEdgeResolvers<ContextType>;
   JSONDataType?: GraphQLScalarType;
   MarkAllNotificationsAsReadResult?: MarkAllNotificationsAsReadResultResolvers<ContextType>;

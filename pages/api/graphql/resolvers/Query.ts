@@ -9,6 +9,7 @@ import {
   ElevatorRecordConnection,
   ElevatorRecordFormData,
   InventoryPartConnection,
+  InventoryPartDropdownOption,
   NotificationConnection,
   QueryResolvers,
   RepairJob,
@@ -108,6 +109,9 @@ const Query: QueryResolvers = {
   },
   getInventoryParts: async (_, args, { dataSources }): Promise<InventoryPartConnection> => {
     return await dataSources.inventoryPart.inventoryParts(args);
+  },
+  getInventoryPartsDropdownOptions: async (_, __, { dataSources }): Promise<InventoryPartDropdownOption[]> => {
+    return await dataSources.inventoryPart.inventoryPartDropdownOptions();
   },
 };
 

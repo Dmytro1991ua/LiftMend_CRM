@@ -39,4 +39,5 @@ type Query {
     filterOptions: InventoryPartFilterOptions
     sortOptions: InventoryPartSortInput
   ): InventoryPartConnection!
+  getInventoryPartsDropdownOptions: [InventoryPartDropdownOption!]!
 }

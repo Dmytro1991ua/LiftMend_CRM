@@ -495,11 +495,17 @@ describe('Query', () => {
     let mockDataSources: ReturnType<typeof createDataSourcesMock>;
 
     let getInventoryPartsResolver: TestResolver<typeof Query, 'getInventoryParts'>;
+    let getInventoryPartsDropdownOptionsResolver: TestResolver<typeof Query, 'getInventoryPartsDropdownOptions'>;
 
     beforeEach(() => {
       mockDataSources = createDataSourcesMock(notificationServicePrismaMock);
 
       getInventoryPartsResolver = getResolverToTest(Query, 'getInventoryParts', mockDataSources);
+      getInventoryPartsDropdownOptionsResolver = getResolverToTest(
+        Query,
+        'getInventoryPartsDropdownOptions',
+        mockDataSources
+      );
     });
 
     afterEach(() => {
@@ -508,7 +514,7 @@ describe('Query', () => {
 
     describe('getInventoryParts', () => {
       it('should return notifications', async () => {
-        mockDataSources.inventoryPart.inventoryParts.mockResolvedValue({
+        const mockInventoryPartsResponse = {
           ...mockedReturnedInventoryPartsData.getInventoryParts,
           edges: mockedReturnedInventoryPartsData.getInventoryParts.edges.map((edge) => ({
             ...edge,
@@ -518,7 +524,10 @@ describe('Query', () => {
               createdAt: new Date('2026-04-21T16:59:33.716Z'),
             },
           })),
-        });
+        };
+
+        mockDataSources.inventoryPart.inventoryParts.mockResolvedValue(mockInventoryPartsResponse);
+
         const result = await getInventoryPartsResolver();
 
         expect(mockDataSources.inventoryPart.inventoryParts).toHaveBeenCalled();
@@ -527,6 +536,32 @@ describe('Query', () => {
         const mockOutput = JSON.parse(JSON.stringify(mockedReturnedInventoryPartsData.getInventoryParts));
 
         expect(mockInput).toEqual(mockOutput);
+      });
+    });
+
+    describe('getInventoryPartsDropdownOptions', () => {
+      it('should return inventory parts dropdown options', async () => {
+        const mockOutput = [
+          {
+            disabledReason: null,
+            isDisabled: false,
+            label: 'Door Sensor (Infrared)',
+            value: 'test_inventory_part_id',
+          },
+          {
+            disabledReason: 'This part is currently out of stock',
+            isDisabled: true,
+            label: 'Door Sensor (Infrared)',
+            value: 'test-inventory-part-id-2',
+          },
+        ];
+
+        mockDataSources.inventoryPart.inventoryPartDropdownOptions.mockResolvedValue(mockOutput);
+
+        const result = await getInventoryPartsDropdownOptionsResolver();
+
+        expect(mockDataSources.inventoryPart.inventoryPartDropdownOptions).toHaveBeenCalledWith();
+        expect(result).toEqual(mockOutput);
       });
     });
   });
