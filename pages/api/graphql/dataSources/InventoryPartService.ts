@@ -1,6 +1,6 @@
 import { InventoryPart, Prisma, PrismaClient } from '@prisma/client';
 
-import { QueryGetInventoryPartsArgs } from '@/graphql/types/server/generated_types';
+import { InventoryPartDropdownOption, QueryGetInventoryPartsArgs } from '@/graphql/types/server/generated_types';
 
 import { createInventoryPartFilterOptions, createInventoryPartSortOptions, makeConnectionObject } from '../utils/utils';
 
@@ -38,6 +38,28 @@ class InventoryPartService {
       totalItems,
       paginationOptions,
       getCursor: (inventoryPart: InventoryPart) => inventoryPart.id,
+    });
+  }
+
+  async inventoryPartDropdownOptions(): Promise<InventoryPartDropdownOption[]> {
+    const inventoryParts = await this.prisma.inventoryPart.findMany({
+      select: {
+        id: true,
+        name: true,
+        stock: true,
+      },
+    });
+
+    return inventoryParts.map(({ id, stock, name }) => {
+      const isOutOfStock = stock <= 0;
+      const disabledReasonMessage = 'This part is currently out of stock';
+
+      return {
+        value: id,
+        label: name,
+        isDisabled: isOutOfStock,
+        disabledReason: isOutOfStock ? disabledReasonMessage : null,
+      };
     });
   }
 }
