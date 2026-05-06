@@ -2,11 +2,10 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { withFormProvider } from '@/mocks/testMocks';
-import { getNestedError } from '@/modules/repair-job-scheduling/utils';
 import ControlledSingleFileUpload from '@/shared/base-file-upload/controlled-single-file-upload';
 import { ControlledSingleFileDropzoneProps } from '@/shared/base-file-upload/controlled-single-file-upload/ControlledSingleFileUpload';
 import { FileDropzoneProps } from '@/shared/file-dropzone/FileDropzone';
-import { getCommonFormLabelErrorStyles } from '@/shared/utils';
+import { getCommonFormLabelErrorStyles, getFormErrorState } from '@/shared/utils';
 
 jest.mock('@/modules/repair-job-scheduling/utils', () => ({
   getNestedError: jest.fn(),
@@ -14,6 +13,7 @@ jest.mock('@/modules/repair-job-scheduling/utils', () => ({
 
 jest.mock('@/shared/utils', () => ({
   getCommonFormLabelErrorStyles: jest.fn(() => 'label-default'),
+  getFormErrorState: jest.fn(),
 }));
 
 jest.mock('@/shared/file-dropzone', () => ({
@@ -37,7 +37,11 @@ describe('ControlledSingleFileUpload', () => {
   const mockClearErrors = jest.fn();
 
   beforeEach(() => {
-    (getNestedError as jest.Mock).mockReturnValue(undefined);
+    (getFormErrorState as jest.Mock).mockReturnValue({
+      errorMessage: undefined,
+      hasRootError: false,
+      hasFieldError: false,
+    });
   });
 
   afterEach(() => {
@@ -64,8 +68,9 @@ describe('ControlledSingleFileUpload', () => {
   });
 
   it('should render error message when error exists', () => {
-    (getNestedError as jest.Mock).mockReturnValue({
-      message: 'File is required',
+    (getFormErrorState as jest.Mock).mockReturnValue({
+      errorMessage: 'File is required',
+      hasFieldError: true,
     });
 
     render(ControlledSingleFileUploadComponent());
@@ -74,8 +79,6 @@ describe('ControlledSingleFileUpload', () => {
   });
 
   it('should NOT render error message when no error exists', () => {
-    (getNestedError as jest.Mock).mockReturnValue(undefined);
-
     render(ControlledSingleFileUploadComponent());
 
     expect(screen.queryByText('File is required')).not.toBeInTheDocument();
@@ -110,8 +113,9 @@ describe('ControlledSingleFileUpload', () => {
   });
 
   it('should render label with error styles when error exists', () => {
-    (getNestedError as jest.Mock).mockReturnValue({
-      message: 'Error',
+    (getFormErrorState as jest.Mock).mockReturnValue({
+      errorMessage: 'Error',
+      hasFieldError: true,
     });
 
     render(ControlledSingleFileUploadComponent());

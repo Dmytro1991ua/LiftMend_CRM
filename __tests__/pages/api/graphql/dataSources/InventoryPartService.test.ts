@@ -97,7 +97,7 @@ describe('InventoryPartService', () => {
       const mockOutput = [
         { disabledReason: null, isDisabled: false, label: 'Door Sensor (Infrared)', value: 'test_inventory_part_id' },
         {
-          disabledReason: 'This part is currently out of stock',
+          disabledReason: 'This inventory part is currently out of stock',
           isDisabled: true,
           label: 'Door Sensor (Infrared)',
           value: 'test-inventory-part-id-2',

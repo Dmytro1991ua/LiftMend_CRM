@@ -52,7 +52,7 @@ class InventoryPartService {
 
     return inventoryParts.map(({ id, stock, name }) => {
       const isOutOfStock = stock <= 0;
-      const disabledReasonMessage = 'This part is currently out of stock';
+      const disabledReasonMessage = 'This inventory part is currently out of stock';
 
       return {
         value: id,

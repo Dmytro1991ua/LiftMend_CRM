@@ -4,6 +4,7 @@ import Select from 'react-select';
 
 import CustomMenuList from './components/custom-menu-list';
 import CustomMultiValue from './components/custom-multi-value';
+import CustomOption from './components/custom-option';
 import CustomPlaceholder from './components/custom-placeholder';
 import CustomSingleValue from './components/custom-single-value';
 import CustomValueContainer from './components/custom-value-container';
@@ -71,6 +72,7 @@ const BaseSelect = <T extends string, IsMulti extends boolean>({
           MultiValue: CustomMultiValue,
           SingleValue: CustomSingleValue,
           Placeholder: CustomPlaceholder,
+          Option: CustomOption,
         }}
         defaultValue={defaultValue}
         hasMore={hasMore}
@@ -81,6 +83,7 @@ const BaseSelect = <T extends string, IsMulti extends boolean>({
         isDisabled={isDisabled}
         isFocused={isFocused}
         isMulti={isMultiSelect}
+        isOptionDisabled={(option) => !!option.isDisabled}
         isSearchable={false}
         maxVisibleOptionsCount={maxVisibleOptionsCount}
         menuIsOpen={isFocused}

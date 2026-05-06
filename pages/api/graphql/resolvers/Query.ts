@@ -111,7 +111,9 @@ const Query: QueryResolvers = {
     return await dataSources.inventoryPart.inventoryParts(args);
   },
   getInventoryPartsDropdownOptions: async (_, __, { dataSources }): Promise<InventoryPartDropdownOption[]> => {
-    return await dataSources.inventoryPart.inventoryPartDropdownOptions();
+    const inventoryPartsDropdownOptions = await dataSources.inventoryPart.inventoryPartDropdownOptions();
+
+    return _orderBy(inventoryPartsDropdownOptions, ['label'], 'asc');
   },
 };
 

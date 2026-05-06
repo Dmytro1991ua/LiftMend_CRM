@@ -3,14 +3,14 @@ import userEvent from '@testing-library/user-event';
 import { DateRange } from 'react-day-picker';
 
 import { withFormProvider } from '@/mocks/testMocks';
-import { getNestedError } from '@/modules/repair-job-scheduling/utils';
 import ControlledDateRangePicker, {
   ControlledDateRangePickerProps,
 } from '@/shared/date-picker/components/controlled-date-range-picker/ControlledDateRangePicker';
+import { getFormErrorState } from '@/shared/utils';
 
-jest.mock('@/modules/repair-job-scheduling/utils', () => ({
-  ...jest.requireActual('@/modules/repair-job-scheduling/utils'),
-  getNestedError: jest.fn(),
+jest.mock('@/shared/utils', () => ({
+  ...jest.requireActual('@/shared/utils'),
+  getFormErrorState: jest.fn(),
 }));
 
 describe('ControlledDateRangePicker', () => {
@@ -45,6 +45,12 @@ describe('ControlledDateRangePicker', () => {
         return FIXED_DATE.getTime();
       }
     } as typeof Date;
+
+    (getFormErrorState as jest.Mock).mockReturnValue({
+      errorMessage: undefined,
+      hasRootError: false,
+      hasFieldError: false,
+    });
   });
 
   afterEach(() => {
@@ -75,9 +81,10 @@ describe('ControlledDateRangePicker', () => {
     expect(screen.getByText('Test Info Tooltip')).toBeInTheDocument();
   });
 
-  it('should render error message when getNestedError returns an error', () => {
-    (getNestedError as jest.Mock).mockReturnValue({
-      message: mockErrorMessage,
+  it('should render error message when getFormErrorState returns an error', () => {
+    (getFormErrorState as jest.Mock).mockReturnValue({
+      errorMessage: mockErrorMessage,
+      hasFieldError: true,
     });
 
     render(ControlledDateRangePickerComponent());
@@ -86,8 +93,6 @@ describe('ControlledDateRangePicker', () => {
   });
 
   it('should not render error span when there is no error', () => {
-    (getNestedError as jest.Mock).mockReturnValue(undefined);
-
     render(ControlledDateRangePickerComponent());
 
     expect(screen.queryByText(mockErrorMessage)).not.toBeInTheDocument();

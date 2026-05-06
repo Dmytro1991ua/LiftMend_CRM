@@ -57,6 +57,13 @@ jest.mock('@/modules/repair-job-tracking/components/complete-repair-job/controll
   },
 }));
 
+jest.mock('@/modules/repair-job-tracking/components/complete-repair-job/controlled-inventory-parts-list', () => ({
+  __esModule: true,
+  default: function ControlledInventoryPartsListMock() {
+    return <div data-testid='inventory-parts-list' />;
+  },
+}));
+
 jest.mock('@/shared/base-file-upload/controlled-single-file-upload', () => ({
   __esModule: true,
   default: ({ children }: ControlledSingleFileDropzoneProps<{ evidencePhoto: File | null }>) => <div>{children}</div>,
@@ -116,6 +123,7 @@ describe('CompleteRepairJob', () => {
       defaultValues: {
         evidencePhoto: mockFile,
         checklist: [],
+        partsUsed: [],
       },
     });
 

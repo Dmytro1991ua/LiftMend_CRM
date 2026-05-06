@@ -1,17 +1,25 @@
 import { render, screen } from '@testing-library/react';
 
 import { withFormProvider } from '@/mocks/testMocks';
-import { getNestedError } from '@/modules/repair-job-scheduling/utils';
 import FormInput, { FormInputProps } from '@/shared/base-input/form-input/FormInput';
+import { getFormErrorState } from '@/shared/utils';
 
-jest.mock('@/modules/repair-job-scheduling/utils', () => ({
-  ...jest.requireActual('@/modules/repair-job-scheduling/utils'),
-  getNestedError: jest.fn(),
+jest.mock('@/shared/utils', () => ({
+  ...jest.requireActual('@/shared/utils'),
+  getFormErrorState: jest.fn(),
 }));
 
 describe('FormInput', () => {
   const mockErrorMessage = 'First name is required';
   const mockErrorClassName = 'test-error-class';
+
+  beforeEach(() => {
+    (getFormErrorState as jest.Mock).mockReturnValue({
+      errorMessage: undefined,
+      hasRootError: false,
+      hasFieldError: false,
+    });
+  });
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -37,20 +45,19 @@ describe('FormInput', () => {
     expect(screen.getByText('Test label')).toBeInTheDocument();
   });
 
-  it('should render error message when getNestedError returns an error', () => {
-    (getNestedError as jest.Mock).mockReturnValue({
-      message: mockErrorMessage,
+  it('should render error message when getFormErrorState returns an error', () => {
+    (getFormErrorState as jest.Mock).mockReturnValue({
+      errorMessage: mockErrorMessage,
+      hasFieldError: true,
     });
 
     render(FormInputComponent({ errorClassName: mockErrorClassName }));
 
-    expect(screen.getByText(mockErrorMessage)).toHaveClass('text-red-500');
+    expect(screen.getByText(mockErrorMessage)).toHaveClass('field-error test-error-class');
     expect(screen.getByText(mockErrorMessage)).toHaveClass(mockErrorClassName);
   });
 
   it('should not render error span when there is no error', () => {
-    (getNestedError as jest.Mock).mockReturnValue(undefined);
-
     render(FormInputComponent());
 
     expect(screen.queryByText(mockErrorMessage)).not.toBeInTheDocument();

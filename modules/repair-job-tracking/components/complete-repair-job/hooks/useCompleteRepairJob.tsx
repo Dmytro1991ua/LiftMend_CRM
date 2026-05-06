@@ -21,7 +21,7 @@ export type UseCompleteRepairJob = {
 
 export const useCompleteRepairJob = (repairJob: RepairJob) => {
   const { formState, onReset } = useFormState<CompleteRepairJobFormValues>({
-    initialValues: { checklist: repairJob?.checklist ?? [], evidencePhoto: null },
+    initialValues: { checklist: repairJob?.checklist ?? [], evidencePhoto: null, partsUsed: [] },
     resolver: zodResolver(completeRepairJobSchema),
   });
 
@@ -40,6 +40,10 @@ export const useCompleteRepairJob = (repairJob: RepairJob) => {
       const result = await onCompleteRepairJob({
         ...repairJob,
         checklist: values.checklist,
+        partsUsed: values.partsUsed.map((partUsed) => ({
+          ...partUsed,
+          quantity: Number(partUsed.quantity),
+        })),
       });
 
       const repairJobId = result?.data?.updateRepairJob?.id;

@@ -1,4 +1,4 @@
-import { RepairJobChecklistItem } from '@/shared/types';
+import { RepairJobChecklistItem, RepairJobFormInventoryPartUsed } from '@/shared/types';
 
 export type CompleteButtonDisabledSate = {
   isCompleteButtonDisabled: boolean;
@@ -8,4 +8,5 @@ export type CompleteButtonDisabledSate = {
 export type CompleteRepairJobFormValues = {
   checklist: RepairJobChecklistItem[];
   evidencePhoto: File | null;
+  partsUsed: RepairJobFormInventoryPartUsed[];
 };

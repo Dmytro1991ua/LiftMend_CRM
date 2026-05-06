@@ -2,13 +2,13 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { withFormProvider } from '@/mocks/testMocks';
-import { getNestedError } from '@/modules/repair-job-scheduling/utils';
 import ControlledSingleSelect from '@/shared/base-select/components/controlled-single-select';
 import { ControlledSingleSelectProps } from '@/shared/base-select/types';
+import { getFormErrorState } from '@/shared/utils';
 
-jest.mock('@/modules/repair-job-scheduling/utils', () => ({
-  ...jest.requireActual('@/modules/repair-job-scheduling/utils'),
-  getNestedError: jest.fn(),
+jest.mock('@/shared/utils', () => ({
+  ...jest.requireActual('@/shared/utils'),
+  getFormErrorState: jest.fn(),
 }));
 
 describe('ControlledSingleSelect', () => {
@@ -26,6 +26,14 @@ describe('ControlledSingleSelect', () => {
     },
   ];
   const mockClearErrorsMock = jest.fn();
+
+  beforeEach(() => {
+    (getFormErrorState as jest.Mock).mockReturnValue({
+      errorMessage: undefined,
+      hasRootError: false,
+      hasFieldError: false,
+    });
+  });
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -52,9 +60,10 @@ describe('ControlledSingleSelect', () => {
     expect(screen.getByText('Test label')).toBeInTheDocument();
   });
 
-  it('should render error message when getNestedError returns an error', () => {
-    (getNestedError as jest.Mock).mockReturnValue({
-      message: mockErrorMessage,
+  it('should render error message when getFormErrorState returns an error', () => {
+    (getFormErrorState as jest.Mock).mockReturnValue({
+      errorMessage: mockErrorMessage,
+      hasFieldError: true,
     });
 
     render(ControlledSingleSelectComponent());
@@ -63,8 +72,6 @@ describe('ControlledSingleSelect', () => {
   });
 
   it('should not render error span when there is no error', () => {
-    (getNestedError as jest.Mock).mockReturnValue(undefined);
-
     render(ControlledSingleSelectComponent());
 
     expect(screen.queryByText(mockErrorMessage)).not.toBeInTheDocument();

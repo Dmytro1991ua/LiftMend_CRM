@@ -1,8 +1,7 @@
 import { Controller, FieldValues, Path, PathValue, UseFormClearErrors, useFormContext } from 'react-hook-form';
 
 import { cn } from '@/lib/utils';
-import { getNestedError } from '@/modules/repair-job-scheduling/utils';
-import { formatScheduledDate, getCommonFormLabelErrorStyles } from '@/shared/utils';
+import { formatScheduledDate, getCommonFormLabelErrorStyles, getFormErrorState } from '@/shared/utils';
 
 import DatePicker, { DatePickerProps } from '../../DatePicker';
 
@@ -31,10 +30,8 @@ const ControlledDateRangePicker = <T extends FieldValues>({
     formState: { errors },
   } = useFormContext<T>();
 
-  const errorKey = getNestedError(errors, name);
-  const hasError = !!errorKey;
-
-  const labelErrorStyles = getCommonFormLabelErrorStyles(hasError);
+  const { errorMessage, hasFieldError } = getFormErrorState(errors, name);
+  const labelErrorStyles = getCommonFormLabelErrorStyles(hasFieldError);
 
   return (
     <div className={cn('relative grid w-full items-center gap-1.5', className)}>
@@ -48,7 +45,7 @@ const ControlledDateRangePicker = <T extends FieldValues>({
           <DatePicker
             {...props}
             dateRange={defaultValue || value}
-            hasError={hasError}
+            hasError={hasFieldError}
             onChange={(range) => {
               const formattedRange = {
                 from: formatScheduledDate(range?.from),
@@ -61,7 +58,7 @@ const ControlledDateRangePicker = <T extends FieldValues>({
           />
         )}
       />
-      {hasError && <span className='field-error'>{errorKey?.message}</span>}
+      {hasFieldError && <span className='field-error'>{errorMessage}</span>}
     </div>
   );
 };

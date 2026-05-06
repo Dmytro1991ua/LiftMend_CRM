@@ -8,6 +8,16 @@ import RepairJobDetails from '@/shared/repair-job/repair-job-details';
 import { AppRoutes } from '@/types/enums';
 
 describe('RepairJobDetails', () => {
+  beforeEach(() => {
+    jest.spyOn(apollo, 'useQuery').mockReturnValue({
+      data: {
+        getRepairJobById: mockRepairJob,
+      },
+      loading: false,
+      error: undefined,
+    } as apollo.QueryResult);
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -15,14 +25,6 @@ describe('RepairJobDetails', () => {
   const RepairJobDetailsComponent = () => withRouterAndApolloProvider(<RepairJobDetails />, AppRoutes.RepairJobDetails);
 
   it('should render component without crashing', () => {
-    jest.spyOn(apollo, 'useQuery').mockImplementation(() => {
-      return {
-        data: {
-          getRepairJobById: mockRepairJob,
-        },
-      } as apollo.QueryResult;
-    });
-
     render(RepairJobDetailsComponent());
 
     expect(screen.getByText('Routine Repair Job')).toBeInTheDocument();
@@ -31,13 +33,11 @@ describe('RepairJobDetails', () => {
   });
 
   it('should display a warning alert when repair job is overdue', () => {
-    jest.spyOn(apollo, 'useQuery').mockImplementation(() => {
-      return {
-        data: {
-          getRepairJobById: { ...mockRepairJob, isOverdue: true },
-        },
-      } as apollo.QueryResult;
-    });
+    jest.spyOn(apollo, 'useQuery').mockReturnValue({
+      data: {
+        getRepairJobById: { ...mockRepairJob, isOverdue: true },
+      },
+    } as apollo.QueryResult);
 
     render(RepairJobDetailsComponent());
 
@@ -46,15 +46,11 @@ describe('RepairJobDetails', () => {
   });
 
   it('should show loader when data for details page is fetching', () => {
-    jest.spyOn(apollo, 'useQuery').mockImplementation(() => {
-      return {
-        data: {
-          undefined,
-        },
-        loading: true,
-        error: undefined,
-      } as apollo.QueryResult;
-    });
+    jest.spyOn(apollo, 'useQuery').mockReturnValue({
+      data: undefined,
+      loading: true,
+      error: undefined,
+    } as apollo.QueryResult);
 
     render(RepairJobDetailsComponent());
 
@@ -67,17 +63,15 @@ describe('RepairJobDetails', () => {
   });
 
   it('should show error alert message when data fetching for details page is failed', () => {
-    jest.spyOn(apollo, 'useQuery').mockImplementation(() => {
-      return {
-        data: undefined,
-        loading: false,
-        error: { message: 'Error Occurs' },
-      } as apollo.QueryResult;
-    });
+    jest.spyOn(apollo, 'useQuery').mockReturnValue({
+      data: undefined,
+      loading: false,
+      error: { message: 'Error Occurs' },
+    } as apollo.QueryResult);
 
     render(RepairJobDetailsComponent());
 
-    expect(screen.getByText('Error Occurs'));
+    expect(screen.getByText('Error Occurs')).toBeInTheDocument();
   });
 
   it('should disable Edit button when form fields are not changed', () => {
@@ -89,17 +83,15 @@ describe('RepairJobDetails', () => {
   });
 
   it('should render Photo Evidence section when beforePhotoUrl exists', () => {
-    jest.spyOn(apollo, 'useQuery').mockImplementation(() => {
-      return {
-        data: {
-          getRepairJobById: {
-            ...mockRepairJob,
-            beforePhotoUrl: 'https://example.com/before.jpg',
-            afterPhotoUrl: 'https://example.com/after.jpg',
-          },
+    jest.spyOn(apollo, 'useQuery').mockReturnValue({
+      data: {
+        getRepairJobById: {
+          ...mockRepairJob,
+          beforePhotoUrl: 'https://example.com/before.jpg',
+          afterPhotoUrl: 'https://example.com/after.jpg',
         },
-      } as apollo.QueryResult;
-    });
+      },
+    } as apollo.QueryResult);
 
     render(RepairJobDetailsComponent());
 
@@ -109,20 +101,18 @@ describe('RepairJobDetails', () => {
   });
 
   it('should render Completion Checklist when job is completed and checklist exists', () => {
-    jest.spyOn(apollo, 'useQuery').mockImplementation(() => {
-      return {
-        data: {
-          getRepairJobById: {
-            ...mockRepairJob,
-            status: 'Completed',
-            checklist: [
-              { label: 'Check motor', checked: true, comment: 'OK' },
-              { label: 'Check cables', checked: false, comment: 'Needs replacement' },
-            ],
-          },
+    jest.spyOn(apollo, 'useQuery').mockReturnValue({
+      data: {
+        getRepairJobById: {
+          ...mockRepairJob,
+          status: 'Completed',
+          checklist: [
+            { label: 'Check motor', checked: true, comment: 'OK' },
+            { label: 'Check cables', checked: false, comment: 'Needs replacement' },
+          ],
         },
-      } as apollo.QueryResult;
-    });
+      },
+    } as apollo.QueryResult);
 
     render(RepairJobDetailsComponent());
 

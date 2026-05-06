@@ -1,14 +1,7 @@
 import { endOfDay, isValid, startOfDay, toDate } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
-import { get as _get } from 'lodash';
-import { FieldErrors, FieldValues } from 'react-hook-form';
 
 import { TimePosition } from './types';
-
-export const getNestedError = <T extends FieldValues>(
-  errors: FieldErrors<T>,
-  name: string
-): FieldErrors<T>[string] | undefined => _get(errors, name) as FieldErrors<T>[string] | undefined;
 
 /**
  * Adjusts the date for all-day events based on the provided time position.

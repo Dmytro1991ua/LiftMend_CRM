@@ -1,8 +1,7 @@
 import { Controller, FieldValues, Path, PathValue, UseFormClearErrors, useFormContext } from 'react-hook-form';
 
 import { cn } from '@/lib/utils';
-import { getNestedError } from '@/modules/repair-job-scheduling/utils';
-import { getCommonFormLabelErrorStyles } from '@/shared/utils';
+import { getCommonFormLabelErrorStyles, getFormErrorState } from '@/shared/utils';
 
 import DatePicker, { DatePickerProps } from '../../DatePicker';
 
@@ -32,10 +31,8 @@ const ControlledSingleDatePicker = <T extends FieldValues>({
     watch,
   } = useFormContext<T>();
 
-  const errorKey = getNestedError(errors, name);
-  const hasError = !!errorKey;
-
-  const labelErrorStyles = getCommonFormLabelErrorStyles(hasError);
+  const { errorMessage, hasFieldError } = getFormErrorState(errors, name);
+  const labelErrorStyles = getCommonFormLabelErrorStyles(hasFieldError);
   const fieldValue = watch(name);
 
   return (
@@ -51,7 +48,7 @@ const ControlledSingleDatePicker = <T extends FieldValues>({
         render={({ field: { onChange } }) => (
           <DatePicker
             {...props}
-            hasError={hasError}
+            hasError={hasFieldError}
             isDisabled={isDisabled}
             singleDate={fieldValue}
             onSingleDateChange={(date) => {
@@ -61,7 +58,7 @@ const ControlledSingleDatePicker = <T extends FieldValues>({
           />
         )}
       />
-      {hasError && <span className='field-error'>{errorKey?.message}</span>}
+      {hasFieldError && <span className='field-error'>{errorMessage}</span>}
     </div>
   );
 };

@@ -1,16 +1,24 @@
 import { render, screen } from '@testing-library/react';
 
 import { withFormProvider } from '@/mocks/testMocks';
-import { getNestedError } from '@/modules/repair-job-scheduling/utils';
 import PhoneNumberInput, { PhoneNumberInputProps } from '@/shared/base-input/phone-number-input/PhoneNumberInput';
+import { getFormErrorState } from '@/shared/utils';
 
-jest.mock('@/modules/repair-job-scheduling/utils', () => ({
-  ...jest.requireActual('@/modules/repair-job-scheduling/utils'),
-  getNestedError: jest.fn(),
+jest.mock('@/shared/utils', () => ({
+  ...jest.requireActual('@/shared/utils'),
+  getFormErrorState: jest.fn(),
 }));
 
 describe('PhoneNumberInput', () => {
-  const mockErrorMessage = 'Phone numberis required';
+  const mockErrorMessage = 'Phone number is required';
+
+  beforeEach(() => {
+    (getFormErrorState as jest.Mock).mockReturnValue({
+      errorMessage: undefined,
+      hasRootError: false,
+      hasFieldError: false,
+    });
+  });
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -36,9 +44,11 @@ describe('PhoneNumberInput', () => {
     expect(screen.getByText('Test label')).toBeInTheDocument();
   });
 
-  it('should render error message when getNestedError returns an error', () => {
-    (getNestedError as jest.Mock).mockReturnValue({
-      message: mockErrorMessage,
+  it('should render error message when getFormErrorState returns an error', () => {
+    (getFormErrorState as jest.Mock).mockReturnValue({
+      errorMessage: mockErrorMessage,
+      hasRootError: false,
+      hasFieldError: true,
     });
 
     render(PhoneNumberInputComponent());
@@ -47,8 +57,6 @@ describe('PhoneNumberInput', () => {
   });
 
   it('should not render error span when there is no error', () => {
-    (getNestedError as jest.Mock).mockReturnValue(undefined);
-
     render(PhoneNumberInputComponent());
 
     expect(screen.queryByText(mockErrorMessage)).not.toBeInTheDocument();

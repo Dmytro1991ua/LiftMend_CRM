@@ -1,14 +1,13 @@
-import { ArrayPath, useFieldArray, useFormContext } from 'react-hook-form';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 
 import { cn } from '@/lib/utils';
-import { getNestedError } from '@/modules/repair-job-scheduling/utils';
-import { getCommonFormLabelErrorStyles } from '@/shared/utils';
+import { getCommonFormLabelErrorStyles, getFormErrorState } from '@/shared/utils';
 
 import ControlledChecklistItem from '../controlled-checklist-Item';
 import { CompleteRepairJobFormValues } from '../types';
 
 export type ControlledChecklistProps = {
-  name: ArrayPath<CompleteRepairJobFormValues>;
+  name: 'checklist';
   isDisabled?: boolean;
   wrapperClassname?: string;
   label?: string;
@@ -25,10 +24,8 @@ const ControlledChecklist = ({ name, isDisabled, wrapperClassname, label }: Cont
     name,
   });
 
-  const rootError = getNestedError(errors, `${name}.root`) as { message?: string };
-  const hasError = !!rootError;
-
-  const labelErrorStyles = getCommonFormLabelErrorStyles(hasError);
+  const { errorMessage, hasRootError, hasFieldError } = getFormErrorState(errors, name);
+  const labelErrorStyles = getCommonFormLabelErrorStyles(hasRootError);
 
   return (
     <>
@@ -38,13 +35,13 @@ const ControlledChecklist = ({ name, isDisabled, wrapperClassname, label }: Cont
           {fields.map((field, index) => (
             <ControlledChecklistItem
               key={field.id}
-              hasError={hasError}
+              hasError={hasFieldError}
               isDisabled={isDisabled}
               label={field.label}
               name={`${name}.${index}`}
             />
           ))}
-          {hasError && <span className='block mt-2 text-sm text-red-500'>{rootError?.message}</span>}
+          {hasRootError && <span className='block mt-2 text-sm text-red-500'>{errorMessage}</span>}
         </div>
       </div>
     </>
