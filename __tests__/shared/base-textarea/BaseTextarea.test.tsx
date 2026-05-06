@@ -2,17 +2,25 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { withFormProvider } from '@/mocks/testMocks';
-import { getNestedError } from '@/modules/repair-job-scheduling/utils';
 import BaseTextarea, { BaseTextareaProps } from '@/shared/base-textarea/BaseTextarea';
+import { getFormErrorState } from '@/shared/utils';
 
-jest.mock('@/modules/repair-job-scheduling/utils', () => ({
-  ...jest.requireActual('@/modules/repair-job-scheduling/utils'),
-  getNestedError: jest.fn(),
+jest.mock('@/shared/utils', () => ({
+  ...jest.requireActual('@/shared/utils'),
+  getFormErrorState: jest.fn(),
 }));
 
 describe('BaseTextarea', () => {
   const mockErrorMessage = 'Description name is required';
   const mockOnChange = jest.fn();
+
+  beforeEach(() => {
+    (getFormErrorState as jest.Mock).mockReturnValue({
+      errorMessage: undefined,
+      hasRootError: false,
+      hasFieldError: false,
+    });
+  });
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -39,9 +47,10 @@ describe('BaseTextarea', () => {
     expect(screen.getByText('Test label')).toBeInTheDocument();
   });
 
-  it('should render error message when getNestedError returns an error', () => {
-    (getNestedError as jest.Mock).mockReturnValue({
-      message: mockErrorMessage,
+  it('should render error message when getFormErrorState returns an error', () => {
+    (getFormErrorState as jest.Mock).mockReturnValue({
+      errorMessage: mockErrorMessage,
+      hasFieldError: true,
     });
 
     render(FormTextareaComponent());
@@ -50,8 +59,6 @@ describe('BaseTextarea', () => {
   });
 
   it('should not render error span when there is no error', () => {
-    (getNestedError as jest.Mock).mockReturnValue(undefined);
-
     render(FormTextareaComponent());
 
     expect(screen.queryByText(mockErrorMessage)).not.toBeInTheDocument();

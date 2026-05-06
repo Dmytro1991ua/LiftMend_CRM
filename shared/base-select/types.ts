@@ -20,6 +20,7 @@ export type DropdownOption<T = string> = {
   label: string;
   value: T;
   isDisabled?: boolean;
+  disabledReason?: string | null;
 };
 
 export interface DropdownOptionGroup<T = string> {

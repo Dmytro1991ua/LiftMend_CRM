@@ -1,19 +1,19 @@
 import { render, screen } from '@testing-library/react';
-import { ArrayPath, useFieldArray, useFormContext } from 'react-hook-form';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 
-import { getNestedError } from '@/modules/repair-job-scheduling/utils';
 import ControlledChecklist from '@/modules/repair-job-tracking/components/complete-repair-job/controlled-checklist';
 import { ControlledChecklistProps } from '@/modules/repair-job-tracking/components/complete-repair-job/controlled-checklist/ControlledChecklist';
 import { ControlledChecklistItemProps } from '@/modules/repair-job-tracking/components/complete-repair-job/controlled-checklist-Item/ControlledChecklistItem';
-import { CompleteRepairJobFormValues } from '@/modules/repair-job-tracking/components/complete-repair-job/types';
+import { getFormErrorState } from '@/shared/utils';
 
 jest.mock('react-hook-form', () => ({
   useFormContext: jest.fn(),
   useFieldArray: jest.fn(),
 }));
 
-jest.mock('@/modules/repair-job-scheduling/utils', () => ({
-  getNestedError: jest.fn(),
+jest.mock('@/shared/utils', () => ({
+  ...jest.requireActual('@/shared/utils'),
+  getFormErrorState: jest.fn(),
 }));
 
 jest.mock('@/modules/repair-job-tracking/components/complete-repair-job/controlled-checklist-Item', () => {
@@ -24,21 +24,23 @@ jest.mock('@/modules/repair-job-tracking/components/complete-repair-job/controll
       {props.isDisabled ? ' disabled' : ''}
     </div>
   );
+
   MockControlledChecklistItem.displayName = 'MockControlledChecklistItem';
+
   return MockControlledChecklistItem;
 });
 
 describe('ControlledChecklist', () => {
   const mockUseFormContext = useFormContext as jest.Mock;
   const mockUseFieldArray = useFieldArray as jest.Mock;
-  const mockGetNestedError = getNestedError as jest.Mock;
+  const mockGetFormErrorState = getFormErrorState as jest.Mock;
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
   const defaultProps = {
-    name: 'checklist' as ArrayPath<CompleteRepairJobFormValues>,
+    name: 'checklist' as const,
     isDisabled: false,
   };
 
@@ -63,7 +65,11 @@ describe('ControlledChecklist', () => {
       ],
     });
 
-    mockGetNestedError.mockReturnValue(undefined);
+    mockGetFormErrorState.mockReturnValue({
+      errorMessage: undefined,
+      hasRootError: false,
+      hasFieldError: false,
+    });
 
     render(ControlledChecklistComponent());
 
@@ -81,7 +87,11 @@ describe('ControlledChecklist', () => {
       fields: [{ id: '1', label: 'Check motor' }],
     });
 
-    mockGetNestedError.mockReturnValue(undefined);
+    mockGetFormErrorState.mockReturnValue({
+      errorMessage: undefined,
+      hasRootError: false,
+      hasFieldError: false,
+    });
 
     render(ControlledChecklistComponent({ isDisabled: true }));
 
@@ -95,8 +105,10 @@ describe('ControlledChecklist', () => {
       fields: [{ id: '1', label: 'Check motor' }],
     });
 
-    mockGetNestedError.mockReturnValue({
-      message: 'Required',
+    mockGetFormErrorState.mockReturnValue({
+      errorMessage: undefined,
+      hasRootError: false,
+      hasFieldError: true,
     });
 
     render(ControlledChecklistComponent());
@@ -111,8 +123,10 @@ describe('ControlledChecklist', () => {
       fields: [{ id: '1', label: 'Check motor' }],
     });
 
-    mockGetNestedError.mockReturnValue({
-      message: 'Checklist is required',
+    mockGetFormErrorState.mockReturnValue({
+      errorMessage: 'Checklist is required',
+      hasRootError: true,
+      hasFieldError: false,
     });
 
     render(ControlledChecklistComponent());
@@ -127,7 +141,11 @@ describe('ControlledChecklist', () => {
       fields: [],
     });
 
-    mockGetNestedError.mockReturnValue(undefined);
+    mockGetFormErrorState.mockReturnValue({
+      errorMessage: undefined,
+      hasRootError: false,
+      hasFieldError: false,
+    });
 
     render(ControlledChecklistComponent());
 

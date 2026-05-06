@@ -1,12 +1,20 @@
 import { ApolloError } from '@apollo/client';
 import { GraphQLError } from 'graphql';
-import { isEqual as _isEqual, isNil as _isNil, memoize as _memoize, toNumber as _toNumber } from 'lodash';
+import { get as _get, isEqual as _isEqual, isNil as _isNil, memoize as _memoize, toNumber as _toNumber } from 'lodash';
+import { FieldError, FieldErrors, FieldValues } from 'react-hook-form';
 
 import { getErrorMessageFromGraphQlErrors, getGraphQLErrorExtensionsMessage } from '@/graphql/utils';
 import { ActiveRoute } from '@/types/type';
 
 import { DEFAULT_NUMBER_CURRENCY, DEFAULT_NUMBER_LOCALE } from './constants';
-import { CalendarEventInfo, CalendarEventInfoPayload, CurrencyValue, DataLoadStatus, ElevatorRecord } from './types';
+import {
+  CalendarEventInfo,
+  CalendarEventInfoPayload,
+  CurrencyValue,
+  DataLoadStatus,
+  ElevatorRecord,
+  FormErrorState,
+} from './types';
 
 export const getCommonFormLabelErrorStyles = (hasError?: boolean): string =>
   `text-sm font-bold ${hasError ? 'text-red-400' : ''}`;
@@ -194,4 +202,32 @@ export const formatCurrency = (
   if (_isNil(value)) return null;
 
   return createCurrencyFormatter(locale, currency).format(_toNumber(value));
+};
+
+/**
+ * Gets the error object for a specific field path.
+ */
+export const getFormFieldError = <T extends FieldValues>(
+  errors: FieldErrors<T>,
+  name: string
+): FieldError | undefined => _get(errors, name) as FieldError | undefined;
+
+/**
+ * Returns error state for a field or array-level error.
+ * Handles both regular field errors and array root errors (useFieldArray refine).
+ */
+export const getFormErrorState = <T extends FieldValues>(errors: FieldErrors<T>, name: string): FormErrorState => {
+  const fieldError = getFormFieldError(errors, name);
+  const rootError = getFormFieldError(errors, `${name}.root`);
+
+  const hasFieldError = !!fieldError;
+  const hasRootError = !!rootError;
+
+  const errorMessage = fieldError?.message ?? rootError?.message;
+
+  return {
+    hasFieldError,
+    hasRootError,
+    errorMessage,
+  };
 };

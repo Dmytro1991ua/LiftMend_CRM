@@ -112,6 +112,7 @@ describe('useCompleteRepairJob', () => {
     const values = {
       checklist: [{ id: 'a', label: 'Check motor', checked: true }],
       evidencePhoto: mockFile,
+      partsUsed: [{ partId: 'test_part_id_1', quantity: '2' }],
     };
 
     await act(async () => {
@@ -121,6 +122,10 @@ describe('useCompleteRepairJob', () => {
     expect(mockOnCompleteRepairJob).toHaveBeenCalledWith({
       ...mockRepairJob,
       checklist: values.checklist,
+      partsUsed: values.partsUsed.map((partUsed) => ({
+        ...partUsed,
+        quantity: Number(partUsed.quantity),
+      })),
     });
 
     expect(mockOnCloseModal).toHaveBeenCalled();
@@ -136,7 +141,7 @@ describe('useCompleteRepairJob', () => {
     const { result } = hook();
 
     await act(async () => {
-      await result.current.onHandleComplete({ checklist: [], evidencePhoto: null });
+      await result.current.onHandleComplete({ checklist: [], evidencePhoto: null, partsUsed: [] });
     });
 
     expect(mockOnCompleteRepairJob).toHaveBeenCalled();

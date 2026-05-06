@@ -4,8 +4,7 @@ import PhoneInput, { CountryData } from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { InputProps } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-import { getNestedError } from '@/modules/repair-job-scheduling/utils';
-import { getCommonFormLabelErrorStyles } from '@/shared/utils';
+import { getCommonFormLabelErrorStyles, getFormErrorState } from '@/shared/utils';
 
 export interface PhoneNumberInputProps<T extends FieldValues> extends InputProps {
   name: Path<T>;
@@ -31,10 +30,8 @@ const PhoneNumberInput = <T extends FieldValues>({
     formState: { errors },
   } = useFormContext<T>();
 
-  const errorKey = getNestedError(errors, name);
-  const hasError = !!errorKey;
-
-  const labelErrorStyles = getCommonFormLabelErrorStyles(hasError);
+  const { errorMessage, hasFieldError } = getFormErrorState(errors, name);
+  const labelErrorStyles = getCommonFormLabelErrorStyles(hasFieldError);
 
   return (
     <div className='flex flex-col gap-2'>
@@ -50,7 +47,7 @@ const PhoneNumberInput = <T extends FieldValues>({
               {...field}
               disableSearchIcon
               autoFormat={true}
-              buttonClass={cn('default-country-button-styles', { '!border-red-500': hasError })}
+              buttonClass={cn('default-country-button-styles', { '!border-red-500': hasFieldError })}
               containerClass='w-full'
               country={selectedCountry}
               data-testid='phone-number-input'
@@ -58,7 +55,7 @@ const PhoneNumberInput = <T extends FieldValues>({
               dropdownClass='!mt-0'
               enableSearch={true}
               inputClass={cn('!w-full border !py-[2rem] rounded focus:ring-2 focus:ring-blue-500', inputClassName, {
-                '!border-red-500 !bg-red-100': hasError,
+                '!border-red-500 !bg-red-100': hasFieldError,
               })}
               searchClass='!w-full !border !rounded-md !px-3 !ml-0 !py-2 focus:!ring-2 focus:!ring-blue-500'
               searchPlaceholder={SEARCH_INPUT_PLACEHOLDER}
@@ -67,7 +64,7 @@ const PhoneNumberInput = <T extends FieldValues>({
                 onSelectCountry && onSelectCountry((countryData as CountryData).countryCode);
               }}
             />
-            {hasError && <span className='text-red-500 text-sm'>{errorKey?.message}</span>}
+            {hasFieldError && <span className='text-red-500 text-sm'>{errorMessage}</span>}
           </div>
         )}
       />

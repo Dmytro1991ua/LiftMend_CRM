@@ -2,9 +2,8 @@ import { Accept } from 'react-dropzone/.';
 import { Controller, FieldValues, Path, UseFormClearErrors, useFormContext } from 'react-hook-form';
 
 import { cn } from '@/lib/utils';
-import { getNestedError } from '@/modules/repair-job-scheduling/utils';
 import FileDropzone from '@/shared/file-dropzone';
-import { getCommonFormLabelErrorStyles } from '@/shared/utils';
+import { getCommonFormLabelErrorStyles, getFormErrorState } from '@/shared/utils';
 
 export type ControlledSingleFileDropzoneProps<T extends FieldValues> = {
   name: Path<T>;
@@ -38,10 +37,8 @@ const ControlledSingleFileUpload = <T extends FieldValues>({
     formState: { errors },
   } = useFormContext<T>();
 
-  const errorKey = getNestedError(errors, name);
-  const hasError = !!errorKey;
-
-  const labelErrorStyles = getCommonFormLabelErrorStyles(hasError);
+  const { errorMessage, hasFieldError } = getFormErrorState(errors, name);
+  const labelErrorStyles = getCommonFormLabelErrorStyles(hasFieldError);
 
   const onHandleSingleFileUpload = async (files: File[], onChange: (value: File | null) => void) => {
     const file = files[0] ?? null;
@@ -64,7 +61,7 @@ const ControlledSingleFileUpload = <T extends FieldValues>({
         render={({ field }) => (
           <FileDropzone
             acceptTypes={acceptTypes}
-            className={cn(hasError && 'border-destructive')}
+            className={cn(hasFieldError && 'border-destructive')}
             isUploadDisabled={disabled}
             testId={testId}
             tooltip={tooltip}
@@ -74,7 +71,7 @@ const ControlledSingleFileUpload = <T extends FieldValues>({
           </FileDropzone>
         )}
       />
-      {hasError && <span className='field-error'>{errorKey?.message}</span>}
+      {hasFieldError && <span className='field-error'>{errorMessage}</span>}
     </div>
   );
 };

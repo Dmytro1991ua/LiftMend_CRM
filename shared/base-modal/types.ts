@@ -10,6 +10,7 @@ export type BaseModalProps = {
   modalFooter?: React.JSX.Element;
   cancelButtonLabel?: string;
   submitButtonLabel?: string;
+  modalContentClassName?: string;
   onClose?: () => void;
   onSubmit?: () => void;
 };

@@ -10,7 +10,8 @@ import { RepairJob } from '@/shared/types';
 
 import { COMPLETE_REPAIR_JOB_MODAL_DESCRIPTION } from './constant';
 import ControlledChecklist from './controlled-checklist';
-import { useCompleteRepairJob } from './hooks';
+import ControlledInventoryPartsList from './controlled-inventory-parts-list';
+import { useCompleteRepairJob, useGetInventoryPartsDropdownOptions } from './hooks';
 import { getCompleteButtonDisabledState } from './utils';
 
 export type CompleteRepairJobProps = {
@@ -19,8 +20,17 @@ export type CompleteRepairJobProps = {
 };
 
 const CompleteRepairJob = ({ repairJob, variant = 'icon' }: CompleteRepairJobProps) => {
+  const { isCompleteButtonDisabled, tooltipMessage } =
+    getCompleteButtonDisabledState(repairJob.status)[repairJob.status] || {};
+
   const { formState, isModalOpen, onOpenModal, onHandleCloseModal, onHandleComplete, isLoading } =
     useCompleteRepairJob(repairJob);
+
+  const shouldFetchInventoryParts = isModalOpen && !isCompleteButtonDisabled;
+
+  const { inventoryPartsOptions, isLoading: isInventoryPartsOptionsLoading } = useGetInventoryPartsDropdownOptions(
+    !shouldFetchInventoryParts
+  );
 
   const file = formState.watch('evidencePhoto');
   const previewImage = useMemo(() => {
@@ -31,9 +41,6 @@ const CompleteRepairJob = ({ repairJob, variant = 'icon' }: CompleteRepairJobPro
 
   const iconColorClass = variant === 'icon' ? 'h-5 w-5 text-primary' : 'h-3 w-3 text-white';
 
-  const { isCompleteButtonDisabled, tooltipMessage } =
-    getCompleteButtonDisabledState(repairJob.status)[repairJob.status] || {};
-
   return (
     <BaseEntityStatusTrigger
       buttonIcon={<FaCheck className={iconColorClass} data-testid='complete-icon' />}
@@ -42,6 +49,7 @@ const CompleteRepairJob = ({ repairJob, variant = 'icon' }: CompleteRepairJobPro
       isLoading={isLoading}
       isModalOpen={isModalOpen}
       isTooltipShown={!isCompleteButtonDisabled}
+      modalContentClassName='h-[60rem] 2xl:h-[68rem]'
       modalMessage={COMPLETE_REPAIR_JOB_MODAL_DESCRIPTION}
       modalTitle='Complete Repair Job'
       tooltipMessage={tooltipMessage}
@@ -65,6 +73,12 @@ const CompleteRepairJob = ({ repairJob, variant = 'icon' }: CompleteRepairJobPro
           label='Completion Checklist'
           name='checklist'
           wrapperClassname='h-[33rem] overflow-auto'
+        />
+        <ControlledInventoryPartsList
+          isDisabled={isInventoryPartsOptionsLoading}
+          label='Inventory Used'
+          name='partsUsed'
+          options={inventoryPartsOptions}
         />
       </FormProvider>
     </BaseEntityStatusTrigger>

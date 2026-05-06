@@ -2,9 +2,8 @@ import { FieldValues, Path, useFormContext, useWatch } from 'react-hook-form';
 
 import { Textarea, TextareaProps } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
-import { getNestedError } from '@/modules/repair-job-scheduling/utils';
 
-import { getCommonFormLabelErrorStyles } from '../utils';
+import { getCommonFormLabelErrorStyles, getFormErrorState } from '../utils';
 
 export interface BaseTextareaProps<T extends FieldValues> extends TextareaProps {
   name: Path<T>;
@@ -37,10 +36,8 @@ const BaseTextarea = <T extends FieldValues>({
 
   const value = useWatch({ control, name });
 
-  const errorKey = getNestedError(errors, name);
-  const hasError = !!errorKey;
-
-  const labelErrorStyles = getCommonFormLabelErrorStyles(hasError);
+  const { errorMessage, hasFieldError } = getFormErrorState(errors, name);
+  const labelErrorStyles = getCommonFormLabelErrorStyles(hasFieldError);
 
   return (
     <div className={cn('relative grid w-full gap-1.5', wrapperClassName)}>
@@ -53,7 +50,7 @@ const BaseTextarea = <T extends FieldValues>({
         className={className}
         defaultValue={defaultValue}
         disabled={disabled}
-        error={hasError}
+        error={hasFieldError}
         id={id}
         placeholder={placeholder}
         onChange={(e) => {
@@ -62,7 +59,7 @@ const BaseTextarea = <T extends FieldValues>({
         }}
         {...props}
       />
-      {hasError && <span className='field-error'>{errorKey?.message}</span>}
+      {hasFieldError && <span className='field-error'>{errorMessage}</span>}
     </div>
   );
 };

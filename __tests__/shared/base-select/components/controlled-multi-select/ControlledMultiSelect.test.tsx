@@ -2,13 +2,13 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { withFormProvider } from '@/mocks/testMocks';
-import { getNestedError } from '@/modules/repair-job-scheduling/utils';
 import ControlledMultiSelect from '@/shared/base-select/components/controlled-multi-select';
 import { ControlledMultiSelectProps } from '@/shared/base-select/types';
+import { getFormErrorState } from '@/shared/utils';
 
-jest.mock('@/modules/repair-job-scheduling/utils', () => ({
-  ...jest.requireActual('@/modules/repair-job-scheduling/utils'),
-  getNestedError: jest.fn(),
+jest.mock('@/shared/utils', () => ({
+  ...jest.requireActual('@/shared/utils'),
+  getFormErrorState: jest.fn(),
 }));
 
 describe('ControlledMultiSelect', () => {
@@ -26,6 +26,14 @@ describe('ControlledMultiSelect', () => {
     },
   ];
   const mockClearErrorsMock = jest.fn();
+
+  beforeEach(() => {
+    (getFormErrorState as jest.Mock).mockReturnValue({
+      errorMessage: undefined,
+      hasRootError: false,
+      hasFieldError: false,
+    });
+  });
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -53,9 +61,10 @@ describe('ControlledMultiSelect', () => {
     expect(screen.getByText('Test label')).toBeInTheDocument();
   });
 
-  it('should render error message when getNestedError returns an error', () => {
-    (getNestedError as jest.Mock).mockReturnValue({
-      message: mockErrorMessage,
+  it('should render error message when getFormErrorState returns an error', () => {
+    (getFormErrorState as jest.Mock).mockReturnValue({
+      errorMessage: mockErrorMessage,
+      hasFieldError: true,
     });
 
     render(ControlledMultiSelectComponent());
@@ -64,8 +73,6 @@ describe('ControlledMultiSelect', () => {
   });
 
   it('should not render error span when there is no error', () => {
-    (getNestedError as jest.Mock).mockReturnValue(undefined);
-
     render(ControlledMultiSelectComponent());
 
     expect(screen.queryByText(mockErrorMessage)).not.toBeInTheDocument();

@@ -25,10 +25,12 @@ export const getBaseSelectStylesConfig = <T extends string, IsMulti extends bool
   }),
   option: (provided, state) => ({
     ...provided,
-    color: '#1f2937',
+    color: state.isDisabled ? '#9ca3af' : '#1f2937',
     padding: '1.2rem',
     backgroundColor: state.isSelected ? '#DEEBFF' : state.isFocused ? '#f3f4f6' : 'transparent',
     borderBottom: '1px solid #e5e7eb',
+    cursor: state.isDisabled ? 'not-allowed' : 'default',
+    opacity: state.isDisabled ? '0.6' : '1',
   }),
   control: (provided, state) => ({
     ...provided,

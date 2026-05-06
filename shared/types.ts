@@ -86,6 +86,16 @@ export type RepairJobChecklistItem = {
   comment?: string | null;
 };
 
+export type RepairJobFormInventoryPartUsed = {
+  partId: string;
+  quantity: string;
+};
+
+export type RepairJobApiInventoryPartUsed = {
+  partId: string;
+  quantity: number;
+};
+
 export type RepairJob = {
   id: string;
   jobType: string;
@@ -102,6 +112,7 @@ export type RepairJob = {
   actualEndDate?: Maybe<Date>;
   isOverdue?: Maybe<boolean>;
   checklist?: RepairJobChecklistItem[] | null;
+  partsUsed?: RepairJobApiInventoryPartUsed[] | null;
   beforePhotoUrl?: string | null;
   afterPhotoUrl?: string | null;
 };
@@ -221,3 +232,9 @@ export type NextPageWithLayout = NextPage & {
 export type DataLoadStatusView = Record<DataLoadStatus, JSX.Element>;
 
 export type CurrencyValue = number | string | Decimal | null | undefined;
+
+export type FormErrorState = {
+  hasFieldError: boolean;
+  hasRootError: boolean;
+  errorMessage: string | undefined;
+};

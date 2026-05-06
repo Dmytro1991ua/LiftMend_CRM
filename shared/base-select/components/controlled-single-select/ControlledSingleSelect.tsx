@@ -1,8 +1,7 @@
 import { Controller, ControllerRenderProps, FieldValues, Path, useFormContext } from 'react-hook-form';
 
 import { cn } from '@/lib/utils';
-import { getNestedError } from '@/modules/repair-job-scheduling/utils';
-import { getCommonFormLabelErrorStyles } from '@/shared/utils';
+import { getCommonFormLabelErrorStyles, getFormErrorState } from '@/shared/utils';
 
 import { ControlledSingleSelectProps, SingleSelectValue } from '../../types';
 import CustomSingleSelect from '../custom-single-select/CustomSingleSelect';
@@ -25,10 +24,8 @@ const ControlledSingleSelect = <T extends FieldValues>({
     formState: { errors },
   } = useFormContext<T>();
 
-  const errorKey = getNestedError(errors, name);
-  const hasError = !!errorKey;
-
-  const labelErrorStyles = getCommonFormLabelErrorStyles(hasError);
+  const { errorMessage, hasFieldError } = getFormErrorState(errors, name);
+  const labelErrorStyles = getCommonFormLabelErrorStyles(hasFieldError);
 
   const getSelectValue = <T extends FieldValues>(
     field: ControllerRenderProps<T, Path<T>>,
@@ -73,7 +70,7 @@ const ControlledSingleSelect = <T extends FieldValues>({
         render={({ field }) => (
           <CustomSingleSelect
             defaultValue={defaultValue}
-            hasError={hasError}
+            hasError={hasFieldError}
             isDisabled={disabled}
             options={options}
             placeholder={placeholder}
@@ -85,7 +82,7 @@ const ControlledSingleSelect = <T extends FieldValues>({
           />
         )}
       />
-      {hasError && <span className='field-error'>{errorKey?.message}</span>}
+      {hasFieldError && <span className='field-error'>{errorMessage}</span>}
     </div>
   );
 };

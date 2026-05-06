@@ -6,6 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { cn } from '@/lib/utils';
 
 import { BaseModalProps } from './types';
 
@@ -14,6 +15,7 @@ const BaseModal = ({
   title,
   description,
   children,
+  modalContentClassName,
   modalFooter,
   onClose,
 }: BaseModalProps): React.JSX.Element => {
@@ -24,7 +26,7 @@ const BaseModal = ({
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
-        <div className='px-6 overflow-auto'>{children}</div>
+        <div className={cn('px-6 overflow-auto', modalContentClassName)}>{children}</div>
         <DialogFooter>{modalFooter}</DialogFooter>
       </DialogContent>
     </Dialog>

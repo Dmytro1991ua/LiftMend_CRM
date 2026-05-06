@@ -327,6 +327,14 @@ export type InventoryPartConnection = Connection & {
   total: Scalars['Int']['output'];
 };
 
+export type InventoryPartDropdownOption = {
+  __typename?: 'InventoryPartDropdownOption';
+  disabledReason: Maybe<Scalars['String']['output']>;
+  isDisabled: Scalars['Boolean']['output'];
+  label: Scalars['String']['output'];
+  value: Scalars['ID']['output'];
+};
+
 export type InventoryPartEdge = Edge & {
   __typename?: 'InventoryPartEdge';
   cursor: Scalars['String']['output'];
@@ -597,6 +605,7 @@ export type Query = {
   getElevatorRecordFormData: ElevatorRecordFormData;
   getElevatorRecords: ElevatorRecordConnection;
   getInventoryParts: InventoryPartConnection;
+  getInventoryPartsDropdownOptions: Array<InventoryPartDropdownOption>;
   getNotifications: NotificationConnection;
   getRecentRepairJobs: Array<RepairJob>;
   getRepairJobById: RepairJob;
@@ -1673,6 +1682,19 @@ export type GetInventoryPartsQuery = {
       endCursor: string | null;
     };
   };
+};
+
+export type GetInventoryPartsDropdownOptionsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetInventoryPartsDropdownOptionsQuery = {
+  __typename?: 'Query';
+  getInventoryPartsDropdownOptions: Array<{
+    __typename?: 'InventoryPartDropdownOption';
+    value: string;
+    label: string;
+    isDisabled: boolean;
+    disabledReason: string | null;
+  }>;
 };
 
 export type GetNotificationsQueryVariables = Exact<{

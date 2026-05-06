@@ -2,15 +2,15 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { withFormProvider } from '@/mocks/testMocks';
-import { getNestedError } from '@/modules/repair-job-scheduling/utils';
 import ControlledSingleDatePicker, {
   ControlledDatePickerProps,
 } from '@/shared/date-picker/components/controlled-single-date-picker/ControlledSingleDatePicker';
 import { DatePickerProps } from '@/shared/date-picker/DatePicker';
+import { getFormErrorState } from '@/shared/utils';
 
-jest.mock('@/modules/repair-job-scheduling/utils', () => ({
-  ...jest.requireActual('@/modules/repair-job-scheduling/utils'),
-  getNestedError: jest.fn(),
+jest.mock('@/shared/utils', () => ({
+  ...jest.requireActual('@/shared/utils'),
+  getFormErrorState: jest.fn(),
 }));
 
 jest.mock('@/shared/date-picker/DatePicker', () => ({
@@ -26,6 +26,14 @@ jest.mock('@/shared/date-picker/DatePicker', () => ({
 describe('ControlledSingleDatePicker', () => {
   const mockErrorMessage = 'Date name is required';
   const mockOnClearErrors = jest.fn();
+
+  beforeEach(() => {
+    (getFormErrorState as jest.Mock).mockReturnValue({
+      errorMessage: undefined,
+      hasRootError: false,
+      hasFieldError: false,
+    });
+  });
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -52,9 +60,10 @@ describe('ControlledSingleDatePicker', () => {
     expect(screen.getByText('Test Info Tooltip')).toBeInTheDocument();
   });
 
-  it('should render error message when getNestedError returns an error', () => {
-    (getNestedError as jest.Mock).mockReturnValue({
-      message: mockErrorMessage,
+  it('should render error message when getFormErrorState returns an error', () => {
+    (getFormErrorState as jest.Mock).mockReturnValue({
+      errorMessage: mockErrorMessage,
+      hasFieldError: true,
     });
 
     render(ControlledSingleDatePickerComponent());
@@ -63,8 +72,6 @@ describe('ControlledSingleDatePicker', () => {
   });
 
   it('should not render error span when there is no error', () => {
-    (getNestedError as jest.Mock).mockReturnValue(undefined);
-
     render(ControlledSingleDatePickerComponent());
 
     expect(screen.queryByText(mockErrorMessage)).not.toBeInTheDocument();

@@ -7,6 +7,7 @@ export type UseFormStateProps<T extends FieldValues> = {
   initialValues: DefaultValues<T>;
   resolver?: Resolver<T>;
   shouldFocusError?: boolean;
+  mode?: 'onSubmit' | 'onChange' | 'onBlur' | 'all' | 'onTouched';
 };
 
 type UseFormState<T extends FieldValues> = {
@@ -19,10 +20,11 @@ export const useFormState = <T extends FieldValues>({
   initialValues,
   resolver,
   shouldFocusError,
+  mode,
 }: UseFormStateProps<T>): UseFormState<T> => {
   const formState = useForm<T>({
     shouldUnregister: false,
-    mode: 'onSubmit',
+    mode: mode ?? 'onSubmit',
     defaultValues: initialValues,
     resolver,
     shouldFocusError,

@@ -1,8 +1,7 @@
 import { Controller, FieldValues, useFormContext } from 'react-hook-form';
 
 import { cn } from '@/lib/utils';
-import { getNestedError } from '@/modules/repair-job-scheduling/utils';
-import { getCommonFormLabelErrorStyles } from '@/shared/utils';
+import { getCommonFormLabelErrorStyles, getFormErrorState } from '@/shared/utils';
 
 import { ControlledMultiSelectProps, DropdownOption, MultiSelectValue } from '../../types';
 import CustomMultiSelect from '../custom-multi-select/CustomMultiSelect';
@@ -23,10 +22,8 @@ const ControlledMultiSelect = <T extends FieldValues>({
     formState: { errors },
   } = useFormContext<T>();
 
-  const errorKey = getNestedError(errors, name);
-  const hasError = !!errorKey;
-
-  const labelErrorStyles = getCommonFormLabelErrorStyles(hasError);
+  const { errorMessage, hasFieldError } = getFormErrorState(errors, name);
+  const labelErrorStyles = getCommonFormLabelErrorStyles(hasFieldError);
 
   return (
     <div className={cn('relative grid w-full gap-1.5', className)}>
@@ -61,7 +58,7 @@ const ControlledMultiSelect = <T extends FieldValues>({
           return (
             <CustomMultiSelect
               defaultValue={defaultValue}
-              hasError={hasError}
+              hasError={hasFieldError}
               isDisabled={disabled}
               options={options}
               placeholder={placeholder}
@@ -74,7 +71,7 @@ const ControlledMultiSelect = <T extends FieldValues>({
           );
         }}
       />
-      {hasError && <span className='field-error'>{errorKey?.message}</span>}
+      {hasFieldError && <span className='field-error'>{errorMessage}</span>}
     </div>
   );
 };
