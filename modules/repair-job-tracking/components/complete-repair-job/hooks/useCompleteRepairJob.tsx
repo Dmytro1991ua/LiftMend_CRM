@@ -38,10 +38,12 @@ export const useCompleteRepairJob = (repairJob: RepairJob) => {
   const onHandleComplete = useCallback(
     async (values: CompleteRepairJobFormValues) => {
       const result = await onCompleteRepairJob({
-        ...repairJob,
+        id: repairJob.id,
+        elevatorType: repairJob.elevatorType,
+        status: 'Completed',
         checklist: values.checklist,
         partsUsed: values.partsUsed.map((partUsed) => ({
-          ...partUsed,
+          partId: partUsed.partId,
           quantity: Number(partUsed.quantity),
         })),
       });

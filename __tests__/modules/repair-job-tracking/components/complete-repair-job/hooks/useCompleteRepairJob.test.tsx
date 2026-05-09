@@ -99,7 +99,7 @@ describe('useCompleteRepairJob', () => {
     expect(mockOnReset).toHaveBeenCalled();
   });
 
-  it('should submit checklist and photo evidence and closes modal on success', async () => {
+  it('should submit checklist, photo evidence and inventoryPartsUsed and closes modal on success', async () => {
     mockOnCompleteRepairJob.mockResolvedValue({
       data: {
         updateRepairJob: mockRepairJob,
@@ -120,12 +120,14 @@ describe('useCompleteRepairJob', () => {
     });
 
     expect(mockOnCompleteRepairJob).toHaveBeenCalledWith({
-      ...mockRepairJob,
+      id: mockRepairJob.id,
       checklist: values.checklist,
       partsUsed: values.partsUsed.map((partUsed) => ({
         ...partUsed,
         quantity: Number(partUsed.quantity),
       })),
+      status: 'Completed',
+      elevatorType: 'Passenger Elevator',
     });
 
     expect(mockOnCloseModal).toHaveBeenCalled();

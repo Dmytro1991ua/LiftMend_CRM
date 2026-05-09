@@ -37,16 +37,19 @@ import {
   REPAIR_JOB_STATUS_MAP,
   REPAIR_JOB_TYPE_MAP,
 } from './constants';
+import InventoryPartService from './InventoryPartService';
 import StorageService from './StorageService';
 import { GraphQLUploadFile } from './types';
 
 class RepairJobService {
   private prisma;
   private storageService;
+  private inventoryPartService;
 
   constructor(prisma: PrismaClient, supabase?: SupabaseClient) {
     this.prisma = prisma;
     this.storageService = new StorageService(supabase);
+    this.inventoryPartService = new InventoryPartService(prisma);
   }
 
   async getRepairJobs(args: QueryGetRepairJobsArgs): Promise<RepairJobConnection> {
@@ -293,7 +296,7 @@ class RepairJobService {
   }
 
   async updateRepairJob(input: UpdateRepairJobInput): Promise<RepairJob> {
-    const { id, checklist, ...fieldsToUpdate } = input;
+    const { id, checklist, inventoryPartsUsage, ...fieldsToUpdate } = input;
 
     const existingJob = await this.prisma.repairJob.findUnique({ where: { id } });
 
@@ -316,6 +319,10 @@ class RepairJobService {
         checklist,
         checkedBy: existingJob?.technicianId ?? '',
       });
+    }
+
+    if (newStatus === 'Completed' && inventoryPartsUsage?.length) {
+      await this.inventoryPartService.processRepairJobInventoryParUsage(id, inventoryPartsUsage);
     }
 
     const updatedRepairJob = await this.prisma.repairJob.update({

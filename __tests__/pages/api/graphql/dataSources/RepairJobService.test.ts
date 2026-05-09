@@ -605,7 +605,7 @@ describe('RepairJobService', () => {
     });
 
     it('should create checklist items when job is completed with checklist', async () => {
-      const mockInput = {
+      const mockInput: UpdateRepairJobInput = {
         id: mockRepairJobId,
         status: 'Completed',
         checklist: mockChecklist,
@@ -632,7 +632,7 @@ describe('RepairJobService', () => {
     });
 
     it('should NOT create checklist if status is not Completed', async () => {
-      const mockInput = {
+      const mockInput: UpdateRepairJobInput = {
         id: mockRepairJobId,
         status: 'Scheduled',
         checklist: mockChecklist,
@@ -649,6 +649,92 @@ describe('RepairJobService', () => {
       expect(repairJobService.createChecklist).not.toHaveBeenCalled();
       expect(repairJobService.getChecklist).not.toHaveBeenCalled();
       expect(result.checklist).toEqual([]);
+    });
+
+    it('should process inventoryPartsUsage when status is Completed', async () => {
+      const mockInput: UpdateRepairJobInput = {
+        id: mockRepairJobId,
+        status: 'Completed',
+        inventoryPartsUsage: [
+          {
+            partId: 'part-1',
+            quantity: 2,
+          },
+          {
+            partId: 'part-2',
+            quantity: 1,
+          },
+        ],
+      };
+
+      (repairJobServicePrismaMock.repairJob.findUnique as jest.Mock).mockResolvedValue(mockRepairJob);
+      (repairJobServicePrismaMock.repairJob.update as jest.Mock).mockResolvedValue({
+        ...mockRepairJob,
+        status: 'Completed',
+        isOverdue: false,
+      });
+
+      const processSpy = jest
+        .spyOn(repairJobService['inventoryPartService'], 'processRepairJobInventoryParUsage')
+        .mockResolvedValue(undefined);
+
+      await repairJobService.updateRepairJob(mockInput);
+
+      expect(processSpy).toHaveBeenCalledWith(mockRepairJobId, [
+        { partId: 'part-1', quantity: 2 },
+        { partId: 'part-2', quantity: 1 },
+      ]);
+    });
+
+    it('should NOT process inventoryPartUsage if status is not Completed', async () => {
+      const mockInput: UpdateRepairJobInput = {
+        id: mockRepairJobId,
+        status: 'Scheduled',
+        inventoryPartsUsage: [
+          {
+            partId: 'part-1',
+            quantity: 2,
+          },
+        ],
+      };
+
+      (repairJobServicePrismaMock.repairJob.findUnique as jest.Mock).mockResolvedValue(mockRepairJob);
+      (repairJobServicePrismaMock.repairJob.update as jest.Mock).mockResolvedValue({
+        ...mockRepairJob,
+        status: 'Scheduled',
+        isOverdue: false,
+      });
+
+      const processSpy = jest
+        .spyOn(repairJobService['inventoryPartService'], 'processRepairJobInventoryParUsage')
+        .mockResolvedValue(undefined);
+
+      await repairJobService.updateRepairJob(mockInput);
+
+      expect(processSpy).not.toHaveBeenCalled();
+    });
+
+    it('should NOT process inventoryPartUsage if empty array', async () => {
+      const mockInput: UpdateRepairJobInput = {
+        id: mockRepairJobId,
+        status: 'Completed',
+        inventoryPartsUsage: [],
+      };
+
+      (repairJobServicePrismaMock.repairJob.findUnique as jest.Mock).mockResolvedValue(mockRepairJob);
+      (repairJobServicePrismaMock.repairJob.update as jest.Mock).mockResolvedValue({
+        ...mockRepairJob,
+        status: 'Completed',
+        isOverdue: false,
+      });
+
+      const processSpy = jest
+        .spyOn(repairJobService['inventoryPartService'], 'processRepairJobInventoryParUsage')
+        .mockResolvedValue(undefined);
+
+      await repairJobService.updateRepairJob(mockInput);
+
+      expect(processSpy).not.toHaveBeenCalled();
     });
   });
 

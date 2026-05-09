@@ -4,6 +4,6 @@ model InventoryPartUsage {
   inventoryPartId String        @db.Uuid
   quantity        Int
   createdAt       DateTime?     @default(now()) @db.Timestamp(6)
-  repairJob       RepairJob     @relation(fields: [repairJobId], references: [id])
+  repairJob       RepairJob     @relation(fields: [repairJobId], references: [id], onDelete: Cascade)
   inventoryPart   InventoryPart @relation(fields: [inventoryPartId], references: [id])
 }

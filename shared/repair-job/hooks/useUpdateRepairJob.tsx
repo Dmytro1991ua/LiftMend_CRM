@@ -9,16 +9,24 @@ import {
 } from '@/graphql/types/client/generated_types';
 import useMutationResultToasts from '@/shared/hooks/useMutationResultToasts';
 import { RepairJobFormValues } from '@/shared/repair-job/edit-repair-job-form/types';
-import { RepairJob } from '@/shared/types';
+import { RepairJob, RepairJobApiInventoryPartUsed, RepairJobChecklistItem } from '@/shared/types';
 import { getCalendarEventInfo, getFieldsToUpdateForMutation, onHandleMutationErrors } from '@/shared/utils';
 
 import { STATUS_CHANGE_MESSAGES } from '../config';
 import { convertFormFieldsToRepairJob } from '../repair-job-details/utils';
 
+export type UpdateRepairJobPayload = {
+  id: string;
+  status: string;
+  elevatorType: string;
+  checklist?: RepairJobChecklistItem[];
+  partsUsed?: RepairJobApiInventoryPartUsed[];
+};
+
 export type UseUpdateRepairJob = {
   isLoading: boolean;
   onUpdateRepairJob: (formFields: RepairJobFormValues, originalRepairJob?: RepairJob) => Promise<void>;
-  onCompleteRepairJob: (repairJob: RepairJob) => Promise<FetchResult<UpdateRepairJobMutation> | undefined>;
+  onCompleteRepairJob: (payload: UpdateRepairJobPayload) => Promise<FetchResult<UpdateRepairJobMutation> | undefined>;
 };
 
 export const useUpdateRepairJob = (): UseUpdateRepairJob => {
@@ -87,14 +95,15 @@ export const useUpdateRepairJob = (): UseUpdateRepairJob => {
     }
   };
 
-  const onCompleteRepairJob = async (repairJob: RepairJob) => {
+  const onCompleteRepairJob = async ({ id, elevatorType, status, checklist, partsUsed }: UpdateRepairJobPayload) => {
     try {
       const result = await updateRepairJob({
         variables: {
           input: {
-            id: repairJob.id,
-            status: 'Completed',
-            checklist: repairJob.checklist,
+            id,
+            status,
+            checklist,
+            inventoryPartsUsage: partsUsed,
           },
         },
       });
@@ -108,7 +117,7 @@ export const useUpdateRepairJob = (): UseUpdateRepairJob => {
         return;
       }
 
-      onSuccess?.('Repair job completed', STATUS_CHANGE_MESSAGES.Completed?.(repairJob.elevatorType));
+      onSuccess?.('Repair job completed', STATUS_CHANGE_MESSAGES.Completed?.(elevatorType));
 
       return result;
     } catch (e) {

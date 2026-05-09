@@ -233,6 +233,14 @@ export const mockRepairJob = {
       comment: null,
     },
   ],
+  inventoryPartsUsage: [
+    {
+      id: 'test_id_2',
+      partId: 'test_part_id_3',
+      name: 'Anchor Fastener Kit',
+      quantity: 1,
+    },
+  ],
   beforePhotoUrl: null,
   afterPhotoUrl: null,
 };

@@ -2,7 +2,12 @@ import { InventoryPart, Prisma, PrismaClient } from '@prisma/client';
 
 import { InventoryPartDropdownOption, QueryGetInventoryPartsArgs } from '@/graphql/types/server/generated_types';
 
-import { createInventoryPartFilterOptions, createInventoryPartSortOptions, makeConnectionObject } from '../utils/utils';
+import {
+  createInventoryPartFilterOptions,
+  createInventoryPartSortOptions,
+  getInventoryPartStatus,
+  makeConnectionObject,
+} from '../utils/utils';
 
 class InventoryPartService {
   private prisma;
@@ -60,6 +65,46 @@ class InventoryPartService {
         isDisabled: isOutOfStock,
         disabledReason: isOutOfStock ? disabledReasonMessage : null,
       };
+    });
+  }
+
+  async processRepairJobInventoryParUsage(repairJobId: string, partsUsed: { partId: string; quantity: number }[]) {
+    const inventoryPartProcessingPromises = partsUsed.map(async (item) => {
+      await this.createInventoryPartUsageRecord(repairJobId, item.partId, item.quantity);
+
+      const updatedInventoryPart = await this.decrementInventoryPartStock(item.partId, item.quantity);
+
+      const newInventoryPartStatus = getInventoryPartStatus(updatedInventoryPart.stock, updatedInventoryPart.minStock);
+
+      await this.updateInventoryPartStatus(item.partId, newInventoryPartStatus);
+    });
+
+    await Promise.all(inventoryPartProcessingPromises);
+  }
+
+  private async decrementInventoryPartStock(partId: string, quantity: number) {
+    return this.prisma.inventoryPart.update({
+      where: { id: partId },
+      data: {
+        stock: { decrement: quantity },
+      },
+    });
+  }
+
+  private async createInventoryPartUsageRecord(repairJobId: string, partId: string, quantity: number) {
+    return this.prisma.inventoryPartUsage.create({
+      data: {
+        repairJobId,
+        inventoryPartId: partId,
+        quantity,
+      },
+    });
+  }
+
+  private async updateInventoryPartStatus(partId: string, status: string) {
+    return this.prisma.inventoryPart.update({
+      where: { id: partId },
+      data: { status },
     });
   }
 }
