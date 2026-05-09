@@ -332,6 +332,7 @@ export type InventoryPartConnection = Connection & {
 
 export type InventoryPartDropdownOption = {
   __typename?: 'InventoryPartDropdownOption';
+  disabledReason?: Maybe<Scalars['String']['output']>;
   isDisabled: Scalars['Boolean']['output'];
   label: Scalars['String']['output'];
   value: Scalars['ID']['output'];
@@ -356,6 +357,11 @@ export enum InventoryPartSortField {
 export type InventoryPartSortInput = {
   field?: InputMaybe<InventoryPartSortField>;
   order?: InputMaybe<OrderOption>;
+};
+
+export type InventoryPartUsageInput = {
+  partId: Scalars['ID']['input'];
+  quantity: Scalars['Int']['input'];
 };
 
 export type MarkAllNotificationsAsReadResult = {
@@ -704,6 +710,7 @@ export type RepairJob = Node & {
   elevatorType: Scalars['String']['output'];
   endDate: Scalars['DateTime']['output'];
   id: Scalars['ID']['output'];
+  inventoryPartsUsage?: Maybe<Array<RepairJobInventoryPartUsed>>;
   isOverdue?: Maybe<Scalars['Boolean']['output']>;
   jobDetails: Scalars['String']['output'];
   jobPriority: Scalars['String']['output'];
@@ -752,6 +759,14 @@ export type RepairJobFilterOptions = {
   startDate?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Array<Scalars['String']['input']>>;
   technicianName?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+export type RepairJobInventoryPartUsed = {
+  __typename?: 'RepairJobInventoryPartUsed';
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  partId: Scalars['ID']['output'];
+  quantity: Scalars['Int']['output'];
 };
 
 export type RepairJobScheduleData = {
@@ -944,6 +959,7 @@ export type UpdateRepairJobInput = {
   elevatorType?: InputMaybe<Scalars['String']['input']>;
   endDate?: InputMaybe<Scalars['DateTime']['input']>;
   id: Scalars['ID']['input'];
+  inventoryPartsUsage?: InputMaybe<Array<InventoryPartUsageInput>>;
   jobDetails?: InputMaybe<Scalars['String']['input']>;
   jobPriority?: InputMaybe<Scalars['String']['input']>;
   jobType?: InputMaybe<Scalars['String']['input']>;
@@ -1139,6 +1155,7 @@ export type ResolversTypes = ResolversObject<{
   InventoryPartFilterOptions: InventoryPartFilterOptions;
   InventoryPartSortField: InventoryPartSortField;
   InventoryPartSortInput: InventoryPartSortInput;
+  InventoryPartUsageInput: InventoryPartUsageInput;
   JSONDataType: ResolverTypeWrapper<Scalars['JSONDataType']['output']>;
   MarkAllNotificationsAsReadResult: ResolverTypeWrapper<MarkAllNotificationsAsReadResult>;
   MarkNotificationAsReadInput: MarkNotificationAsReadInput;
@@ -1162,6 +1179,7 @@ export type ResolversTypes = ResolversObject<{
   >;
   RepairJobEdge: ResolverTypeWrapper<Omit<RepairJobEdge, 'node'> & { node: ResolversTypes['RepairJob'] }>;
   RepairJobFilterOptions: RepairJobFilterOptions;
+  RepairJobInventoryPartUsed: ResolverTypeWrapper<RepairJobInventoryPartUsed>;
   RepairJobScheduleData: ResolverTypeWrapper<RepairJobScheduleData>;
   RepairJobSortField: RepairJobSortField;
   RepairJobSortInput: RepairJobSortInput;
@@ -1242,6 +1260,7 @@ export type ResolversParentTypes = ResolversObject<{
   InventoryPartEdge: InventoryPartEdge;
   InventoryPartFilterOptions: InventoryPartFilterOptions;
   InventoryPartSortInput: InventoryPartSortInput;
+  InventoryPartUsageInput: InventoryPartUsageInput;
   JSONDataType: Scalars['JSONDataType']['output'];
   MarkAllNotificationsAsReadResult: MarkAllNotificationsAsReadResult;
   MarkNotificationAsReadInput: MarkNotificationAsReadInput;
@@ -1261,6 +1280,7 @@ export type ResolversParentTypes = ResolversObject<{
   RepairJobConnection: Omit<RepairJobConnection, 'edges'> & { edges: Array<ResolversParentTypes['RepairJobEdge']> };
   RepairJobEdge: Omit<RepairJobEdge, 'node'> & { node: ResolversParentTypes['RepairJob'] };
   RepairJobFilterOptions: RepairJobFilterOptions;
+  RepairJobInventoryPartUsed: RepairJobInventoryPartUsed;
   RepairJobScheduleData: RepairJobScheduleData;
   RepairJobSortInput: RepairJobSortInput;
   RepairJobsMetrics: RepairJobsMetrics;
@@ -1612,6 +1632,7 @@ export type InventoryPartDropdownOptionResolvers<
   ContextType = Context,
   ParentType extends ResolversParentTypes['InventoryPartDropdownOption'] = ResolversParentTypes['InventoryPartDropdownOption']
 > = ResolversObject<{
+  disabledReason?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   isDisabled?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   value?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -1946,6 +1967,7 @@ export type RepairJobResolvers<
   elevatorType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   endDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  inventoryPartsUsage?: Resolver<Maybe<Array<ResolversTypes['RepairJobInventoryPartUsed']>>, ParentType, ContextType>;
   isOverdue?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   jobDetails?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   jobPriority?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -1983,6 +2005,17 @@ export type RepairJobEdgeResolvers<
 > = ResolversObject<{
   cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   node?: Resolver<ResolversTypes['RepairJob'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type RepairJobInventoryPartUsedResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['RepairJobInventoryPartUsed'] = ResolversParentTypes['RepairJobInventoryPartUsed']
+> = ResolversObject<{
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  partId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  quantity?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -2211,6 +2244,7 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   RepairJobChecklistItem?: RepairJobChecklistItemResolvers<ContextType>;
   RepairJobConnection?: RepairJobConnectionResolvers<ContextType>;
   RepairJobEdge?: RepairJobEdgeResolvers<ContextType>;
+  RepairJobInventoryPartUsed?: RepairJobInventoryPartUsedResolvers<ContextType>;
   RepairJobScheduleData?: RepairJobScheduleDataResolvers<ContextType>;
   RepairJobsMetrics?: RepairJobsMetricsResolvers<ContextType>;
   ScheduledEventAndRepairJobResponse?: ScheduledEventAndRepairJobResponseResolvers<ContextType>;

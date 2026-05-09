@@ -49,6 +49,14 @@ export const mockRepairJob = {
       comment: '',
     },
   ],
+  inventoryPartsUsage: [
+    {
+      id: 'test_id_1',
+      partId: 'test_part_id_2',
+      name: 'Anchor Fastener Kit',
+      quantity: 1,
+    },
+  ],
   beforePhotoUrl: null,
   afterPhotoUrl: null,
 };
@@ -95,6 +103,14 @@ export const mockPassengerElevatorRepairJob = {
         comment: null,
       },
     ],
+    inventoryPartsUsage: [
+      {
+        id: 'test_id_1',
+        partId: 'test_part_id_2',
+        name: 'Anchor Fastener Kit',
+        quantity: 1,
+      },
+    ],
     beforePhotoUrl: null,
     afterPhotoUrl: null,
   },
@@ -126,6 +142,14 @@ export const mockMastLiftRepairJob = {
         comment: null,
       },
     ],
+    inventoryPartsUsage: [
+      {
+        id: 'test_id_1',
+        partId: 'test_part_id_2',
+        name: 'Anchor Fastener Kit',
+        quantity: 1,
+      },
+    ],
     beforePhotoUrl: null,
     afterPhotoUrl: null,
   },
@@ -155,6 +179,14 @@ export const mockShipElevatorRepairJpb = {
         label: 'Routine inspection completed',
         checked: false,
         comment: null,
+      },
+    ],
+    inventoryPartsUsage: [
+      {
+        id: 'test_id_2',
+        partId: 'test_part_id_3',
+        name: 'Anchor Fastener Kit',
+        quantity: 1,
       },
     ],
     beforePhotoUrl: null,

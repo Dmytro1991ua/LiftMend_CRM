@@ -96,6 +96,13 @@ export type RepairJobApiInventoryPartUsed = {
   quantity: number;
 };
 
+export type RepairJobGQLInventoryPartUsed = {
+  id: string;
+  partId: string;
+  name: string;
+  quantity: number;
+};
+
 export type RepairJob = {
   id: string;
   jobType: string;
@@ -112,7 +119,7 @@ export type RepairJob = {
   actualEndDate?: Maybe<Date>;
   isOverdue?: Maybe<boolean>;
   checklist?: RepairJobChecklistItem[] | null;
-  partsUsed?: RepairJobApiInventoryPartUsed[] | null;
+  partsUsed?: RepairJobGQLInventoryPartUsed[] | null;
   beforePhotoUrl?: string | null;
   afterPhotoUrl?: string | null;
 };

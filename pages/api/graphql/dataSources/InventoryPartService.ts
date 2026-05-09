@@ -1,8 +1,17 @@
 import { InventoryPart, Prisma, PrismaClient } from '@prisma/client';
 
-import { InventoryPartDropdownOption, QueryGetInventoryPartsArgs } from '@/graphql/types/server/generated_types';
+import {
+  InventoryPartDropdownOption,
+  InventoryPartUsageInput,
+  QueryGetInventoryPartsArgs,
+} from '@/graphql/types/server/generated_types';
 
-import { createInventoryPartFilterOptions, createInventoryPartSortOptions, makeConnectionObject } from '../utils/utils';
+import {
+  createInventoryPartFilterOptions,
+  createInventoryPartSortOptions,
+  getInventoryPartStatus,
+  makeConnectionObject,
+} from '../utils/utils';
 
 class InventoryPartService {
   private prisma;
@@ -60,6 +69,39 @@ class InventoryPartService {
         isDisabled: isOutOfStock,
         disabledReason: isOutOfStock ? disabledReasonMessage : null,
       };
+    });
+  }
+
+  async processRepairJobInventoryPartUsage(repairJobId: string, partsUsed: InventoryPartUsageInput[]) {
+    await Promise.all(
+      partsUsed.map(async ({ partId, quantity }) => {
+        await this.createInventoryPartUsageRecord(repairJobId, partId, quantity);
+        await this.decrementInventoryPartStockAndUpdateStatus(partId, quantity);
+      })
+    );
+  }
+
+  private async createInventoryPartUsageRecord(repairJobId: string, partId: string, quantity: number) {
+    return this.prisma.inventoryPartUsage.create({
+      data: {
+        repairJobId,
+        inventoryPartId: partId,
+        quantity,
+      },
+    });
+  }
+
+  private async decrementInventoryPartStockAndUpdateStatus(partId: string, quantity: number) {
+    const updatedPart = await this.prisma.inventoryPart.update({
+      where: { id: partId },
+      data: { stock: { decrement: quantity } },
+    });
+
+    const status = getInventoryPartStatus(updatedPart.stock, updatedPart.minStock);
+
+    return this.prisma.inventoryPart.update({
+      where: { id: partId },
+      data: { status },
     });
   }
 }

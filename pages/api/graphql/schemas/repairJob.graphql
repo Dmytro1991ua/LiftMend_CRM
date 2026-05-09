@@ -22,10 +22,18 @@ type RepairJobScheduleData {
   priorities: [String!]!
   statuses: [String!]
 }
+
 type RepairJobChecklistItem {
   label: String!
   checked: Boolean!
   comment: String
+}
+
+type RepairJobInventoryPartUsed {
+  id: ID!
+  partId: ID!
+  name: String!
+  quantity: Int!
 }
 
 type RepairJob implements Node {
@@ -48,6 +56,7 @@ type RepairJob implements Node {
   checklist: [RepairJobChecklistItem!]
   beforePhotoUrl: String
   afterPhotoUrl: String
+  inventoryPartsUsage: [RepairJobInventoryPartUsed!]
 }
 
 type RepairJobEdge implements Edge {
@@ -88,6 +97,7 @@ input UpdateRepairJobInput {
   technicianId: ID
   status: String
   checklist: [RepairJobChecklistItemInput!]
+  inventoryPartsUsage: [InventoryPartUsageInput!]
 }
 
 input RepairJobSortInput {
@@ -113,4 +123,9 @@ input RepairJobChecklistItemInput {
   label: String!
   checked: Boolean!
   comment: String
+}
+
+input InventoryPartUsageInput {
+  partId: ID!
+  quantity: Int!
 }

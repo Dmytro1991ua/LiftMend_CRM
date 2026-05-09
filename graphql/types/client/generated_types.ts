@@ -357,6 +357,11 @@ export type InventoryPartSortInput = {
   order?: InputMaybe<OrderOption>;
 };
 
+export type InventoryPartUsageInput = {
+  partId: Scalars['ID']['input'];
+  quantity: Scalars['Int']['input'];
+};
+
 export type MarkAllNotificationsAsReadResult = {
   __typename?: 'MarkAllNotificationsAsReadResult';
   updatedNotificationIds: Maybe<Array<Scalars['String']['output']>>;
@@ -705,6 +710,7 @@ export type RepairJob = Node & {
   elevatorType: Scalars['String']['output'];
   endDate: Scalars['DateTime']['output'];
   id: Scalars['ID']['output'];
+  inventoryPartsUsage: Maybe<Array<RepairJobInventoryPartUsed>>;
   isOverdue: Maybe<Scalars['Boolean']['output']>;
   jobDetails: Scalars['String']['output'];
   jobPriority: Scalars['String']['output'];
@@ -753,6 +759,14 @@ export type RepairJobFilterOptions = {
   startDate?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Array<Scalars['String']['input']>>;
   technicianName?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+export type RepairJobInventoryPartUsed = {
+  __typename?: 'RepairJobInventoryPartUsed';
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  partId: Scalars['ID']['output'];
+  quantity: Scalars['Int']['output'];
 };
 
 export type RepairJobScheduleData = {
@@ -947,6 +961,7 @@ export type UpdateRepairJobInput = {
   elevatorType?: InputMaybe<Scalars['String']['input']>;
   endDate?: InputMaybe<Scalars['DateTime']['input']>;
   id: Scalars['ID']['input'];
+  inventoryPartsUsage?: InputMaybe<Array<InventoryPartUsageInput>>;
   jobDetails?: InputMaybe<Scalars['String']['input']>;
   jobPriority?: InputMaybe<Scalars['String']['input']>;
   jobType?: InputMaybe<Scalars['String']['input']>;
@@ -1108,6 +1123,13 @@ export type RepairJobFieldsFragment = {
     checked: boolean;
     comment: string | null;
   }> | null;
+  inventoryPartsUsage: Array<{
+    __typename?: 'RepairJobInventoryPartUsed';
+    id: string;
+    partId: string;
+    name: string;
+    quantity: number;
+  }> | null;
 };
 
 export type TechnicianRecordFieldsFragment = {
@@ -1221,6 +1243,13 @@ export type CreateRepairJobAndCalendarEventMutation = {
         label: string;
         checked: boolean;
         comment: string | null;
+      }> | null;
+      inventoryPartsUsage: Array<{
+        __typename?: 'RepairJobInventoryPartUsed';
+        id: string;
+        partId: string;
+        name: string;
+        quantity: number;
       }> | null;
     };
     calendarEvent: {
@@ -1519,6 +1548,13 @@ export type GetElevatorMaintenanceHistoryQuery = {
           checked: boolean;
           comment: string | null;
         }> | null;
+        inventoryPartsUsage: Array<{
+          __typename?: 'RepairJobInventoryPartUsed';
+          id: string;
+          partId: string;
+          name: string;
+          quantity: number;
+        }> | null;
       };
     }>;
     pageInfo: {
@@ -1765,6 +1801,13 @@ export type GetRecentRepairJobsQuery = {
       checked: boolean;
       comment: string | null;
     }> | null;
+    inventoryPartsUsage: Array<{
+      __typename?: 'RepairJobInventoryPartUsed';
+      id: string;
+      partId: string;
+      name: string;
+      quantity: number;
+    }> | null;
   }>;
 };
 
@@ -1799,6 +1842,13 @@ export type GetRepairJobByIdQuery = {
       label: string;
       checked: boolean;
       comment: string | null;
+    }> | null;
+    inventoryPartsUsage: Array<{
+      __typename?: 'RepairJobInventoryPartUsed';
+      id: string;
+      partId: string;
+      name: string;
+      quantity: number;
     }> | null;
   };
 };
@@ -1859,6 +1909,13 @@ export type GetRepairJobsQuery = {
           label: string;
           checked: boolean;
           comment: string | null;
+        }> | null;
+        inventoryPartsUsage: Array<{
+          __typename?: 'RepairJobInventoryPartUsed';
+          id: string;
+          partId: string;
+          name: string;
+          quantity: number;
         }> | null;
       };
     }>;
@@ -2075,6 +2132,13 @@ export type ReassignTechnicianMutation = {
       checked: boolean;
       comment: string | null;
     }> | null;
+    inventoryPartsUsage: Array<{
+      __typename?: 'RepairJobInventoryPartUsed';
+      id: string;
+      partId: string;
+      name: string;
+      quantity: number;
+    }> | null;
   };
 };
 
@@ -2181,6 +2245,13 @@ export type UpdateRepairJobMutation = {
       label: string;
       checked: boolean;
       comment: string | null;
+    }> | null;
+    inventoryPartsUsage: Array<{
+      __typename?: 'RepairJobInventoryPartUsed';
+      id: string;
+      partId: string;
+      name: string;
+      quantity: number;
     }> | null;
   };
 };

@@ -22,6 +22,12 @@ export const REPAIR_JOB_FRAGMENT = gql`
       checked
       comment
     }
+    inventoryPartsUsage {
+      id
+      partId
+      name
+      quantity
+    }
     beforePhotoUrl
     afterPhotoUrl
   }

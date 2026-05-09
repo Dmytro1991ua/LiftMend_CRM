@@ -3,3 +3,4 @@ export * from './getBatchRepairJobsByElevator';
 export * from './getBatchRepairJobsByTechnician';
 export * from './getElevatorDowntimeByElevatorId';
 export * from './getTechnicianEmploymentHistoryByTechnicianId';
+export * from './getBatchRepairJobInventoryPartsUsedByJobId';
