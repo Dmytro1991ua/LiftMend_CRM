@@ -92,18 +92,16 @@ class InventoryPartService {
   }
 
   private async decrementInventoryPartStockAndUpdateStatus(partId: string, quantity: number) {
-    return this.prisma.$transaction(async (tx) => {
-      const updatedPart = await tx.inventoryPart.update({
-        where: { id: partId },
-        data: { stock: { decrement: quantity } },
-      });
+    const updatedPart = await this.prisma.inventoryPart.update({
+      where: { id: partId },
+      data: { stock: { decrement: quantity } },
+    });
 
-      const status = getInventoryPartStatus(updatedPart.stock, updatedPart.minStock);
+    const status = getInventoryPartStatus(updatedPart.stock, updatedPart.minStock);
 
-      return tx.inventoryPart.update({
-        where: { id: partId },
-        data: { status },
-      });
+    return this.prisma.inventoryPart.update({
+      where: { id: partId },
+      data: { status },
     });
   }
 }
