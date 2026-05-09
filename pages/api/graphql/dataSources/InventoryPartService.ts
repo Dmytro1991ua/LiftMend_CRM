@@ -1,6 +1,10 @@
 import { InventoryPart, Prisma, PrismaClient } from '@prisma/client';
 
-import { InventoryPartDropdownOption, QueryGetInventoryPartsArgs } from '@/graphql/types/server/generated_types';
+import {
+  InventoryPartDropdownOption,
+  InventoryPartUsageInput,
+  QueryGetInventoryPartsArgs,
+} from '@/graphql/types/server/generated_types';
 
 import {
   createInventoryPartFilterOptions,
@@ -68,27 +72,13 @@ class InventoryPartService {
     });
   }
 
-  async processRepairJobInventoryParUsage(repairJobId: string, partsUsed: { partId: string; quantity: number }[]) {
-    const inventoryPartProcessingPromises = partsUsed.map(async (item) => {
-      await this.createInventoryPartUsageRecord(repairJobId, item.partId, item.quantity);
-
-      const updatedInventoryPart = await this.decrementInventoryPartStock(item.partId, item.quantity);
-
-      const newInventoryPartStatus = getInventoryPartStatus(updatedInventoryPart.stock, updatedInventoryPart.minStock);
-
-      await this.updateInventoryPartStatus(item.partId, newInventoryPartStatus);
-    });
-
-    await Promise.all(inventoryPartProcessingPromises);
-  }
-
-  private async decrementInventoryPartStock(partId: string, quantity: number) {
-    return this.prisma.inventoryPart.update({
-      where: { id: partId },
-      data: {
-        stock: { decrement: quantity },
-      },
-    });
+  async processRepairJobInventoryPartUsage(repairJobId: string, partsUsed: InventoryPartUsageInput[]) {
+    await Promise.all(
+      partsUsed.map(async ({ partId, quantity }) => {
+        await this.createInventoryPartUsageRecord(repairJobId, partId, quantity);
+        await this.decrementInventoryPartStockAndUpdateStatus(partId, quantity);
+      })
+    );
   }
 
   private async createInventoryPartUsageRecord(repairJobId: string, partId: string, quantity: number) {
@@ -101,10 +91,19 @@ class InventoryPartService {
     });
   }
 
-  private async updateInventoryPartStatus(partId: string, status: string) {
-    return this.prisma.inventoryPart.update({
-      where: { id: partId },
-      data: { status },
+  private async decrementInventoryPartStockAndUpdateStatus(partId: string, quantity: number) {
+    return this.prisma.$transaction(async (tx) => {
+      const updatedPart = await tx.inventoryPart.update({
+        where: { id: partId },
+        data: { stock: { decrement: quantity } },
+      });
+
+      const status = getInventoryPartStatus(updatedPart.stock, updatedPart.minStock);
+
+      return tx.inventoryPart.update({
+        where: { id: partId },
+        data: { status },
+      });
     });
   }
 }

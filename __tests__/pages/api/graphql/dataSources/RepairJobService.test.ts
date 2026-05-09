@@ -675,7 +675,7 @@ describe('RepairJobService', () => {
       });
 
       const processSpy = jest
-        .spyOn(repairJobService['inventoryPartService'], 'processRepairJobInventoryParUsage')
+        .spyOn(repairJobService['inventoryPartService'], 'processRepairJobInventoryPartUsage')
         .mockResolvedValue(undefined);
 
       await repairJobService.updateRepairJob(mockInput);
@@ -706,7 +706,7 @@ describe('RepairJobService', () => {
       });
 
       const processSpy = jest
-        .spyOn(repairJobService['inventoryPartService'], 'processRepairJobInventoryParUsage')
+        .spyOn(repairJobService['inventoryPartService'], 'processRepairJobInventoryPartUsage')
         .mockResolvedValue(undefined);
 
       await repairJobService.updateRepairJob(mockInput);
@@ -729,7 +729,7 @@ describe('RepairJobService', () => {
       });
 
       const processSpy = jest
-        .spyOn(repairJobService['inventoryPartService'], 'processRepairJobInventoryParUsage')
+        .spyOn(repairJobService['inventoryPartService'], 'processRepairJobInventoryPartUsage')
         .mockResolvedValue(undefined);
 
       await repairJobService.updateRepairJob(mockInput);

@@ -322,7 +322,7 @@ class RepairJobService {
     }
 
     if (newStatus === 'Completed' && inventoryPartsUsage?.length) {
-      await this.inventoryPartService.processRepairJobInventoryParUsage(id, inventoryPartsUsage);
+      await this.inventoryPartService.processRepairJobInventoryPartUsage(id, inventoryPartsUsage);
     }
 
     const updatedRepairJob = await this.prisma.repairJob.update({
