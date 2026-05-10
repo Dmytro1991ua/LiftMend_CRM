@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 export type BaseInventoryPartItemProps = {
   renderSelect: React.ReactNode;
   renderInput: React.ReactNode;
-  renderRemove: React.ReactNode;
+  renderRemove?: React.ReactNode;
   hasError?: boolean;
   wrapperClassName?: string;
 };
