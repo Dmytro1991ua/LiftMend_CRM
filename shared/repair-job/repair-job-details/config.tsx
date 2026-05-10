@@ -2,11 +2,13 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { RepairJob } from '@/graphql/types/client/generated_types';
 import { DetailsPageSectionsConfig } from '@/shared/base-details-page/types';
 import BaseInput from '@/shared/base-input';
+import CustomSingleSelect from '@/shared/base-select/components/custom-single-select';
 import DatePicker from '@/shared/date-picker';
 import Pill from '@/shared/pill';
 import { PillStatus } from '@/shared/pill/config';
 
 import BaseChecklistItem from '../base-checklist-item';
+import BaseInventoryPartItem from '../base-inventory-part-item';
 import OverdueRepairJob from '../overdue-repair-job';
 import PhotoEvidenceComparison from '../photo-evidence-comparison';
 
@@ -117,6 +119,36 @@ export const repairJobSectionsConfig = (repairJob: RepairJob): DetailsPageSectio
                       label={label}
                       renderCheckbox={<Checkbox disabled checked={checked} />}
                       renderInput={<BaseInput disabled name='checklist' value={comment as string} />}
+                    />
+                  ))}
+                </>
+              ),
+              fieldClassName: 'block w-full',
+            },
+          ],
+        },
+      ]
+    : []),
+  ...(repairJob.inventoryPartsUsage?.length && repairJob.status === 'Completed'
+    ? [
+        {
+          id: 6,
+          title: 'Inventory Parts Usage',
+          fields: [
+            {
+              id: 12,
+              label: '',
+              value: (
+                <>
+                  {repairJob.inventoryPartsUsage.map(({ id, name, partId, quantity }) => (
+                    <BaseInventoryPartItem
+                      key={`${id}_${partId}`}
+                      renderInput={
+                        <BaseInput disabled isLastElement name='inventoryPartUsage' value={String(quantity)} />
+                      }
+                      renderSelect={
+                        <CustomSingleSelect isDisabled options={[]} value={{ value: partId, label: name }} />
+                      }
                     />
                   ))}
                 </>

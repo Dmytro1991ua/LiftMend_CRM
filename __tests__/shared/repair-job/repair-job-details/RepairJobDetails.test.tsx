@@ -120,4 +120,27 @@ describe('RepairJobDetails', () => {
     expect(screen.getByText('Check motor')).toBeInTheDocument();
     expect(screen.getByText('Check cables')).toBeInTheDocument();
   });
+
+  it('should render Inventory Parts Usage section when job is completed and inventory parts usage list exist', () => {
+    jest.spyOn(apollo, 'useQuery').mockReturnValue({
+      data: {
+        getRepairJobById: {
+          ...mockRepairJob,
+          status: 'Completed',
+          inventoryPartsUsage: [
+            { name: 'test_name_1', partId: 'test_part_id_1', quantity: '2', id: 'test_id_1' },
+            { name: 'test_name_2', partId: 'test_part_id_2', quantity: '3', id: 'test_id_2' },
+          ],
+        },
+      },
+    } as apollo.QueryResult);
+
+    render(RepairJobDetailsComponent());
+
+    expect(screen.getByText('Inventory Parts Usage')).toBeInTheDocument();
+    expect(screen.getByText('test_name_1')).toBeInTheDocument();
+    expect(screen.getByText('test_name_2')).toBeInTheDocument();
+    expect(screen.getByDisplayValue('2')).toBeInTheDocument();
+    expect(screen.getByDisplayValue('3')).toBeInTheDocument();
+  });
 });
