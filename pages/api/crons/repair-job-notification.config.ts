@@ -4,18 +4,14 @@ import { formatDate } from '@/shared/utils';
 
 import { isRepairJobOverdue, isRepairJobUpcoming, isRepairJobUrgent } from '../graphql/utils/utils';
 
-type NotificationPriority = 'Medium' | 'High';
+import { NotificationRule } from './types';
+
 type NotificationMessage = (job: RepairJob) => string;
 type NotificationCategory = 'Overdue' | 'Upcoming' | 'Urgent';
-type NotificationCondition = (job: RepairJob, tomorrow: Date) => boolean;
+type RepairJobNotificationContext = Date;
+type NotificationCondition = (job: RepairJob, context?: RepairJobNotificationContext) => boolean;
 
-export type NotificationRule = {
-  priority: NotificationPriority;
-  condition: (job: RepairJob, tomorrow: Date) => boolean;
-  message: (job: RepairJob) => string;
-};
-
-export const NOTIFICATION_MESSAGE_CONFIG: Record<NotificationCategory, NotificationMessage> = {
+export const REPAIR_JOB_NOTIFICATION_MESSAGE_CONFIG: Record<NotificationCategory, NotificationMessage> = {
   Overdue: ({ elevatorType, buildingName, elevatorLocation, technicianName, endDate }) =>
     `Overdue Repair Job for ${elevatorType} at ${buildingName} (${elevatorLocation}). Scheduled completion date: ${formatDate(
       new Date(endDate)
@@ -28,26 +24,29 @@ export const NOTIFICATION_MESSAGE_CONFIG: Record<NotificationCategory, Notificat
     )}. Technician: ${technicianName}.`,
 };
 
-export const NOTIFICATION_CONDITION_CONFIG: Record<NotificationCategory, NotificationCondition> = {
-  Overdue: (job: RepairJob) => isRepairJobOverdue(job.endDate, job.status),
-  Upcoming: (job: RepairJob, tomorrow: Date) => isRepairJobUpcoming(job, tomorrow),
-  Urgent: (job: RepairJob) => isRepairJobUrgent(job),
+export const REPAIR_JOB_NOTIFICATION_CONDITION_CONFIG: Record<NotificationCategory, NotificationCondition> = {
+  Overdue: (job) => isRepairJobOverdue(job.endDate, job.status),
+  Upcoming: (job, tomorrow) => (tomorrow ? isRepairJobUpcoming(job, tomorrow) : false),
+  Urgent: (job) => isRepairJobUrgent(job),
 };
 
-export const NOTIFICATION_RULE_CONFIG: Record<NotificationCategory, NotificationRule> = {
+export const REPAIR_JOB_NOTIFICATION_RULE_CONFIG: Record<
+  NotificationCategory,
+  NotificationRule<RepairJob, RepairJobNotificationContext>
+> = {
   Overdue: {
     priority: 'High',
-    condition: NOTIFICATION_CONDITION_CONFIG.Overdue,
-    message: NOTIFICATION_MESSAGE_CONFIG.Overdue,
+    condition: REPAIR_JOB_NOTIFICATION_CONDITION_CONFIG.Overdue,
+    message: REPAIR_JOB_NOTIFICATION_MESSAGE_CONFIG.Overdue,
   },
   Upcoming: {
     priority: 'Medium',
-    condition: NOTIFICATION_CONDITION_CONFIG.Upcoming,
-    message: NOTIFICATION_MESSAGE_CONFIG.Upcoming,
+    condition: REPAIR_JOB_NOTIFICATION_CONDITION_CONFIG.Upcoming,
+    message: REPAIR_JOB_NOTIFICATION_MESSAGE_CONFIG.Upcoming,
   },
   Urgent: {
     priority: 'High',
-    condition: NOTIFICATION_CONDITION_CONFIG.Urgent,
-    message: NOTIFICATION_MESSAGE_CONFIG.Urgent,
+    condition: REPAIR_JOB_NOTIFICATION_CONDITION_CONFIG.Urgent,
+    message: REPAIR_JOB_NOTIFICATION_MESSAGE_CONFIG.Urgent,
   },
 };

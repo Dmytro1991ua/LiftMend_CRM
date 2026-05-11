@@ -4,16 +4,15 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import { repairJobServicePrismaMock } from '@/mocks/gql/prismaMocks';
 import { mockRepairJob } from '@/mocks/repairJobTrackingMocks';
-import { NOTIFICATION_RULE_CONFIG } from '@/pages/api/crons/config';
-import handler from '@/pages/api/crons/create-notifications';
-import { createNotificationIfNotExists } from '@/pages/api/crons/utils';
+import handler from '@/pages/api/crons/create-repair-job-notifications';
+import { createNotificationsForEntities } from '@/pages/api/crons/utils';
 import { createAppPrismaClient } from '@/prisma/db';
 
 jest.mock('@/prisma/db', () => ({
   createAppPrismaClient: jest.fn(),
 }));
 jest.mock('@/pages/api/crons/utils', () => ({
-  createNotificationIfNotExists: jest.fn(),
+  createNotificationsForEntities: jest.fn(),
 }));
 jest.mock('@/pages/api/graphql/utils/utils');
 
@@ -79,18 +78,23 @@ describe('Create Notifications Cron API', () => {
     ] as unknown as RepairJob[];
 
     (repairJobServicePrismaMock.repairJob.findMany as jest.Mock).mockResolvedValue(mockJobs);
+    (createNotificationsForEntities as jest.Mock).mockResolvedValue(2);
 
     await handler(mockRequest, mockResponse);
 
-    expect(createNotificationIfNotExists).toHaveBeenCalledTimes(
-      mockJobs.filter((job) => Object.values(NOTIFICATION_RULE_CONFIG).some((rule) => rule.condition(job, tomorrow)))
-        .length
+    expect(createNotificationsForEntities).toHaveBeenCalledWith(
+      expect.objectContaining({
+        prisma: repairJobServicePrismaMock,
+        entities: mockJobs,
+        context: expect.any(Date),
+      })
     );
+
     expect(mockResponse.status).toHaveBeenCalledWith(200);
     expect(mockResponse.json).toHaveBeenCalledWith(
       expect.objectContaining({
-        message: 'Notifications generated successfully',
-        createdNotificationsCount: expect.any(Number),
+        message: 'Repair Job Notifications generated successfully',
+        createdNotificationsCount: 2,
       })
     );
   });
