@@ -17,6 +17,8 @@ export const registerChangeLogMiddleware = (prisma: PrismaClient, userId?: strin
     let before: EntityWithId | null = null;
 
     if ((action === 'update' || action === 'delete') && args?.where) {
+      // TS cannot call a union of Prisma delegates with different generics dynamically.
+      // Casting to `any` is the minimal compromise; runtime call is safe.
       before = await (prisma as any)[model].findUnique({ where: args.where });
     }
 
