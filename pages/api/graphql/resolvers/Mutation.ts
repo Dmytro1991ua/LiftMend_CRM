@@ -74,16 +74,10 @@ const Mutation: MutationResolvers = {
       calendarEvent,
     };
   },
-  deleteRepairJobAndEvent: async (
-    _,
-    { calendarEventId, repairJobId },
-    { dataSources }
-  ): Promise<DeleteCalendarAndRepairJobResponse> => {
+  deleteRepairJobAndEvent: async (_, { repairJobId }, { dataSources }): Promise<DeleteCalendarAndRepairJobResponse> => {
     // Validate the repair job exists
     const repairJob = await dataSources.repairJob.findRepairJobById(repairJobId);
 
-    // Delete the calendar event and repair job
-    const deletedEvent = await dataSources.calendarEvent.deleteCalendarEvent(calendarEventId);
     const deletedRepairJob = await dataSources.repairJob.deleteRepairJob(repairJobId);
 
     // Update Technician status
@@ -97,7 +91,7 @@ const Mutation: MutationResolvers = {
     await dataSources.elevatorRecord.updateElevatorStatus(elevatorRecord.id, 'Operational');
 
     return {
-      deletedEventId: deletedEvent.id,
+      deletedEventId: repairJob?.calendarEventId ?? null,
       deletedRepairJobId: deletedRepairJob.id,
     };
   },

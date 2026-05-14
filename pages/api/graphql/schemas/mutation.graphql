@@ -36,7 +36,7 @@ type Mutation {
     repairJobInput: CreateRepairJobInput!
     calendarEventInput: CreateCalendarEventInput!
   ): ScheduledEventAndRepairJobResponse!
-  deleteRepairJobAndEvent(calendarEventId: ID!, repairJobId: ID!): DeleteCalendarAndRepairJobResponse!
+  deleteRepairJobAndEvent(repairJobId: ID!): DeleteCalendarAndRepairJobResponse!
   updateRepairJob(input: UpdateRepairJobInput!): RepairJob!
   updateElevatorRecord(input: UpdateElevatorRecordInput!): ElevatorRecord!
   deleteElevatorRecord(id: ID!): DeleteElevatorRecordResponse!

@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+
 import { useDeleteRepairJobAndCalendarEvent } from '@/shared/hooks';
 
 type UseRepairJobDeletionProps = {
@@ -10,11 +12,10 @@ type UseRepairJobDeletionProps = {
 export type UseRepairJobDeletion = {
   isDeleteRepairJobLoading: boolean;
   onDeleteRepairJob: () => Promise<void>;
-  onDeleteCalendarEvent: (calendarEventId?: string, repairJobId?: string) => Promise<void>;
+  onDeleteCalendarEvent: (repairJobId?: string) => Promise<void>;
 };
 
 export const useRepairJobDeletion = ({
-  calendarEventId,
   repairJobId,
   onCloseModal,
   onRedirect,
@@ -22,18 +23,21 @@ export const useRepairJobDeletion = ({
   const { onDeleteRepairJobAndCalendarEvent, isLoading } = useDeleteRepairJobAndCalendarEvent();
 
   const onDeleteRepairJob = async () => {
-    await onDeleteRepairJobAndCalendarEvent(calendarEventId, repairJobId);
+    const result = await onDeleteRepairJobAndCalendarEvent(repairJobId);
 
-    onCloseModal();
+    if (!result?.errors?.length) onCloseModal();
 
     onRedirect && onRedirect();
   };
 
-  const onDeleteCalendarEvent = async (calendarEventId?: string, repairJobId?: string) => {
-    await onDeleteRepairJobAndCalendarEvent(calendarEventId, repairJobId);
+  const onDeleteCalendarEvent = useCallback(
+    async (repairJobId?: string) => {
+      const result = await onDeleteRepairJobAndCalendarEvent(repairJobId);
 
-    onCloseModal();
-  };
+      if (!result?.errors?.length) onCloseModal();
+    },
+    [onDeleteRepairJobAndCalendarEvent, onCloseModal]
+  );
 
   return {
     onDeleteRepairJob,

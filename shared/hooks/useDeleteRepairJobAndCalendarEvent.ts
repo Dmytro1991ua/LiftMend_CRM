@@ -1,4 +1,4 @@
-import { ApolloError, useMutation } from '@apollo/client';
+import { ApolloError, FetchResult, useMutation } from '@apollo/client';
 
 import { DELETE_REPAIR_JOB_AND_EVENT } from '@/graphql/schemas/deleteRepairJobAndCalendarEvent';
 import { DeleteRepairJobAndEventMutation } from '@/graphql/types/client/generated_types';
@@ -8,7 +8,10 @@ import { onHandleMutationErrors } from '../utils';
 import useMutationResultToasts from './useMutationResultToasts';
 
 export type UseDeleteRepairJobAndCalendarEvent = {
-  onDeleteRepairJobAndCalendarEvent: (calendarEventId?: string, repairJobId?: string) => Promise<void>;
+  onDeleteRepairJobAndCalendarEvent: (
+    calendarEventId?: string,
+    repairJobId?: string
+  ) => Promise<FetchResult<DeleteRepairJobAndEventMutation> | undefined>;
   isLoading: boolean;
   error?: string;
 };
@@ -67,10 +70,12 @@ export const useDeleteRepairJobAndCalendarEvent = (): UseDeleteRepairJobAndCalen
     }
   );
 
-  const onDeleteRepairJobAndCalendarEvent = async (calendarEventId?: string, repairJobId?: string) => {
+  const onDeleteRepairJobAndCalendarEvent = async (
+    repairJobId?: string
+  ): Promise<FetchResult<DeleteRepairJobAndEventMutation> | undefined> => {
     try {
       const result = await deleteRepairJonAndCalendarEvent({
-        variables: { calendarEventId, repairJobId },
+        variables: { repairJobId },
       });
 
       const hasErrors = !!result.errors?.length;
@@ -84,6 +89,8 @@ export const useDeleteRepairJobAndCalendarEvent = (): UseDeleteRepairJobAndCalen
       } else {
         onSuccess?.(DEFAULT_DELETE_CALENDAR_EVENT_AND_REPAIR_JOB_SUCCESS_MESSAGE);
       }
+
+      return result;
     } catch (e) {
       onHandleMutationErrors({
         message: DEFAULT_DELETE_CALENDAR_EVENT_AND_REPAIR_JOB_FAIL_MESSAGE,

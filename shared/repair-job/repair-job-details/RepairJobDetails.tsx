@@ -56,7 +56,6 @@ const RepairJobDetails = () => {
 
   const { isDeleteRepairJobLoading, onDeleteRepairJob } = useRepairJobDeletion({
     onCloseModal: onCloseDeleteModal,
-    calendarEventId: repairJob.calendarEventId ?? '',
     repairJobId: repairJob.id,
     onRedirect: () => back(),
   });
@@ -90,7 +89,8 @@ const RepairJobDetails = () => {
           isOpen={isEditModalOpen}
           title={getModalTitle(title, true)}
           onClose={onReset}
-          onSubmit={formState.handleSubmit(onEditRepairJob)}>
+          onSubmit={formState.handleSubmit(onEditRepairJob)}
+        >
           <EditRepairJobForm repairJobFormValues={currentRepairJob} />
         </EditModal>
       ),

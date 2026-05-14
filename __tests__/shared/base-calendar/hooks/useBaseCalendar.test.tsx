@@ -39,10 +39,7 @@ describe('useBaseCalendar', () => {
       result.current.onDeleteCalendarEventAndRepairJob();
     });
 
-    expect(mockOnDeleteCalendarEvent).toHaveBeenCalledWith(
-      '9cc89880-6731-4388-adac-646a8761059a',
-      'd550fa3e-19cd-4f2b-bfb4-2ce527e0dc06'
-    );
+    expect(mockOnDeleteCalendarEvent).toHaveBeenCalledWith('d550fa3e-19cd-4f2b-bfb4-2ce527e0dc06');
   });
 
   it('should not call onDeleteCalendarEvent if no event is set', () => {

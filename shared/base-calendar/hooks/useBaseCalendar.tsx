@@ -18,7 +18,7 @@ export const useBaseCalendar = ({ calendarActions }: UseBaseCalendarProps): UseB
 
   const onDeleteCalendarEventAndRepairJob = useCallback(() => {
     if (eventToDelete) {
-      calendarActions?.onDeleteCalendarEvent(eventToDelete.event.id, eventToDelete.event.extendedProps.repairJobId);
+      calendarActions?.onDeleteCalendarEvent(eventToDelete.event.extendedProps.repairJobId);
 
       setEventToDelete(null);
     }

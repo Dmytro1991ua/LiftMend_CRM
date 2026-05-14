@@ -4,7 +4,7 @@ export type CalendarActions = {
   isDeleteEventModalOpen?: boolean;
   isLoading?: boolean;
   onOpenDeleteEventModal: () => void;
-  onDeleteCalendarEvent: (calendarEventId?: string, repairJobId?: string) => Promise<void>;
+  onDeleteCalendarEvent: (repairJobId?: string) => Promise<void>;
   onCloseDeleteEventModal: () => void;
   onHandleDateClick?: (selectedDate: DateSelectArg) => void;
 };

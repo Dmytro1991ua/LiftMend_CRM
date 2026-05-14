@@ -5,13 +5,14 @@ import createDataSourcesMock from '@/mocks/gql/mockedDataSources';
 import { repairJobServicePrismaMock } from '@/mocks/gql/prismaMocks';
 import { userServiceSupabaseMock } from '@/mocks/gql/supabaseMocks';
 import { mockUpcomingNotification, mockUpcomingNotificationId } from '@/mocks/notificationMocks';
+import { mockCalendarEvent, mockNewCalendarInput, mockNewRepairJobInput } from '@/mocks/repairJobScheduling';
 import {
-  mockCalendarEvent,
   mockCalendarEventId,
-  mockNewCalendarInput,
-  mockNewRepairJobInput,
-} from '@/mocks/repairJobScheduling';
-import { mockElevatorId, mockRepairJob, mockRepairJobId, mockTechnicianId } from '@/mocks/repairJobTrackingMocks';
+  mockElevatorId,
+  mockRepairJob,
+  mockRepairJobId,
+  mockTechnicianId,
+} from '@/mocks/repairJobTrackingMocks';
 import { mockBenjaminHallRecord, mockOliviaLewisRecord } from '@/mocks/technicianManagementMocks';
 import { createMockFile, mockSupabaseUser, mockUser } from '@/mocks/userMocks';
 import Mutation from '@/pages/api/graphql/resolvers/Mutation';
@@ -301,7 +302,6 @@ describe('Mutation', () => {
       );
 
       expect(mockDataSources.repairJob.findRepairJobById).toHaveBeenCalledWith(mockRepairJobId);
-      expect(mockDataSources.calendarEvent.deleteCalendarEvent).toHaveBeenCalledWith(mockCalendarEventId);
       expect(mockDataSources.repairJob.deleteRepairJob).toHaveBeenCalledWith(mockRepairJobId);
       expect(mockDataSources.elevatorRecord.findElevatorRecordById).toHaveBeenCalledWith(mockElevatorId);
       expect(mockDataSources.technicianRecord.findTechnicianRecordById).toHaveBeenCalledWith(
