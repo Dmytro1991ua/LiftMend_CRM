@@ -17,7 +17,6 @@ const DeleteActionCell = ({ repairJob }: DeleteActionCelProps) => {
 
   const { isDeleteRepairJobLoading, onDeleteRepairJob } = useRepairJobDeletion({
     onCloseModal,
-    calendarEventId: repairJob.calendarEventId ?? '',
     repairJobId: repairJob.id,
   });
 

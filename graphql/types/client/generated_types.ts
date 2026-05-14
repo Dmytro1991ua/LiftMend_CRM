@@ -415,7 +415,6 @@ export type MutationDeleteElevatorRecordArgs = {
 };
 
 export type MutationDeleteRepairJobAndEventArgs = {
-  calendarEventId: Scalars['ID']['input'];
   repairJobId: Scalars['ID']['input'];
 };
 
@@ -1331,7 +1330,6 @@ export type DeleteElevatorRecordMutation = {
 };
 
 export type DeleteRepairJobAndEventMutationVariables = Exact<{
-  calendarEventId: Scalars['ID']['input'];
   repairJobId: Scalars['ID']['input'];
 }>;
 

@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client';
 
 import { ChangeLogAction, EntityWithId } from '../types';
 import { createChangeLogEntry } from '../utils';
+
 import { buildChangeLogPayload } from './utils';
 
 const PRISMA_WRITE_OPERATIONS = new Set(['create', 'update', 'delete']);

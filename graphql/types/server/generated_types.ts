@@ -417,7 +417,6 @@ export type MutationDeleteElevatorRecordArgs = {
 };
 
 export type MutationDeleteRepairJobAndEventArgs = {
-  calendarEventId: Scalars['ID']['input'];
   repairJobId: Scalars['ID']['input'];
 };
 
@@ -1692,7 +1691,7 @@ export type MutationResolvers<
     ResolversTypes['DeleteCalendarAndRepairJobResponse'],
     ParentType,
     ContextType,
-    RequireFields<MutationDeleteRepairJobAndEventArgs, 'calendarEventId' | 'repairJobId'>
+    RequireFields<MutationDeleteRepairJobAndEventArgs, 'repairJobId'>
   >;
   deleteTechnicianRecord?: Resolver<
     ResolversTypes['DeleteTechnicianRecordResponse'],

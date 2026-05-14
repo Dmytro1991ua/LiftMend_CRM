@@ -60,9 +60,9 @@ describe('useRepairJobDeletion', () => {
   it('should trigger onDeleteCalendarEvent and close modal', async () => {
     const { result } = hook();
 
-    await act(() => result.current.onDeleteCalendarEvent(mockCalendarEventId, mockRepairJobId));
+    await act(() => result.current.onDeleteCalendarEvent(mockRepairJobId));
 
     expect(mockOnCloseModal).toHaveBeenCalled();
-    expect(mockOnDeleteRepairJobAndCalendarEvent).toHaveBeenCalledWith(mockCalendarEventId, mockRepairJobId);
+    expect(mockOnDeleteRepairJobAndCalendarEvent).toHaveBeenCalledWith(mockRepairJobId);
   });
 });
