@@ -110,34 +110,73 @@ npm run codegen-client   # Generate client GraphQL types
 
 ## Project Structure
 
+The project follows the classic Next.js `pages` router structure, with feature code kept in `modules`, reusable building blocks kept in `shared`, and backend GraphQL logic kept under `pages/api/graphql`.
+
 ```txt
 LiftMend_CRM/
-|-- components/              Shared shadcn-style UI primitives
-|-- graphql/                 Apollo client, generated types, documents, type policies
-|-- lib/                     Utility clients and Supabase setup
-|-- modules/                 Feature modules used by pages
-|-- pages/                   Next.js pages and API routes
+|-- components/
+|   `-- ui/                  shadcn-style Radix/Tailwind UI primitives
+|-- graphql/
+|   |-- codegen/             GraphQL Code Generator configuration
+|   |-- fragments/           Reusable client GraphQL fragments
+|   |-- schemas/             Client-side GraphQL operation documents
+|   |-- typePolicies/        Apollo cache policies
+|   `-- types/               Generated client/server GraphQL types
+|-- lib/                     Supabase clients and shared utility helpers
+|-- mocks/                   App-level mock data
+|-- modules/                 Feature modules composed by Next.js pages
+|   |-- auth/                Sign in, sign up, reset password, OAuth flows
+|   |-- change-log/          Audit log page and filters
+|   |-- dashboard/           Metrics, charts, recent repair jobs
+|   |-- elevator-management/ Elevator tables, details, inspections, downtime
+|   |-- header/              Top navigation and notifications entry points
+|   |-- inventory-management/Inventory parts table and stock workflows
+|   |-- layout/              Auth and main application layouts
+|   |-- notifications/       Notification list, filters, read actions
+|   |-- profile/             Profile details, avatar upload, account settings
+|   |-- repair-job-scheduling/ Calendar-based repair job scheduling
+|   |-- repair-job-tracking/ Repair job table, details, completion flow
+|   |-- sidebar/             Main app navigation
+|   `-- technician-management/ Technician records, details, history
+|-- pages/                   Routes, SSR entry points, and API routes
 |   |-- api/
-|   |   |-- crons/            Scheduled maintenance and notification jobs
-|   |   `-- graphql/          Apollo Server route, schemas, resolvers, data sources
-|   |-- dashboard/
-|   |-- elevator-management/
-|   |-- repair-job-scheduling/
-|   |-- repair-job-tracking/
-|   |-- technician-management/
-|   |-- inventory-management/
-|   |-- notifications/
-|   |-- change-log/
-|   `-- profile/
+|   |   |-- auth/             Supabase auth callback route
+|   |   |-- crons/            Protected scheduled jobs
+|   |   `-- graphql/
+|   |       |-- dataSources/   Prisma/Supabase-backed domain services
+|   |       |-- resolvers/     Query, Mutation, and field resolvers
+|   |       |-- schemas/       Server GraphQL schema files
+|   |       `-- utils/         API helpers, batching utilities, validators
+|   |-- auth/                 Supabase OAuth callback page
+|   |-- dashboard/            Dashboard route
+|   |-- elevator-management/  Elevator list and detail routes
+|   |-- forgot-password/      Password recovery route
+|   |-- inventory-management/ Inventory route
+|   |-- notifications/        Notifications route
+|   |-- profile/              Profile route
+|   |-- repair-job-scheduling/ Repair scheduling list/detail routes
+|   |-- repair-job-tracking/  Repair tracking list/detail routes
+|   |-- reset-password/       Password reset route
+|   |-- sign-in/              Sign-in route
+|   |-- sign-up/              Sign-up route
+|   |-- signout/              Sign-out route
+|   `-- technician-management/ Technician list/detail routes
 |-- prisma/
-|   |-- schema/              Prisma schema split by domain model
-|   |-- middleware/          Change-log middleware
-|   `-- db.ts                Prisma client factory
-|-- shared/                  Reusable components, hooks, storage, auth, tables, forms
+|   |-- middleware/           Prisma middleware, including change-log capture
+|   |-- schema/               Prisma schema split by domain model
+|   |-- db.ts                 Prisma client factory
+|   |-- types.ts              Prisma helper types
+|   `-- utils.ts              Prisma helper utilities
+|-- public/                  Static assets
+|-- shared/                  Cross-feature UI, hooks, auth, storage, tables, forms
 |-- styles/                  Global CSS and component overrides
 |-- types/                   App-wide routes, constants, and shared types
+|-- __mocks__/               Jest module mocks
 |-- __tests__/               Unit and integration-style tests
-`-- mocks/                   Test and local mock helpers
+|-- middleware.ts            Supabase session route guard
+|-- next.config.js           Next.js, GraphQL loader, transpilation config
+|-- tailwind.config.ts       Tailwind theme and design tokens
+`-- jest.config.ts           Jest test configuration
 ```
 
 ## Main Modules
@@ -317,13 +356,6 @@ Run coverage:
 ```bash
 npm run test:coverage
 ```
-
-## Notes For Future Improvements
-
-- Add a `.env.example` file so local setup is easier to copy.
-- Add screenshots after the UI states are final. Good candidates are dashboard, repair job scheduling, repair job tracking, elevator details, and inventory management.
-- Consider enabling build-time TypeScript and ESLint checks once existing ignored build errors are resolved.
-- Add seed data or setup notes for a fresh database.
 
 ## License
 
